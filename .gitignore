@@ -25,7 +25,6 @@
 /config/deploy.local.rb
 /config/deploy.remote.rb
 
-/Gemfile.lock
 =======
 /tmp
 

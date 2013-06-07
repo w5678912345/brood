@@ -86,37 +86,37 @@ task :deploy => :environment do
     # Put things that will set up an empty directory into a fully set-up
     # instance of your project.
     invoke :'git:clone'
-    invoke :'deploy:link_shared_paths'
+    #invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
-    #queue! %[#{rake} db:mongoid:create_indexes]
 
-    to :launch do
-      invoke :'thin:start'
-      # invoke :'resque:start'
-      # invoke :'whenever:write'
-    end
+
+    # to :launch do
+    #   invoke :'thin:start'
+    #   # invoke :'resque:start'
+    #   # invoke :'whenever:write'
+    # end
     
-    to :clean do
-      invoke :shutdown
-    end
+    # to :clean do
+    #   invoke :shutdown
+    # end
   end
 end
 
-#desc "Restart app."
-#task :restart do
-#  queue %[echo "-----> Restarting..."]
-#  invoke :'thin:restart'
-#  invoke :'resque:restart'
-#  invoke :'whenever:update'
-#end
+desc "Restart app."
+task :restart do
+ queue %[echo "-----> Restarting..."]
+ invoke :'thin:restart'
+ invoke :'resque:restart'
+ invoke :'whenever:update'
+end
 
 desc "Shutdown app."
 task :shutdown do
   queue %[echo "-----> Shutting down..."]
   invoke :'rvm:use[ruby-1.9.3]'
-  invoke :'thin:stop'
+  #invoke :'thin:stop'
 end
 
 namespace :thin do
@@ -125,7 +125,7 @@ namespace :thin do
     task cmd => :environment do
      queue %[echo "-----> #{cmd} thin..."]
      queue! %[cd "#{deploy_to}/#{current_path}" && \
-      #{ thin_cmd } -e #{ rails_env } -C "#{ thin_config }" #{ cmd }]
+      #{ thin_cmd } -e #{ rails_env } -C "/home/suxu/Projects/brood/config/thin.yml" #{ cmd }]
     end
   end
 end
