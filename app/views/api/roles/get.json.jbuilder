@@ -1,0 +1,1 @@
+json.(@role, :account, :password,:server,:name)

@@ -1,0 +1,40 @@
+<ul class="nav">
+<li><a href="/"><span class="icon-home"></span>Home</a></li>
+
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Role
+    <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+    <li class="nav-header">Role</li>
+    <li><%= link_to "List", roles_path()%></li>
+    <li><%= link_to "new",new_role_path()%></li>
+    </ul>
+</li>
+
+
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Computer
+    <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+    <li class="nav-header">Computer</li>
+    <li><%= link_to "List", computers_path()%></li>
+    <li><%= link_to "New", new_computer_path()%></li>
+    </ul>
+</li>
+
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">IP
+    <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+    <li class="nav-header">IP</li>
+    <li><%= link_to "List", ips_path()%></li>
+    </ul>
+</li>
+
+
+
+
+
+
+
+</ul>

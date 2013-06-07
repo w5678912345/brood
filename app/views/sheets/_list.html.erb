@@ -1,0 +1,34 @@
+<table class="table table-bordered table-striped">
+<thead>
+<tr>
+<th>Download</th>
+<th>Uploader</th>
+<th>Created At</th>
+<th>Importer</th>
+<th>Import Count</th>
+<th>Imported At</th>
+<th>Operate</th>
+</tr>
+<tbody>
+<% @sheets.each do |e|%>
+<tr>
+<td><a href="<%= e.file%>" title="<%= e.remark %>"><%= e.file.file.filename%></a></td>
+<td><%= e.uploader.name %>
+<td><%= e.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+<% if e.imported %>
+<td><%= e.importer.name if e.importer %></td>
+<td><%= e.import_count %></td>
+<td><%= e.imported_at.strftime("%Y-%m-%d %H:%M") %></td>
+<%else%>
+<td colspan="3" style="text-align:center;">还未导入</td>
+<%end%>
+<td>
+<%= link_to "导入",:controller=>"sheets",:action=>"import",:id=>e.id %>
+ <%= link_to raw("<i class='icon-trash'></i>删除"),sheet_path(e),confirm: 'Are you sure?',:method => :delete %>
+</td>
+</tr>
+<%end%>
+</tbody>
+</thead>
+</table>
+<%= will_paginate @sheets %>
