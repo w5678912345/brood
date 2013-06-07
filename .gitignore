@@ -4,7 +4,11 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile ~/.gitignore_global
 
+<<<<<<< HEAD
 # Ignore bundler config
+=======
+# Ignore bundler config ##
+>>>>>>> b8b38ea2c3a53d5bf289de3442c2abb597b745eb
 /.bundle
 
 # Ignore the default SQLite database.
@@ -12,6 +16,7 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
+<<<<<<< HEAD
 /log
 /tmp
 /public/uploads
@@ -21,3 +26,9 @@
 /config/deploy.remote.rb
 
 /Gemfile.lock
+=======
+/tmp
+
+# config
+/config/*
+>>>>>>> b8b38ea2c3a53d5bf289de3442c2abb597b745eb

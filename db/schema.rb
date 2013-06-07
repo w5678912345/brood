@@ -46,14 +46,21 @@ ActiveRecord::Schema.define(:version => 20130606021446) do
     t.integer  "count",                     :default => 0,     :null => false
     t.boolean  "online",                    :default => false, :null => false
     t.string   "ip",          :limit => 15
+<<<<<<< HEAD
     t.integer  "gold",                      :default => 0
+=======
+>>>>>>> b8b38ea2c3a53d5bf289de3442c2abb597b745eb
     t.datetime "created_at",                                   :null => false
     t.datetime "updated_at",                                   :null => false
   end
 
   create_table "sheets", :force => true do |t|
     t.integer  "uploader_id",                     :null => false
+<<<<<<< HEAD
     t.integer  "importer_id"
+=======
+    t.integer  "importer_id",                     :null => false
+>>>>>>> b8b38ea2c3a53d5bf289de3442c2abb597b745eb
     t.string   "file",                            :null => false
     t.string   "remark"
     t.boolean  "imported",     :default => false, :null => false
