@@ -18,6 +18,7 @@ group :assets do
   gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
+
 end
 
 gem 'jquery-rails'
@@ -28,11 +29,12 @@ gem 'bootstrap-will_paginate' #
 gem 'jbuilder', '~> 1.2.0'
 gem 'carrierwave' #
 gem "roo" #
-gem 'thin', require: false #
+
 
 group :development,:test do
   gem 'better_errors'
   gem "mina", "~> 0.2.0"
+  gem 'thin', require: false #
 end
 
 

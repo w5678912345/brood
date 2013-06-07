@@ -63,8 +63,8 @@ end
 task :setup => :environment do
   #queue! %[chmod g+rx,u+rwx "#{deploy_to}"]
 
-  queue! %[mkdir -p "#{deploy_to}/current"]
-  queue! %[chmod g+rx,u+rwx "#{deploy_to}/current"]
+  # queue! %[mkdir -p "#{deploy_to}/current"]
+  # queue! %[chmod g+rx,u+rwx "#{deploy_to}/current"]
 
   queue! %[mkdir -p "#{deploy_to}/shared/log"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/log"]
@@ -86,21 +86,21 @@ task :deploy => :environment do
     # Put things that will set up an empty directory into a fully set-up
     # instance of your project.
     invoke :'git:clone'
-    #invoke :'deploy:link_shared_paths'
+    invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
 
 
-    # to :launch do
-    #   invoke :'thin:start'
-    #   # invoke :'resque:start'
-    #   # invoke :'whenever:write'
-    # end
+    to :launch do
+      invoke :'thin:start'
+      # invoke :'resque:start'
+      # invoke :'whenever:write'
+    end
     
-    # to :clean do
-    #   invoke :shutdown
-    # end
+    to :clean do
+      invoke :shutdown
+    end
   end
 end
 
@@ -125,7 +125,7 @@ namespace :thin do
     task cmd => :environment do
      queue %[echo "-----> #{cmd} thin..."]
      queue! %[cd "#{deploy_to}/#{current_path}" && \
-      #{ thin_cmd } -e #{ rails_env } -C "/home/suxu/Projects/brood/config/thin.yml" #{ cmd }]
+      #{ thin_cmd } -e #{ rails_env } -C "#{ thin_config }" #{ cmd }]
     end
   end
 end
