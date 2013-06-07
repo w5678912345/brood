@@ -1,0 +1,44 @@
+<fieldset>
+<legend>API DOC</legend>
+<table class="table table-bordered">
+<thead>
+<th class="span2">URL</th>
+<th>Paramters</th>
+<th>Code</th>
+</thead>
+<tbody>
+<tr>
+<td>reg.json</td>
+<td>hostname,auth_key</td>
+<td rowspan="4">
+<ul>
+	<% Api::CODES.each do | key, value | %>
+	<li><%= value %>  => <%= key %></li>
+	<%end%>
+</ul>
+</td>
+</tr>
+<tr>
+<td>online.json</td>
+<td>rid or role_id </td>
+</tr>
+<tr>
+<td>sync.json</td>
+<td>role data</td>
+</tr>
+<tr>
+<td>offline.json</td>
+<td>role_id</td>
+</tr>
+<tr>
+<td>roles.json</td>
+<td>limit</td>
+<td>
+{[role{...}]}
+</td>
+</tr>
+
+</tbody>
+</table>
+</fieldset>
+

@@ -1,0 +1,17 @@
+<%= form_for(@sheet,:html=>{:class=>"form form-horizontal"}) do |form|  %>
+<input type="hidden" value="✓" name="utf8">
+<div class="control-group">
+  <%= form.label :File ,:class=>"control-label" %>
+  <div class="controls docs-input-sizes">
+     <%= form.file_field :file %>
+  </div>
+</div>
+<div class="control-group">
+  <%= form.label :Remark ,:class=>"control-label" %>
+  <div class="controls docs-input-sizes">
+   <%= form.text_field :remark %>
+   <%= form.submit "提交",:class=>"btn btn-primary"%>
+  </div>
+</div>
+
+<%end%>

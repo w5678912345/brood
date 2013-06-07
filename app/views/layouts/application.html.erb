@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Broot</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner">
+  <div class="container-fluid">
+    <a class="brand" href="#">Broot</a>
+    <% if current_user %>
+    <div class="nav-collapse">
+	    <%= render "/layouts/navbar" %>
+    </div><!--/.nav-collapse  administrator -->
+    <div class="btn-group pull-right">
+      <a class="btn" href="#"><i class="icon-user"></i><%= current_user.name %></a>
+      
+      <%= link_to '<i class="icon-off"></i>退出'.html_safe,destroy_user_session_path,:class=>"btn",:method=>"delete" %>
+    </div>
+    <%else%>
+       <div class="btn-group pull-right">
+           <a class="btn" href="/sign_in"><i class="icon-user"></i>登录</a>
+        </div>
+    <%end%>
+  </div>
+</div>
+</div>
+<div class="container-fluid">
+	<%= yield %>
+</div>
+</body>
+
+</body>
+</html>

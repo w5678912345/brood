@@ -1,0 +1,13 @@
+<% active = 'class=active'%>
+<ul class="nav nav-tabs">
+
+<li <%= active if controller_name == 'roles' && action_name == 'index' %>>
+ <%= link_to raw('<i class="icon-list"></i>Role List'), roles_path %>
+</li>
+<li <%= active if controller_name== "roles" && action_name == 'new' %> >
+ <%= link_to raw('<i class="icon-plus"></i>New Role'), new_role_path %>
+</li>
+<li <%= active if controller_name== "sheets" %> >
+ <%= link_to raw('<i class=" icon-folder-open"></i>Import Roles'), sheets_path %>
+</li>
+</ul>

@@ -1,0 +1,76 @@
+<%= form_for(@role,:html=>{:onsubmit=>"return validate(this);",:class=>"form-horizontal"}) do |f|  %>
+<div class="control-group">
+<label class="control-label">Account:</label>
+  <div class="controls docs-input-sizes" >
+    <%= f.text_field :account,:required=>"required" %>
+  </div>
+</div>
+<div class="control-group">
+<label class="control-label">Password:</label>
+  <div class="controls docs-input-sizes" >
+    <%= f.password_field :password,:required=>"required" %>
+  </div>
+</div>
+<div class="control-group">
+<label class="control-label">Name:</label>
+  <div class="controls docs-input-sizes" >
+    <%= f.text_field :name,:required=>"required" %>
+  </div>
+</div>
+<div class="control-group">
+<label class="control-label">Server:</label>
+  <div class="controls docs-input-sizes" >
+    <%= f.text_field :server,:required=>"required" %>
+  </div>
+</div>
+<div class="control-group">
+<label class="control-label">Level:</label>
+  <div class="controls docs-input-sizes" >
+    <p id="role_level_display"><%= @role.level %></p>
+    <%= f.hidden_field :level %>
+    <div id="account_level_selector" style="width: 260px;"></div>
+  </div>
+</div>
+
+<div class="control-group">
+<label class="control-label">Tired Value:</label>
+  <div class="controls docs-input-sizes" >
+    <%= f.text_field :tired_value,:required=>"required" %>
+  </div>
+</div>
+<div class="control-group">
+<label class="control-label">Status:</label>
+  <div class="controls docs-input-sizes" >
+    <%= f.text_field :status,:required=>"required" %>
+  </div>
+</div>
+
+<div class="control-group">
+ 	<div class="controls">
+      	<%= f.submit "保存", :class => "btn btn-success"%>
+	</div>
+</div>
+
+
+<%end%>
+
+
+<script type="text/javascript">
+/**/
+$(function(){
+$("form[id=edit_role_<%= @role.id %>]").validate();
+$("form[id=new_role]").validate();
+/**/
+$("#account_level_selector" ).slider({animate: true,max: 200,min:0,step:1,
+    value: <%= @role.level %>,
+    change: function(){
+    	var value = $(this).slider("value");
+    	$("#role_level_display").text(value);
+    	$("#role_level").val(value);
+    }
+  });
+});
+/**/
+
+
+</script>

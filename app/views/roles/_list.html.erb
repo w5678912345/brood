@@ -1,0 +1,46 @@
+<table class="table">
+<thead>
+	<th>ID</th>
+	<th>Account</th>
+	<th>Name</th>
+	<th>Server</th>
+	<th>Level</th>
+	<th>Tired Value</th>
+	<th>Online</th>
+	<th>Operate</th>
+</thead>
+<tbody>
+<% @roles.each do |role| %>
+<tr>
+<td><%= role.id %></td>
+<td><%= role.account %></td>
+<td><%= role.name %></td>
+<td><%= role.server%></td>
+<td><%= role.level%></td>
+<td><%= role.tired_value %></td>
+<td>
+<% if role.online %>
+<%= role.computer.id %>@<%= role.ip %>
+<%else%>
+No
+<%end%>
+</td>
+<td>
+<div class="btn-group">
+    <%= link_to "查看", role_path(role),:class=>"btn" %>
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li>
+          <%= link_to raw("<i class='icon-edit'></i>修改"),edit_role_path(role) %>
+      </li>
+      <li>
+         <%= link_to raw("<i class='icon-trash'></i>删除"),role_path(role),confirm: 'Are you sure?',:method => :delete %>
+      </li>
+    </ul>
+  </div>
+</td>
+</tr>
+<%end%>
+</tbody>
+</table>
+<%= will_paginate @roles %>
