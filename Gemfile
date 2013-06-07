@@ -27,19 +27,12 @@ gem 'will_paginate', '~> 3.0' #pages
 gem 'bootstrap-will_paginate' #
 gem 'jbuilder', '~> 1.2.0'
 gem 'carrierwave' #
-<<<<<<< HEAD
-gem 'roo' #
-=======
 gem "roo" #
->>>>>>> b8b38ea2c3a53d5bf289de3442c2abb597b745eb
+gem 'thin', require: false 
 
 group :development,:test do
   gem 'better_errors'
   gem "mina", "~> 0.2.1"
-<<<<<<< HEAD
-  gem 'thin', require: false  
-=======
->>>>>>> b8b38ea2c3a53d5bf289de3442c2abb597b745eb
 end
 
 
