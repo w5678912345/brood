@@ -14,6 +14,6 @@ Brood::Application.routes.draw do
     get :import, :on => :member
   end
   
- # root :to => 'api#readme'
+  root :to => 'api#readme'
 
 end

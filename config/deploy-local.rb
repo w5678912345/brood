@@ -116,7 +116,7 @@ desc "Shutdown app."
 task :shutdown do
   queue %[echo "-----> Shutting down..."]
   invoke :'rvm:use[ruby-1.9.3]'
-  #invoke :'thin:stop'
+  invoke :'thin:stop'
 end
 
 namespace :thin do

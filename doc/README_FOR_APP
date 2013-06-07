@@ -1,6 +1,5 @@
 Use this README file to introduce your application and point to useful places in the API for learning more.
 Run "rake doc:app" to generate API documentation for your models, controllers, helpers, and libraries.
-<<<<<<< HEAD
 
 
 # ubuntu@ec2-54-242-118-120.compute-1.amazonaws.com
@@ -12,5 +11,4 @@ Run "rake doc:app" to generate API documentation for your models, controllers, h
 svn export https://192.168.0.200:3115/svn/Brood/trunk/server/brood --force
 
 apps/brood.git
-=======
->>>>>>> b8b38ea2c3a53d5bf289de3442c2abb597b745eb
+
