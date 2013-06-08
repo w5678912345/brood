@@ -27,7 +27,8 @@ class ApiController < ActionController::Base
  
   def online
     # test params
-    params[:ip] = params[:ip] || request.remote_ip
+    params[:ip] = request.remote_ip
+    return @code =  CODES[:not_find_computer] unless @current_computer
     params[:computer_id] = @current_computer.id
     #-----------------
     if params[:rid]

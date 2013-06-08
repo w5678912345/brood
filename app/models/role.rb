@@ -3,7 +3,7 @@ class Role < ActiveRecord::Base
 
   belongs_to :computer
 
-  attr_accessible :name, :server,:level,:status,:tired_value,:account,:password,:online,:computer_id,:ip
+  attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip
 
   default_scope :order => 'id DESC'
 
@@ -40,8 +40,10 @@ class Role < ActiveRecord::Base
 
   #
   def api_sync opts
+     self.role_index = opts[:role_index] if opts[:role_index]
+     self.server = opts[:server] if opts[:server]
      self.level = opts[:level] if opts[:level]
-     self.tired_value = opts[:tired] if opts[:tired]
+     self.vit_power = opts[:vit_power] if opts[:vit_power]
      #...
      return 1 if self.save
   end

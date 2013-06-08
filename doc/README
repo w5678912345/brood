@@ -1,0 +1,19 @@
+
+
+系统要求：
+  * ubuntu >= 10.04
+  * ruby   =~ 1.9.3
+  * rails  =~ 3.2.13
+
+mina:
+  使用 mina 进行远程快速部署，配置文件参见 config/deplay-remote.rb
+  该配置文件不需要在远程服务器上配置
+
+#server =>  ubuntu@ec2-54-242-118-120.compute-1.amazonaws.com
+
+
+#git => ubuntu@ec2-54-242-118-120.compute-1.amazonaws.com:apps/brood.git
+
+#svn export =>  export https://192.168.0.200:3115/svn/Brood/trunk/server/brood --force
+
+

@@ -2,10 +2,10 @@
 <thead>
 	<th>ID</th>
 	<th>Account</th>
-	<th>Name</th>
+	<th>Role Index</th>
 	<th>Server</th>
 	<th>Level</th>
-	<th>Tired Value</th>
+	<th>Vit Power</th>
 	<th>Online</th>
 	<th>Operate</th>
 </thead>
@@ -14,10 +14,10 @@
 <tr>
 <td><%= role.id %></td>
 <td><%= role.account %></td>
-<td><%= role.name %></td>
+<td><%= role.role_index %></td>
 <td><%= role.server%></td>
 <td><%= role.level%></td>
-<td><%= role.tired_value %></td>
+<td><%= role.vit_power %></td>
 <td>
 <% if role.online %>
 <%= role.computer.id if role.computer %>@<%= role.ip %>

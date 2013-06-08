@@ -30,37 +30,35 @@ ActiveRecord::Schema.define(:version => 20130606021446) do
   end
 
   create_table "logs", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "role_id",     :null => false
+    t.integer  "computer_id", :null => false
+    t.string   "ip",          :null => false
+    t.string   "action"
+    t.string   "msg"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "roles", :force => true do |t|
     t.string   "account",                                      :null => false
     t.string   "password",                                     :null => false
-    t.string   "name",                                         :null => false
-    t.string   "server",                                       :null => false
+    t.string   "role_index"
+    t.string   "server"
     t.integer  "level",                     :default => 0,     :null => false
-    t.integer  "tired_value",               :default => 0,     :null => false
+    t.integer  "vit_power",                 :default => 0,     :null => false
     t.integer  "status",                    :default => 1,     :null => false
     t.integer  "computer_id",               :default => 0,     :null => false
     t.integer  "count",                     :default => 0,     :null => false
     t.boolean  "online",                    :default => false, :null => false
     t.string   "ip",          :limit => 15
-<<<<<<< HEAD
     t.integer  "gold",                      :default => 0
-=======
->>>>>>> b8b38ea2c3a53d5bf289de3442c2abb597b745eb
     t.datetime "created_at",                                   :null => false
     t.datetime "updated_at",                                   :null => false
   end
 
   create_table "sheets", :force => true do |t|
     t.integer  "uploader_id",                     :null => false
-<<<<<<< HEAD
     t.integer  "importer_id"
-=======
-    t.integer  "importer_id",                     :null => false
->>>>>>> b8b38ea2c3a53d5bf289de3442c2abb597b745eb
     t.string   "file",                            :null => false
     t.string   "remark"
     t.boolean  "imported",     :default => false, :null => false

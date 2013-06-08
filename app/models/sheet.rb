@@ -31,7 +31,7 @@ class Sheet < ActiveRecord::Base
  		name = excel.cell(i,'C')
  		server = excel.cell(i,'D')
  		if account && password && name && server
- 			role = Role.create(:account=>account,:password=>password,:name=>name,:server=>server)
+ 			role = Role.create(:account=>account,:password=>password,:role_index=>name,:server=>server)
  			count = count + 1
  		end
      end

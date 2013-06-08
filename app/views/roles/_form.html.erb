@@ -12,30 +12,28 @@
   </div>
 </div>
 <div class="control-group">
-<label class="control-label">Name:</label>
+<label class="control-label">Index:</label>
   <div class="controls docs-input-sizes" >
-    <%= f.text_field :name,:required=>"required" %>
+    <%= f.text_field :role_index %>
   </div>
 </div>
 <div class="control-group">
 <label class="control-label">Server:</label>
   <div class="controls docs-input-sizes" >
-    <%= f.text_field :server,:required=>"required" %>
+    <%= f.text_field :server %>
   </div>
 </div>
 <div class="control-group">
 <label class="control-label">Level:</label>
   <div class="controls docs-input-sizes" >
-    <p id="role_level_display"><%= @role.level %></p>
-    <%= f.hidden_field :level %>
-    <div id="account_level_selector" style="width: 260px;"></div>
+     <%= f.text_field :level %>
   </div>
 </div>
 
 <div class="control-group">
-<label class="control-label">Tired Value:</label>
+<label class="control-label">Vit Power</label>
   <div class="controls docs-input-sizes" >
-    <%= f.text_field :tired_value,:required=>"required" %>
+    <%= f.text_field :vit_power %>
   </div>
 </div>
 <div class="control-group">
