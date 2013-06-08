@@ -21,4 +21,5 @@
 /config/database.yml
 /config/deploy.local.rb
 /config/deploy.remote.rb
-
+#
+vendor/cache

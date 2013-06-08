@@ -14,7 +14,7 @@ class Role < ActiveRecord::Base
     # get ip
     ip = Ip.find_by_value(opts[:ip])
     if ip
-      return CODES[:ip_used] if ip.hours_ago < 24 # 
+      #return CODES[:ip_used] if ip.hours_ago < 24 # 
     else
       ip = Ip.create(:value => opts[:ip]) 
     end
@@ -32,7 +32,8 @@ class Role < ActiveRecord::Base
   #
   def api_offline opts
     self.transaction do
-       self.computer.update_attributes(:roles_count=>self.computer.roles_count-1)
+       return CODES[:role_not_online] unless self.online
+       self.computer.update_attributes(:roles_count=>self.computer.roles_count-1) if self.computer
        return 1 if self.update_attributes(:online=>false,:computer_id=>0,:ip=>nil)
     end
   end
@@ -43,6 +44,18 @@ class Role < ActiveRecord::Base
      self.tired_value = opts[:tired] if opts[:tired]
      #...
      return 1 if self.save
+  end
+
+  def self.all_offline
+    Role.update_all(:online => false)
+  end
+
+  def self.auto_offline
+    last_at = Time.now.ago(30.minutes)
+    roles = self.where(:online=>true)
+    roles.each do |role|
+      role.api_offline nil if role.online
+    end
   end
 
 

@@ -20,7 +20,7 @@
 <td><%= role.tired_value %></td>
 <td>
 <% if role.online %>
-<%= role.computer.id %>@<%= role.ip %>
+<%= role.computer.id if role.computer %>@<%= role.ip %>
 <%else%>
 No
 <%end%>

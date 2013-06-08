@@ -4,7 +4,7 @@ gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-
+#gem 'rack', '~> 1.4.5'
 gem 'mysql2'
 
 
@@ -28,8 +28,8 @@ gem 'will_paginate', '~> 3.0' #pages
 gem 'bootstrap-will_paginate' #
 gem 'jbuilder', '~> 1.2.0'
 gem 'carrierwave' #
-gem "roo" #
-
+gem 'roo' #
+gem 'whenever', '~> 0.8.2'
 
 group :development,:test do
   gem 'better_errors'

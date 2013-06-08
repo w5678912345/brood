@@ -2,8 +2,8 @@
 # 发布应用分支 master 到服务器
 #
 # 使用用法：
-#   部署：mina deploy -f config/deploy-local.rb -v
-#   停止：mina shutdown -f config/deploy-local.rb -v
+#   部署：mina deploy -f config/deploy-remote.rb -v
+#   停止：mina shutdown -f config/deploy-remote.rb -v
 #   其他命令参见：mina tasks
 #
 # **************
@@ -27,7 +27,7 @@ set_default :term_mode, :pretty
 #   branch       - Branch name to deploy. (needed by mina/git)
 
 set :domain, 'ec2-54-242-118-120.compute-1.amazonaws.com' #'ec2-54-242-118-120.compute-1.amazonaws.com'
-set :deploy_to, '/home/ubuntu/www/broot.com'
+set :deploy_to, '/home/ubuntu/apps/brood.com'
 set :user, 'ubuntu'
 
 set :rails_env, 'production'
