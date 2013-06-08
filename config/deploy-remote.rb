@@ -8,7 +8,7 @@
 #
 # **************
 # 警告：为了减少必须要的错误, 部署前请先确保应用已经被停止
-# **************10
+# **************10 yc885588
 #
 # 运行命令后输出 “in `write': Broken pipe (Errno::EPIPE)”，忽略即可
 #
@@ -139,9 +139,17 @@ end
 
 namespace :db  do
   task :seed => :environment do
-    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:seed]
+    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:seed RAILS_ENV=#{rails_env}]
+  end
+  task :reset => :environment do
+    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:drop RAILS_ENV=#{rails_env}]
+    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:create RAILS_ENV=#{rails_env}]
+    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:migrate RAILS_ENV=#{rails_env}]
+    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:seed RAILS_ENV=#{rails_env}]
   end
 end
+
+
 
 # For help in making your deploy script, see the Mina documentation:
 #
