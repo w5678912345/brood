@@ -4,7 +4,7 @@ class CreateRoles < ActiveRecord::Migration
     create_table :roles do |t|
       t.string    :account,		    :null => false
       t.string    :password,      :null => false 
-      t.string    :role_index,		:null => true #
+      t.integer   :role_index,		:null => true #
       t.string 	  :server,				:null => true #
       t.integer   :level,					:null => false ,:default => 0
       t.integer   :vit_power,		  :null => false ,:default => 0

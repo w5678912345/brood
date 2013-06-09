@@ -107,21 +107,14 @@ desc "Restart app."
 task :restart do
  queue %[echo "-----> Restarting..."]
  invoke :'thin:restart'
- invoke :'resque:restart'
  invoke :'whenever:update'
 end
 
 desc "Shutdown app."
 task :shutdown do
   queue %[echo "-----> Shutting down..."]
-  invoke :'rvm:use[ruby-1.9.3-p429]'
+  invoke :'rvm:use[ruby-1.9.3]'
   invoke :'thin:stop'
-end
-
-
-desc "Rake db:seed"
-task :seed => :environment do
-    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:seed RAILS_ENV=#{rails_env}]
 end
 
 #
@@ -154,9 +147,14 @@ namespace :db  do
   task :reset => :environment do
     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:reset ]
   end
-  
+  #
+  # task :reset => :environment do
+  #     invoke :'db:drop'
+  #     invoke :'db:create'
+  #     invoke :'db:migrate'
+  #     invoke :'db:seed'
+  # end
 end
-
 
 # For help in making your deploy script, see the Mina documentation:
 #
