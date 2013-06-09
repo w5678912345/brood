@@ -11,7 +11,7 @@
 # **************10 yc885588
 #
 # 运行命令后输出 “in `write': Broken pipe (Errno::EPIPE)”，忽略即可
-#
+# ec2-174-129-207-99.compute-1.amazonaws.com
 
 require 'mina/bundler'
 require 'mina/rails'
@@ -26,13 +26,13 @@ set_default :term_mode, :pretty
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 
-set :domain, 'ec2-54-242-118-120.compute-1.amazonaws.com' #'ec2-54-242-118-120.compute-1.amazonaws.com'
+set :domain, 'ec2-174-129-207-99.compute-1.amazonaws.com' #'ec2-174-129-207-99.compute-1.amazonaws.com'
 set :deploy_to, '/home/ubuntu/apps/brood.com'
 set :user, 'ubuntu'
 
 set :rails_env, 'production'
 
-set :repository, 'ubuntu@ec2-54-242-118-120.compute-1.amazonaws.com:apps/brood.git'
+set :repository, 'ubuntu@ec2-174-129-207-99.compute-1.amazonaws.com:apps/brood.git'
 set :branch, 'master'
 set :rvm_path, '/home/ubuntu/.rvm/scripts/rvm' #'/usr/local/rvm/scripts/rvm'
 
@@ -88,8 +88,8 @@ task :deploy => :environment do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
-    invoke :'db:reset'
-    #invoke :'rails:db_migrate'
+    #invoke :'db:reset'
+    invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
 
 
@@ -137,7 +137,7 @@ namespace :thin do
   end
 end
 
-
+#db:drop RAILS_ENV=production
 namespace :db  do
   task :seed => :environment do
     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:seed RAILS_ENV=#{rails_env}]
