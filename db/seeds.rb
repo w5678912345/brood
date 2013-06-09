@@ -9,7 +9,7 @@
 
 puts 'seed users...'
 
-#User.create({:email => "admin@brood.com", :name => "管理员",:is_admin => true,:password => '12345678', :password_confirmation => '12345678'})
+User.create({:email => "admin@brood.com", :name => "管理员",:is_admin => true,:password => '12345678', :password_confirmation => '12345678'})
 
 if (Rails.env == "development")
 10.times do |n|

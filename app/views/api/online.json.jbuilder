@@ -1,3 +1,4 @@
+
 json.code @code
 if @code == 1
 	json.set! :role do

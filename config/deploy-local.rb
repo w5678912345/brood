@@ -32,7 +32,7 @@ set :user, 'suxu'
 
 set :rails_env, 'production'
 
-set :repository, 'ubuntu@ec2-54-242-118-120.compute-1.amazonaws.com:apps/brood.git'
+set :repository, 'ubuntu@ec2-174-129-207-99.compute-1.amazonaws.com:apps/brood.git'
 set :branch, 'master'
 set :rvm_path, '/home/suxu/.rvm/scripts/rvm' #'/usr/local/rvm/scripts/rvm'
 
@@ -94,8 +94,7 @@ task :deploy => :environment do
 
     to :launch do
       invoke :'thin:start'
-      # invoke :'resque:start'
-      # invoke :'whenever:write'
+      invoke :'whenever:write'
     end
     
     to :clean do
@@ -108,7 +107,6 @@ desc "Restart app."
 task :restart do
  queue %[echo "-----> Restarting..."]
  invoke :'thin:restart'
- invoke :'resque:restart'
  invoke :'whenever:update'
 end
 
@@ -119,11 +117,6 @@ task :shutdown do
   invoke :'thin:stop'
 end
 
-
-desc "Rake db:seed"
-task :seed => :environment do
-    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:seed RAILS_ENV=#{rails_env}]
-end
 
 namespace :thin do
   [:start, :stop, :restart].each do |cmd|
@@ -138,8 +131,27 @@ end
 
 
 namespace :db  do
+  
+  task :drop => :environment do
+     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:drop ]
+  end
+  task :create => :environment do
+     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:create ]
+  end
+  task :migrate => :environment do
+     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:migrate ]
+  end
   task :seed => :environment do
-    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:seed]
+    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:seed ]
+  end
+  #
+  task :reset => :environment do
+    to :launch do
+      invoke :'db:drop'
+      invoke :'db:create'
+      invoke :'db:migrate'
+      invoke :'db:seed'
+    end
   end
 end
 

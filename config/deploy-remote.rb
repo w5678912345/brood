@@ -87,10 +87,9 @@ task :deploy => :environment do
     # instance of your project.
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
-    #invoke :'bundle:install'
-    #invoke :'db:reset'
-    #invoke :'rails:db_migrate'
-    #invoke :'rails:assets_precompile'
+    invoke :'bundle:install'
+    invoke :'rails:db_migrate'
+    invoke :'rails:assets_precompile'
 
 
     to :launch do
@@ -139,14 +138,22 @@ end
 
 #db:drop RAILS_ENV=production
 namespace :db  do
+  
+  task :drop => :environment do
+     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:drop RAILS_ENV=#{rails_env}]
+  end
+  task :create => :environment do
+     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:create RAILS_ENV=#{rails_env}]
+  end
+  task :migrate => :environment do
+     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:migrate RAILS_ENV=#{rails_env}]
+  end
   task :seed => :environment do
     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:seed RAILS_ENV=#{rails_env}]
   end
+  
   task :reset => :environment do
-    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:drop RAILS_ENV=#{rails_env}]
-    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:create RAILS_ENV=#{rails_env}]
-    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:migrate RAILS_ENV=#{rails_env}]
-    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:seed RAILS_ENV=#{rails_env}]
+    
   end
 end
 
