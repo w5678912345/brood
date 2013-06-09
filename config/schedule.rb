@@ -25,7 +25,7 @@
 #   rake 'foo:bar'
 # end
 
-every 1.minutes do
+every 2.minutes do
   runner 'Role.auto_offline',:output => {:error => 'log/cron_error.log', :standard => 'log/cron.log'}
 end
 
