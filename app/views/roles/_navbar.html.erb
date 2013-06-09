@@ -4,7 +4,13 @@
  <%= link_to raw('<i class="icon-home"></i>Role Home'), home_roles_path %>
 </li>
 <li <%= active if controller_name == 'roles' && action_name == 'index' %>>
- <%= link_to raw('<i class="icon-list"></i>Role List'), roles_path %>
+ <%= link_to raw('<i class="icon-list"></i>All Roles'), roles_path %>
+</li>
+<li <%= active if controller_name == 'roles' && action_name == 'can' %>>
+ <%= link_to raw('<i class="icon-list"></i>Available List'), can_roles_path %>
+</li>
+<li <%= active if controller_name == 'roles' && action_name == 'online' %>>
+ <%= link_to raw('<i class="icon-list"></i>Online List'), online_roles_path %>
 </li>
 <li <%= active if controller_name== "roles" && action_name == 'new' %> >
  <%= link_to raw('<i class="icon-plus"></i>New Role'), new_role_path %>

@@ -2,10 +2,14 @@
 class Role < ActiveRecord::Base
 
   belongs_to :computer
+  has_many   :notes
 
   attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip
 
-  default_scope :order => 'id DESC'
+  #default_scope :order => 'id DESC'
+
+  scope :can_online_scope, where(:online => false).where("vit_power > 0").order("vit_power desc")
+
 
   CODES = Api::CODES
 
@@ -25,6 +29,7 @@ class Role < ActiveRecord::Base
       # update computer and ip
       computer.update_attributes(:roles_count=>computer.roles_count+1) 
       ip.update_attributes(:use_count=>ip.use_count+1)
+      Note.create(:role_id=>self.id,:computer_id=>computer.id,:ip=>ip.value,:api_name=>"online")
       return 1 if self.update_attributes(:online=>true,:computer_id=>computer.id,:ip=>ip.value)
     end
   end
@@ -34,6 +39,7 @@ class Role < ActiveRecord::Base
     self.transaction do
        return CODES[:role_not_online] unless self.online
        self.computer.update_attributes(:roles_count=>self.computer.roles_count-1) if self.computer
+       Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"offline")
        return 1 if self.update_attributes(:online=>false,:computer_id=>0,:ip=>nil)
     end
   end
@@ -45,20 +51,27 @@ class Role < ActiveRecord::Base
      self.level = opts[:level] if opts[:level]
      self.vit_power = opts[:vit_power] if opts[:vit_power]
      #...
-     return 1 if self.save
+     self.transaction do
+      Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync")
+      return 1 if self.save
+     end
   end
 
-  def self.all_offline
-    Role.update_all(:online => false)
-  end
 
+  #
   def self.auto_offline
-    last_at = Time.now.ago(30.minutes)
-    roles = self.where(:online=>true)
+    last_at = Time.now.ago(5.minutes).strftime("%Y-%m-%d %H:%M:%S")
+    roles = self.where(:online=>true).where("updated_at < '#{last_at}'")
+    opts = Hash.new
     roles.each do |role|
-      role.api_offline nil if role.online
+      role.api_offline opts if role.online
     end
   end
+
+  def self.reset_vit_power
+    Role.update_all(:vit_power=>156)
+  end
+
 
 
 end

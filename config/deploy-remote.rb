@@ -94,8 +94,7 @@ task :deploy => :environment do
 
     to :launch do
       invoke :'thin:start'
-      # invoke :'resque:start'
-      # invoke :'whenever:write'
+      invoke :'whenever:write'
     end
     
     to :clean do
@@ -125,6 +124,7 @@ task :seed => :environment do
     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:seed RAILS_ENV=#{rails_env}]
 end
 
+#
 namespace :thin do
   [:start, :stop, :restart].each do |cmd|
     desc "#{cmd} thin"
@@ -136,27 +136,26 @@ namespace :thin do
   end
 end
 
-#db:drop RAILS_ENV=production
+#
 namespace :db  do
   
   task :drop => :environment do
-     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:drop RAILS_ENV=#{rails_env}]
+     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:drop ]
   end
   task :create => :environment do
-     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:create RAILS_ENV=#{rails_env}]
+     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:create ]
   end
   task :migrate => :environment do
-     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:migrate RAILS_ENV=#{rails_env}]
+     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:migrate ]
   end
   task :seed => :environment do
-    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:seed RAILS_ENV=#{rails_env}]
+    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:seed ]
+  end
+  task :reset => :environment do
+    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:reset ]
   end
   
-  task :reset => :environment do
-    
-  end
 end
-
 
 
 # For help in making your deploy script, see the Mina documentation:

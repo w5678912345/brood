@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130606021446) do
+ActiveRecord::Schema.define(:version => 20130609052411) do
 
   create_table "computers", :force => true do |t|
     t.string   "hostname",                   :null => false
@@ -29,14 +29,17 @@ ActiveRecord::Schema.define(:version => 20130606021446) do
     t.datetime "updated_at",                :null => false
   end
 
-  create_table "logs", :force => true do |t|
-    t.integer  "role_id",     :null => false
-    t.integer  "computer_id", :null => false
-    t.string   "ip",          :null => false
+  create_table "notes", :force => true do |t|
+    t.integer  "user_id",                   :default => 0,   :null => false
+    t.integer  "role_id",                   :default => 0,   :null => false
+    t.integer  "computer_id",               :default => 0,   :null => false
+    t.string   "ip",          :limit => 15,                  :null => false
+    t.string   "api_name",                                   :null => false
+    t.string   "api_code",                  :default => "0", :null => false
     t.string   "action"
     t.string   "msg"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
   end
 
   create_table "roles", :force => true do |t|

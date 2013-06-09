@@ -5,7 +5,15 @@ class RolesController < ApplicationController
 
 	# actions
 	def index
-		@roles = Role.paginate(:page => params[:page], :per_page => 10)
+		@roles = Role.order("id DESC").paginate(:page => params[:page], :per_page => 10)
+	end
+
+	def can
+		@roles = Role.can_online_scope.paginate(:page => params[:page], :per_page => 10)
+	end
+
+	def online
+		@roles = Role.where(:online=>true).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
 	end
 
 	def show

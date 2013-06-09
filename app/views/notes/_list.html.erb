@@ -1,0 +1,20 @@
+<table class="table">
+<thead>
+	<th>Time</th>
+	<th>Role</th>
+	<th>Computer</th>
+	<th>IP</th>
+	<th>Event</th>
+</thead>
+<tbody>
+<% @notes.each do |note|%>
+<tr>
+	<td><%= note.created_at.strftime("%Y-%m-%d %H:%M:%S")%></td>
+	<td><%= link_to "#{note.role.account}##{note.role.role_index}",role_path(note.role) if note.role%></td>
+	<td><%= link_to note.computer.hostname,computer_path(note.computer) if note.computer%></td>
+	<td><%= link_to note.ip,ip_path(note.ip_url) %></td>
+	<td><%= note.api_name %></td>
+</tr>
+<%end%>
+</tbody>
+</table>

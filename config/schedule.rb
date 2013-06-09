@@ -28,3 +28,8 @@
 every 1.minutes do
   runner 'Role.auto_offline',:output => {:error => 'log/cron_error.log', :standard => 'log/cron.log'}
 end
+
+every 1.day, :at => '6:00 am' do
+  # 清理临时上传文件
+  rake 'Role.reset_vit_power',:output => {:error => 'log/cron_error.log', :standard => 'log/cron.log'}
+end

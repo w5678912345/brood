@@ -32,12 +32,12 @@ class ApiController < ActionController::Base
     params[:computer_id] = @current_computer.id
     #-----------------
     if params[:rid]
-      @role = Role.where(:online => false).find_by_id(params[:rid])
+      @role = Role.find_by_id(params[:rid])
     else
-      @role = Role.where(:online => false).first
+      @role = Role.can_online_scope.first
     end
     return @code = CODES[:not_find_role] unless @role # not find role
-    return @code = CODEs[:role_have_online] if @role.online # role does online
+    return @code = CODES[:role_have_online] if @role.online # role does online
     #call
     begin
       @code = @role.api_online params
@@ -87,6 +87,7 @@ class ApiController < ActionController::Base
   private 
   def require_api
       @code = 0
+      params[:ip] = request.remote_ip
       @current_computer = Computer.find_by_auth_key(params[:ckey] || "computer1")
 
   end

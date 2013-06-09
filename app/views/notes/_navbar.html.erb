@@ -1,0 +1,10 @@
+<% active = 'class=active'%>
+<ul class="nav nav-tabs">
+<li <%= active if controller_name == 'notes' && action_name == 'home' %>>
+ <%= link_to raw('<i class="icon-home"></i>Note Home'), home_notes_path %>
+</li>
+<li <%= active if controller_name == 'notes' && action_name == 'index' %>>
+ <%= link_to raw('<i class="icon-list"></i>Note List'), notes_path %>
+</li>
+
+</ul>

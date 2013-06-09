@@ -3,6 +3,7 @@ class Computer < ActiveRecord::Base
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count
   belongs_to :user
   has_many :roles
+  has_many :notes
 
   default_scope :order => 'id DESC'
   

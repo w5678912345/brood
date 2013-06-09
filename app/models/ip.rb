@@ -10,4 +10,8 @@ class Ip < ActiveRecord::Base
   	(Time.now.to_i - self.updated_at.to_i)/3600
   end
 
+  def ip_url
+  	self.value.gsub(".","_")
+  end
+
 end

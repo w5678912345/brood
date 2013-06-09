@@ -117,7 +117,7 @@ task :shutdown do
   invoke :'thin:stop'
 end
 
-
+#
 namespace :thin do
   [:start, :stop, :restart].each do |cmd|
     desc "#{cmd} thin"
@@ -129,7 +129,7 @@ namespace :thin do
   end
 end
 
-
+#
 namespace :db  do
   
   task :drop => :environment do
@@ -144,15 +144,16 @@ namespace :db  do
   task :seed => :environment do
     queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:seed ]
   end
-  #
   task :reset => :environment do
-    to :launch do
-      invoke :'db:drop'
-      invoke :'db:create'
-      invoke :'db:migrate'
-      invoke :'db:seed'
-    end
+    queue! %[cd #{deploy_to}/#{current_path} && #{rake} db:reset ]
   end
+  #
+  # task :reset => :environment do
+  #     invoke :'db:drop'
+  #     invoke :'db:create'
+  #     invoke :'db:migrate'
+  #     invoke :'db:seed'
+  # end
 end
 
 # For help in making your deploy script, see the Mina documentation:
