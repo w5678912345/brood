@@ -87,10 +87,10 @@ task :deploy => :environment do
     # instance of your project.
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
-    invoke :'bundle:install'
+    #invoke :'bundle:install'
     #invoke :'db:reset'
-    invoke :'rails:db_migrate'
-    invoke :'rails:assets_precompile'
+    #invoke :'rails:db_migrate'
+    #invoke :'rails:assets_precompile'
 
 
     to :launch do

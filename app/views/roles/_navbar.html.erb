@@ -1,6 +1,8 @@
 <% active = 'class=active'%>
 <ul class="nav nav-tabs">
-
+<li <%= active if controller_name == 'roles' && action_name == 'home' %>>
+ <%= link_to raw('<i class="icon-home"></i>Role Home'), home_roles_path %>
+</li>
 <li <%= active if controller_name == 'roles' && action_name == 'index' %>>
  <%= link_to raw('<i class="icon-list"></i>Role List'), roles_path %>
 </li>

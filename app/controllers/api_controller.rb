@@ -74,7 +74,7 @@ class ApiController < ActionController::Base
   end
 
   def roles
-    @roles = Role.where(:online => false).limit(params[:limit].to_i || 10).offset(params[:offset] || 0)
+    @roles = Role.where(:online => false).limit(params[:limit] || 10).offset(params[:offset] || 0)
   end
 
   #api doc
