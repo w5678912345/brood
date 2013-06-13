@@ -6,7 +6,7 @@ class AddColumnsForUsers < ActiveRecord::Migration
   end
 
   def down
-  	rename_column :users, :column => :name
-  	rename_column :users, :column => :is_admin
+  	remove_column :users, :column => :name
+  	remove_column :users, :column => :is_admin
   end
 end

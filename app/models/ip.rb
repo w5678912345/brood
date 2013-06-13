@@ -14,4 +14,9 @@ class Ip < ActiveRecord::Base
   	self.value.gsub(".","_")
   end
 
+  #
+  def self.reset_use_count
+  	Ip.update_all(:use_count => 0)
+  end
+
 end

@@ -5,7 +5,7 @@ class RolesController < ApplicationController
 
 	# actions
 	def index
-		@roles = Role.order("id DESC").paginate(:page => params[:page], :per_page => 10)
+		@roles = Role.includes(:computer).paginate(:page => params[:page], :per_page => 10)
 	end
 
 	def can

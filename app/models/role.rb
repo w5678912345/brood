@@ -18,7 +18,7 @@ class Role < ActiveRecord::Base
     # get ip
     ip = Ip.find_by_value(opts[:ip])
     if ip
-      #return CODES[:ip_used] if ip.hours_ago < 24 # 
+      return CODES[:ip_used] if ip.use_count >= Setting.ip_max_use_count
     else
       ip = Ip.create(:value => opts[:ip]) 
     end
@@ -55,6 +55,16 @@ class Role < ActiveRecord::Base
       Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync")
       return 1 if self.save
      end
+  end
+
+  def api_close opts
+     self.transaction do
+      self.close = true
+      self.close_hours = opts[:h].to_i
+      self.closed_at = Time.now
+      self.reopen_at = Time.now.ago(self.close_hours.hours)
+      return 1 if self.save
+   end
   end
 
 

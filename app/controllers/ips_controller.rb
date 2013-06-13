@@ -21,6 +21,11 @@ class IpsController < ApplicationController
 		redirect_to ips_path
 	end
 
+	def reset
+		Ip.reset_use_count
+		redirect_to ips_path
+	end
+
 	def destroy
 		@ip = Ip.find_by_value(params[:id])
 		@ip.destroy
@@ -29,6 +34,6 @@ class IpsController < ApplicationController
 
 	private 
 	def set_ip
-		params[:id] = params[:id].gsub("_",".")
+		params[:id] = params[:id].gsub("_",".") if params[:id]
 	end
 end

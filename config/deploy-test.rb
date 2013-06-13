@@ -27,10 +27,10 @@ set_default :term_mode, :pretty
 #   branch       - Branch name to deploy. (needed by mina/git)
 
 set :domain, 'ec2-174-129-207-99.compute-1.amazonaws.com' #'ec2-174-129-207-99.compute-1.amazonaws.com'
-set :deploy_to, '/home/ubuntu/apps/brood.com'
+set :deploy_to, '/home/ubuntu/apps/brood.test.com'
 set :user, 'ubuntu'
 
-set :rails_env, 'production'
+set :rails_env, 'test'
 
 set :repository, 'ubuntu@ec2-174-129-207-99.compute-1.amazonaws.com:apps/brood.git'
 set :branch, 'master'

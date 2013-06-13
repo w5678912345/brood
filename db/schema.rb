@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130609052411) do
+ActiveRecord::Schema.define(:version => 20130613052839) do
 
   create_table "computers", :force => true do |t|
     t.string   "hostname",                   :null => false
@@ -57,6 +57,17 @@ ActiveRecord::Schema.define(:version => 20130609052411) do
     t.integer  "gold",                      :default => 0
     t.datetime "created_at",                                   :null => false
     t.datetime "updated_at",                                   :null => false
+    t.boolean  "close",                     :default => false
+    t.integer  "close_hours"
+    t.datetime "closed_at"
+    t.datetime "reopen_at"
+  end
+
+  create_table "settings", :force => true do |t|
+    t.string   "key",                       :null => false
+    t.integer  "val",        :default => 1, :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
   create_table "sheets", :force => true do |t|

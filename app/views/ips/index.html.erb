@@ -1,4 +1,4 @@
-<%= link_to raw("<i class='icon-trash'></i>删除"),clear_ips_path,:class=>"btn",confirm: 'Are you sure?'%>
+<%= link_to raw("Reset"),reset_ips_path,:class=>"btn",confirm: 'Are you sure?'%>
 <table class="table">
 <thead>
 	<th>IP</th>
@@ -15,7 +15,7 @@
 <td><%= ip.use_count %></td>
 <td><%= ip.updated_at %></td>
 <td>
-	<%= link_to raw("<i class='icon-trash'></i>删除"),clear_ips_path(:ip=>ip.value),confirm: 'Are you sure?' %>
+<%= link_to raw("<i class='icon-trash'></i>删除"),clear_ips_path(:ip=>ip.value),confirm: 'Are you sure?' %>
 </td>
 </tr>
 <% end %>

@@ -18,6 +18,8 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+# whenever:write
+# whenever:clear
 
 
 
@@ -30,6 +32,6 @@ every 2.minutes do
 end
 
 every 1.day, :at => '6:00 am' do
-  # 清理临时上传文件
+  # reset vit power
   rake 'Role.reset_vit_power',:output => {:error => 'log/cron_error.log', :standard => 'log/cron.log'}
 end

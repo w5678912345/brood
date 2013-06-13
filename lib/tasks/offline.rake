@@ -5,7 +5,7 @@
 desc 'role offline'
 namespace :roles do
 	task :offline do  
-		Role.update_all(:online=>false) 
+		#Role.update_all(:online=>false) 
+		p '===========================hello'		
 	end
 end
-

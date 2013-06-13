@@ -26,12 +26,12 @@ class Sheet < ActiveRecord::Base
      excel.default_sheet = excel.sheets.first
      count = 0
      2.upto excel.last_row do |i|
- 		account = excel.cell(i,'A').to_i
- 		password = excel.cell(i,'B')
- 		role_index = excel.cell(i,'C').to_i
- 		server = excel.cell(i,'D')
-    level = excel.cell(i,'E') || 0
-    vit_power = excel.cell(i,'F')
+   		account = excel.cell(i,'A').to_i
+   		password = excel.cell(i,'B')
+   		role_index = excel.cell(i,'C').to_i
+   		server = excel.cell(i,'D')
+      level = excel.cell(i,'E') || 0
+      vit_power = excel.cell(i,'F')
  		if account && password
  			role = Role.create(:account=>account,:password=>password,:role_index=>role_index,:server=>server,:level=>level,:vit_power=>vit_power)
  			count = count + 1

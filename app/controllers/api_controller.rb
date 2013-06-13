@@ -73,6 +73,13 @@ class ApiController < ActionController::Base
     end
   end
 
+
+  def close 
+    @role = Role.find_by_id(params[:role_id] || params[:rid])
+    
+  end
+
+
   def roles
     @roles = Role.where(:online => false).limit(params[:limit] || 10).offset(params[:offset] || 0)
   end
@@ -88,7 +95,7 @@ class ApiController < ActionController::Base
   def require_api
       @code = 0
       params[:ip] = request.remote_ip
-      @current_computer = Computer.find_by_auth_key(params[:ckey] || "computer1")
+      @current_computer = Computer.find_by_auth_key(params[:ckey])
 
   end
 
