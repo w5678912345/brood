@@ -7,6 +7,10 @@ Brood::Application.routes.draw do
     get :import, :on => :collection
     get :can,     :on => :collection
     get :online,  :on => :collection
+    get :offline,  :on => :collection
+    get :closed,   :on => :collection
+    get :not_closed, :on => :collection
+    get :search,  :on => :collection
   end
 
   resources :computers
@@ -38,6 +42,11 @@ Brood::Application.routes.draw do
   namespace :api  do
     resources :roles ,:only => [:show] do
       match :close, :on => :member
+      match :on, :on => :member
+      match :off, :on => :member
+      match :sync,   :on => :member
+      #
+      match :online, :on => :collection
     end
   end
 

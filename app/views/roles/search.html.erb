@@ -1,0 +1,13 @@
+<%= render "navbar" %>
+<fieldset>
+<legend>Search Roles</legend>
+<%= render "search_form"%>
+
+<div class="alert">
+<strong>提示信息:</strong>
+<span>共搜索到<%= @roles.total_entries%>个角色</span> 
+<%= link_to "查看所有 »",roles_path%>
+</div>
+
+<%= render "list"%>
+</fieldset>

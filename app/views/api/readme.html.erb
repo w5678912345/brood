@@ -7,16 +7,64 @@
 <th>Code</th>
 </thead>
 <tbody>
+
+	
+<tr>
+<td colspan="3">new API (采用RESTFUL原则重新设计API)</td>
+</tr>
 <tr>
 <td>reg.json</td>
-<td>hostname,auth_key</td>
-<td rowspan="4">
+<td>注册computer，{hostname,auth_key}</td>
+<td rowspan="12">
 <ul>
 	<% Api::CODES.each do | key, value | %>
 	<li><%= value %>  => <%= key %></li>
 	<%end%>
 </ul>
 </td>
+</tr>
+</tr>
+<tr>
+<td colspan="2"></hr></td>
+</tr>
+
+<tr>
+<td>roles/online.json</td>
+<td>搜索一个合适的role在 ckey 对应的computer 上线</td>
+<tr>
+<td>roles/:id.json</td>
+<td>通过id获取role</td>
+
+</tr>
+
+<tr>
+<td>roles/:id/on.json</td>
+<td>通过id使role在ckey对应的computer上线</td>
+
+</tr>
+
+<tr>
+<td>roles/:id/off.json</td>
+<td>通过id使role下线</td>
+
+</tr>
+
+<tr>
+<td>roles/:id/sync.json</td>
+<td>通过id修改role的属性 server,level,role_index,vit_power</td>
+
+</tr>
+
+<tr>
+<td>roles/:id/close.json</td>
+<td>通过id关闭role，参数：h => 关闭的小时数</td>
+
+</tr>
+
+
+
+<tr>
+<td colspan="2">old 旧版本还是能调用。在客户端修改后，会取消</td>
 </tr>
 <tr>
 <td>online.json</td>
@@ -31,29 +79,18 @@
 <td>role_id</td>
 </tr>
 
-<tr>
+
+
+
+<!-- <tr>
 <td>roles.json</td>
 <td>limit,offset</td>
 <td>
 {[role{...}]}
 </td>
-</tr>
+</tr> -->
 
-<tr>
-<td>roles/:id/close.json</td>
-<td></td>
-<td>
-code
-</td>
-</tr>
 
-<tr>
-<td>roles/:id.json</td>
-<td></td>
-<td>
-role data
-</td>
-</tr>
 
 </tbody>
 </table>

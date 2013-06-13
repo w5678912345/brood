@@ -11,7 +11,7 @@
 </thead>
 <tbody>
 <% @roles.each do |role| %>
-<tr>
+<tr class="<%= 'warning' if role.close %>">
 <td><%= role.id %></td>
 <td><%= role.account %></td>
 <td><%= role.role_index %></td>

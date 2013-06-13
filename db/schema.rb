@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(:version => 20130613052839) do
   create_table "roles", :force => true do |t|
     t.string   "account",                                      :null => false
     t.string   "password",                                     :null => false
-    t.string   "role_index"
+    t.integer  "role_index"
     t.string   "server"
     t.integer  "level",                     :default => 0,     :null => false
     t.integer  "vit_power",                 :default => 0,     :null => false

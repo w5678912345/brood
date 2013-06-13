@@ -42,7 +42,7 @@ set_default :thin_config, 'config/thin.yml'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_config_files, ['config/database.yml',settings.thin_config]
+set :shared_config_files, ['config/database.yml','config/thin.test.yml',settings.thin_config]
 
 set :shared_paths, ['log', 'public/uploads'] + settings.shared_config_files
 
@@ -116,6 +116,7 @@ task :shutdown do
   queue %[echo "-----> Shutting down..."]
   invoke :'rvm:use[ruby-1.9.3]'
   invoke :'thin:stop'
+  invoke :'whenever:clear'
 end
 
 #

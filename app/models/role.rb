@@ -15,6 +15,10 @@ class Role < ActiveRecord::Base
 
   #
   def api_online opts
+    return CODES[:role_have_online] if self.online
+    # get computer
+    computer = Computer.find_by_auth_key(opts[:ckey])
+    return CODES[:not_find_computer] unless computer
     # get ip
     ip = Ip.find_by_value(opts[:ip])
     if ip
@@ -22,11 +26,7 @@ class Role < ActiveRecord::Base
     else
       ip = Ip.create(:value => opts[:ip]) 
     end
-    # get computer
     self.transaction do
-      computer = Computer.find_by_id(opts[:computer_id]) if opts[:computer_id]
-      return CODES[:not_find_computer] unless computer # not find computer
-      # update computer and ip
       computer.update_attributes(:roles_count=>computer.roles_count+1) 
       ip.update_attributes(:use_count=>ip.use_count+1)
       Note.create(:role_id=>self.id,:computer_id=>computer.id,:ip=>ip.value,:api_name=>"online")
@@ -63,6 +63,7 @@ class Role < ActiveRecord::Base
       self.close_hours = opts[:h].to_i
       self.closed_at = Time.now
       self.reopen_at = Time.now.ago(self.close_hours.hours)
+      Note.create(:role_id=>self.id,:ip=>opts[:ip],:api_name=>"close")
       return 1 if self.save
    end
   end
