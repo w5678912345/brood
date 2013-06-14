@@ -27,15 +27,21 @@
 #   rake 'foo:bar'
 # end
 
+#
 every 2.minutes do
   runner 'Api.role_auto_offline'
 end
 
-every 1.day, :at => '16:10 pm' do
+#
+every 20.minutes do
+  runner 'Api.role_auto_reopen'
+end
+
+every 1.day, :at => '6:00 am' do
   # reset vit power
   runner 'Api.reset_role_vit_power'
 end
 
-every 1.day ,:at => '16:12 am' do
+every 1.day ,:at => '6:10 am' do
   runner 'Api.reset_ip_use_count'
 end

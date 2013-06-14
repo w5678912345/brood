@@ -5,6 +5,7 @@ class Role < ActiveRecord::Base
   has_many   :notes
 
   attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip
+  attr_accessible :close,:close_hours,:closed_at,:reopen_at
 
   #default_scope :order => 'id DESC'
 

@@ -38,8 +38,13 @@ CODES = {
     Ip.where("use_count > 0").update_all(:use_count => 0)
    end
 
+   #
    def self.role_auto_reopen
-      
+      now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+      roles = Role.where(:close => true).where("reopen_at <= '#{now}'")
+      roles.each do |role|
+          role.update_attributes(:close=>false,:closed_at=>nil,:close_hours=>nil,:reopen_at=>nil)
+      end
    end
 	
 end
