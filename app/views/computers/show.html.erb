@@ -1,1 +1,22 @@
-show
+<%= render "navbar2" %>
+<table class="table">
+<thead>
+<tr>
+<th colspan="6">ID: <%= @computer.id %></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>Hostname:</th>
+<td><%= @computer.hostname %></td>
+<th>Auth Key:</th>
+<td><%= @computer.auth_key %></td>
+<th>Roles Count:</th>
+<td><%= link_to @computer.roles_count,roles_computer_path(@computer) %></td>
+</tr>
+<tr>
+<th>Created At</th>
+<td colspan="5"><%= @computer.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+</tr>
+</tbody>
+</table>

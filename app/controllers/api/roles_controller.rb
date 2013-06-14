@@ -3,8 +3,8 @@
 # 
 class Api::RolesController < Api::BaseController
 	layout :nil
-
-	CODES = Api::CODES
+	respond_to :json
+	
 
 	before_filter :get_remote_ip
 
@@ -63,6 +63,9 @@ class Api::RolesController < Api::BaseController
 	    rescue Exception => ex
 	      @code = -1
 	    end
+	    respond_to do |format|
+      		format.json { render }
+   		 end
 	end
 
 	#search a role execute online

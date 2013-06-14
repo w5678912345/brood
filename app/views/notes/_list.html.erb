@@ -1,4 +1,8 @@
-<table class="table">
+<div class="alert">
+<strong>提示信息:</strong>
+<span>共<%= @notes.total_entries%>个Note</span> 
+</div>
+<table class="table table-bordered table-condensed">
 <thead>
 	<th>Time</th>
 	<th>Role</th>
@@ -12,10 +16,15 @@
 	<td><%= note.created_at.strftime("%Y-%m-%d %H:%M:%S")%></td>
 	<td><%= link_to "#{note.role.account}##{note.role.role_index}",role_path(note.role) if note.role%></td>
 	<td><%= link_to note.computer.hostname,computer_path(note.computer) if note.computer%></td>
-	<td><%= link_to note.ip,ip_path(note.ip_url) %></td>
-	<td><%= note.api_name %></td>
+	<td><%= link_to note.ip,notes_ip_path(note.ip_url) %></td>
+	<th><%= note.api_name %></th>
 </tr>
 <%end%>
 </tbody>
 </table>
+
+<% if @page_params %>
+<%= will_paginate @notes, :params => @page_params %>
+<%else%>
 <%= will_paginate @notes %>
+<%end %>

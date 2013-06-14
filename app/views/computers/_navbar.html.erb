@@ -1,0 +1,14 @@
+<% active = 'class=active'%>
+<ul class="nav nav-tabs">
+<li <%= active if controller_name == 'computers' && action_name == 'home' %>>
+ <%= link_to raw('<i class="icon-home"></i> Computer Home'),home_computers_path  %>
+</li>
+<li <%= active if controller_name == 'computers' && action_name == 'index' %>>
+ <%= link_to raw('<i class="icon-list"></i>Computer List'), computers_path %>
+</li>
+<li <%= active if controller_name == 'computers' && action_name == 'new' %>>
+ <%= link_to raw('<i class="icon-plus"></i> New Computer'),new_computer_path  %>
+</li>
+
+
+</ul>

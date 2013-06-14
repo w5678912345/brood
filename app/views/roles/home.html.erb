@@ -1,5 +1,31 @@
 <%= render "navbar" %>
 <fieldset>
 <legend>Roles Home</legend>
-
+<table class="table table-bordered">
+<thead>
+<tr>
+  <th colspan="2">By On-line</th>
+  <th colspan="2">By Closed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Online</td>
+  <td><%= link_to Role.where(:online => true).count,online_roles_path %></td>
+  <td>Closed</td>
+  <td><%= link_to Role.where(:close => true).count,closed_roles_path %></td>
+</tr>
+<tr>
+  <td>Off</td>
+  <td><%= link_to Role.where(:online => false).count,offline_roles_path %></td>
+  <td>Not Closed</td>
+  <td><%= link_to Role.where(:close => false).count,not_closed_roles_path %></td>
+</tr>
+<tr>
+<td colspan="4" style="text-align:center;">
+	<%= link_to Role.count,roles_path %>
+</td>
+</tr>
+</tbody>
+</table>
 </fieldset>

@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table table-bordered table-condensed">
 <thead>
 	<th>ID</th>
 	<th>Hostname</th>
@@ -12,10 +12,10 @@
 <% @computers.each do |computer|%>
 <tr>
 <td><%= computer.id %></td>
-<td><%= computer.hostname %></td>
+<td><%= link_to computer.hostname,computer_path(computer) %></td>
 <td><%= computer.auth_key %></td>
-<td><%= computer.roles_count %></td>
-<td><%= computer.created_at %></td>
+<td><%= link_to computer.roles_count,roles_computer_path(computer) %></td>
+<td><%= computer.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
 <td><%= computer.user.name %></td>
 
 <td>

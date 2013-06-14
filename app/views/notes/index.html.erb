@@ -1,5 +1,6 @@
 <%= render "navbar" %>
 <fieldset>
-<legend>Notes List</legend>
+<legend><%= @list_title || "Notes List"%></legend>
+
 <%= render "list"%>
 </fieldset>

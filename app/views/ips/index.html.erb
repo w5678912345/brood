@@ -1,19 +1,24 @@
-<%= link_to raw("Reset"),reset_ips_path,:class=>"btn",confirm: 'Are you sure?'%>
-<table class="table">
+<fieldset>
+<legend>IP List</legend>
+<div class="alert">
+<strong>提示信息:</strong>
+<span><%= @ips.total_entries%>个IP</span> 
+</div>
+<table class="table table-bordered table-condensed">
 <thead>
 	<th>IP</th>
-	<th>Hours ago</th>
 	<th>Use Count</th>
+	<th>Hours ago</th>
 	<th>Updated At</th>
 	<th>Delete</th>
 </thead>
 <tbody>
 <% @ips.each do |ip| %>
 <tr>
-<td><%= ip.value %></td>
+<td><%= link_to ip.value,notes_ip_path(ip.ip_url) %></td>
+<td><%= link_to ip.use_count,roles_ip_path(ip.ip_url) %></td>
 <td><%= ip.hours_ago %></td>
-<td><%= ip.use_count %></td>
-<td><%= ip.updated_at %></td>
+<td><%= ip.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
 <td>
 <%= link_to raw("<i class='icon-trash'></i>删除"),clear_ips_path(:ip=>ip.value),confirm: 'Are you sure?' %>
 </td>
@@ -22,3 +27,4 @@
 </tbody>
 </table>
 <%= will_paginate @ips %>
+</fieldset>

@@ -1,4 +1,10 @@
-<fieldset>
+<%= render "navbar" %>
+<!-- <fieldset>
 <legend>All Computers</legend>
+ -->
+<div class="alert">
+<strong>提示信息:</strong>
+<span><%= @computers.total_entries%>个computer</span> 
+</div>
 <%= render "list"%>
-</fieldset>
+<!-- </fieldset> -->

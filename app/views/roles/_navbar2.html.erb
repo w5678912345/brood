@@ -1,0 +1,13 @@
+<% active = 'class=active'%>
+<ul class="nav nav-tabs">
+<li <%= active if controller_name == 'roles' && action_name == 'show' %>>
+ <%= link_to raw('<i class="icon-info-sign"></i>Role Info'),role_path(@role)  %>
+</li>
+<li <%= active if controller_name == 'roles' && action_name == 'notes' %>>
+ <%= link_to raw('<i class="icon-list"></i>Role`s Notes'),notes_role_path(@role)  %>
+</li>
+<li <%= active if controller_name == 'roles' && action_name == 'edit' %>>
+ <%= link_to raw('<i class="icon-pencil"></i>Edit Role'),edit_role_path(@role)  %>
+</li>
+
+</ul>

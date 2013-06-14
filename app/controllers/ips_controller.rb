@@ -8,7 +8,18 @@ class IpsController < ApplicationController
 
 	def show
 		@ip = Ip.find_by_value(params[:id])
+	end
 
+	def roles
+		@ip = Ip.find_by_value(params[:id])
+		@roles = Role.where(:ip => @ip.value).paginate(:page => params[:page], :per_page => 2)
+		@page_params = { :controller => "ips", :action => "roles",:id=>@ip.ip_url }
+	end
+
+	def notes
+		@ip = Ip.find_by_value(params[:id])
+		@notes = Note.where(:ip => @ip.value).paginate(:page => params[:page], :per_page => 10)
+		@page_params = { :controller => "ips", :action => "notes",:id=>@ip.ip_url }
 	end
 
 	def clear

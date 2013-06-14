@@ -1,4 +1,8 @@
-<table class="table">
+<div class="alert">
+<strong>提示信息:</strong>
+<span>共<%= @roles.total_entries%>个Role</span> 
+</div>
+<table class="table table-bordered table-condensed">
 <thead>
 	<th>ID</th>
 	<th>Account</th>
@@ -11,16 +15,16 @@
 </thead>
 <tbody>
 <% @roles.each do |role| %>
-<tr class="<%= 'warning' if role.close %>">
+<tr <%= "class=error title=#{role.close_hours}" if role.close %>>
 <td><%= role.id %></td>
-<td><%= role.account %></td>
+<td><%= link_to  role.account,role_path(role) %></td>
 <td><%= role.role_index %></td>
 <td><%= role.server%></td>
 <td><%= role.level%></td>
 <td><%= role.vit_power %></td>
 <td>
 <% if role.online %>
-<%= role.computer.id if role.computer %>@<%= role.ip %>
+<%= link_to role.computer.hostname , computer_path(role.computer) if role.computer %>#<%= link_to role.ip,roles_ip_path(role.ip.gsub(".","_")) %>
 <%else%>
 No
 <%end%>
@@ -43,4 +47,10 @@ No
 <%end%>
 </tbody>
 </table>
+
+
+<% if @page_params %>
+<%= will_paginate @roles, :params => @page_params %>
+<%else%>
 <%= will_paginate @roles %>
+<%end %>

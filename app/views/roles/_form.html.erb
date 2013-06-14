@@ -12,6 +12,19 @@
     <%= f.password_field :password,:required=>"required" %>
   </div>
 </div>
+<%else%>
+<div class="control-group">
+<label class="control-label">ID:</label>
+  <div class="controls docs-input-sizes" >
+    <input type="text" value="<%= @role.id%>" readonly="readonly" />
+  </div>
+</div>
+<div class="control-group">
+<label class="control-label">Account:</label>
+  <div class="controls docs-input-sizes" >
+    <input type="text" value="<%= @role.account %>" readonly="readonly" />
+  </div>
+</div>
 <%end%>
 <div class="control-group">
 <label class="control-label">Index:</label>

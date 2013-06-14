@@ -1,0 +1,15 @@
+<form class="form-search" action="<%= search_notes_path %>">
+  Time:
+  <input type="text" name="min_time" class="input" placeholder="from" value="<%= params[:min_level]%>" />-
+  <input type="text" name="max_time" class="input" placeholder="to" value="<%= params[:max_level]%>" />
+  Event:
+  <select name="event" class="input-small">
+  	<option value="">---all---</option>
+  	<option value="online">online</option>
+  	<option value="offline">offline</option>
+    <option value="sync">sync</option>
+    <option value="close">close</option>
+    <option value="reg">reg</option>
+  </select>
+  <button type="submit" class="btn">Search</button>
+</form>

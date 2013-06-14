@@ -2,7 +2,11 @@
 class ComputersController < ApplicationController
   
   def index
-  	@computers= Computer.paginate(:page => params[:page], :per_page => 10)
+  	@computers= Computer.paginate(:page => params[:page], :per_page => 15)
+  end
+
+  def home
+
   end
 
   def new
@@ -34,6 +38,16 @@ class ComputersController < ApplicationController
   	@computer = Computer.find(params[:id])
   	@computer.destroy
     redirect_to computers_path()
+  end
+
+  def notes
+    @computer = Computer.find_by_id(params[:id])
+    @notes = @computer.notes.paginate(:page => params[:page], :per_page => 10) if @computer
+  end
+
+  def roles
+    @computer = Computer.find_by_id(params[:id])
+    @roles = @computer.roles.paginate(:page => params[:page], :per_page => 10) if @computer
   end
 
 

@@ -8,6 +8,7 @@
     <li class="nav-header">Role</li>
     <li><%= link_to "Home", home_roles_path()%></li>
     <li><%= link_to "List", roles_path()%></li>
+    <li><%= link_to "Search", search_roles_path()%></li>
     <li><%= link_to "new",new_role_path()%></li>
     </ul>
 </li>
@@ -18,6 +19,7 @@
     <b class="caret"></b></a>
     <ul class="dropdown-menu">
     <li class="nav-header">Computer</li>
+    <li><%= link_to "Home", home_computers_path()%></li>
     <li><%= link_to "List", computers_path()%></li>
     <li><%= link_to "New", new_computer_path()%></li>
     </ul>
@@ -39,7 +41,9 @@
     <b class="caret"></b></a>
     <ul class="dropdown-menu">
     <li class="nav-header">Note</li>
+    <li><%= link_to "Home", home_notes_path()%></li>
     <li><%= link_to "List", notes_path()%></li>
+    <li><%= link_to "Search", search_notes_path()%></li>
     </ul>
 </li>
 

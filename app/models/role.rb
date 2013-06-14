@@ -8,7 +8,7 @@ class Role < ActiveRecord::Base
 
   #default_scope :order => 'id DESC'
 
-  scope :can_online_scope, where(:online => false).where("vit_power > 0").order("vit_power desc")
+  scope :can_online_scope, where(:online => false).where(:close => false).where("vit_power > 0").order("vit_power desc")
 
 
   CODES = Api::CODES
@@ -16,6 +16,7 @@ class Role < ActiveRecord::Base
   #
   def api_online opts
     return CODES[:role_have_online] if self.online
+    return CODES[:role_has_closed] if self.close
     # get computer
     computer = Computer.find_by_auth_key(opts[:ckey])
     return CODES[:not_find_computer] unless computer
@@ -36,10 +37,13 @@ class Role < ActiveRecord::Base
 
   #
   def api_offline opts
+    ip = Ip.find_by_value(opts[:ip] || self.ip)
+    ip = Ip.create(:value => opts[:ip]) unless ip
     self.transaction do
        return CODES[:role_not_online] unless self.online
        self.computer.update_attributes(:roles_count=>self.computer.roles_count-1) if self.computer
-       Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"offline")
+       ip.update_attributes(:use_count=>ip.use_count-1) if ip.use_count > 0
+       Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"offline")
        return 1 if self.update_attributes(:online=>false,:computer_id=>0,:ip=>nil)
     end
   end
@@ -68,22 +72,14 @@ class Role < ActiveRecord::Base
    end
   end
 
+  def api_open opts
+    self.transaction do
 
-  #
-  def self.auto_offline
-    last_at = Time.now.ago(10.minutes).strftime("%Y-%m-%d %H:%M:%S")
-    roles = self.where(:online=>true).where("updated_at < '#{last_at}'")
-    opts = Hash.new
-    roles.each do |role|
-      role.api_offline opts if role.online
+      return 1 if self.save
     end
   end
 
-  def self.reset_vit_power
-    Role.update_all(:vit_power=>156)
-  end
-
-
+  #
 
 end
 	

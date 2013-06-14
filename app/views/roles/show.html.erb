@@ -1,5 +1,66 @@
+<%= render "navbar2" %>
 <fieldset>
 <legend>Role Detail</legend>
-<%= @role.account %>
-<%= @role.role_index %>
+<table class="table">
+<thead>
+<tr>
+<th colspan="6">ID: <%= @role.id %></th>
+
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>Account:</th>
+<td><%= @role.account %></td>
+<td><b>Password:</b></td>
+<td>*********</td>
+<td><b>Index:</b></td>
+<td><%= @role.role_index  || "#" %></td>
+</tr>
+<tr>
+<th>Server:</th>
+<td><%= @role.server || "#" %></td>
+<th>Level:</th>
+<td><%= @role.level %></td>
+<th>Vit Power:</th>
+<td><%= @role.vit_power %></td>
+</tr>
+<tr>
+<th>Online:</th>
+<% if @role.online %>
+<td> Yes </td>
+<th>Computer:</th>
+<td><%= @role.computer.hostname if @role.computer %></td>
+<th>IP</th>
+<td><%= @role.ip %></td>
+<%else%>
+<td colspan="5"> No </td>
+<%end%>
+</tr>
+
+<tr>
+<th>Closed:</th>
+<% if @role.close %>
+<td> Yes </td>
+<th>Closed At:</th>
+<td><%= @role.closed_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+<th>Open At</th>
+<td><%= @role.reopen_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+<%else%>
+<td colspan="5"> No </td>
+<%end%>
+</tr>
+
+<tr>
+<th>Created At</th>
+<td colspan="5"><%= @role.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+</tr>
+<tr>
+<th>Updated At</th>
+<td colspan="5"><%= @role.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+</tr>
+
+</tbody>
+</table>
+
 </fieldset>

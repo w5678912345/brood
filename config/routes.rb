@@ -11,40 +11,54 @@ Brood::Application.routes.draw do
     get :closed,   :on => :collection
     get :not_closed, :on => :collection
     get :search,  :on => :collection
+    get :notes,   :on => :member
   end
 
-  resources :computers
+  resources :computers do 
+    get :home,  :on => :collection
+    get :notes, :on => :member
+    get :roles, :on => :member
+  end
   resources :ips,:only => [:index,:destroy,:show] do 
     get :clear, :on => :collection
-    get :reset, :on => :collection
-    get :detail,:on => :member
+    #get :reset, :on => :collection
+    get :roles,:on => :member
+    get :notes,:on => :member
   end
   resources :sheets ,:only =>[:index,:create,:destroy] do
     get :import, :on => :member
   end
   resources :notes do
     get :home, :on => :collection
+    get :search, :on => :collection
+    get :online, :on => :collection
+    get :offline, :on => :collection
+    get :sync,    :on => :collection
+    get :close,   :on => :collection
+    get :reg,     :on => :collection
   end
   #
   resources :settings, :only => [:index,:create,:edit,:update,:destroy]
   
-  root :to => 'api#readme'
+  root :to => 'api/base#readme'
 
 
-    #about api
-  match 'api/reg'  => 'api#reg'
-  match 'api/online' => 'api#online'
-  match 'api/sync' => 'api#sync'
-  match 'api/offline' => 'api#offline'
-  match 'api/roles' => 'api#roles'
-  match 'api/readme' => 'api#readme'
+  #   #about api
+  # match 'api/reg'  => 'api#reg'
+  # match 'api/online' => 'api#online'
+  # match 'api/sync' => 'api#sync'
+  # match 'api/offline' => 'api#offline'
+  # match 'api/roles' => 'api#roles'
+  # match 'api/readme' => 'api#readme'
 
   namespace :api  do
-    resources :roles ,:only => [:show] do
-      match :close, :on => :member
-      match :on, :on => :member
-      match :off, :on => :member
-      match :sync,   :on => :member
+    match '/' => 'base#readme'
+    match '/reg'  => 'computers#reg'
+    resources :roles ,:only => [:show],:defaults => { :format => 'json' } do
+      match :close,   :on => :member
+      match :on,      :on => :member
+      match :off,     :on => :member
+      match :sync,    :on => :member
       #
       match :online, :on => :collection
     end

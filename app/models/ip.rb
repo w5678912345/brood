@@ -16,7 +16,7 @@ class Ip < ActiveRecord::Base
 
   #
   def self.reset_use_count
-  	Ip.update_all(:use_count => 0)
+  	Ip.where("use_count > 0").update_all(:use_count => 0)
   end
 
 end

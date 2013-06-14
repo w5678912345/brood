@@ -1,0 +1,10 @@
+<% active = 'class=active'%>
+<ul class="nav nav-tabs">
+<li <%= active if controller_name == 'ips' && action_name == 'notes' %>>
+ <%= link_to raw('<i class="icon-list"></i>IP`s Notes'),notes_ip_path(@ip.ip_url)  %>
+</li>
+<li <%= active if controller_name == 'ips' && action_name == 'roles' %>>
+ <%= link_to raw('<i class="icon-list"></i>IP`s Roles'),roles_ip_path(@ip.ip_url)  %>
+</li>
+
+</ul>

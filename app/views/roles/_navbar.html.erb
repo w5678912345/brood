@@ -20,12 +20,6 @@
 <li <%= active if controller_name == "roles" && action_name == 'search' %> >
  <%= link_to raw('<i class="icon-search"></i>Search Roles'), search_roles_path %>
 </li>
-<!-- <li <%= active if controller_name == 'roles' && action_name == 'can' %>>
- <%= link_to raw('<i class="icon-list"></i>Available List'), can_roles_path %>
-</li>
-<li <%= active if controller_name == 'roles' && action_name == 'online' %>>
- <%= link_to raw('<i class="icon-list"></i>Online List'), online_roles_path %>
-</li> -->
 <li <%= active if controller_name == "roles" && action_name == 'new' %> >
  <%= link_to raw('<i class="icon-plus"></i>New Role'), new_role_path %>
 </li>

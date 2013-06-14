@@ -8,30 +8,26 @@ class RolesController < ApplicationController
 		@roles = Role.includes(:computer).paginate(:page => params[:page], :per_page => 10)
 	end
 
-	def can
-		@roles = Role.can_online_scope.paginate(:page => params[:page], :per_page => 10)
-	end
-
 	def online
-		@roles = Role.where(:online=>true).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
+		@roles = Role.includes(:computer).where(:online=>true).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
 		@list_title = "Online Roles"
 		render :template => 'roles/index'
 	end
 
 	def offline
-		@roles = Role.where(:online=>false).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
+		@roles = Role.includes(:computer).where(:online=>false).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
 		@list_title = "Offline Roles"
 		render :template => 'roles/index'
 	end
 
 	def closed
-		@roles = Role.where(:close =>true).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
+		@roles = Role.includes(:computer).where(:close =>true).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
 		@list_title = "Closed Roles"
 		render :template => 'roles/index'
 	end
 
 	def not_closed
-		@roles = Role.where(:close =>false).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
+		@roles = Role.includes(:computer).where(:close =>false).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
 		@list_title = "Not closed Roles"
 		render :template => 'roles/index'
 	end
@@ -45,6 +41,12 @@ class RolesController < ApplicationController
 		@roles = @roles.where("vit_power >= #{params[:min_vit]}") unless params[:min_vit].blank?
 		@roles = @roles.where("vit_power <= #{params[:max_vit]}") unless params[:max_vit].blank?
 		@roles = @roles.paginate(:page => params[:page], :per_page => 10)
+	end
+
+	
+	def notes
+		@role = Role.find(params[:id])
+		@notes = @role.notes.includes(:computer).paginate(:page => params[:page], :per_page => 10)
 	end
 
 	def show
@@ -76,9 +78,6 @@ class RolesController < ApplicationController
 		@role = Role.find(params[:id])
 		@role.destroy
 		redirect_to roles_path()
-	end
-
-	def import
 	end
 
 	private
