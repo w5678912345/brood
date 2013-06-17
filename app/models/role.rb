@@ -55,6 +55,7 @@ class Role < ActiveRecord::Base
      self.server = opts[:server] if opts[:server]
      self.level = opts[:level] if opts[:level]
      self.vit_power = opts[:vit_power] if opts[:vit_power]
+     self.gold = opts[:gold] if opts[:gold]
      #...
      self.transaction do
       Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync")

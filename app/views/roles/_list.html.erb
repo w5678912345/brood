@@ -10,6 +10,7 @@
 	<th>Server</th>
 	<th>Level</th>
 	<th>Vit Power</th>
+  <th>Gold</th>
 	<th>Online</th>
 	<th>Operate</th>
 </thead>
@@ -22,6 +23,7 @@
 <td><%= role.server%></td>
 <td><%= role.level%></td>
 <td><%= role.vit_power %></td>
+<td><%= role.gold %></td>
 <td>
 <% if role.online %>
 <%= link_to role.computer.hostname , computer_path(role.computer) if role.computer %>#<%= link_to role.ip,roles_ip_path(role.ip.gsub(".","_")) %>
