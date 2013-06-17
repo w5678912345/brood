@@ -103,15 +103,18 @@ ActiveRecord::Schema.define(:version => 20130617060045) do
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
   create_table "versions", :force => true do |t|
-    t.string   "no",                                 :null => false
+    t.string   "no"
     t.string   "zip",                                :null => false
     t.integer  "user_id",                            :null => false
     t.boolean  "released",        :default => false, :null => false
     t.time     "released_at"
     t.integer  "release_user_id"
+    t.boolean  "release_lock",    :default => false
     t.string   "remark"
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
   end
+
+  add_index "versions", ["no"], :name => "index_versions_on_no", :unique => true
 
 end

@@ -80,10 +80,8 @@ class RolesController < ApplicationController
 		redirect_to roles_path()
 	end
 
-	def off
-		params[:ip] = request.remote_ip
-		@role = Role.find_by_id(params[:id])
-		@role.api_offline params
+	def auto_off
+		Api.role_auto_offline
 		redirect_to roles_path()
 	end
 

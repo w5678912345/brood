@@ -5,7 +5,7 @@ class VersionsController < ApplicationController
   #
 
 	def index
-		@versions = Version.order("no desc").paginate(:page => params[:page], :per_page => 15)
+		@versions = Version.order("id desc").paginate(:page => params[:page], :per_page => 15)
 	end
 
 	def new
@@ -15,7 +15,8 @@ class VersionsController < ApplicationController
 	def create
 		@version = Version.new(params[:version])
 		@version.user = current_user
-		if @version.save
+		if @version.valid? 
+			@version.upload
 			redirect_to versions_path
 		else
 			render :action => "new"
@@ -51,7 +52,7 @@ class VersionsController < ApplicationController
 
 	private 
 	def set_version
-		
+
 	end
 
 end

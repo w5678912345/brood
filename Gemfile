@@ -1,4 +1,4 @@
-#source 'https://rubygems.org'
+source 'https://rubygems.org'
 source 'http://ruby.taobao.org'
 gem 'rails', '3.2.13'
 
@@ -32,6 +32,7 @@ gem 'roo' #
 gem 'whenever', '~> 0.8.2'
 gem 'aws-sdk', '~> 1.11.2'
 gem 'zipruby', '~> 0.3.6'
+gem 'nokogiri', '~> 1.5.9'
 
 group :development,:test do
   gem 'better_errors'

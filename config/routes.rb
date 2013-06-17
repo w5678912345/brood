@@ -11,8 +11,9 @@ Brood::Application.routes.draw do
     get :closed,   :on => :collection
     get :not_closed, :on => :collection
     get :search,  :on => :collection
+    get :auto_off,     :on => :collection
     get :notes,   :on => :member
-    get :off,     :on => :member
+
   end
 
   resources :computers do 

@@ -1,6 +1,9 @@
 <%= render "navbar" %>
 <fieldset>
 <legend>Roles Home</legend>
+<% if Rails.env != "production"%>
+  <%= link_to "Auto Off",auto_off_roles_path %>
+<%end%>
 <table class="table table-bordered">
 <thead>
 <tr>
@@ -11,7 +14,8 @@
 <tbody>
 <tr>
   <td>Online</td>
-  <td><%= link_to Role.where(:online => true).count,online_roles_path %></td>
+  <td><%= link_to Role.where(:online => true).count,online_roles_path %>
+  </td>
   <td>Closed</td>
   <td><%= link_to Role.where(:close => true).count,closed_roles_path %></td>
 </tr>
@@ -29,3 +33,4 @@
 </tbody>
 </table>
 </fieldset>
+
