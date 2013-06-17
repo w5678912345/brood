@@ -36,6 +36,7 @@ class Version < ActiveRecord::Base
     self.push_to_s3
   	self.released = true
   	self.released_at = Time.now
+    self.push_to_s3
   	self.save
   end
 
