@@ -10,7 +10,12 @@ class Setting < ActiveRecord::Base
 	def self.ip_max_use_count
 		val = find_value_by_key("ip_max_use_count")
 		return val == nil ? 5 : val
-	end   
+	end
+
+	def self.role_max_level
+		val = find_value_by_key("role_max_level")
+		return val == nil ? 30 : val
+	end
 
 
 	def self.role_timeout_minutes

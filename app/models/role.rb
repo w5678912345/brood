@@ -9,7 +9,7 @@ class Role < ActiveRecord::Base
 
   #default_scope :order => 'id DESC'
 
-  scope :can_online_scope, where(:online => false).where(:close => false).where("vit_power > 0").order("vit_power desc")
+  scope :can_online_scope, where(:online => false).where(:close => false).where("vit_power > 0").order("vit_power desc").order("level desc")
 
 
   CODES = Api::CODES
@@ -79,6 +79,15 @@ class Role < ActiveRecord::Base
 
       return 1 if self.save
     end
+  end
+
+  def self.get_role
+    roles = self.can_online_scope
+    role_max_level = Setting.find_value_by_key("role_max_level")
+    if role_max_level
+      roles = roles.where("level <= #{role_max_level}")
+    end
+    return roles.first
   end
 
   #

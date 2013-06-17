@@ -1,0 +1,37 @@
+<div class="alert">
+<strong>提示信息:</strong>
+<span>共<%= @versions.total_entries%>个Version</span> 
+</div>
+<table class="table table-bordered table-condensed">
+<thead>
+	<th>No</th>
+	<th>ZIP</th>
+	<th>User</th>
+	<th>Created At</th>
+	<th>Release User</th>
+	<th>Releaseed At</th>
+	<th>Operate</th>
+</thead>
+<tbody>
+<% @versions.each do |v|%>
+<tr>
+<td><%= v.no %></td>
+<td>
+	<a href="<%= v.zip%>" ><%= v.zip.file.filename%></a>
+</td>
+<td><%= v.user.name if v.user %></td>
+<td><%= v.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+<% if v.released %>
+	<td><%= v.released_at.strftime("%Y-%m-%d %H:%M")%></td>
+	<td><%= v.release_user.name %></td>
+<%else%>
+	<td colspan="2">Not released</td>
+<%end%>
+<td>
+<%= link_to raw("<i class='icon-trash'></i>删除"),version_path(v),confirm: 'Are you sure?',:method => :delete,:class=>"btn" %>
+<%= link_to "Release",release_version_path(v),:class=>"btn"%>
+</td>
+</tr>
+<%end%>
+</tbody>
+</table>

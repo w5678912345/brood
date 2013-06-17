@@ -1,5 +1,5 @@
-source 'https://rubygems.org'
-#source 'http://ruby.taobao.org'
+#source 'https://rubygems.org'
+source 'http://ruby.taobao.org'
 gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
@@ -30,6 +30,8 @@ gem 'jbuilder', '~> 1.2.0'
 gem 'carrierwave' #
 gem 'roo' #
 gem 'whenever', '~> 0.8.2'
+gem 'aws-sdk', '~> 1.11.2'
+gem 'zipruby', '~> 0.3.6'
 
 group :development,:test do
   gem 'better_errors'

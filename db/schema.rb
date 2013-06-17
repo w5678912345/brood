@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130613052839) do
+ActiveRecord::Schema.define(:version => 20130617060045) do
 
   create_table "computers", :force => true do |t|
     t.string   "hostname",                   :null => false
@@ -101,5 +101,17 @@ ActiveRecord::Schema.define(:version => 20130613052839) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "versions", :force => true do |t|
+    t.string   "no",                                 :null => false
+    t.string   "zip",                                :null => false
+    t.integer  "user_id",                            :null => false
+    t.boolean  "released",        :default => false, :null => false
+    t.time     "released_at"
+    t.integer  "release_user_id"
+    t.string   "remark"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+  end
 
 end

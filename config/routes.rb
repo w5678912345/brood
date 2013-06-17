@@ -12,6 +12,7 @@ Brood::Application.routes.draw do
     get :not_closed, :on => :collection
     get :search,  :on => :collection
     get :notes,   :on => :member
+    get :off,     :on => :member
   end
 
   resources :computers do 
@@ -39,6 +40,12 @@ Brood::Application.routes.draw do
   end
   #
   resources :settings, :only => [:index,:create,:edit,:update,:destroy]
+
+  resources :versions, :only => [:index,:create,:destroy,:show,:new] do
+    get :release, :on => :member
+    get :s3,      :on => :collection
+  end
+
   
   root :to => 'api/base#readme'
 

@@ -71,7 +71,7 @@ class Api::RolesController < Api::BaseController
 	#search a role execute online
 	def online
 	    #-----------------
-	    @role = Role.can_online_scope.first
+	    @role = Role.get_role
 	    return @code = CODES[:not_find_role] unless @role # not find role
 	    #call
 	    begin

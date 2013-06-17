@@ -1,0 +1,12 @@
+<%= render "navbar" %>
+<table></table>
+
+<ul>
+<% @objects.each_batch do |b|%>
+
+<% b.each do |item| %><li>
+	<%= item.key %></li>
+<%end%>
+
+<%end%>
+</ul>

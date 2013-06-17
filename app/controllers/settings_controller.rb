@@ -14,6 +14,7 @@ class SettingsController < ApplicationController
 
 	def edit
 		@setting = Setting.find_by_id(params[:id])
+		@settings = Setting.paginate(:page => params[:page], :per_page => 10)
 	end
 
 	def update
