@@ -14,6 +14,7 @@ class NotesController < ApplicationController
 		@notes = @notes.where(:api_name => params[:event]) unless params[:event].blank?
 		@notes = @notes.where("created_at >= '#{params[:min_time]}'") unless params[:min_time].blank?
 		@notes = @notes.where("created_at <= '#{params[:max_time]}'") unless params[:max_time].blank?
+		@notes = @notes.where(:api_code => params[:code]) unless params[:code].blank?
 		@notes = @notes.paginate(:page => params[:page], :per_page => 20)
 	end
 

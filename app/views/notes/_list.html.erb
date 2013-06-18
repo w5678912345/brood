@@ -9,6 +9,7 @@
 	<th>Computer</th>
 	<th>IP</th>
 	<th>Event</th>
+	<th>Code</th>
 </thead>
 <tbody>
 <% @notes.each do |note|%>
@@ -17,7 +18,8 @@
 	<td><%= link_to "#{note.role.account}##{note.role.role_index}",role_path(note.role) if note.role%></td>
 	<td><%= link_to note.computer.hostname,computer_path(note.computer) if note.computer%></td>
 	<td><%= link_to note.ip,notes_ip_path(note.ip_url) %></td>
-	<th><%= note.api_name %></th>
+	<th><%= note.api_name.blank? ? "#" : note.api_name  %></th>
+	<th><%= note.api_code %></th>
 </tr>
 <%end%>
 </tbody>
@@ -26,5 +28,5 @@
 <% if @page_params %>
 <%= will_paginate @notes, :params => @page_params %>
 <%else%>
-<%= will_paginate @notes %>
+<%= will_paginate @notes,inner_window: 1, outer_window: 0  %>
 <%end %>

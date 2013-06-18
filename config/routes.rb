@@ -67,6 +67,7 @@ Brood::Application.routes.draw do
       match :on,      :on => :member
       match :off,     :on => :member
       match :sync,    :on => :member
+			match :note,		:on => :member
       #
       match :online, :on => :collection
     end

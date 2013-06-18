@@ -40,6 +40,7 @@ class RolesController < ApplicationController
 		@roles = @roles.where("level <= #{params[:max_level]}") unless params[:max_level].blank?
 		@roles = @roles.where("vit_power >= #{params[:min_vit]}") unless params[:min_vit].blank?
 		@roles = @roles.where("vit_power <= #{params[:max_vit]}") unless params[:max_vit].blank?
+		
 		@roles = @roles.paginate(:page => params[:page], :per_page => 10)
 	end
 

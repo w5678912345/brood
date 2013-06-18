@@ -58,7 +58,7 @@ class Role < ActiveRecord::Base
      self.gold = opts[:gold] if opts[:gold]
      #...
      self.transaction do
-      Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync")
+      #Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync")
       return 1 if self.save
      end
   end
@@ -73,6 +73,14 @@ class Role < ActiveRecord::Base
       return 1 if self.save
    end
   end
+
+	def api_note opts
+		ip = Ip.find_by_value(opts[:ip] || self.ip)
+    ip = Ip.create(:value => opts[:ip]) unless ip
+		self.transaction do
+			return 1 if Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"",:api_code=>opts[:code])
+		end
+	end
 
   def api_open opts
     self.transaction do

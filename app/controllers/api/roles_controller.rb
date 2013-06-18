@@ -69,10 +69,10 @@ class Api::RolesController < Api::BaseController
 	end
 
 	#
-	def code
+	def note
 		@role = Role.find_by_id params[:id]
 		return @code = CODES[:not_find_role] unless @role
-		
+		@code = @role.api_note params
 	end
 
 	#search a role execute online
