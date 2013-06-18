@@ -73,6 +73,9 @@ class Api::RolesController < Api::BaseController
 		@role = Role.find_by_id params[:id]
 		return @code = CODES[:not_find_role] unless @role
 		@code = @role.api_note params
+		respond_to do |format|
+			format.json { render :partial => 'api/roles/result' }
+   	end
 	end
 
 	#search a role execute online
