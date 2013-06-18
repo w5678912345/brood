@@ -38,7 +38,7 @@ class VersionsController < ApplicationController
 		bucket = s3.buckets['ccnt']
 
 		@objects = bucket.objects #.with_prefix('update/tianyi/cn/')
-		@objects = @objects.with_prefix(params[:prefix]) unless params[:prefix].blank?
+		@objects = @objects.with_prefix(params[:prefix]) if params[:prefix]
 		@tree = @objects.as_tree
 	end
 

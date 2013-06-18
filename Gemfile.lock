@@ -1,6 +1,5 @@
 GEM
   remote: https://rubygems.org/
-  remote: http://ruby.taobao.org/
   specs:
     actionmailer (3.2.13)
       actionpack (= 3.2.13)
@@ -54,6 +53,11 @@ GEM
       execjs
     coffee-script-source (1.6.2)
     daemons (1.1.9)
+    delayed_job (3.0.5)
+      activesupport (~> 3.0)
+    delayed_job_active_record (0.4.4)
+      activerecord (>= 2.1.0, < 4)
+      delayed_job (~> 3.0)
     devise (2.2.4)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -165,6 +169,7 @@ DEPENDENCIES
   bootstrap-will_paginate
   carrierwave
   coffee-rails (~> 3.2.1)
+  delayed_job_active_record
   devise
   jbuilder (~> 1.2.0)
   jquery-rails

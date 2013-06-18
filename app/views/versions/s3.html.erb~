@@ -1,6 +1,6 @@
 <%= render "navbar" %>
 <fieldset>
-<legend>S3</legend>
+<legend>S3 <%= params[:prefix]%></legend>
 
 <ul class="breadcrumb">
 	<li><%= link_to "ccnt",s3_versions_path() %> <span class="divider">/</span></li>

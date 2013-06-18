@@ -68,7 +68,6 @@ class Api::RolesController < Api::BaseController
    		 end
 	end
 
-	#
 	def code
 		@role = Role.find_by_id params[:id]
 		return @code = CODES[:not_find_role] unless @role
