@@ -49,6 +49,11 @@ class RolesController < ApplicationController
 		@notes = @role.notes.includes(:computer).paginate(:page => params[:page], :per_page => 10)
 	end
 
+	def payments
+		@role = Role.find(params[:id])
+		@payments = @role.payments.paginate(:page => params[:page],:per_page => 10)
+	end
+
 	def show
 		@role = Role.find(params[:id])
 	end

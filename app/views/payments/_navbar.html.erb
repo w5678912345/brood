@@ -1,0 +1,15 @@
+<% active = 'class=active'%>
+<ul class="nav nav-tabs">
+<li <%= active if controller_name == 'payments' && action_name == 'home' %>>
+ <%= link_to raw('<i class="icon-home"></i>Home'), home_payments_path %>
+</li>
+
+<li <%= active if controller_name == "payments" && action_name == 'index' %> >
+ <%= link_to raw('<i class="icon-list"></i>支出记录'), payments_path %>
+</li>
+
+<li <%= active if controller_name == "payments" && action_name == 'search' %> >
+ <%= link_to raw('<i class="icon-search"></i>搜索支出记录'), search_payments_path %>
+</li>
+
+</ul>

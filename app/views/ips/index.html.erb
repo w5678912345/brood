@@ -18,7 +18,7 @@
 <td><%= link_to ip.value,notes_ip_path(ip.ip_url) %></td>
 <td><%= link_to ip.use_count,roles_ip_path(ip.ip_url) %></td>
 <td><%= ip.hours_ago %></td>
-<td><%= ip.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+<td><%= time_str ip.updated_at %></td>
 <td>
 <%= link_to raw("<i class='icon-trash'></i>删除"),clear_ips_path(:ip=>ip.value),confirm: 'Are you sure?' %>
 </td>

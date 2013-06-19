@@ -13,7 +13,7 @@ Brood::Application.routes.draw do
     get :search,  :on => :collection
     get :auto_off,     :on => :collection
     get :notes,   :on => :member
-
+		get :payments, :on => :member
   end
 
   resources :computers do 
@@ -47,6 +47,12 @@ Brood::Application.routes.draw do
     get :s3,      :on => :collection
   end
 
+	resources :payments , :only => [:index,:show] do
+		get :home,		:on => :collection
+		get :search,	:on => :collection		
+	end
+
+
   
   root :to => 'api/base#readme'
 
@@ -68,6 +74,7 @@ Brood::Application.routes.draw do
       match :off,     :on => :member
       match :sync,    :on => :member
 			match :note,		:on => :member
+			match :pay,			:on => :member
       #
       match :online, :on => :collection
     end

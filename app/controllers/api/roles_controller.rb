@@ -78,6 +78,14 @@ class Api::RolesController < Api::BaseController
    	end
 	end
 
+	#
+	def pay
+		@role = Role.find_by_id params[:id]
+		return @code = CODES[:not_find_role] unless @role
+	  @code = @role.pay params
+		render :partial => 'api/roles/result'
+	end
+
 	#search a role execute online
 	def online
 	    #-----------------
@@ -96,6 +104,7 @@ class Api::RolesController < Api::BaseController
 	private 
 	def get_remote_ip
 		params[:ip] = request.remote_ip
+		@code = 0
 	end
 
 end

@@ -1,6 +1,6 @@
 <div class="alert">
 <strong>提示信息:</strong>
-<span>共<%= @notes.total_entries%>个Note</span> 
+<span>共<%= @notes.total_entries%>条记录</span> 
 </div>
 <table class="table table-bordered table-condensed">
 <thead>
@@ -14,10 +14,10 @@
 <tbody>
 <% @notes.each do |note|%>
 <tr>
-	<td><%= note.created_at.strftime("%Y-%m-%d %H:%M:%S")%></td>
+	<td><%= note.id%>#<%= time_str note.created_at %></td>
 	<td><%= link_to "#{note.role.account}##{note.role.role_index}",role_path(note.role) if note.role%></td>
 	<td><%= link_to note.computer.hostname,computer_path(note.computer) if note.computer%></td>
-	<td><%= link_to note.ip,notes_ip_path(note.ip_url) %></td>
+	<td><%= link_to note.ip,notes_ip_path(ip_to_url note.ip) %></td>
 	<th><%= note.api_name.blank? ? "#" : note.api_name  %></th>
 	<th><%= note.api_code %></th>
 </tr>

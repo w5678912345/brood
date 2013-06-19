@@ -1,6 +1,6 @@
 <div class="alert">
 <strong>提示信息:</strong>
-<span>共<%= @roles.total_entries%>个Role</span> 
+<span>共<%= @roles.total_entries%>个角色</span> 
 </div>
 <table class="table table-bordered table-condensed">
 <thead>
@@ -26,25 +26,25 @@
 <td><%= role.gold %></td>
 <td>
 <% if role.online %>
-<%= link_to role.computer.hostname , computer_path(role.computer) if role.computer %>#<%= link_to role.ip,roles_ip_path(role.ip.gsub(".","_")) %>
+<%= link_to role.computer.hostname , computer_path(role.computer) if role.computer %>#<%= link_to role.ip,roles_ip_path(ip_to_url role.ip) %>
 <%else%>
 No
 <%end%>
 </td>
 <td>
 <div class="btn-group">
-    <%= link_to "查看", role_path(role),:class=>"btn" %>
-    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
-    <ul class="dropdown-menu">
-      <li>
-          <%= link_to raw("<i class='icon-edit'></i>修改"),edit_role_path(role) %>
-      </li>
-      <li>
-         <%= link_to raw("<i class='icon-trash'></i>删除"),role_path(role),confirm: 'Are you sure?',:method => :delete %>
-      </li>
-    </ul>
+<%= link_to "查看", role_path(role),:class=>"btn" %>
+<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+<ul class="dropdown-menu">
+  <li>
+      <%= link_to raw("<i class='icon-edit'></i>修改"),edit_role_path(role) %>
+  </li>
+  <li>
+     <%= link_to raw("<i class='icon-trash'></i>删除"),role_path(role),confirm: 'Are you sure?',:method => :delete %>
+  </li>
+</ul>
 
-  </div>
+</div>
 </td>
 </tr>
 <%end%>

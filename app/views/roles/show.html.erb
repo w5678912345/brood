@@ -10,54 +10,65 @@
 </thead>
 <tbody>
 <tr>
-<th>Account:</th>
+<th>账户:</th>
 <td><%= @role.account %></td>
-<td><b>Password:</b></td>
+<td><b>密码:</b></td>
 <td>*********</td>
 <td><b>Index:</b></td>
 <td><%= @role.role_index  || "#" %></td>
 </tr>
 <tr>
-<th>Server:</th>
+<th>服务器:</th>
 <td><%= @role.server || "#" %></td>
-<th>Level:</th>
+<th>等级:</th>
 <td><%= @role.level %></td>
-<th>Vit Power:</th>
+<th>疲劳值:</th>
 <td><%= @role.vit_power %></td>
 </tr>
+
 <tr>
-<th>Online:</th>
+<th>当前金币：</th>
+<td><%= @role.gold %></td>
+<th>支出合计：</th>
+<td><%= link_to @role.total_pay,payments_role_path(@role) %></td>
+<th>累计产出:</th>
+<td><%= @role.total_gold %></td>
+</tr>
+
+<!-- -->
+<tr>
+<th>在线:</th>
 <% if @role.online %>
 <td> Yes </td>
-<th>Computer:</th>
-<td><%= @role.computer.hostname if @role.computer %></td>
+<th>计算机:</th>
+<td><%= link_to @role.computer.hostname,computer_path(@role.computer) if @role.computer %></td>
 <th>IP</th>
-<td><%= @role.ip %></td>
+<td><%= link_to @role.ip,roles_ip_path(ip_to_url @role.ip) %></td>
 <%else%>
 <td colspan="5"> No </td>
 <%end%>
 </tr>
 
 <tr>
-<th>Closed:</th>
+<th>关闭:</th>
 <% if @role.close %>
 <td> Yes </td>
-<th>Closed At:</th>
-<td><%= @role.closed_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
-<th>Open At</th>
-<td><%= @role.reopen_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+<th>关闭时间:</th>
+<td><%= time_str @role.closed_at %></td>
+<th>重开时间:</th>
+<td><%= time_str @role.reopen_at %></td>
 <%else%>
 <td colspan="5"> No </td>
 <%end%>
 </tr>
 
 <tr>
-<th>Created At</th>
-<td colspan="5"><%= @role.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+<th>创建时间</th>
+<td colspan="5"><%= time_str @role.created_at %></td>
 </tr>
 <tr>
-<th>Updated At</th>
-<td colspan="5"><%= @role.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+<th>修改时间</th>
+<td colspan="5"><%= time_str @role.updated_at %></td>
 </tr>
 
 </tbody>

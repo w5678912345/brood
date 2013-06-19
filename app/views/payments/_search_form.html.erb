@@ -1,0 +1,11 @@
+<form class="form-search" action="<%= search_payments_path %>">
+	时间:
+  <input type="text" name="min_time" class="input-medium search-query" placeholder="开始时间" value="<%= params[:min_time]%>" />-
+  <input type="text" name="max_time" class="input-medium search-query" placeholder="截止时间" value="<%= params[:max_time]%>" />  
+	支出:
+  <input type="text" name="min_gold" class="input-small" placeholder="最小金额" value="<%= params[:min_gold]%>" />-
+  <input type="text" name="max_gold" class="input-small" placeholder="最大金额" value="<%= params[:max_gold]%>" />
+  <input type="text" name="pay_type" class="input-small" placeholder="类型" value="<%= params[:pay_type]%>" />
+	<input type="text" name="remark" class="input-small" placeholder="备注" value="<%= params[:remark]%>" />
+  <button type="submit" class="btn">Search</button>
+</form>

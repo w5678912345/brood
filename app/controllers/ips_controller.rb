@@ -12,7 +12,7 @@ class IpsController < ApplicationController
 
 	def roles
 		@ip = Ip.find_by_value(params[:id])
-		@roles = Role.where(:ip => @ip.value).paginate(:page => params[:page], :per_page => 2)
+		@roles = Role.where(:ip => @ip.value).paginate(:page => params[:page], :per_page => 10)
 		@page_params = { :controller => "ips", :action => "roles",:id=>@ip.ip_url }
 	end
 

@@ -19,8 +19,4 @@ class Note < ActiveRecord::Base
     scope :reg_scope, where(:api_name => "reg")
 
     
-
-  def ip_url
-  	self.ip.gsub(".","_")
-  end
 end
