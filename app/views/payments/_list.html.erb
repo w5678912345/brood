@@ -19,7 +19,7 @@
 <% @payments.each do |payment|%>
 	<tr>
 		<td><%= payment.id %></td>
-		<td><%= payment.role.account  if payment.role %></td>
+		<td><%= link_to "#{payment.role.account}##{payment.role.role_index}",payments_role_path(payment.role)  if payment.role %></td>
 		<td><%= payment.gold %></td>
 		<td><%= payment.balance %></td>
 		<td><%= payment.total %></td>

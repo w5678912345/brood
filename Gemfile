@@ -1,5 +1,5 @@
-source 'https://rubygems.org'
-#source 'http://ruby.taobao.org'
+#source 'https://rubygems.org'
+source 'http://ruby.taobao.org'
 gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
@@ -34,9 +34,14 @@ gem 'aws-sdk', '~> 1.11.2'
 gem 'zipruby', '~> 0.3.6' # 
 gem 'nokogiri', '~> 1.5.9' # read xml
 gem 'delayed_job_active_record' #
+gem 'cancan', '~> 1.6.10' #
+gem 'by_star', '~> 1.0.1'
+gem "thin", "~> 1.5.0"
 
 group :development,:test do
   gem 'better_errors'
+	#gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
+	gem 'pry', '~> 0.9.12.2' #调试
   gem "mina", "~> 0.2.0"
   gem 'thin', require: false #
 end
