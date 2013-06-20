@@ -1,5 +1,20 @@
 <%= render "navbar" %>
 <fieldset>
-<legend>Computer Home</legend>
-
+<legend>计算机主页</legend>
+<table class="table table-bordered">
+<tr>
+	<td class="span2">审核通过：</td>
+	<td><%= link_to Computer.checked_scope.count,checked_computers_path %></td>
+</tr>
+<tr>
+		<td>审核未通过：</td>
+		<td><%= link_to Computer.ubchecked_scope.count,unchecked_computers_path %></td>
+</tr>
+<tr>
+	<td>合计：</td>
+	<td>
+		<%= link_to Computer.count,computers_path  %>
+	</td>
+</tr>
+</table>
 </fieldset>

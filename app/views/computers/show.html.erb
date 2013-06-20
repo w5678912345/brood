@@ -7,15 +7,22 @@
 </thead>
 <tbody>
 <tr>
-<th>Hostname:</th>
+<th>主机名:</th>
 <td><%= @computer.hostname %></td>
 <th>Auth Key:</th>
 <td><%= @computer.auth_key %></td>
-<th>Roles Count:</th>
+<th>在线角色:</th>
 <td><%= link_to @computer.roles_count,roles_computer_path(@computer) %></td>
 </tr>
+
 <tr>
-<th>Created At</th>
+<th>审核:</th>
+<td colspan="5"><%= @computer.checked ? raw('<span class="label label-success">通过</span>') : raw('<span class="label label-important">未通过</span>') %></td>
+
+</tr>
+
+<tr>
+<th>创建时间:</th>
 <td colspan="5"><%= @computer.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
 </tr>
 </tbody>

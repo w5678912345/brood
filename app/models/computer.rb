@@ -8,6 +8,10 @@ class Computer < ActiveRecord::Base
   has_many :notes
 
   default_scope :order => 'id DESC'
+
+	scope :checked_scope,where(:checked => true)
+	scope :ubchecked_scope,where(:checked => false)
+	 
   
   validates_presence_of :hostname,:auth_key,:user_id
   validates_uniqueness_of :auth_key
