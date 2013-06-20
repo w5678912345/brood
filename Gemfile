@@ -36,7 +36,6 @@ gem 'nokogiri', '~> 1.5.9' # read xml
 gem 'delayed_job_active_record' #
 gem 'cancan', '~> 1.6.10' #
 gem 'by_star', '~> 1.0.1'
-gem 'thin', require: false
 
 group :development,:test do
   gem 'better_errors'
