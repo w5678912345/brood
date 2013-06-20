@@ -1,7 +1,26 @@
 <%= render "navbar" %>
-<!-- <fieldset>
-<legend>All Computers</legend>
- -->
-
+<%= form_tag(check_computers_path,:method => :put,:id=>"computers_check_form") do -%>
+<%= hidden_field_tag :checked,1, :id=>"checked"%>
 <%= render "list"%>
-<!-- </fieldset> -->
+<%	end -%>
+
+<script type="text/javascript">
+
+$(function(){
+	$("#pass_button").click(function(){
+		$("#checked").val(1);
+		$("#computers_check_form").submit();
+	});
+	$("#not_pass_button").click(function(){
+		$("#checked").val(0);
+		$("#computers_check_form").submit();
+	});
+	$("#check_all").click(function(){
+		var checked = this.checked;
+		$("tbody input[type=checkbox]").each(function(){
+			this.checked = checked;
+		});
+	});
+
+});
+</script>

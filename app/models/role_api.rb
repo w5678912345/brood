@@ -8,6 +8,7 @@ module RoleApi
     # get computer
     computer = Computer.find_by_auth_key(opts[:ckey])
     return CODES[:not_find_computer] unless computer
+		return CODES[:computer_unchecked] unless computer.checked
     # get ip
     ip = Ip.find_by_value(opts[:ip])
     if ip

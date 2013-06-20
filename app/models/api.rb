@@ -13,7 +13,8 @@ CODES = {
    :role_not_online  => -7,
    :ip_used  => -8,
    :role_has_closed => -9,
-	 :not_valid_pay => -10
+	 :not_valid_pay => -10,
+	 :computer_unchecked => -11
   }
 
   EVENTS = {}

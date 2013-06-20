@@ -11,16 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130619014105) do
+ActiveRecord::Schema.define(:version => 20130620014435) do
 
   create_table "computers", :force => true do |t|
-    t.string   "hostname",                   :null => false
-    t.integer  "user_id",                    :null => false
-    t.string   "auth_key",                   :null => false
-    t.integer  "status",      :default => 1, :null => false
-    t.integer  "roles_count", :default => 0, :null => false
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
+    t.string   "hostname",                         :null => false
+    t.integer  "user_id",                          :null => false
+    t.string   "auth_key",                         :null => false
+    t.integer  "status",        :default => 1,     :null => false
+    t.integer  "roles_count",   :default => 0,     :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+    t.boolean  "checked",       :default => false, :null => false
+    t.integer  "check_user_id", :default => 0
+    t.datetime "checked_at"
   end
 
   create_table "ips", :primary_key => "value", :force => true do |t|

@@ -3,29 +3,32 @@ Brood::Application.routes.draw do
   devise_for :users,:path => '/'
   #
   resources :roles do
-    get :home,  :on => :collection
-    get :import, :on => :collection
-    get :can,     :on => :collection
-    get :online,  :on => :collection
-    get :offline,  :on => :collection
-    get :closed,   :on => :collection
-    get :not_closed, :on => :collection
-    get :search,  :on => :collection
-    get :auto_off,     :on => :collection
-    get :notes,   :on => :member
-		get :payments, :on => :member
+    get		:home,  :on => :collection
+    get		:import, :on => :collection
+    get 	:can,     :on => :collection
+    get 	:online,  :on => :collection
+    get 	:offline,  :on => :collection
+    get 	:closed,   :on => :collection
+    get 	:not_closed, :on => :collection
+    get 	:search,  :on => :collection
+    get 	:auto_off,     :on => :collection
+    get 	:notes,   :on => :member
+		get 	:payments, :on => :member
   end
 
   resources :computers do 
-    get :home,  :on => :collection
-    get :notes, :on => :member
-    get :roles, :on => :member
+    get 	:home,  		:on => :collection
+		get 	:checked,		:on => :collection
+		get 	:unchecked,	:on => :collection
+		put		:check,			:on	=> :collection
+    get 	:notes, 		:on => :member
+    get 	:roles, 		:on => :member
   end
   resources :ips,:only => [:index,:destroy,:show] do 
-    get :clear, :on => :collection
-    #get :reset, :on => :collection
-    get :roles,:on => :member
-    get :notes,:on => :member
+    get :clear, 		:on => :collection
+    #get :reset, 		:on => :collection
+    get :roles,			:on => :member
+    get :notes,			:on => :member
   end
   resources :sheets ,:only =>[:index,:create,:destroy] do
     get :import, :on => :member

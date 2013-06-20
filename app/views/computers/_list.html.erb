@@ -1,27 +1,48 @@
 <div class="alert">
 <strong>提示信息:</strong>
+<button type="button" class="close" data-dismiss="alert">&times;</button>
 <span><%= @computers.total_entries%>个computer</span> 
 </div>
 <table class="table table table-bordered table-condensed">
 <thead>
-	<th>ID</th>
-	<th>Hostname</th>
+<tr>
+	<td colspan="7" class="left">
+		<label class="checkbox">
+		<input type="checkbox" id="check_all" name="check_all"  />全选
+		</label>
+	</td>
+	<td>
+			<%= button_tag "通过",:class=>"btn btn-success btn-small",:id =>"pass_button",:type => 'button'%>
+			<%= button_tag "拒绝",:class=>"btn btn-danger btn-small",:id =>"not_pass_button",:type => 'button'%>
+	</td>
+</tr>
+<tr>
+	<th>选择</th>
+	<th>主机名</th>
 	<th>Auth Key</th>
-  <th>Roles Count</th>
-	<th>Created At</th>
-  <th>User</th>
-	<th>Operate</th>
+  <th>在线角色</th>
+	<th>创建时间</th>
+	<th>审核</th>
+  <th>用户</th>
+	<th>操作</th>
+</tr>
+
 </thead>
 <tbody>
 <% @computers.each do |computer|%>
 <tr>
-<td><%= computer.id %></td>
+<td>
+<label class="checkbox">
+<%= check_box_tag 'ids[]',computer.id%>
+<%= computer.id %>
+</label>
+</td>
 <td><%= link_to computer.hostname,computer_path(computer) %></td>
 <td><%= computer.auth_key %></td>
 <td><%= link_to computer.roles_count,roles_computer_path(computer) %></td>
-<td><%= computer.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+<td><%= time_str computer.created_at %></td>
+<td><%= computer.checked ? raw('<span class="label label-success">通过</span>') : raw('<span class="label label-important">未通过</span>') %></td>
 <td><%= computer.user.name %></td>
-
 <td>
 <div class="btn-group">
     <%= link_to "查看", computer_path(computer),:class=>"btn" %>
@@ -40,4 +61,4 @@
 <%end%>
 </tbody>
 </table>
-<%= will_paginate @computers %>
+<%= will_paginate @computers %> 
