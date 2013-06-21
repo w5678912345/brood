@@ -10,6 +10,8 @@ module RoleApi
     computer = Computer.find_by_auth_key(opts[:ckey])
     return CODES[:not_find_computer] unless computer
 		return CODES[:computer_unchecked] unless computer.checked
+		max_roles_count = Setting.find_value_by_key("computer_max_roles_count")
+		return CODES[:full_use_computer] if max_roles_count && computer.roles_count >= max_roles_count 
     # get ip
     ip = Ip.find_by_value(opts[:ip])
     if ip

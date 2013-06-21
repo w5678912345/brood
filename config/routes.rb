@@ -54,7 +54,11 @@ Brood::Application.routes.draw do
 		get :home,		:on => :collection
 		get :search,	:on => :collection		
 	end
-
+	
+	resources :gold, :only => [:index] do
+		get :home,		:on => :collection
+		get :search,	:on => :collection
+	end
 
   
   root :to => 'api/base#readme'

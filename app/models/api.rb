@@ -17,7 +17,8 @@ CODES = {
 	 :computer_unchecked => -11,
 	 :not_valid_role => -12,
 	 :computer_error => -13,
-	 :role_server_is_nil => -14
+	 :role_server_is_nil => -14,
+	 :full_use_computer => -15
   }
 
   EVENTS = {}
