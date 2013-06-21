@@ -4,7 +4,7 @@
 <thead>
 <th class="span2">URL</th>
 <th>Paramters</th>
-<th>Code</th>
+<th class="span3">Code</th>
 </thead>
 <tbody>
 
@@ -30,48 +30,53 @@
 
 <tr>
 <td>roles/online.json</td>
-<td>搜索一个合适的role在 ckey 对应的computer 上线</td>
+<td>搜索一个合适的role在 ckey 对应的computer 上线。参数: ckey => 计算机key</td>
 <tr>
 <td>roles/:id.json</td>
-<td>通过id获取role</td>
+<td>通过id获取role。参数: ckey => 计算机key</td>
 
 </tr>
 
 <tr>
 <td>roles/:id/on.json</td>
-<td>通过id使role在ckey对应的computer上线</td>
+<td>通过id使role在ckey对应的computer上线，参数: ckey => 计算机key</td>
 
 </tr>
 
 <tr>
 <td>roles/:id/off.json</td>
-<td>通过id使role下线</td>
+<td>通过id使role下线，参数: ckey => 计算机key</td>
 
 </tr>
 
 <tr>
 <td>roles/:id/sync.json</td>
-<td>通过id修改role的属性 server,level,role_index,vit_power,gold</td>
+<td>通过id修改role的属性 server,level,role_index,vit_power,gold，ckey => 计算机key</td>
 
 </tr>
 
 <tr>
 <td>roles/:id/close.json</td>
-<td>通过id关闭role，参数：h => 关闭的小时数</td>
+<td>通过id关闭role，参数：h => 关闭的小时数， ckey => 计算机key</td>
 
 </tr>
 
 <tr>
 <td>roles/:id/note.json</td>
-<td>通过id记录role的code，参数：code => 代码</td>
+<td>通过id记录role的code，参数：code => 代码，ckey => 计算机key</td>
 
 </tr>
 
 <tr>
 <td>roles/:id/pay.json</td>
-<td>通过id记录role的金币支出。参数： gold => 支出金币数, balance => 余额, pay_type => 支出方式, reamrk => 备注(选填)</td>
-
+<td>通过id记录role的金币支出。参数： gold => 支出金币数, balance => 余额, pay_type => 支出方式, reamrk => 备注(选填)，ckey => 计算机key</td>
 </tr>
+
+<tr>
+<td>roles/add.json</td>
+<td>添加一个角色，参数： account => 帐号, password => 密码, ckey => 计算机的key</td>
+</tr>
+
 
 
 

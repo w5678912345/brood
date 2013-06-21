@@ -11,6 +11,8 @@ class Role < ActiveRecord::Base
 
   #default_scope :order => 'id DESC'
 
+	validates_presence_of :account, :password
+	#
   scope :can_online_scope, where(:online => false).where(:close => false).where("vit_power > 0").order("vit_power desc").order("level desc")
 
 

@@ -14,7 +14,9 @@ CODES = {
    :ip_used  => -8,
    :role_has_closed => -9,
 	 :not_valid_pay => -10,
-	 :computer_unchecked => -11
+	 :computer_unchecked => -11,
+	 :not_valid_role => -12,
+	 :computer_error => -13
   }
 
   EVENTS = {}
@@ -24,9 +26,8 @@ CODES = {
    def self.role_auto_offline
     last_at = Time.now.ago(10.minutes).strftime("%Y-%m-%d %H:%M:%S")
     roles = Role.where(:online=>true).where("updated_at < '#{last_at}'")
-    opts = Hash.new
     roles.each do |role|
-      role.api_offline opts if role.online
+      role.api_offline Hash.new(:cid=>role.computer_id,:ip=>role.ip) if role.online
     end
   end
 

@@ -72,6 +72,7 @@ Brood::Application.routes.draw do
     match '/' => 'base#readme'
     match '/reg'  => 'computers#reg'
     resources :roles ,:only => [:show],:defaults => { :format => 'json' } do
+			
       match :close,   :on => :member
       match :on,      :on => :member
       match :off,     :on => :member
@@ -79,6 +80,7 @@ Brood::Application.routes.draw do
 			match :note,		:on => :member
 			match :pay,			:on => :member
       #
+			match :add,			:on => :collection
       match :online, :on => :collection
     end
   end

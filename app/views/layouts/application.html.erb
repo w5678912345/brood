@@ -17,7 +17,6 @@
 	    <%= render "/layouts/navbar" %>
     </div><!--/.nav-collapse  administrator -->
     <div class="btn-group pull-right">
-      <a class="btn"><i class=" icon-time"></i><%= Time.now.strftime("%Y-%m-%d %H:%M") %></a>
       <a class="btn" href="#"><i class="icon-user"></i><%= current_user.name %></a>
       
       <%= link_to '<i class="icon-off"></i>退出'.html_safe,destroy_user_session_path,:class=>"btn",:method=>"delete" %>
