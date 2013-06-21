@@ -13,7 +13,7 @@ class Role < ActiveRecord::Base
 
 	validates_presence_of :account, :password
 	#
-  scope :can_online_scope, where(:online => false).where(:close => false).where("vit_power > 0").order("vit_power desc").order("level desc")
+  scope :can_online_scope, where(:online => false).where(:close => false).where("vit_power > 0").where("server IS NOT NULL").order("vit_power desc").order("level desc")
 
 
   def total_gold

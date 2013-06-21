@@ -1,2 +1,8 @@
 <%= render "navbar" %>
 
+
+<ul>
+<% @payments.each do  |pm| %>
+	<li><%= pm.role.account %>-------------><%= pm.total %></li>			
+<%end%>
+</ul>

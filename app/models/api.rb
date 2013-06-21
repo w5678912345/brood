@@ -16,7 +16,8 @@ CODES = {
 	 :not_valid_pay => -10,
 	 :computer_unchecked => -11,
 	 :not_valid_role => -12,
-	 :computer_error => -13
+	 :computer_error => -13,
+	 :role_server_is_nil => -14
   }
 
   EVENTS = {}

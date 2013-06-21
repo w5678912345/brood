@@ -57,8 +57,10 @@ class ComputersController < ApplicationController
   end
 
   def destroy
-  	@computer = Computer.find(params[:id])
-  	@computer.destroy
+  	@computer = Computer.find_by_id(params[:id])
+		if @computer && @computer.roles_count ==0
+			@computer.destroy
+		end
     redirect_to computers_path()
   end
 

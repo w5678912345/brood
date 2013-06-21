@@ -1,7 +1,7 @@
 <% active = 'class=active'%>
 <ul class="nav nav-tabs">
 <li <%= active if controller_name == 'payments' && action_name == 'home' %>>
- <%= link_to raw('<i class="icon-home"></i>Home'), home_payments_path %>
+ <%= link_to raw('<i class="icon-home"></i>金币首页'), home_payments_path %>
 </li>
 
 <li <%= active if controller_name == "payments" && action_name == 'index' %> >

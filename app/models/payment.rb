@@ -13,8 +13,17 @@ class Payment < ActiveRecord::Base
 		validates_length_of :remark, :maximum => 200
 		
 		default_scope :order => 'id DESC'
+
+		scope :total_group_role_scope,includes(:role).select("role_id,max(total) as total").group("role_id")
 		
 
 		# select role_id, sum(gold) from payments group by pay_type;
 		# select pay_type, sum(gold) from payments group by pay_type;
+		#SELECT max(total) as total FROM `payments` GROUP BY role_id ORDER BY id DESC
+
+		
+		def self.total_count
+				#Payment.select("max(total) as total").group("role_id")
+		end
+
 end

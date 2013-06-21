@@ -2,7 +2,7 @@
 class PaymentsController < ApplicationController
 
 		def home
-			
+			@payments = Payment.total_group_role_scope
 		end
 		
 		def index
