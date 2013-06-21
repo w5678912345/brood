@@ -22,13 +22,15 @@ CODES = {
 
   EVENTS = {}
 
-  
 
    def self.role_auto_offline
     last_at = Time.now.ago(10.minutes).strftime("%Y-%m-%d %H:%M:%S")
     roles = Role.where(:online=>true).where("updated_at < '#{last_at}'")
+		opts = Hash.new()
     roles.each do |role|
-      role.api_offline Hash.new(:cid=>role.computer_id,:ip=>role.ip) if role.online
+			opts[:cid] = role.computer_id
+			opts[:ip] = role.ip
+      role.api_offline opts if role.online
     end
   end
 

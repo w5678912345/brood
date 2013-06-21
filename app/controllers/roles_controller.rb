@@ -10,25 +10,25 @@ class RolesController < ApplicationController
 
 	def online
 		@roles = Role.includes(:computer).where(:online=>true).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
-		@list_title = "Online Roles"
+		@list_title = "已在线角色"
 		render :template => 'roles/index'
 	end
 
 	def offline
 		@roles = Role.includes(:computer).where(:online=>false).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
-		@list_title = "Offline Roles"
+		@list_title = "未在线角色"
 		render :template => 'roles/index'
 	end
 
 	def closed
 		@roles = Role.includes(:computer).where(:close =>true).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
-		@list_title = "Closed Roles"
+		@list_title = "已封号"
 		render :template => 'roles/index'
 	end
 
 	def not_closed
 		@roles = Role.includes(:computer).where(:close =>false).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
-		@list_title = "Not closed Roles"
+		@list_title = "未封号"
 		render :template => 'roles/index'
 	end
 
@@ -40,6 +40,7 @@ class RolesController < ApplicationController
 		@roles = @roles.where("level <= #{params[:max_level]}") unless params[:max_level].blank?
 		@roles = @roles.where("vit_power >= #{params[:min_vit]}") unless params[:min_vit].blank?
 		@roles = @roles.where("vit_power <= #{params[:max_vit]}") unless params[:max_vit].blank?
+		@roles = @roles.where(:server => params[:server]) unless params[:server].blank?
 		@roles = @roles.paginate(:page => params[:page], :per_page => 10)
 	end
 

@@ -11,9 +11,10 @@ class Payment < ActiveRecord::Base
 		validates_numericality_of :balance, :only_integer => true, :greater_than_or_equal_to => 0
 		
 		validates_length_of :remark, :maximum => 200
-		
+		#
 		default_scope :order => 'id DESC'
-
+		scope	:pay_type_scope,lambda {|pay_type|where(:pay_type => pay_type )}
+		#
 		scope :total_group_role_scope,includes(:role).select("role_id,max(total) as total").group("role_id")
 		
 

@@ -1,15 +1,15 @@
 <% active = 'class=active'%>
 <ul class="nav nav-tabs">
 <li <%= active if controller_name == 'notes' && action_name == 'home' %>>
- <%= link_to raw('<i class="icon-home"></i>Note Home'), home_notes_path %>
+ <%= link_to raw('<i class="icon-home"></i>记录主页'), home_notes_path %>
 </li>
 
 <li class="dropdown">
   	<a href="<%= roles_path %>" class="dropdown-toggle" data-toggle="dropdown">
-  		<i class="icon-list"></i>Notes List<b class="caret"></b>
+  		<i class="icon-list"></i>记录列表<b class="caret"></b>
   	</a>
   	<ul class="dropdown-menu">
-      <li><%= link_to "All Notes",notes_path %></li>
+      <li><%= link_to "所有记录",notes_path %></li>
       <li><%= link_to "Online Notes",online_notes_path %></li>
       <li><%= link_to "Offline Notes",offline_notes_path %></li>
       <li><%= link_to "Sync Noles",sync_notes_path %></li>
@@ -21,7 +21,7 @@
 
 
 <li <%= active if controller_name == 'notes' && action_name == 'search' %>>
- <%= link_to raw('<i class="icon-search"></i>Search Notes'), search_notes_path %>
+ <%= link_to raw('<i class="icon-search"></i>搜索记录'), search_notes_path %>
 </li>
 
 

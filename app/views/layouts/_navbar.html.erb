@@ -2,26 +2,26 @@
 <li><a href="/"><span class="icon-home"></span>Home</a></li>
 
 <li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Role
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">角色
     <b class="caret"></b></a>
     <ul class="dropdown-menu">
     <li class="nav-header">Role</li>
-    <li><%= link_to "Home", home_roles_path()%></li>
-    <li><%= link_to "List", roles_path()%></li>
-    <li><%= link_to "Search", search_roles_path()%></li>
-    <li><%= link_to "new",new_role_path()%></li>
+    <li><%= link_to "角色主页", home_roles_path()%></li>
+    <li><%= link_to "角色列表", roles_path()%></li>
+    <li><%= link_to "搜索角色", search_roles_path()%></li>
+    <li><%= link_to "新建角色",new_role_path()%></li>
     </ul>
 </li>
 
 
 <li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Computer
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">计算机
     <b class="caret"></b></a>
     <ul class="dropdown-menu">
     <li class="nav-header">Computer</li>
-    <li><%= link_to "Home", home_computers_path()%></li>
-    <li><%= link_to "List", computers_path()%></li>
-    <li><%= link_to "New", new_computer_path()%></li>
+    <li><%= link_to "计算机主页", home_computers_path()%></li>
+    <li><%= link_to "计算机列表", computers_path()%></li>
+    <li><%= link_to "新建计算机", new_computer_path()%></li>
     </ul>
 </li>
 
@@ -30,38 +30,38 @@
     <b class="caret"></b></a>
     <ul class="dropdown-menu">
     <li class="nav-header">IP</li>
-    <li><%= link_to "List", ips_path()%></li>
+    <li><%= link_to "IP 列表", ips_path()%></li>
     </ul>
 </li>
 
 
 
 <li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Note
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">记录
     <b class="caret"></b></a>
     <ul class="dropdown-menu">
     <li class="nav-header">Note</li>
-    <li><%= link_to "Home", home_notes_path()%></li>
-    <li><%= link_to "List", notes_path()%></li>
-    <li><%= link_to "Search", search_notes_path()%></li>
+    <li><%= link_to "记录主页", home_notes_path()%></li>
+    <li><%= link_to "记录列表", notes_path()%></li>
+    <li><%= link_to "搜索记录", search_notes_path()%></li>
     </ul>
 </li>
 
 <li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Version
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">版本
     <b class="caret"></b></a>
     <ul class="dropdown-menu">
     <li class="nav-header">Version</li>
-    <li><%= link_to "Index", versions_path()%></li>
+    <li><%= link_to "版本列表", versions_path()%></li>
     </ul>
 </li>
 
 <li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Setting
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">设置
     <b class="caret"></b></a>
     <ul class="dropdown-menu">
-    <li class="nav-header">Setting</li>
-    <li><%= link_to "Index", settings_path()%></li>
+    <li class="nav-header">SETTING</li>
+    <li><%= link_to "设置列表", settings_path()%></li>
     </ul>
 </li>
 
@@ -71,9 +71,11 @@
     <b class="caret"></b></a>
     <ul class="dropdown-menu">
 		<li class="nav-header">产出统计</li>
-    <li><%= link_to "产出统计", home_payments_path()%></li>
-    <li class="nav-header">支出记录</li>
+    
+    <li class="nav-header">金币支出</li>
+		<li><%= link_to "支出主页", home_payments_path()%></li>
     <li><%= link_to "所有支出", payments_path()%></li>
+		<li><%= link_to "搜索支出记录", search_payments_path()%></li>
     </ul>
 </li>
 

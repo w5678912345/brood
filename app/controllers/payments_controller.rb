@@ -2,11 +2,15 @@
 class PaymentsController < ApplicationController
 
 		def home
-			@payments = Payment.total_group_role_scope
+			#@payments = Payment.total_group_role_scope
+			@payments = Payment.select("pay_type,sum(gold) as zhichu").group("pay_type")
+			@sum_gold = Payment.sum(:gold)
 		end
 		
 		def index
-			@payments = Payment.paginate(:page => params[:page],:per_page => 20)
+			@payments = Payment.includes(:role)
+			@payments = @payments.where(:pay_type => params[:type]) unless params[:type].blank?
+			@payments = @payments.paginate(:page => params[:page],:per_page => 20)
 		end
 		
 		def search

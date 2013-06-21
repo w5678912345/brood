@@ -1,30 +1,30 @@
 <% active = 'class=active'%>
 <ul class="nav nav-tabs">
 <li <%= active if controller_name == 'roles' && action_name == 'home' %>>
- <%= link_to raw('<i class="icon-home"></i>Role Home'), home_roles_path %>
+ <%= link_to raw('<i class="icon-home"></i>角色主页'), home_roles_path %>
 </li>
 <li class="dropdown">
   	<a href="<%= roles_path %>" class="dropdown-toggle" data-toggle="dropdown">
-  		<i class="icon-list"></i>Role List<b class="caret"></b>
+  		<i class="icon-list"></i>角色列表<b class="caret"></b>
   	</a>
   	<ul class="dropdown-menu">
-      <li><%= link_to "All Roles",roles_path %></li>
-      <li><%= link_to "Online Roles",online_roles_path %></li>
-      <li><%= link_to "Offline Roles",offline_roles_path %></li>
+      <li><%= link_to "所有角色",roles_path %></li>
+      <li><%= link_to "在线列表",online_roles_path %></li>
+      <li><%= link_to "未在线列表",offline_roles_path %></li>
       <li class="divider"></li>
-       <li><%= link_to "Closed Roles",closed_roles_path %></li>
-      <li><%= link_to "Not Closed Roles",not_closed_roles_path %></li>
+       <li><%= link_to "已封号列表",closed_roles_path %></li>
+      <li><%= link_to "未封号列表",not_closed_roles_path %></li>
     </ul>
 </li>
 
 <li <%= active if controller_name == "roles" && action_name == 'search' %> >
- <%= link_to raw('<i class="icon-search"></i>Search Roles'), search_roles_path %>
+ <%= link_to raw('<i class="icon-search"></i>搜索角色'), search_roles_path %>
 </li>
 <li <%= active if controller_name == "roles" && action_name == 'new' %> >
- <%= link_to raw('<i class="icon-plus"></i>New Role'), new_role_path %>
+ <%= link_to raw('<i class="icon-plus"></i>新建角色'), new_role_path %>
 </li>
 
 <li <%= active if controller_name == "sheets" %> >
- <%= link_to raw('<i class=" icon-folder-open"></i>Import Roles'), sheets_path %>
+ <%= link_to raw('<i class=" icon-folder-open"></i>导入角色'), sheets_path %>
 </li>
 </ul>
