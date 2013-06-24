@@ -25,7 +25,7 @@ class OutputsController < ApplicationController
 	end
 		
 	def histroy
-
+			
 	end
 
 end

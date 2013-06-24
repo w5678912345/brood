@@ -62,6 +62,11 @@ Brood::Application.routes.draw do
 		get :histroy,	:on => :collection
 	end
 
+	resources :users, :only => [:index,:new,:create,:show] do
+				
+	end
+	
+
   
   root :to => 'api/base#readme'
 
