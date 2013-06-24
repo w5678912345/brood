@@ -1,6 +1,7 @@
 # encoding: utf-8
 class VersionsController < ApplicationController
-
+	
+	 load_and_authorize_resource :class => "Version"
 	 after_filter  :set_version
   #
 

@@ -1,7 +1,8 @@
 # encoding: utf-8
 class SheetsController < ApplicationController
 	
-
+	load_and_authorize_resource :class => "Sheet"
+	
 	def index
 		@sheet = Sheet.new
 		@sheets= Sheet.paginate(:page => params[:page], :per_page => 10)

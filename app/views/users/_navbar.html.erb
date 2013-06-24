@@ -1,0 +1,14 @@
+<% active = 'class=active'%>
+<ul class="nav nav-tabs">
+<li <%= active if controller_name == 'users' && action_name == 'index' %>>
+ <%= link_to raw('<i class="icon-list"></i>用户列表'),users_path  %>
+</li>
+
+
+
+<li <%= active if controller_name == 'users' && action_name == 'new' %>>
+ <%= link_to raw('<i class="icon-plus"></i>新建用户'),new_user_path  %>
+</li>
+
+
+</ul>

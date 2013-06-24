@@ -1,0 +1,46 @@
+<%= form_for(@user,:html=>{:class=>"form-horizontal"}) do |f|  %>
+<div class="control-group">
+<label class="control-label">邮箱:</label>
+<div class="controls docs-input-sizes" >
+	<%= f.text_field :email,:required=>"required"  %>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label">密码:</label>
+<div class="controls docs-input-sizes" >
+	<%= f.password_field :password,:required=>"required"  %>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label">确认密码:</label>
+<div class="controls docs-input-sizes" >
+	<%= f.password_field :password_confirmation,:required=>"required"  %>
+</div>
+</div>
+
+<div class="control-group">
+<label class="control-label">姓名:</label>
+<div class="controls docs-input-sizes" >
+	<%= f.text_field :name,:required=>"required"  %>
+</div>
+</div>
+
+
+
+
+<div class="control-group">
+<div class="controls">
+	<%= f.submit "保存", :class => "btn btn-success"%>
+</div>
+</div>
+<%end%>
+
+
+<script type="text/javascript">
+/**/
+$(function(){
+$("form[id=edit_user_<%= @user.id %>]").validate();
+$("form[id=new_user]").validate();
+});
+</script>

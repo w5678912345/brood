@@ -62,7 +62,7 @@ Brood::Application.routes.draw do
 		get :histroy,	:on => :collection
 	end
 
-	resources :users, :only => [:index,:new,:create,:show] do
+	resources :users, :only => [:index,:new,:create,:show,:edit,:update,:destroy] do
 				
 	end
 	

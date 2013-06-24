@@ -1,7 +1,7 @@
 # encoding: utf-8
 class RolesController < ApplicationController
 	#filters
-	#before_filter :require_service
+	load_and_authorize_resource :class => "Role"
 
 	# actions
 	def index

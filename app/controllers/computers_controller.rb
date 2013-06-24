@@ -1,5 +1,7 @@
 # encoding: utf-8
 class ComputersController < ApplicationController
+
+	load_and_authorize_resource :class => "Computer"
   
   def index
   	@computers= Computer.includes(:user).paginate(:page => params[:page], :per_page => 15)

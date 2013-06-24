@@ -1,5 +1,8 @@
 # encoding: utf-8
 class IpsController < ApplicationController
+	
+	#load_and_authorize_resource :class => "Ip"
+	
 	before_filter :set_ip
 
 	def index
