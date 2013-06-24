@@ -1,16 +1,27 @@
-<h2>Sign in</h2>
+<fieldset>
+<legend>登录</legend>
+<%= form_for(resource, :as => resource_name, :url => session_path(resource_name),:class=>"form-horizontal") do |f| %>
+<div class="control-group">
+  <label class="control-label" for="inputEmail">邮 箱：</label>
+  <div class="controls">
+		<%= f.email_field :email, :autofocus => true,:placeholder=>"Email" %>
+  </div>
+</div>
 
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+<div class="control-group">
+  <label class="control-label" for="inputEmail">密 码：</label>
+  <div class="controls">
+		<%= f.password_field :password,:placeholder=>"Password" %>
+  </div>
+</div>
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
 
-  <% if devise_mapping.rememberable? -%>
-    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
-  <% end -%>
+<% if devise_mapping.rememberable? -%>
+<label class="checkbox">
+  <%= f.check_box :remember_me %> 记住登录
+</label>
+<% end -%>
 
-  <div><%= f.submit "Sign in" %></div>
+<div><%= f.submit "登 录",:class=>"btn btn-primary" %></div>
 <% end %>
-
+</fieldset>
