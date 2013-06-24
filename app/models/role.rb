@@ -7,22 +7,23 @@ class Role < ActiveRecord::Base
 	has_many	 :payments
 
   attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip
-  attr_accessible :close,:close_hours,:closed_at,:reopen_at,:gold
+  attr_accessible :close,:close_hours,:closed_at,:reopen_at
 
   #default_scope :order => 'id DESC'
 
 	validates_presence_of :account, :password
 	#
   scope :can_online_scope, where(:online => false).where(:close => false).where("vit_power > 0").where("server IS NOT NULL").order("vit_power desc").order("level desc")
+	
 
 
   def total_gold
 			self.gold + self.total_pay
 	end
 
-	def total_pay
-		self.payments.sum(:gold)
-	end
+	#def total_pay
+		#self.payments.sum(:gold)
+	#end
 
   def self.get_role
     roles = self.can_online_scope

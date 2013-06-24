@@ -52,10 +52,11 @@ Brood::Application.routes.draw do
 
 	resources :payments , :only => [:index,:show] do
 		get :home,		:on => :collection
-		get :search,	:on => :collection		
+		get :search,	:on => :collection
+		get :roles,		:on => :collection		
 	end
-	
-	resources :gold, :only => [:index] do
+
+	resources :outputs, :only => [:index] do
 		get :home,		:on => :collection
 		get :search,	:on => :collection
 	end

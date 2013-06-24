@@ -3,7 +3,7 @@
 <li <%= active if controller_name == 'roles' && action_name == 'home' %>>
  <%= link_to raw('<i class="icon-home"></i>角色主页'), home_roles_path %>
 </li>
-<li class="dropdown">
+<li class="dropdown <%= 'active' if @list_title || action_name == 'index'%>">
   	<a href="<%= roles_path %>" class="dropdown-toggle" data-toggle="dropdown">
   		<i class="icon-list"></i>角色列表<b class="caret"></b>
   	</a>

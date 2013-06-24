@@ -1,0 +1,30 @@
+<div class="alert">
+<strong>提示信息:</strong>
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<span>共<%= @roles.total_entries%>个角色产出了 <%= @roles.sum(:total)%>金币 </span> 
+</div>
+<table class="table table-bordered table-condensed">
+<thead>
+	<th>ID</th>
+	<th>角色</th>
+	<th>服务器</th>
+	<th>等级</th>
+  <th>金币余额</th>
+	<th>累计支出</th>
+	<th>累计产出</th>
+</thead>
+<tbody>
+<% @roles.each do |role|%>
+<tr>
+	<td><%= role.id %></td>
+	<td><%= link_to "#{role.account}##{role.role_index}",role_path(role) %></td>
+	<td><%= role.server %></td>
+	<td><%= role.level %></td>
+	<td><%= role.gold %></td>
+	<td><%= link_to role.total_pay,payments_role_path(role) %></td>
+	<td><%= role.total %></td>
+</tr>
+<% end %>
+</tbody>
+</table>
+<%= will_paginate @roles,inner_window: 1, outer_window: 0  %>

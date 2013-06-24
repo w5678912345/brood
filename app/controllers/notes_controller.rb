@@ -11,6 +11,7 @@ class NotesController < ApplicationController
 
 	def search
 		@notes = Note.includes(:computer,:role)
+		@notes = @notes.where(:role_id => params[:role_id]) unless params[:role_id].blank?
 		@notes = @notes.where(:api_name => params[:event]) unless params[:event].blank?
 		@notes = @notes.where("created_at >= '#{params[:min_time]}'") unless params[:min_time].blank?
 		@notes = @notes.where("created_at <= '#{params[:max_time]}'") unless params[:max_time].blank?

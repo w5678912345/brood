@@ -6,14 +6,14 @@
 <table class="table table-bordered table-condensed">
 <thead>
 	<th>ID</th>
-	<th>Account</th>
-	<th>Role Index</th>
-	<th>Server</th>
-	<th>Level</th>
-	<th>Vit Power</th>
-  <th>Gold</th>
-	<th>Online</th>
-	<th>Operate</th>
+	<th>帐号</th>
+	<th>Index</th>
+	<th>服务器</th>
+	<th>等级</th>
+	<th>疲劳值</th>
+  <th>金币：余额/产出</th>
+	<th>在线</th>
+	<th>操作</th>
 </thead>
 <tbody>
 <% @roles.each do |role| %>
@@ -24,7 +24,7 @@
 <td><%= role.server%></td>
 <td><%= role.level%></td>
 <td><%= role.vit_power %></td>
-<td><%= role.gold %></td>
+<td><%= role.gold %>/<%= role.total%></td>
 <td>
 <% if role.online %>
 <%= link_to role.computer.hostname , computer_path(role.computer) if role.computer %>#<%= link_to role.ip,roles_ip_path(ip_to_url role.ip) %>

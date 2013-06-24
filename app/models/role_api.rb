@@ -54,6 +54,7 @@ module RoleApi
      #...
      self.transaction do
       #Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync")
+			self.total = self.total_pay + self.gold if self.gold_changed?
       return 1 if self.save
      end
   end
@@ -88,12 +89,16 @@ module RoleApi
 		ip = Ip.find_by_value(opts[:ip] || self.ip)
     ip = Ip.create(:value => opts[:ip]) unless ip
 		self.transaction do
-			note = Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"pay")
+			note = Note.create(:role_id=>self.id,:computer_id=>self.computer.id,:ip=>ip.value,:api_name=>"pay")
 			payment = Payment.new(:role_id=>self.id,:gold => opts[:gold],:balance => opts[:balance],:remark => opts[:remark],:note_id => note.id,:pay_type=>opts[:pay_type])	
 			return CODES[:not_valid_pay] unless payment.valid? # validate not pass
-			payment.total = self.total_pay + payment.balance+ payment.gold	
-			self.update_attributes(:gold => payment.balance)
-			return 1 if  payment.save
+			self.gold = payment.balance			 #当前金币 = 支出后的余额
+			self.total_pay = self.total_pay + payment.gold # 累计支出
+			self.total = payment.total = self.total_pay + payment.balance # 产出总和
+			
+			#payment.total = self.total_pay + payment.balance
+			payment.save
+			return 1 if  self.save
 		end
 	end
 

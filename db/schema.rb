@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130620014435) do
+ActiveRecord::Schema.define(:version => 20130624023319) do
 
   create_table "computers", :force => true do |t|
     t.string   "hostname",                         :null => false
@@ -76,6 +76,8 @@ ActiveRecord::Schema.define(:version => 20130620014435) do
     t.integer  "close_hours"
     t.datetime "closed_at"
     t.datetime "reopen_at"
+    t.integer  "total",                     :default => 0,     :null => false
+    t.integer  "total_pay",                 :default => 0,     :null => false
   end
 
   create_table "settings", :force => true do |t|

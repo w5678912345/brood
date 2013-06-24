@@ -1,17 +1,17 @@
 <form class="form-search" action="<%= search_notes_path %>">
-  Time:
-  <input type="text" name="min_time" class="input-medium search-query" placeholder="from" value="<%= params[:min_time]%>" />-
-  <input type="text" name="max_time" class="input-medium search-query" placeholder="to" value="<%= params[:max_time]%>" />
-  Event:
-  <select name="event" class="input-small">
-  	<option value="">---all---</option>
-  	<option value="online">online</option>
-  	<option value="offline">offline</option>
-    <option value="sync">sync</option>
-    <option value="close">close</option>
-    <option value="reg">reg</option>
-  </select>
- 	Code:
-	<input type="text" name="code" class="input-small" placeholder="Code" value="<%= params[:code]%>" />
-  <button type="submit" class="btn">Search</button>
+时间:<input type="text" name="min_time" class="input-medium search-query" placeholder="from" value="<%= params[:min_time]%>" />-
+<input type="text" name="max_time" class="input-medium search-query" placeholder="to" value="<%= params[:max_time]%>" />
+Event:
+<select name="event" class="input-small">
+	<option value="">---all---</option>
+	<option value="online">online</option>
+	<option value="offline">offline</option>
+  <option value="sync">sync</option>
+  <option value="close">close</option>
+  <option value="reg">reg</option>
+	<option value="pay">pay</option>
+</select>
+<input type="text" name="code" class="input-small" placeholder="Code" value="<%= params[:code]%>" />
+<input type="text" name="role_id" class="input-small" placeholder="角色ID" value="<%= params[:role_id]%>" />
+<button type="submit" class="btn">Search</button>
 </form>

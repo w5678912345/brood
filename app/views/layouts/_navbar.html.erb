@@ -1,15 +1,23 @@
 <ul class="nav">
 <li><a href="/"><span class="icon-home"></span>Home</a></li>
-
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">角色
     <b class="caret"></b></a>
-    <ul class="dropdown-menu">
-    <li class="nav-header">Role</li>
-    <li><%= link_to "角色主页", home_roles_path()%></li>
-    <li><%= link_to "角色列表", roles_path()%></li>
-    <li><%= link_to "搜索角色", search_roles_path()%></li>
-    <li><%= link_to "新建角色",new_role_path()%></li>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+		  <li class="nav-header">Role</li>
+		  <li><%= link_to "角色主页", home_roles_path()%></li>
+		  <li class="dropdown-submenu"><%= link_to "角色列表", roles_path()%>
+					<ul class="dropdown-menu">
+						<li><a href="/roles">所有角色</a></li>
+						<li><a href="/roles/online">在线列表</a></li>
+						<li><a href="/roles/offline">未在线列表</a></li>
+						<li class="divider"></li>
+						 <li><a href="/roles/closed">已封号列表</a></li>
+						<li><a href="/roles/not_closed">未封号列表</a></li>
+					</ul>
+			</li>
+		  <li><%= link_to "搜索角色", search_roles_path()%></li>
+		  <li><%= link_to "新建角色",new_role_path()%></li>
     </ul>
 </li>
 
@@ -47,6 +55,22 @@
     </ul>
 </li>
 
+
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">金币
+    <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+		<li class="nav-header">金币产出</li>
+		<li><%= link_to "金币情况", home_outputs_path()%></li>
+		<li><%= link_to "产出列表", outputs_path()%></li>
+    <li class="nav-header">金币支出</li>
+		<li><%= link_to "支出主页", home_payments_path()%></li>
+    <li><%= link_to "所有支出", payments_path()%></li>
+		<li><%= link_to "搜索支出记录", search_payments_path()%></li>
+    </ul>
+</li>
+
+
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">版本
     <b class="caret"></b></a>
@@ -65,19 +89,6 @@
     </ul>
 </li>
 
-
-<li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">金币
-    <b class="caret"></b></a>
-    <ul class="dropdown-menu">
-		<li class="nav-header">GOLD</li>
-		<li><%= link_to "金币情况", home_gold_index_path()%></li>
-    <li class="nav-header">金币支出</li>
-		<li><%= link_to "支出主页", home_payments_path()%></li>
-    <li><%= link_to "所有支出", payments_path()%></li>
-		<li><%= link_to "搜索支出记录", search_payments_path()%></li>
-    </ul>
-</li>
 
 
 

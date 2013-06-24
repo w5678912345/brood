@@ -1,0 +1,17 @@
+<%= render "navbar"%>
+
+
+<fieldset>
+<legend>金币产出主页</legend>
+<table class="table table-bordered">
+<tr>
+	<td class="span2">产出的角色：</td>
+	<td><%= link_to Role.where("total > 0").count,outputs_path %></td>
+</tr>
+<tr>
+		<td>产出总量：</td>
+		<td><%= link_to Role.where("total > 0").sum(:total) %></td>
+</tr>
+
+</table>
+</fieldset>
