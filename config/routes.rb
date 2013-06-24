@@ -59,6 +59,7 @@ Brood::Application.routes.draw do
 	resources :outputs, :only => [:index] do
 		get :home,		:on => :collection
 		get :search,	:on => :collection
+		get :histroy,	:on => :collection
 	end
 
   

@@ -1,24 +1,24 @@
 <form class="form-search" action="<%= search_roles_path %>">
   <!-- <input type="text" name="account" class="input-small" placeholder="Account" /> -->
-  Level:
-  <input type="text" name="min_level" class="input-small" placeholder="from" value="<%= params[:min_level]%>" />-
-  <input type="text" name="max_level" class="input-small" placeholder="to" value="<%= params[:max_level]%>" />
-  Vit Power:
-  <input type="text" name="min_vit" class="input-small" placeholder="from" value="<%= params[:min_vit]%>" />-
-  <input type="text" name="max_vit" class="input-small" placeholder="to" value="<%= params[:max_vit]%>" />
-  Closed:
-  <select name="closed" class="input-small">
-  	<option value="">---all---</option>
-  	<option value="1">closed</option>
-  	<option value="0">not closed</option>
-  </select>
-   On-Line:
-  <select name="online" class="input-small">
-  	<option value="">---all---</option>
-  	<option value="1">online</option>
-  	<option value="0">offline</option>
-  </select>
-	<input type="text" name="server" class="input-small" placeholder="服务器" value="<%= params[:server]%>" />
-  <button type="submit" class="btn">Search</button>
+等级:
+<input type="text" name="min_level" class="input-small" placeholder="from" value="<%= params[:min_level]%>" />-
+<input type="text" name="max_level" class="input-small" placeholder="to" value="<%= params[:max_level]%>" />
+疲劳值:
+<input type="text" name="min_vit" class="input-small" placeholder="from" value="<%= params[:min_vit]%>" />-
+<input type="text" name="max_vit" class="input-small" placeholder="to" value="<%= params[:max_vit]%>" />
+封号:
+<select name="closed" class="input-small">
+	<option value="">---all---</option>
+	<option value="1">Yes</option>
+	<option value="0">No</option>
+</select>
+在线:
+<select name="online" class="input-small">
+	<option value="">---all---</option>
+	<option value="1">Yes</option>
+	<option value="0">No</option>
+</select>
+<input type="text" name="server" class="input-small" placeholder="服务器" value="<%= params[:server]%>" />
+<button type="submit" class="btn">Search</button>
 </form>
 

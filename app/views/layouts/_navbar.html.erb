@@ -61,8 +61,10 @@
     <b class="caret"></b></a>
     <ul class="dropdown-menu">
 		<li class="nav-header">金币产出</li>
-		<li><%= link_to "金币情况", home_outputs_path()%></li>
+		<li><%= link_to raw('产出主页'), home_outputs_path()%></li>
 		<li><%= link_to "产出列表", outputs_path()%></li>
+		<li><%= link_to "搜索产出", search_outputs_path()%></li>
+		<li><%= link_to "历史统计", histroy_outputs_path()%></li>
     <li class="nav-header">金币支出</li>
 		<li><%= link_to "支出主页", home_payments_path()%></li>
     <li><%= link_to "所有支出", payments_path()%></li>

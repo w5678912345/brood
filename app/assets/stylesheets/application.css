@@ -2,3 +2,9 @@
  *= require_tree .
  */
 body { padding-top:45px; }
+
+.form-search .input-small {width:66px;}
+
+
+.form-search .input-select {width:90px;}
+

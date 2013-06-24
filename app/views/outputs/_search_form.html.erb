@@ -1,0 +1,26 @@
+<form class="form-search" action="<%= search_outputs_path %>">
+余额:
+<input type="text" name="min_gold" class="input-small" placeholder="最小金额" value="<%= params[:min_gold]%>" />-
+<input type="text" name="max_gold" class="input-small" placeholder="最大金额" value="<%= params[:max_gold]%>" />
+支出:
+<input type="text" name="min_pay" class="input-small auto" placeholder="最小金额" value="<%= params[:min_pay]%>" />-
+<input type="text" name="max_pay" class="input-small" placeholder="最大金额" value="<%= params[:max_pay]%>" />
+产出:
+<input type="text" name="min_total" class="input-small" placeholder="最小金额" value="<%= params[:min_total]%>" />-
+<input type="text" name="max_total" class="input-small" placeholder="最大金额" value="<%= params[:max_total]%>" />
+<input type="text" name="server" class="input-small" placeholder="服务器" value="<%= params[:server]%>" />
+<input type="text" name="role_id" class="input-small" placeholder="角色ID" value="<%= params[:role_id]%>" />
+排序:
+<select name="order" class="input-small input-select">
+	<option value="">排序</option>
+	<option value="total DESC">产出↓↓↓</option>
+	<option value="total ASC">产出↑↑↑</option>
+  <option value="gold DESC">余额↓↓↓</option>
+  <option value="gold ASC">余额↑↑↑</option>
+  <option value="total_pay DESC">支出↓↓↓</option>
+	<option value="total_pay ASC">支出↑↑↑</option>
+</select>
+
+<button type="submit" class="btn">Search</button>
+
+</form>

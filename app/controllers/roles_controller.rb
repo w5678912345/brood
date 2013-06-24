@@ -5,29 +5,29 @@ class RolesController < ApplicationController
 
 	# actions
 	def index
-		@roles = Role.includes(:computer).paginate(:page => params[:page], :per_page => 10)
+		@roles = Role.includes(:computer).paginate(:page => params[:page], :per_page => 15)
 	end
 
 	def online
-		@roles = Role.includes(:computer).where(:online=>true).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
+		@roles = Role.includes(:computer).where(:online=>true).order("updated_at DESC").paginate(:page => params[:page], :per_page => 15)
 		@list_title = "已在线角色"
 		render :template => 'roles/index'
 	end
 
 	def offline
-		@roles = Role.includes(:computer).where(:online=>false).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
+		@roles = Role.includes(:computer).where(:online=>false).order("updated_at DESC").paginate(:page => params[:page], :per_page => 15)
 		@list_title = "未在线角色"
 		render :template => 'roles/index'
 	end
 
 	def closed
-		@roles = Role.includes(:computer).where(:close =>true).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
+		@roles = Role.includes(:computer).where(:close =>true).order("updated_at DESC").paginate(:page => params[:page], :per_page => 15)
 		@list_title = "已封号"
 		render :template => 'roles/index'
 	end
 
 	def not_closed
-		@roles = Role.includes(:computer).where(:close =>false).order("updated_at DESC").paginate(:page => params[:page], :per_page => 10)
+		@roles = Role.includes(:computer).where(:close =>false).order("updated_at DESC").paginate(:page => params[:page], :per_page => 15)
 		@list_title = "未封号"
 		render :template => 'roles/index'
 	end
@@ -47,12 +47,12 @@ class RolesController < ApplicationController
 	
 	def notes
 		@role = Role.find(params[:id])
-		@notes = @role.notes.includes(:computer).paginate(:page => params[:page], :per_page => 10)
+		@notes = @role.notes.includes(:computer).paginate(:page => params[:page], :per_page => 15)
 	end
 
 	def payments
 		@role = Role.find(params[:id])
-		@payments = @role.payments.paginate(:page => params[:page],:per_page => 10)
+		@payments = @role.payments.paginate(:page => params[:page],:per_page => 15)
 	end
 
 	def show

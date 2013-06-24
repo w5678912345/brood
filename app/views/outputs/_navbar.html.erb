@@ -9,4 +9,9 @@
 <li <%= active if controller_name == 'outputs' && action_name == 'search' %>>
  <%= link_to raw('<i class="icon-search"></i>产出搜索'),search_outputs_path   %>
 </li>
+
+<li <%= active if controller_name == 'outputs' && action_name == 'histroy' %>>
+ <%= link_to raw('<i class="icon-time"></i>历史统计'),histroy_outputs_path   %>
+</li>
+
 </ul>

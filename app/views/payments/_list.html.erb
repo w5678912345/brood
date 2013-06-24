@@ -6,12 +6,11 @@
 <table class="table table-bordered table-condensed">
 <thead>
 <tr>
-	<th>ID</th>
+	<th>时间</th>
 	<th>角色</th>
 	<th>支出金额</th>
 	<th>当前余额</th>
-	<th>累计产出</th>
-	<th>时间</th>
+	<th>当前产出</th>
 	<th>备注</th>
 	<th>类型</th>
 <tr>
@@ -19,12 +18,11 @@
 <tbody>
 <% @payments.each do |payment|%>
 	<tr>
-		<td><%= payment.id %></td>
+		<td><%= payment.id %>#<%= time_str payment.created_at  %></td>
 		<td><%= link_to "#{payment.role.account}##{payment.role.role_index}",payments_role_path(payment.role)  if payment.role %></td>
 		<td><%= payment.gold %></td>
 		<td><%= payment.balance %></td>
 		<td><%= payment.total %></td>
-		<td><%= time_str payment.created_at  %></td>
 		<td><%= payment.remark %></td>
 		<td><%= link_to payment.pay_type,payments_path(:type=>payment.pay_type) %></td>
 	</tr>
