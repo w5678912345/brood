@@ -1,0 +1,23 @@
+<form class="form-search" action="<%= histroy_outputs_path %>">
+时间:<input type="text" name="start_time" id="start_time" class="input-medium search-query" placeholder="from" value="<%= params[:start_time]%>" />-
+<input type="text" name="end_time" id="end_time" class="input-medium search-query" placeholder="to" value="<%= params[:end_time]%>" />
+角色:<input type="text" name="role_id" class="input-small" placeholder="角色ID" value="<%= params[:role_id]%>" />
+排序:
+<select name="order" class="input-small input-select">
+	<option value="">排序</option>
+	<option value="max_total DESC">Max↓↓↓</option>
+	<option value="max_total ASC">Max↑↑↑</option>
+  <option value="min_total DESC">Min↓↓↓</option>
+  <option value="min_total ASC">Min↑↑↑</option>
+</select>
+
+<button type="submit" class="btn">Search</button>
+
+</form>
+
+<script type="text/javascript">
+$(function(){
+	$("#start_time").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+	$("#end_time").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+});
+</script>

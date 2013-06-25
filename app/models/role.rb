@@ -3,8 +3,8 @@ class Role < ActiveRecord::Base
 	include RoleApi
 
   belongs_to :computer
-  has_many   :notes
-	has_many	 :payments
+  has_many   :notes,:dependent => :destroy, :order => 'id DESC'
+	has_many	 :payments,:dependent => :destroy, :order => 'id DESC'
 
   attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip
   attr_accessible :close,:close_hours,:closed_at,:reopen_at
@@ -19,6 +19,10 @@ class Role < ActiveRecord::Base
 
   def total_gold
 			self.gold + self.total_pay
+	end
+
+	def display
+			return "#{self.account}##{self.role_index}"
 	end
 
 	#def total_pay

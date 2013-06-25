@@ -2,6 +2,7 @@
 class Payment < ActiveRecord::Base
 		
 		attr_accessible :role_id,:gold,:balance,:pay_type,:remark,:note_id
+		#attr_accessor		:max_total,:min_total
 		#
 		belongs_to :role
 		belongs_to :note
@@ -12,7 +13,8 @@ class Payment < ActiveRecord::Base
 		
 		validates_length_of :remark, :maximum => 200
 		#
-		default_scope :order => 'id DESC'
+		#default_scope :order => 'id DESC'
+		scope :order_id_desc , order("id DESC")
 		scope	:pay_type_scope,lambda {|pay_type|where(:pay_type => pay_type )}
 		#
 		scope :total_group_role_scope,includes(:role).select("role_id,max(total) as total").group("role_id")
@@ -26,5 +28,7 @@ class Payment < ActiveRecord::Base
 		def self.total_count
 				#Payment.select("max(total) as total").group("role_id")
 		end
+
+		
 
 end

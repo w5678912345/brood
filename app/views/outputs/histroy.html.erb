@@ -1,1 +1,40 @@
 <%= render "navbar"%>
+<%= render "histroy_form"%>
+<div class="alert">
+<strong>提示信息:</strong>
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<span>共<%= @outputs.total_entries%>个角色.</span> 
+</div>
+
+<table class="table">
+<thead>
+<tr>
+	<th colspan="3">合计：</th>
+	<td><%= @sum_max_total%></td>
+	<td><%= @sum_min_total%></td>
+	<td><%= @sum_max_total-@sum_min_total%></td>
+</tr>
+<tr>
+<th>角色</th>
+<th>服务器</th>
+<th>等级</th>
+<th>结束(Max)</th>
+<th>开始(Min)</th>
+<th>增长↑</th>
+</tr>
+</thead>
+<tbody>
+<% @outputs.each do |out|%>
+<tr>
+<td><%= link_to out.role.display,role_path(out.role) %></td>
+<td><%= out.role.server %></td>
+<td><%= out.role.level %></td>
+<td><%= out.max_total %></td>
+<td><%= out.min_total %></td>
+<td><%= out.max_total - out.min_total %></td>
+</tr>
+<%end%>
+</tbody>
+</table>
+
+<%= will_paginate @outputs %> 

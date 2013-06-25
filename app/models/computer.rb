@@ -5,7 +5,7 @@ class Computer < ActiveRecord::Base
   belongs_to :user
 	belongs_to :check_user,:class_name => 'user'
   has_many :roles
-  has_many :notes
+  has_many :notes,:dependent => :destroy, :order => 'id DESC'
 
   default_scope :order => 'id DESC'
 

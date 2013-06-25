@@ -8,13 +8,13 @@ class PaymentsController < ApplicationController
 		end
 		
 		def index
-			@payments = Payment.includes(:role)
+			@payments = Payment.includes(:role).order("id DESC")
 			@payments = @payments.where(:pay_type => params[:type]) unless params[:type].blank?
 			@payments = @payments.paginate(:page => params[:page],:per_page => 20)
 		end
 		
 		def search
-			@payments = Payment.includes(:role)
+			@payments = Payment.includes(:role).order("id DESC")
 			@payments = @payments.where(:role_id => params[:role_id]) unless params[:role_id].blank?
 			@payments = @payments.where("created_at >= '#{params[:min_time]}'") unless params[:min_time].blank?
 			@payments = @payments.where("created_at <= '#{params[:max_time]}'") unless params[:max_time].blank?

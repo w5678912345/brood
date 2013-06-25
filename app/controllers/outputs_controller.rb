@@ -25,7 +25,16 @@ class OutputsController < ApplicationController
 	end
 		
 	def histroy
-			
+			@outputs = Payment.includes(:role)
+			start_time = params[:start_time].blank? ? "2013-06-01".to_date : params[:start_time].to_date
+			end_time = params[:end_time].blank? ? Time.now.to_date : params[:end_time].to_date
+			@outputs = @outputs.between(start_time,end_time.ago(-1.days)) if end_time >= start_time
+			@outputs = @outputs.order(params[:order] || "role_id DESC")
+			@outputs = @outputs.where(:role_id	=> params[:role_id]) unless params[:role_id].blank? 
+			@outputs = @outputs.select("role_id,max(total) as max_total,min(total) as min_total").group("role_id")
+			@sum_max_total =(@outputs.collect &:max_total).sum
+			@sum_min_total =(@outputs.collect &:min_total).sum
+			@outputs = @outputs.paginate(:page => params[:page],:per_page => 10)
 	end
 
 end
