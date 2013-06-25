@@ -1,5 +1,5 @@
-source 'https://rubygems.org'
-#source 'http://ruby.taobao.org'
+#source 'https://rubygems.org'
+source 'http://ruby.taobao.org'
 gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
@@ -53,7 +53,7 @@ end
 # gem 'jbuilder'
 
 # Use unicorn as the app server
-# gem 'unicorn'
+# gem 'unicorn', '~> 4.6.3'
 
 # Deploy with Capistrano
 # gem 'capistrano'
