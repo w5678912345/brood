@@ -8,7 +8,7 @@ class Ability
 		else
 			#can :read, :all
 			can :index,   User
-			can [:index,:show,:home,:online,:offline,:closed,:not_closed,:notes,:payments,:search], Role
+			can [:index,:show,:home,:online,:offline,:closed,:not_closed,:notes,:payments,:search,:warting], Role
 			can [:index,:show,:home,:checked,:unchecked,:notes,:roles],	Computer
 			can [:index],	Version	
 			#can [:index,:show,:roles,:notes],	Ip

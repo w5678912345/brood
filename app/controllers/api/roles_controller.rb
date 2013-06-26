@@ -8,7 +8,7 @@ class Api::RolesController < Api::BaseController
 	before_filter :require_remote_ip
 	before_filter :require_role_by_id,					:only => [:on,:off,:sync,:close,:note,:pay,:show]
 	before_filter :require_online_role,					:only => [:off,:sync,:close,:note,:pay]
-	before_filter :require_computer_by_ckey,		:only => [:on,:off,:sync,:close,:note,:pay]
+	before_filter :require_computer_by_ckey,		:only => [:on,:off,:sync,:close,:note,:pay,:online]
 	#
 	def show
 		@code = 1 if @role

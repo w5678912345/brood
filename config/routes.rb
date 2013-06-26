@@ -12,6 +12,7 @@ Brood::Application.routes.draw do
     get 	:not_closed, 	:on => :collection
     get 	:search,  		:on => :collection
     get 	:auto_off,    :on => :collection
+		get 	:waiting,			:on => :collection
     get 	:notes,   		:on => :member
 		get 	:payments, 		:on => :member
 		put		:off,					:on => :member

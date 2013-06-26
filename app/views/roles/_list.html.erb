@@ -27,7 +27,7 @@
 <% if role.online %>
 <%= link_to role.computer.hostname , computer_path(role.computer) if role.computer %>#<%= link_to role.ip,roles_ip_path(ip_to_url role.ip) %>
 <%else%>
-No
+No<%= "(Waiting...)" if role.can_online%>
 <%end%>
 </td>
 <td>
@@ -37,9 +37,11 @@ No
 <% if can? :update, @role %>
 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
 <ul class="dropdown-menu">
-	<li>
-     <%= link_to raw("<i class='icon-off'></i>下线"),off_role_path(role),confirm: 'Are you sure?',:method => :put %>
-  </li>
+<% if role.online %>
+<li>
+   <%= link_to raw("<i class='icon-off'></i>下线"),off_role_path(role),confirm: 'Are you sure?',:method => :put %>
+</li>
+<%end%>
   <li>
       <%= link_to raw("<i class='icon-edit'></i>修改"),edit_role_path(role) %>
   </li>
