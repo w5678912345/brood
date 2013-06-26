@@ -33,7 +33,10 @@ class RolesController < ApplicationController
 	end
 
 	def waiting
-		@roles = Role.includes(:computer).can_online_scope.paginate(:page => params[:page], :per_page => 15)
+		@roles = Role.includes(:computer).can_online_scope
+		role_max_level = Setting.find_value_by_key("role_max_level")
+    @roles = @roles.where("level <= #{role_max_level}") if role_max_level
+		@roles = @roles.paginate(:page => params[:page], :per_page => 15)
 		@list_title = "即将上线"
 		render :template => 'roles/index'
 	end

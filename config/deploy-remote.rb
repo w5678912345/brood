@@ -47,7 +47,7 @@ set_default :thin_config, 'config/thin.yml'
 # They will be linked in the 'deploy:link_shared_paths' step.
 set :shared_config_files, ['config/database.yml','config/thin.test.yml',settings.thin_config]
 
-set :shared_paths, ['log', 'public/uploads','tmp'] + settings.shared_config_files
+set :shared_paths, ['log', 'public/uploads'] + settings.shared_config_files
 
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
