@@ -3,17 +3,18 @@ Brood::Application.routes.draw do
   devise_for :users,:path => '/'
   #
   resources :roles do
-    get		:home,  :on => :collection
-    get		:import, :on => :collection
-    get 	:can,     :on => :collection
-    get 	:online,  :on => :collection
-    get 	:offline,  :on => :collection
-    get 	:closed,   :on => :collection
-    get 	:not_closed, :on => :collection
-    get 	:search,  :on => :collection
-    get 	:auto_off,     :on => :collection
-    get 	:notes,   :on => :member
-		get 	:payments, :on => :member
+    get		:home,  			:on => :collection
+    get		:import, 			:on => :collection
+    get 	:can,     		:on => :collection
+    get 	:online,  		:on => :collection
+    get 	:offline,  		:on => :collection
+    get 	:closed,   		:on => :collection
+    get 	:not_closed, 	:on => :collection
+    get 	:search,  		:on => :collection
+    get 	:auto_off,    :on => :collection
+    get 	:notes,   		:on => :member
+		get 	:payments, 		:on => :member
+		put		:off,					:on => :member
   end
 
   resources :computers do 

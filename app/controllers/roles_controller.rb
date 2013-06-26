@@ -82,13 +82,21 @@ class RolesController < ApplicationController
 
 	def destroy
 		@role = Role.find(params[:id])
-		@role.destroy
+		@role.destroy if @role
 		redirect_to roles_path()
 	end
 
 	def auto_off
 		Api.role_auto_offline
 		redirect_to roles_path()
+	end
+	
+	def off
+			@role = Role.find(params[:id])
+			#return redirect_to roles_path() unless @role
+			opts = {:ip => request.remote_ip,:cid => @role.computer_id}
+			@role.api_offline opts
+			redirect_to role_path(@role)
 	end
 
 	private
