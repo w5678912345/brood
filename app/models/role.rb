@@ -3,8 +3,9 @@ class Role < ActiveRecord::Base
 	include RoleApi
 
   belongs_to :computer
-  has_many   :notes,:dependent => :destroy, :order => 'id DESC'
-	has_many	 :payments,:dependent => :destroy, :order => 'id DESC'
+  has_many   :notes,		:dependent => :destroy, :order => 'id DESC'
+	has_many	 :payments,	:dependent => :destroy, :order => 'id DESC'
+	#has_many   :roles,		:class_name => 'Role',	:foreign_key => 'account'
 
   attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip
   attr_accessible :close,:close_hours,:closed_at,:reopen_at
@@ -19,6 +20,10 @@ class Role < ActiveRecord::Base
 
   def total_gold
 			self.gold + self.total_pay
+	end
+
+	def same_account_roles
+			Role.where(:account=>self.account)
 	end
 
 	def display
@@ -41,8 +46,8 @@ class Role < ActiveRecord::Base
     end
     return roles.first
   end
-
+	
   #
-
+	
 end
 	

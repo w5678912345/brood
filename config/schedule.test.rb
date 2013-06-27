@@ -5,7 +5,7 @@
 
 # Example:
 #
- set :output, "log/cron.log"
+ set :output, "log/cron.test.log"
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
@@ -30,18 +30,15 @@ str_environment = 'test'
 #
 every 30.minutes do
   runner 'Api.role_auto_offline',:environment => str_environment
+	runner 'Api.role_auto_reopen',:environment => str_environment
 end
 
 #
-every 30.minutes do
-  runner 'Api.role_auto_reopen',:environment => str_environment
-end
+
 
 every 1.day, :at => '6:00 am' do
   # reset vit power
   runner 'Api.reset_role_vit_power',:environment => str_environment
+	runner 'Api.reset_ip_use_count',:environment => str_environment
 end
 
-every 1.day ,:at => '6:10 am' do
-  runner 'Api.reset_ip_use_count',:environment => str_environment
-end

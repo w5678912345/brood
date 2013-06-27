@@ -64,11 +64,11 @@ class Api::RolesController < Api::BaseController
 
 	#
 	def close
-		begin
+		#begin
 	      @code = 1 if @role.api_close params
-	    rescue Exception => ex
-	      @code = -1
-	  end
+	   # rescue Exception => ex
+	      #@code = -1
+	  #end
 	  render :partial => 'api/roles/result'
 	end
 

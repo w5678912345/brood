@@ -60,15 +60,16 @@ module RoleApi
   end
 
   def api_close opts
-		return CODES[:role_not_online] unless self.online
+		#return CODES[:role_not_online] unless self.online
 		return CODES[:computer_error] unless opts[:cid] && opts[:cid].to_i == self.computer.id 
      self.transaction do
-      self.close = true
-      self.close_hours = opts[:h].to_i
-      self.closed_at = Time.now
-      self.reopen_at = Time.now.ago(-self.close_hours.hours)
-      Note.create(:role_id=>self.id,:ip=>opts[:ip],:api_name=>"close")
-      return 1 if self.save
+			roles = self.same_account_roles
+			roles.each do |role|
+					role.update_attributes(:close=>true,:close_hours=>opts[:h].to_i,:closed_at => Time.now,:reopen_at=>Time.now.ago(-opts[:h].to_i.hours))
+					Note.create(:role_id=>role.id,:ip=>opts[:ip],:api_name=>"close",:computer_id=>self.computer.id)
+			end
+      
+      return 1
    end
   end
 
@@ -117,7 +118,7 @@ module RoleApi
 	#重开角色的API
   def api_reopen opts
     self.transaction do
-			self.update_attributes(:close=>false,:closed_at=>nil,:close_hours=>nil,:reopen_at=>nil)
+			self.same_account_roles.update_all(:close=>false,:closed_at=>nil,:close_hours=>nil,:reopen_at=>nil)
 			return 1 if Note.create(:role_id=>self.id,:ip=>opts[:ip],:api_name=>"reopen")
     end
   end
