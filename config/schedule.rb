@@ -21,7 +21,7 @@
 # whenever:write
 # whenever:clear
 
-str_environment = 'production'
+str_environment = 'test'
 
 # every :day, :at => '11:20am' do
 #   rake 'foo:bar'
