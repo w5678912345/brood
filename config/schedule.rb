@@ -21,46 +21,27 @@
 # whenever:write
 # whenever:clear
 
-str_environment = 'test'
+str_environment = 'production'
 
 # every :day, :at => '11:20am' do
 #   rake 'foo:bar'
 # end
 
 #
-every 2.minutes do
-  runner 'Api.role_auto_offline',:environment => 'test'
+every 30.minutes do
+  runner 'Api.role_auto_offline',:environment => str_environment
 end
 
 #
-every 20.minutes do
-  runner 'Api.role_auto_reopen',:environment => 'test'
+every 30.minutes do
+  runner 'Api.role_auto_reopen',:environment => str_environment
 end
 
 every 1.day, :at => '6:00 am' do
   # reset vit power
-  runner 'Api.reset_role_vit_power',:environment => 'test'
+  runner 'Api.reset_role_vit_power',:environment => str_environment
 end
 
 every 1.day ,:at => '6:10 am' do
-  runner 'Api.reset_ip_use_count',:environment => 'test'
-end
-
-#----------------------------------------------------------
-every 2.minutes do
-  runner 'Api.role_auto_offline',:environment => 'production'
-end
-
-#
-every 20.minutes do
-  runner 'Api.role_auto_reopen',:environment => 'production'
-end
-
-every 1.day, :at => '6:00 am' do
-  # reset vit power
-  runner 'Api.reset_role_vit_power',:environment => 'production'
-end
-
-every 1.day ,:at => '6:10 am' do
-  runner 'Api.reset_ip_use_count',:environment => 'production'
+  runner 'Api.reset_ip_use_count',:environment => str_environment
 end
