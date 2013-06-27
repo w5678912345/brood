@@ -36,7 +36,7 @@ class IpsController < ApplicationController
 	end
 
 	def reset
-		Ip.reset_use_count
+		Api.reset_ip_use_count
 		redirect_to ips_path
 	end
 

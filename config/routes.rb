@@ -13,9 +13,11 @@ Brood::Application.routes.draw do
     get 	:search,  		:on => :collection
     get 	:auto_off,    :on => :collection
 		get 	:waiting,			:on => :collection
-    get 	:notes,   		:on => :member
+		put		:reset_vip_power,			:on => :collection    
+		get 	:notes,   		:on => :member
 		get 	:payments, 		:on => :member
 		put		:off,					:on => :member
+		
   end
 
   resources :computers do 
@@ -28,7 +30,7 @@ Brood::Application.routes.draw do
   end
   resources :ips,:only => [:index,:destroy,:show] do 
     get :clear, 		:on => :collection
-    #get :reset, 		:on => :collection
+    put :reset, 		:on => :collection
     get :roles,			:on => :member
     get :notes,			:on => :member
   end

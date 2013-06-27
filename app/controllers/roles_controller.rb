@@ -41,6 +41,11 @@ class RolesController < ApplicationController
 		render :template => 'roles/index'
 	end
 
+	def reset_vip_power
+		Api.reset_role_vit_power
+		redirect_to roles_path
+	end
+
 	def search
 		@roles = Role.includes(:computer)
 		@roles = @roles.where(:close => params[:closed]) unless params[:closed].blank?

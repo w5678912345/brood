@@ -2,7 +2,8 @@
 <fieldset>
 <legend>Roles Home</legend>
 <% if Rails.env != "production"%>
-  <%= link_to "Auto Off",auto_off_roles_path %>
+  <%= link_to "自动下线",auto_off_roles_path,:class=>"btn" %>
+	<%= link_to "重置疲劳值",reset_vip_power_roles_path,:method=>"put",:class=>"btn"%>
 <%end%>
 <table class="table table-bordered">
 <thead>
