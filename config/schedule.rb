@@ -29,19 +29,38 @@ str_environment = 'test'
 
 #
 every 2.minutes do
-  runner 'Api.role_auto_offline',:environment => str_environment
+  runner 'Api.role_auto_offline',:environment => 'test'
 end
 
 #
 every 20.minutes do
-  runner 'Api.role_auto_reopen',:environment => str_environment
+  runner 'Api.role_auto_reopen',:environment => 'test'
 end
 
 every 1.day, :at => '6:00 am' do
   # reset vit power
-  runner 'Api.reset_role_vit_power',:environment => str_environment
+  runner 'Api.reset_role_vit_power',:environment => 'test'
 end
 
 every 1.day ,:at => '6:10 am' do
-  runner 'Api.reset_ip_use_count',:environment => str_environment
+  runner 'Api.reset_ip_use_count',:environment => 'test'
+end
+
+#----------------------------------------------------------
+every 2.minutes do
+  runner 'Api.role_auto_offline',:environment => 'production'
+end
+
+#
+every 20.minutes do
+  runner 'Api.role_auto_reopen',:environment => 'production'
+end
+
+every 1.day, :at => '6:00 am' do
+  # reset vit power
+  runner 'Api.reset_role_vit_power',:environment => 'production'
+end
+
+every 1.day ,:at => '6:10 am' do
+  runner 'Api.reset_ip_use_count',:environment => 'production'
 end
