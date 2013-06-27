@@ -48,9 +48,9 @@ CODES = {
    #
    def self.role_auto_reopen
       now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-      roles = Role.where(:close => true).where("reopen_at <= '#{now}'")
+      roles = Role.where(:close => true).where("reopen_at >= '#{now}'")
       roles.each do |role|
-          role.update_attributes(:close=>false,:closed_at=>nil,:close_hours=>nil,:reopen_at=>nil)
+          role.api_reopen({:ip=>role.ip})
       end
    end
 	

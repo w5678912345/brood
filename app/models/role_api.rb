@@ -66,7 +66,7 @@ module RoleApi
       self.close = true
       self.close_hours = opts[:h].to_i
       self.closed_at = Time.now
-      self.reopen_at = Time.now.ago(self.close_hours.hours)
+      self.reopen_at = Time.now.ago(-self.close_hours.hours)
       Note.create(:role_id=>self.id,:ip=>opts[:ip],:api_name=>"close")
       return 1 if self.save
    end
@@ -102,6 +102,7 @@ module RoleApi
 		end
 	end
 
+	#
 	def api_add opts
 			return CODES[:not_valid_role] unless self.valid?
 			computer = Computer.find_by_auth_key(opts[:ckey])
@@ -112,11 +113,12 @@ module RoleApi
 					return 1 if note.save
 			end
 	end
-
-  def api_open opts
+	
+	#重开角色的API
+  def api_reopen opts
     self.transaction do
-
-      return 1 if self.save
+			self.update_attributes(:close=>false,:closed_at=>nil,:close_hours=>nil,:reopen_at=>nil)
+			return 1 if Note.create(:role_id=>self.id,:ip=>opts[:ip],:api_name=>"reopen")
     end
   end
 end

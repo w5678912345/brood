@@ -13,10 +13,12 @@ Brood::Application.routes.draw do
     get 	:search,  		:on => :collection
     get 	:auto_off,    :on => :collection
 		get 	:waiting,			:on => :collection
-		put		:reset_vip_power,			:on => :collection    
+		put		:reset_vip_power,			:on => :collection
+		put 	:reopen_all,					:on => :collection    
 		get 	:notes,   		:on => :member
 		get 	:payments, 		:on => :member
 		put		:off,					:on => :member
+		put		:reopen,			:on => :member
 		
   end
 

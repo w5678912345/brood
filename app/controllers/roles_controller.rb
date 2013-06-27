@@ -113,6 +113,18 @@ class RolesController < ApplicationController
 			redirect_to role_path(@role)
 	end
 
+	def reopen
+		@role = Role.find(params[:id])
+		opts = {:ip => request.remote_ip,:cid => @role.computer_id}
+		@role.api_reopen opts
+		redirect_to role_path(@role)
+	end
+
+	def reopen_all
+			Api.role_auto_reopen
+			redirect_to closed_roles_path
+	end
+
 	private
 	def require_service
 		@service = Service.new

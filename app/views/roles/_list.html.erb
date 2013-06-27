@@ -42,12 +42,17 @@ No<%= "(Waiting...)" if role.can_online%>
    <%= link_to raw("<i class='icon-off'></i>下线"),off_role_path(role),confirm: 'Are you sure?',:method => :put %>
 </li>
 <%end%>
-  <li>
-      <%= link_to raw("<i class='icon-edit'></i>修改"),edit_role_path(role) %>
-  </li>
-  <li>
-     <%= link_to raw("<i class='icon-trash'></i>删除"),role_path(role),confirm: 'Are you sure?',:method => :delete %>
-  </li>
+<% if role.close %>
+<li>
+   <%= link_to raw("<i class='icon-repeat'></i>重开"),reopen_role_path(role),confirm: '确认重开角色?',:method => :put %>
+</li>
+<%end%>
+<li>
+    <%= link_to raw("<i class='icon-edit'></i>修改"),edit_role_path(role) %>
+</li>
+<li>
+   <%= link_to raw("<i class='icon-trash'></i>删除"),role_path(role),confirm: 'Are you sure?',:method => :delete %>
+</li>
 </ul>  
 <% end %>
 
