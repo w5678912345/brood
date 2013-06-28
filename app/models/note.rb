@@ -4,7 +4,7 @@ class Note < ActiveRecord::Base
 	belongs_to :role
 	#belongs_to :ip ,:class_name => 'ip'
 	#
-    attr_accessible :user_id, :role_id,:computer_id,:api_name,:api_code,:ip
+    attr_accessible :user_id, :role_id,:computer_id,:api_name,:api_code,:ip,:msg
 
     default_scope :order => 'id DESC'
 

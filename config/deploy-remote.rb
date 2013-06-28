@@ -10,7 +10,7 @@
 # 警告：为了减少必须要的错误, 部署前请先确保应用已经被停止
 # **************10 yc885588
 #
-# 运行命令后输出 “in `write': Broken pipe (Errno::EPIPE)”，忽略即可
+# 运行命令后输出 “in `write': Broken pipe (Errno::EPIPE)”，忽略即可 
 # ec2-174-129-207-99.compute-1.amazonaws.com
 
 # 日本 ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com
