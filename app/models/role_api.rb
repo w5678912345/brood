@@ -25,11 +25,8 @@ module RoleApi
 
   #
   def api_offline opts
-	return CODES[:role_not_online] unless self.online
-	return CODES[:computer_error] unless opts[:cid] && opts[:cid].to_i == self.computer_id 
     ip = Ip.find_or_create(opts[:ip] || self.ip)
     self.transaction do
-       return CODES[:role_not_online] unless self.online
        self.computer.update_attributes(:roles_count=>self.computer.roles_count-1) if self.computer && self.computer.roles_count > 0
        ip.update_attributes(:use_count=>ip.use_count-1) if ip.use_count > 0
        Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"offline")
@@ -39,8 +36,6 @@ module RoleApi
 
   #
  	def api_sync opts
-		return CODES[:role_not_online] unless self.online
-		return CODES[:computer_error] unless opts[:cid] && opts[:cid].to_i == self.computer.id 
 	     self.role_index = opts[:role_index] if opts[:role_index]
 	     self.server = opts[:server] if opts[:server]
 	     self.level = opts[:level] if opts[:level]
@@ -55,8 +50,6 @@ module RoleApi
  	end
 
  	def api_close opts
-		#return CODES[:role_not_online] unless self.online
-		return CODES[:computer_error] unless opts[:cid] && opts[:cid].to_i == self.computer.id 
 	     self.transaction do
 			roles = self.same_account_roles
 			roles.each do |role|
