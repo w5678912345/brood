@@ -4,7 +4,7 @@ module RoleApi
   #
   def api_online opts
     return CODES[:role_have_online] if self.online
-		return CODES[:role_server_is_nil] if self.server.blank?
+	return CODES[:role_server_is_nil] if self.server.blank?
     return CODES[:role_has_closed] if self.close
     # get computer
     computer = Computer.find_by_auth_key(opts[:ckey])
@@ -13,12 +13,8 @@ module RoleApi
 		max_roles_count = Setting.find_value_by_key("computer_max_roles_count")
 		return CODES[:full_use_computer] if max_roles_count && computer.roles_count >= max_roles_count 
     # get ip
-    ip = Ip.find_by_value(opts[:ip])
-    if ip
-      return CODES[:ip_used] if ip.use_count >= Setting.ip_max_use_count
-    else
-      ip = Ip.create(:value => opts[:ip]) 
-    end
+    ip = Ip.find_or_create(opts[:ip] || self.ip)
+    return CODES[:ip_used] if ip.use_count >= Setting.ip_max_use_count
     self.transaction do
       computer.update_attributes(:roles_count=>computer.roles_count+1) 
       ip.update_attributes(:use_count=>ip.use_count+1)
@@ -29,10 +25,9 @@ module RoleApi
 
   #
   def api_offline opts
-		return CODES[:role_not_online] unless self.online
-		return CODES[:computer_error] unless opts[:cid] && opts[:cid].to_i == self.computer_id 
-    ip = Ip.find_by_value(opts[:ip] || self.ip)
-    ip = Ip.create(:value => opts[:ip]) unless ip
+	return CODES[:role_not_online] unless self.online
+	return CODES[:computer_error] unless opts[:cid] && opts[:cid].to_i == self.computer_id 
+    ip = Ip.find_or_create(opts[:ip] || self.ip)
     self.transaction do
        return CODES[:role_not_online] unless self.online
        self.computer.update_attributes(:roles_count=>self.computer.roles_count-1) if self.computer && self.computer.roles_count > 0
@@ -43,41 +38,37 @@ module RoleApi
   end
 
   #
-  def api_sync opts
-		 return CODES[:role_not_online] unless self.online
-		 return CODES[:computer_error] unless opts[:cid] && opts[:cid].to_i == self.computer.id 
-     self.role_index = opts[:role_index] if opts[:role_index]
-     self.server = opts[:server] if opts[:server]
-     self.level = opts[:level] if opts[:level]
-     self.vit_power = opts[:vit_power] if opts[:vit_power]
-     self.gold = opts[:gold] if opts[:gold]
-     #...
-     self.transaction do
-      #Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync")
-			self.total = self.total_pay + self.gold if self.gold_changed?
-      return 1 if self.save
-     end
-  end
+ 	def api_sync opts
+		return CODES[:role_not_online] unless self.online
+		return CODES[:computer_error] unless opts[:cid] && opts[:cid].to_i == self.computer.id 
+	     self.role_index = opts[:role_index] if opts[:role_index]
+	     self.server = opts[:server] if opts[:server]
+	     self.level = opts[:level] if opts[:level]
+	     self.vit_power = opts[:vit_power] if opts[:vit_power]
+	     self.gold = opts[:gold] if opts[:gold]
+	     #...
+	     self.transaction do
+	      #Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync")
+				self.total = self.total_pay + self.gold if self.gold_changed?
+	      return 1 if self.save
+	     end
+ 	end
 
-  def api_close opts
+ 	def api_close opts
 		#return CODES[:role_not_online] unless self.online
 		return CODES[:computer_error] unless opts[:cid] && opts[:cid].to_i == self.computer.id 
-     self.transaction do
+	     self.transaction do
 			roles = self.same_account_roles
 			roles.each do |role|
 					role.update_attributes(:close=>true,:close_hours=>opts[:h].to_i,:closed_at => Time.now,:reopen_at=>Time.now.ago(-opts[:h].to_i.hours))
 					Note.create(:role_id=>role.id,:ip=>opts[:ip],:api_name=>"close",:computer_id=>self.computer.id,:msg=>opts[:h])
 			end
-      
-      return 1
-   end
-  end
+	   		 return 1
+	   		end
+	  	end
 
 	def api_note opts
-		return CODES[:role_not_online] unless self.online
-		return CODES[:computer_error] unless opts[:cid] && opts[:cid].to_i == self.computer.id 
-		ip = Ip.find_by_value(opts[:ip] || self.ip)
-    ip = Ip.create(:value => opts[:ip]) unless ip
+		ip = Ip.find_or_create(opts[:ip] || self.ip)
 		self.transaction do
 			return 1 if Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"",:api_code=>opts[:code]||0)
 		end
@@ -85,12 +76,9 @@ module RoleApi
 
 
 	def pay	opts
-		return CODES[:role_not_online] unless self.online
-		return CODES[:computer_error] unless opts[:cid] && opts[:cid].to_i == self.computer.id 
-		ip = Ip.find_by_value(opts[:ip] || self.ip)
-    ip = Ip.create(:value => opts[:ip]) unless ip
+		ip = Ip.find_or_create(opts[:ip] || self.ip)
 		self.transaction do
-			note = Note.create(:role_id=>self.id,:computer_id=>self.computer.id,:ip=>ip.value,:api_name=>"pay")
+			note = Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"pay")
 			payment = Payment.new(:role_id=>self.id,:gold => opts[:gold],:balance => opts[:balance],:remark => opts[:remark],:note_id => note.id,:pay_type=>opts[:pay_type])	
 			return CODES[:not_valid_pay] unless payment.valid? # validate not pass
 			self.gold = payment.balance			 #当前金币 = 支出后的余额
@@ -108,10 +96,10 @@ module RoleApi
 			return CODES[:not_valid_role] unless self.valid?
 			computer = Computer.find_by_auth_key(opts[:ckey])
 			self.transaction do
-					self.save
-					note = Note.new(:role_id => self.id,:ip => opts[:ip],:api_name => "add_role")
-					note.computer_id = computer.id if computer
-					return 1 if note.save
+				self.save
+				note = Note.new(:role_id => self.id,:ip => opts[:ip],:api_name => "add_role")
+				note.computer_id = computer.id if computer
+				return 1 if note.save
 			end
 	end
 	

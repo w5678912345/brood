@@ -35,12 +35,12 @@ CODES = {
     end
   end
 
-  # eveary day at 6:00 am
+  # every day at 6:00 am
   def self.reset_role_vit_power
     Role.where("vit_power < 156").update_all(:vit_power => 156)
   end
 
-   # eveary day at 6:00 am
+   # every day at 6:00 am
    def self.reset_ip_use_count
     Ip.where("use_count > 0").update_all(:use_count => 0)
    end
@@ -53,5 +53,12 @@ CODES = {
           role.api_reopen({:ip=>role.ip || "localhost"})
       end
    end
+
+  def self.role_auto_pay
+      roles = Role.where("total > 0")
+      roles.each do |role|
+        role.pay(opts = {:ip=>"localhost",:gold=>0,:balance=>role.gold,:pay_type=>"auto"})
+      end
+  end
 	
 end

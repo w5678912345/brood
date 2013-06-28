@@ -6,9 +6,10 @@ class Api::RolesController < Api::BaseController
 	#respond_to :json
 	##filters
 	before_filter :require_remote_ip
+	before_filter :require_computer_by_ckey,			:only => [:on,:off,:sync,:close,:note,:pay,:online]
 	before_filter :require_role_by_id,					:only => [:on,:off,:sync,:close,:note,:pay,:show]
 	before_filter :require_online_role,					:only => [:off,:sync,:close,:note,:pay]
-	before_filter :require_computer_by_ckey,		:only => [:on,:off,:sync,:close,:note,:pay,:online]
+	before_filter :require_computer_eq_role,			:only => [:off,:sync,:close,:note,:pay]
 	#
 	def show
 		@code = 1 if @role
@@ -25,11 +26,9 @@ class Api::RolesController < Api::BaseController
 	    @role = Role.get_role
 	    return @code = CODES[:not_find_role] unless @role # not find role
 	    #call
-	    begin
+	   # begin
 	      @code = @role.api_online params
-	    rescue Exception => ex
-	      @code = -1
-	    end
+	   
 	end
 
 	#----------------------- 
@@ -111,6 +110,11 @@ class Api::RolesController < Api::BaseController
 			params[:cid] = @computer.id
 	end
 
-	
+	def require_computer_eq_role
+		unless @computer.id == @role.computer_id 
+			@code = CODES[:computer_error] 
+			return render :partial => 'api/roles/result'
+		end
+	end
 
 end

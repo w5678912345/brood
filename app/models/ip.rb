@@ -14,6 +14,12 @@ class Ip < ActiveRecord::Base
   	self.value.gsub(".","_")
   end
 
+  def self.find_or_create(value)
+      ip = Ip.find_by_value(value)
+      ip = Ip.create(:value => value) unless ip
+      return ip
+  end
+
   #
   def self.reset_use_count
   	Ip.where("use_count > 0").update_all(:use_count => 0)
