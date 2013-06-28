@@ -42,7 +42,7 @@ class IpsController < ApplicationController
 
 	def destroy
 		@ip = Ip.find_by_value(params[:id])
-		@ip.destroy
+		@ip.destroy if @ip
 		redirect_to ips_path()
 	end
 
