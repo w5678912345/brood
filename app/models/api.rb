@@ -50,7 +50,7 @@ CODES = {
       now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
       roles = Role.where(:close => true).where("reopen_at >= '#{now}'")
       roles.each do |role|
-          role.api_reopen({:ip=>role.ip})
+          role.api_reopen({:ip=>role.ip || "localhost"})
       end
    end
 	
