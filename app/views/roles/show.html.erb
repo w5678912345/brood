@@ -54,7 +54,9 @@
 <% if @role.close %>
 <td> Yes </td>
 <th>关闭时间:</th>
-<td><%= time_str @role.closed_at %></td>
+<td><%= time_str @role.closed_at %> 
+<span class="label label-important">(<%= @role.close_hours%>小时)</span>
+</td>
 <th>重开时间:</th>
 <td><%= time_str @role.reopen_at %></td>
 <%else%>

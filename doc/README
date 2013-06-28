@@ -16,4 +16,9 @@ mina:
 
 #svn export =>  export https://192.168.0.200:3115/svn/Brood/trunk/server/brood --force
 
+SET GLOBAL time_zone = '+08:00';
+show variables like '%time_zone%';
+show variables like '%time_zone%';
+cat /etc/timezone
 
+tar xzvf lua-5.1.2.tar.gz
