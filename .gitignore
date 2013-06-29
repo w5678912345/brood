@@ -21,5 +21,6 @@
 /config/database.yml
 /config/deploy.local.rb
 /config/deploy.remote.rb
+/config/schedule.development.rb
 #
 vendor/cache

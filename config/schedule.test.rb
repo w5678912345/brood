@@ -38,18 +38,15 @@ every 30.minutes do
 end
 
 #
-
-
-every 1.day, :at => '6:00 am' do
+every :day, :at => '6:00 am' do
   runner 'Api.reset_role_vit_power',:environment => str_environment
 end
 
 
-
-every 1.day, :at => '6:00 am' do
+every :day, :at => '6:00 am' do
 	runner 'Api.reset_ip_use_count',:environment => str_environment
 end
 
-every 1.day ,:at => '0:00 am' do
+every :day ,:at => '0:00 am' do
   runner 'Api.role_auto_pay',:environment => str_environment
 end
