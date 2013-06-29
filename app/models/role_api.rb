@@ -44,6 +44,7 @@ module RoleApi
 	     #...
 	     self.transaction do
 	      #Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync")
+				self.updated_at = Time.now
 				self.total = self.total_pay + self.gold if self.gold_changed?
 	      return 1 if self.save
 	     end
