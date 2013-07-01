@@ -22,3 +22,8 @@ show variables like '%time_zone%';
 cat /etc/timezone
 
 tar xzvf lua-5.1.2.tar.gz
+
+
+swapon -s
+
+vmstat

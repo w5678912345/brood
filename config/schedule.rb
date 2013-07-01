@@ -33,14 +33,13 @@ every 20.minutes do
 end
 
 #
-every 30.minutes do
+every 60.minutes do
   runner 'Api.role_auto_reopen',:environment => str_environment
 end
 
 every :day, :at => '6:00 am' do
   runner 'Api.reset_role_vit_power',:environment => str_environment
 end
-
 
 
 every :day, :at => '6:00 am' do

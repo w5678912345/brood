@@ -38,7 +38,7 @@ module RoleApi
  	def api_sync opts
 	     self.role_index = opts[:role_index] if opts[:role_index]
 	     self.server = opts[:server] if opts[:server]
-	     self.level = opts[:level] if opts[:level]
+	     self.level = opts[:level] if opts[:level] && opts[:level].to_i > 0
 	     self.vit_power = opts[:vit_power] if opts[:vit_power]
 	     self.gold = opts[:gold] if opts[:gold]
 	     #...

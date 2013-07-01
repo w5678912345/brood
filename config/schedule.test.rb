@@ -28,12 +28,12 @@ str_environment = 'test'
 # end
 
 #
-every 20.minutes do
+every 30.minutes do
   runner 'Api.role_auto_offline',:environment => str_environment
 end
 
 
-every 30.minutes do
+every 60.minutes do
 	runner 'Api.role_auto_reopen',:environment => str_environment
 end
 
