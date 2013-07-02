@@ -5,7 +5,7 @@
 
 # Example:
 #
- set :output, "log/cron.test.log"
+ set :output, {:error => "log/cron.test.error.log", :standard => "log/cron.test.log"}
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
