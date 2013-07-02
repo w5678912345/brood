@@ -14,7 +14,7 @@
 </thead>
 <tbody>
 <% @notes.each do |note|%>
-<tr>
+<tr title="<%= note.msg %>">
 	<td><%= note.id%>#<%= time_str note.created_at %></td>
 	<td><%= link_to "#{note.role.account}##{note.role.role_index}",role_path(note.role) if note.role%></td>
 	<td><%= link_to note.computer.hostname,computer_path(note.computer) if note.computer%></td>

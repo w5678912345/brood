@@ -43,7 +43,7 @@ module RoleApi
 	     self.gold = opts[:gold] if opts[:gold]
 	     #...
 	     self.transaction do
-	      Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync")
+	      Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync",:msg=>opts.to_s)
 				self.updated_at = Time.now
 				self.total = self.total_pay + self.gold if self.gold_changed?
 	      return 1 if self.save
@@ -55,7 +55,7 @@ module RoleApi
 			roles = self.same_account_roles
 			roles.each do |role|
 					role.update_attributes(:close=>true,:close_hours=>opts[:h].to_i,:closed_at => Time.now,:reopen_at=>Time.now.ago(-opts[:h].to_i.hours))
-					Note.create(:role_id=>role.id,:ip=>opts[:ip],:api_name=>"close",:computer_id=>self.computer.id,:msg=>opts[:h])
+					Note.create(:role_id=>role.id,:ip=>opts[:ip],:api_name=>"close",:computer_id=>self.computer.id,:msg=>opts.to_s)
 			end
 	   		 return 1
 	   		end
