@@ -12,7 +12,9 @@ mina:
 #server =>  ubuntu@ec2-54-242-118-120.compute-1.amazonaws.com
 
 
-#git => ubuntu@ec2-54-242-118-120.compute-1.amazonaws.com:apps/brood.git
+#git => ubuntu@ec2-54-242-118-120.compute-1.amazonaws.com:repo/brood.git
+
+git config remote.origin.url ubuntu@ec2-54-242-118-120.compute-1.amazonaws.com:repo/brood.git
 
 #svn export =>  export https://192.168.0.200:3115/svn/Brood/trunk/server/brood --force
 
