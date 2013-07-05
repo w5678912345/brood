@@ -6,7 +6,7 @@ class IpsController < ApplicationController
 	before_filter :set_ip
 
 	def index
-		@ips = Ip.paginate(:page => params[:page], :per_page => 10)
+		@ips = Ip.paginate(:page => params[:page], :per_page => 15)
 	end
 
 	def show
