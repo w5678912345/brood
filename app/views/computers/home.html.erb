@@ -17,4 +17,19 @@
 	</td>
 </tr>
 </table>
+<% @coms =  Computer.select("server,count(id) as server_count ").group("server")%>
+<table class="table table-bordered">
+<tr>
+	<td>服务器</td>
+	<td>机器数量</td>
+</tr>
+<% @coms.each do |com| %>
+<tr>
+	<td><%= com.server %>
+		<%= raw('<span class="label label-important">未指定</span>') if com.server.blank? %>
+	</td>
+	<td><%= com.server_count %></td>
+</tr>
+<% end %>
+</table>
 </fieldset>
