@@ -38,13 +38,17 @@ class Role < ActiveRecord::Base
 		#self.payments.sum(:gold)
 	#end
 
+	def self.get_roles
+		roles = self.can_online_scope
+	    role_max_level = Setting.find_value_by_key("role_max_level")
+	    if role_max_level
+	      roles = roles.where("level <= #{role_max_level}")
+	    end
+	end
+
+
   def self.get_role
-    roles = self.can_online_scope
-    role_max_level = Setting.find_value_by_key("role_max_level")
-    if role_max_level
-      roles = roles.where("level <= #{role_max_level}")
-    end
-    return roles.first
+    return self.get_roles.first
   end
 	
   #

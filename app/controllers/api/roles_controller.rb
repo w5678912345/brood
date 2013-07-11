@@ -23,11 +23,11 @@ class Api::RolesController < Api::BaseController
 
 	#search a role online
 	def online
-	    @role = Role.get_role
+		return @code =  CODES[:computer_no_server] unless @computer.set_server
+	    @role = Role.get_roles.where(:server => @computer.server).first
+
 	    return @code = CODES[:not_find_role] unless @role # not find role
-	    #call
-	   # begin
-	      @code = @role.api_online params
+	    @code = @role.api_online params
 	   
 	end
 
@@ -106,7 +106,8 @@ class Api::RolesController < Api::BaseController
 	def require_computer_by_ckey
 			@computer = Computer.find_by_auth_key(params[:ckey]) if params[:ckey]
 			@code = CODES[:not_find_computer] unless @computer
-			return render :partial => 'api/roles/result' unless @computer
+			#@code = CODES[:computer_no_server] unless @computer.set_server
+			return render :partial => 'api/roles/result' unless @code == 0
 			params[:cid] = @computer.id
 	end
 

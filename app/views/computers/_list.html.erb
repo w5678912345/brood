@@ -19,6 +19,7 @@
 <tr>
 	<th>选择</th>
 	<th>主机名</th>
+	<th>服务器</th>
 	<th>Auth Key</th>
   <th>在线角色</th>
 	<th>创建时间</th>
@@ -38,6 +39,7 @@
 </label>
 </td>
 <td><%= link_to computer.hostname,computer_path(computer) %></td>
+<td><%= computer.server %></td>
 <td><%= computer.auth_key %></td>
 <td><%= link_to computer.roles_count,roles_computer_path(computer) %></td>
 <td><%= time_str computer.created_at %></td>

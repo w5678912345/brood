@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130624023319) do
+ActiveRecord::Schema.define(:version => 20130711052051) do
 
   create_table "computers", :force => true do |t|
     t.string   "hostname",                         :null => false
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(:version => 20130624023319) do
     t.boolean  "checked",       :default => false, :null => false
     t.integer  "check_user_id", :default => 0
     t.datetime "checked_at"
+    t.string   "server"
   end
 
   create_table "ips", :primary_key => "value", :force => true do |t|

@@ -50,6 +50,7 @@ class ComputersController < ApplicationController
 
   def update
     @computer = Computer.find(params[:id])
+    #params[:server] = params[:server].blank? ? nil : params[:server]
     @computer.update_attributes(params[:computer])
     redirect_to computers_path()
   end

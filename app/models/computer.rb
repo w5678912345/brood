@@ -1,16 +1,16 @@
 # encoding: utf-8
 class Computer < ActiveRecord::Base
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count
-	attr_accessible :check_user_id,:checked,:checked_at
+  attr_accessible :check_user_id,:checked,:checked_at,:server
   belongs_to :user
-	belongs_to :check_user,:class_name => 'user'
+  belongs_to :check_user,:class_name => 'user'
   has_many :roles
   has_many :notes,:dependent => :destroy, :order => 'id DESC'
 
   default_scope :order => 'id DESC'
 
-	scope :checked_scope,where(:checked => true)
-	scope :ubchecked_scope,where(:checked => false)
+  scope :checked_scope,where(:checked => true)
+  scope :ubchecked_scope,where(:checked => false)
 	 
   
   validates_presence_of :hostname,:auth_key,:user_id
@@ -25,6 +25,10 @@ class Computer < ActiveRecord::Base
 	def uncheck
 			self.checked = false
 			#self.check_user 
+	end
+
+	def set_server
+		return ! self.server.blank?
 	end
   
 end
