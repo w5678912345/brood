@@ -19,8 +19,9 @@ module RoleApi
     self.transaction do
       computer.update_attributes(:roles_count=>computer.roles_count+1) 
       ip.update_attributes(:use_count=>ip.use_count+1)
+      server = self.server.blank? ? computer.server : self.server
       Note.create(:role_id=>self.id,:computer_id=>computer.id,:ip=>ip.value,:api_name=>"online")
-      return 1 if self.update_attributes(:online=>true,:computer_id=>computer.id,:ip=>ip.value)
+      return 1 if self.update_attributes(:online=>true,:computer_id=>computer.id,:ip=>ip.value,:server=>server)
     end
   end
 
