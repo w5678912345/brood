@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Computer < ActiveRecord::Base
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count
-  attr_accessible :check_user_id,:checked,:checked_at,:server
+  attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at
   belongs_to :user
   belongs_to :check_user,:class_name => 'user'
   has_many :roles
@@ -13,7 +13,7 @@ class Computer < ActiveRecord::Base
   scope :ubchecked_scope,where(:checked => false)
 	 
   
-  validates_presence_of :hostname,:auth_key,:user_id,:server
+  validates_presence_of :hostname,:auth_key,:user_id
   validates_uniqueness_of :auth_key
 
 

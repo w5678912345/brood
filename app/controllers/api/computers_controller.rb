@@ -27,8 +27,15 @@ class Api::ComputersController < Api::BaseController
 		@code = 0
 		@computer = Computer.find_by_auth_key(params[:ckey])
 		return @code = CODES[:not_find_computer] unless @computer
-		@code = 1 if @computer.update_attributes(:server=>params[:server])
-		#render :partial => '/api/roles/result'
+		@code = 1 if @computer.update_attributes(:server=>params[:server],:updated_at=>Time.now)
+		render :partial => '/api/roles/result'
+	end
+
+	def cinfo
+		@code = 0
+		@computer = Computer.find_by_auth_key(params[:ckey])
+		return @code = CODES[:not_find_computer] unless @computer
+		@code = 1 if @computer
 	end
 
 end

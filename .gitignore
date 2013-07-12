@@ -24,3 +24,4 @@
 /config/schedule.development.rb
 #
 vendor/cache
+dump.rdb

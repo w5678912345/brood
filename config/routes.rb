@@ -89,6 +89,7 @@ Brood::Application.routes.draw do
     match '/' => 'base#readme'
     match '/reg'  => 'computers#reg'
     match '/set'  => 'computers#set'
+    match '/cinfo' => 'computers#cinfo'
     resources :roles ,:only => [:show],:defaults => { :format => 'json' } do
 			
       match :close,   :on => :member
