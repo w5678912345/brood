@@ -13,7 +13,7 @@ class Api::ComputersController < Api::BaseController
 			#-------------------
 		user = User.find_by_id(params[:user_id])
 		return @code = CODES[:not_find_user] unless user #not find user
-		@computer = Computer.new(:hostname=>params[:hostname],:auth_key => params[:auth_key],:user_id=>user.id)
+		@computer = Computer.new(:hostname=>params[:hostname],:auth_key => params[:auth_key],:user_id=>user.id,:server=>params[:server])
 		return @code = CODES[:not_valid_computer] unless @computer.valid? #computer validate not pass
 		begin
 		  @computer.save

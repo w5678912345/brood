@@ -4,7 +4,7 @@ module RoleApi
   #
   def api_online opts
     return CODES[:role_have_online] if self.online
-	return CODES[:role_server_is_nil] if self.server.blank?
+	#return CODES[:role_server_is_nil] if self.server.blank?
     return CODES[:role_has_closed] if self.close
     # get computer
     computer = Computer.find_by_auth_key(opts[:ckey])

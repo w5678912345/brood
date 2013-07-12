@@ -24,8 +24,8 @@ class Api::RolesController < Api::BaseController
 	#search a role online
 	def online
 		return @code =  CODES[:computer_no_server] unless @computer.set_server
-	    @role = Role.get_roles.where(:server => @computer.server).first
-
+	    #@role = Role.get_roles.where(:server => @computer.server).first
+	    @role = Role.get_roles.where("server = ? or server = '' or server is NULL", @computer.server).first
 	    return @code = CODES[:not_find_role] unless @role # not find role
 	    @code = @role.api_online params
 	   

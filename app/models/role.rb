@@ -14,7 +14,7 @@ class Role < ActiveRecord::Base
 
 	validates_presence_of :account, :password
 	#
-  scope :can_online_scope, where(:online => false).where(:close => false).where("vit_power > 0").where("server IS NOT NULL").where("server != ''")
+  scope :can_online_scope, where(:online => false).where(:close => false).where("vit_power > 0")
 	
 	default_scope order("online desc").order("close asc").order("level desc").order("vit_power desc").order("updated_at DESC")
 
@@ -27,11 +27,11 @@ class Role < ActiveRecord::Base
 	end
 
 	def display
-			return "#{self.account}##{self.role_index}"
+		return "#{self.account}##{self.role_index}"
 	end
 
 	def can_online
-			return !self.server.blank? && self.vit_power > 0 && !self.online && !self.close  
+		return self.vit_power > 0 && !self.online && !self.close  
 	end
 
 	#def total_pay

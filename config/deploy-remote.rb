@@ -95,7 +95,7 @@ task :deploy => :environment do
 
     to :launch do
       invoke :'thin:start'
-      invoke :'whenever:write'
+      #invoke :'whenever:write'
     end
     
     to :clean do

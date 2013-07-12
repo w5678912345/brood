@@ -13,18 +13,16 @@ class Computer < ActiveRecord::Base
   scope :ubchecked_scope,where(:checked => false)
 	 
   
-  validates_presence_of :hostname,:auth_key,:user_id
+  validates_presence_of :hostname,:auth_key,:user_id,:server
   validates_uniqueness_of :auth_key
 
 
 	def check opts
-			self.checked = opts[:checked]
-			
+		self.checked = opts[:checked]
 	end
 
 	def uncheck
-			self.checked = false
-			#self.check_user 
+		self.checked = false
 	end
 
 	def set_server
