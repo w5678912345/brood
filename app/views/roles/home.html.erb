@@ -15,16 +15,16 @@
 </thead>
 <tbody>
 <tr>
-  <td>Online</td>
+  <td>在线</td>
   <td><%= link_to Role.where(:online => true).count,online_roles_path %>
   </td>
-  <td>Closed</td>
+  <td>封号</td>
   <td><%= link_to Role.where(:close => true).count,closed_roles_path %></td>
 </tr>
 <tr>
-  <td>Off</td>
+  <td>不在线</td>
   <td><%= link_to Role.where(:online => false).count,offline_roles_path %></td>
-  <td>Not Closed</td>
+  <td>未封号</td>
   <td><%= link_to Role.where(:close => false).count,not_closed_roles_path %></td>
 </tr>
 <tr>
