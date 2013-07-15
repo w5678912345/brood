@@ -38,12 +38,12 @@ every 60.minutes do
   runner 'Api.role_auto_reopen',:environment => str_environment
 end
 
-every :day, :at => '10:30 am' do
+every :day, :at => '06:00 am' do
   runner 'Api.reset_role_vit_power',:environment => str_environment
 end
 
 
-every :day, :at => '10:20 am' do
+every :day, :at => '07:00 am' do
 	runner 'Api.reset_ip_use_count',:environment => str_environment
 end
 
