@@ -27,11 +27,12 @@ module RoleApi
 
   #
   def api_offline opts
-    ip = Ip.find_or_create(opts[:ip] || self.ip)
+    #ip = Ip.find_or_create(opts[:ip] || self.ip)
+    ip = opts[:ip] || self.ip
     self.transaction do
        self.computer.update_attributes(:roles_count=>self.computer.roles_count-1) if self.computer && self.computer.roles_count > 0
        #ip.update_attributes(:use_count=>ip.use_count-1) if ip.use_count > 0
-       Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"offline")
+       Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip,:api_name=>"offline")
        return 1 if self.update_attributes(:online=>false,:computer_id=>0,:ip=>nil)
     end
   end

@@ -39,11 +39,13 @@ CODES = {
   # every day at 6:00 am
   def self.reset_role_vit_power
     Role.where("vit_power < 156").update_all(:vit_power => 156)
+    Note.create(:role_id=>0,:ip=>"localhost",:api_name => "reset_role")
   end
 
    # every day at 6:00 am
    def self.reset_ip_use_count
     Ip.where("use_count > 0").update_all(:use_count => 0)
+     Note.create(:role_id=>0,:ip=>"localhost",:api_name => "reset_ip")
    end
 
    #

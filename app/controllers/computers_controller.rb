@@ -69,7 +69,7 @@ class ComputersController < ApplicationController
 
   def notes
     @computer = Computer.find_by_id(params[:id])
-    @notes = @computer.notes.paginate(:page => params[:page], :per_page => 10) if @computer
+    @notes = @computer.notes.paginate(:page => params[:page], :per_page => 15) if @computer
   end
 
   def roles
