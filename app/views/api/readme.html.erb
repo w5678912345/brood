@@ -16,7 +16,7 @@
 <tr>
 <td>reg.json</td>
 <td>注册computer，{hostname,auth_key,server}</td>
-<td rowspan="12">
+<td rowspan="13">
 <ul>
 	<% Api::CODES.each do | key, value | %>
 	<li><%= value %>  => <%= key %></li>
@@ -75,7 +75,7 @@
 
 <tr>
 <td>roles/:id/note.json</td>
-<td>通过id记录role的code，参数：code => 代码，ckey => 计算机key</td>
+<td>通过id记录role的code，参数：code => 代码， msg => 消息 ,ckey => 计算机key</td>
 
 </tr>
 

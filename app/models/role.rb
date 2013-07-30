@@ -44,6 +44,7 @@ class Role < ActiveRecord::Base
 	    if role_max_level
 	      roles = roles.where("level <= #{role_max_level}")
 	    end
+	    return roles
 	end
 
 
