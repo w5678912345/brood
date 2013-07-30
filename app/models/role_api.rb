@@ -58,7 +58,7 @@ module RoleApi
 			roles = self.same_account_roles
 			roles.each do |role|
 					role.update_attributes(:close=>true,:close_hours=>opts[:h].to_i,:closed_at => Time.now,:reopen_at=>Time.now.ago(-opts[:h].to_i.hours))
-					Note.create(:role_id=>role.id,:ip=>opts[:ip],:api_name=>"close",:computer_id=>self.computer.id)
+					Note.create(:role_id=>role.id,:ip=>opts[:ip],:api_name=>"close",:computer_id=>self.computer.id,:msg=>opts[:msg])
 			end
 	   		 return 1
 	   		end
@@ -75,7 +75,7 @@ module RoleApi
 	def pay	opts
 		ip = Ip.find_or_create(opts[:ip] || self.ip)
 		self.transaction do
-			note = Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"pay")
+			note = Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"pay",:msg=>opts[:remark])
 			payment = Payment.new(:role_id=>self.id,:gold => opts[:gold],:balance => opts[:balance],:remark => opts[:remark],:note_id => note.id,:pay_type=>opts[:pay_type])	
 			return CODES[:not_valid_pay] unless payment.valid? # validate not pass
 			self.gold = payment.balance			 #当前金币 = 支出后的余额
