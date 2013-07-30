@@ -40,15 +40,15 @@ end
 
 
 every :day ,:at => '0:00 am' do
-  runner 'Api.role_auto_pay',:environment => str_environment # 08:04:31
+  runner 'Api.role_auto_pay',:environment => str_environment 
 end
 
 
 every :day, :at => '06:39 am' do
-  runner 'Api.reset_role_vit_power',:environment => str_environment # 14:03:47
+  runner 'Api.reset_role_vit_power',:environment => str_environment 
 end
 
 
 every :day, :at => '7:00 am' do
-	runner 'Api.reset_ip_use_count',:environment => str_environment #15:04:20
+	runner 'Api.reset_ip_use_count',:environment => str_environment 
 end

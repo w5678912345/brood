@@ -13,7 +13,7 @@
 	<th>当前产出</th>
 	<th>备注</th>
 	<th>类型</th>
-<tr>
+</tr>
 </thead>
 <tbody>
 <% @payments.each do |payment|%>
@@ -29,3 +29,4 @@
 <%end%>
 </tbody>
 </table>
+<%= will_paginate @payments %>
