@@ -32,6 +32,19 @@ class RolesController < ApplicationController
 		render :template => 'roles/index'
 	end
 
+	def locked
+		@roles = Role.includes(:computer).where(:locked => true).paginate(:page => params[:page], :per_page => 15)
+		@list_title = "已锁定角色"
+		render :template => 'roles/index'
+	end
+
+	def unlocked
+		@roles = Role.includes(:computer).where(:locked => false).paginate(:page => params[:page], :per_page => 15)
+		@list_title = "未锁定角色"
+		render :template => 'roles/index'
+	end
+
+
 	def waiting
 		@roles = Role.includes(:computer).can_online_scope
 		role_max_level = Setting.find_value_by_key("role_max_level")
@@ -40,6 +53,8 @@ class RolesController < ApplicationController
 		@list_title = "即将上线"
 		render :template => 'roles/index'
 	end
+
+
 
 	def reset_vip_power
 		Api.reset_role_vit_power

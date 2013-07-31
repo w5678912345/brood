@@ -16,7 +16,7 @@
 <tr>
 <td>reg.json</td>
 <td>注册computer，{hostname,auth_key,server}</td>
-<td rowspan="13">
+<td rowspan="15">
 <ul>
 	<% Api::CODES.each do | key, value | %>
 	<li><%= value %>  => <%= key %></li>
@@ -90,8 +90,16 @@
 </tr>
 
 
+<tr>
+<td>roles/:id/lock.json</td>
+<td>通过id锁定一个角色，参数： msg => 消息, ckey => 计算机的key</td>
+</tr>
 
 
+<tr>
+<td>roles/:id/unlock.json</td>
+<td>通过id解锁一个角色，参数： msg => 消息, ckey => 计算机的key</td>
+</tr>
 <!-- 
 <tr>
 <td colspan="2">old 旧版本还是能调用。在客户端修改后，会取消</td>

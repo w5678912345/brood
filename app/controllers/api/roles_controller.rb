@@ -6,10 +6,10 @@ class Api::RolesController < Api::BaseController
 	#respond_to :json
 	##filters
 	before_filter :require_remote_ip
-	before_filter :require_computer_by_ckey,			:only => [:on,:off,:sync,:close,:note,:pay,:online]
-	before_filter :require_role_by_id,					:only => [:on,:off,:sync,:close,:note,:pay,:show]
-	before_filter :require_online_role,					:only => [:off,:sync,:close,:note,:pay]
-	before_filter :require_computer_eq_role,			:only => [:off,:sync,:close,:note,:pay]
+	before_filter :require_computer_by_ckey,			:only => [:on,:off,:sync,:close,:note,:pay,:online,:lock,:unlock]
+	before_filter :require_role_by_id,					:only => [:on,:off,:sync,:close,:note,:pay,:show,:lock,:unlock]
+	before_filter :require_online_role,					:only => [:off,:sync,:close,:note,:pay,:lock]
+	before_filter :require_computer_eq_role,			:only => [:off,:sync,:close,:note,:pay,:lock]
 	#after_filter  :update_role_server,					:only => [:on,:online]
 	#
 	def show
@@ -81,6 +81,16 @@ class Api::RolesController < Api::BaseController
 	#
 	def pay
 	  @code = @role.pay params
+		render :partial => 'api/roles/result'
+	end
+
+	def lock
+		@code = @role.api_lock params
+		render :partial => 'api/roles/result'
+	end
+
+	def unlock
+		@code = @role.api_unlock params
 		render :partial => 'api/roles/result'
 	end
 

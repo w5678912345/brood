@@ -12,7 +12,10 @@ Brood::Application.routes.draw do
     get 	:not_closed, 	:on => :collection
     get 	:search,  		:on => :collection
     get 	:auto_off,    :on => :collection
-		get 	:waiting,			:on => :collection
+		get   :locked,      :on => :collection
+    get   :unlocked,    :on => :collection
+    get 	:waiting,			:on => :collection
+
 		put		:reset_vip_power,			:on => :collection
 		put 	:reopen_all,					:on => :collection    
 		get 	:notes,   		:on => :member
@@ -98,6 +101,8 @@ Brood::Application.routes.draw do
       match :sync,    :on => :member
 			match :note,		:on => :member
 			match :pay,			:on => :member
+      match :lock,    :on => :member
+      match :unlock,  :on => :member
       #
 			match :add,			:on => :collection
       match :online, :on => :collection

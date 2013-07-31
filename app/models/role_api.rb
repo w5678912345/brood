@@ -20,7 +20,7 @@ module RoleApi
       computer.update_attributes(:roles_count=>computer.roles_count+1) 
       ip.update_attributes(:use_count=>ip.use_count+1)
       server = self.server.blank? ? computer.server : self.server
-      Note.create(:role_id=>self.id,:computer_id=>computer.id,:ip=>ip.value,:api_name=>"online")
+      Note.create(:role_id=>self.id,:computer_id=>computer.id,:ip=>ip.value,:api_name=>"online",:msg=>opts[:msg])
       return 1 if self.update_attributes(:online=>true,:computer_id=>computer.id,:ip=>ip.value,:server=>server)
     end
   end
@@ -32,7 +32,7 @@ module RoleApi
     self.transaction do
        self.computer.update_attributes(:roles_count=>self.computer.roles_count-1) if self.computer && self.computer.roles_count > 0
        #ip.update_attributes(:use_count=>ip.use_count-1) if ip.use_count > 0
-       Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip,:api_name=>"offline")
+       Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip,:api_name=>"offline",:msg=>opts[:msg])
        return 1 if self.update_attributes(:online=>false,:computer_id=>0,:ip=>nil)
     end
   end
@@ -98,6 +98,26 @@ module RoleApi
 				note.computer_id = computer.id if computer
 				return 1 if note.save
 			end
+	end
+
+
+	def api_lock opts
+		return 1 if self.locked
+		self.transaction do
+			self.locked = true
+			Note.create(:role_id => self.id,:ip=>opts[:ip],:computer_id=>opts[:cid],:api_name => "lock",:msg => opts[:msg]) 
+			return 1 if self.save
+		end
+	end
+
+
+	def api_unlock opts
+		return 1 unless self.locked
+		self.transaction do
+			self.locked = false
+			Note.create(:role_id => self.id,:ip=>opts[:ip],:computer_id=>opts[:cid],:api_name => "unlock",:msg => opts[:msg]) 
+			return 1 if self.save
+		end
 	end
 	
 	#重开角色的API

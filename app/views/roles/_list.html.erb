@@ -18,7 +18,9 @@
 <% @roles.each do |role| %>
 <tr <%= "class=error title=#{role.close_hours}" if role.close %>>
 <td><%= role.id %></td>
-<td><%= link_to "#{role.account}##{role.role_index}",role_path(role) %></td>
+<td><%= link_to "#{role.account}##{role.role_index}",role_path(role) %>
+<%= raw('<i class=" icon-lock"></i>') if role.locked %>
+</td>
 <td><%= role.server%></td>
 <td><%= role.level%></td>
 <td><%= role.vit_power %></td>
