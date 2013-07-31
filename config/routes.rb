@@ -25,6 +25,7 @@ Brood::Application.routes.draw do
 		put		:off,					:on => :member
 		put		:reopen,			:on => :member
 		put   :unlock,      :on => :member
+    put   :regain,       :on => :member
   end
 
   resources :computers do 

@@ -91,6 +91,12 @@ class RolesController < ApplicationController
 		redirect_to locked_roles_path
 	end
 
+	def regain
+		@role = Role.find_by_id(params[:id])
+		@role.update_attributes(:lost => false) if @role
+		redirect_to lost_roles_path
+	end
+
 	
 	def notes
 		@role = Role.find_by_id(params[:id])

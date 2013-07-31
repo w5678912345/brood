@@ -8,7 +8,7 @@ class Role < ActiveRecord::Base
 	#has_many   :roles,		:class_name => 'Role',	:foreign_key => 'account'
 
   attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip
-  attr_accessible :close,:close_hours,:closed_at,:reopen_at,:locked
+  attr_accessible :close,:close_hours,:closed_at,:reopen_at,:locked,:lost
 
   #default_scope :order => 'id DESC'
 
@@ -31,7 +31,7 @@ class Role < ActiveRecord::Base
 	end
 
 	def can_online
-		return self.vit_power > 0 && !self.online && !self.close  
+		return self.vit_power > 0 && !self.online && !self.close  && !self.locked && !self.lost 
 	end
 
 	#def total_pay

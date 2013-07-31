@@ -55,6 +55,13 @@ No<%= "(Waiting...)" if role.can_online%>
 	<%= link_to raw('<i  class="icon-lock"></i>解锁') , unlock_role_path(role),:method => :put%>
 </li>
 <%end%>
+
+<% if role.lost %>
+<li>
+	<%= link_to raw('<i  class="icon-refresh"></i>恢复') , regain_role_path(role),:method => :put%>
+</li>
+<%end%>
+
 <li>
     <%= link_to raw("<i class='icon-edit'></i>修改"),edit_role_path(role) %>
 </li>

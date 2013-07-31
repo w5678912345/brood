@@ -26,13 +26,13 @@
 </tr>
 
 <tr>
-  <td>Locked</td>
+  <td>Lock</td>
   <td>锁定 <%= link_to Role.where(:locked => true).count,locked_roles_path %></td>
   <td>未锁定 <%= link_to Role.where(:locked => false).count,unlocked_roles_path %></td>
 </tr>
 
 <tr>
-  <td>Lost</td>
+  <td>Lose</td>
   <td>丢失 <%= link_to Role.where(:lost => true).count,lost_roles_path %></td>
   <td>未丢失 <%= link_to Role.where(:lost => false).count,unlost_roles_path %></td>
 </tr>
