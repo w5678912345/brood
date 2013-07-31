@@ -73,14 +73,20 @@ class RolesController < ApplicationController
 		@roles = @roles.paginate(:page => params[:page], :per_page => 10)
 	end
 
+	def unlock
+		@role = Role.find_by_id(params[:id])
+		@role.update_attributes(:locked => false) if @role
+		redirect_to locked_roles_path
+	end
+
 	
 	def notes
-		@role = Role.find(params[:id])
+		@role = Role.find_by_id(params[:id])
 		@notes = @role.notes.includes(:computer).paginate(:page => params[:page], :per_page => 15)
 	end
 
 	def payments
-		@role = Role.find(params[:id])
+		@role = Role.find_by_id(params[:id])
 		@payments = @role.payments.paginate(:page => params[:page],:per_page => 15)
 	end
 

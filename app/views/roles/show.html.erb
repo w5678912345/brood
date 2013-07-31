@@ -11,7 +11,7 @@
 <tbody>
 <tr>
 <th>账户:</th>
-<td><%= @role.account %></td>
+<td><%= @role.account %> <%= raw('<i class="icon-lock" title="已锁定"></i>') if @role.locked %></td>
 <td><b>密码:</b></td>
 <td>*********</td>
 <td><b>Index:</b></td>

@@ -22,7 +22,7 @@ Brood::Application.routes.draw do
 		get 	:payments, 		:on => :member
 		put		:off,					:on => :member
 		put		:reopen,			:on => :member
-		
+		put   :unlock,      :on => :member
   end
 
   resources :computers do 
