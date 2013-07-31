@@ -119,6 +119,15 @@ module RoleApi
 			return 1 if self.save
 		end
 	end
+
+	def api_lose opts
+		return 1 if self.lost
+		self.transaction do
+			self.lost = true
+			Note.create(:role_id => self.id,:ip=>opts[:ip],:computer_id=>opts[:cid],:api_name => "lose",:msg => opts[:msg]) 
+			return 1 if self.save
+		end
+	end
 	
 	#重开角色的API
   def api_reopen opts

@@ -9,24 +9,34 @@
 <table class="table table-bordered">
 <thead>
 <tr>
-  <th colspan="2">By On-line</th>
-  <th colspan="2">By Closed</th>
+  <th >统计类型</th>
+  <th colspan="2">#</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-  <td>在线</td>
-  <td><%= link_to Role.where(:online => true).count,online_roles_path %>
-  </td>
-  <td>封号</td>
-  <td><%= link_to Role.where(:close => true).count,closed_roles_path %></td>
+  <td>Online</td>
+  <td>在线 <%= link_to Role.where(:online => true).count,online_roles_path %></td>
+  <td>不在线 <%= link_to Role.where(:online => false).count,offline_roles_path %></td>
 </tr>
 <tr>
-  <td>不在线</td>
-  <td><%= link_to Role.where(:online => false).count,offline_roles_path %></td>
-  <td>未封号</td>
-  <td><%= link_to Role.where(:close => false).count,not_closed_roles_path %></td>
+  <td>Close</td>
+  <td>封号 <%= link_to Role.where(:close => true).count,closed_roles_path %></td>
+  <td>未封号 <%= link_to Role.where(:close => false).count,not_closed_roles_path %></td>
 </tr>
+
+<tr>
+  <td>Locked</td>
+  <td>锁定 <%= link_to Role.where(:locked => true).count,locked_roles_path %></td>
+  <td>未锁定 <%= link_to Role.where(:locked => false).count,unlocked_roles_path %></td>
+</tr>
+
+<tr>
+  <td>Lost</td>
+  <td>丢失 <%= link_to Role.where(:lost => true).count,lost_roles_path %></td>
+  <td>未丢失 <%= link_to Role.where(:lost => false).count,unlost_roles_path %></td>
+</tr>
+
 <tr>
 <td colspan="4" style="text-align:center;">
 	<%= link_to Role.count,roles_path %>

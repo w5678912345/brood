@@ -44,6 +44,18 @@ class RolesController < ApplicationController
 		render :template => 'roles/index'
 	end
 
+	def lost
+		@roles = Role.includes(:computer).where(:lost => true).paginate(:page => params[:page], :per_page => 15)
+		@list_title = "已丢失角色"
+		render :template => 'roles/index'
+	end
+
+	def unlost
+		@roles = Role.includes(:computer).where(:lost => false).paginate(:page => params[:page], :per_page => 15)
+		@list_title = "未丢失角色"
+		render :template => 'roles/index'
+	end
+
 
 	def waiting
 		@roles = Role.includes(:computer).can_online_scope

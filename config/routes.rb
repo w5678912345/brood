@@ -14,6 +14,8 @@ Brood::Application.routes.draw do
     get 	:auto_off,    :on => :collection
 		get   :locked,      :on => :collection
     get   :unlocked,    :on => :collection
+    get   :lost,        :on => :collection
+    get   :unlost,      :on => :collection
     get 	:waiting,			:on => :collection
 
 		put		:reset_vip_power,			:on => :collection
@@ -103,6 +105,7 @@ Brood::Application.routes.draw do
 			match :pay,			:on => :member
       match :lock,    :on => :member
       match :unlock,  :on => :member
+      match :lose,    :on => :member
       #
 			match :add,			:on => :collection
       match :online, :on => :collection

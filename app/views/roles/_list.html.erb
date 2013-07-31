@@ -19,7 +19,8 @@
 <tr <%= "class=error title=#{role.close_hours}" if role.close %>>
 <td><%= role.id %></td>
 <td><%= link_to "#{role.account}##{role.role_index}",role_path(role) %>
-<%= raw('<i class=" icon-lock"></i>') if role.locked %>
+<%= raw('<i class="icon-lock" title="帐号锁定"></i>') if role.locked %>
+<%= raw('<i class="icon-warning-sign" title="密码丢失"></i>') if role.lost %>
 </td>
 <td><%= role.server%></td>
 <td><%= role.level%></td>
