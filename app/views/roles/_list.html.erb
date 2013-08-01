@@ -22,7 +22,8 @@
 <%= raw('<i class="icon-lock" title="帐号锁定"></i>') if role.locked %>
 <%= raw('<i class="icon-warning-sign" title="密码丢失"></i>') if role.lost %>
 <%if role.close %>
-<span class="label label-important">(<%= role.close_hours%>小时)-<%= time_str role.reopen_at %></span>
+
+<span class="label label-important" title="重开时间<%= time_str role.reopen_at%>">(<%= role.close_hours%>小时)</span>
 <%end%>
 </td>
 <td><%= role.server%></td>
