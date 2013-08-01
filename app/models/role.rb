@@ -16,7 +16,7 @@ class Role < ActiveRecord::Base
 	#
   scope :can_online_scope, where(:online => false).where(:close => false).where(:locked=>false).where(:lost=>false).where("vit_power > 0")
 	
-	default_scope order("online desc").order("close asc").order("level desc").order("vit_power desc").order("updated_at DESC")
+	default_scope order("online desc").order("close asc").order("level desc").order("vit_power desc")
 
   def total_gold
 			self.gold + self.total_pay

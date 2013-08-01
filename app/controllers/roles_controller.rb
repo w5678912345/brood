@@ -21,7 +21,7 @@ class RolesController < ApplicationController
 	end
 
 	def closed
-		@roles = Role.includes(:computer).where(:close =>true).paginate(:page => params[:page], :per_page => 15)
+		@roles = Role.includes(:computer).order("reopen_at ASC").where(:close =>true).paginate(:page => params[:page], :per_page => 15)
 		@list_title = "已封号"
 		render :template => 'roles/index'
 	end

@@ -4,7 +4,7 @@ class ComputersController < ApplicationController
 	load_and_authorize_resource :class => "Computer"
   
   def index
-  	@computers= Computer.includes(:user).paginate(:page => params[:page], :per_page => 15)
+  	@computers= Computer.includes(:user).order("hostname desc").paginate(:page => params[:page], :per_page => 15)
   end
 
   def home

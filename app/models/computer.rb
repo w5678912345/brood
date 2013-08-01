@@ -7,7 +7,7 @@ class Computer < ActiveRecord::Base
   has_many :roles
   has_many :notes,:dependent => :destroy, :order => 'id DESC'
 
-  default_scope :order => 'id DESC'
+  default_scope :order => 'server DESC'
 
   scope :checked_scope,where(:checked => true)
   scope :ubchecked_scope,where(:checked => false)
