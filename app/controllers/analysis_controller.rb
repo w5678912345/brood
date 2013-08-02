@@ -13,6 +13,19 @@ class AnalysisController < ApplicationController
 		@notes = @notes.where(:api_name => "online").includes(:role).paginate(:page => params[:page], :per_page => 10)
 	end
 
+
+	def by
+		#render :text => params[:date]
+		date = Date.today
+		date = Date.parse params[:date] unless params[:date].blank?
+		@notes =  Note.where("date(created_at) = ?", date)
+		@online_count = @notes.where(:api_name => "online").select(:role_id).uniq.count
+		@success_count = @notes.where(:api_name => "success").select(:role_id).uniq.count
+		@fail_count = @online_count - @success_count
+		@notes = @notes.where(:api_name => "online").includes(:role).paginate(:page => params[:page], :per_page => 10)
+		render :template => 'analysis/index'
+	end
+
 	def home
 
 	end

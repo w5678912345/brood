@@ -79,8 +79,10 @@ Brood::Application.routes.draw do
 				
 	end
 
+   get "analysis/by/:date" => "analysis#by"
   resources :analysis,:only => [:index] do 
       get :home,  :on => :collection
+
       get :today, :on => :collection
       get :online,:on => :collection
   end
