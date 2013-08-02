@@ -81,7 +81,8 @@ Brood::Application.routes.draw do
 
   resources :analysis,:only => [:index] do 
       get :home,  :on => :collection
-      
+      get :today, :on => :collection
+      get :online,:on => :collection
   end
 	
 

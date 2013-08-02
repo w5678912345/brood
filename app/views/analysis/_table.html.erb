@@ -1,0 +1,35 @@
+<div class="alert">
+<strong>提示信息:</strong>
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<span>共<%= @notes.total_entries%>条记录</span> 
+</div>
+<table class="table table-bordered table-condensed">
+<thead>
+	<th width="15%">时间</th>
+	<th width="13%">角色</th>
+	<th width="17%">计算机</th>
+	<th width="10%">IP</th>
+	<th width="10%">Event</th>
+	<th width="5%">Code</th>
+	<th>Msg</th>
+</thead>
+<tbody>
+<% @notes.each do |note|%>
+<tr title="<%= note.msg %>">
+	<td title="<%= note.id%>"><%= time_str note.created_at %></td>
+	<td><%= link_to "#{note.role.account}##{note.role.role_index}",role_path(note.role) if note.role%></td>
+	<td><%= link_to note.computer.hostname,computer_path(note.computer) if note.computer%></td>
+	<td><%= link_to note.ip,notes_ip_path(ip_to_url note.ip) %></td>
+	<th><%= note.api_name.blank? ? "#" : note.api_name  %></th>
+	<th><%= note.api_code %></th>
+	<th><%= note.msg %></th>
+</tr>
+<%end%>
+</tbody>
+</table>
+
+<% if @page_params %>
+<%= will_paginate @notes, :params => @page_params %>
+<%else%>
+<%= will_paginate @notes,inner_window: 1, outer_window: 0  %>
+<%end %>

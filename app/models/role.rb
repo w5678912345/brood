@@ -4,7 +4,8 @@ class Role < ActiveRecord::Base
 
   belongs_to :computer
   has_many   :notes,		:dependent => :destroy, :order => 'id DESC'
-	has_many	 :payments,	:dependent => :destroy, :order => 'id DESC'
+  has_many	 :payments,	:dependent => :destroy, :order => 'id DESC'
+
 	#has_many   :roles,		:class_name => 'Role',	:foreign_key => 'account'
 
   attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip

@@ -1,0 +1,10 @@
+<form class="form-search" action="<%= analysis_path %>">
+日期:<input type="text" name="date" id="date" class="input-medium search-query" placeholder="from" value="<%= params[:date] || Date.today %>" />
+<button type="submit" class="btn">Search</button>
+</form>
+
+<script type="text/javascript">
+$(function(){
+	$("#date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+});
+</script>
