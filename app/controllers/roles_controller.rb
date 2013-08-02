@@ -8,6 +8,9 @@ class RolesController < ApplicationController
 		@roles = Role.includes(:computer).paginate(:page => params[:page], :per_page => 15)
 	end
 
+	def count
+	end
+
 	def online
 		@roles = Role.includes(:computer).where(:online=>true).paginate(:page => params[:page], :per_page => 15)
 		@list_title = "已在线角色"

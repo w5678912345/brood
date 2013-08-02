@@ -47,8 +47,9 @@ module RoleApi
 	     #...
 	     self.transaction do
 	      #Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync",:msg=>opts.to_s)
-				self.updated_at = Time.now
-				self.total = self.total_pay + self.gold if self.gold_changed?
+			self.updated_at = Time.now
+			self.total = self.total_pay + self.gold if self.gold_changed?
+			Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"success",:msg=>opts[:msg]) if self.vit_power == 0  
 	      return 1 if self.save
 	     end
  	end

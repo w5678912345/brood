@@ -17,6 +17,7 @@ Brood::Application.routes.draw do
     get   :lost,        :on => :collection
     get   :unlost,      :on => :collection
     get 	:waiting,			:on => :collection
+    get   :count,       :on => :collection
 
 		put		:reset_vip_power,			:on => :collection
 		put 	:reopen_all,					:on => :collection    
@@ -77,6 +78,11 @@ Brood::Application.routes.draw do
 	resources :users, :only => [:index,:new,:create,:show,:edit,:update,:destroy] do
 				
 	end
+
+  resources :analysis,:only => [:index] do 
+      get :home,  :on => :collection
+      
+  end
 	
 
   
