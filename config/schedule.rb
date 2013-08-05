@@ -44,11 +44,11 @@ every :day ,:at => '0:00 am' do
 end
 
 
-every :day, :at => '06:39 am' do
+every :day, :at => '06:00 am' do
   runner 'Api.reset_role_vit_power',:environment => str_environment 
 end
 
 
-every :day, :at => '7:00 am' do
+every :day, :at => '6:30 am' do
 	runner 'Api.reset_ip_use_count',:environment => str_environment 
 end
