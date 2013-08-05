@@ -2,26 +2,33 @@
 
 <%= render "form" %>
 
-
-
-
 <table class="table"> 
+<thead>
+<tr>
+	<th>#</th>
+	<th>角色数量</th>
+	<th>记录数量</th>
+</tr>
+</thead>
 
 <tbody>
 
 <tr>
 <td>上线角色</td>
-<td><%= @online_count %></td>
+<td><%= @online_role_count %></td>
+<td><%= @online_note_count %></td>
 </tr>
 
 <tr>
 <td>完成角色</td>
-<td><%= @success_count %></td>
+<td><%= @success_role_count %></td>
+<td><%= @success_note_count %></td>
 </tr>
 
 <tr>
 <td>未完成角色</td>
-<td><%= @fail_count %></td>
+<td><%= @fail_role_count %></td>
+<td><%= @fail_note_count %></td>
 </tr>
 
 

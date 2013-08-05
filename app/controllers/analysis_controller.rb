@@ -8,11 +8,18 @@ class AnalysisController < ApplicationController
 		
 		#
 		@notes =  Note.time_scope(@start_time,@end_time)
+		@online_role_ids = @notes.where(:api_name => "online").select(:role_id).uniq
+		@success_role_ids = @notes.where(:api_name => "success").select(:role_id).uniq
+		@fail_count_role_ids = @online_role_ids - @success_role_ids
+		#
+		@online_role_count = @online_role_ids.count #@notes.where(:api_name => "online").select(:role_id).uniq.count
+		@success_role_count = @success_role_ids.count  #@notes.where(:api_name => "success").select(:role_id).uniq.count
+		@fail_role_count = @online_role_count - @success_role_count
 
-		@online_count = @notes.where(:api_name => "online").select(:role_id).uniq.count
-		@success_count = @notes.where(:api_name => "success").select(:role_id).uniq.count
-		@fail_count = @online_count - @success_count
-		@notes = @notes.where(:api_name => "online").includes(:role).paginate(:page => params[:page], :per_page => 10)
+		@online_note_count = @notes.where(role_id: @online_role_ids.collect(&:role_id)).count
+		@success_note_count = @notes.where(role_id: @success_role_ids.collect(&:role_id)).count
+		@fail_note_count = @online_note_count - @success_note_count
+		#@notes = @notes.where(:api_name => "online").includes(:role).paginate(:page => params[:page], :per_page => 10)
 	end
 
 
