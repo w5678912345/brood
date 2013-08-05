@@ -1,6 +1,8 @@
+
+<%= render :partial => "form",:locals => {:path=> analysis_path } %>
+
 <%= render "navbar" %>
 
-<%= render "form" %>
 
 <table class="table"> 
 <thead>
@@ -15,19 +17,19 @@
 
 <tr>
 <td>上线角色</td>
-<td><%= @online_role_count %></td>
+<td><%= link_to "#{@online_role_ids.length}个",roles_analysis_path(:mark=>"online",:date=>@date.to_s)  %></td>
 <td><%= @online_note_count %></td>
 </tr>
 
 <tr>
 <td>完成角色</td>
-<td><%= @success_role_count %></td>
+<td><%= link_to "#{@success_role_ids.length}个",roles_analysis_path(:mark=>"success",:date=>@date.to_s) %></td>
 <td><%= @success_note_count %></td>
 </tr>
 
 <tr>
 <td>未完成角色</td>
-<td><%= @fail_role_count %></td>
+<td><%= link_to "#{@fail_role_ids.length}个",roles_analysis_path(:mark=>"fail",:date=>@date.to_s) %></td>
 <td><%= @fail_note_count %></td>
 </tr>
 

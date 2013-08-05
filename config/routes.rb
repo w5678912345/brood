@@ -80,11 +80,15 @@ Brood::Application.routes.draw do
 	end
 
   get "analysis/by/:date" => "analysis#by"
+  get "analysis/roles/:mark" => "analysis#roles",:as => "roles_analysis"
+  get "analysis/notes/:mark" => "analysis#notes",:as => "notes_analysis"
+  
   resources :analysis,:only => [:index] do 
       get :home,  :on => :collection
-
-      get :today, :on => :collection
       get :online,:on => :collection
+      #get :roles, :on => :collection
+      get :notes, :on => :collection
+       
   end
 	
 

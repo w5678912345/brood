@@ -102,8 +102,15 @@ class RolesController < ApplicationController
 
 	
 	def notes
+		@date = Date.parse params[:date] unless params[:date].blank?
+		@time = Time.new(@date.year,@date.month,@date.day,6,0,0) if @date
 		@role = Role.find_by_id(params[:id])
-		@notes = @role.notes.includes(:computer).paginate(:page => params[:page], :per_page => 15)
+		@notes = @role.notes
+		@notes = @notes.where(:api_name => params[:event]) unless params[:event].blank?
+		@notes = @notes.day_scope(@time) if @time
+
+
+		@notes = @notes.includes(:computer).paginate(:page => params[:page], :per_page => 15)
 	end
 
 	def payments

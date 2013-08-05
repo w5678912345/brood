@@ -1,0 +1,17 @@
+
+<% active = 'class=active'%>
+
+
+<ul class="nav nav-tabs">
+<li <%= active if params[:mark] == "online" %>>
+ <%= link_to raw('<i class="icon-list"></i>上线角色'),roles_analysis_path(:mark => "online",:date=>params[:date])  %>
+</li>
+<li <%= active if params[:mark] == "success" %>>
+  <%= link_to raw('<i class="icon-list"></i>完成角色'),roles_analysis_path(:mark => "success",:date=>params[:date])  %>
+</li>
+<li <%= active if params[:mark] == "fail" %>>
+  <%= link_to raw('<i class="icon-list"></i>未完成角色'),roles_analysis_path(:mark => "fail",:date => params[:date])  %>
+</li>
+
+
+</ul>

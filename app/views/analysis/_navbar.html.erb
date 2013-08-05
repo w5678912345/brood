@@ -4,13 +4,28 @@
  <%= link_to raw('<i class="icon-home"></i>分析主页'),home_analysis_path  %>
 </li>
 <li <%= active if controller_name == 'analysis' && action_name == 'index' %>>
- <%= link_to raw('<i class="icon-calendar"></i>基本情况'),analysis_path   %>
+ <%= link_to raw('<i class="icon-calendar"></i>基本情况'),analysis_path(:date => params[:date])   %>
 </li>
-<!-- 
-<li <%= active if controller_name == 'analysis' && action_name == 'history' %>>
- <%= link_to raw('<i class="icon-time"></i>历史情况'),today_analysis_path   %>
-</li>
- -->
 
+<li class="dropdown <%= 'active' if controller_name == 'analysis' && action_name == 'roles' %>">
+<a href="<%= roles_path %>" class="dropdown-toggle" data-toggle="dropdown">
+	<i class="icon-list"></i>角色列表<b class="caret"></b>
+</a>
+<ul class="dropdown-menu">
+	<li <%= active if params[:mark] == "online" %>>
+	<%= link_to "上线角色 (#{@online_role_ids.length})",roles_analysis_path(:mark => "online",:date=>params[:date])  %>
+	</li>
+	<li <%= active if params[:mark] == "success" %>>
+	<%= link_to "完成角色 (#{@success_role_ids.length})",roles_analysis_path(:mark => "success",:date=>params[:date])  %>
+	</li>
+	<li <%= active if params[:mark] == "fail" %>>
+	<%= link_to "未完成角色 (#{@fail_role_ids.length})",roles_analysis_path(:mark => "fail",:date => params[:date])  %>
+	</li>
+</ul>
+</li>
+
+<li <%= active if controller_name == 'analysis' && action_name == 'notes' %>>
+ <%= link_to raw('<i class="icon-list"></i>记录列表'),notes_analysis_path(:mark=>"online",:date=>params[:date])   %>
+</li>
 
 </ul>
