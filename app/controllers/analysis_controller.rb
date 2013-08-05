@@ -8,12 +8,6 @@ class AnalysisController < ApplicationController
 	end
 
 	def index
-
-		# @notes =  Note.time_scope(@start_time,@end_time)
-		# @online_role_ids = @notes.where(:api_name => "online").select(:role_id).uniq.collect(&:role_id)
-		# @success_role_ids = @notes.where(:api_name => "success").select(:role_id).uniq.collect(&:role_id)
-		# @fail_role_ids = @online_role_ids - @success_role_ids
-		#
 		@online_note_count = @notes.where(role_id: @online_role_ids).count
 		@success_note_count = @notes.where(role_id: @success_role_ids).count
 		@fail_note_count = @online_note_count - @success_note_count
@@ -21,10 +15,10 @@ class AnalysisController < ApplicationController
 
 
 	def roles
-		@notes =  Note.time_scope(@start_time,@end_time)
-		@online_role_ids = @notes.where(:api_name => "online").select(:role_id).uniq.collect(&:role_id)
-		@success_role_ids = @notes.where(:api_name => "success").select(:role_id).uniq.collect(&:role_id)
-		@fail_role_ids = @online_role_ids - @success_role_ids
+		# @notes =  Note.time_scope(@start_time,@end_time)
+		# @online_role_ids = @notes.where(:api_name => "online").select(:role_id).uniq.collect(&:role_id)
+		# @success_role_ids = @notes.where(:api_name => "success").select(:role_id).uniq.collect(&:role_id)
+		# @fail_role_ids = @online_role_ids - @success_role_ids
 		#return render :text => @fail_role_ids 
 
 		@roles = Role.where(id: @online_role_ids) if params[:mark] == "online"
@@ -35,20 +29,13 @@ class AnalysisController < ApplicationController
 
 		#@fail_count_role_ids = @online_role_ids - @success_role_ids
 
-		@roles =  @roles.paginate(:page => params[:page], :per_page => 15)
+		@roles =  @roles.paginate(:page => params[:page], :per_page => 20)
 	end
 
 	def notes
 		@notes =  Note.time_scope(@start_time,@end_time)
-	end
-
-
-	def online
-		@notes =  Note.where("date(created_at) = ?",Date.today)
-		#@notes.where(:api_name => "online").select(:role_id).uniq
-		role_ids = @notes.where(:api_name => "online").select(:role_id).uniq.collect(&:role_id)
-		@roles = Role.where("id in (?)",role_ids)
-		render :template => 'analysis/roles'
+		@success_notes = @notes.where(role_id: @success_role_ids).select("api_name,count(id) as ecount").group("api_name").order("api_name asc")
+		@fail_notes = @notes.where(role_id: @fail_role_ids).select("api_name,count(id) as ecount").group("api_name").order("api_name asc") 
 	end
 
 

@@ -1,2 +1,59 @@
 <%= render :partial => "form",:locals=>{:path=>roles_analysis_path(:mark => params[:mark])} %>
 <%= render "navbar" %>
+
+<div class="row-fluid">
+
+<div class="span6">
+<fieldset>
+<legend>已完成角色事件</legend>
+<ul><% success_notes_count = 0 %>
+<% @success_notes.each do |note|%>
+<li><%= link_to event_badge(note.api_name,note.ecount),"#"%></li>
+<% success_notes_count = success_notes_count + note.ecount %>
+<% end %>
+<li>合计:<%= success_notes_count%></li>
+</ul>
+
+</fieldset>
+</div>
+<div class="span6">
+<fieldset>
+<legend>未完成角色事件</legend>
+<ul><% fail_notes_count = 0 %>
+<% @fail_notes.each do |note|%>
+<li><%= link_to event_badge(note.api_name,note.ecount),"#"%></li>
+<% fail_notes_count = fail_notes_count + note.ecount %>
+<% end %>
+<li>合计:<%= fail_notes_count%></li>
+</ul>
+</fieldset>
+</div>
+
+</div>
+
+<!-- <div class="accordion" id="accordion2">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+        已完成角色事件
+      </a>
+    </div>
+    <div id="collapseOne" class="accordion-body collapse in">
+      <div class="accordion-inner">
+        Anim pariatur cliche...
+      </div>
+    </div>
+  </div>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+        未完成角色事件
+      </a>
+    </div>
+    <div id="collapseTwo" class="accordion-body collapse">
+      <div class="accordion-inner">
+        Anim pariatur cliche...
+      </div>
+    </div>
+  </div>
+</div> -->

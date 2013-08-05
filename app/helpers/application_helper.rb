@@ -17,7 +17,7 @@ module ApplicationHelper
 		cls = "badge-important" if event == "close"
 		cls = "badge-inverse" if event  == "lose"
 		html = "<span class='badge #{cls}'>#{event}</span>"
-		html = html + "(#{times})次" if times > 0
+		html = html + " (#{times})次" if times > 0
 		return html.html_safe
 
 	end

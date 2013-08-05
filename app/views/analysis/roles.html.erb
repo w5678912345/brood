@@ -15,18 +15,26 @@
 	<th>服务器</th>
 	<th>等级</th>
 	<th>疲劳值</th>
+	<th>完成</th>
 	<th>事件</th>
 </thead>
 
 <tbody>
 <%@roles.each do |role|%>
+<%notes = role.notes.day_scope(@date).select("api_name,count(id) as ecount").group("api_name") %>
+<% success = notes.where(:api_name => "success").exists? %>
 <tr>
-<td><%= role.id %></td>
-<td><%= link_to "#{role.account}##{role.role_index}",role_path(role) %></td>
+<td width="4%"><%= role.id %></td>
+<td>
+	<%= link_to "#{role.account}##{role.role_index}",role_path(role) %>
+</td>
 <td><%= role.server %></td>
 <td><%= role.level%></td>
 <td><%= role.vit_power %></td>
-<td><%notes = role.notes.day_scope(@date).select("api_name,count(id) as ecount").group("api_name") %>
+<td>
+<%= success ? raw('<span class="label label-success">已完成</span>') : raw('<span class="label label-important">未完成</span>')%>
+</td>
+<td width="20%">
 <div class="btn-group">
 	<%= link_to "共#{notes.length}个事件发生",notes_role_path(role,:date=>@date.to_s),:class=>"btn" %>
 	<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
