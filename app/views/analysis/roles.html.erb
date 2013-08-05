@@ -22,17 +22,18 @@
 <%@roles.each do |role|%>
 <tr>
 <td><%= role.id %></td>
-<td><%= link_to role.account,notes_role_path(role) %></td>
+<td><%= link_to "#{role.account}##{role.role_index}",role_path(role) %></td>
 <td><%= role.server %></td>
 <td><%= role.level%></td>
 <td><%= role.vit_power %></td>
 <td><%notes = role.notes.day_scope(@date).select("api_name,count(id) as ecount").group("api_name") %>
 <div class="btn-group">
-	<%= link_to "共#{notes.length}个事件发生",notes_role_path(role,:date=>params[:date]),:class=>"btn" %>
+	<%= link_to "共#{notes.length}个事件发生",notes_role_path(role,:date=>@date.to_s),:class=>"btn" %>
 	<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
 	<ul class="dropdown-menu">
 	<%notes.each do |note|%>
-		<li><%= link_to "#{note.api_name}发生了#{note.ecount} 次",notes_role_path(role,:date=>params[:date],:event=>note.api_name)%></li>
+		<li><%= link_to event_badge(note.api_name,note.ecount),notes_role_path(role,:date=>@date.to_s,:event=>note.api_name)%>
+		</li>
 	<%end%>
 </ul>  
 </div>

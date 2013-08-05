@@ -20,7 +20,7 @@
 	<td><%= link_to "#{note.role.account}##{note.role.role_index}",role_path(note.role) if note.role%></td>
 	<td><%= link_to note.computer.hostname,computer_path(note.computer) if note.computer%></td>
 	<td><%= link_to note.ip,notes_ip_path(ip_to_url note.ip) %></td>
-	<th><%= note.api_name.blank? ? "#" : note.api_name  %></th>
+	<th><%= event_badge(note.api_name,0)  %></th>
 	<th><%= note.api_code %></th>
 	<th><%= note.msg %></th>
 </tr>
