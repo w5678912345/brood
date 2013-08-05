@@ -18,5 +18,8 @@ class Note < ActiveRecord::Base
 
     scope :reg_scope, where(:api_name => "reg")
 
-    
+    #scope :time_scope,  where(())
+
+
+    scope :time_scope,lambda{|start_time,end_time|where(created_at: start_time..end_time)}
 end

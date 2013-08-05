@@ -1,6 +1,19 @@
 <form class="form-search" action="<%= analysis_path %>">
-日期:<input type="text" name="date" id="date" class="input-medium search-query" placeholder="from" value="<%= params[:date] || Date.today %>" />
+
+<div class="input-prepend input-append">
+<span class="add-on"><i class="icon-time"></i></span>
+<input type="text" name="date" id="date" class="input-medium" placeholder="from" style="width:90px;" value="<%= @start_date.to_s %>" />
+<span class="add-on">06:00:00</span>
+<span class="add-on"><i class="icon-arrow-right"></i> <%= @end_date.to_s %> 06:00:00</span>
+<!-- <span class="add-on"></span>
+<input type="text" name="" class="input-medium" placeholder="from" style="width:90px;" value="<%= @end_date.to_s %>" />
+ -->
+</div>
+
+
 <button type="submit" class="btn">Search</button>
+
+
 </form>
 
 <script type="text/javascript">
