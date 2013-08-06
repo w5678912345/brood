@@ -16,9 +16,15 @@ module ApplicationHelper
 	def role_icon role
 		return '' unless role
 		icon_html = ''
+
 		icon_html = icon_html+'<i class="icon-lock" title="帐号锁定"></i>' if role.locked
-		icon_html = icon_html+'<i class="icon-warning-sign" title="密码丢失"></i>' if role.lost
-		icon_html = icon_html+'<i class="icon-flag" title="卖家角色"></i>' if role.is_seller
+		icon_html = icon_html+' <i class="icon-warning-sign" title="密码丢失"></i>' if role.lost
+		icon_html = icon_html+' <i class="icon-flag" title="卖家角色"></i>' if role.is_seller
+		if role.close
+			icon_html = icon_html+' <i class="icon-remove-sign" title="已经封号"></i>'
+			icon_html = icon_html + " <span class='label label-important' title='重开时间#{time_str role.reopen_at}'>(#{role.close_hours}小时)</span>"
+		end
+		
 		return raw(icon_html)
 	end
 

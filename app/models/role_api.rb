@@ -59,7 +59,7 @@ module RoleApi
 			roles = self.same_account_roles
 			roles.each do |role|
 					role.update_attributes(:close=>true,:close_hours=>opts[:h].to_i,:closed_at => Time.now,:reopen_at=>Time.now.ago(-opts[:h].to_i.hours))
-					Note.create(:role_id=>role.id,:ip=>opts[:ip],:api_name=>"close",:computer_id=>self.computer.id,:msg=>opts[:msg],:api_code=>opts[:h])
+					Note.create(:role_id=>role.id,:ip=>opts[:ip],:api_name=>"close",:computer_id=>self.computer.id,:msg=>opts[:msg],:api_code=>role.close_hours)
 			end
 	   		 return 1
 	   		end

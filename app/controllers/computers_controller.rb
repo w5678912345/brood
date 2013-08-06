@@ -4,7 +4,7 @@ class ComputersController < ApplicationController
 	load_and_authorize_resource :class => "Computer"
   
   def index
-  	@computers= Computer.includes(:user).order("hostname desc").paginate(:page => params[:page], :per_page => 15)
+  	@computers= Computer.includes(:user).order("hostname desc").paginate(:page => params[:page], :per_page => 20)
   end
 
   def home
@@ -12,12 +12,12 @@ class ComputersController < ApplicationController
   end
 
 	def checked
-		@computers = Computer.where(:checked => true).paginate(:page => params[:page], :per_page => 15)
+		@computers = Computer.where(:checked => true).paginate(:page => params[:page], :per_page => 20)
 		render :action => "index"
 	end
 	
 	def unchecked
-		@computers = Computer.where(:checked => false).paginate(:page => params[:page], :per_page => 15)
+		@computers = Computer.where(:checked => false).paginate(:page => params[:page], :per_page => 20)
 		render :action => "index"	
 	end
 	

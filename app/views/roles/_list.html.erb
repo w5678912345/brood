@@ -20,13 +20,6 @@
 <td><%= role.id %></td>
 <td><%= link_to "#{role.account}##{role.role_index}",role_path(role) %>
 <%= role_icon role %>
-
-
-
-<%if role.close %>
-
-<span class="label label-important" title="重开时间<%= time_str role.reopen_at%>">(<%= role.close_hours%>小时)</span>
-<%end%>
 </td>
 <td><%= role.server%></td>
 <td><%= role.level%></td>
