@@ -12,8 +12,7 @@
 <tr>
 <th>账户:</th>
 <td><%= @role.account %>
-<%= raw('<i class="icon-lock" title="已锁定"></i>') if @role.locked %>
-<%= raw('<i class="icon-warning-sign" title="已丢失"></i>') if @role.lost %>
+<%= role_icon @role %>
 
 </td>
 <td><b>密码:</b></td>

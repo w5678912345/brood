@@ -28,6 +28,7 @@
 <td width="4%"><%= role.id %></td>
 <td>
 	<%= link_to "#{role.account}##{role.role_index}",role_path(role) %>
+	<%= role_icon role %>
 </td>
 <td><%= role.server %></td>
 <td><%= role.level%></td>

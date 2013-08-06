@@ -52,6 +52,10 @@ class Role < ActiveRecord::Base
   def self.get_role
     return self.get_roles.first
   end
+
+  def get_seller
+  	return Role.where(:is_seller => true).where(:server => self.server).first
+  end
 	
   #
 	
