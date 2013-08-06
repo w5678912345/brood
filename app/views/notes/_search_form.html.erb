@@ -2,9 +2,12 @@
 时间:<input type="text" name="min_time" id="start_time" class="input-medium search-query" placeholder="from" value="<%= params[:min_time]%>" />-
 <input type="text" name="max_time" id="end_time" class="input-medium search-query" placeholder="to" value="<%= params[:max_time]%>" />
 事件:
-<input type="text" name="event" class="input-small" placeholder="event" value="<%= params[:event]%>" />
+<input type="text" name="event" class="input-small" placeholder="Event" value="<%= params[:event]%>" title="支持模糊查询" />
 <input type="text" name="code" class="input-small" placeholder="Code" value="<%= params[:code]%>" />
+<input type="text" name="msg" class="input-small" placeholder="Msg" value="<%= params[:msg]%>" title="支持模糊查询" />
 <input type="text" name="role_id" class="input-small" placeholder="角色ID" value="<%= params[:role_id]%>" />
+<input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page]%>" />
+
 <button type="submit" class="btn">Search</button>
 </form>
 

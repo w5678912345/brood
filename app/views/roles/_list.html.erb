@@ -39,10 +39,10 @@ No<%= "(Waiting...)" if role.can_online%>
 </td>
 <td>
 <div class="btn-group">
-<%= link_to "查看", role_path(role),:class=>"btn" %>
+<%= link_to "查看", role_path(role),:class=>"btn btn-small" %>
 
 <% if can? :update, @role %>
-<a class="btn dropdown-toggle" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+<a class="btn dropdown-toggle btn-small" data-toggle="dropdown" href="#"><span class="caret"></span></a>
 <ul class="dropdown-menu">
 <% if role.online %>
 <li>

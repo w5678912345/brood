@@ -78,14 +78,18 @@ class RolesController < ApplicationController
 
 	def search
 		@roles = Role.includes(:computer)
+		@roles = @roles.where(:id => params[:id]) unless params[:id].blank?
 		@roles = @roles.where(:close => params[:closed]) unless params[:closed].blank?
 		@roles = @roles.where(:online => params[:online]) unless params[:online].blank?
+		@roles = @roles.where(:lost => params[:lost]) unless params[:lost].blank?
+		@roles = @roles.where(:locked => params[:locked]) unless params[:locked].blank?
 		@roles = @roles.where("level >= #{params[:min_level]}") unless params[:min_level].blank?
 		@roles = @roles.where("level <= #{params[:max_level]}") unless params[:max_level].blank?
 		@roles = @roles.where("vit_power >= #{params[:min_vit]}") unless params[:min_vit].blank?
 		@roles = @roles.where("vit_power <= #{params[:max_vit]}") unless params[:max_vit].blank?
 		@roles = @roles.where(:server => params[:server]) unless params[:server].blank?
-		@roles = @roles.paginate(:page => params[:page], :per_page => 10)
+		per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
+		@roles = @roles.paginate(:page => params[:page], :per_page => per_page)
 	end
 
 	def unlock
