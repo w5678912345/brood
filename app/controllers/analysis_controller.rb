@@ -7,6 +7,12 @@ class AnalysisController < ApplicationController
 
 	end
 
+	def online
+		@online_note_count = @notes.where(role_id: @online_role_ids).count
+		@success_note_count = @notes.where(role_id: @success_role_ids).count
+		@fail_note_count = @online_note_count - @success_note_count
+	end
+
 	def index
 		@online_note_count = @notes.where(role_id: @online_role_ids).count
 		@success_note_count = @notes.where(role_id: @success_role_ids).count
