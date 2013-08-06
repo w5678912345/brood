@@ -17,7 +17,7 @@
 <% @notes.each do |note|%>
 <tr title="<%= note.msg %>">
 	<td title="<%= note.id%>"><%= time_str note.created_at %></td>
-	<td><%= link_to "#{note.role.account}##{note.role.role_index}",role_path(note.role) if note.role%></td>
+	<td><%= link_to "#{note.role.id}-#{note.role.account}##{note.role.role_index}",role_path(note.role) if note.role%></td>
 	<td><%= link_to note.computer.hostname,computer_path(note.computer) if note.computer%></td>
 	<td><%= link_to note.ip,notes_ip_path(ip_to_url note.ip) %></td>
 	<th><%= event_badge(note.api_name,0)  %></th>
