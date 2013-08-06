@@ -1,0 +1,38 @@
+
+<%= render :partial => "form",:locals => {:path=> online_analysis_path } %>
+
+<%= render "navbar" %>
+
+
+<table class="table"> 
+<thead>
+<tr>
+	<th>#</th>
+	<th>角色数量</th>
+	<th>事件记录</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>上线角色</td>
+<td><%= link_to "#{@online_role_ids.length}个",roles_analysis_path(:mark=>"online",:date=>@date.to_s)  %></td>
+<td><%= @online_note_count %>条</td>
+</tr>
+
+<tr>
+<td>完成角色</td>
+<td><%= link_to "#{@success_role_ids.length}个",roles_analysis_path(:mark=>"success",:date=>@date.to_s) %></td>
+<td><%= @success_note_count %>条</td>
+</tr>
+
+<tr>
+<td>未完成角色</td>
+<td><%= link_to "#{@fail_role_ids.length}个",roles_analysis_path(:mark=>"fail",:date=>@date.to_s) %></td>
+<td><%= @fail_note_count %>条</td>
+</tr>
+
+
+</tbody>
+</table>
