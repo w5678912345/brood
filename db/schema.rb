@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130731073856) do
+ActiveRecord::Schema.define(:version => 20130806070235) do
 
   create_table "computers", :force => true do |t|
     t.string   "hostname",                         :null => false
@@ -81,6 +81,7 @@ ActiveRecord::Schema.define(:version => 20130731073856) do
     t.integer  "total_pay",                 :default => 0,     :null => false
     t.boolean  "locked",                    :default => false, :null => false
     t.boolean  "lost",                      :default => false, :null => false
+    t.boolean  "is_seller",                 :default => false, :null => false
   end
 
   create_table "settings", :force => true do |t|

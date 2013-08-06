@@ -33,24 +33,33 @@
   </div>
 </div>
 <div class="control-group">
-<label class="control-label">Server:</label>
+<label class="control-label">服务区:</label>
   <div class="controls docs-input-sizes" >
     <%= f.text_field :server %>
   </div>
 </div>
 <div class="control-group">
-<label class="control-label">Level:</label>
+<label class="control-label">等级:</label>
   <div class="controls docs-input-sizes" >
      <%= f.text_field :level %>
   </div>
 </div>
 
 <div class="control-group">
-<label class="control-label">Vit Power</label>
+<label class="control-label">疲劳值:</label>
   <div class="controls docs-input-sizes" >
     <%= f.text_field :vit_power %>
   </div>
 </div>
+
+<div class="control-group">
+<label class="control-label">是否为卖家:</label>
+  <div class="controls docs-input-sizes" >
+    <label class="radio inline"><%= f.radio_button :is_seller,true %>Yes</label>
+    <label class="radio inline"><%= f.radio_button :is_seller,false %>No</label>
+  </div>
+</div>
+
 <div class="control-group">
 <label class="control-label">Status:</label>
   <div class="controls docs-input-sizes" >

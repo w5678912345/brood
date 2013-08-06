@@ -6,32 +6,37 @@
 疲劳值:
 <input type="text" name="min_vit" class="input-small" placeholder="from" value="<%= params[:min_vit]%>" />-
 <input type="text" name="max_vit" class="input-small" placeholder="to" value="<%= params[:max_vit]%>" />
-	封号:
+封号:
 <select name="closed" class="input-small">
 	<option value="">---all---</option>
 	<option value="1" <%= 'selected="selected"' if params[:closed]== "1" %> >Yes</option>
 	<option value="0" <%= 'selected="selected"' if params[:closed]== "0" %> >No</option>
 </select>
-	在线:
+在线:
 <select name="online" class="input-small">
 	<option value="">---all---</option>
 	<option value="1" <%= 'selected="selected"' if params[:online] == "1" %>>Yes</option>
 	<option value="0" <%= 'selected="selected"' if params[:online] == "0" %> >No</option>
 </select>
-	丢失:
+丢失:
 <select name="lost" class="input-small">
 	<option value="">---all---</option>
 	<option value="1" <%= 'selected="selected"' if params[:lost]== "1" %> >Yes</option>
 	<option value="0" <%= 'selected="selected"' if params[:lost]== "0" %> >No</option>
 </select>
-	锁定:
+锁定:
 <select name="lost" class="input-small">
 	<option value="">---all---</option>
 	<option value="1" <%= 'selected="selected"' if params[:locked] == "1" %> >Yes</option>
 	<option value="0" <%= 'selected="selected"' if params[:locked] == "0" %> >No</option>
 </select>
+卖家:
+<select name="is_seller" class="input-small">
+	<option value="">---all---</option>
+	<option value="1" <%= 'selected="selected"' if params[:is_seller] == "1" %> >Yes</option>
+	<option value="0" <%= 'selected="selected"' if params[:is_seller] == "0" %> >No</option>
+</select> 
 <input type="text" name="server" class="input-small" placeholder="服务器" value="<%= params[:server]%>" />
-<input type="text" name="id" class="input-small" placeholder="角色ID" value="<%= params[:id]%>" />
 <input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
 <button type="submit" class="btn">Search</button>
 </form>
