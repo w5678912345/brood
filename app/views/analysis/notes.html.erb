@@ -8,7 +8,7 @@
 <legend>已完成角色事件</legend>
 <ul><% success_notes_count = 0 %>
 <% @success_notes.each do |note|%>
-<li><%= link_to event_badge(note.api_name,note.ecount),"#"%></li>
+<li><%= link_to event_badge(note.api_name,note.ecount),search_notes_path(:min_time=>@date.to_s,:event=>note.api_name) %></li>
 <% success_notes_count = success_notes_count + note.ecount %>
 <% end %>
 <li>合计:<%= success_notes_count%></li>
@@ -21,7 +21,7 @@
 <legend>未完成角色事件</legend>
 <ul><% fail_notes_count = 0 %>
 <% @fail_notes.each do |note|%>
-<li><%= link_to event_badge(note.api_name,note.ecount),"#"%></li>
+<li><%= link_to event_badge(note.api_name,note.ecount),search_notes_path(:min_time=>@date.to_s,:event=>note.api_name)%></li>
 <% fail_notes_count = fail_notes_count + note.ecount %>
 <% end %>
 <li>合计:<%= fail_notes_count%></li>

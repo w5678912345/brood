@@ -3,8 +3,8 @@
 <li <%= active if controller_name == 'analysis' && action_name == 'home' %>>
  <%= link_to raw('<i class="icon-home"></i>分析主页'),home_analysis_path  %>
 </li>
-<li <%= active if controller_name == 'analysis' && action_name == 'index' %>>
- <%= link_to raw('<i class="icon-calendar"></i>基本情况'),analysis_path(:date => params[:date])   %>
+<li <%= active if controller_name == 'analysis' && action_name == 'online' %>>
+ <%= link_to raw('<i class="icon-calendar"></i>上线统计'),online_analysis_path(:date => params[:date])   %>
 </li>
 
 <li class="dropdown <%= 'active' if controller_name == 'analysis' && action_name == 'roles' %>">
