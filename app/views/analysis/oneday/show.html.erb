@@ -9,19 +9,18 @@
 <thead>
 <tr>
     <th>事件</th>
-    <th>总上线角色 <%= @online_notes.select("role_id").uniq.count %> 个</th>
-    <th>未完成角色 <%= @fail_notes.select("role_id").uniq.count %> 个</th>
-    <th>已完成角色 <%= @success_notes.select("role_id").uniq.count %> 个</th>
-    
+    <th>总上线角色 <%= @online_roles_count %> 个</th>
+    <th>已完成角色 <%= @success_roles_count %> 个</th>
+    <th>未完成角色 <%= @fail_roles_count %> 个</th>
 </tr>
 </thead>
 <tbody>
 <% @online_group_notes.each do |note|%>
 <tr>
-<td><%= link_to event_badge(note.api_name,0),search_notes_path(:event => note.api_name,:min_time=>@date.to_s) %></td>
+<td><%= link_to event_badge(note.api_name,0),analysis_notes_oneday_path(:event=>"online",:date=>@date.to_s) %></td>
 <td><%= note.ecount %></td>
-<td><%= @fail_hash[note.api_name] || 0 %></td>
 <td><%= @success_hash[note.api_name] %></td>
+<td><%= @fail_hash[note.api_name] || 0 %></td>
 </tr>
 <%end%>
 

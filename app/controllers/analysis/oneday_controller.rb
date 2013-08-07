@@ -10,10 +10,17 @@ class Analysis::OnedayController < Analysis::AppController
 		@success_notes = @online_notes.where(:role_id => notes.where(:api_name => "success").select("role_id").uniq)
 		@fail_notes =  @online_notes.where("role_id not in (?)",@success_notes.select("role_id").uniq.map(&:role_id))
 
+
+		@online_roles_count = @online_notes.select("role_id").uniq.count 
+		@success_roles_count = @success_notes.select("role_id").uniq.count 
+		@fail_roles_count = @fail_notes.select("role_id").uniq.count 
+		
 		#
 		@online_group_notes = @online_notes.select("api_name,count(id) as ecount").group("api_name").reorder("api_name asc")
 		@success_group_notes = @success_notes.select("api_name,count(id) as ecount").group("api_name").reorder("api_name asc")
 		@fail_group_notes = @fail_notes.select("api_name,count(id) as ecount").group("api_name").reorder("api_name asc")
+
+
 		
 		@success_hash = Hash.new
 		@success_group_notes.each do |note|
@@ -33,6 +40,10 @@ class Analysis::OnedayController < Analysis::AppController
 		@roles = get_fail_roles if params[:mark] == "fail"
 		@roles =  @roles.paginate(:page => params[:page], :per_page => 20) if @roles
 
+	end
+
+	def notes
+		
 	end
 
 	private 
