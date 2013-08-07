@@ -11,9 +11,9 @@ class Analysis::OnedayController < Analysis::AppController
 		@fail_notes =   @notes.where(:api_name => "online").where("role_id not in (?)",@success_notes.select("role_id").uniq.map(&:role_id))
 
 
-		@online_roles_count = @online_notes.select("role_id").uniq.count 
-		@success_roles_count = @success_notes.select("role_id").uniq.count 
-		@fail_roles_count = @fail_notes.select("role_id").uniq.count
+		#@online_roles_count = @online_notes.select("role_id").uniq.count 
+		#@success_roles_count = @success_notes.select("role_id").uniq.count 
+		#@fail_roles_count = @fail_notes.select("role_id").uniq.count
 		
 		#
 		@online_group_notes = @online_notes.select("api_name,count(id) as ecount").group("api_name").reorder("api_name asc")
