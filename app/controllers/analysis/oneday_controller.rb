@@ -28,15 +28,10 @@ class Analysis::OnedayController < Analysis::AppController
 
 	def roles
 
-		@roles = Role.where(id: @online_role_ids) if params[:mark] == "online"
-		@roles = Role.where(id: @success_role_ids) if params[:mark] == "success"
-		@roles = Role.where(id: @fail_role_ids) if params[:mark] == "fail"
-			
-		#@roles = Role.where(id: @success_role_ids.collect(&:role_id))
-
-		#@fail_count_role_ids = @online_role_ids - @success_role_ids
-
-		@roles =  @roles.paginate(:page => params[:page], :per_page => 20)
+		@roles = get_online_roles if params[:mark] == "online"
+		@roles = get_success_roles if params[:mark] == "success"
+		@roles = get_fail_roles if params[:mark] == "fail"
+		@roles =  @roles.paginate(:page => params[:page], :per_page => 20) if @roles
 
 	end
 
@@ -47,20 +42,30 @@ class Analysis::OnedayController < Analysis::AppController
 		@date = Date.parse params[:date] unless params[:date].blank?
 		@start_time = Time.new(@date.year,@date.month,@date.day,6,0,0)
 		@end_time   = @start_time+1.day #Time.new(@end_date.year,@end_date.month,@end_date.day,6,0,0)
-
 		#
-
 		@notes =  Note.time_scope(@start_time,@end_time)
-		@online_role_ids = @notes.where(:api_name => "online").select(:role_id).uniq.collect(&:role_id)
-		@success_role_ids = @notes.where(:api_name => "success").select(:role_id).uniq.collect(&:role_id)
-		@fail_role_ids = @online_role_ids - @success_role_ids
+		# @online_role_ids = @notes.where(:api_name => "online").select(:role_id).uniq.collect(&:role_id)
+		# @success_role_ids = @notes.where(:api_name => "success").select(:role_id).uniq.collect(&:role_id)
+		# @fail_role_ids = @online_role_ids - @success_role_ids
 	end
 
-	def hello
+	def get_online_notes
 
 	end
 
-	def hello
+	def get_online_roles
+		Role.where(:id => @notes.where(:api_name => "online").select("role_id").uniq)
+	end
+
+	def get_success_roles
+		Role.where(:id => @notes.where(:api_name => "online").select("role_id").uniq).where(:id => @notes.where(:api_name => "success").select("role_id").uniq)
+	end
+
+	def get_fail_roles
+		Role.where(:id => @notes.where(:api_name => "online").select("role_id").uniq).where("id not in(?)",@notes.where(:api_name => "success").select("role_id").uniq.collect(&:role_id))
+	end
+
+	def get_fail_notes
 
 	end
 	

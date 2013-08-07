@@ -1,0 +1,21 @@
+<form class="form-search" action="<%= path %>">
+
+<div class="input-prepend input-append">
+<span class="add-on"><i class="icon-calendar"></i></span>
+<input type="text" name="date" id="date" class="input-medium" placeholder="from" style="width:90px;" value="<%= @date.to_s %>" />
+<span class="add-on">-</span>
+<input type="text" name="end_date" id="end_date" class="input-medium" placeholder="to" style="width:90px;" value="<%= @date.to_s %>" />
+</div>
+
+
+<button type="submit" class="btn">Search</button>
+
+
+</form>
+
+<script type="text/javascript">
+$(function(){
+	$("#date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+	$("#end_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+});
+</script>

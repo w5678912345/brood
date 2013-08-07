@@ -90,6 +90,9 @@ Brood::Application.routes.draw do
   namespace :analysis do
     resource :oneday, :only =>[:show], controller: 'oneday'
     get "/oneday/roles/:mark" => "oneday#roles",:as => "roles_oneday"
+
+    resource :multiday,:only => [:show], controller: 'multiday'
+
   end
 	
 
