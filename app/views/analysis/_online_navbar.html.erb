@@ -1,0 +1,19 @@
+<% active = 'class=active'%>
+
+<ul class="nav nav-tabs">
+<li <%= active if controller_name == 'analysis' && action_name == 'online' %>>
+ <%= link_to raw('<i class="icon-calendar"></i>基本信息'),online_analysis_path(:date => params[:date])   %>
+</li>
+<li <%= active if action_name == 'roles' && params[:mark] == "online" %>>
+	<%= link_to "上线角色 (#{@online_role_ids.length})",roles_analysis_path(:mark => "online",:date=>params[:date])  %>
+</li>
+
+<li <%= active if action_name == 'roles' &&  params[:mark] == "success" %>>
+	<%= link_to "成功角色 (#{@success_role_ids.length})",roles_analysis_path(:mark => "success",:date=>params[:date])  %>
+</li>
+
+<li <%= active if action_name == 'roles' && params[:mark] == "fail" %>>
+	<%= link_to "失败角色 (#{@fail_role_ids.length})",roles_analysis_path(:mark => "fail",:date => params[:date])  %>
+</li>
+
+</ul>

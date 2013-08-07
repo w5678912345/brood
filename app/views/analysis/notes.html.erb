@@ -1,59 +1,29 @@
 <%= render :partial => "form",:locals=>{:path=>roles_analysis_path(:mark => params[:mark])} %>
 <%= render "navbar" %>
 
-<div class="row-fluid">
 
-<div class="span6">
-<fieldset>
-<legend>已完成角色事件</legend>
-<ul><% success_notes_count = 0 %>
-<% @success_notes.each do |note|%>
-<li><%= link_to event_badge(note.api_name,note.ecount),search_notes_path(:min_time=>@date.to_s,:event=>note.api_name) %></li>
-<% success_notes_count = success_notes_count + note.ecount %>
-<% end %>
-<li>合计:<%= success_notes_count%></li>
-</ul>
+<table class="table">
+<thead>
+<tr>
+    <th>事件</th>
+    <th>上线角色 <%= @online_notes.select("role_id").uniq.count %> 个</th>
+    <th>失败角色 <%= @fail_notes.select("role_id").uniq.count %> 个</th>
+    <th>成功角色 <%= @success_notes.select("role_id").uniq.count %> 个</th>
+    
+</tr>
+</thead>
+<tbody>
+<% @online_group_notes.each do |note|%>
+<tr>
+<td><%= link_to event_badge(note.api_name,0),search_notes_path(:event => note.api_name,:min_time=>@date.to_s) %></td>
+<td><%= note.ecount %></td>
+<td><%= @fail_hash[note.api_name] || 0 %></td>
+<td><%= @success_hash[note.api_name] %></td>
 
-</fieldset>
-</div>
-<div class="span6">
-<fieldset>
-<legend>未完成角色事件</legend>
-<ul><% fail_notes_count = 0 %>
-<% @fail_notes.each do |note|%>
-<li><%= link_to event_badge(note.api_name,note.ecount),search_notes_path(:min_time=>@date.to_s,:event=>note.api_name)%></li>
-<% fail_notes_count = fail_notes_count + note.ecount %>
-<% end %>
-<li>合计:<%= fail_notes_count%></li>
-</ul>
-</fieldset>
-</div>
 
-</div>
+</tr>
+<%end%>
 
-<!-- <div class="accordion" id="accordion2">
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-        已完成角色事件
-      </a>
-    </div>
-    <div id="collapseOne" class="accordion-body collapse in">
-      <div class="accordion-inner">
-        Anim pariatur cliche...
-      </div>
-    </div>
-  </div>
-  <div class="accordion-group">
-    <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-        未完成角色事件
-      </a>
-    </div>
-    <div id="collapseTwo" class="accordion-body collapse">
-      <div class="accordion-inner">
-        Anim pariatur cliche...
-      </div>
-    </div>
-  </div>
-</div> -->
+</tbody>
+</table>    
+

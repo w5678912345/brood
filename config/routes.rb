@@ -49,11 +49,6 @@ Brood::Application.routes.draw do
   resources :notes do
     get :home, :on => :collection
     get :search, :on => :collection
-    get :online, :on => :collection
-    get :offline, :on => :collection
-    get :sync,    :on => :collection
-    get :close,   :on => :collection
-    get :reg,     :on => :collection
   end
   #
   resources :settings, :only => [:index,:create,:edit,:update,:destroy]
@@ -79,16 +74,22 @@ Brood::Application.routes.draw do
 				
 	end
 
-  get "analysis/by/:date" => "analysis#by"
-  get "analysis/roles/:mark" => "analysis#roles",:as => "roles_analysis"
-  get "analysis/notes/:mark" => "analysis#notes",:as => "notes_analysis"
+  # get "analysis/by/:date" => "analysis#by"
+  # get "analysis/roles/:mark" => "analysis#roles",:as => "roles_analysis"
+  # get "analysis/notes/:mark" => "analysis#notes",:as => "notes_analysis"
   
-  resources :analysis,:only => [:index] do 
-      get :home,  :on => :collection
-      get :online,:on => :collection
-      #get :roles, :on => :collection
-      get :notes, :on => :collection
+  # resources :analysis,:only => [:index] do 
+  #     get :home,  :on => :collection
+  #     get :online,:on => :collection
+  #     #get :roles, :on => :collection
+  #     get :notes, :on => :collection
+  #     get :test,  :on => :collection
        
+  # end
+
+  namespace :analysis do
+    resource :oneday, :only =>[:show], controller: 'oneday'
+    get "/oneday/roles/:mark" => "oneday#roles",:as => "roles_oneday"
   end
 	
 

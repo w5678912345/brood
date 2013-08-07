@@ -1,11 +1,9 @@
 <fieldset>
 <legend>单日上线情况分析</legend>
-<%= render :partial => "form",:locals => {:path=> online_analysis_path } %>
+<%= render :partial => "form",:locals=>{:path=>analysis_roles_oneday_path(:mark => params[:mark])} %>
 
 
-<%= render "online_navbar" %>
-
-
+<%= render "navbar" %>
 
 <div class="alert">
 <strong>提示信息:</strong>

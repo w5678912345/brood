@@ -8,15 +8,15 @@ class Note < ActiveRecord::Base
 
     default_scope :order => 'id DESC'
 
-    scope :online_scope, where(:api_name => "online")
+    # scope :online_scope, where(:api_name => "online")
 
-    scope :offline_scope, where(:api_name => "offline")
+    # scope :offline_scope, where(:api_name => "offline")
 
-    scope :sync_scope, where(:api_name => "sync")
+    # scope :sync_scope, where(:api_name => "sync")
 
-    scope :close_scope, where(:api_name => "close")
+    # scope :close_scope, where(:api_name => "close")
 
-    scope :reg_scope, where(:api_name => "reg")
+    # scope :reg_scope, where(:api_name => "reg")
 
     #scope :time_scope,  where(())
 

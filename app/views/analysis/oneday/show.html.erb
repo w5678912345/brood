@@ -1,17 +1,17 @@
 <fieldset>
 <legend>单日上线情况分析</legend>
-<%= render :partial => "form",:locals => {:path=> online_analysis_path } %>
+<%= render :partial => "form",:locals => {:path=> analysis_oneday_path } %>
 
 
-<%= render "online_navbar" %>
+<%= render "navbar" %>
 
 <table class="table">
 <thead>
 <tr>
     <th>事件</th>
-    <th>上线角色 <%= @online_notes.select("role_id").uniq.count %> 个</th>
-    <th>失败角色 <%= @fail_notes.select("role_id").uniq.count %> 个</th>
-    <th>成功角色 <%= @success_notes.select("role_id").uniq.count %> 个</th>
+    <th>总上线角色 <%= @online_notes.select("role_id").uniq.count %> 个</th>
+    <th>未完成角色 <%= @fail_notes.select("role_id").uniq.count %> 个</th>
+    <th>已完成角色 <%= @success_notes.select("role_id").uniq.count %> 个</th>
     
 </tr>
 </thead>
