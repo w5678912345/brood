@@ -4,16 +4,16 @@ class Analysis::OnedayController < Analysis::AppController
 	before_filter :set_date
 
 	def show
-		notes = @notes
+		
 
-		@online_notes = notes.where(:role_id => notes.where(:api_name => "online").select("role_id").uniq)
-		@success_notes = @online_notes.where(:role_id => notes.where(:api_name => "success").select("role_id").uniq)
-		@fail_notes =  @online_notes.where("role_id not in (?)",@success_notes.select("role_id").uniq.map(&:role_id))
+		@online_notes = @notes.where(:role_id => @notes.where(:api_name => "online").select("role_id").uniq)
+		@success_notes =@notes.where(:role_id => @notes.where(:api_name => "online").select("role_id").uniq).where(:role_id => @notes.where(:api_name => "success").select("role_id").uniq)
+		@fail_notes =   @notes.where(:api_name => "online").where("role_id not in (?)",@success_notes.select("role_id").uniq.map(&:role_id))
 
 
 		@online_roles_count = @online_notes.select("role_id").uniq.count 
 		@success_roles_count = @success_notes.select("role_id").uniq.count 
-		@fail_roles_count = @fail_notes.select("role_id").uniq.count 
+		@fail_roles_count = @fail_notes.select("role_id").uniq.count
 		
 		#
 		@online_group_notes = @online_notes.select("api_name,count(id) as ecount").group("api_name").reorder("api_name asc")
@@ -61,7 +61,7 @@ class Analysis::OnedayController < Analysis::AppController
 	end
 
 	def get_online_notes
-
+		@notes.where(:role_id => @notes.where(:api_name => "online").select("role_id").uniq)
 	end
 
 	def get_online_roles
