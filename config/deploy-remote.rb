@@ -98,9 +98,9 @@ task :deploy => :environment do
       #invoke :'whenever:write'
     end
     
-    to :clean do
-      invoke :shutdown
-    end
+    # to :clean do
+    #   invoke :shutdown
+    # end
   end
 end
 
