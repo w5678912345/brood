@@ -21,8 +21,8 @@ module RoleApi
       ip.update_attributes(:use_count=>ip.use_count+1)
       server = self.server.blank? ? computer.server : self.server
       ip_range = self.ip_range.blank? ? opts[:ip_range] : self.ip_range
-      Note.create(:role_id=>self.id,:computer_id=>computer.id,:ip=>ip.value,:api_name=>"online",:msg=>opts[:msg])
-      return 1 if self.update_attributes(:online=>true,:computer_id=>computer.id,:ip=>ip.value,:server=>server,:ip_range=>ip_range)
+      note = Note.create(:role_id=>self.id,:computer_id=>computer.id,:ip=>ip.value,:api_name=>"online",:msg=>opts[:msg])
+      return 1 if self.update_attributes(:online=>true,:computer_id=>computer.id,:ip=>ip.value,:server=>server,:ip_range=>ip_range,:online_at=>Time.now,:online_note_id=>note.id)
     end
   end
 
@@ -34,7 +34,7 @@ module RoleApi
        self.computer.update_attributes(:roles_count=>self.computer.roles_count-1) if self.computer && self.computer.roles_count > 0
        #ip.update_attributes(:use_count=>ip.use_count-1) if ip.use_count > 0
        Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip,:api_name=>"offline",:msg=>opts[:msg])
-       return 1 if self.update_attributes(:online=>false,:computer_id=>0,:ip=>nil)
+       return 1 if self.update_attributes(:online=>false,:computer_id=>0,:ip=>nil,:online_at=>nil,:online_note_id=>0)
     end
   end
 
@@ -50,7 +50,7 @@ module RoleApi
 	      #Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync",:msg=>opts.to_s)
 			self.updated_at = Time.now
 			self.total = self.total_pay + self.gold if self.gold_changed?
-			Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"success",:msg=>opts[:msg]) if self.vit_power == 0  
+			Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"success",:msg=>opts[:msg],:online_at=>self.online_at,:online_note_id=>self.online_note_id) if self.vit_power == 0  
 	      return 1 if self.save
 	     end
  	end

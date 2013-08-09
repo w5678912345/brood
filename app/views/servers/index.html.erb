@@ -1,0 +1,22 @@
+<%= render "navbar" %>
+
+<table class="table">
+<thead>
+<tr>
+ <th>名称</th>
+ <th>收款号</th>
+ <th>操作</th>
+</tr>
+</thead>
+<tbody>
+<% @servers.each do |server| %>
+<tr>
+<td><%=server.name%></td>
+<td><%=server.role_str%></td>
+<td>
+	<%= link_to raw('<i class="icon-edit"></i>修改'),edit_server_path(server),:class=>"btn" %>
+</td>
+</tr>
+<%end%>
+</tbody>
+</table>

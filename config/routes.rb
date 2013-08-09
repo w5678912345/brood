@@ -74,6 +74,10 @@ Brood::Application.routes.draw do
 				
 	end
 
+  resources :servers ,:except => [:destroy] do 
+    get :home,    :on => :collection
+  end
+
   # get "analysis/by/:date" => "analysis#by"
   # get "analysis/roles/:mark" => "analysis#roles",:as => "roles_analysis"
   # get "analysis/notes/:mark" => "analysis#notes",:as => "notes_analysis"
