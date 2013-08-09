@@ -24,12 +24,12 @@ class Api::RolesController < Api::BaseController
 
 	#search a role online
 	def online
+
 		return @code =  CODES[:computer_no_server] unless @computer.set_server
 	    #@role = Role.get_roles.where(:server => @computer.server).first
-	    @role = Role.get_roles.where("server = ? or server = '' or server is NULL", @computer.server).first
+	    @role = Role.get_roles.where("ip_range = ? or ip_range is NULL",params[:ip_range]|| "").where("server = ? or server = '' or server is NULL", @computer.server).first
 	    return @code = CODES[:not_find_role] unless @role # not find role
 	    @code = @role.api_online params
-	    @seller = @role.get_seller if @code == 1
 	end
 
 	#----------------------- 
@@ -37,10 +37,10 @@ class Api::RolesController < Api::BaseController
 	def on
 	    begin
 	      @code = @role.api_online params
-	      @seller = @role.get_seller if @code == 1
 	    rescue Exception => ex
 	      @code = -1
 	    end
+	    render :template => 'api/roles/online'
 	end
 
 	#
@@ -104,6 +104,8 @@ class Api::RolesController < Api::BaseController
 
 	def require_remote_ip
 		params[:ip] = request.remote_ip
+		tmps = params[:ip].split(".") if params[:ip]
+		params[:ip_range] = "#{tmps[0]}.#{tmps[1]}" if tmps && tmps.length > 0
 		@code = 0
 	end
 		

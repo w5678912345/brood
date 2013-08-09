@@ -17,3 +17,6 @@ SELECT api_name,count(id) as ecount FROM `notes`
   AND (`notes`.`created_at` BETWEEN '2013-08-09 06:00:00' AND '2013-08-10 06:00:00') ORDER BY id DESC) 
 	AND (`notes`.`created_at` BETWEEN '2013-08-09 06:00:00' AND '2013-08-10 06:00:00') 
 GROUP BY api_name ORDER BY api_name asc
+
+#IP段统计
+ select count(value),SUBSTRING_INDEX(value,'.',2) as id_range from ips where value <> 'localhost' group by id_range;

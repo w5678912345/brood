@@ -9,7 +9,7 @@ class Role < ActiveRecord::Base
 	#has_many   :roles,		:class_name => 'Role',	:foreign_key => 'account'
 
   attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip
-  attr_accessible :close,:close_hours,:closed_at,:reopen_at,:locked,:lost,:is_seller
+  attr_accessible :close,:close_hours,:closed_at,:reopen_at,:locked,:lost,:is_seller,:ip_range
 
   #default_scope :order => 'id DESC'
 
@@ -58,7 +58,12 @@ class Role < ActiveRecord::Base
   end
 
   def set_seller
-  	self.update(:is_seller => true)
+  	#self.update(:is_seller => true)
+  end
+
+  def set_ip_range
+  	self.notes.where(:api_name => "online")
+  	#self.update_attributes(:ip_range => "" )
   end
 	
   #
