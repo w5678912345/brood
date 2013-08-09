@@ -1,7 +1,7 @@
 json.code @code
 if @code == 1
 	json.set! :role do
-	  json.(@role, :id,:account, :password,:server,:role_index,:computer_id,:level,:vit_power,:locked,:lost,:is_seller)
+	  json.(@role, :id,:account, :password,:server,:role_index,:computer_id,:level,:vit_power,:locked,:lost,:is_seller,:gold)
 	end
 	json.set! :seller do
 	if @seller

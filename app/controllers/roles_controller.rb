@@ -143,9 +143,14 @@ class RolesController < ApplicationController
 	end
 
 	def update
+		#return render :text => params.class
 		@role = Role.find(params[:id])
 		@role.update_attributes(params[:role])
 		redirect_to roles_path()
+	end
+
+	def hello
+
 	end
 
 	def destroy

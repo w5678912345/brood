@@ -29,3 +29,11 @@ tar xzvf lua-5.1.2.tar.gz
 swapon -s
 
 vmstat
+
+#
+mysqldump -u root -p brood_production>brood.sql
+
+# source file.sql
+mysql -u root -p brood_remote</home/suxu/brood-remote.sql
+
+

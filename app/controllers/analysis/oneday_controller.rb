@@ -6,9 +6,11 @@ class Analysis::OnedayController < Analysis::AppController
 	def show
 		
 
-		@online_notes = @notes.where(:role_id => @notes.where(:api_name => "online").select("role_id").uniq)
-		@success_notes =@notes.where(:role_id => @notes.where(:api_name => "online").select("role_id").uniq).where(:role_id => @notes.where(:api_name => "success").select("role_id").uniq)
-		@fail_notes =   @notes.where(:api_name => "online").where("role_id not in (?)",@success_notes.select("role_id").uniq.map(&:role_id))
+		@online_notes = @notes.where(:role_id => @online_role_ids)
+		@success_notes = @notes.where(:role_id => @success_role_ids)
+		@fail_notes = @notes.where(:role_id => @fail_role_ids)
+		#@success_notes =@notes.where(:role_id => @notes.where(:api_name => "online").select("role_id").uniq).where(:role_id => @notes.where(:api_name => "success").select("role_id").uniq)
+		#@fail_notes =   @notes.where(:api_name => "online").where("role_id not in (?)",[1,2,3])
 
 
 		#@online_roles_count = @online_notes.select("role_id").uniq.count 
@@ -30,6 +32,7 @@ class Analysis::OnedayController < Analysis::AppController
 		@fail_group_notes.each do |note|
 			@fail_hash[note.api_name] = note.ecount
 		end
+		#render :text => @online_notes.count
 	end
 
 
@@ -55,6 +58,9 @@ class Analysis::OnedayController < Analysis::AppController
 		@end_time   = @start_time+1.day #Time.new(@end_date.year,@end_date.month,@end_date.day,6,0,0)
 		#
 		@notes =  Note.time_scope(@start_time,@end_time)
+		@online_role_ids = @notes.where(:api_name => "online").select(:role_id).uniq.collect(&:role_id)
+		@success_role_ids = @notes.where(:api_name => "success").select(:role_id).uniq.collect(&:role_id)
+		@fail_role_ids = @online_role_ids - @success_role_ids
 		# @online_role_ids = @notes.where(:api_name => "online").select(:role_id).uniq.collect(&:role_id)
 		# @success_role_ids = @notes.where(:api_name => "success").select(:role_id).uniq.collect(&:role_id)
 		# @fail_role_ids = @online_role_ids - @success_role_ids
@@ -65,15 +71,18 @@ class Analysis::OnedayController < Analysis::AppController
 	end
 
 	def get_online_roles
-		Role.where(:id => @notes.where(:api_name => "online").select("role_id").uniq)
+		Role.where(:id => @online_role_ids)
+		#Role.where(:id => @notes.where(:api_name => "online").select("role_id").uniq)
 	end
 
 	def get_success_roles
-		Role.where(:id => @notes.where(:api_name => "online").select("role_id").uniq).where(:id => @notes.where(:api_name => "success").select("role_id").uniq)
+		#Role.where(:id => @notes.where(:api_name => "online").select("role_id").uniq).where(:id => @notes.where(:api_name => "success").select("role_id").uniq)
+		Role.where(:id => @success_role_ids)
 	end
 
 	def get_fail_roles
-		Role.where(:id => @notes.where(:api_name => "online").select("role_id").uniq).where("id not in(?)",@notes.where(:api_name => "success").select("role_id").uniq.collect(&:role_id))
+		Role.where(:id => @fail_role_ids)
+		#Role.where(:id => @notes.where(:api_name => "online").select("role_id").uniq).where("id not in(?)",@notes.where(:api_name => "success").select("role_id").uniq.collect(&:role_id))
 	end
 
 	def get_fail_notes
