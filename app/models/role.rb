@@ -65,6 +65,14 @@ class Role < ActiveRecord::Base
   	self.notes.where(:api_name => "online")
   	#self.update_attributes(:ip_range => "" )
   end
+
+  def sellers
+  	_server = Server.find_by_name(self.server)
+  	_server = Server.create(:name=>self.server) unless _server
+  	return  _server.roles
+  end
+
+ 
 	
   #
 	

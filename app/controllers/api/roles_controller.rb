@@ -30,6 +30,7 @@ class Api::RolesController < Api::BaseController
 	    @role = Role.get_roles.where("ip_range = ? or ip_range is NULL",params[:ip_range]|| "").where("server = ? or server = '' or server is NULL", @computer.server).first
 	    return @code = CODES[:not_find_role] unless @role # not find role
 	    @code = @role.api_online params
+	    #@role.get_sellers_by_server if @code == 1
 	end
 
 	#----------------------- 
