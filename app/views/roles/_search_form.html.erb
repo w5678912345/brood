@@ -12,6 +12,7 @@
 	<option value="1" <%= 'selected="selected"' if params[:closed]== "1" %> >Yes</option>
 	<option value="0" <%= 'selected="selected"' if params[:closed]== "0" %> >No</option>
 </select>
+<input type="text" name="close_hours" class="input-small" placeholder="封号小时" value="<%= params[:close_hours]%>" />
 在线:
 <select name="online" class="input-small">
 	<option value="">---all---</option>
@@ -25,18 +26,19 @@
 	<option value="0" <%= 'selected="selected"' if params[:lost]== "0" %> >No</option>
 </select>
 锁定:
-<select name="lost" class="input-small">
+<select name="locked" class="input-small">
 	<option value="">---all---</option>
 	<option value="1" <%= 'selected="selected"' if params[:locked] == "1" %> >Yes</option>
 	<option value="0" <%= 'selected="selected"' if params[:locked] == "0" %> >No</option>
 </select>
-卖家:
-<select name="is_seller" class="input-small">
+交易锁定:
+<select name="bslocked" class="input-small">
 	<option value="">---all---</option>
-	<option value="1" <%= 'selected="selected"' if params[:is_seller] == "1" %> >Yes</option>
-	<option value="0" <%= 'selected="selected"' if params[:is_seller] == "0" %> >No</option>
+	<option value="1" <%= 'selected="selected"' if params[:bslocked] == "1" %> >Yes</option>
+	<option value="0" <%= 'selected="selected"' if params[:bslocked] == "0" %> >No</option>
 </select> 
 <input type="text" name="server" class="input-small" placeholder="服务器" value="<%= params[:server]%>" />
+
 <input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
 <button type="submit" class="btn">Search</button>
 </form>

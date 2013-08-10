@@ -86,7 +86,8 @@ class RolesController < ApplicationController
 		@roles = Role.includes(:computer)
 		#@roles = @roles.where(:id => params[:id]) unless params[:id].blank?
 		@roles = @roles.where(:close => params[:closed]) unless params[:closed].blank?
-		@roles = @roles.where(:is_seller => params[:is_seller]) unless params[:is_seller].blank?
+		@roles = @roles.where(:close_hours => params[:close_hours].to_i) unless params[:close_hours].blank?
+		@roles = @roles.where(:bslocked => params[:bslocked]) unless params[:bslocked].blank?
 		@roles = @roles.where(:online => params[:online]) unless params[:online].blank?
 		@roles = @roles.where(:lost => params[:lost]) unless params[:lost].blank?
 		@roles = @roles.where(:locked => params[:locked]) unless params[:locked].blank?
