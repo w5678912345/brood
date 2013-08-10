@@ -4,10 +4,18 @@ class ComputersController < ApplicationController
 	load_and_authorize_resource :class => "Computer"
   
   def index
-  	@computers= Computer.includes(:user).order("hostname desc").paginate(:page => params[:page], :per_page => 20)
+    @computers = Computer.includes(:user)
+    @computers = @computers.where("server = '' or server is NULL") if params[:server] == "null"
+    @computers = @computers.where(:server=>params[:server]) unless params[:server].blank? || params[:server] == "null"
+    @computers = @computers.where(:version=>params[:version]) unless params[:version].blank?  
+  	@computers = @computers.order("hostname desc").paginate(:page => params[:page], :per_page => 20)
   end
 
   def home
+
+  end
+
+  def version
 
   end
 

@@ -25,10 +25,10 @@
 </tr>
 <% @coms.each do |com| %>
 <tr>
-	<td><%= com.server %>
-		<%= raw('<span class="label label-important">未指定</span>') if com.server.blank? %>
-	</td>
-	<td><%= com.server_count %></td>
+<td>
+	<%= link_to com.server || raw('<span class="label label-important">未指定</span>') ,computers_path(:server=>com.server || "null" ) %>
+</td>
+<td><%= com.server_count %></td>
 </tr>
 <% end %>
 </table>

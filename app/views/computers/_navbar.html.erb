@@ -19,6 +19,8 @@
 <li <%= active if controller_name == 'computers' && action_name == 'new' %>>
  <%= link_to raw('<i class="icon-plus"></i>新建计算机'),new_computer_path  %>
 </li>
-
+<li <%= active if controller_name == 'computers' && action_name == 'version' %>>
+ <%= link_to raw('<i class="icon-list"></i>版本分布'),version_computers_path  %>
+</li>
 
 </ul>

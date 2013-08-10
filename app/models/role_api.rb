@@ -18,7 +18,7 @@ module RoleApi
     ip = Ip.find_or_create(opts[:ip] || self.ip)
     return CODES[:ip_used] if ip.use_count >= Setting.ip_max_use_count
     self.transaction do
-      computer.update_attributes(:roles_count=>computer.roles_count+1) 
+      computer.update_attributes(:roles_count=>computer.roles_count+1,:version=>opts[:version]||"default") 
       ip.update_attributes(:use_count=>ip.use_count+1)
       server = self.server.blank? ? computer.server : self.server
       ip_range = self.ip_range.blank? ? opts[:ip_range] : self.ip_range

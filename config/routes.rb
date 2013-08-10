@@ -33,6 +33,7 @@ Brood::Application.routes.draw do
     get 	:home,  		:on => :collection
 		get 	:checked,		:on => :collection
 		get 	:unchecked,	:on => :collection
+    get   :version,   :on => :collection
 		put		:check,			:on	=> :collection
     get 	:notes, 		:on => :member
     get 	:roles, 		:on => :member

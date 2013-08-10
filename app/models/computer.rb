@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Computer < ActiveRecord::Base
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count
-  attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at
+  attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at,:version
   belongs_to :user
   belongs_to :check_user,:class_name => 'user'
   has_many :roles

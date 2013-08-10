@@ -69,7 +69,7 @@ class Role < ActiveRecord::Base
   def find_or_create_server
   	return @_server if @_server
   	@_server = Server.find_by_name(self.server)
-  	@_server = Server.create(:name=>self.server) unless _server
+  	@_server = Server.create(:name=>self.server) unless @_server
   	return @_server
   end
 

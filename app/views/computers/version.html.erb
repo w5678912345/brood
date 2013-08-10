@@ -1,0 +1,19 @@
+<%= render "navbar" %>
+<fieldset>
+<legend>版本分布</legend>
+<% @coms =  Computer.select("version,count(id) as server_count ").group("version")%>
+<table class="table table-bordered">
+<tr>
+	<td>版本</td>
+	<td>机器数量</td>
+</tr>
+<% @coms.each do |com| %>
+<tr>
+	<td><%=link_to com.version,computers_path(:version => com.version) %>
+		<%= raw('<span class="label label-important">未指定</span>') if com.version.blank? %>
+	</td>
+	<td><%= com.server_count %></td>
+</tr>
+<% end %>
+</table>
+</fieldset>
