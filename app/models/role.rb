@@ -8,14 +8,14 @@ class Role < ActiveRecord::Base
 
 	#has_many   :roles,		:class_name => 'Role',	:foreign_key => 'account'
 
-  attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip
+  attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip,:normal
   attr_accessible :close,:close_hours,:closed_at,:reopen_at,:locked,:lost,:is_seller,:ip_range,:online_at,:online_note_id
 
   #default_scope :order => 'id DESC'
 
 	validates_presence_of :account, :password
 	#
-  scope :can_online_scope, where(:online => false).where(:close => false).where(:locked=>false).where(:lost=>false).where("vit_power > 0")
+  scope :can_online_scope, where(:online => false).where(:close => false).where(:locked=>false).where(:lost=>false).where("vit_power > 0").where(:normal => true)
 	
 	default_scope order("online desc").order("close asc").order("level desc").order("vit_power desc")
 

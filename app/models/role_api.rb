@@ -1,3 +1,4 @@
+# encoding: utf-8
 module RoleApi
 	CODES = Api::CODES
 
@@ -21,8 +22,9 @@ module RoleApi
       ip.update_attributes(:use_count=>ip.use_count+1)
       server = self.server.blank? ? computer.server : self.server
       ip_range = self.ip_range.blank? ? opts[:ip_range] : self.ip_range
+      normal = !self.bslocked
       note = Note.create(:role_id=>self.id,:computer_id=>computer.id,:ip=>ip.value,:api_name=>"online",:msg=>opts[:msg])
-      return 1 if self.update_attributes(:online=>true,:computer_id=>computer.id,:ip=>ip.value,:server=>server,:ip_range=>ip_range,:online_at=>Time.now,:online_note_id=>note.id)
+      return 1 if self.update_attributes(:online=>true,:computer_id=>computer.id,:ip=>ip.value,:server=>server,:ip_range=>ip_range,:online_at=>Time.now,:online_note_id=>note.id,:normal=>normal)
     end
   end
 
@@ -47,7 +49,7 @@ module RoleApi
 	     self.gold = opts[:gold] if opts[:gold]
 	     #...
 	     self.transaction do
-	      #Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync",:msg=>opts.to_s)
+	      # Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync",:msg=>opts.to_s)
 			self.updated_at = Time.now
 			self.total = self.total_pay + self.gold if self.gold_changed?
 			Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"success",:msg=>opts[:msg],:online_at=>self.online_at,:online_note_id=>self.online_note_id) if self.vit_power == 0  
@@ -73,16 +75,21 @@ module RoleApi
 		end
 	end
 
-
+	#note = Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"pay",:msg=>opts[:remark])
 	def pay	opts
 		ip = Ip.find_or_create(opts[:ip] || self.ip)
 		self.transaction do
-			#note = Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"pay",:msg=>opts[:remark])
 			payment = Payment.new(:role_id=>self.id,:gold => opts[:gold],:balance => opts[:balance],:remark => opts[:remark],:note_id => 0,:pay_type=>opts[:pay_type])	
 			return CODES[:not_valid_pay] unless payment.valid? # validate not pass
 			self.gold = payment.balance			 #当前金币 = 支出后的余额
 			self.total_pay = self.total_pay + payment.gold # 累计支出
 			self.total = payment.total = self.total_pay + payment.balance # 产出总和
+			if self.bslocked && payment.gold > 0 && payment.pay_type != "auto"
+				self.bslocked = false
+				self.normal = true
+				Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"bs_unlock",:msg=>"发生支付后自动解除交易锁定")
+			end
+			
 			
 			#payment.total = self.total_pay + payment.balance
 			payment.save
@@ -132,7 +139,13 @@ module RoleApi
 	end
 
 	def api_bslock opts
-		return 1 if Note.create(:role_id => self.id,:ip => opts[:ip],:computer_id => opts[:cid],:api_name => "bslock",:api_code => 24,:msg=>opts[:msg])
+		return 1 if self.bslocked
+		self.transaction do
+			self.bslocked = true
+			self.normal = false
+			Note.create(:role_id => self.id,:ip => opts[:ip],:computer_id => opts[:cid],:api_name => "bslock",:api_code => 24,:msg=>opts[:msg])
+			return 1 if self.save
+		end
 	end
 	
 	#重开角色的API

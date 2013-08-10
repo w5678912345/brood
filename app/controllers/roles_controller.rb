@@ -69,6 +69,12 @@ class RolesController < ApplicationController
 		render :template => 'roles/index'
 	end
 
+	def bslocked
+		@roles = Role.includes(:computer).where(:bslocked => true).paginate(:page => params[:page], :per_page => 15)
+		@list_title = "交易锁定角色"
+		render :template => 'roles/index'
+	end
+
 
 
 	def reset_vip_power
@@ -183,6 +189,9 @@ class RolesController < ApplicationController
 			Api.role_auto_reopen
 			redirect_to closed_roles_path
 	end
+
+
+
 
 	private
 	def require_service

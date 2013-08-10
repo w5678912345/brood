@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130810041242) do
+ActiveRecord::Schema.define(:version => 20130810062636) do
 
   create_table "computers", :force => true do |t|
     t.string   "hostname",                         :null => false
@@ -61,32 +61,35 @@ ActiveRecord::Schema.define(:version => 20130810041242) do
   end
 
   create_table "roles", :force => true do |t|
-    t.string   "account",                                         :null => false
-    t.string   "password",                                        :null => false
+    t.string   "account",                                          :null => false
+    t.string   "password",                                         :null => false
     t.integer  "role_index"
     t.string   "server"
-    t.integer  "level",                        :default => 0,     :null => false
-    t.integer  "vit_power",                    :default => 0,     :null => false
-    t.integer  "status",                       :default => 1,     :null => false
-    t.integer  "computer_id",                  :default => 0,     :null => false
-    t.integer  "count",                        :default => 0,     :null => false
-    t.boolean  "online",                       :default => false, :null => false
-    t.string   "ip",             :limit => 15
-    t.integer  "gold",                         :default => 0
-    t.datetime "created_at",                                      :null => false
-    t.datetime "updated_at",                                      :null => false
-    t.boolean  "close",                        :default => false
+    t.integer  "level",                         :default => 0,     :null => false
+    t.integer  "vit_power",                     :default => 0,     :null => false
+    t.integer  "status",                        :default => 1,     :null => false
+    t.integer  "computer_id",                   :default => 0,     :null => false
+    t.integer  "count",                         :default => 0,     :null => false
+    t.boolean  "online",                        :default => false, :null => false
+    t.string   "ip",              :limit => 15
+    t.integer  "gold",                          :default => 0
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
+    t.boolean  "close",                         :default => false
     t.integer  "close_hours"
     t.datetime "closed_at"
     t.datetime "reopen_at"
-    t.integer  "total",                        :default => 0,     :null => false
-    t.integer  "total_pay",                    :default => 0,     :null => false
-    t.boolean  "locked",                       :default => false, :null => false
-    t.boolean  "lost",                         :default => false, :null => false
-    t.boolean  "is_seller",                    :default => false, :null => false
+    t.integer  "total",                         :default => 0,     :null => false
+    t.integer  "total_pay",                     :default => 0,     :null => false
+    t.boolean  "locked",                        :default => false, :null => false
+    t.boolean  "lost",                          :default => false, :null => false
+    t.boolean  "is_seller",                     :default => false, :null => false
     t.string   "ip_range"
-    t.integer  "online_note_id",               :default => 0,     :null => false
+    t.integer  "online_note_id",                :default => 0,     :null => false
     t.datetime "online_at"
+    t.boolean  "normal",                        :default => true,  :null => false
+    t.boolean  "bslocked",                      :default => false, :null => false
+    t.boolean  "unbslock_result"
   end
 
   create_table "servers", :force => true do |t|
