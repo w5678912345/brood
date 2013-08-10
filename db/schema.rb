@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130809101220) do
+ActiveRecord::Schema.define(:version => 20130810041242) do
 
   create_table "computers", :force => true do |t|
     t.string   "hostname",                         :null => false
@@ -96,6 +96,8 @@ ActiveRecord::Schema.define(:version => 20130809101220) do
     t.integer  "computers_count",                :default => 0, :null => false
     t.datetime "created_at",                                    :null => false
     t.datetime "updated_at",                                    :null => false
+    t.string   "goods"
+    t.integer  "price",                          :default => 1, :null => false
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true

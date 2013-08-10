@@ -1,4 +1,7 @@
 zh-CN:
+  will_paginate:
+    next_label: '下一页'
+    previous_label: '上一页'    
   date:
     abbr_day_names:
     - 日

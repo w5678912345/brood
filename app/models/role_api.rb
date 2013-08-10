@@ -130,6 +130,10 @@ module RoleApi
 			return 1 if self.save
 		end
 	end
+
+	def api_bslock opts
+		return 1 if Note.create(:role_id => self.id,:ip => opts[:ip],:computer_id => opts[:cid],:api_name => "bslock",:api_code => 24,:msg=>opts[:msg])
+	end
 	
 	#重开角色的API
   def api_reopen opts

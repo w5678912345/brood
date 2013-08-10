@@ -2,7 +2,7 @@
 class Server < ActiveRecord::Base
   # attr_accessible :title, :body
 
-   attr_accessible :name, :role_str,:roles_count,:computers_count
+   attr_accessible :name, :role_str,:roles_count,:computers_count,:goods,:price
 
    validates :name, presence: true
 

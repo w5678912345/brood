@@ -129,6 +129,7 @@ Brood::Application.routes.draw do
       match :lock,    :on => :member
       match :unlock,  :on => :member
       match :lose,    :on => :member
+      match :bslock,  :on => :member
       #
 			match :add,			:on => :collection
       match :online, :on => :collection

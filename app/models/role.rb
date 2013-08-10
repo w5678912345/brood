@@ -66,10 +66,23 @@ class Role < ActiveRecord::Base
   	#self.update_attributes(:ip_range => "" )
   end
 
+  def find_or_create_server
+  	return @_server if @_server
+  	@_server = Server.find_by_name(self.server)
+  	@_server = Server.create(:name=>self.server) unless _server
+  	return @_server
+  end
+
   def sellers
-  	_server = Server.find_by_name(self.server)
-  	_server = Server.create(:name=>self.server) unless _server
-  	return  _server.roles
+  	return  find_or_create_server.roles
+  end
+
+  def sell_goods
+  	return find_or_create_server.goods
+  end
+
+  def goods_price
+  	return find_or_create_server.price
   end
 
  
