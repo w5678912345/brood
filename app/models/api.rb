@@ -26,7 +26,7 @@ CODES = {
 
 
    def self.role_auto_offline
-    last_at = Time.now.ago(10.minutes).strftime("%Y-%m-%d %H:%M:%S")
+    last_at = Time.now.ago(1.minutes).strftime("%Y-%m-%d %H:%M:%S")
     roles = Role.where(:online=>true).where("updated_at < '#{last_at}'")
 		opts = Hash.new()
     roles.each do |role|

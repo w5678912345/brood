@@ -130,6 +130,7 @@ Brood::Application.routes.draw do
       match :unlock,  :on => :member
       match :lose,    :on => :member
       match :bslock,  :on => :member
+      match :bs_unlock,:on => :member
       #
 			match :add,			:on => :collection
       match :online, :on => :collection

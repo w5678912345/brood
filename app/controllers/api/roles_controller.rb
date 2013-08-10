@@ -6,9 +6,9 @@ class Api::RolesController < Api::BaseController
 	#respond_to :json
 	##filters
 	before_filter :require_remote_ip
-	before_filter :require_computer_by_ckey,			:only => [:on,:off,:sync,:close,:note,:pay,:online,:lock,:unlock,:lose,:show,:bslock]
-	before_filter :require_role_by_id,					:only => [:on,:off,:sync,:close,:note,:pay,:show,:lock,:unlock,:lose,:bslock]
-	before_filter :require_online_role,					:only => [:off,:sync,:close,:note,:pay,:lock,:bslock]
+	before_filter :require_computer_by_ckey,			:only => [:on,:off,:sync,:close,:note,:pay,:online,:lock,:unlock,:lose,:show,:bslock,:bs_unlock]
+	before_filter :require_role_by_id,					:only => [:on,:off,:sync,:close,:note,:pay,:show,:lock,:unlock,:lose,:bslock,:bs_unlock]
+	before_filter :require_online_role,					:only => [:off,:sync,:close,:note,:pay,:lock,:bslock,:bs_unlock]
 	before_filter :require_computer_eq_role,			:only => [:off,:sync,:close,:note,:pay,:lock]
 	#after_filter  :update_role_server,					:only => [:on,:online]
 	#
@@ -103,6 +103,11 @@ class Api::RolesController < Api::BaseController
 
 	def bslock
 		@code = @role.api_bslock params
+		render :partial => 'api/roles/result'
+	end
+
+	def bs_unlock
+		@code = @role.api_bs_unlock params #api_bs_unlock
 		render :partial => 'api/roles/result'
 	end
 

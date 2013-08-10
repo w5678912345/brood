@@ -32,7 +32,7 @@ class Role < ActiveRecord::Base
 	end
 
 	def can_online
-		return self.vit_power > 0 && !self.online && !self.close  && !self.locked && !self.lost 
+		return self.vit_power > 0 && !self.online && !self.close  && !self.locked && !self.lost && self.normal
 	end
 
 	#def total_pay

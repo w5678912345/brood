@@ -39,7 +39,7 @@ end
 
 #
 every :day, :at => '5:00 am' do
-  runner 'Api.reset_role_vit_power',:environment => str_environment 
+  runner 'Api.reset_role',:environment => str_environment 
 end
 
 

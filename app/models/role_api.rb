@@ -87,7 +87,7 @@ module RoleApi
 			if self.bslocked && payment.gold > 0 && payment.pay_type != "auto"
 				self.bslocked = false
 				self.normal = true
-				Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"bs_unlock",:msg=>"发生支付后自动解除交易锁定")
+				Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"bs_unlock_success",:msg=>"发生支付后自动解除交易锁定")
 			end
 			
 			
@@ -144,6 +144,18 @@ module RoleApi
 			self.bslocked = true
 			self.normal = false
 			Note.create(:role_id => self.id,:ip => opts[:ip],:computer_id => opts[:cid],:api_name => "bslock",:api_code => 24,:msg=>opts[:msg])
+			return 1 if self.save
+		end
+	end
+
+	def api_bs_unlock opts
+		return 1 unless self.bslocked
+		result = opts[:result] == "1" ? true : false
+		self.transaction do
+			self.normal = result 
+			self.bslocked = !result
+			event = result ? "bs_unlock_success" : "bs_unlock_fail"
+			Note.create(:role_id => self.id,:ip => opts[:ip],:computer_id => opts[:cid],:api_name => event,:api_code => result,:msg=>opts[:msg])
 			return 1 if self.save
 		end
 	end
