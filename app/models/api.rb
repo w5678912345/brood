@@ -31,7 +31,7 @@ CODES = {
 		opts = Hash.new()
     roles.each do |role|
 			opts[:cid] = role.computer_id
-			opts[:ip] = role.ip
+			opts[:ip] = "localhost"
       opts[:msg] =  "auto"
       role.api_offline opts if role.online
     end

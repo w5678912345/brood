@@ -12,6 +12,7 @@ class NotesController < ApplicationController
 	def search
 		@notes = Note.includes(:computer,:role)
 		@notes = @notes.where(:role_id => params[:role_id]) unless params[:role_id].blank?
+		@notes = @notes.where(:api_name => params[:api_name]) unless params[:api_name].blank?
 		@notes = @notes.where("api_name like ?","%#{params[:event]}%") unless params[:event].blank?
 		@notes = @notes.where("ip like ?","%#{params[:ip]}%") unless params[:ip].blank?
 		@notes = @notes.where("msg like ?","%#{params[:msg]}%") unless params[:msg].blank?

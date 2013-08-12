@@ -71,6 +71,8 @@ module RoleApi
 	def api_note opts
 		ip = Ip.find_or_create(opts[:ip] || self.ip)
 		self.transaction do
+			self.updated_at = Time.now
+			self.save
 			return 1 if Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>opts[:event] || "default" ,:api_code=>opts[:code]||0,:msg=>opts[:msg])
 		end
 	end

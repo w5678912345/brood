@@ -26,11 +26,11 @@ class IpsController < ApplicationController
 	end
 
 	def clear
-		@ip = Ip.find_by_value(params[:id]) if params[:id]
+		@ip = Ip.find_by_value(params[:ip]) if params[:ip]
 		if @ip
 			 @ip.destroy
 		else
-			Ip.destroy_all
+			#Ip.destroy_all
 		end
 		redirect_to ips_path
 	end

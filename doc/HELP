@@ -28,4 +28,5 @@ select count(value) as ccc,SUBSTRING_INDEX(value,'.',2) as id_range from ips whe
 
 
 
+
 select count(id) as ccc,ip_range from roles group by ip_range;
