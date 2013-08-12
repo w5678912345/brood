@@ -32,6 +32,7 @@ CODES = {
     roles.each do |role|
 			opts[:cid] = role.computer_id
 			opts[:ip] = role.ip
+      opts[:msg] =  "auto"
       role.api_offline opts if role.online
     end
   end
