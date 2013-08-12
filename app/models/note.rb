@@ -23,6 +23,8 @@ class Note < ActiveRecord::Base
 
     scope :time_scope,lambda{|start_time,end_time|where(created_at: start_time..end_time)}
 
+    #scope :online_at_scope,lambda{|start_time,end_time|where(online_at: start_time..end_time)}
+
     scope :day_scope,lambda{|time|time_scope(time,time+1.day)}
     
     scope :event_scope, lambda{|event|where(:api_name => event)}
