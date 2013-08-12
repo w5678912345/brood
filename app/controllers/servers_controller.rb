@@ -15,6 +15,8 @@ class ServersController < ApplicationController
 
 	def create
 		@server = Server.new(params[:server])
+		@server.role_str = params[:roles].to_s.gsub("[","").gsub("]","").delete("\"").delete(" ") if params[:roles]
+		
 		if @server.save
 			redirect_to servers_path
 		else
@@ -29,6 +31,7 @@ class ServersController < ApplicationController
 
 	def update
 		@server = Server.find_by_id(params[:id])
+		@server.role_str = params[:roles].to_s.gsub("[","").gsub("]","").delete("\"").delete(" ") if params[:roles]
 		if @server.update_attributes(params[:server])
 			redirect_to servers_path
 		else

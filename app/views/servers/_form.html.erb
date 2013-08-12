@@ -28,10 +28,33 @@
 </div>
 </div>
 
-<div class="control-group">
+<!-- <div class="control-group">
 <label class="control-label">收款角色:</label>
 <div class="controls docs-input-sizes" >
-	<%= f.text_area :role_str,cols: 60, rows: 3,:required=>"required"  %>
+	
+</div>
+</div> -->
+
+<div class="control-group">
+<label class="control-label">收款角色:</label>
+<div class="controls docs-input-sizes" id="options">
+  
+
+<span class="text-warning">(可以指定多个)</span>
+<input type="button" onclick="addOption();" value="添加+" class="btn">
+
+<ol style="" id="roles-list">
+
+ <% if @server.roles.any? %>
+	 <% @server.roles.each do |role|%>
+	 <li class="div_option">
+		<input type="text" name="roles[]" class="input-xlarge" value="<%= role %>">
+	 	<a href="#" onclick="delOption(this);">删除</a>
+	</li>
+	 <%end%>	
+ <% end %>
+
+</ol>
 </div>
 </div>
 
@@ -40,7 +63,16 @@
 	<%= f.submit "保存", :class => "btn btn-success"%>
 </div>
 </div>
+
+
 <%end%>
+
+<textarea id="txt" style="display:none;" >
+ <li class="div_option">
+	<input type="text" name="roles[]" class="input-xlarge" />
+	 <a href="#" onclick="delOption(this);">删除</a>
+</li>
+</textarea>
 
 
 <script type="text/javascript">
@@ -49,4 +81,13 @@ $(function(){
 $("form[id = edit_computer_<%= @server.id %>]").validate();
 $("form[id = new_server]").validate();
 });
+
+function addOption(){
+  var html = $("#txt").text();
+  $("#roles-list").append(html);
+}
+/*删除选项*/
+function delOption(a){
+  $(a).parent().remove();
+}
 </script>
