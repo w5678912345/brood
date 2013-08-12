@@ -27,7 +27,7 @@
 
 <tbody>
 <%@roles.each do |role|%>
-<%notes = role.notes.day_scope(@date).select("api_name,count(id) as ecount").group("api_name") %>
+<%notes = role.date_notes(@date) %>
 <% success = notes.where(:api_name => "success").exists? %>
 <tr>
 <td width="4%"><%= role.id %></td>

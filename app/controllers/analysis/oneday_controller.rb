@@ -59,7 +59,7 @@ class Analysis::OnedayController < Analysis::AppController
 		#
 		@notes =  Note.time_scope(@start_time,@end_time)
 		@online_role_ids = @notes.where(:api_name => "online").select(:role_id).uniq.collect(&:role_id)
-		@success_role_ids = @notes.where(:api_name => "success").select(:role_id).uniq.collect(&:role_id)
+		@success_role_ids = @notes.where(:role_id => @online_role_ids).where(:api_name => "success").select(:role_id).uniq.collect(&:role_id)
 		@fail_role_ids = @online_role_ids - @success_role_ids
 		# @online_role_ids = @notes.where(:api_name => "online").select(:role_id).uniq.collect(&:role_id)
 		# @success_role_ids = @notes.where(:api_name => "success").select(:role_id).uniq.collect(&:role_id)

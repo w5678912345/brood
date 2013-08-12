@@ -73,6 +73,10 @@ class Role < ActiveRecord::Base
   	return @_server
   end
 
+  def date_notes date
+    self.notes.day_scope(date).select("api_name,count(id) as ecount").group("api_name")
+  end
+
   def sellers
   	return  find_or_create_server.roles
   end
