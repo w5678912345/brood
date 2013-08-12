@@ -162,13 +162,10 @@ module RoleApi
 			elsif "0" == opts[:result]
 				self.unbslock_result = false
 				event = "bs_unlock_fail"
-			else
-				self.unbslock_result = nil
-				event = "bs_unlock_timeout"
 			end
 
 			
-			Note.create(:role_id => self.id,:ip => opts[:ip],:computer_id => opts[:cid],:api_name => event,:api_code => opts[:result],:msg=>opts[:msg])
+			Note.create(:role_id => self.id,:ip => opts[:ip],:computer_id => opts[:cid],:api_name => event,:api_code => opts[:result] || "",:msg=>opts[:msg])
 			return 1 if self.save
 		end
 	end
