@@ -114,7 +114,9 @@ class Api::RolesController < Api::BaseController
 	private 
 
 	def require_remote_ip
+
 		params[:ip] = request.remote_ip
+		logger.info("====---#{Time.now}---------#{request.remote_ip}--------#{request.url}--")
 		tmps = params[:ip].split(".") if params[:ip]
 		params[:ip_range] = "#{tmps[0]}.#{tmps[1]}" if tmps && tmps.length > 0
 		@code = 0
