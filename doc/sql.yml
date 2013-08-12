@@ -20,3 +20,12 @@ GROUP BY api_name ORDER BY api_name asc
 
 #IP段统计
  select count(value),SUBSTRING_INDEX(value,'.',2) as id_range from ips where value <> 'localhost' group by id_range;
+
+
+#
+
+select count(value) as ccc,SUBSTRING_INDEX(value,'.',2) as id_range from ips where value <> 'localhost' group by id_range order by ccc desc;
+
+
+
+select count(id) as ccc,ip_range from roles group by ip_range;
