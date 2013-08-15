@@ -7,7 +7,8 @@ class OutputsController < ApplicationController
 	end
 
 	def home
-		
+		@payments = Payment.select("pay_type,sum(gold) as zhichu").group("pay_type")
+		@sum_gold = Payment.sum(:gold)
 	end
 
 	def search

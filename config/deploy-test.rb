@@ -10,8 +10,11 @@
 # 警告：为了减少必须要的错误, 部署前请先确保应用已经被停止
 # **************10 yc885588
 #
-# 运行命令后输出 “in `write': Broken pipe (Errno::EPIPE)”，忽略即可
+# 运行命令后输出 “in `write': Broken pipe (Errno::EPIPE)”，忽略即可 
 # ec2-174-129-207-99.compute-1.amazonaws.com
+
+# 日本 ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com
+# 美国 ec2-174-129-207-99.compute-1.amazonaws.com
 
 require 'mina/bundler'
 require 'mina/rails'
@@ -25,14 +28,14 @@ set_default :term_mode, :pretty
 #   deploy_to    - Path to deploy into.
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
-
-set :domain, 'ec2-174-129-207-99.compute-1.amazonaws.com' #'ec2-174-129-207-99.compute-1.amazonaws.com'
-set :deploy_to, '/home/ubuntu/apps/brood.test.com'
+# ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com
+set :domain, 'ec2-54-249-17-3.ap-northeast-1.compute.amazonaws.com'
+set :deploy_to, '/home/ubuntu/apps/test.brood.com'
 set :user, 'ubuntu'
 
-set :rails_env, 'test'
+set :rails_env, 'production'
 
-set :repository, 'ubuntu@ec2-174-129-207-99.compute-1.amazonaws.com:apps/brood.git'
+set :repository, 'ubuntu@ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com:repo/brood.git'
 set :branch, 'master'
 set :rvm_path, '/home/ubuntu/.rvm/scripts/rvm' #'/usr/local/rvm/scripts/rvm'
 
@@ -42,7 +45,7 @@ set_default :thin_config, 'config/thin.yml'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_config_files, ['config/database.yml',settings.thin_config]
+set :shared_config_files, ['config/database.yml','config/thin.test.yml',settings.thin_config]
 
 set :shared_paths, ['log', 'public/uploads'] + settings.shared_config_files
 
@@ -62,9 +65,6 @@ end
 # all releases.
 task :setup => :environment do
   #queue! %[chmod g+rx,u+rwx "#{deploy_to}"]
-
-  # queue! %[mkdir -p "#{deploy_to}/current"]
-  # queue! %[chmod g+rx,u+rwx "#{deploy_to}/current"]
 
   queue! %[mkdir -p "#{deploy_to}/shared/log"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/log"]
@@ -88,14 +88,14 @@ task :deploy => :environment do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
-    #invoke :'rails:db_migrate'
-    invoke :'db:migrate'
+    invoke :'rails:db_migrate'
+    #invoke :'db:migrate'
     invoke :'rails:assets_precompile'
 
 
     to :launch do
       invoke :'thin:start'
-      invoke :'whenever:write'
+      #invoke :'whenever:write'
     end
     
     to :clean do
@@ -116,6 +116,7 @@ task :shutdown do
   queue %[echo "-----> Shutting down..."]
   invoke :'rvm:use[ruby-1.9.3]'
   invoke :'thin:stop'
+  invoke :'whenever:clear'
 end
 
 #

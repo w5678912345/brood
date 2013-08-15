@@ -16,10 +16,11 @@ module ApplicationHelper
 	def role_icon role
 		return '' unless role
 		icon_html = ''
-
+ 
 		icon_html = icon_html+'<i class="icon-lock" title="帐号锁定"></i>' if role.locked
 		icon_html = icon_html+' <i class="icon-warning-sign" title="密码丢失"></i>' if role.lost
 		icon_html = icon_html+' <i class="icon-magnet" title="交易锁定"></i>' if role.bslocked
+		icon_html = icon_html+' <i class="icon-stop" title="解锁失败"></i>' if role.unbslock_result == false
 		icon_html = icon_html+' <i class="icon-flag" title="IP: '+role.ip_range+'"></i>' unless role.ip_range.blank?
 
 		if role.close

@@ -91,6 +91,7 @@ class RolesController < ApplicationController
 		@roles = @roles.where(:online => params[:online]) unless params[:online].blank?
 		@roles = @roles.where(:lost => params[:lost]) unless params[:lost].blank?
 		@roles = @roles.where(:locked => params[:locked]) unless params[:locked].blank?
+		@roles = @roles.where(:bslocked => true).where(:unbslock_result => params[:bs_unlock].to_i) unless params[:bs_unlock].blank?
 		@roles = @roles.where("level >= #{params[:min_level]}") unless params[:min_level].blank?
 		@roles = @roles.where("level <= #{params[:max_level]}") unless params[:max_level].blank?
 		@roles = @roles.where("vit_power >= #{params[:min_vit]}") unless params[:min_vit].blank?

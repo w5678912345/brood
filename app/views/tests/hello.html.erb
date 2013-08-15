@@ -1,0 +1,41 @@
+<script src="http://code.angularjs.org/angular-1.0.1.min.js"></script>
+
+<script type="text/javascript">
+function PhoneListCtrl($scope) {
+  $scope.phones = [
+    {"name": "Nexus S",
+     "snippet": "Fast just got faster with Nexus S."},
+    {"name": "Motorola XOOM™ with Wi-Fi",
+     "snippet": "The Next, Next Generation tablet."},
+    {"name": "MOTOROLA XOOM™",
+     "snippet": "The Next, Next Generation tablet."}
+  ];
+}
+
+</script>
+
+
+Your name: <input type="text" ng-model="yourname" placeholder="World">Hello {{yourname || 'World'}}!
+<hr>
+
+
+
+<p>1 + 2 = {{ 1 + 2 }}</p>
+
+
+Search: <input ng-model="query">
+Sort by:
+<select ng-model="orderProp">
+  <option value="name">Alphabetical</option>
+  <option value="age">Newest</option>
+</select>
+
+<div ng-controller="PhoneListCtrl">
+
+  <ul>
+    <li ng-repeat="phone in phones | filter:query | orderBy:orderProp ">
+      {{phone.name}}
+    <p>{{phone.snippet}}</p>
+    </li>
+  </ul>
+</div>

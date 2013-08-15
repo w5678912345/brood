@@ -1,0 +1,59 @@
+<script src="http://code.angularjs.org/angular-1.0.1.min.js"></script>
+
+<script type="text/javascript">
+function ServerListCtrl($http,$scope) {
+	$http.get('/servers.json').success(function(data) {
+   	 $scope.servers = data;
+  });
+}
+
+
+
+//
+</script>
+
+
+Your name: <input type="text" ng-model="yourname" placeholder="World">Hello {{yourname || 'World'}}!
+<hr>
+
+<div data-ng-app>
+单价： <input type="number" min=0 ng-model="price" ng-init="price = 299">
+<br>
+数量： <input type="number" min=0 ng-model="quantity" ng-init="quantity = 1">
+<br>
+总价： {{ quantity * price }}
+</div>
+
+
+
+<p>1 + 2 = {{ 1 + 2 }}</p>
+
+
+Search: <input ng-model="query">
+Sort by:
+<select ng-model="orderProp">
+  <option value="name">Alphabetical</option>
+  <option value="id">Newest</option>
+</select>
+
+
+<table class="table" ng-controller="ServerListCtrl">
+<thead>
+<tr>
+ <th>名称</th>
+ <th>收款号</th>
+ <th>出售商品</th>
+ <th>单价</th>
+ <th>操作</th>
+</tr>
+</thead>
+<tbody>
+<tr ng-repeat="server in servers | filter:query | orderBy:orderProp ">
+	<td><%= link_to("{{server.name}}","{{server.id}}",:title=>"{{server.id}}") %></td>
+	<td></td>
+	<td>{{server.goods}}</td>
+	<td>{{server.price}}</td>
+	<td></td>
+</tr>
+</tbody>
+</table>

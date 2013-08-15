@@ -1,0 +1,4 @@
+2013/08/15 10:43:59 [alert] 4201#0: *1010 socket() failed (24: Too many open files) while connecting to upstream, client: 127.0.0.1, server: 127.0.0.1, request: "GET / HTTP/1.0", upstream: "http://127.0.0.1:80/", host: "hello.com"
+2013/08/15 10:44:01 [alert] 4201#0: *2150 socket() failed (24: Too many open files) while connecting to upstream, client: 127.0.0.1, server: 127.0.0.1, request: "GET / HTTP/1.0", upstream: "http://127.0.0.1:80/", host: "hello.com"
+2013/08/15 10:44:11 [alert] 4201#0: *3159 socket() failed (24: Too many open files) while connecting to upstream, client: 127.0.0.1, server: 127.0.0.1, request: "GET / HTTP/1.0", upstream: "http://127.0.0.1:80/", host: "hello.com"
+2013/08/15 10:44:12 [alert] 4201#0: *4167 socket() failed (24: Too many open files) while connecting to upstream, client: 127.0.0.1, server: 127.0.0.1, request: "GET / HTTP/1.0", upstream: "http://127.0.0.1:80/", host: "hello.com"

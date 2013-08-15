@@ -79,6 +79,8 @@ Brood::Application.routes.draw do
     get :home,    :on => :collection
   end
 
+  resources :tests
+
   # get "analysis/by/:date" => "analysis#by"
   # get "analysis/roles/:mark" => "analysis#roles",:as => "roles_analysis"
   # get "analysis/notes/:mark" => "analysis#notes",:as => "notes_analysis"

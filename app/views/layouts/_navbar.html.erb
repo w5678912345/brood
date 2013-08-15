@@ -22,7 +22,8 @@
                         <li><a href="/roles/lost">已丢失列表</a></li>
                         <li><a href="/roles/unlost">未丢失列表</a></li>
                         <li class="divider"></li>
-                        <li><a href="/roles/bslocked">交易锁定列表</a></li>
+                        <li><%= link_to "交易锁定列表", search_roles_path(:bslocked => 1)%> </li>
+                        <li><%= link_to "解锁失败列表", search_roles_path(:bs_unlock => 0)%> </li>
 					</ul>
 			</li>
 		  <li><%= link_to "搜索角色", search_roles_path()%></li>
