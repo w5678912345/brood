@@ -9,6 +9,6 @@
 08-15
 
 1. dabi.co 域名绑定(tianyi.dabi.co  test_tianyi.dabi.co  www.dabi.co) => ok
-2. 统计 bs ublock fail 的角色
-3. 统计金币 背包余额,转帐记录
-4. 维护computer的指令
+2. 统计 bs ublock fail 的角色 => ok
+3. 统计金币 背包余额,转帐记录 => ok
+4. 维护computer的指令 => ...
