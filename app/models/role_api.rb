@@ -81,7 +81,7 @@ module RoleApi
 	def pay	opts
 		ip = Ip.find_or_create(opts[:ip] || self.ip)
 		self.transaction do
-			payment = Payment.new(:role_id=>self.id,:gold => opts[:gold],:balance => opts[:balance],:remark => opts[:remark],:note_id => 0,:pay_type=>opts[:pay_type])	
+			payment = Payment.new(:role_id=>self.id,:gold => opts[:gold],:balance => opts[:balance],:remark => opts[:remark],:note_id => 0,:pay_type=>opts[:pay_type],:server=>self.server)	
 			return CODES[:not_valid_pay] unless payment.valid? # validate not pass
 			self.gold = payment.balance			 #当前金币 = 支出后的余额
 			self.total_pay = self.total_pay + payment.gold # 累计支出

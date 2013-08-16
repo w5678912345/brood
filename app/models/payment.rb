@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Payment < ActiveRecord::Base
 		
-		attr_accessible :role_id,:gold,:balance,:pay_type,:remark,:note_id
+		attr_accessible :role_id,:gold,:balance,:pay_type,:remark,:note_id,:server
 		#attr_accessor		:max_total,:min_total
 		#
 		belongs_to :role
