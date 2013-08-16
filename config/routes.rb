@@ -79,6 +79,8 @@ Brood::Application.routes.draw do
     get :home,    :on => :collection
   end
 
+  resource :gold,controller: 'gold'
+
   resources :tests
 
   # get "analysis/by/:date" => "analysis#by"

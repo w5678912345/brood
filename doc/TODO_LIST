@@ -12,3 +12,12 @@
 2. 统计 bs ublock fail 的角色 => ok
 3. 统计金币 背包余额,转帐记录 => ok
 4. 维护computer的指令 => ...
+
+
+08-16
+ 1. 与客户端通信的 方案. TCP ,WebSocket, Http ,redis (执行指令) 
+ 2. 导出上海1区 的账户150个到 test_tianyi
+ 3. 导出浙江1区 close 24小时的号，到txt
+ 4. payments 按server 统计
+ 5. nginx max_collections
+ 6. 

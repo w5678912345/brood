@@ -38,6 +38,17 @@ mysqldump -u root -p brood_production>brood.sql
 # source file.sql
 mysql -u root -p brood_remote</home/suxu/brood-remote.sql
 
+# 备份数据库 表 的部分数据 (insert sql)
+mysqldump -t -uroot -p brood_remote roles --where="id>4000 limit 3" > /home/suxu/roles1.sql
+
+# 上海1区 等级> 30  online = 0
+select id from roles where level >= 30 and server = '上海1区' and online = 0;
+# 浙江1区 close 24
+select id from roles where server = '浙江1区' and close = 1 and close_hours = 24;
+
+
+#
+select * from roles into outfile '/tmp/data.txt'
 
 # scp ubuntu@ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com:brood812.sql /home/brood-remote-812.sql
 
@@ -45,3 +56,7 @@ scp ubuntu@ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com:~/brood812.sql
 
 
 5994-2F43-B7EE-CAB8-0F13-D08C-DD1E-AA62
+
+
+
+select count(id) from roles where level>30 and server = '上海1区' and online = 0 limit 150;

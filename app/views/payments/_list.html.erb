@@ -8,6 +8,7 @@
 <tr>
 	<th>时间</th>
 	<th>角色</th>
+	<th>服务区</th>	
 	<th>支出金额</th>
 	<th>当前余额</th>
 	<th>当前产出</th>
@@ -20,6 +21,7 @@
 	<tr>
 		<td><%= payment.id %>#<%= time_str payment.created_at  %></td>
 		<td><%= link_to "#{payment.role.account}##{payment.role.role_index}",payments_role_path(payment.role)  if payment.role %></td>
+		<td><%= payment.server %></td>
 		<td><%= payment.gold %></td>
 		<td><%= payment.balance %></td>
 		<td><%= payment.total %></td>
