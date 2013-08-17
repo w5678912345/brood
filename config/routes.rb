@@ -17,7 +17,7 @@ Brood::Application.routes.draw do
     get   :lost,        :on => :collection
     get   :unlost,      :on => :collection
     get 	:waiting,			:on => :collection
-    get   :bslocked,       :on => :collection
+    get   :bslocked,    :on => :collection
 
 		put		:reset_vip_power,			:on => :collection
 		put 	:reopen_all,					:on => :collection    
@@ -79,6 +79,13 @@ Brood::Application.routes.draw do
     get :home,    :on => :collection
   end
 
+  resources :tasks do
+    get :list,    :on => :collection
+    get :home,    :on => :collection
+    get :pre,     :on => :member
+    put :confirm, :on => :member
+  end
+
   resource :gold,controller: 'gold'
 
   resources :tests
@@ -123,6 +130,10 @@ Brood::Application.routes.draw do
     match '/reg'  => 'computers#reg'
     match '/set'  => 'computers#set'
     match '/cinfo' => 'computers#cinfo'
+    resources :tasks ,:only =>[],:defaults => {:format => 'json'} do
+      match :pull,    :on => :collection
+      match :call,    :on => :member
+    end
     resources :roles ,:only => [:show],:defaults => { :format => 'json' } do
 			
       match :close,   :on => :member

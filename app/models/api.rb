@@ -19,7 +19,8 @@ CODES = {
 	 :computer_error => -13,
 	 :role_server_is_nil => -14,
 	 :full_use_computer => -15,
-   :computer_no_server => -16
+   :computer_no_server => -16,
+   :not_find_task => -17
   }
 
   EVENTS = {}

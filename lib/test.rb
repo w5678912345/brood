@@ -43,7 +43,7 @@ end
 require 'socket'
 
 server= UDPSocket.new
-server.bind('192.168.0.173', 3001)
+server.bind('127.0.0.1', 3000)
 loop do
     data,address=server.recvfrom(1024)
     server.send(data.reverse,0,address[3],address[1])  ############ My problem #########

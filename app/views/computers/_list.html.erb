@@ -15,6 +15,21 @@
 			<%= button_tag "通过",:class=>"btn btn-success btn-small",:id => "pass_button",:type => 'button' if action_name != "checked"%>
 			<%= button_tag "拒绝",:class=>"btn btn-danger btn-small",:id => "not_pass_button",:type => 'button' if action_name != "unchecked"%>
 			<%= button_tag "删除",:class=>"btn btn-inverse btn-small",:id => "delete_button",:type => 'button' %>
+			<div class="btn-group">
+		    <a href="/computers/10" class="btn btn-small btn-primary">任务</a>
+		    <a class="btn dropdown-toggle btn-small btn-primary" data-toggle="dropdown" href="#" ><span class="caret"></span></a>
+		    <ul class="dropdown-menu">
+		      <% @tasks.each do |task|%>
+		      <li>
+		          <a href="javascript:void(0);" class="task_button" task-id="<%= task.id %>"><%= task.name %></a>
+		      </li>
+		      <%end%>
+		       <li>
+		    		<%= link_to raw('<i class="icon-plus"></i>添加新任务'),new_task_path %>
+		    	</li>
+		     
+		    </ul>
+		  </div>
 	</td>
 </tr>
 <tr>
@@ -36,7 +51,7 @@
 <tr>
 <td>
 <label class="checkbox">
-<%= check_box_tag 'ids[]',computer.id%>
+<%= check_box_tag 'ids[]',computer.id,:id=>computer.id %>
 <%= computer.id %>
 </label>
 </td>

@@ -3,6 +3,8 @@
 
 <%= form_tag(check_computers_path,:method => :put,:id=>"computers_check_form") do -%>
 <%= hidden_field_tag :checked,1, :id=>"checked"%>
+<%= hidden_field_tag :task_id,0, :id=>"task_id"%>
+
 <%= render "list"%>
 <%	end -%>
 
@@ -19,6 +21,15 @@ $(function(){
 	});
 	$("#delete_button").click(function(){
 		$("#checked").val(-1);
+		$("#computers_check_form").submit();
+	});
+	$(".task_button").click(function(){
+		if ($("tbody :checked").length == 0){
+			alert("请选择你要执行任务的电脑");
+			return;
+		}
+		$("#task_id").val($(this).attr("task-id"))
+		$("#checked").val(2);
 		$("#computers_check_form").submit();
 	});
 	$("#check_all").click(function(){

@@ -10,5 +10,6 @@
 	<option value="1" <%= 'selected="selected"' if params[:checked] == "1" %>>Yes</option>
 	<option value="0" <%= 'selected="selected"' if params[:checked] == "0" %> >No</option>
 </select>
+<input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
 <button type="submit" class="btn">Search</button>
 </form>

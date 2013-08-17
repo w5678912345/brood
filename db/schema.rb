@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130816090923) do
+ActiveRecord::Schema.define(:version => 20130817073816) do
 
   create_table "computers", :force => true do |t|
     t.string   "hostname",                             :null => false
@@ -124,6 +124,26 @@ ActiveRecord::Schema.define(:version => 20130816090923) do
     t.integer  "import_count", :default => 0,     :null => false
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
+  end
+
+  create_table "tasks", :force => true do |t|
+    t.string   "user_id",                        :null => false
+    t.integer  "role_id",     :default => 0,     :null => false
+    t.integer  "computer_id", :default => 0,     :null => false
+    t.integer  "sup_id",      :default => 0,     :null => false
+    t.string   "name",                           :null => false
+    t.string   "command"
+    t.string   "args"
+    t.string   "code"
+    t.string   "remark"
+    t.boolean  "pushed",      :default => false, :null => false
+    t.datetime "pushed_at"
+    t.boolean  "callback",    :default => false, :null => false
+    t.datetime "callback_at"
+    t.string   "msg"
+    t.boolean  "success",     :default => false, :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   create_table "users", :force => true do |t|

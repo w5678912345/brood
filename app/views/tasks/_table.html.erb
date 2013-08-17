@@ -1,0 +1,47 @@
+<table class="table">
+<thead>
+<tr>
+  <th>ID</th>
+ <th>名称</th>
+ <th>执行命令</th>
+ <th>参数</th>
+ <th>备注</th>
+ <th>状态</th>
+ <th>创建时间</th>
+ <th>操作</th>
+</tr>
+</thead>
+<tbody>
+<% @tasks.each do |task| %>
+<tr>
+<th><%= task.id %></th>
+<td><%= task.name %> <%= raw('<i class="icon-tag" title="任务模板"></i>') if task.sup_id == 0 %></td>
+<td><%= task.command %></td>
+<td><%= task.args %></td>
+<td><%= task.remark %></td>
+<td>推送:<%= task.pushed ? raw('<span class="">Yes<span>') : raw('<span class="">No<span>') %>
+	<%= "成功: #{task.success ? "Yes" : "No"}" if task.pushed %>
+</td>
+<td><%= time_str task.created_at %></td>
+<td>
+<div class="btn-group">
+    <%= link_to "查看", task_path(task),:class=>"btn btn-small" %>
+    <a class="btn dropdown-toggle btn-small" data-toggle="dropdown" href="#"><span class="caret"></span></a>
+    <ul class="dropdown-menu">
+      <li>
+          <%= link_to raw("<i class='icon-edit'></i>修改"),edit_task_path(task) %>
+      </li>
+      <li>
+         <%= link_to raw("<i class='icon-trash'></i>删除"),task_path(task),confirm: 'Are you sure?',:method => :delete %>
+      </li>
+    </ul>
+  </div>
+</td>
+</tr>
+
+<%end%>
+</tbody>
+
+</table>
+
+<%= will_paginate @tasks %> 

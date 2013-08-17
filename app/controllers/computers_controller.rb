@@ -4,6 +4,7 @@ class ComputersController < ApplicationController
 	load_and_authorize_resource :class => "Computer"
   
   def index
+    @tasks = Task.where(:sup_id => 0)
     @computers = Computer.includes(:user)
     #@computers = @computers.where("server = '' or server is NULL") if params[:server] == "null"
     @computers = @computers.where(:server=>params[:server]) unless params[:server].blank? || params[:server] == "null"
@@ -12,7 +13,8 @@ class ComputersController < ApplicationController
     @computers = @computers.where(:checked => params[:checked]) unless params[:checked].blank?
     @computers = @computers.where("hostname like ?","%#{params[:hostname]}%") unless params[:hostname].blank?
     @computers = @computers.where("auth_key like ?","%#{params[:ckey]}%") unless params[:ckey].blank? 
-  	@computers = @computers.order("hostname desc").paginate(:page => params[:page], :per_page => 20)
+    per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
+  	@computers = @computers.order("hostname desc").paginate(:page => params[:page], :per_page => per_page)
   end
 
   def home
@@ -24,11 +26,13 @@ class ComputersController < ApplicationController
   end
 
 	def checked
+    @tasks = Task.where(:sup_id => 0)
 		@computers = Computer.where(:checked => true).paginate(:page => params[:page], :per_page => 20)
 		render :action => "index"
 	end
 	
 	def unchecked
+    @tasks = Task.where(:sup_id => 0)
 		@computers = Computer.where(:checked => false).paginate(:page => params[:page], :per_page => 20)
 		render :action => "index"	
 	end
@@ -36,16 +40,21 @@ class ComputersController < ApplicationController
 	def check
 		ids = params[:ids]
     checked = params[:checked].to_i
-		if ids
-      @computers = Computer.where(:id => ids)
-      @computers.where(:roles_count => 0).destroy_all if checked == -1
-      @computers.update_all(:checked => params[:checked],:check_user_id=>current_user.id,:checked_at => Time.now) if checked == 1 || checked ==0 
+    return redirect_to computers_path unless ids
+    if checked == 2
+      session[:cids] = ids
+      return redirect_to pre_task_path(params[:task_id])
+    end
+    
+    @computers = Computer.where(:id => ids)
+    @computers.where(:roles_count => 0).destroy_all if checked == -1
+    @computers.update_all(:checked => params[:checked],:check_user_id=>current_user.id,:checked_at => Time.now) if checked == 1 || checked ==0 
 
 			# ids.each do |id|
 			# 	computer = Computer.find_by_id(id)
 			# 	computer.update_attributes(:checked => params[:checked],:check_user_id=>current_user.id,:checked_at => Time.now) if computer
 			# end
-		end
+
 		redirect_to computers_path
 	end
 	
