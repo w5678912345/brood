@@ -5,12 +5,12 @@
 <thead>
 <tr>
 	<th>服务器</th>
-	<th>支出金币</th>
+	<th>转帐金币</th>
 </tr>
 </thead>
 <% @payments.each do |pm|%>
 <tr>
-	<td><%= link_to pm.server,search_payments_path(:server=>pm.server) %></td>
+	<td><%= link_to pm.server,search_payments_path(:server=>pm.server,:pay_type=>"trade") %></td>
 	<td><%= number_to_currency(pm.zhuanzhang.to_i,:unit => "€") %></td>
 </tr>
 <% end %>
