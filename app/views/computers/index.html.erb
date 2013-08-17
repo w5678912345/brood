@@ -1,4 +1,6 @@
 <%= render "navbar" %>
+<%= render "search_form" %>
+
 <%= form_tag(check_computers_path,:method => :put,:id=>"computers_check_form") do -%>
 <%= hidden_field_tag :checked,1, :id=>"checked"%>
 <%= render "list"%>
@@ -13,6 +15,10 @@ $(function(){
 	});
 	$("#not_pass_button").click(function(){
 		$("#checked").val(0);
+		$("#computers_check_form").submit();
+	});
+	$("#delete_button").click(function(){
+		$("#checked").val(-1);
 		$("#computers_check_form").submit();
 	});
 	$("#check_all").click(function(){

@@ -12,8 +12,9 @@
 		</label>
 	</td>
 	<td>
-			<%= button_tag "通过",:class=>"btn btn-success btn-small",:id =>"pass_button",:type => 'button' if action_name != "checked"%>
-			<%= button_tag "拒绝",:class=>"btn btn-danger btn-small",:id =>"not_pass_button",:type => 'button' if action_name != "unchecked"%>
+			<%= button_tag "通过",:class=>"btn btn-success btn-small",:id => "pass_button",:type => 'button' if action_name != "checked"%>
+			<%= button_tag "拒绝",:class=>"btn btn-danger btn-small",:id => "not_pass_button",:type => 'button' if action_name != "unchecked"%>
+			<%= button_tag "删除",:class=>"btn btn-inverse btn-small",:id => "delete_button",:type => 'button' %>
 	</td>
 </tr>
 <tr>

@@ -5,9 +5,13 @@ class ComputersController < ApplicationController
   
   def index
     @computers = Computer.includes(:user)
-    @computers = @computers.where("server = '' or server is NULL") if params[:server] == "null"
+    #@computers = @computers.where("server = '' or server is NULL") if params[:server] == "null"
     @computers = @computers.where(:server=>params[:server]) unless params[:server].blank? || params[:server] == "null"
     @computers = @computers.where(:version=>params[:version]) unless params[:version].blank?  
+    @computers = @computers.where(:id => params[:id]) unless params[:id].blank?
+    @computers = @computers.where(:checked => params[:checked]) unless params[:checked].blank?
+    @computers = @computers.where("hostname like ?","%#{params[:hostname]}%") unless params[:hostname].blank?
+    @computers = @computers.where("auth_key like ?","%#{params[:ckey]}%") unless params[:ckey].blank? 
   	@computers = @computers.order("hostname desc").paginate(:page => params[:page], :per_page => 20)
   end
 
@@ -31,11 +35,16 @@ class ComputersController < ApplicationController
 	
 	def check
 		ids = params[:ids]
+    checked = params[:checked].to_i
 		if ids
-			ids.each do |id|
-				computer = Computer.find_by_id(id)
-				computer.update_attributes(:checked => params[:checked],:check_user_id=>current_user.id,:checked_at => Time.now) if computer
-			end
+      @computers = Computer.where(:id => ids)
+      @computers.destroy_all if checked == -1
+      @computers.update_all(:checked => params[:checked],:check_user_id=>current_user.id,:checked_at => Time.now) if checked == 1 || checked ==0 
+
+			# ids.each do |id|
+			# 	computer = Computer.find_by_id(id)
+			# 	computer.update_attributes(:checked => params[:checked],:check_user_id=>current_user.id,:checked_at => Time.now) if computer
+			# end
 		end
 		redirect_to computers_path
 	end
