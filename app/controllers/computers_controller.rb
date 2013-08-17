@@ -38,7 +38,7 @@ class ComputersController < ApplicationController
     checked = params[:checked].to_i
 		if ids
       @computers = Computer.where(:id => ids)
-      @computers.destroy_all if checked == -1
+      @computers.where(:roles_count => 0).destroy_all if checked == -1
       @computers.update_all(:checked => params[:checked],:check_user_id=>current_user.id,:checked_at => Time.now) if checked == 1 || checked ==0 
 
 			# ids.each do |id|
