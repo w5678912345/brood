@@ -16,7 +16,7 @@
 <tr>
 <td>reg.json</td>
 <td>注册computer，{hostname,auth_key,server}</td>
-<td rowspan="18">
+<td rowspan="21">
 <ul>
 	<% Api::CODES.each do | key, value | %>
 	<li><%= value %>  => <%= key %></li>
@@ -42,8 +42,8 @@
 <tr>
 <td>roles/online.json</td>
 <td>搜索一个合适的role在 ckey 对应的computer 上线。参数: ckey => 计算机key, msg => 消息, version => 版本 .返回json:</br>
-
-{"code":1,"role":{"id":5335,"account":"315966938","password":"x28935398x","server":"浙江一区","role_index":0,"computer_id":267,"level":0,"vit_power":156,"locked":false,"lost":false,"ip_range":"127.0","gold":0,"online_note_id":99914,"sellers":["收款角色1","收款角色2"],"sell_goods":"木材","goods_price":10000}}
+<!-- 
+{"code":1,"role":{"id":5335,"account":"315966938","password":"x28935398x","server":"浙江一区","role_index":0,"computer_id":267,"level":0,"vit_power":156,"locked":false,"lost":false,"ip_range":"127.0","gold":0,"online_note_id":99914,"sellers":["收款角色1","收款角色2"],"sell_goods":"木材","goods_price":10000}} -->
 </td>
 </tr>
 <tr>
@@ -121,6 +121,20 @@
 <td>通过id 角色的交易锁定，参数： result => [0=>fail,1=>success] msg => 消息, ckey => 计算机的key <span class="badge badge-important">New</span></td> 
 </tr>
 
+
+<tr>
+<td colspan="2"></hr></td>
+</tr>
+
+<tr>
+<td>tasks/pull.json</td>
+<td>通过 ckey 获得该计算机需要执行的任务, ckey => 计算机的key <span class="badge badge-important">New</span></td> 
+</tr>
+
+<tr>
+<td>tasks/:id/call.json</td>
+<td>通过id 修改任务的执行结果,参数： result => [0=>fail,1=>success] msg => 消息 <span class="badge badge-important">New</span></td> 
+</tr>
 
 <!-- 
 <tr>

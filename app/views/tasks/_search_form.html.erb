@@ -1,0 +1,31 @@
+<form class="form-search" action="<%= tasks_path %>">
+<!-- <input type="text" name="hostname" class="input-small" placeholder="主机名" value="<%= params[:hostname]%>" />
+<input type="text" name="server" class="input-small" placeholder="服务器" value="<%= params[:server]%>" />
+<input type="text" name="version" class="input-small" placeholder="版本号" value="<%= params[:version]%>" />
+<input type="text" name="ckey" class="input-small" placeholder="ckey" value="<%= params[:ckey]%>" />
+<input type="text" name="id" class="input-small" placeholder="ID" value="<%= params[:id]%>" /> -->
+<input type="text" name="name" class="input-small" placeholder="名称" value="<%= params[:name]%>" />
+<input type="text" name="command" class="input-small" placeholder="命令" value="<%= params[:command]%>" />
+<input type="text" name="sup_id" class="input-small" placeholder="上级任务" value="<%= params[:sup_id]%>" />
+推送:
+<select name="pushed" class="input-small">
+	<option value="">---all---</option>
+	<option value="1" <%= 'selected="selected"' if params[:pushed] == "1" %>>Yes</option>
+	<option value="0" <%= 'selected="selected"' if params[:pushed] == "0" %> >No</option>
+</select>
+回调:
+<select name="callback" class="input-small">
+	<option value="">---all---</option>
+	<option value="1" <%= 'selected="selected"' if params[:callback] == "1" %>>Yes</option>
+	<option value="0" <%= 'selected="selected"' if params[:callback] == "0" %> >No</option>
+</select>
+成功:
+<select name="success" class="input-small">
+	<option value="">---all---</option>
+	<option value="1" <%= 'selected="selected"' if params[:success] == "1" %>>Yes</option>
+	<option value="0" <%= 'selected="selected"' if params[:success] == "0" %> >No</option>
+</select>
+
+<input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
+<button type="submit" class="btn">Search</button>
+</form>

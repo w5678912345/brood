@@ -1,28 +1,37 @@
-<table class="table">
+<div class="alert">
+<strong>提示信息:</strong>
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<span>共<%= @tasks.total_entries%>条支出记录</span> 
+</div>
+<table class="table table-bordered table-condensed">
 <thead>
 <tr>
-  <th>ID</th>
  <th>名称</th>
  <th>执行命令</th>
  <th>参数</th>
  <th>备注</th>
- <th>状态</th>
- <th>创建时间</th>
+  <th>创建时间</th>
+ <th>推送时间</th>
+ <th>回调时间</th>
+
  <th>操作</th>
 </tr>
 </thead>
 <tbody>
 <% @tasks.each do |task| %>
 <tr>
-<th><%= task.id %></th>
-<td><%= task.name %> <%= raw('<i class="icon-tag" title="任务模板"></i>') if task.sup_id == 0 %></td>
+<td><%= link_to "#{task.id}##{task.name}",task_path(task) %> <%= link_to(raw('<i class="icon-tag" title="顶级任务"></i>'),tasks_path(:sup_id=>task.id)) if task.sup_id == 0 %></td>
 <td><%= task.command %></td>
 <td><%= task.args %></td>
 <td><%= task.remark %></td>
-<td>推送:<%= task.pushed ? raw('<span class="">Yes<span>') : raw('<span class="">No<span>') %>
-	<%= "成功: #{task.success ? "Yes" : "No"}" if task.pushed %>
+<td>
+<%= time_str task.created_at %>
 </td>
-<td><%= time_str task.created_at %></td>
+<td><%= task.pushed ? time_str(task.pushed_at) : "未推送" %></td>
+<td><%= task.callback ?  time_str(task.callback_at) : "未回调" %>
+<%= task.success ? raw('<span class="badge badge-success">成功</span>') : raw('<span class="badge badge-important">失败</span>') if task.callback %>
+</td>
+
 <td>
 <div class="btn-group">
     <%= link_to "查看", task_path(task),:class=>"btn btn-small" %>
