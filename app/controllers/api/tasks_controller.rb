@@ -5,9 +5,16 @@ class Api::TasksController < Api::BaseController
 
 
 	def pull
-		@computer = Computer.find_by_auth_key(params[:ckey])
-		return @code = CODES[:not_find_computer] unless @computer
-		@task = Task.where(:pushed=>false).where(:computer_id => @computer.id).where(:pushed=>false).first
+		if !params[:ckey].blank?
+			@computer = Computer.find_by_auth_key(params[:ckey])
+			return @code = CODES[:not_find_computer] unless @computer
+			@task = Task.where(:pushed=>false).where(:computer_id => @computer.id).where(:pushed=>false).first
+		elsif !params[:rid].blank?
+			@role = Role.find_by_id(params[:rid])
+			return @code = CODES[:not_find_role] unless @role
+			@task = Task.where(:pushed=>false).where(:role_id => @role.id).where(:pushed=>false).first
+		end
+		
 		return @code = CODES[:not_find_task] unless @task
 		@code = 1 if @task.update_attributes(:pushed=>true,:pushed_at=>Time.now)
 		

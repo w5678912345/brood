@@ -11,6 +11,8 @@ class Task < ActiveRecord::Base
 
    default_scope :order => 'id DESC'
 
+   scope :sup_scope, where(:sup_id => 0)
+
    # def self.new_by task
    #  return nil unless task
    #  Taks.new(:name=>task.name,:command=>task.command,:args=>task.args,:code=>task.code,:remark=>task.remark,:task_id=>task.id)

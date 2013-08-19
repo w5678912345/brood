@@ -1,7 +1,7 @@
 <div class="alert">
 <strong>提示信息:</strong>
 <button type="button" class="close" data-dismiss="alert">&times;</button>
-<span>共<%= @tasks.total_entries%>条支出记录</span> 
+<span>共<%= @tasks.total_entries%>条任务记录</span> 
 </div>
 <table class="table table-bordered table-condensed">
 <thead>
@@ -10,7 +10,9 @@
  <th>执行命令</th>
  <th>参数</th>
  <th>备注</th>
-  <th>创建时间</th>
+ <th>角色</th>
+ <th>计算机</th> 
+ <th>创建时间</th>
  <th>推送时间</th>
  <th>回调时间</th>
 
@@ -24,6 +26,12 @@
 <td><%= task.command %></td>
 <td><%= task.args %></td>
 <td><%= task.remark %></td>
+<td>
+  <%= task.role.blank? ? "#" : link_to("#{task.role.id}##{task.role.account}",role_path(task.role),:target=>"_blank" ) %>
+</td>
+<td>
+   <%= task.computer.blank? ? "#" : link_to(task.computer.hostname,computer_path(task.computer),:target=>"_blank") %>
+</td>
 <td>
 <%= time_str task.created_at %>
 </td>

@@ -1,15 +1,22 @@
 <fieldset>
 <legend>确认执行任务</legend>
-<div class="alert alert-info">
-<strong>提示信息:</strong>
-<button type="button" class="close" data-dismiss="alert">×</button>
-<span>选择了<%= @cids.length %>台计算机执行任务 <b><%= @task.name %></b></span> 
-</div>
 
-
-
-<%= link_to "确认执行",confirm_task_path(@task),:method=>:put,:confirm=>"Are you sure?",:class=>"btn  btn-large btn-block btn-primary" %>
-
-
-
+<%if @cids && @cids.any?%>
+	<div class="alert alert-info">
+	<strong>提示信息:</strong>
+		<span>选择了<%= @cids.length %>台计算机执行任务 <b><%= @task.name %></b></span> 
+	</div>
+	<%= link_to "确认执行",confirm_task_path(@task),:method=>:put,:confirm=>"Are you sure?",:class=>"btn  btn-large btn-block btn-primary" %>
+<%elsif @rids && @rids.any? %>
+	<div class="alert alert-info">
+	<strong>提示信息:</strong>
+		<span>选择了<%= @rids.length %>个角色执行任务 <b><%= @task.name %></b></span>
+	</div>
+	<%= link_to "确认执行",confirm_task_path(@task),:method=>:put,:confirm=>"Are you sure?",:class=>"btn  btn-large btn-block btn-primary" %>
+<%else%>
+	<div class="alert alert-error">
+	<strong>提示信息:</strong>
+		<span> 请选择您要执行 <b><%= @task.name %></b> 任务的角色或计算机 </span> 
+	</div>
+<%end%>
 </fieldset>

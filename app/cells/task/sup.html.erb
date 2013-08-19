@@ -1,0 +1,14 @@
+<div class="btn-group">
+<a href="/computers/10" class="btn btn-small btn-primary">任 务</a>
+<a class="btn dropdown-toggle btn-small btn-primary" data-toggle="dropdown" href="#" ><span class="caret"></span></a>
+<ul class="dropdown-menu">
+  <% @tasks.each do |task|%>
+  <li>
+      <a href="javascript:void(0);" class="task_button" task-id="<%= task.id %>"><%= task.name %></a>
+  </li>
+  <%end%>
+   <li>
+		<%= link_to raw('<i class="icon-plus"></i>添加新任务'),new_task_path,:target=>"_blank" %>
+	</li>
+</ul>
+</div>

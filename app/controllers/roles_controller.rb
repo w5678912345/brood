@@ -8,9 +8,6 @@ class RolesController < ApplicationController
 		@roles = Role.includes(:computer).paginate(:page => params[:page], :per_page => 15)
 	end
 
-	def count
-	end
-
 	def online
 		@roles = Role.includes(:computer).where(:online=>true).paginate(:page => params[:page], :per_page => 15)
 		@list_title = "已在线角色"
@@ -192,6 +189,14 @@ class RolesController < ApplicationController
 			redirect_to closed_roles_path
 	end
 
+
+	def task
+		session[:cids] = nil
+		ids = params[:ids]
+   		return redirect_to roles_path unless ids
+		session[:rids] = ids
+      	return redirect_to pre_task_path(params[:task_id])
+	end
 
 
 

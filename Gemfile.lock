@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.org/
+  remote: http://ruby.taobao.org/
   specs:
     actionmailer (3.2.13)
       actionpack (= 3.2.13)
@@ -47,6 +47,9 @@ GEM
     carrierwave (0.8.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
+    cells (3.8.8)
+      actionpack (>= 3.0)
+      railties (>= 3.0)
     chronic (0.9.1)
     coderay (1.0.9)
     coffee-rails (3.2.2)
@@ -180,6 +183,7 @@ DEPENDENCIES
   by_star (~> 1.0.1)
   cancan (~> 1.6.10)
   carrierwave
+  cells
   coffee-rails (~> 3.2.1)
   delayed_job_active_record
   devise

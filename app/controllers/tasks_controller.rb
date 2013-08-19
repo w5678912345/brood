@@ -36,17 +36,27 @@ class TasksController < ApplicationController
 
 	def pre
 		@task = Task.find_by_id(params[:id])
-		@cids = session[:cids]
-		@rids = session[:rids]
+		@cids = session[:cids] 
+		@rids = session[:rids] if @cids.blank? || @cids.any?
 	end
 
 	def confirm
 		@task = Task.find_by_id(params[:id])
 		@cids = session[:cids]
-		@cids.each do |cid|
-			task = @task.new_by_computer cid,current_user.id
-			task.save
+		@rids = session[:rids]
+		if @cids && @cids.any?
+			@cids.each do |cid|
+				task = @task.new_by_computer cid,current_user.id
+				task.save
+			end
+		elsif @rids && @rids.any?
+			@rids.each do |rid|
+				task = @task.new_by_role rid,current_user.id
+				task.save
+			end
 		end
+		session[:cids] = nil
+		session[:rids] = nil
 		redirect_to tasks_path
 	end
 

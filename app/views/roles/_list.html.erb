@@ -3,8 +3,22 @@
 <button type="button" class="close" data-dismiss="alert">&times;</button>
 <span>共<%= @roles.total_entries%>个角色</span> 
 </div>
+
+<%= form_tag(task_roles_path,:method => :put,:id=>"roles_task_form") do -%>
+<%= hidden_field_tag :task_id,0, :id=>"task_id"%>
 <table class="table table-bordered table-condensed">
 <thead>
+<tr>
+<th colspan="6">
+<label class="checkbox">
+		<input type="checkbox" id="check_all" name="check_all"  />全选
+		</label>
+</th>
+<th colspan="2">
+ <%= render_cell :task, :sup %>
+</th>
+</tr>
+<tr>
 	<th>ID</th>
 	<th>角色</th>
 	<th>服务器</th>
@@ -13,11 +27,18 @@
   <th>余额 + 支出 = 产出</th>
 	<th>在线</th>
 	<th class="span1">操作</th>
+</tr>
 </thead>
 <tbody>
 <% @roles.each do |role| %>
 <tr <%= "class=error title=#{role.close_hours}" if role.close %>>
-<td title="<%= role.normal %>"><%= link_to role.id,notes_role_path(role),:target=>"_blank" %></td>
+<td>
+<label class="checkbox">
+<%= check_box_tag 'ids[]',role.id,:id=>role.id %>
+<%= role.id %>
+</label>
+</td>
+<!-- <td title="<%= role.normal %>"><%= link_to role.id,notes_role_path(role),:target=>"_blank" %></td> -->
 <td><%= link_to "#{role.account}##{role.role_index}",role_path(role) %>
 <%= role_icon role %>
 </td>
@@ -81,9 +102,39 @@ No<%= "(Waiting...)" if role.can_online%>
 </tbody>
 </table>
 
+<%end%>
 
 <% if @page_params %>
 <%= will_paginate @roles, :params => @page_params %>
 <%else%>
 <%= will_paginate @roles %>
 <%end %>
+
+<script type="text/javascript">
+$(function(){
+
+$("#check_all").click(function(){
+	var checked = this.checked;
+	$("tbody input[type=checkbox]").each(function(){
+		this.checked = checked;
+	});
+});
+
+
+$(".task_button").click(function(){
+	if ($("tbody :checked").length == 0){
+		alert("请选择你要执行任务的角色");
+		return;
+	}
+	$("#task_id").val($(this).attr("task-id"));
+	$("#roles_task_form").submit();
+});
+
+
+});
+
+
+
+
+
+</script>

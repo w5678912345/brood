@@ -2,9 +2,11 @@
 class ComputersController < ApplicationController
 
 	load_and_authorize_resource :class => "Computer"
+
+  before_filter :require_tasks,:only=>[:index,:checked,:unchecked]
   
   def index
-    @tasks = Task.where(:sup_id => 0)
+    
     @computers = Computer.includes(:user)
     #@computers = @computers.where("server = '' or server is NULL") if params[:server] == "null"
     @computers = @computers.where(:server=>params[:server]) unless params[:server].blank? || params[:server] == "null"
@@ -21,18 +23,14 @@ class ComputersController < ApplicationController
 
   end
 
-  def version
 
-  end
 
 	def checked
-    @tasks = Task.where(:sup_id => 0)
 		@computers = Computer.where(:checked => true).paginate(:page => params[:page], :per_page => 20)
 		render :action => "index"
 	end
 	
 	def unchecked
-    @tasks = Task.where(:sup_id => 0)
 		@computers = Computer.where(:checked => false).paginate(:page => params[:page], :per_page => 20)
 		render :action => "index"	
 	end
@@ -101,6 +99,11 @@ class ComputersController < ApplicationController
   def roles
     @computer = Computer.find_by_id(params[:id])
     @roles = @computer.roles.paginate(:page => params[:page], :per_page => 10) if @computer
+  end
+
+  private 
+  def require_tasks
+    @tasks = Task.where(:sup_id => 0)
   end
 
 

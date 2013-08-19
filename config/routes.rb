@@ -20,7 +20,8 @@ Brood::Application.routes.draw do
     get   :bslocked,    :on => :collection
 
 		put		:reset_vip_power,			:on => :collection
-		put 	:reopen_all,					:on => :collection    
+		put 	:reopen_all,					:on => :collection
+    put   :task,                :on => :collection    
 		get 	:notes,   		:on => :member
 		get 	:payments, 		:on => :member
 		put		:off,					:on => :member
