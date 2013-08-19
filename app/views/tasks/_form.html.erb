@@ -27,15 +27,26 @@
 <div class="control-group">
 <label class="control-label">执行参数:</label>
 <div class="controls docs-input-sizes" >
-	<%= f.text_field :args,:required=>"required"  %>
+	<span class="text-warning">(可以指定多个)</span>
+	<input type="button" onclick="addOption();" value="添加+" class="btn">
+	<ol style="" id="args-list">
+	 <% @task.args_hash.keys.each do |key|%>
+	 <li class="div_option">
+		参数名：<input type="text" name="arg_names[]" class="input-small" value="<%= key %>"  onblur="setName(this);" />
+		<span>参数值:</span> <input type="text" name="<%= key %>" class="input-small"  value="<%= @task.args_hash[key] %>" />
+	 	<a href="#" onclick="delOption(this);">删除</a>
+	</li>
+	 <%end%>
+	</ol>
+
 </div>
 </div>
 
 <div class="control-group">
 <label class="control-label">备注:</label>
 <div class="controls docs-input-sizes" >
-	<%= f.text_field :remark,:required=>"required"  %>
-</div>
+	<%= f.text_field :remark  %>
+</remark>
 </div>
 
 
@@ -45,3 +56,40 @@
 
 
 <%end%>
+
+<textarea id="txt" style="display:none;" >
+ <li class="div_option">
+		参数名：<input type="text" name="arg_names[]" class="input-small" onblur="setName(this);"  />
+		<span>参数值:</span><input type="text" name="" class="input-small" />
+	 	<a href="#" onclick="delOption(this);">删除</a>
+	</li>
+</textarea>
+<style type="text/css">
+.error{display: inline;color: red;}
+</style>
+
+<script src="http://code.angularjs.org/angular-1.0.1.min.js"></script>
+<script type="text/javascript">
+/**/
+$(function(){
+$("form").validate();
+});
+
+function addOption(){
+  var html = $("#txt").text();
+  $("#args-list").append(html);
+  $("form").validate();
+}
+/*删除选项*/
+function delOption(a){
+  $(a).parent().remove();
+}
+
+function setName(input){
+	var arg_name = $(input).val();
+	var arg_value_input = $(input).next().next();
+	$(arg_value_input).attr("name",arg_name);
+
+}
+
+</script>

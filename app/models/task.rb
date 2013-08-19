@@ -34,6 +34,15 @@ class Task < ActiveRecord::Base
         task.role_id = rid
         return task
    end
+
+   def args_hash
+      begin
+       return JSON.parse(self.args)
+      rescue Exception => ex
+       return Hash.new
+      end
+       
+   end
    
 
 

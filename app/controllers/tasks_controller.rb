@@ -1,5 +1,7 @@
 class TasksController < ApplicationController
 
+	before_filter :parse_args ,:only => [:create,:update]
+
 	def index
 		@tasks = Task.includes(:computer,:role)
 		@tasks = @tasks.where(:pushed=> params[:pushed]) unless params[:pushed].blank?
@@ -22,6 +24,7 @@ class TasksController < ApplicationController
 
 	def create
 		@task = Task.new(params[:task])
+		@task.args = @arg_string
 		@task.user_id = current_user.id
 		if @task.save
 			redirect_to tasks_path
@@ -66,6 +69,7 @@ class TasksController < ApplicationController
 
 	def update
 		@task = Task.find_by_id(params[:id])
+		@task.args = @arg_string
 		if @task.update_attributes(params[:task])
 			redirect_to tasks_path
 		else
@@ -80,6 +84,21 @@ class TasksController < ApplicationController
 		redirect_to tasks_path
 	end
 
+
+	private
+
+	def parse_args
+		@arg_string = '{}'
+		arg_hash = Hash.new
+		arg_names = params[:arg_names]
+		return unless arg_names
+		arg_names.each do |arg_name|
+			arg_hash[arg_name] = params[arg_name]
+		end
+		@arg_string = arg_hash.to_json
+
+		#return render :text => @arg_string
+	end
 
 
 
