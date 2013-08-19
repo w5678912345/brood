@@ -40,6 +40,7 @@ class ComputersController < ApplicationController
     checked = params[:checked].to_i
     return redirect_to computers_path unless ids
     if checked == 2
+      session[:rids] = nil
       session[:cids] = ids
       return redirect_to pre_task_path(params[:task_id])
     end

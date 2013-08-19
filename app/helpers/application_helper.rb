@@ -21,6 +21,7 @@ module ApplicationHelper
 		icon_html = icon_html+' <i class="icon-warning-sign" title="密码丢失"></i>' if role.lost
 		icon_html = icon_html+' <i class="icon-magnet" title="交易锁定"></i>' if role.bslocked
 		icon_html = icon_html+' <i class="icon-stop" title="解锁失败"></i>' if role.unbslock_result == false
+		icon_html = icon_html+' <i class="icon-fire" title="解锁成功"></i>' if role.unbslock_result == true
 		icon_html = icon_html+' <i class="icon-flag" title="IP: '+role.ip_range+'"></i>' unless role.ip_range.blank?
 
 		if role.close
