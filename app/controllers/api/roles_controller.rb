@@ -37,6 +37,7 @@ class Api::RolesController < Api::BaseController
 	#
 	def on
 	    begin
+	      params[:auto] = false
 	      @code = @role.api_online params
 	    rescue Exception => ex
 	      @code = -1

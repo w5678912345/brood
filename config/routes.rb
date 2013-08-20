@@ -38,6 +38,7 @@ Brood::Application.routes.draw do
 		put		:check,			:on	=> :collection
     get 	:notes, 		:on => :member
     get 	:roles, 		:on => :member
+    get   :logs,      :on => :member
   end
   resources :ips,:only => [:index,:destroy,:show] do 
     get :clear, 		:on => :collection

@@ -1,0 +1,14 @@
+<%= render "navbar2" %>
+
+<ul>
+<% @objects.as_tree.children.each do |t| %>
+<li>
+	<%if t.branch? %>
+		<i class="icon-folder-close"></i> <%= t.prefix %>
+	<%else%>
+		<i class="icon-file"></i>
+			<%= link_to t.key ,"#{@s3_url}#{t.key}",:target=>"_blank"%>
+	<%end%>
+</li>
+<%end%>
+</ul>

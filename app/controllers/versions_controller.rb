@@ -40,7 +40,7 @@ class VersionsController < ApplicationController
 
 		@objects = bucket.objects #.with_prefix('update/tianyi/cn/')
 		@objects = @objects.with_prefix(params[:prefix]) unless params[:prefix].blank?
-		@tree = @objects.as_tree
+		#@tree = @objects.as_tree
 	end
 
 	def destroy

@@ -102,6 +102,14 @@ class ComputersController < ApplicationController
     @roles = @computer.roles.paginate(:page => params[:page], :per_page => 10) if @computer
   end
 
+  def logs
+    @s3_url = 'https://s3-ap-northeast-1.amazonaws.com/ccnt.tokyo/'
+    s3 = AWS::S3.new
+    bucket = s3.buckets['ccnt']
+
+    @objects = bucket.objects.with_prefix('update/tianyi/cn/')
+  end
+
   private 
   def require_tasks
     @tasks = Task.where(:sup_id => 0)

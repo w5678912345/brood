@@ -11,3 +11,6 @@ test:
 production:
   access_key_id: AKIAJS64JUABYFSADQMQ
   secret_access_key: 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
+
+  #AKIAJS64JUABYFSADQMQ
+  #gsuAn0jpfQX9f8YzETevPpXJX1Xc7vj6WjHwUoNX
