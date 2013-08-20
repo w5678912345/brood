@@ -1,6 +1,8 @@
 # encoding: utf-8
 class ComputersController < ApplicationController
 
+
+
 	load_and_authorize_resource :class => "Computer"
 
   before_filter :require_tasks,:only=>[:index,:checked,:unchecked]
@@ -103,11 +105,15 @@ class ComputersController < ApplicationController
   end
 
   def logs
-    @s3_url = 'https://s3-ap-northeast-1.amazonaws.com/ccnt.tokyo/'
-    s3 = AWS::S3.new
-    bucket = s3.buckets['ccnt']
+    # AWS::S3::DEFAULT_HOST.replace ""
 
-    @objects = bucket.objects.with_prefix('update/tianyi/cn/')
+    @computer = Computer.find_by_id(params[:id])
+    @s3_url = 'https://s3-ap-northeast-1.amazonaws.com/ccnt.tokyo/'
+    s3 = AWS::S3.new(:s3_endpoint=>"s3-ap-northeast-1.amazonaws.com")
+    bucket = s3.buckets['ccnt.tokyo']
+    @log_path = "update/tianyi/cn/logs/#{@computer.auth_key}"
+
+    @objects = bucket.objects.with_prefix('update/tianyi/cn')
   end
 
   private 

@@ -2,16 +2,7 @@
 <fieldset>
 <legend>S3</legend>
 
-<ul class="breadcrumb">
-	<li><%= link_to "ccnt",s3_versions_path() %> <span class="divider">/</span></li>
-	<% if params[:prefix]%>
-	<% prefix = params[:prefix]%>
-	<% params[:prefix].split("/").each do |p|%>
-		<% px = prefix[0...prefix.index(p)+p.length] %>
-		<li title="<%= px %>"><%= link_to p,s3_versions_path(:prefix=>px) %> <span class="divider">/</span></li>
-	<%end%>
-	<%end%>
-</ul>
+
 
 <ul>
 <% @objects.as_tree.children.each do |t| %>
