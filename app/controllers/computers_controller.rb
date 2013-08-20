@@ -113,7 +113,7 @@ class ComputersController < ApplicationController
     bucket = s3.buckets['ccnt.tokyo']
     @log_path = "update/tianyi/cn/logs/#{@computer.auth_key}"
 
-    @objects = bucket.objects.with_prefix('update/tianyi/cn')
+    @objects = bucket.objects.with_prefix(@log_path)
   end
 
   private 
