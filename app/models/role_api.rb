@@ -144,6 +144,7 @@ module RoleApi
 		return 1 if self.bslocked
 		self.transaction do
 			self.bslocked = true
+			self.unbslock_result = nil
 			self.normal = false
 			Note.create(:role_id => self.id,:ip => opts[:ip],:computer_id => opts[:cid],:api_name => "bslock",:api_code => 24,:msg=>opts[:msg])
 			return 1 if self.save
