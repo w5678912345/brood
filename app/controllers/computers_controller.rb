@@ -112,8 +112,9 @@ class ComputersController < ApplicationController
     s3 = AWS::S3.new(:s3_endpoint=>"s3-ap-northeast-1.amazonaws.com")
     bucket = s3.buckets['ccnt.tokyo']
     @log_path = "update/tianyi/cn/logs/#{@computer.auth_key}"
-
-    @objects = bucket.objects.with_prefix(@log_path)
+    #@log_path = "update/tianyi/cn/logs/A70C-73A3-7B8F-EC6D-178C-C87E-6586-0B5D"
+    
+    @objects = bucket.objects.with_prefix(@log_path).collect(&:key).sort.reverse
   end
 
   private 
