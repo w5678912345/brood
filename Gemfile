@@ -37,6 +37,7 @@ gem 'delayed_job_active_record' #
 gem 'cancan', '~> 1.6.10' #
 gem 'by_star', '~> 1.0.1'
 gem 'cells'
+gem 'newrelic_rpm'
 
 group :development,:test do
   gem 'better_errors'
