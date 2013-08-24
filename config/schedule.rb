@@ -52,3 +52,8 @@ end
 every :day, :at => '6:30 am' do
 	runner 'Api.reset_ip_use_count',:environment => str_environment 
 end
+
+
+every 3.days do
+  runner 'Api.reset_bslock_role',:environment => str_environment 
+end
