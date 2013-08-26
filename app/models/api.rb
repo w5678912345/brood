@@ -47,8 +47,11 @@ CODES = {
 
   def self.reset_role
      Role.where("vit_power < 156").update_all(:vit_power => 156)
-     Role.where(:bslocked => true).where(:normal=>false).update_all(:normal => true)
      Note.create(:role_id=>0,:ip=>"localhost",:api_name => "reset_role")
+  end
+
+  def self.reset_bslock_role
+    Role.where(:bslocked => true).where(:normal=>false).update_all(:normal => true)
   end
 
    # every day at 6:00 am
