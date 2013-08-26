@@ -38,12 +38,12 @@ gem 'cancan', '~> 1.6.10' #
 gem 'by_star', '~> 1.0.1'
 gem 'cells'
 gem 'newrelic_rpm'
-
+gem "mina", "~> 0.2.0"
 group :development,:test do
   gem 'better_errors'
 	#gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
 	gem 'pry', '~> 0.9.12.2' #调试
-  gem "mina", "~> 0.2.0"
+  
   gem 'thin', require: false #
 end
 
