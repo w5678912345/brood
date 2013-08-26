@@ -30,7 +30,7 @@ set_default :term_mode, :pretty
 #   branch       - Branch name to deploy. (needed by mina/git)
 # ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com
 set :domain, '121.199.18.199'
-set :deploy_to, '/home/root/apps/pro.brood.com'
+set :deploy_to, '/root/apps/pro.brood.com'
 set :user, 'root'
 
 set :rails_env, 'production'
