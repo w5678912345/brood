@@ -2,8 +2,8 @@
 # 发布应用分支 master 到服务器
 #
 # 使用用法：
-#   部署：mina deploy -f config/deploy-remote.rb -v
-#   停止：mina shutdown -f config/deploy-remote.rb -v
+#   部署：mina deploy -f config/deploy-ali.rb -v
+#   停止：mina shutdown -f config/deploy-ali.rb -v
 #   其他命令参见：mina tasks
 #
 # **************
@@ -114,7 +114,7 @@ end
 desc "Shutdown app."
 task :shutdown do
   queue %[echo "-----> Shutting down..."]
-  invoke :'rvm:use[ruby-1.9.3]'
+  invoke :'rvm:use[ruby-1.9.3-p429]'
   invoke :'thin:stop'
   invoke :'whenever:clear'
 end
