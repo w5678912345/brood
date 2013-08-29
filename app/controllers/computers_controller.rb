@@ -117,6 +117,13 @@ class ComputersController < ApplicationController
     @objects = bucket.objects.with_prefix(@log_path).collect(&:key).sort.reverse
   end
 
+  def alogs
+     @computer = Computer.find_by_id(params[:id])
+     prefix = "games/tianyi/cn/logs/8D90-03D8-C139-AC42-FC91-AF9E-B5C7-CDC6"
+     prefix = "games/tianyi/cn/logs/#{@computer.auth_key}"
+     @objects = AliyunHelper.get_objects(prefix)
+  end
+
   private 
   def require_tasks
     @tasks = Task.where(:sup_id => 0)

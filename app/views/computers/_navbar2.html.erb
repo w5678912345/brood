@@ -14,8 +14,8 @@
  <%= link_to raw('<i class="icon-pencil"></i>编辑计算机'),edit_computer_path(@computer)  %>
 </li>
 
-<li <%= active if controller_name == 'computers' && action_name == 'logs' %>>
- <%= link_to raw('<i class="icon-list-alt"></i>计算机日志'),logs_computer_path(@computer)  %>
+<li <%= active if controller_name == 'computers' && action_name == 'alogs' %>>
+ <%= link_to raw('<i class="icon-list-alt"></i>计算机日志'),alogs_computer_path(@computer)  %>
 </li>
 
 </ul>

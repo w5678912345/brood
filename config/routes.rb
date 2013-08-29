@@ -39,6 +39,7 @@ Brood::Application.routes.draw do
     get 	:notes, 		:on => :member
     get 	:roles, 		:on => :member
     get   :logs,      :on => :member
+    get   :alogs,     :on => :member
   end
   resources :ips,:only => [:index,:destroy,:show] do 
     get :clear, 		:on => :collection

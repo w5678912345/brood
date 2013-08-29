@@ -25,6 +25,9 @@ cat /etc/timezone
 
 tar xzvf lua-5.1.2.tar.gz
 
+
+
+
 mem:
 swapon -s
 
@@ -34,6 +37,9 @@ mysql:
 
 #
 mysqldump -u root -p brood_production>brood.sql
+
+#
+mysql -u root -p brood_production<~/brood_new.sql
 
 # source file.sql
 mysql -u root -p brood_remote</home/suxu/brood-remote.sql

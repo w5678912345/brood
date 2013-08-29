@@ -1,0 +1,12 @@
+<%= render "navbar2" %>
+<fieldset>
+<legend><%= @computer.hostname %>日志</legend>
+<ul>
+<% @objects.each do |obj| %>
+<li>
+	<i class="icon-file"></i>
+	<%= link_to obj.key[/\d[^\/]+$/] || "file",obj.url,:target=>"_blank"%>
+</li>
+<%end%>
+</ul>
+</fieldset>
