@@ -23,6 +23,7 @@ module ApplicationHelper
 		icon_html = icon_html+' <i class="icon-stop" title="解锁失败"></i>' if role.unbslock_result == false
 		icon_html = icon_html+' <i class="icon-fire" title="解锁成功"></i>' if role.unbslock_result == true
 		icon_html = icon_html+' <i class="icon-flag" title="IP: '+role.ip_range+'"></i>' unless role.ip_range.blank?
+		icon_html = icon_html+' <i class="icon-flag" title="IP: '+role.ip_range2+'"></i>' unless role.ip_range2.blank?
 
 		if role.close
 			icon_html = icon_html+' <i class="icon-remove-sign" title="已经封号"></i>'

@@ -16,15 +16,16 @@ module RoleApi
 	return CODES[:full_use_computer] if max_roles_count && computer.roles_count >= max_roles_count 
     # get ip
     ip = Ip.find_or_create(opts[:ip] || self.ip)
-    return CODES[:ip_used] if opts[:auto] != false && ip.use_count >= Setting.ip_max_use_count
+    #return CODES[:ip_used] if opts[:auto] != false && ip.use_count >= Setting.ip_max_use_count
     self.transaction do
       computer.update_attributes(:roles_count=>computer.roles_count+1,:version=>opts[:version]|| opts[:msg]) 
       ip.update_attributes(:use_count=>ip.use_count+1)
-      server = self.server.blank? ? computer.server : self.server
-      ip_range = self.ip_range.blank? ? opts[:ip_range] : self.ip_range
-      normal = !self.bslocked
+      self.server = computer.server if self.server.blank? 
+      self.ip_range = opts[:ip_range]  if self.ip_range.blank?
+      self.ip_range2 = opts[:ip_range] if self.ip_range2.blank? && !self.ip_range.blank? && opts[:ip_range] != self.ip_range
+      self.normal = !self.bslocked
       note = Note.create(:role_id=>self.id,:computer_id=>computer.id,:ip=>ip.value,:api_name=>"online",:msg=>opts[:msg])
-      return 1 if self.update_attributes(:online=>true,:computer_id=>computer.id,:ip=>ip.value,:server=>server,:ip_range=>ip_range,:online_at=>Time.now,:online_note_id=>note.id,:normal=>normal)
+      return 1 if self.update_attributes(:online=>true,:computer_id=>computer.id,:ip=>ip.value,:online_at=>Time.now,:online_note_id=>note.id)
     end
   end
 
@@ -47,6 +48,7 @@ module RoleApi
 	     self.level = opts[:level] if opts[:level] && opts[:level].to_i > 0
 	     self.vit_power = opts[:vit_power] if opts[:vit_power]
 	     self.gold = opts[:gold] if opts[:gold]
+	     self.name = opts[:name]  unless opts[:name].blank?
 	     #...
 	     self.transaction do
 	      # Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync",:msg=>opts.to_s)

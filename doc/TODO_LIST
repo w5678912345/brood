@@ -21,3 +21,9 @@
  4. payments 按server 统计
  5. nginx max_collections
  6. 
+
+
+09-03
+.同步api 可以同步角色名
+.为角色添加一个ip段,并每周清除 角色的IP段
+.控制ip段(前3位)的当前在线数量

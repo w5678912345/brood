@@ -23,6 +23,11 @@ class Setting < ActiveRecord::Base
 		return val == nil ? 10 : val
 	end
 
+	def self.ip_range_max_online_count
+		val = find_value_by_key("ip_range_max_online_count")
+		return val == nil ? 100 : val
+	end
+
 
 
 end

@@ -6,10 +6,13 @@ class Api::RolesController < Api::BaseController
 	#respond_to :json
 	##filters
 	before_filter :require_remote_ip
+	before_filter :valid_ip_use_count,					:only => [:online]
+	before_filter :valid_ip_range_online_count,			:only => [:online]
 	before_filter :require_computer_by_ckey,			:only => [:on,:off,:sync,:close,:note,:pay,:online,:lock,:unlock,:lose,:show,:bslock,:bs_unlock]
 	before_filter :require_role_by_id,					:only => [:on,:off,:sync,:close,:note,:pay,:show,:lock,:unlock,:lose,:bslock,:bs_unlock]
 	before_filter :require_online_role,					:only => [:off,:sync,:close,:note,:pay,:lock,:bslock,:bs_unlock]
 	before_filter :require_computer_eq_role,			:only => [:off,:sync,:close,:note,:pay,:lock]
+	
 	#after_filter  :update_role_server,					:only => [:on,:online]
 	#
 	def show
@@ -30,7 +33,7 @@ class Api::RolesController < Api::BaseController
 	    @roles = Role.get_roles
 	    #logger.warn("======get_roles============#{@roles.count}====================")
 	    if @roles.count > 0
-	    	@roles = @roles.where("ip_range = ? or ip_range is NULL",params[:ip_range]|| "")
+	    	@roles = @roles.where("ip_range = ? or ip_range is NULL or ip_range2 = ? or ip_range2 is NULL",params[:ip_range] || "",params[:ip_range] || "")
 	    	return @code = -8 if @roles.exists? == false
 	    end
 	    @role = @roles.where("server = ? or server = '' or server is NULL", @computer.server).first
@@ -43,7 +46,7 @@ class Api::RolesController < Api::BaseController
 	#
 	def on
 	    begin
-	      params[:auto] = false
+	      #params[:auto] = false
 	      @code = @role.api_online params
 	    rescue Exception => ex
 	      @code = -1
@@ -124,7 +127,18 @@ class Api::RolesController < Api::BaseController
 		params[:ip] = params[:ip] || request.remote_ip
 		tmps = params[:ip].split(".") if params[:ip]
 		params[:ip_range] = "#{tmps[0]}.#{tmps[1]}" if tmps && tmps.length > 0
+		params[:ip_range_3] = "#{tmps[0]}.#{tmps[1]}.#{tmps[2]}" if tmps && tmps.length >0
 		@code = 0
+	end
+
+	def valid_ip_use_count
+		ip = Ip.find_or_create(params[:ip])
+		@code = CODES[:ip_used] if ip.use_count >= Setting.ip_max_use_count
+		return render :partial => 'api/roles/result' unless  @code == 0
+	end
+
+	def valid_ip_range_online_count
+
 	end
 		
 	def require_role_by_id
