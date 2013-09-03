@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130817073816) do
+ActiveRecord::Schema.define(:version => 20130902105824) do
 
   create_table "computers", :force => true do |t|
     t.string   "hostname",                             :null => false
@@ -92,6 +92,8 @@ ActiveRecord::Schema.define(:version => 20130817073816) do
     t.boolean  "normal",                        :default => true,  :null => false
     t.boolean  "bslocked",                      :default => false, :null => false
     t.boolean  "unbslock_result"
+    t.string   "name"
+    t.string   "ip_range2"
   end
 
   create_table "servers", :force => true do |t|
