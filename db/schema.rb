@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130902105824) do
+ActiveRecord::Schema.define(:version => 20130905023515) do
 
   create_table "computers", :force => true do |t|
     t.string   "hostname",                             :null => false
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(:version => 20130902105824) do
     t.datetime "updated_at",                                    :null => false
     t.integer  "online_note_id",               :default => 0,   :null => false
     t.datetime "online_at"
+    t.float    "online_hours",                 :default => 0.0, :null => false
   end
 
   create_table "payments", :force => true do |t|

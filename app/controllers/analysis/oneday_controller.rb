@@ -49,6 +49,14 @@ class Analysis::OnedayController < Analysis::AppController
 		
 	end
 
+	def effic
+
+	end
+
+	def money
+		
+	end
+
 	private 
 
 	def set_date

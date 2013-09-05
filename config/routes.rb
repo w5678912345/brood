@@ -110,6 +110,8 @@ Brood::Application.routes.draw do
     resource :oneday, :only =>[:show], controller: 'oneday'
     get "/oneday/roles/:mark" => "oneday#roles",:as => "roles_oneday"
     get "/oneday/notes" => "oneday#notes",:as => "notes_oneday"
+    get "/oneday/effic" => "oneday#effic",:as => "effic_oneday"
+    get "/oneday/trade" => "oneday#trade",:as => "trade_oneday"
 
     resource :multiday,:only => [:show], controller: 'multiday'
 
