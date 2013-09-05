@@ -1,0 +1,27 @@
+<%= render :partial => "form",:locals => {:path=> analysis_trade_oneday_path } %>
+<%= render "navbar" %>
+
+
+<fieldset>
+<legend>金币转帐统计</legend>
+<table class="table table-bordered">
+<thead>
+<tr>
+	<th>服务器</th>
+	<th>转帐金币</th>
+</tr>
+</thead>
+<% @payments.each do |pm|%>
+<tr>
+	<td><%= link_to pm.server,search_payments_path(:server=>pm.server,:pay_type=>"trade") %></td>
+	<td><%= number_to_currency(pm.zhuanzhang.to_i,:unit => "€") %></td>
+</tr>
+<% end %>
+<tr>
+		<td colspan="2">转帐合计：<%= number_to_currency(@sum_gold, :unit => "€")  %></td>
+</tr>
+<tr>
+
+</tr>
+</table>
+</fieldset>

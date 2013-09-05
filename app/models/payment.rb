@@ -18,6 +18,8 @@ class Payment < ActiveRecord::Base
 		scope	:pay_type_scope,lambda {|pay_type|where(:pay_type => pay_type )}
 		#
 		scope :total_group_role_scope,includes(:role).select("role_id,max(total) as total").group("role_id")
+
+		 scope :time_scope,lambda{|start_time,end_time|where(created_at: start_time..end_time)}
 		
 
 		# select role_id, sum(gold) from payments group by pay_type;

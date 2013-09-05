@@ -32,6 +32,8 @@ class Analysis::OnedayController < Analysis::AppController
 		@fail_group_notes.each do |note|
 			@fail_hash[note.api_name] = note.ecount
 		end
+		@computer_count = @online_notes.select("distinct(computer_id)").count
+		@sum_online_hours = @notes.where(:api_name => "offline").sum(:online_hours)
 		#render :text => @online_notes.count
 	end
 
@@ -45,17 +47,21 @@ class Analysis::OnedayController < Analysis::AppController
 
 	end
 
-	def notes
-		
-	end
-
 	def effic
 
 	end
 
-	def money
+	def trade
+		@payments = Payment.time_scope(@start_time,@end_time).select("server,sum(gold) as zhuanzhang").where(:pay_type=>"trade").group("server")
+		@sum_gold =  Payment.time_scope(@start_time,@end_time).sum(:gold)
+		#@sum_gold = @payments.
+	end
+
+	def notes
 		
 	end
+
+
 
 	private 
 
