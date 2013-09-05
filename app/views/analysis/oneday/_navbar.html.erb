@@ -16,10 +16,6 @@
 	<%= link_to "未完成角色",analysis_roles_oneday_path(:mark => "fail",:date => params[:date])  %>
 </li>
 
-<li <%= active if action_name == 'roles'  %>>
-	<%= link_to "未完成角色",analysis_roles_oneday_path(:mark => "fail",:date => params[:date])  %>
-</li>
-
 <li <%= active if action_name == 'trade' %>>
 	<%= link_to "产出统计",analysis_trade_oneday_path(:date => params[:date])  %>
 </li>
