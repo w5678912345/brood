@@ -18,7 +18,7 @@
 <td><%= @computer_count %></td>
 <td><%= sprintf('%.2f', @sum_online_hours)  %> 小时</td>
 <td><%= sprintf('%.2f', @sum_online_hours/24)%> 个 </td>
-<td><%= @sum_online_hours/success_count if success_count >0 %></td>
+<td><%= sprintf('%.2f', @sum_online_hours/success_count)  if success_count >0 %></td>
 </tr>
 <tr>
     <th>事件</th>
