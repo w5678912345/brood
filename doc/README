@@ -59,6 +59,9 @@ select * from roles into outfile '/tmp/data.txt'
 select account,password,id,level from roles where close=1 and close_hours = 24 and server= '浙江1区' into outfile '/tmp/data.txt';
 
 
+select account,password,id,level from roles where close=1 and close_hours = 24 and server= '浙江1区' into outfile '/tmp/data.txt';
+
+
 
 # scp ubuntu@ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com:brood812.sql /home/brood-remote-812.sql
 
