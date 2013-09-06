@@ -53,7 +53,7 @@ class Analysis::OnedayController < Analysis::AppController
 
 	def trade
 		@payments = Payment.time_scope(@start_time,@end_time).select("server,sum(gold) as zhuanzhang").where(:pay_type=>"trade").group("server")
-		@sum_gold =  Payment.time_scope(@start_time,@end_time).where(:pay_type=>"trade").sum(:gold)
+		@sum_gold =  Payment.time_scope(@start_time,@end_time).select("sum(golde)").where(:pay_type=>"trade")
 		#@sum_gold = @payments.
 	end
 
