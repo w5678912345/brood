@@ -2,23 +2,23 @@
 <legend>单日上线情况分析</legend>
 <%= render :partial => "form",:locals => {:path=> analysis_oneday_path } %>
 
-
+<%  success_count =  @success_role_ids.length%>
 <%= render "navbar" %>
 
 <table class="table">
 <thead>
 	<tr>
-<th>效率统计</th>
 <th>使用机器</th>
 <th>总在线时间</th>
 <th>标准机</th>
+<th>标准时</th>
 </tr>
 
 <tr>
-<td>#</td>
 <td><%= @computer_count %></td>
 <td><%= sprintf('%.2f', @sum_online_hours)  %> 小时</td>
 <td><%= sprintf('%.2f', @sum_online_hours/24)%> 个 </td>
+<td><%= @sum_online_hours/success_count if success_count >0 %></td>
 </tr>
 <tr>
     <th>事件</th>
