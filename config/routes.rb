@@ -89,7 +89,7 @@ Brood::Application.routes.draw do
     put :confirm, :on => :member
   end
 
-  resource :gold,controller: 'gold'
+  #resource :gold,controller: 'gold'
 
   resources :tests
 
@@ -115,6 +115,14 @@ Brood::Application.routes.draw do
 
     resource :multiday,:only => [:show], controller: 'multiday'
 
+  end
+
+  namespace :gold do 
+    get '/' => 'home#show'
+    resource :home, :only => [:show],controller: 'home'
+    resource :trade, :only => [:show],controller: 'trade' do
+      get :search
+    end
   end
 	
 

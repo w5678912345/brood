@@ -57,3 +57,10 @@ end
 every 3.days do
   runner 'Api.reset_bslock_role',:environment => str_environment 
 end
+
+every 7.days do
+  runner 'Api.reset_role_ip_range',:environment => str_environment 
+end
+
+
+

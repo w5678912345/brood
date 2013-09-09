@@ -77,4 +77,8 @@ CODES = {
       Note.create(:role_id=>0,:ip=>"localhost",:api_name => "auto_pay")
   end
 	
+  def self.reset_role_ip_range
+    Role.update_all(:ip_range=>nil,:ip_range2=>nil)
+  end
+
 end

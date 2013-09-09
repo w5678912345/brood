@@ -1,0 +1,13 @@
+<form class="form-search" action="<%= gold_trade_path %>">
+日期:
+  <input type="text" name="start_date" id="start_date" class="input-medium search-query" placeholder="开始时间" value="<%= params[:start_date]%>" />-
+  <input type="text" name="end_date" id="end_date" class="input-medium search-query" placeholder="截止时间" value="<%= params[:end_date]%>" />  
+  <button type="submit" class="btn">Search</button>
+</form>
+
+<script type="text/javascript">
+$(function(){
+	$("#start_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+	$("#end_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+});
+</script>

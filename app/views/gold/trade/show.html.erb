@@ -1,0 +1,37 @@
+
+<fieldset>
+<legend>金币转帐统计</legend>
+<%= render "search_form" %>
+
+
+<div class="alert">
+<strong>提示信息:</strong>
+<span>共<b><%= @records.blank? ? 0 : @records.length%></b>个服务器发生了转帐</span> 
+</div>
+
+<table class="table table-bordered">
+<thead>
+<tr>
+	<th>服务器</th>
+	<th>转帐金币</th>
+</tr>
+</thead>
+<tbody>
+
+</tbody>
+<% unless @records.blank? %>
+<% @records.each do |pm|%>
+<tr>
+	<td><%= link_to pm.server,search_payments_path(:server=>pm.server,:pay_type=>"trade") %></td>
+	<td><%= number_to_currency(pm.zhuanzhang.to_i,:unit => "€") %></td>
+</tr>
+<% end %>
+<% end %>
+<tfoot>
+<tr>
+	<td colspan="2">转帐合计：<%= number_to_currency(@sum_gold, :unit => "€")  %></td>
+</tr>
+</tfoot>
+
+</table>
+</fieldset>

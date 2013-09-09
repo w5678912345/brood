@@ -1,0 +1,38 @@
+<fieldset>
+<legend>金币情况</legend>
+<table class="table table-bordered">
+<tr>
+	<td class="span2">产币角色：</td>
+	<td><%= @role_count %> 个</td>
+</tr>
+<tr>
+	<td>产出总量：</td>
+	<td><%= number_to_currency(Role.where("total > 0").sum(:total),:unit => "€") %> </td>
+</tr>
+
+<tr>
+	<td>--背包余额：</td>
+	<td> <%=  number_to_currency(@sum_balance, :unit => "€") %></td>
+</tr>
+
+<tr>
+	<td>--支出合计：</td>
+	<td><%= number_to_currency(@sum_payment,:unit => "€") %></td>
+</tr>
+
+
+<tr>
+	<td>----转帐支出：</td>
+	<td><%= number_to_currency(@sum_payment_trade,:unit => "€") %></td>
+</tr>
+
+<tr>
+	<td>----其他支出：</td>
+	<td><%= number_to_currency(@sum_payment - @sum_payment_trade,:unit => "€") %></td>
+</tr>
+
+
+
+
+</table>
+</fieldset>
