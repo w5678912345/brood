@@ -6,7 +6,7 @@ class Api::RolesController < Api::BaseController
 	#respond_to :json
 	##filters
 	before_filter :require_remote_ip
-	before_filter :valid_ip_use_count,					:only => [:online]
+	#before_filter :valid_ip_use_count,					:only => [:online]
 	before_filter :valid_ip_range_online_count,			:only => [:online]
 	before_filter :require_computer_by_ckey,			:only => [:on,:off,:sync,:close,:note,:pay,:online,:lock,:unlock,:lose,:show,:bslock,:bs_unlock]
 	before_filter :require_role_by_id,					:only => [:on,:off,:sync,:close,:note,:pay,:show,:lock,:unlock,:lose,:bslock,:bs_unlock]
@@ -138,7 +138,10 @@ class Api::RolesController < Api::BaseController
 	end
 
 	def valid_ip_range_online_count
-
+	   max_online_count = Setting.ip_range_max_online_count
+	   current_online_count = Role.where(:online=>true).where("SUBSTRING_INDEX(ip,'.',3) = ?",params[:ip_range_3]).count(:id)
+	   @code = CODES[:ip_used] if current_online_count > max_online_count
+	   return render :partial => 'api/roles/result' unless  @code == 0
 	end
 		
 	def require_role_by_id
