@@ -1,0 +1,18 @@
+production:
+  sessions:
+    default:
+      database: vqiji
+      hosts:
+        - 10.0.0.12:27017
+      options:
+        consistency: :strong
+        # In the test environment we lower the retries and retry interval to
+        # low amounts for fast failures.
+        max_retries: 1
+        retry_interval: 0
+        identity_map_enabled: true
+    replica_set:
+      database: vqiji
+      hosts:
+        - 10.0.0.11:27017
+        - 10.0.0.13:27017
