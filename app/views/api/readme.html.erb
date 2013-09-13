@@ -16,7 +16,7 @@
 <tr>
 <td>reg.json</td>
 <td>注册computer，{hostname,auth_key,server}</td>
-<td rowspan="21">
+<td rowspan="23">
 <ul>
 	<% Api::CODES.each do | key, value | %>
 	<li><%= value %>  => <%= key %></li>
@@ -118,9 +118,17 @@
 
 <tr>
 <td>roles/:id/bs_unlock.json</td>
-<td>通过id 角色的交易锁定，参数： result => [0=>fail,1=>success] msg => 消息, ckey => 计算机的key <span class="badge badge-important">New</span></td> 
+<td>通过id 角色的解除交易锁定，参数： result => [0=>fail,1=>success] msg => 消息, ckey => 计算机的key <span class="badge badge-important">New</span></td> 
 </tr>
 
+<tr>
+<td>roles/:id/disable.json</td>
+<td>通过id 禁用一个角色，参数： msg => 消息, ckey => 计算机的key <span class="badge badge-important">New</span></td> 
+</tr>
+<tr>
+<td>computers/disable.json</td>
+<td>通过ckey 禁用一个计算机，参数： msg => 消息, ckey => 计算机的key <span class="badge badge-important">New</span></td> 
+</tr>
 
 <tr>
 <td colspan="2"></hr></td>

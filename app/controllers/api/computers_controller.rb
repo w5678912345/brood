@@ -46,7 +46,7 @@ class Api::ComputersController < Api::BaseController
 		end
 		
 		if @computer.update_attributes(:status=>0)
-			Note.create(:role_id => 0,:ip=>params[:ip],:computer_id=>@computer.id,:api_name => "computer_abn",:msg => params[:msg]) 
+			Note.create(:role_id => 0,:ip=>params[:ip],:computer_id=>@computer.id,:api_name => "computer_disable",:msg => params[:msg]) 
 			@code = 1
 		end
 		render :partial => '/api/roles/result'
