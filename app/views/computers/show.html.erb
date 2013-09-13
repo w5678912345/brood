@@ -8,7 +8,7 @@
 <tbody>
 <tr>
 <th>主机名:</th>
-<td><%= @computer.hostname %></td>
+<td><%= @computer.hostname %> <%= status_tag @computer.status %></td>
 <th>Auth Key:</th>
 <td><%= @computer.auth_key %></td>
 <th>在线角色:</th>

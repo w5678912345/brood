@@ -38,4 +38,18 @@ class Api::ComputersController < Api::BaseController
 		@code = 1 if @computer
 	end
 
+	def abn
+		@computer = Computer.find_by_auth_key(params[:ckey])
+		unless @computer
+		  @code = CODES[:not_find_computer]
+		 	return render :partial => '/api/roles/result'
+		end
+		
+		if @computer.update_attributes(:status=>0)
+			Note.create(:role_id => 0,:ip=>params[:ip],:computer_id=>@computer.id,:api_name => "computer_abn",:msg => params[:msg]) 
+			@code = 1
+		end
+		render :partial => '/api/roles/result'
+	end
+
 end

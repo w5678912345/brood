@@ -8,6 +8,7 @@ class ComputersController < ApplicationController
   before_filter :require_tasks,:only=>[:index,:checked,:unchecked]
   
   def index
+
     
     @computers = Computer.includes(:user)
     #@computers = @computers.where("server = '' or server is NULL") if params[:server] == "null"
@@ -15,10 +16,14 @@ class ComputersController < ApplicationController
     @computers = @computers.where(:version=>params[:version]) unless params[:version].blank?  
     @computers = @computers.where(:id => params[:id]) unless params[:id].blank?
     @computers = @computers.where(:checked => params[:checked]) unless params[:checked].blank?
+    @computers = @computers.where(:status => params[:status].to_i) unless params[:status].blank?
     @computers = @computers.where("hostname like ?","%#{params[:hostname]}%") unless params[:hostname].blank?
     @computers = @computers.where("auth_key like ?","%#{params[:ckey]}%") unless params[:ckey].blank? 
     per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
   	@computers = @computers.order("hostname desc").paginate(:page => params[:page], :per_page => per_page)
+
+  
+
   end
 
   def home

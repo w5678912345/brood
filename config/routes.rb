@@ -143,6 +143,7 @@ Brood::Application.routes.draw do
     match '/reg'  => 'computers#reg'
     match '/set'  => 'computers#set'
     match '/cinfo' => 'computers#cinfo'
+    match '/computers/abn' => 'computers#abn'
     resources :tasks ,:only =>[],:defaults => {:format => 'json'} do
       match :pull,    :on => :collection
       match :call,    :on => :member
@@ -160,6 +161,7 @@ Brood::Application.routes.draw do
       match :lose,    :on => :member
       match :bslock,  :on => :member
       match :bs_unlock,:on => :member
+      match :abn,     :on => :member
       #
 			match :add,			:on => :collection
       match :online, :on => :collection

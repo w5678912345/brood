@@ -173,6 +173,12 @@ module RoleApi
 			return 1 if self.save
 		end
 	end
+
+	def api_abn opts
+		if self.update_attributes(:status=>0)
+			return 1 if Note.create(:role_id => self.id,:ip=>opts[:ip],:computer_id=>opts[:cid],:api_name => "role_abn",:msg => opts[:msg]) 
+		end
+	end
 	
 	#重开角色的API
   def api_reopen opts

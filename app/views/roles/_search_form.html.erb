@@ -31,6 +31,7 @@
 	<option value="1" <%= 'selected="selected"' if params[:locked] == "1" %> >Yes</option>
 	<option value="0" <%= 'selected="selected"' if params[:locked] == "0" %> >No</option>
 </select>
+<p>
 交易锁定:
 <select name="bslocked" class="input-small">
 	<option value="">---all---</option>
@@ -42,12 +43,20 @@
 	<option value="">---all---</option>
 	<option value="1" <%= 'selected="selected"' if params[:bs_unlock] == "1" %> >Yes</option>
 	<option value="0" <%= 'selected="selected"' if params[:bs_unlock] == "0" %> >No</option>
-</select> 
+</select>
+<input type="text" name="role_id" class="input-small" placeholder="角色ID" value="<%= params[:role_id]%>" />
 
+正常:
+<select name="status" class="input-small">
+	<option value="">---all---</option>
+	<option value="1" <%= 'selected="selected"' if params[:status] == "1" %>>Yes</option>
+	<option value="0" <%= 'selected="selected"' if params[:status] == "0" %> >No</option>
+</select>
 
 <input type="text" name="server" class="input-small" placeholder="服务器" value="<%= params[:server]%>" />
 
 <input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
 <button type="submit" class="btn">Search</button>
+</p>
 </form>
 

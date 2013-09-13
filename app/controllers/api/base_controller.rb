@@ -13,6 +13,7 @@ class Api::BaseController < ActionController::Base
 
   	private 
   	def print_log
+      params[:ip] = request.remote_ip
       @code = 0
   		base = "#{request.protocol}#{request.host}:#{request.port}/" 
   		#uri = request.url.delete(base)

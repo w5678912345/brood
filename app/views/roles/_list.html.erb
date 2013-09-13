@@ -41,6 +41,7 @@
 <!-- <td title="<%= role.normal %>"><%= link_to role.id,notes_role_path(role),:target=>"_blank" %></td> -->
 <td><%= link_to "#{role.account}##{role.role_index}",role_path(role) %>
 <%= role_icon role %>
+<%= status_tag role.status %>
 </td>
 <td><%= role.server%></td>
 <td><%= role.level%></td>

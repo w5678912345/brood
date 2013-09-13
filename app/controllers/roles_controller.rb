@@ -81,12 +81,14 @@ class RolesController < ApplicationController
 
 	def search
 		@roles = Role.includes(:computer)
-		#@roles = @roles.where(:id => params[:id]) unless params[:id].blank?
+		#@roles = @roles.where(:id => params[:id]) unless params[:id].blank? #where(:id => params[:id].to_i) unless params[:id].blank?
 		@roles = @roles.where(:close => params[:closed]) unless params[:closed].blank?
 		@roles = @roles.where(:close_hours => params[:close_hours].to_i) unless params[:close_hours].blank?
 		@roles = @roles.where(:bslocked => params[:bslocked]) unless params[:bslocked].blank?
 		@roles = @roles.where(:online => params[:online]) unless params[:online].blank?
 		@roles = @roles.where(:lost => params[:lost]) unless params[:lost].blank?
+		@roles = @roles.where(:status => params[:status].to_i) unless params[:status].blank?
+		@roles = @roles.where(:id => params[:role_id]) unless params[:role_id].blank?
 		@roles = @roles.where(:locked => params[:locked]) unless params[:locked].blank?
 		@roles = @roles.where(:bslocked => true).where(:unbslock_result => params[:bs_unlock]) unless params[:bs_unlock].blank?
 		@roles = @roles.where("level >= #{params[:min_level]}") unless params[:min_level].blank?
@@ -94,6 +96,7 @@ class RolesController < ApplicationController
 		@roles = @roles.where("vit_power >= #{params[:min_vit]}") unless params[:min_vit].blank?
 		@roles = @roles.where("vit_power <= #{params[:max_vit]}") unless params[:max_vit].blank?
 		@roles = @roles.where(:server => params[:server]) unless params[:server].blank?
+		#@roles = @roles.where(:id => params[:id]) unless params[:id].blank? #where(:id => params[:id].to_i) unless params[:id].blank?
 		per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
 		@roles = @roles.paginate(:page => params[:page], :per_page => per_page)
 	end
