@@ -46,10 +46,20 @@ class Api::ComputersController < Api::BaseController
 		end
 		
 		if @computer.update_attributes(:status=>0)
-			Note.create(:role_id => 0,:ip=>params[:ip],:computer_id=>@computer.id,:api_name => "computer_disable",:msg => params[:msg]) 
+			Note.create(:role_id => 0,:ip=>params[:ip],:computer_id=>@computer.id,:api_name => "computer_disable",:api_code=>params[:code],:msg => params[:msg]) 
 			@code = 1
 		end
 		render :partial => '/api/roles/result'
+	end
+
+	def note
+		@computer = Computer.find_by_auth_key(params[:ckey])
+		@code = CODES[:not_find_computer] unless @computer
+		if @computer
+			@code = 1 if Note.create(:role_id => 0,:ip=>params[:ip],:computer_id=>@computer.id,:api_name => params[:event] || "default",:api_code=>params[:code],:msg => params[:msg]) 
+		end
+		render :partial => '/api/roles/result'
+
 	end
 
 end
