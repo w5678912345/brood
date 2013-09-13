@@ -40,7 +40,7 @@ class Role < ActiveRecord::Base
 	#end
 
 	def self.get_roles
-		roles = self.can_online_scope
+		roles = self.can_online_scope.where(:status=>1)
 	    role_max_level = Setting.find_value_by_key("role_max_level")
 	    if role_max_level
 	      roles = roles.where("level <= #{role_max_level}")

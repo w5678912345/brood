@@ -129,6 +129,14 @@ class ComputersController < ApplicationController
      @objects = AliyunHelper.get_objects(prefix)
   end
 
+  
+  def enable
+    @computer = Computer.find_by_id(params[:id])
+    @computer.update_attributes(:status => 1) if @computer
+    redirect_to role_path(@computer)
+  end
+
+
   private 
   def require_tasks
     @tasks = Task.where(:sup_id => 0)
