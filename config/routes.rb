@@ -28,6 +28,7 @@ Brood::Application.routes.draw do
 		put		:reopen,			:on => :member
 		put   :unlock,      :on => :member
     put   :regain,       :on => :member
+    put   :enable,      :on => :member
   end
 
   resources :computers do 
@@ -40,6 +41,7 @@ Brood::Application.routes.draw do
     get 	:roles, 		:on => :member
     get   :logs,      :on => :member
     get   :alogs,     :on => :member
+    get   :enable,    :on => :member
   end
   resources :ips,:only => [:index,:destroy,:show] do 
     get :clear, 		:on => :collection
@@ -143,7 +145,7 @@ Brood::Application.routes.draw do
     match '/reg'  => 'computers#reg'
     match '/set'  => 'computers#set'
     match '/cinfo' => 'computers#cinfo'
-    match '/computers/abn' => 'computers#abn'
+    match '/computers/disable' => 'computers#disable'
     resources :tasks ,:only =>[],:defaults => {:format => 'json'} do
       match :pull,    :on => :collection
       match :call,    :on => :member
@@ -161,7 +163,7 @@ Brood::Application.routes.draw do
       match :lose,    :on => :member
       match :bslock,  :on => :member
       match :bs_unlock,:on => :member
-      match :abn,     :on => :member
+      match :disable,     :on => :member
       #
 			match :add,			:on => :collection
       match :online, :on => :collection

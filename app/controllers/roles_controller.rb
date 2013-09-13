@@ -192,6 +192,12 @@ class RolesController < ApplicationController
 			redirect_to closed_roles_path
 	end
 
+	def normal
+		@role = Role.find_by_id(params)
+		@role.update_attributes(:status => 1) if @role
+		redirect_to role_path(@role)
+	end
+
 
 	def task
 		session[:cids] = nil

@@ -38,7 +38,7 @@ class Api::ComputersController < Api::BaseController
 		@code = 1 if @computer
 	end
 
-	def abn
+	def disable
 		@computer = Computer.find_by_auth_key(params[:ckey])
 		unless @computer
 		  @code = CODES[:not_find_computer]

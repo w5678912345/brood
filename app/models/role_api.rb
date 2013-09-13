@@ -174,7 +174,7 @@ module RoleApi
 		end
 	end
 
-	def api_abn opts
+	def api_disable opts
 		if self.update_attributes(:status=>0)
 			return 1 if Note.create(:role_id => self.id,:ip=>opts[:ip],:computer_id=>opts[:cid],:api_name => "role_abn",:msg => opts[:msg]) 
 		end

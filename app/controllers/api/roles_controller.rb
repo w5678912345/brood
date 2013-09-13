@@ -121,8 +121,8 @@ class Api::RolesController < Api::BaseController
 		render :partial => 'api/roles/result'
 	end
 
-	def abn
-		@code = @role.api_abn params
+	def disable
+		@code = @role.api_disable params
 		render :partial => 'api/roles/result'
 	end
 
