@@ -6,5 +6,8 @@ class CreateComroles < ActiveRecord::Migration
       t.boolean   :normal,		:null => false,	:default => true
       t.timestamps
     end
+
+    add_index :comroles, [:role_id, :computer_id],unique: true
+
   end
 end

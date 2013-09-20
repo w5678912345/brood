@@ -37,6 +37,8 @@ ActiveRecord::Schema.define(:version => 20130920084919) do
     t.datetime "updated_at",                    :null => false
   end
 
+  add_index "comroles", ["role_id", "computer_id"], :name => "index_comroles_on_role_id_and_computer_id", :unique => true
+
   create_table "ips", :primary_key => "value", :force => true do |t|
     t.integer  "use_count",  :default => 0, :null => false
     t.datetime "created_at",                :null => false
