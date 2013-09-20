@@ -74,3 +74,39 @@ scp ubuntu@ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com:~/brood812.sql
 select count(id) from roles where level>30 and server = '上海1区' and online = 0 limit 150;
 
 
+ select count(computer_id),role_id from notes where api_name ='online' and (`notes`.`created_at` BETWEEN '2013-09-10 00:00:00' AND '2013-09-17 00:00:00') 
+ 	and role_id in (select role_id from notes where api_name='bslock' and (`notes`.`created_at` BETWEEN '2013-09-10 00:00:00' AND '2013-09-17 00:00:00'))  group by role_id;
+
+
+
+
+
+ select count(computer_id),role_id from notes where (api_name ='online' or api_name = 'bslock') and (`notes`.`created_at` BETWEEN '2013-09-10 00:00:00' AND '2013-09-17 00:00:00') 
+ 	  group by role_id;
+
+
+select count(computer_id) as cc,role_id from notes where (api_name ='online' or api_name = 'bslock') and (`notes`.`created_at` BETWEEN '2013-09-10 00:00:00' AND '2013-09-17 00:00:00')     group by role_id order by cc;
+
+
+select count(role_id) from roles where role_id not in(select role_id from notes  where api_name = 'bslock')
+
+
+
+ select role_id, count(DISTINCT computer_id) cc from notes where api_name = 'online'  and  (`notes`.`created_at` BETWEEN '2013-09-10 00:00:00' AND '2013-09-17 00:00:00') and role_id in(select DISTINCT role_id from notes where api_name = 'bslock') group by role_id  order by cc;
+
+
+  select role_id, count(DISTINCT computer_id) cc from notes where api_name = 'online'  and  (`notes`.`created_at` BETWEEN '2013-09-10 00:00:00' AND '2013-09-17 00:00:00') and role_id in(select DISTINCT role_id from notes where api_name = 'bslock'  ) group by role_id  order by cc;
+
+
+role_ids = Note.time_scope('2013-09-10 00:00:00','2013-09-17 00:00:00').select("role_id").where("api_name = 'bslock' or api_name = 'bs_unlock_success' or api_name = 'bs_unlock_fail' ").select(:role_id).uniq.collect(&:role_id)
+
+
+select role_id, count(DISTINCT computer_id) cc from notes where api_name = 'online'  and  (`notes`.`created_at` BETWEEN '2013-09-10 00:00:00' AND '2013-09-17 00:00:00') and 
+ 	role_id in(18, 4, 5423, 5420, 5419, 4273, 5329, 4329, 5511, 5501, 5505, 5515, 5516, 5513, 5512, 5502, 5510, 5192, 5503, 5504, 5499, 5508, 5509, 5507, 5506, 5498, 123, 5473, 4552, 4269, 5165, 5345, 5460, 4045, 4079, 5453, 4054, 4546, 5270, 4773, 5414, 5351, 5403, 5028, 4911, 5038, 5346, 3798, 4996, 4272, 5010, 5226, 5292, 5012, 5491, 5495, 5529, 5496, 5490, 5485, 5349, 3778, 5322, 5466, 4310, 5412, 4566, 4027, 5321, 5247, 5409, 5428, 4013, 5454, 5457, 5463, 5461, 4886, 4742, 5299, 5462, 5315, 5151, 5141, 5352, 4564, 5464, 4763, 5396, 5402, 4306, 5337, 4047, 5301, 5371, 16, 5492, 5476, 3806, 125, 5336, 4907, 5458, 5335, 5338, 5167, 4894, 5387, 5342, 3827, 4776, 5267, 5326, 4938, 5357, 5344, 5330, 4528, 5306, 5313, 5437, 3761, 4932, 5370, 5309, 5147, 3776, 5400, 5347, 5366, 5266, 4274, 5295, 4300, 5416, 4064, 4052, 5268, 4719, 5379, 5359, 4319, 4562, 4902, 5007, 5365, 5378, 4551, 3792, 3760, 4558, 4283, 5440, 4780, 5408, 5164, 4910, 4311, 4056, 4303, 4046, 4037, 5334, 4287, 5296, 5248, 4543, 4906, 5386, 4870, 3823, 5355, 5332, 5308, 4531, 4313, 4733, 5239, 5229, 4083, 5375, 5381, 5358, 5374, 3824, 5348, 5331, 3807, 4061, 3790, 4309, 4049, 5324, 5327, 4550, 3784, 4544, 5304, 5310, 5311, 5242, 5245, 5170, 4931, 5415, 5407, 4888, 5398, 5394, 5377, 5121, 4567, 5325, 4540, 4759, 3800, 5122, 5343, 3799, 5148, 4016, 4889, 5188, 4575, 4051, 4038, 4294, 4728, 5302, 5288, 4892, 5293, 4718, 4754, 4908, 5240, 5413, 5285, 5401, 5031, 5424, 5189, 5406, 5443, 4986, 4992, 3793, 3758, 4069, 5376, 5246, 5341, 4077, 5298, 4307, 4574, 5314, 5319, 5318, 5340, 4729, 3, 5320, 5312, 5305) group by role_id  order by cc;
+
+
+66 |
+|    5349 |
+|    5485 |
+5490
+|    5496,5529

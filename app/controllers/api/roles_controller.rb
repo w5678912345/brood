@@ -163,11 +163,11 @@ class Api::RolesController < Api::BaseController
 	
 	#
 	def require_computer_by_ckey
-			@computer = Computer.find_by_auth_key(params[:ckey]) if params[:ckey]
-			@code = CODES[:not_find_computer] unless @computer
-			#@code = CODES[:computer_no_server] unless @computer.set_server
-			return render :partial => 'api/roles/result' unless @code == 0
-			params[:cid] = @computer.id
+		@computer = Computer.find_by_auth_key(params[:ckey]) if params[:ckey]			
+		@code = CODES[:not_find_computer] unless @computer
+		#@code = CODES[:computer_no_server] unless @computer.set_server
+		return render :partial => 'api/roles/result' unless @code == 0
+		params[:cid] = @computer.id
 	end
 
 	def require_computer_eq_role

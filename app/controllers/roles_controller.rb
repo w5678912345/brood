@@ -200,11 +200,19 @@ class RolesController < ApplicationController
 
 
 	def task
-		session[:cids] = nil
 		ids = params[:ids]
-   		return redirect_to roles_path unless ids
-		session[:rids] = ids
-      	return redirect_to pre_task_path(params[:task_id])
+		return redirect_to search_roles_path unless ids
+
+		if params[:task_id].to_i > 0
+			session[:cids] = nil
+			session[:rids] = ids
+      		return redirect_to pre_task_path(params[:task_id])
+		else
+			@roles = Role.where(:id => ids)
+			@roles.update_all(:status => 1) if params[:task_id] == "reset_status"
+			@roles.update_all(:lost=>false) if params[:task_id] == "reset_lost"
+		end
+		return redirect_to search_roles_path
 	end
 
 

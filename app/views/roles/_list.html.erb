@@ -16,6 +16,9 @@
 </th>
 <th colspan="2">
  <%= render_cell :task, :sup %>
+ <input type="button" class="btn" value="丢失恢复" id="btn_reset_lost" />
+ <input type="button" class="btn" value="异常恢复" id="btn_reset_status" />
+ 
 </th>
 </tr>
 <tr>
@@ -113,11 +116,23 @@ No<%= "(Waiting...)" if role.can_online%>
 <script type="text/javascript">
 $(function(){
 
+
+
 $("#check_all").click(function(){
 	var checked = this.checked;
 	$("tbody input[type=checkbox]").each(function(){
 		this.checked = checked;
 	});
+});
+
+$("#btn_reset_lost").click(function(){
+	$("#task_id").val("reset_lost");
+	$("#roles_task_form").submit();
+});
+
+$("#btn_reset_status").click(function(){
+	$("#task_id").val("reset_status");
+	$("#roles_task_form").submit();
 });
 
 
