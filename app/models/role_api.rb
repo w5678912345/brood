@@ -25,6 +25,11 @@ module RoleApi
       self.ip_range2 = opts[:ip_range] if self.ip_range2.blank? && !self.ip_range.blank? && opts[:ip_range] != self.ip_range
       self.normal = !self.bslocked
       note = Note.create(:role_id=>self.id,:computer_id=>computer.id,:ip=>ip.value,:api_name=>"online",:msg=>opts[:msg])
+      comrole = Comrole.create(:computer_id=>computer.id,:role_id => self.id)
+      if self.computers_count < Setting.role_max_computers
+      	comrole = Comrole.new(:computer_id=>self.computer_id,:role_id => self.id)
+      	comrole.save if comrole.valid?
+      end
       return 1 if self.update_attributes(:online=>true,:computer_id=>computer.id,:ip=>ip.value,:online_at=>Time.now,:online_note_id=>note.id)
     end
   end

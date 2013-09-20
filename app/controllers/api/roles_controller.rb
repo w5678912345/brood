@@ -27,10 +27,18 @@ class Api::RolesController < Api::BaseController
 
 	#search a role online
 	def online
-
 		return @code =  CODES[:computer_no_server] unless @computer.set_server
+
+		@roles = @computer.roles.can_online_scope
+		# params[:find_by_computer] = true if @roles
+		if @roles.blank?
+			params[:not_find_by_computer] = true
+			@roles = Role.can_online_scope.where("computers_count < ?",Setting.role_max_computers) if @roles.blank?
+		end
+		
+		
 	    #@role = Role.get_roles.where(:server => @computer.server).first
-	    @roles = Role.get_roles
+	   
 	    #logger.warn("======get_roles============#{@roles.count}====================")
 	    if @roles.count > 0
 	    	@roles = @roles.where("ip_range = ? or ip_range is NULL or ip_range2 = ? or ip_range2 is NULL",params[:ip_range] || "",params[:ip_range] || "")
@@ -170,7 +178,7 @@ class Api::RolesController < Api::BaseController
 		params[:cid] = @computer.id
 	end
 
-	
+
 
 	def require_computer_eq_role
 		unless @computer.id == @role.computer_id 
