@@ -2,9 +2,9 @@
 
 <div class="input-prepend input-append">
 <span class="add-on"><i class="icon-calendar"></i></span>
-<input type="text" name="date" id="date" class="input-medium" placeholder="from" style="width:90px;" value="<%= @date.to_s %>" />
+<input type="text" name="date" id="date" value=<%=@start_time%> class="input-medium" placeholder="from" style="width:90px;" value="<%= @date.to_s %>" />
 <span class="add-on">-</span>
-<input type="text" name="end_date" id="end_date" class="input-medium" placeholder="to" style="width:90px;" value="<%= @date.to_s %>" />
+<input type="text" name="end_date" id="end_date" value=<%=@end_time%> class="input-medium" placeholder="to" style="width:90px;" value="<%= @date.to_s %>" />
 </div>
 
 

@@ -16,6 +16,7 @@
     <th>封号比</th>
     <th>验证码次数</th>
     <th>验证码出现率</th>
+    <th>转出金币 (<%="%d亿" % (@tradesum/100000000)%>)</th>
 </tr>
 </thead>
 <tbody>
@@ -30,6 +31,8 @@
 <td><%= "%2.0f%" % (note.CloseCount*100.0/note.OnlineCount) %></td>
 <td><%= note.VerifyCodeCount %></td>
 <td><%= "%2.0f%" % (note.VerifyCodeCount*100.0/note.OnlineCount) %></td>
+
+<td><%= "%d亿" % (@trade[note.Day]/100000000) if @trade[note.Day] %></td>
 
 </tr>
 <%end%>
