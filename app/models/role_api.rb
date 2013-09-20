@@ -13,12 +13,12 @@ module RoleApi
 	return CODES[:computer_unchecked] unless computer.checked
 	return CODES[:computer_no_server] unless computer.set_server
 	max_roles_count = Setting.find_value_by_key("computer_max_roles_count")
-	return CODES[:full_use_computer] if max_roles_count && computer.roles_count >= max_roles_count 
+	return CODES[:full_use_computer] if max_roles_count && computer.online_roles_count >= max_roles_count 
     # get ip
     ip = Ip.find_or_create(opts[:ip] || self.ip)
     #return CODES[:ip_used] if opts[:auto] != false && ip.use_count >= Setting.ip_max_use_count
     self.transaction do
-      computer.update_attributes(:roles_count=>computer.roles_count+1,:version=>opts[:version]|| opts[:msg]) 
+      computer.update_attributes(:online_roles_count=>computer.online_roles_count+1,:version=>opts[:version]|| opts[:msg]) 
       ip.update_attributes(:use_count=>ip.use_count+1)
       self.server = computer.server if self.server.blank? 
       self.ip_range = opts[:ip_range]  if self.ip_range.blank?
@@ -34,7 +34,7 @@ module RoleApi
     #ip = Ip.find_or_create(opts[:ip] || self.ip)
     ip = opts[:ip] || self.ip
     self.transaction do
-       self.computer.update_attributes(:roles_count=>self.computer.roles_count-1) if self.computer && self.computer.roles_count > 0
+       self.computer.update_attributes(:online_roles_count=>self.computer.online_roles_count-1) if self.computer && self.computer.online_roles_count > 0
        #ip.update_attributes(:use_count=>ip.use_count-1) if ip.use_count > 0
        online_hours = (Time.now - self.online_at)/3600
        Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip,:api_name=>"offline",:msg=>opts[:msg],:online_hours=>online_hours)

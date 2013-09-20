@@ -29,6 +29,7 @@ Brood::Application.routes.draw do
 		put   :unlock,      :on => :member
     put   :regain,       :on => :member
     put   :enable,      :on => :member
+    get   :computers,   :on => :member
   end
 
   resources :computers do 
@@ -42,6 +43,7 @@ Brood::Application.routes.draw do
     get   :logs,      :on => :member
     get   :alogs,     :on => :member
     put   :enable,    :on => :member
+    get   :online_roles,    :on => :member
   end
   resources :ips,:only => [:index,:destroy,:show] do 
     get :clear, 		:on => :collection

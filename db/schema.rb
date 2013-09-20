@@ -11,21 +11,30 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130905023515) do
+ActiveRecord::Schema.define(:version => 20130920084919) do
 
   create_table "computers", :force => true do |t|
-    t.string   "hostname",                             :null => false
-    t.integer  "user_id",                              :null => false
-    t.string   "auth_key",                             :null => false
-    t.integer  "status",        :default => 1,         :null => false
-    t.integer  "roles_count",   :default => 0,         :null => false
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
-    t.boolean  "checked",       :default => false,     :null => false
-    t.integer  "check_user_id", :default => 0
+    t.string   "hostname",                                  :null => false
+    t.integer  "user_id",                                   :null => false
+    t.string   "auth_key",                                  :null => false
+    t.integer  "status",             :default => 1,         :null => false
+    t.integer  "roles_count",        :default => 0,         :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+    t.boolean  "checked",            :default => false,     :null => false
+    t.integer  "check_user_id",      :default => 0
     t.datetime "checked_at"
     t.string   "server"
-    t.string   "version",       :default => "default", :null => false
+    t.string   "version",            :default => "default", :null => false
+    t.integer  "online_roles_count", :default => 0,         :null => false
+  end
+
+  create_table "comroles", :force => true do |t|
+    t.integer  "role_id",     :default => 0,    :null => false
+    t.integer  "computer_id", :default => 0,    :null => false
+    t.boolean  "normal",      :default => true, :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   create_table "ips", :primary_key => "value", :force => true do |t|
@@ -95,6 +104,7 @@ ActiveRecord::Schema.define(:version => 20130905023515) do
     t.boolean  "unbslock_result"
     t.string   "name"
     t.string   "ip_range2"
+    t.integer  "computers_count",               :default => 0,     :null => false
   end
 
   create_table "servers", :force => true do |t|

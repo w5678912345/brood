@@ -133,6 +133,7 @@ class RolesController < ApplicationController
 
 	def show
 		@role = Role.find(params[:id])
+		
 	end
 
 	def new
@@ -213,6 +214,11 @@ class RolesController < ApplicationController
 			@roles.update_all(:lost=>false) if params[:task_id] == "reset_lost"
 		end
 		return redirect_to search_roles_path
+	end
+
+	def computers
+		@role = Role.find_by_id(params[:id])
+		@computers = @role.computers.paginate(:page => params[:page],:per_page => 15)
 	end
 
 

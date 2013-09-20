@@ -170,6 +170,8 @@ class Api::RolesController < Api::BaseController
 		params[:cid] = @computer.id
 	end
 
+	
+
 	def require_computer_eq_role
 		unless @computer.id == @role.computer_id 
 			@code = CODES[:computer_error] 

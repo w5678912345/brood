@@ -1,11 +1,17 @@
 # encoding: utf-8
 class Computer < ActiveRecord::Base
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count
-  attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at,:version
+  attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at,:version,:online_roles_count
+  has_many :comroles
+
   belongs_to :user
   belongs_to :check_user,:class_name => 'user'
-  has_many :roles
+  #has_many :online_roles,:class_name => 'Role',:con
+
+  has_many :roles,:class_name => 'Role', through: :comroles
+
   has_many :notes,:dependent => :destroy, :order => 'id DESC'
+
 
   default_scope :order => 'server DESC'
 

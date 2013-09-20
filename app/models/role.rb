@@ -6,6 +6,10 @@ class Role < ActiveRecord::Base
   has_many   :notes,		:dependent => :destroy, :order => 'id DESC'
   has_many	 :payments,	:dependent => :destroy, :order => 'id DESC'
 
+  has_many :comroles
+
+  has_many :computers,:class_name => 'Computer',through: :comroles
+
 	#has_many   :roles,		:class_name => 'Role',	:foreign_key => 'account'
 
   attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip,:normal
@@ -14,8 +18,9 @@ class Role < ActiveRecord::Base
   #default_scope :order => 'id DESC'
 
 	validates_presence_of :account, :password
-	#
-  scope :can_online_scope, where(:online => false).where(:close => false).where(:locked=>false).where(:lost=>false).where("vit_power > 0").where(:normal => true)
+	# 可以上线的角色
+  scope :can_online_scope, where(:online => false).where(:close => false).where(:locked=>false)
+    .where(:lost=>false).where("vit_power > 0").where(:normal => true).where(:status=>1).where("level < ?",Setting.role_max_level)
 	
 	default_scope order("online desc").order("close asc").order("level desc").order("vit_power desc")
 
@@ -40,12 +45,7 @@ class Role < ActiveRecord::Base
 	#end
 
 	def self.get_roles
-		roles = self.can_online_scope.where(:status=>1)
-	    role_max_level = Setting.find_value_by_key("role_max_level")
-	    if role_max_level
-	      roles = roles.where("level <= #{role_max_level}")
-	    end
-	    return roles
+		return self.can_online_scope
 	end
 
 
@@ -57,9 +57,6 @@ class Role < ActiveRecord::Base
   	return Role.where(:is_seller => true).where(:server => self.server).first
   end
 
-  def set_seller
-  	#self.update(:is_seller => true)
-  end
 
   def set_ip_range
   	self.notes.where(:api_name => "online")

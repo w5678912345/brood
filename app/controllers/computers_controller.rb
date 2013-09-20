@@ -104,6 +104,11 @@ class ComputersController < ApplicationController
     @notes = @computer.notes.paginate(:page => params[:page], :per_page => 15) if @computer
   end
 
+  def online_roles
+     @computer = Computer.find_by_id(params[:id])
+     @roles = Role.where(:online=>true).where(:computer_id=>@computer.id).paginate(:page => params[:page], :per_page => 10)
+  end
+
   def roles
     @computer = Computer.find_by_id(params[:id])
     @roles = @computer.roles.paginate(:page => params[:page], :per_page => 10) if @computer
