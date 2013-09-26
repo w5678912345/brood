@@ -34,5 +34,14 @@ class Computer < ActiveRecord::Base
 	def set_server
 		return ! self.server.blank?
 	end
+
+  def self.reset_roles_count
+    computers = Computer.all
+    computers.each do |c|
+      c.roles_count = c.roles.count
+      c.save
+    end
+    
+  end
   
 end
