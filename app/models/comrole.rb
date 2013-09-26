@@ -6,4 +6,15 @@ class Comrole < ActiveRecord::Base
 
   validates_uniqueness_of :role_id, :scope => :computer_id
 
+
+  def self.reset 
+  	@coms = Comrole.all
+  	@coms.each do |com|
+  	if com.role.computer
+  		com.computer_id =  com.role.computer.id
+  		com.save
+  	end
+  	end
+  end
+
 end

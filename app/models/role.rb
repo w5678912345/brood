@@ -2,7 +2,7 @@
 class Role < ActiveRecord::Base
 	include RoleApi
 
-  belongs_to :computer
+  belongs_to :computer,:class_name => 'Computer'
   has_many   :notes,		:dependent => :destroy, :order => 'id DESC'
   has_many	 :payments,	:dependent => :destroy, :order => 'id DESC'
 
