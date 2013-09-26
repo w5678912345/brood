@@ -18,6 +18,7 @@ Brood::Application.routes.draw do
     get   :unlost,      :on => :collection
     get 	:waiting,			:on => :collection
     get   :bslocked,    :on => :collection
+    get   :group_count, :on => :collection
 
 		put		:reset_vip_power,			:on => :collection
 		put 	:reopen_all,					:on => :collection

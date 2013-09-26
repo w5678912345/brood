@@ -1,0 +1,30 @@
+<%= render "navbar" %>
+<fieldset>
+<legend>角色分布</legend>
+<form class="form-search" action="<%= group_count_roles_path %>">
+统计条件:<select name="col">
+	
+<% @cols.each do |k,v| %>
+<option value="<%= k%>" <%= 'selected="selected"' if k == @col %>><%= v %></option>
+<%end%>
+</select>
+<button type="submit" class="btn">确定</button>
+</form>
+<table class="table table-bordered table-condensed">
+<thead>
+<tr>
+<th>角色数量</th>
+<th><%= @cols[@col]%></th>
+</tr>
+</thead>
+<tbody>
+<% @records.each do |record|%>
+<tr>
+<td><%= record.roles_count %></td>
+<td><%= record.col %></td>
+
+</tr>
+<%end%>
+</tbody>
+</table>
+</fieldset>

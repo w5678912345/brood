@@ -1,6 +1,9 @@
 <fieldset>
 <legend>API DOC <%=request.port %></legend>
 <a class="btn"><i class=" icon-time"></i><%= time_str Time.now %></a>
+
+<% if current_user %>
+
 <table class="table table-bordered">
 <thead>
 <th class="span2">URL</th>
@@ -176,5 +179,6 @@
 
 </tbody>
 </table>
+<%end%>
 </fieldset>
 

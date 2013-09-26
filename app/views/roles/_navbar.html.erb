@@ -35,4 +35,10 @@
  <%= link_to raw('<i class=" icon-folder-open"></i>导入角色'), sheets_path %>
 </li>
 
+
+<li <%= active if controller_name == "roles" && action_name == 'group_count' %> >
+ <%= link_to raw('<i class="icon-list"></i>角色分布'), group_count_roles_path %>
+</li>
+
+
 </ul>
