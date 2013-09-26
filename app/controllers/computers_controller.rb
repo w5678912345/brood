@@ -10,7 +10,7 @@ class ComputersController < ApplicationController
   def index
 
     
-    @computers = Computer.where(:status=>1).includes(:user)
+    @computers = Computer.includes(:user)
     #@computers = @computers.where("server = '' or server is NULL") if params[:server] == "null"
     @computers = @computers.where(:server=>params[:server]) unless params[:server].blank? || params[:server] == "null"
     @computers = @computers.where(:version=>params[:version]) unless params[:version].blank?  
@@ -139,6 +139,12 @@ class ComputersController < ApplicationController
     @computer = Computer.find_by_id(params[:id])
     @computer.update_attributes(:status => 1) if @computer
     redirect_to role_path(@computer)
+  end
+
+  def group_count
+    @cols = {"server"=>"服务器","version"=>"版本","date(created_at)"=>"注册日期","roles_count"=>"绑定角色"} 
+    @col = params[:col] || "server"
+    @records = Computer.select("count(id) as computers_count, #{@col} as col").group(@col).reorder("computers_count desc")
   end
 
 

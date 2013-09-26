@@ -39,6 +39,7 @@ Brood::Application.routes.draw do
 		get 	:unchecked,	:on => :collection
     get   :version,   :on => :collection
 		put		:check,			:on	=> :collection
+    get   :group_count, :on=> :collection
     get 	:notes, 		:on => :member
     get 	:roles, 		:on => :member
     get   :logs,      :on => :member
