@@ -151,6 +151,10 @@ Brood::Application.routes.draw do
     match '/cinfo' => 'computers#cinfo'
     match '/computers/disable' => 'computers#disable'
     match 'computers/note' => 'computers#note'
+    resources :computers,:only => [] do 
+      get :start,     :on => :collection
+      get :stop,      :on => :collection
+    end
     resources :tasks ,:only =>[],:defaults => {:format => 'json'} do
       match :pull,    :on => :collection
       match :call,    :on => :member

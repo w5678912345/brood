@@ -10,6 +10,12 @@
 	<option value="1" <%= 'selected="selected"' if params[:checked] == "1" %>>Yes</option>
 	<option value="0" <%= 'selected="selected"' if params[:checked] == "0" %> >No</option>
 </select>
+在线:
+<select name="started" class="input-small">
+	<option value="">---all---</option>
+	<option value="1" <%= 'selected="selected"' if params[:started] == "1" %>>Yes</option>
+	<option value="0" <%= 'selected="selected"' if params[:started] == "0" %> >No</option>
+</select>
 正常:
 <select name="status" class="input-small">
 	<option value="">---all---</option>

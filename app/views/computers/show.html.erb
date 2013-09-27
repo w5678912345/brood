@@ -12,13 +12,16 @@
 <th>Auth Key:</th>
 <td><%= @computer.auth_key %></td>
 <th>在线角色:</th>
-<td><%= link_to @computer.online_roles_count,roles_computer_path(@computer) %></td>
+<td><%= link_to @computer.online_roles_count,online_roles_computer_path(@computer) %></td>
 </tr>
 
 <tr>
 <th>审核:</th>
-<td colspan="5"><%= @computer.checked ? raw('<span class="label label-success">通过</span>') : raw('<span class="label label-important">未通过</span>') %></td>
-
+<td ><%= @computer.checked ? raw('<span class="label label-success">通过</span>') : raw('<span class="label label-important">未通过</span>') %></td>
+<th>在线:</th>
+<td><%= boolean_tag @computer.started %></td>
+<th>绑定角色</th>
+<td><%= link_to @computer.roles_count,roles_computer_path(@computer) %></td>
 </tr>
 
 <tr>

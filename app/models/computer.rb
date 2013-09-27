@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Computer < ActiveRecord::Base
-  attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count
+  attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count,:started
   attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at,:version,:online_roles_count
   has_many :comroles,:dependent => :destroy
 
@@ -35,13 +35,23 @@ class Computer < ActiveRecord::Base
 		return ! self.server.blank?
 	end
 
+  def start opts
+    self.update_attributes(:started => true)
+    Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"start_computer",:msg=>opts[:msg])
+  end
+
+  def stop opts
+    self.update_attributes(:started => false)
+    Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"stop_computer",:msg=>opts[:msg])
+  end
+
+
   def self.reset_roles_count
     computers = Computer.all
     computers.each do |c|
       c.roles_count = c.roles.count
       c.save
     end
-    
   end
   
 end

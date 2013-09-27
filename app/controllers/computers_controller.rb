@@ -16,6 +16,7 @@ class ComputersController < ApplicationController
     @computers = @computers.where(:version=>params[:version]) unless params[:version].blank?  
     @computers = @computers.where(:id => params[:id]) unless params[:id].blank?
     @computers = @computers.where(:checked => params[:checked]) unless params[:checked].blank?
+    @computers = @computers.where(:started => params[:started]) unless params[:started].blank?
     @computers = @computers.where(:status => params[:status].to_i) unless params[:status].blank?
     @computers = @computers.where("hostname like ?","%#{params[:hostname]}%") unless params[:hostname].blank?
     @computers = @computers.where("auth_key like ?","%#{params[:ckey]}%") unless params[:ckey].blank? 

@@ -5,6 +5,8 @@ class Api::ComputersController < Api::BaseController
 
 	CODES = Api::CODES
 
+	before_filter :require_computer_by_ckey,:only =>[:start,:stop]
+
 	def reg
 		@code = 0
 		params[:ip] = request.remote_ip
@@ -61,5 +63,25 @@ class Api::ComputersController < Api::BaseController
 		render :partial => '/api/roles/result'
 
 	end
+
+
+	def start
+		@code = 1 if @computer.start params
+		render :partial => '/api/result'
+	end
+
+	def stop
+		@code = 1 if @computer.stop params
+		render :partial => '/api/result'
+	end
+
+	def require_computer_by_ckey
+		@computer = Computer.find_by_auth_key(params[:ckey]) if params[:ckey]
+		@code = CODES[:not_find_computer] unless @computer
+
+		return render :partial => 'api/result' unless @code == 0	
+	end
+
+
 
 end

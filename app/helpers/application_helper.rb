@@ -51,4 +51,9 @@ module ApplicationHelper
 		return raw('<span class="badge badge-warning">异常</span>') if status != 1 
 	end
 
+	def boolean_tag bool
+		return raw('<span class="label label-success">Yes</span>') if bool
+		return raw('<span class="label label-important">No</span>') 
+	end
+
 end
