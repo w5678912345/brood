@@ -30,7 +30,7 @@ class Api::ComputersController < Api::BaseController
 		@computer = Computer.find_by_auth_key(params[:ckey])
 		return @code = CODES[:not_find_computer] unless @computer
 		@code = 1 if @computer.update_attributes(:server=>params[:server],:updated_at=>Time.now)
-		render :partial => '/api/roles/result'
+		render :partial => '/api/result'
 	end
 
 	def cinfo
@@ -44,14 +44,14 @@ class Api::ComputersController < Api::BaseController
 		@computer = Computer.find_by_auth_key(params[:ckey])
 		unless @computer
 		  @code = CODES[:not_find_computer]
-		 	return render :partial => '/api/roles/result'
+		 	return render :partial => '/api/result'
 		end
 		
 		if @computer.update_attributes(:status=>0)
 			Note.create(:role_id => 0,:ip=>params[:ip],:computer_id=>@computer.id,:api_name => "computer_disable",:api_code=>params[:code],:msg => params[:msg]) 
 			@code = 1
 		end
-		render :partial => '/api/roles/result'
+		render :partial => '/api/result'
 	end
 
 	def note
@@ -60,7 +60,7 @@ class Api::ComputersController < Api::BaseController
 		if @computer
 			@code = 1 if Note.create(:role_id => 0,:ip=>params[:ip],:computer_id=>@computer.id,:api_name => params[:event] || "default",:api_code=>params[:code],:msg => params[:msg]) 
 		end
-		render :partial => '/api/roles/result'
+		render :partial => '/api/result'
 
 	end
 

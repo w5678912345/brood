@@ -10,8 +10,8 @@
 	</a>
 	<ul class="dropdown-menu">
     <li><%= link_to "所有计算机",computers_path %></li>
-    <li><%= link_to "已审核计算机", checked_computers_path %></li>
-    <li><%= link_to "未审核计算机", unchecked_computers_path %></li>
+    <li><%= link_to "已审核计算机", computers_path(:checked=>1) %></li>
+    <li><%= link_to "未审核计算机", computers_path(:checked=>0) %></li>
   </ul>
 </li>
 
@@ -24,8 +24,5 @@
  <%= link_to raw('<i class="icon-list"></i>计算机分布'),group_count_computers_path  %>
 </li>
 
-<li <%= active if controller_name == 'computers' && action_name == 'version' %>>
- <%= link_to raw('<i class="icon-list"></i>版本分布'),version_computers_path  %>
-</li>
 
 </ul>

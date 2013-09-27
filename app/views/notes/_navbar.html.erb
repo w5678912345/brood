@@ -4,14 +4,6 @@
  <%= link_to raw('<i class="icon-home"></i>记录主页'), home_notes_path %>
 </li>
 
-<li class="dropdown">
-  	<a href="<%= roles_path %>" class="dropdown-toggle" data-toggle="dropdown">
-  		<i class="icon-list"></i>记录列表<b class="caret"></b>
-  	</a>
-  	<ul class="dropdown-menu">
-      <li><%= link_to "所有记录",notes_path %></li>
-    </ul>
-</li>
 
 
 <li <%= active if controller_name == 'notes' && action_name == 'search' %>>

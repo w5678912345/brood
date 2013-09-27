@@ -2,7 +2,7 @@
 class NotesController < ApplicationController
 	
 	def index
-		@notes= Note.includes(:computer,:role).paginate(:page => params[:page], :per_page => 20)
+		
 	end
 
 	def home
@@ -12,6 +12,7 @@ class NotesController < ApplicationController
 	def search
 		@notes = Note.includes(:computer,:role)
 		@notes = @notes.where(:role_id => params[:role_id]) unless params[:role_id].blank?
+		@notes = @notes.where(:computer_id => params[:cid]) unless params[:cid].blank?
 		@notes = @notes.where(:api_name => params[:api_name]) unless params[:api_name].blank?
 		@notes = @notes.where("api_name like ?","%#{params[:event]}%") unless params[:event].blank?
 		@notes = @notes.where("ip like ?","%#{params[:ip]}%") unless params[:ip].blank?
@@ -23,12 +24,8 @@ class NotesController < ApplicationController
 		@notes = @notes.paginate(:page => params[:page], :per_page => per_page)
 	end
 
-	def list
-
+	def group_count
 	end
 
-	def count
-		
-	end
 
 end
