@@ -29,7 +29,8 @@ str_environment = 'development'
 
 #
 every 2.minutes do
-  runner 'Api.role_auto_offline',:environment => str_environment 
+  runner 'Api.role_auto_offline',:environment => str_environment
+  runner 'Api.computer_auto_stop',:environment => str_environment
 end
 
 
