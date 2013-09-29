@@ -7,26 +7,16 @@
   	<a href="<%= roles_path %>" class="dropdown-toggle" data-toggle="dropdown">
   		<i class="icon-list"></i>角色列表<b class="caret"></b>
   	</a>
-  	<ul class="dropdown-menu">
-      <li><%= link_to "所有角色",roles_path %></li>
-      <li><%= link_to "在线列表",online_roles_path %></li>
-      <li><%= link_to "未在线列表",offline_roles_path %></li>
-			<li><%= link_to "即将上线",waiting_roles_path %></li>
-      <li class="divider"></li>
-       <li><%= link_to "已封号列表",closed_roles_path %></li>
-      <li><%= link_to "未封号列表",not_closed_roles_path %></li>
-      <li class="divider"></li>
-      <li><a href="/roles/locked">已锁定列表</a></li>
-      <li><a href="/roles/unlocked">未锁定列表</a></li>
-      <li class="divider"></li>
-      <li><a href="/roles/lost">已丢失列表</a></li>
-      <li><a href="/roles/unlost">未丢失列表</a></li>
-    </ul>
+  	<%= render "roles/ul" %>
 </li>
 
 <li <%= active if controller_name == "roles" && action_name == 'search' %> >
  <%= link_to raw('<i class="icon-search"></i>搜索角色'), search_roles_path %>
 </li>
+<li <%= active if controller_name == "roles" && action_name == 'group_count' %> >
+ <%= link_to raw('<i class="icon-list"></i>角色分布'), group_count_roles_path %>
+</li>
+
 <li <%= active if controller_name == "roles" && action_name == 'new' %> >
  <%= link_to raw('<i class="icon-plus"></i>新建角色'), new_role_path %>
 </li>
@@ -36,9 +26,6 @@
 </li>
 
 
-<li <%= active if controller_name == "roles" && action_name == 'group_count' %> >
- <%= link_to raw('<i class="icon-list"></i>角色分布'), group_count_roles_path %>
-</li>
 
 
 </ul>

@@ -8,76 +8,6 @@ class RolesController < ApplicationController
 		@roles = Role.includes(:computer).paginate(:page => params[:page], :per_page => 15)
 	end
 
-	def online
-		@roles = Role.includes(:computer).where(:online=>true).paginate(:page => params[:page], :per_page => 15)
-		@list_title = "已在线角色"
-		render :template => 'roles/index'
-	end
-
-	def offline
-		@roles = Role.includes(:computer).where(:online=>false).paginate(:page => params[:page], :per_page => 15)
-		@list_title = "未在线角色"
-		render :template => 'roles/index'
-	end
-
-	def closed
-		@roles = Role.includes(:computer).order("reopen_at ASC").where(:close =>true).paginate(:page => params[:page], :per_page => 15)
-		@list_title = "已封号"
-		render :template => 'roles/index'
-	end
-
-	def not_closed
-		@roles = Role.includes(:computer).where(:close =>false).paginate(:page => params[:page], :per_page => 15)
-		@list_title = "未封号"
-		render :template => 'roles/index'
-	end
-
-	def locked
-		@roles = Role.includes(:computer).where(:locked => true).paginate(:page => params[:page], :per_page => 15)
-		@list_title = "已锁定角色"
-		render :template => 'roles/index'
-	end
-
-	def unlocked
-		@roles = Role.includes(:computer).where(:locked => false).paginate(:page => params[:page], :per_page => 15)
-		@list_title = "未锁定角色"
-		render :template => 'roles/index'
-	end
-
-	def lost
-		@roles = Role.includes(:computer).where(:lost => true).paginate(:page => params[:page], :per_page => 15)
-		@list_title = "已丢失角色"
-		render :template => 'roles/index'
-	end
-
-	def unlost
-		@roles = Role.includes(:computer).where(:lost => false).paginate(:page => params[:page], :per_page => 15)
-		@list_title = "未丢失角色"
-		render :template => 'roles/index'
-	end
-
-
-	def waiting
-		@roles = Role.includes(:computer).can_online_scope
-		role_max_level = Setting.find_value_by_key("role_max_level")
-    @roles = @roles.where("level <= #{role_max_level}") if role_max_level
-		@roles = @roles.paginate(:page => params[:page], :per_page => 15)
-		@list_title = "即将上线"
-		render :template => 'roles/index'
-	end
-
-	def bslocked
-		@roles = Role.includes(:computer).where(:bslocked => true).paginate(:page => params[:page], :per_page => 15)
-		@list_title = "交易锁定角色"
-		render :template => 'roles/index'
-	end
-
-
-
-	def reset_vip_power
-		Api.reset_role_vit_power
-		redirect_to roles_path
-	end
 
 	def search
 		@roles = Role.includes(:computer)
@@ -103,6 +33,25 @@ class RolesController < ApplicationController
 		per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
 		@roles = @roles.paginate(:page => params[:page], :per_page => per_page)
 	end
+
+
+	def waiting
+		@roles = Role.includes(:computer).can_online_scope
+		role_max_level = Setting.find_value_by_key("role_max_level")
+   		@roles = @roles.where("level <= #{role_max_level}") if role_max_level
+		@roles = @roles.paginate(:page => params[:page], :per_page => 15)
+		@list_title = "即将上线"
+		render :template => 'roles/index'
+	end
+
+
+
+	def reset_vip_power
+		Api.reset_role_vit_power
+		redirect_to roles_path
+	end
+
+	
 
 	def unlock
 		@role = Role.find_by_id(params[:id])

@@ -6,18 +6,9 @@ Brood::Application.routes.draw do
     get		:home,  			:on => :collection
     get		:import, 			:on => :collection
     get 	:can,     		:on => :collection
-    get 	:online,  		:on => :collection
-    get 	:offline,  		:on => :collection
-    get 	:closed,   		:on => :collection
-    get 	:not_closed, 	:on => :collection
     get 	:search,  		:on => :collection
     get 	:auto_off,    :on => :collection
-		get   :locked,      :on => :collection
-    get   :unlocked,    :on => :collection
-    get   :lost,        :on => :collection
-    get   :unlost,      :on => :collection
     get 	:waiting,			:on => :collection
-    get   :bslocked,    :on => :collection
     get   :group_count, :on => :collection
 
 		put		:reset_vip_power,			:on => :collection

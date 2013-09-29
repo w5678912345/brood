@@ -7,24 +7,7 @@
 		  <li class="nav-header">Role</li>
 		  <li><%= link_to "角色主页", home_roles_path()%></li>
 		  <li class="dropdown-submenu"><%= link_to "角色列表", roles_path()%>
-					<ul class="dropdown-menu">
-						<li><a href="/roles">所有角色</a></li>
-						<li><a href="/roles/online">在线列表</a></li>
-						<li><a href="/roles/offline">未在线列表</a></li>
-						<li><a href="/roles/waiting">即将上线</a></li>
-						<li class="divider"></li>
-						 <li><a href="/roles/closed">已封号列表</a></li>
-						<li><a href="/roles/not_closed">未封号列表</a></li>
-                        <li class="divider"></li>
-                        <li><a href="/roles/locked">已锁定列表</a></li>
-                        <li><a href="/roles/unlocked">未锁定列表</a></li>
-                         <li class="divider"></li>
-                        <li><a href="/roles/lost">已丢失列表</a></li>
-                        <li><a href="/roles/unlost">未丢失列表</a></li>
-                        <li class="divider"></li>
-                        <li><%= link_to "交易锁定列表", search_roles_path(:bslocked => 1)%> </li>
-                        <li><%= link_to "解锁失败列表", search_roles_path(:bs_unlock => 0)%> </li>
-					</ul>
+                <%= render "roles/ul"%>
 			</li>
 		  <li><%= link_to "搜索角色", search_roles_path()%></li>
 		  <li><%= link_to "角色分布统计",group_count_roles_path()%></li>

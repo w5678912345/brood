@@ -1,0 +1,18 @@
+<ul class="dropdown-menu">
+  <li><%= link_to "所有角色",search_roles_path %></li>
+  <li><%= link_to "在线列表",search_roles_path(:online=>1) %></li>
+  <li><%= link_to "未在线列表",search_roles_path(:online=>0) %></li>
+        <li><%= link_to "即将上线",waiting_roles_path %></li>
+  <li class="divider"></li>
+   <li><%= link_to "已封号列表",search_roles_path(:closed=>1) %></li>
+  <li><%= link_to "未封号列表",search_roles_path(:closed=>0) %></li>
+  <li class="divider"></li>
+  <li><%= link_to "已锁定列表", search_roles_path(:locked=>1) %> </li>
+  <li><%= link_to "未锁定列表", search_roles_path(:locked=>0) %> </li>
+  <li class="divider"></li>
+  <li><%= link_to "已丢失列表", search_roles_path(:lost=>1) %> </li>
+  <li><%= link_to "未丢失列表", search_roles_path(:lost=>0) %> </li>
+   <li class="divider"></li>
+   <li><%= link_to "交易锁定列表", search_roles_path(:bslocked => 1)%> </li>
+ <li><%= link_to "解锁失败列表", search_roles_path(:bs_unlock => 0)%> </li>
+</ul>
