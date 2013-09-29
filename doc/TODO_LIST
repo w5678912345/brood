@@ -33,3 +33,11 @@
 .金币转出统计
 .服务器加入 nginx
 .整理金币相关菜单
+
+
+09-29
+. 取消IP绑定的调度限制 *
+. 统计生产重庆1区的验证码次数 *
+. 将pull task 修改机器的在线状态(心跳) *
+. 角色每天的上线次数限制
+. 上海1区 locked 重置 update roles set locked = 0 where locked =1 and server ='上海1区'

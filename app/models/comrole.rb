@@ -12,13 +12,13 @@ class Comrole < ActiveRecord::Base
   end
 
   def self.reset 
-  	@coms = Comrole.all
-  	@coms.each do |com|
-  	if com.role.computer
-  		com.computer_id =  com.role.computer.id
-  		com.save
-  	end
-  	end
+  	# @coms = Comrole.all
+  	# @coms.each do |com|
+  	# if com.role.computer
+  	# 	com.computer_id =  com.role.computer.id
+  	# 	com.save
+  	# end
+  	# end
   end
 
 end

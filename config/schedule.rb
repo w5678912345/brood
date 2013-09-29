@@ -31,6 +31,7 @@ str_environment = 'production'
 #
 every 20.minutes do
   runner 'Api.role_auto_offline',:environment => str_environment
+  runner 'Api.computer_auto_stop',:environment => str_environment
 end
 
 #

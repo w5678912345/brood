@@ -1,7 +1,7 @@
 <fieldset>
 <legend>API DOC <%=request.port %></legend>
 <a class="btn"><i class=" icon-time"></i><%= time_str Time.now %></a>
-
+<a class="btn"><%= request.remote_ip %></a>
 <% if current_user %>
 
 <table class="table table-bordered">

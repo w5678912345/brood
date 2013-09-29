@@ -13,6 +13,7 @@ module RoleApi
 	return CODES[:computer_unchecked] unless computer.checked
 	return CODES[:computer_no_server] unless computer.set_server
 	max_roles_count = Setting.find_value_by_key("computer_max_roles_count")
+	p  "============================#{max_roles_count}"
 	return CODES[:full_use_computer] if max_roles_count && computer.online_roles_count >= max_roles_count 
     # get ip
     ip = Ip.find_or_create(opts[:ip] || self.ip)
