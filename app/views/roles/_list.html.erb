@@ -48,7 +48,7 @@
 <%= status_tag role.status %>
 </td>
 <td><%= role.server%></td>
-<td><%= role.computers_count > 0 ? "#{role.computers_count}台" : "-" %></td>
+<td><%= role.computers_count > 0 ? link_to("#{role.computers_count}台",computers_role_path(role)) : "-" %></td>
 <td><%= role.level%></td>
 <td><%= role.vit_power %></td>
 <td><%= "#{role.gold} + #{role.total_pay} = #{role.total}" %></td>

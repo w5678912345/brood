@@ -10,6 +10,9 @@
 	</a>
 	<ul class="dropdown-menu">
     <li><%= link_to "所有计算机",computers_path %></li>
+    <li><%= link_to "在线计算机", computers_path(:started=>1) %></li>
+    <li><%= link_to "不在线计算机", computers_path(:started=>0) %></li>
+      <li class="divider"></li>
     <li><%= link_to "已审核计算机", computers_path(:checked=>1) %></li>
     <li><%= link_to "未审核计算机", computers_path(:checked=>0) %></li>
   </ul>
