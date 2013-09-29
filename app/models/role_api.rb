@@ -22,8 +22,8 @@ module RoleApi
       computer.update_attributes(:online_roles_count=>computer.online_roles_count+1,:version=>opts[:version]|| opts[:msg]) 
       ip.update_attributes(:use_count=>ip.use_count+1)
       self.server = computer.server if self.server.blank? 
-      self.ip_range = opts[:ip_range]  if self.ip_range.blank?
-      self.ip_range2 = opts[:ip_range] if self.ip_range2.blank? && !self.ip_range.blank? && opts[:ip_range] != self.ip_range
+      #self.ip_range = opts[:ip_range]  if self.ip_range.blank?
+      #self.ip_range2 = opts[:ip_range] if self.ip_range2.blank? && !self.ip_range.blank? && opts[:ip_range] != self.ip_range
       self.normal = !self.bslocked
       note = Note.create(:role_id=>self.id,:computer_id=>computer.id,:ip=>ip.value,:api_name=>"online",:msg=>opts[:msg])
       #comrole = Comrole.create(:computer_id=>computer.id,:role_id => self.id)
