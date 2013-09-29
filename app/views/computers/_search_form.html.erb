@@ -22,6 +22,15 @@
 	<option value="1" <%= 'selected="selected"' if params[:status] == "1" %>>Yes</option>
 	<option value="0" <%= 'selected="selected"' if params[:status] == "0" %> >No</option>
 </select>
+<input type="text" name="online_roles_count" class="input-small" placeholder="在线角色" value="<%= params[:online_roles_count]%>" />个
+<input type="text" name="roles_count" class="input-small" placeholder="绑定角色" value="<%= params[:roles_count]%>" />个
+<input type="text" name="date(created_at)" id="created_at" class="input-medium" placeholder="注册日期" value='<%= params["date(created_at)"]%>' />
 <input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
 <button type="submit" class="btn">Search</button>
 </form>
+
+<script type="text/javascript">
+$(function(){
+	$("#created_at").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+});
+</script>

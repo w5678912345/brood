@@ -84,12 +84,15 @@ class RolesController < ApplicationController
 		#@roles = @roles.where(:id => params[:id]) unless params[:id].blank? #where(:id => params[:id].to_i) unless params[:id].blank?
 		@roles = @roles.where(:close => params[:closed]) unless params[:closed].blank?
 		@roles = @roles.where(:close_hours => params[:close_hours].to_i) unless params[:close_hours].blank?
+		@roles = @roles.where(:level => params[:level].to_i) unless params[:level].blank?
+		@roles = @roles.where(:computers_count => params[:computers_count].to_i) unless params[:computers_count].blank?
 		@roles = @roles.where(:bslocked => params[:bslocked]) unless params[:bslocked].blank?
 		@roles = @roles.where(:online => params[:online]) unless params[:online].blank?
 		@roles = @roles.where(:lost => params[:lost]) unless params[:lost].blank?
 		@roles = @roles.where(:status => params[:status].to_i) unless params[:status].blank?
 		@roles = @roles.where(:id => params[:role_id]) unless params[:role_id].blank?
 		@roles = @roles.where(:locked => params[:locked]) unless params[:locked].blank?
+		@roles = @roles.where("date(created_at) =?",params["date(created_at)"]) unless params["date(created_at)"].blank?
 		@roles = @roles.where(:bslocked => true).where(:unbslock_result => params[:bs_unlock]) unless params[:bs_unlock].blank?
 		@roles = @roles.where("level >= #{params[:min_level]}") unless params[:min_level].blank?
 		@roles = @roles.where("level <= #{params[:max_level]}") unless params[:max_level].blank?

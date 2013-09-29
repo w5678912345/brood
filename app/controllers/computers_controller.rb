@@ -9,6 +9,7 @@ class ComputersController < ApplicationController
   
   def index
 
+   # return render :text => params["date(created_at)"]
     
     @computers = Computer.where(:status=>1).includes(:user)
     #@computers = @computers.where("server = '' or server is NULL") if params[:server] == "null"
@@ -18,6 +19,9 @@ class ComputersController < ApplicationController
     @computers = @computers.where(:checked => params[:checked]) unless params[:checked].blank?
     @computers = @computers.where(:started => params[:started]) unless params[:started].blank?
     @computers = @computers.where(:status => params[:status].to_i) unless params[:status].blank?
+    @computers = @computers.where(:online_roles_count => params[:online_roles_count].to_i) unless params[:online_roles_count].blank?
+    @computers = @computers.where(:roles_count => params[:roles_count]) unless params[:roles_count].blank?
+    @computers = @computers.where("date(created_at) =?",params["date(created_at)"]) unless params["date(created_at)"].blank?
     @computers = @computers.where("hostname like ?","%#{params[:hostname]}%") unless params[:hostname].blank?
     @computers = @computers.where("auth_key like ?","%#{params[:ckey]}%") unless params[:ckey].blank? 
     per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
@@ -143,7 +147,7 @@ class ComputersController < ApplicationController
   end
 
   def group_count
-    @cols = {"server"=>"服务器","version"=>"版本","date(created_at)"=>"注册日期","roles_count"=>"绑定角色","checked"=>"审核状态"} 
+    @cols = {"server"=>"服务器","version"=>"版本","date(created_at)"=>"注册日期","roles_count"=>"绑定角色","checked"=>"审核状态","online_roles_count"=>"在线角色","started"=>"计算机在线"}
     @col = params[:col] || "server"
     @records = Computer.where(:status=>1).select("count(id) as computers_count, #{@col} as col").group(@col).reorder("computers_count desc")
   end

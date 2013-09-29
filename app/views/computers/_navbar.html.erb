@@ -14,14 +14,11 @@
     <li><%= link_to "未审核计算机", computers_path(:checked=>0) %></li>
   </ul>
 </li>
-
-
-<li <%= active if controller_name == 'computers' && action_name == 'new' %>>
- <%= link_to raw('<i class="icon-plus"></i>新建计算机'),new_computer_path  %>
-</li>
-
 <li <%= active if controller_name == 'computers' && action_name == 'group_count' %>>
  <%= link_to raw('<i class="icon-list"></i>计算机分布'),group_count_computers_path  %>
+</li>
+<li <%= active if controller_name == 'computers' && action_name == 'new' %>>
+ <%= link_to raw('<i class="icon-plus"></i>新建计算机'),new_computer_path  %>
 </li>
 
 

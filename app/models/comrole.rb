@@ -7,6 +7,10 @@ class Comrole < ActiveRecord::Base
   validates_uniqueness_of :role_id, :scope => :computer_id
 
 
+  def self.clear_all
+    Comrole.destroy_all
+  end
+
   def self.reset 
   	@coms = Comrole.all
   	@coms.each do |com|
