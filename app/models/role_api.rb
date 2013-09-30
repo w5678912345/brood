@@ -13,18 +13,24 @@ module RoleApi
 	return CODES[:computer_unchecked] unless computer.checked
 	return CODES[:computer_no_server] unless computer.set_server
 	max_roles_count = Setting.find_value_by_key("computer_max_roles_count")
-	return CODES[:full_use_computer] if max_roles_count && computer.roles_count >= max_roles_count 
+	p  "============================#{max_roles_count}"
+	return CODES[:full_use_computer] if max_roles_count && computer.online_roles_count >= max_roles_count 
     # get ip
     ip = Ip.find_or_create(opts[:ip] || self.ip)
     #return CODES[:ip_used] if opts[:auto] != false && ip.use_count >= Setting.ip_max_use_count
     self.transaction do
-      computer.update_attributes(:roles_count=>computer.roles_count+1,:version=>opts[:version]|| opts[:msg]) 
+      computer.update_attributes(:online_roles_count=>computer.online_roles_count+1,:version=>opts[:version]|| opts[:msg]) 
       ip.update_attributes(:use_count=>ip.use_count+1)
       self.server = computer.server if self.server.blank? 
-      self.ip_range = opts[:ip_range]  if self.ip_range.blank?
-      self.ip_range2 = opts[:ip_range] if self.ip_range2.blank? && !self.ip_range.blank? && opts[:ip_range] != self.ip_range
+      #self.ip_range = opts[:ip_range]  if self.ip_range.blank?
+      #self.ip_range2 = opts[:ip_range] if self.ip_range2.blank? && !self.ip_range.blank? && opts[:ip_range] != self.ip_range
       self.normal = !self.bslocked
       note = Note.create(:role_id=>self.id,:computer_id=>computer.id,:ip=>ip.value,:api_name=>"online",:msg=>opts[:msg])
+      #comrole = Comrole.create(:computer_id=>computer.id,:role_id => self.id)
+      if self.computers_count < Setting.role_max_computers
+      	comrole = Comrole.new(:computer_id=>computer.id,:role_id => self.id)
+      	comrole.save if comrole.valid?
+      end
       return 1 if self.update_attributes(:online=>true,:computer_id=>computer.id,:ip=>ip.value,:online_at=>Time.now,:online_note_id=>note.id)
     end
   end
@@ -34,7 +40,7 @@ module RoleApi
     #ip = Ip.find_or_create(opts[:ip] || self.ip)
     ip = opts[:ip] || self.ip
     self.transaction do
-       self.computer.update_attributes(:roles_count=>self.computer.roles_count-1) if self.computer && self.computer.roles_count > 0
+       self.computer.update_attributes(:online_roles_count=>self.computer.online_roles_count-1) if self.computer && self.computer.online_roles_count > 0
        #ip.update_attributes(:use_count=>ip.use_count-1) if ip.use_count > 0
        online_hours = (Time.now - self.online_at)/3600
        Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip,:api_name=>"offline",:msg=>opts[:msg],:online_hours=>online_hours)
@@ -92,6 +98,7 @@ module RoleApi
 			if self.bslocked && payment.gold > 0 && payment.pay_type != "auto"
 				self.bslocked = false
 				self.normal = true
+				self.unbslock_result = nil
 				Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"bs_unlock_success",:msg=>"发生支付后自动解除交易锁定")
 			end
 			

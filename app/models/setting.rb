@@ -29,5 +29,10 @@ class Setting < ActiveRecord::Base
 	end
 
 
+	def self.role_max_computers
+		return val = find_value_by_key("role_max_computers")
+		return val == nil ? 3 : val
+	end
+
 
 end

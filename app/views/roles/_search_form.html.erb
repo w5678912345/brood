@@ -1,11 +1,14 @@
 <form class="form-search" action="<%= search_roles_path %>">
   <!-- <input type="text" name="account" class="input-small" placeholder="Account" /> -->
-等级:
-<input type="text" name="min_level" class="input-small" placeholder="from" value="<%= params[:min_level]%>" />-
-<input type="text" name="max_level" class="input-small" placeholder="to" value="<%= params[:max_level]%>" />
-疲劳值:
-<input type="text" name="min_vit" class="input-small" placeholder="from" value="<%= params[:min_vit]%>" />-
-<input type="text" name="max_vit" class="input-small" placeholder="to" value="<%= params[:max_vit]%>" />
+<input type="text" name="min_level" class="input-small" placeholder="最小等级" value="<%= params[:min_level]%>" />-
+<input type="text" name="max_level" class="input-small" placeholder="最大等级" value="<%= params[:max_level]%>" /> |
+<input type="text" name="min_vit" class="input-small" placeholder="最小疲劳" value="<%= params[:min_vit]%>" />-
+<input type="text" name="max_vit" class="input-small" placeholder="最大疲劳" value="<%= params[:max_vit]%>" />
+<input type="text" name="date(created_at)" id="created_at" class="input-small" placeholder="注册日期" value='<%= params["date(created_at)"]%>' />
+<input type="text" name="server" class="input-small" placeholder="服务器" value="<%= params[:server]%>" />
+<input type="text" name="level" class="input-small" placeholder="等级" value="<%= params[:level]%>" />
+<input type="text" name="role_id" class="input-small" placeholder="角色ID" value="<%= params[:role_id]%>" />
+<input type="text" name="computers_count" class="input-small" placeholder="绑定机器" value="<%= params[:computers_count]%>" />台
 封号:
 <select name="closed" class="input-small">
 	<option value="">---all---</option>
@@ -13,6 +16,8 @@
 	<option value="0" <%= 'selected="selected"' if params[:closed]== "0" %> >No</option>
 </select>
 <input type="text" name="close_hours" class="input-small" placeholder="封号小时" value="<%= params[:close_hours]%>" />
+
+	<hr style="margin:5px 0;"/>
 在线:
 <select name="online" class="input-small">
 	<option value="">---all---</option>
@@ -31,7 +36,6 @@
 	<option value="1" <%= 'selected="selected"' if params[:locked] == "1" %> >Yes</option>
 	<option value="0" <%= 'selected="selected"' if params[:locked] == "0" %> >No</option>
 </select>
-<p>
 交易锁定:
 <select name="bslocked" class="input-small">
 	<option value="">---all---</option>
@@ -44,7 +48,6 @@
 	<option value="1" <%= 'selected="selected"' if params[:bs_unlock] == "1" %> >Yes</option>
 	<option value="0" <%= 'selected="selected"' if params[:bs_unlock] == "0" %> >No</option>
 </select>
-<input type="text" name="role_id" class="input-small" placeholder="角色ID" value="<%= params[:role_id]%>" />
 
 正常:
 <select name="status" class="input-small">
@@ -53,10 +56,14 @@
 	<option value="0" <%= 'selected="selected"' if params[:status] == "0" %> >No</option>
 </select>
 
-<input type="text" name="server" class="input-small" placeholder="服务器" value="<%= params[:server]%>" />
 
 <input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
 <button type="submit" class="btn">Search</button>
-</p>
+
 </form>
 
+<script type="text/javascript">
+$(function(){
+	$("#created_at").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+});
+</script>

@@ -17,25 +17,25 @@
 <tbody>
 <tr>
   <td>Online</td>
-  <td>在线 <%= link_to Role.where(:online => true).count,online_roles_path %></td>
-  <td>不在线 <%= link_to Role.where(:online => false).count,offline_roles_path %></td>
+  <td>在线 <%= link_to Role.where(:online => true).count,search_roles_path(:online=>1) %></td>
+  <td>不在线 <%= link_to Role.where(:online => false).count,search_roles_path(:online=>0) %></td>
 </tr>
 <tr>
   <td>Close</td>
-  <td>封号 <%= link_to Role.where(:close => true).count,closed_roles_path %></td>
-  <td>未封号 <%= link_to Role.where(:close => false).count,not_closed_roles_path %></td>
+  <td>封号 <%= link_to Role.where(:close => true).count,search_roles_path(:closed=>1) %></td>
+  <td>未封号 <%= link_to Role.where(:close => false).count,search_roles_path(:closed=>0) %></td>
 </tr>
 
 <tr>
   <td>Lock</td>
-  <td>锁定 <%= link_to Role.where(:locked => true).count,locked_roles_path %></td>
-  <td>未锁定 <%= link_to Role.where(:locked => false).count,unlocked_roles_path %></td>
+  <td>锁定 <%= link_to Role.where(:locked => true).count,search_roles_path(:locked=>1) %></td>
+  <td>未锁定 <%= link_to Role.where(:locked => false).count,search_roles_path(:locked=>0) %></td>
 </tr>
 
 <tr>
   <td>Lose</td>
-  <td>丢失 <%= link_to Role.where(:lost => true).count,lost_roles_path %></td>
-  <td>未丢失 <%= link_to Role.where(:lost => false).count,unlost_roles_path %></td>
+  <td>丢失 <%= link_to Role.where(:lost => true).count,search_roles_path(:lost=>1) %></td>
+  <td>未丢失 <%= link_to Role.where(:lost => false).count,search_roles_path(:lost=>0) %></td>
 </tr>
 
 <tr>

@@ -5,5 +5,38 @@
 
 <%= render "navbar" %>
    
+<table class="table">
+<thead>
+<tr>
+    <th>日期</th>
+    <th>上线次数</th>  
+    <th>成功次数</th>  
+    <th>成功比</th>
+    <th>封号次数</th>
+    <th>封号比</th>
+    <th>验证码次数</th>
+    <th>验证码出现率</th>
+    <th>转出金币 (<%="%d亿" % (@tradesum/100000000)%>)</th>
+</tr>
+</thead>
+<tbody>
+<% @sevenS.each do |note|%>
+<tr>
+<td><%= note.Day%></td>
+<td><%= note.OnlineCount %></td>
 
+<td><%= note.SuccCount %></td>
+<td><%= "%2.0f%" % (note.SuccCount*100.0/note.OnlineCount) %></td>
+<td><%= note.CloseCount %></td>
+<td><%= "%2.0f%" % (note.CloseCount*100.0/note.OnlineCount) %></td>
+<td><%= note.VerifyCodeCount %></td>
+<td><%= "%2.0f%" % (note.VerifyCodeCount*100.0/note.OnlineCount) %></td>
+
+<td><%= "%d亿" % (@trade[note.Day]/100000000) if @trade[note.Day] %></td>
+
+</tr>
+<%end%>
+
+</tbody>
+</table> 
 </fieldset>

@@ -6,18 +6,10 @@ Brood::Application.routes.draw do
     get		:home,  			:on => :collection
     get		:import, 			:on => :collection
     get 	:can,     		:on => :collection
-    get 	:online,  		:on => :collection
-    get 	:offline,  		:on => :collection
-    get 	:closed,   		:on => :collection
-    get 	:not_closed, 	:on => :collection
     get 	:search,  		:on => :collection
     get 	:auto_off,    :on => :collection
-		get   :locked,      :on => :collection
-    get   :unlocked,    :on => :collection
-    get   :lost,        :on => :collection
-    get   :unlost,      :on => :collection
     get 	:waiting,			:on => :collection
-    get   :bslocked,    :on => :collection
+    get   :group_count, :on => :collection
 
 		put		:reset_vip_power,			:on => :collection
 		put 	:reopen_all,					:on => :collection
@@ -29,6 +21,7 @@ Brood::Application.routes.draw do
 		put   :unlock,      :on => :member
     put   :regain,       :on => :member
     put   :enable,      :on => :member
+    get   :computers,   :on => :member
   end
 
   resources :computers do 
@@ -37,11 +30,13 @@ Brood::Application.routes.draw do
 		get 	:unchecked,	:on => :collection
     get   :version,   :on => :collection
 		put		:check,			:on	=> :collection
+    get   :group_count, :on=> :collection
     get 	:notes, 		:on => :member
     get 	:roles, 		:on => :member
     get   :logs,      :on => :member
     get   :alogs,     :on => :member
     put   :enable,    :on => :member
+    get   :online_roles,    :on => :member
   end
   resources :ips,:only => [:index,:destroy,:show] do 
     get :clear, 		:on => :collection
@@ -147,6 +142,10 @@ Brood::Application.routes.draw do
     match '/cinfo' => 'computers#cinfo'
     match '/computers/disable' => 'computers#disable'
     match 'computers/note' => 'computers#note'
+    resources :computers,:only => [] do 
+      get :start,     :on => :collection
+      get :stop,      :on => :collection
+    end
     resources :tasks ,:only =>[],:defaults => {:format => 'json'} do
       match :pull,    :on => :collection
       match :call,    :on => :member

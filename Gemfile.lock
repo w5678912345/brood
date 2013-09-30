@@ -98,7 +98,7 @@ GEM
       open4
       rake
     multi_json (1.7.5)
-    mysql2 (0.3.11)
+    mysql2 (0.3.13)
     newrelic_rpm (3.6.3.104)
     nokogiri (1.5.9)
     open4 (1.3.0)
@@ -197,7 +197,7 @@ DEPENDENCIES
   jbuilder (~> 1.2.0)
   jquery-rails
   mina (~> 0.2.0)
-  mysql2
+  mysql2 (~> 0.3.13)
   newrelic_rpm
   nokogiri (~> 1.5.9)
   pry (~> 0.9.12.2)

@@ -8,7 +8,10 @@ class Api::TasksController < Api::BaseController
 		if !params[:ckey].blank?
 			@computer = Computer.find_by_auth_key(params[:ckey])
 			return @code = CODES[:not_find_computer] unless @computer
+			# update computer
+			@computer.update_attributes(:updated_at=>Time.now)
 			@task = Task.where(:pushed=>false).where(:computer_id => @computer.id).where(:pushed=>false).first
+
 		elsif !params[:rid].blank?
 			@role = Role.find_by_id(params[:rid])
 			return @code = CODES[:not_find_role] unless @role
