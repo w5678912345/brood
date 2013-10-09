@@ -1,5 +1,16 @@
 <ul class="nav">
 <li><a href="/"><span class="icon-home"></span>Home</a></li>
+
+
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">帐号
+    <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+    <li class="nav-header">ACCOUNT</li>
+    <li><%= link_to "帐号列表", list_accounts_path()%></li>
+    </ul>
+</li>
+
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">角色
     <b class="caret"></b></a>

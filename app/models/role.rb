@@ -3,26 +3,26 @@ class Role < ActiveRecord::Base
 	include RoleApi
 
   belongs_to :computer,:class_name => 'Computer'
+  belongs_to :online_note, :class_name => 'note', :foreign_key => 'online_note_id'
   has_many   :notes,		:dependent => :destroy, :order => 'id DESC'
-  has_many	 :payments,	:dependent => :destroy, :order => 'id DESC'
+  has_many	 :payments, :order => 'id DESC'
+  has_many   :comroles, :class_name => 'Comrole'
+  has_many   :computers,:class_name => 'Computer',through: :comroles
 
-  has_many :comroles
+  belongs_to  :qq_account, :class_name => 'Account',:foreign_key=>'account',:primary_key=>'no', :counter_cache => :roles_count
 
-  has_many :computers,:class_name => 'Computer',through: :comroles
-
-	#has_many   :roles,		:class_name => 'Role',	:foreign_key => 'account'
-
+  #
   attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip,:normal
   attr_accessible :close,:close_hours,:closed_at,:reopen_at,:locked,:lost,:is_seller,:ip_range,:online_at,:online_note_id
-
-  #default_scope :order => 'id DESC'
-
+  # validates 
 	validates_presence_of :account, :password
 	# 可以上线的角色
   scope :can_online_scope, where(:online => false).where(:close => false).where(:locked=>false)
     .where(:lost=>false).where("vit_power > 0").where(:normal => true).where(:status=>1).where("level < ?",Setting.role_max_level)
 	
 	default_scope order("online desc").order("close asc").order("level desc").order("vit_power desc")
+
+  scope :well_scope,where("(close_hours != 2400000 and close_hours != 120) or close_hours is null")
 
   def total_gold
 			self.gold + self.total_pay
@@ -86,8 +86,21 @@ class Role < ActiveRecord::Base
   	return find_or_create_server.price
   end
 
- 
+
+
 	
+  def to_account
+    account =  Account.new(:no => self.account,:password => self.password,:server => self.server)
+    account.roles << self
+    account.roles_count = account.roles_count + 1
+    account.save
+  end
+
+  def self.generate_accounts roles
+    roles.each do |role|
+      role.to_account
+    end
+  end
   #
 	
 end

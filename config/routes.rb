@@ -1,6 +1,12 @@
 Brood::Application.routes.draw do
   #
   devise_for :users,:path => '/'
+
+  resources :accounts do 
+    get   :list,        :on => :collection
+    get   :merge,       :on => :collection
+  end
+
   #
   resources :roles do
     get		:home,  			:on => :collection

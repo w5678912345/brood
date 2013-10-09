@@ -30,3 +30,13 @@ select count(value) as ccc,SUBSTRING_INDEX(value,'.',2) as id_range from ips whe
 
 
 select count(id) as ccc,ip_range from roles where server = '浙江1区' group by ip_range order by ccc;
+
++--------------+--------------+----------------+
+| online_count | bslock_count | ip_range_count |
++--------------+--------------+----------------+
+|         3145 |         7480 |              1 |
+|         8878 |          297 |              2 |
+|         4628 |            6 |              3 |
+|         1031 |            1 |              4 |
+|            3 |            1 |              5 |
++--------------+--------------+----------------+

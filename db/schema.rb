@@ -11,22 +11,55 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130817073816) do
+ActiveRecord::Schema.define(:version => 20131009053107) do
+
+  create_table "accounts", :force => true do |t|
+    t.string   "no",                                       :null => false
+    t.string   "password",                                 :null => false
+    t.string   "server"
+    t.integer  "roles_count",        :default => 0,        :null => false
+    t.integer  "computers_count",    :default => 0,        :null => false
+    t.boolean  "normal",             :default => true,     :null => false
+    t.string   "status",             :default => "normal", :null => false
+    t.string   "ip_range"
+    t.string   "online_ip"
+    t.integer  "online_role_id",     :default => 0,        :null => false
+    t.integer  "online_computer_id", :default => 0,        :null => false
+    t.integer  "online_note_id",     :default => 0,        :null => false
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+  end
+
+  add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true
+  add_index "accounts", ["server"], :name => "index_accounts_on_server"
+  add_index "accounts", ["status"], :name => "index_accounts_on_status"
 
   create_table "computers", :force => true do |t|
-    t.string   "hostname",                             :null => false
-    t.integer  "user_id",                              :null => false
-    t.string   "auth_key",                             :null => false
-    t.integer  "status",        :default => 1,         :null => false
-    t.integer  "roles_count",   :default => 0,         :null => false
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
-    t.boolean  "checked",       :default => false,     :null => false
-    t.integer  "check_user_id", :default => 0
+    t.string   "hostname",                                  :null => false
+    t.integer  "user_id",                                   :null => false
+    t.string   "auth_key",                                  :null => false
+    t.integer  "status",             :default => 1,         :null => false
+    t.integer  "roles_count",        :default => 0,         :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+    t.boolean  "checked",            :default => false,     :null => false
+    t.integer  "check_user_id",      :default => 0
     t.datetime "checked_at"
     t.string   "server"
-    t.string   "version",       :default => "default", :null => false
+    t.string   "version",            :default => "default", :null => false
+    t.integer  "online_roles_count", :default => 0,         :null => false
+    t.boolean  "started",            :default => false,     :null => false
   end
+
+  create_table "comroles", :force => true do |t|
+    t.integer  "role_id",     :default => 0,    :null => false
+    t.integer  "computer_id", :default => 0,    :null => false
+    t.boolean  "normal",      :default => true, :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  add_index "comroles", ["role_id", "computer_id"], :name => "index_comroles_on_role_id_and_computer_id", :unique => true
 
   create_table "ips", :primary_key => "value", :force => true do |t|
     t.integer  "use_count",  :default => 0, :null => false
@@ -47,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20130817073816) do
     t.datetime "updated_at",                                    :null => false
     t.integer  "online_note_id",               :default => 0,   :null => false
     t.datetime "online_at"
+    t.float    "online_hours",                 :default => 0.0, :null => false
   end
 
   create_table "payments", :force => true do |t|
@@ -92,6 +126,9 @@ ActiveRecord::Schema.define(:version => 20130817073816) do
     t.boolean  "normal",                        :default => true,  :null => false
     t.boolean  "bslocked",                      :default => false, :null => false
     t.boolean  "unbslock_result"
+    t.string   "name"
+    t.string   "ip_range2"
+    t.integer  "computers_count",               :default => 0,     :null => false
   end
 
   create_table "servers", :force => true do |t|

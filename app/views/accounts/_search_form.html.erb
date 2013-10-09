@@ -1,0 +1,20 @@
+<form class="form-search" action="<%= list_accounts_path %>">
+<input type="text" name="date(created_at)" id="created_at" class="input-small" placeholder="注册日期" value='<%= params["date(created_at)"]%>' />
+<input type="text" name="server" class="input-small" placeholder="服务器" value="<%= params[:server]%>" />
+<input type="text" name="no" class="input-small" placeholder="帐号" value="<%= params[:no]%>" />
+<input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
+<!-- 	<hr style="margin:5px 0;"/> -->
+在线:
+<select name="online" class="input-small">
+	<option value="">---all---</option>
+	<option value="1" <%= 'selected="selected"' if params[:online] == "1" %>>Yes</option>
+	<option value="0" <%= 'selected="selected"' if params[:online] == "0" %> >No</option>
+</select>
+<button type="submit" class="btn">Search</button>
+</form>
+
+<script type="text/javascript">
+$(function(){
+	$("#created_at").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+});
+</script>

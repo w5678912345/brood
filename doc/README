@@ -112,3 +112,4 @@ select role_id, count(DISTINCT computer_id) cc from notes where api_name = 'onli
 |    5496,5529
 
 
+update roles set server = '上海1区'  where server = '浙江1区';
