@@ -1,14 +1,16 @@
 # encoding: utf-8
 class Computer < ActiveRecord::Base
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count,:started
-  attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at,:version,:online_roles_count
+  attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at,:version,:online_roles_count,:online_accounts_count
   has_many :comroles,:dependent => :destroy
+  has_many :computer_accounts,:dependent => :destroy
 
   belongs_to :user
   belongs_to :check_user,:class_name => 'user'
   #has_many :online_roles,:class_name => 'Role',:con
 
   has_many :roles,:class_name => 'Role', through: :comroles
+  has_many :accounts, :class_name => 'Account', through: :computer_accounts
 
   has_many :notes,:dependent => :destroy, :order => 'id DESC'
 
@@ -52,6 +54,13 @@ class Computer < ActiveRecord::Base
       c.roles_count = c.roles.count
       c.save
     end
+  end
+
+  def find_or_create_server
+    return @_server if @_server
+    @_server = Server.find_by_name(self.server)
+    @_server = Server.create(:name=>self.server) unless @_server
+    return @_server
   end
   
 end

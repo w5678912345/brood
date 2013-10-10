@@ -40,3 +40,8 @@ select count(id) as ccc,ip_range from roles where server = '浙江1区' group by
 |         1031 |            1 |              4 |
 |            3 |            1 |              5 |
 +--------------+--------------+----------------+
+
+TRUNCATE TABLE accounts;
+
+update notes set account = (select account from role where id = role_id);
+update notes set account = (select account from roles where id = role_id);

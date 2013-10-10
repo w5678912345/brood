@@ -9,18 +9,30 @@
 <th>在线</th>
 <th>创建时间</th>
 <th>状态</th>
+<th>操作</th>
 </tr>
 </thead>
 <tbody>
 <% accounts.each do |account|%>
 <tr>
-<td><%= account.no %></td>
+<td><%= link_to account.no,account_path(account.no) %>
+<%= raw('<i class="icon-flag" title="IP: '+account.ip_range+'"></i>') unless account.ip_range.blank? %>
+</td>
 <td><%= account.server %></td>
 <td><%= account.roles_count %></td>
 <td><%= account.computers_count %></td>
-<td><%= account.online_role_id %></td>
+<td>
+<% if account.is_online? %>
+<%= link_to account.online_computer.hostname, computer_path(account.online_computer) %>#
+<%=  account.online_role_id ==0 ? 'No Role ' : link_to(account.online_role_id,role_path(account.online_role.id)) %>#
+<%= link_to account.online_ip,roles_ip_path(ip_to_url account.online_ip) %>
+<% end %>
+</td>
 <td><%= time_str account.created_at %></td>
 <td><%= account.status %></td>
+<td>
+<%= link_to "查看记录",search_notes_path(:account=>account.no) %>
+</td>
 </tr>
 <%end%>
 </tbody>

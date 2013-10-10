@@ -174,6 +174,16 @@ Brood::Application.routes.draw do
 			match :add,			:on => :collection
       match :online, :on => :collection
     end
+
+    #
+    resources :accounts, :only => [:show],:defaults => {:format => 'json'} do 
+      match :hi,    :on => :collection
+      match :get,    :on => :collection
+      match :set,    :on => :collection
+      match :put,    :on => :collection
+      match :online, :on => :collection
+    end
+
   end
 
 end

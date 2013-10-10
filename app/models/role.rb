@@ -93,6 +93,28 @@ class Role < ActiveRecord::Base
     account =  Account.new(:no => self.account,:password => self.password,:server => self.server)
     account.roles << self
     account.roles_count = account.roles_count + 1
+    account.ip_range = self.ip_range
+    if self.bslocked
+        account.status = 'bslocked'
+    elsif self.close && self.close_hours == 2
+      account.status = 'closed'
+    elsif self.close && self.close_hours == 3
+      account.status = 'exception'
+    elsif self.close && (self.close_hours == 120 || self.close_hours == 2400000)
+        account.status = 'discard'
+    elsif self.locked
+      account.status = 'locked'
+    elsif self.lost
+      account.status = 'lost'
+    elsif self.online
+      account.status = 'online'
+      account.online_ip = self.ip
+      account.online_role_id = self.id
+      account.online_note_id = self.online_note_id
+      account.online_computer_id = self.computer_id
+    end
+
+   
     account.save
   end
 

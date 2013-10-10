@@ -12,9 +12,10 @@ class CreateAccounts < ActiveRecord::Migration
       t.string 	  :ip_range,		:null => true
       #
       t.string	  :online_ip,			:null => true
+      t.integer   :online_note_id,    :null => false, :default => 0 # 在线记录ID
       t.integer	  :online_role_id,		:null => false,	:default => 0 # 当前在线角色ID
       t.integer	  :online_computer_id,	:null => false, :default => 0 # 大于0 表示帐号在线的机器ID,等于0表示帐号不在线
-      t.integer	  :online_note_id,		:null => false,	:default => 0 # 在线记录ID
+      
 
       # t.boolean	  :closed,			:null => false,	:default => false
       # t.integer	  :close_hours,		:null => false,	:default => 2

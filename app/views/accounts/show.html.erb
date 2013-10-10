@@ -1,0 +1,47 @@
+<fieldset>
+<legend>账户详细</legend>
+<table class="table">
+
+<tbody>
+<tr>
+	<td>账户</td>
+	<td><%= @account.no %></td>
+	<td>创建时间</td>
+	<td><%= time_str @account.created_at %></td>
+	<td>状态</td>
+	<td><%= @account.status%></td>
+</tr>
+<tr>
+	<td>角色数量</td>
+	<td><%= @account.roles_count %></td>
+	<td>绑定机器</td>
+	<td><%= @account.computers_count %></td>
+	<td>所在区</td>
+	<td><%= @account.server %></td>
+</tr>
+<% if @account.is_online? %>
+<tr>
+	<td>在线角色</td>
+	<td><%= @account.online_role_id %></td>
+	<td>在线机器</td>
+	<td><%= @account.online_computer_id %></td>
+	<td>IP</td>
+	<td><%= @account.online_ip %></td>
+</tr>
+<%end%>
+<tr>
+<td>修改时间</td>
+<td><%= time_str @account.updated_at %></td>
+<td colspan="4">
+<%= link_to "查看记录", search_notes_path(:account=>@account.no),:target=>"_blank" %>
+</td>
+</tr>
+
+
+</tbody>
+</table>
+</fieldset>
+
+<fieldset>
+<legend>包含角色</legend>
+</fieldset>
