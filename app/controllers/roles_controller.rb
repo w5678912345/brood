@@ -9,6 +9,11 @@ class RolesController < ApplicationController
 	end
 
 
+	def list
+		
+	end
+
+
 	def search
 		@roles = Role.includes(:computer)
 		#@roles = @roles.where(:id => params[:id]) unless params[:id].blank? #where(:id => params[:id].to_i) unless params[:id].blank?

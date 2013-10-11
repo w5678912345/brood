@@ -88,22 +88,69 @@ class Role < ActiveRecord::Base
 
 
   def api_set opts
-       self.role_index = opts[:role_index] if opts[:role_index]
-       self.server = opts[:server] if opts[:server]
+       computer = Computer.find_by_auth_key(opts[:ckey])
+       # 修改角色属性
+       self.role_index = opts[:role_index] unless opts[:role_index].blank?
+       self.server = opts[:server] unless opts[:server].blank?
        self.level = opts[:level] if opts[:level] && opts[:level].to_i > 0
-       self.vit_power = opts[:vit_power] if opts[:vit_power]
-       self.gold = opts[:gold] if opts[:gold]
+       self.vit_power = opts[:vit_power] unless opts[:vit_power].blank?
+       self.gold = opts[:gold] unless opts[:gold].blank?
        self.name = opts[:name]  unless opts[:name].blank?
-       #...
-       self.transaction do
-        # Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync",:msg=>opts.to_s)
-      self.qq_account.online_role_id = self.id
-      self.qq_account.save
-      self.updated_at = Time.now
-      self.total = self.total_pay + self.gold if self.gold_changed?
-      Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"success",:msg=>opts[:msg],:online_at=>self.online_at,:online_note_id=>self.online_note_id) if self.vit_power == 0  
+       self.status = opts[:status] unless opts[:status].blank?
+       # 更新总产出
+       self.total = self.total_pay + self.gold if self.gold_changed?
+       # 
+       self.transaction do      
+
+        # 帐号没有在线角色
+        if self.qq_account.online_role_id == 0
+          # 修改帐号的上线角色ID
+          self.qq_account.online_role_id = self.id
+          # 上线当前角色
+          self.update_attributes(:ip=>self.qq_account.online_ip,:computer_id => self.qq_account.online_computer_id ,:online_note_id => self.qq_account.online_note_id)
+          # 记录note
+          Note.create(:account => self.account,:role_id=>self.id,:computer_id => self.computer_id, :ip=>opts[:ip],:hostname=>computer.hostname, :api_name=>"role_online",:server=>self.server,
+            :msg=>opts[:msg],:online_note_id=>self.online_note_id)
+        # 上线角色不等于当前角色
+        elsif self.qq_account.online_role_id != self.id
+          # 下线已在线角色
+          self.qq_account.online_role.update_attributes(:ip=>nil,:computer_id => 0 ,:online_note_id => 0)
+          # 上线当前角色
+          self.update_attributes(:ip=>self.qq_account.online_ip,:computer_id => self.qq_account.online_computer_id ,:online_note_id => self.qq_account.online_note_id)
+          #
+          self.qq_account.online_role_id = self.id
+
+        end
+
+
+
+         self.qq_account.updated_at = Time.new
+         self.qq_account.save
+
+        # 变更在线角色
+
+
+
+        # 如果状态发送改变为非noamal
+
+        if self.status_changed?
+           Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>self.status,:server=>self.server,
+            :msg=>opts[:msg],:online_note_id=>self.online_note_id) 
+        end
+
+        # 如果彼劳值变成了0,说明角色调度成功
+        if self.vit_power_changed? && self.vit_power == 0 
+            Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>"success",:server=>self.server,
+              :msg=>opts[:msg],:online_note_id=>self.online_note_id) 
+        end
+
+        self.updated_at = Time.now
         return 1 if self.save
        end
+  end
+
+  def is_online?
+    return self.online_note_id > 0
   end
 
 

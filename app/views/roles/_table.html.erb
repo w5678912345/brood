@@ -9,6 +9,7 @@
 	<th>疲劳值</th>
   	<th>余额 + 支出 = 产出</th>
 	<th>在线</th>
+	<th>状态</th>
 	<th>操作</th>
 </tr>
 </thead>
@@ -33,11 +34,15 @@
 <td><%= role.vit_power %></td>
 <td><%= "#{role.gold} + #{role.total_pay} = #{role.total}" %></td>
 <td>
-<% if role.online %>
-<%= link_to role.computer.hostname , computer_path(role.computer) if role.computer %>#<%= link_to role.ip,roles_ip_path(ip_to_url role.ip) %>
+<% if role.is_online? %>
+<%= role.computer_id %>
+<%= link_to role.computer.hostname , computer_path(role.computer) if role.computer %>
 <%else%>
 No<%= "(Waiting...)" if role.can_online%>
 <%end%>
+</td>
+<td>
+<%= role.status %>
 </td>
 <td>
 <%= link_to "查看记录",search_notes_path(:role_id => role.id ),:target=>"_blank"%>
