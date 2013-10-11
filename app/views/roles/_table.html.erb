@@ -1,0 +1,48 @@
+<table class="table table-bordered table-condensed">
+<thead>
+<tr>
+	<th>ID</th>
+	<th>角色</th>
+	<th>角色名</th>
+	<th>服务器</th>
+	<th>等级</th>
+	<th>疲劳值</th>
+  	<th>余额 + 支出 = 产出</th>
+	<th>在线</th>
+	<th>操作</th>
+</tr>
+</thead>
+<tbody>
+<% roles.each do |role| %>
+<tr <%= "class=error title=#{role.close_hours}" if role.close %>>
+<td>
+<label class="checkbox">
+<%= check_box_tag 'ids[]',role.id,:id=>role.id %>
+<%= role.id %>
+</label>
+</td>
+<td><%= link_to "#{role.account}##{role.role_index}",role_path(role) %>
+<%= role_icon role %>
+<%= status_tag role.status %>
+</td>
+<td>
+<%= role.name %>
+</td>
+<td><%= role.server%></td>
+<td><%= role.level%></td>
+<td><%= role.vit_power %></td>
+<td><%= "#{role.gold} + #{role.total_pay} = #{role.total}" %></td>
+<td>
+<% if role.online %>
+<%= link_to role.computer.hostname , computer_path(role.computer) if role.computer %>#<%= link_to role.ip,roles_ip_path(ip_to_url role.ip) %>
+<%else%>
+No<%= "(Waiting...)" if role.can_online%>
+<%end%>
+</td>
+<td>
+<%= link_to "查看记录",search_notes_path(:role_id => role.id ),:target=>"_blank"%>
+</td>
+</tr>
+<%end%>
+</tbody>
+</table>

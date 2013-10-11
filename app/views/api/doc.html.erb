@@ -6,16 +6,24 @@
 
 <table class="table table-bordered">
 <thead>
+<tr>
+<th colspan="3">
+bslocked => 交易锁定, disconnect => 掉线(close2小时), exception => 第三方数据异常(close3小时), locked => 帐号锁定, lost => 帐号丢失, </br> 
+discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken
+</th>
+</tr>
+<tr>
 <th class="span2">URL</th>
 <th>Paramters</th>
 <th class="span3">Code</th>
+</tr>
 </thead>
 <tbody>
 
 	
 <tr>
 <td colspan="2">new API (采用RESTFUL原则重新设计API)</td>
-<td rowspan="13">
+<td rowspan="14">
 <ul>
 	<% Api::CODES.each do | key, value | %>
 	<li><%= value %>  => <%= key %></li>
@@ -60,7 +68,15 @@
 
 <tr>
 <td>accounts/:id/set.json</td>
-<td>通过 帐号修改对应account的属性,参数: ckey => 计算机key  ,msg => 消息</td>
+<td>通过 帐号修改对应account的属性,参数: ckey => 计算机key, status => 状态, msg => 消息</td>
+</tr>
+
+<tr>
+<th class="">status</th>
+<th>
+bslocked => 交易锁定, disconnect => 掉线(close2小时), exception => 第三方数据异常(close3小时), locked => 帐号锁定, lost => 帐号丢失, </br> 
+discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken
+</th>
 </tr>
 
 <tr>
@@ -83,6 +99,11 @@
 <tr>
 <td>roles/:id/set.json</td>
 <td>通过id修改role的属性 server,level,role_index,vit_power,gold，ckey => 计算机key, msg => 消息</td>
+</tr>
+
+<tr>
+<td>roles/:id/pay.json</td>
+<td>通过id记录role的金币支出。参数： gold => 支出金币数, balance => 余额, pay_type => 支出方式, reamrk => 备注(选填)，ckey => 计算机key</td>
 </tr>
 
 

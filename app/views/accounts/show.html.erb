@@ -44,4 +44,7 @@
 
 <fieldset>
 <legend>包含角色</legend>
+
+<%= render :partial => "roles/table",:locals=>{:roles=>@account.roles} %>
+
 </fieldset>

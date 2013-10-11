@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Account < ActiveRecord::Base
 
-    STATUS = ['normal','bslocked','closed','exception','locked','lost','online','discard','NoRmsFile','NoQQToken']
+    STATUS = ['normal','bslocked','bslocked_again','disconnect','exception','locked','lost','discard','NoRmsFile','NoQQToken','finished']
 
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
@@ -25,12 +25,18 @@ class Account < ActiveRecord::Base
     validates_uniqueness_of :no
 
     default_scope order("online_note_id desc")
-    #scope :online_scope,where("online_computer_id > 0")
-    #scope :offline_scope,where("online_computer_id = 0")
+    scope :online_scope,where("online_computer_id > 0")
+    scope :unline_scope,where("online_note_id = 0")
 
 
+    # 在线记录ID >0 并且 在线机器ID > 0 表示帐号在线
     def is_online?
-      return self.status == 'online'
+      return self.online_note_id > 0 && self.online_computer_id > 0
+    end
+
+    # 帐号在线，并且在线角色ID > 0 表示正在工作
+    def working
+      return self.is_online? && self.online_role_id > 0 
     end
 
 
@@ -42,8 +48,9 @@ class Account < ActiveRecord::Base
       self.transaction do
         computer.update_attributes(:online_accounts_count=>computer.online_accounts_count+1,:version=>opts[:version]|| opts[:msg]) 
         ip.update_attributes(:use_count=>ip.use_count+1)
-        note = Note.create(:computer_id=>computer.id,:ip=>ip.value,:api_name=>"online",:msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version)
-        return 1 if self.update_attributes(:online_ip=>ip.value,:online_computer_id=>computer.id,:online_note_id => note.id,:status=>'online')
+        note = Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>ip.value,:api_name=>"online",
+          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version)
+        return 1 if self.update_attributes(:online_ip=>ip.value,:online_computer_id=>computer.id,:online_note_id => note.id)
       end
     end
 
@@ -51,10 +58,13 @@ class Account < ActiveRecord::Base
     # 设置当前帐号 属性
     def api_set opts
       computer = Computer.find_by_auth_key(opts[:ckey])
-      status = opts[:event]
+      status = opts[:status]
+      return 0 unless STATUS.include? status 
       self.transaction do 
-        self.status = status
-        note = Note.create(:role_id => self.online_role_id, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>opts[:event],:msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version)
+        
+        self.status = (self.status == 'bslocked' && status == 'bslocked') ? 'bslocked_again' : status
+        note = Note.create(:role_id => self.online_role_id, :computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name=>self.status,
+          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version)
         return 1 if self.save
       end
     end
@@ -64,9 +74,9 @@ class Account < ActiveRecord::Base
     def api_put opts
       computer = Computer.find_by_auth_key(opts[:ckey])
       self.transaction do 
-        #
-       note = Note.create(:role_id => self.online_role_id, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'offline',:msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version)
-       return 1 if self.update_attributes(:online_ip=>nil,:online_computer_id=>0,:online_note_id => 0,:online_role_id => 0,:status => 'normal')
+       note = Note.create(:role_id => self.online_role_id, :computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name=>'offline',:msg=>opts[:msg],
+        :account => self.no,:server => self.server,:version => computer.version)
+       return 1 if self.update_attributes(:online_ip=>nil,:online_computer_id=>0,:online_note_id => 0,:online_role_id => 0)
       end
     end
 

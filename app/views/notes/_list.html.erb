@@ -21,8 +21,10 @@
 <tr title="<%= note.msg %>">
 	<td title="<%= note.id%>"><%= time_str note.created_at %></td>
 	<td><%= link_to note.account,account_path(note.account) unless note.account.blank? %></td>
-	<td title="online_note_id: <%= note.online_note_id %>"><%= link_to "#{note.role.id}",role_path(note.role_id) if note.role_id > 0%></td>
-	<td><%= link_to "#{note.computer.hostname} #{note.computer_id}",computer_path(note.computer) if note.computer%></td>
+	<td title="online_note_id: <%= note.online_note_id %>">
+		<%= link_to "#{note.role_id}",role_path(note.role_id) if note.role_id > 0%>
+	</td>
+	<td><%= link_to "#{note.hostname} #{note.computer_id}",computer_path(note.computer_id) if note.computer_id > 0%></td>
 	<td><%= link_to note.ip,search_notes_path(:ip => note.ip) %></td>
 	<th><%= event_badge(note.api_name,0)  %></th>
 	<th><%= note.api_code %></th>
