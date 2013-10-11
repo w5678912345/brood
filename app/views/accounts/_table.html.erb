@@ -15,7 +15,7 @@
 <tbody>
 <% accounts.each do |account|%>
 <tr>
-<td><%= link_to account.no,account_path(account.no) %>
+<td><%= link_to account.no,account_path(account.no) %> <%= account.id %>
 <%= raw('<i class="icon-flag" title="IP: '+account.ip_range+'"></i>') unless account.ip_range.blank? %>
 </td>
 <td><%= account.server %></td>

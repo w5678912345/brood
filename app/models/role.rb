@@ -87,6 +87,26 @@ class Role < ActiveRecord::Base
   end
 
 
+  def api_set opts
+       self.role_index = opts[:role_index] if opts[:role_index]
+       self.server = opts[:server] if opts[:server]
+       self.level = opts[:level] if opts[:level] && opts[:level].to_i > 0
+       self.vit_power = opts[:vit_power] if opts[:vit_power]
+       self.gold = opts[:gold] if opts[:gold]
+       self.name = opts[:name]  unless opts[:name].blank?
+       #...
+       self.transaction do
+        # Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"sync",:msg=>opts.to_s)
+      self.qq_account.online_role_id = self.id
+      self.qq_account.save
+      self.updated_at = Time.now
+      self.total = self.total_pay + self.gold if self.gold_changed?
+      Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:api_name=>"success",:msg=>opts[:msg],:online_at=>self.online_at,:online_note_id=>self.online_note_id) if self.vit_power == 0  
+        return 1 if self.save
+       end
+  end
+
+
 
 	
   def to_account

@@ -13,6 +13,13 @@ class Api::RolesController < Api::BaseController
 	before_filter :require_online_role,					:only => [:off,:sync,:close,:note,:pay,:lock,:bslock,:bs_unlock]
 	before_filter :require_computer_eq_role,			:only => [:off,:sync,:close,:note,:pay,:lock]
 	before_filter :go_on
+
+
+	def set
+		@role = Role.find_by_id(params[:id])
+		@code = @role.api_set params
+		render :partial => 'api/result'
+	end
 	
 	# actions
 	def show

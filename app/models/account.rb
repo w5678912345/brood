@@ -33,18 +33,9 @@ class Account < ActiveRecord::Base
       return self.status == 'online'
     end
 
-    def online opts
-      ip = Ip.find_or_create(opts[:ip])
-      computer = Computer.find_by_auth_key(opts[:ckey])
-      self.transaction do
-        computer.update_attributes(:online_accounts_count=>computer.online_accounts_count+1,:version=>opts[:version]|| opts[:msg]) 
-        ip.update_attributes(:use_count=>ip.use_count+1)
-        note = Note.create(:computer_id=>computer.id,:ip=>ip.value,:api_name=>"online",:msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version)
-        self.update_attributes(:online_ip=>ip.value,:online_computer_id=>computer.id,:online_note_id => note.id,:status=>'online')
-      end
-    end
 
 
+    # 获取当前帐号
     def api_get opts
       ip = Ip.find_or_create(opts[:ip])
       computer = Computer.find_by_auth_key(opts[:ckey])
@@ -57,6 +48,7 @@ class Account < ActiveRecord::Base
     end
 
 
+    # 设置当前帐号 属性
     def api_set opts
       computer = Computer.find_by_auth_key(opts[:ckey])
       status = opts[:event]
@@ -68,17 +60,16 @@ class Account < ActiveRecord::Base
     end
 
 
+    # 放回当前帐号
     def api_put opts
       computer = Computer.find_by_auth_key(opts[:ckey])
       self.transaction do 
-        
+        #
+       note = Note.create(:role_id => self.online_role_id, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'offline',:msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version)
+       return 1 if self.update_attributes(:online_ip=>nil,:online_computer_id=>0,:online_note_id => 0,:online_role_id => 0,:status => 'normal')
       end
     end
 
-
-    def offline opts
-
-    end
 
 
 

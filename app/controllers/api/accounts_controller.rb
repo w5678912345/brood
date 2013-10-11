@@ -8,23 +8,47 @@ class Api::AccountsController < Api::BaseController
 	before_filter :require_remote_ip
 	before_filter :require_computer_by_ckey,:only => [:get,:set]
 
-	
+
 	def hi
-		@account  = Account.find(11)
+		@account  = Account.find(38)
 		@code = 1 if @account
 	end
 
-	def get
+	# 自动调度帐号
+	def index
 		@account  = Account.where(:status => 'normal').first
-		@code = 1 if @account
-		@account.api_get params
+		@code = @account.api_get params
+		render :partial => '/api/accounts/data'
 	end
 
+	# 手动调度帐号
+	def get
+		@account = Account.find_by_no(params[:id])
+		@code = @account.api_get params
+		render :partial => '/api/accounts/data'
+	end
+
+	# 设置帐号属性
 	def set
-		@account = Account.find_by_no(params[:no])
+		@account = Account.find_by_no(params[:id])
 		@code = @account.api_set params
 		render :partial => '/api/result'
 	end
+
+	# 返还调度帐号
+	def put
+		@account = Account.find_by_no(params[:id])
+		@code = @account.api_put params
+		render :partial => '/api/result'
+	end
+
+	# 显示帐号信息
+	def show
+		@account = Account.find_by_no(params[:id])
+		@code = 1 if @account
+		render :partial => '/api/accounts/data'
+	end
+
 
 
 	private
