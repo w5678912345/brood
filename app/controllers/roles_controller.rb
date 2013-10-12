@@ -117,7 +117,7 @@ class RolesController < ApplicationController
 	end
 
 	def hello
-
+		
 	end
 
 	def destroy

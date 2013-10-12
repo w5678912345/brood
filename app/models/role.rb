@@ -2,6 +2,9 @@
 class Role < ActiveRecord::Base
 	include RoleApi
 
+  STATUS = ['normal','disable']
+  EVENT = ['answer_verify_code','restart_game','weak']
+
   belongs_to :computer,:class_name => 'Computer'
   belongs_to :online_note, :class_name => 'note', :foreign_key => 'online_note_id'
   has_many   :notes,		:dependent => :destroy, :order => 'id DESC'
@@ -96,7 +99,7 @@ class Role < ActiveRecord::Base
        self.vit_power = opts[:vit_power] unless opts[:vit_power].blank?
        self.gold = opts[:gold] unless opts[:gold].blank?
        self.name = opts[:name]  unless opts[:name].blank?
-       self.status = opts[:status] unless opts[:status].blank?
+       self.status = opts[:status] if STATUS.include? opts[:status]
        # 更新总产出
        self.total = self.total_pay + self.gold if self.gold_changed?
        # 
@@ -122,19 +125,18 @@ class Role < ActiveRecord::Base
 
         end
 
-
-
          self.qq_account.updated_at = Time.new
          self.qq_account.save
 
-        # 变更在线角色
 
-
-
-        # 如果状态发送改变为非noamal
-
+        # 如果状态发生改变，记录note
         if self.status_changed?
            Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>self.status,:server=>self.server,
+            :msg=>opts[:msg],:online_note_id=>self.online_note_id) 
+        end
+        # 如果有事件发生，记录note
+        if EVENT.include? opts[:event]
+            Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>opts[:event],:server=>self.server,
             :msg=>opts[:msg],:online_note_id=>self.online_note_id) 
         end
 
@@ -147,6 +149,29 @@ class Role < ActiveRecord::Base
         self.updated_at = Time.now
         return 1 if self.save
        end
+  end
+
+
+  def api_pay opts
+    computer = Computer.find_by_auth_key(opts[:ckey])
+    self.transaction do
+      payment = Payment.new(:role_id=>self.id,:gold => opts[:gold],:balance => opts[:balance],:remark => opts[:remark],:note_id => 0,:pay_type=>opts[:pay_type],:server=>self.server) 
+      return CODES[:not_valid_pay] unless payment.valid? # validate not pass
+      self.gold = payment.balance      #当前金币 = 支出后的余额
+      self.total_pay = self.total_pay + payment.gold # 累计支出
+      self.total = payment.total = self.total_pay + payment.balance # 产出总和
+      if self.bslocked && payment.gold > 0 && payment.pay_type != "auto"
+        self.bslocked = false
+        self.normal = true
+        self.unbslock_result = nil
+        Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"bs_unlock_success",:msg=>"发生支付后自动解除交易锁定")
+      end
+      
+      
+      #payment.total = self.total_pay + payment.balance
+      payment.save
+      return 1 if  self.save
+    end
   end
 
   def is_online?

@@ -45,3 +45,32 @@ TRUNCATE TABLE accounts;
 
 update notes set account = (select account from role where id = role_id);
 update notes set account = (select account from roles where id = role_id);
+
+
++-------------------+
+| api_name          |
++-------------------+
+| RestartGame       |
+| reopen            |
+| offline           |
+| online            |
+| AnswerVerifyCode  |
+| success           |
+| bslock            |
+| bs_unlock_success |
+| role_disable      |
+| close             |
+| bs_unlock_fail    |
+| NoRmsFile         |
+| NoQQToken         |
+| lock              |
+| lose              |
+| reset_role        |
+| reset_ip          |
+| reg               |
+| closed            |
+| exception         |
+| bslocked          |
+| bslocked_again    |
+| role_online       |
++-------------------+

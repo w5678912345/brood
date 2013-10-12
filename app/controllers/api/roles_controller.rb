@@ -10,7 +10,7 @@ class Api::RolesController < Api::BaseController
 	before_filter :valid_ip_range_online_count,			:only => [:online]
 	before_filter :require_computer_by_ckey,			:only => [:on,:off,:sync,:close,:note,:pay,:online,:lock,:unlock,:lose,:show,:bslock,:bs_unlock,:disable]
 	before_filter :require_role_by_id,					:only => [:on,:off,:sync,:close,:note,:pay,:show,:lock,:unlock,:lose,:bslock,:bs_unlock,:disable]
-	before_filter :require_online_role,					:only => [:off,:sync,:close,:note,:pay,:lock,:bslock,:bs_unlock]
+	before_filter :require_online_role,					:only => [:off,:sync,:close,:note,:lock,:bslock,:bs_unlock]
 	before_filter :require_computer_eq_role,			:only => [:off,:sync,:close,:note,:pay,:lock]
 	before_filter :go_on
 
@@ -106,7 +106,7 @@ class Api::RolesController < Api::BaseController
 
 	#
 	def pay
-	  @code = @role.pay params
+	  @code = @role.api_pay params
 		render :partial => 'api/roles/result'
 	end
 

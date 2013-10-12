@@ -21,6 +21,15 @@ class AccountsController < ApplicationController
 		return  render :text => roles.count
 	end
 
+	#放回帐号
+	def put
+		@account = Account.find_by_no(params[:id])
+
+		opts = {:ip => request.remote_ip,:cid => @account.online_computer_id}
+		@account.api_put opts
+		redirect_to account_path(@account.no)
+	end
+
 	def generate
 
 	end

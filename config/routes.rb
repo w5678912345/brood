@@ -5,6 +5,7 @@ Brood::Application.routes.draw do
   resources :accounts do 
     get   :list,        :on => :collection
     get   :merge,       :on => :collection
+    put   :put,         :on => :member
   end
 
   #
