@@ -21,6 +21,20 @@ class AccountsController < ApplicationController
 		return  render :text => roles.count
 	end
 
+
+	def new
+		@account = Account.new
+	end
+
+	def create
+		@account = Account.new(params[:account])
+		if @account.save
+			redirect_to account_path(@account.no)
+		else
+			render :action => :new
+		end
+	end
+
 	#放回帐号
 	def put
 		@account = Account.find_by_no(params[:id])
