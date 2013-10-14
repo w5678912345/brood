@@ -21,7 +21,8 @@ CODES = {
 	 :full_use_computer => -15,
    :computer_no_server => -16,
    :not_find_task => -17,
-   :not_find_role_by_ip => -18
+   :not_find_role_by_ip => -18,
+   :not_find_account => -19
   }
 
   EVENTS = {}
