@@ -16,7 +16,7 @@ class Api::AccountsController < Api::BaseController
 	def index
 		@account  = Account.unline_scope.where("server = ?",@computer.server).where(:status => 'normal').first
 		unless @account
-			@code = CODES[:not_find_account] 
+			@code = CODES[:not_find_account]
 			return render :partial => '/api/result'
 		end
 		@code = @account.api_get params

@@ -26,7 +26,7 @@ class Account < ActiveRecord::Base
     validates_uniqueness_of :no
 
     default_scope order("online_note_id desc")
-    scope :online_scope,where("online_note_id > 0")
+    scope :online_scope,joins(:roles).where("accounts.online_note_id > 0").where("roles.vit_power > 0")
     scope :unline_scope,where("online_note_id = 0")
 
 
