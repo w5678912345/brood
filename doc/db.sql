@@ -1,3 +1,5 @@
+#sudo ln -s /usr/local/mysql-5.5.25-osx10.6-x86_64/lib/libmysqlclient.18.dylib /usr/lib/libmysqlclient.18.dylib
+
 -- select count(DISTINCT role_id) as online_count from notes where api_name = 'online';
 
 
@@ -27,3 +29,26 @@ update roles set server = '上海测试区'  where id in (5226, 5285, 4329, 4034
 
 
 update roles set server = '上海测试区' 
+
+
+update roles set ip_range = null ,ip_range2 = null where server in('贵州1区','华北2区','湖南1区','广西1区','上海1区')
+
+
+
+select count(*) ,server from roles group by server;
+
+
+#select 
+
+select count(DISTINCT role_id) as role_id ,SUBSTRING_INDEX(ip,'.',2) as id_range from notes where api_name = 'online' and ip <> 'localhost' and created_at between  '2013-10-01' and '2013-10-08' group by id_range;
+
+
+select count(role_id) as role_id from notes where api_name = 'online' and created_at between  '2013-10-01' and '2013-10-08' group by  role_id #SUBSTRING_INDEX(ip,'.',2)
+
+
+select SUBSTRING_INDEX(ip,'.',2) as ip_range ,count(DISTINCT role_id) as ip_use_count from notes where api_name = 'online' and created_at between  '2013-10-01' and '2013-10-08' group by SUBSTRING_INDEX(ip,'.',2);
+
+
+
+select role_id  from notes  where  api_name = 'online' and created_at between '2013-10-01' and '2013-10-08' group by role_id   HAVING COUNT(SUBSTRING_INDEX(ip,'.',2) ) =2; 
+

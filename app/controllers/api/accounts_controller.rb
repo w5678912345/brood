@@ -14,7 +14,11 @@ class Api::AccountsController < Api::BaseController
 
 	# 自动调度帐号
 	def index
-		@account  = Account.unline_scope.where(:status => 'normal').first
+		@account  = Account.unline_scope.where("server = ?",@computer.server).where(:status => 'normal').first
+		unless @account
+			@code = CODES[:not_find_account] 
+			return render :partial => '/api/result'
+		end
 		@code = @account.api_get params
 		render :partial => '/api/accounts/data'
 	end
