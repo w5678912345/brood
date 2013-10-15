@@ -9,10 +9,16 @@ class RolesController < ApplicationController
 	end
 
 
+	def list
+		
+	end
+
+
 	def search
 		@roles = Role.includes(:computer)
 		#@roles = @roles.where(:id => params[:id]) unless params[:id].blank? #where(:id => params[:id].to_i) unless params[:id].blank?
 		@roles = @roles.where(:close => params[:closed]) unless params[:closed].blank?
+		@roles = @roles.where(:account => params[:account]) unless params[:account].blank?
 		@roles = @roles.where(:close_hours => params[:close_hours].to_i) unless params[:close_hours].blank?
 		@roles = @roles.where(:level => params[:level].to_i) unless params[:level].blank?
 		@roles = @roles.where(:computers_count => params[:computers_count].to_i) unless params[:computers_count].blank?
@@ -111,7 +117,7 @@ class RolesController < ApplicationController
 	end
 
 	def hello
-
+		
 	end
 
 	def destroy

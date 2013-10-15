@@ -1,13 +1,16 @@
 <form class="form-search" action="<%= search_notes_path %>">
-时间:<input type="text" name="min_time" id="start_time" class="input-medium search-query" placeholder="from" value="<%= params[:min_time]%>" />-
-<input type="text" name="max_time" id="end_time" class="input-medium search-query" placeholder="to" value="<%= params[:max_time]%>" />
-事件:
-<input type="text" name="event" class="input-small" placeholder="Event" value="<%= params[:event]%>" title="支持模糊查询" />
-<input type="text" name="code" class="input-small" placeholder="Code" value="<%= params[:code]%>" />
-<input type="text" name="msg" class="input-small" placeholder="Msg" value="<%= params[:msg]%>" title="支持模糊查询" />
-<input type="text" name="ip" class="input-small" placeholder="IP" value="<%= params[:ip]%>" title="支持模糊查询" style="width:120px;" />
+<input type="text" name="account" class="input-small" placeholder="账户" value="<%= params[:account]%>" />
+<input type="text" name="event" class="input-small" placeholder="事件" value="<%= params[:event]%>" title="支持模糊查询" />
+<input type="text" name="server" class="input-small" placeholder="服务区" value="<%= params[:server]%>" />
 <input type="text" name="role_id" class="input-small" placeholder="角色ID" value="<%= params[:role_id]%>" />
 <input type="text" name="cid" class="input-small" placeholder="机器ID" value="<%= params[:cid]%>" />
+<input type="text" name="code" class="input-small" placeholder="Code" value="<%= params[:code]%>" />
+
+<input type="text" name="ip" class="input-small" placeholder="IP" value="<%= params[:ip]%>" title="支持模糊查询" style="width:120px;" />
+
+<input type="text" name="min_time" id="start_time" class="input-small" placeholder="起始日期" value="<%= params[:min_time]%>" />-
+<input type="text" name="max_time" id="end_time" class="input-small" placeholder="结束日期" value="<%= params[:max_time]%>" />
+<input type="text" name="msg" class="input-small" placeholder="Msg" value="<%= params[:msg]%>" title="支持模糊查询" />
 <input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page]%>" />
 
 <button type="submit" class="btn">Search</button>

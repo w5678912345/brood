@@ -1,6 +1,13 @@
 Brood::Application.routes.draw do
   #
   devise_for :users,:path => '/'
+
+  resources :accounts do 
+    get   :list,        :on => :collection
+    get   :merge,       :on => :collection
+    put   :put,         :on => :member
+  end
+
   #
   resources :roles do
     get		:home,  			:on => :collection
@@ -137,6 +144,7 @@ Brood::Application.routes.draw do
 
   namespace :api  do
     match '/' => 'base#readme'
+    match '/doc' => 'base#doc'
     match '/reg'  => 'computers#reg'
     match '/set'  => 'computers#set'
     match '/cinfo' => 'computers#cinfo'
@@ -167,7 +175,17 @@ Brood::Application.routes.draw do
       #
 			match :add,			:on => :collection
       match :online, :on => :collection
+      match :set,    :on => :member
     end
+
+    #
+    resources :accounts, :only => [:index,:show],:defaults => {:format => 'json'} do 
+      match :hi,    :on => :collection
+      match :get,    :on => :member
+      match :set,    :on => :member
+      match :put,    :on => :member
+    end
+
   end
 
 end

@@ -3,18 +3,25 @@
 # 
 class Api::RolesController < Api::BaseController
 	layout :nil
-	#respond_to :json
+	
 	##filters
 	before_filter :require_remote_ip
 	before_filter :valid_ip_use_count,					:only => [:online]
 	before_filter :valid_ip_range_online_count,			:only => [:online]
 	before_filter :require_computer_by_ckey,			:only => [:on,:off,:sync,:close,:note,:pay,:online,:lock,:unlock,:lose,:show,:bslock,:bs_unlock,:disable]
 	before_filter :require_role_by_id,					:only => [:on,:off,:sync,:close,:note,:pay,:show,:lock,:unlock,:lose,:bslock,:bs_unlock,:disable]
-	before_filter :require_online_role,					:only => [:off,:sync,:close,:note,:pay,:lock,:bslock,:bs_unlock]
+	before_filter :require_online_role,					:only => [:off,:sync,:close,:note,:lock,:bslock,:bs_unlock]
 	before_filter :require_computer_eq_role,			:only => [:off,:sync,:close,:note,:pay,:lock]
+	before_filter :go_on
+
+
+	def set
+		@role = Role.find_by_id(params[:id])
+		@code = @role.api_set params
+		render :partial => 'api/result'
+	end
 	
-	#after_filter  :update_role_server,					:only => [:on,:online]
-	#
+	# actions
 	def show
 		@code = 1 if @role
 	end
@@ -82,17 +89,13 @@ class Api::RolesController < Api::BaseController
 	    rescue Exception => ex
 	       @code = -1
 	    end
-			render :partial => 'api/roles/result'
+		render :partial => 'api/roles/result'
 	end
 
 	#
 	def close
-		#begin
-	      @code = 1 if @role.api_close params
-	   # rescue Exception => ex
-	      #@code = -1
-	  #end
-	  render :partial => 'api/roles/result'
+	    @code = 1 if @role.api_close params
+	  	render :partial => 'api/roles/result'
 	end
 
 	#
@@ -103,7 +106,7 @@ class Api::RolesController < Api::BaseController
 
 	#
 	def pay
-	  @code = @role.pay params
+	  @code = @role.api_pay params
 		render :partial => 'api/roles/result'
 	end
 
@@ -128,7 +131,7 @@ class Api::RolesController < Api::BaseController
 	end
 
 	def bs_unlock
-		@code = @role.api_bs_unlock params #api_bs_unlock
+		@code = @role.api_bs_unlock params
 		render :partial => 'api/roles/result'
 	end
 
@@ -140,18 +143,20 @@ class Api::RolesController < Api::BaseController
 	private 
 
 	def require_remote_ip
-		params[:ip] = params[:ip] || request.remote_ip
-		tmps = params[:ip].split(".") if params[:ip]
-		params[:ip_range] = "#{tmps[0]}.#{tmps[1]}" if tmps && tmps.length > 0
-		params[:ip_range_3] = "#{tmps[0]}.#{tmps[1]}.#{tmps[2]}" if tmps && tmps.length >0
-		@code = 0
+		#params[:ip] = params[:ip] || request.remote_ip
+		tmps = params[:ip].split(".")
+		return @code = CODES[:ip_used] unless tmps.length == 4 # IP地址有效性
+		params[:ip_range] = "#{tmps[0]}.#{tmps[1]}"  # IP地址的前2段
+		params[:ip_range_3] = "#{tmps[0]}.#{tmps[1]}.#{tmps[2]}" # IP地址的前3段
 	end
 
 	def valid_ip_use_count
 		ip = Ip.find_or_create(params[:ip])
 		#return render :text => "#{ip.value}===========#{ip.use_count}====#{Setting.ip_max_use_count}"
-		@code = CODES[:ip_used] if ip.use_count >= Setting.ip_max_use_count
-		return render :partial => 'api/roles/result' unless  @code == 0
+		if ip.use_count >= Setting.ip_max_use_count
+			@code = CODES[:ip_used]
+			return render :partial => 'api/roles/result' unless  @code == 0
+		end
 	end
 
 	def valid_ip_range_online_count
@@ -170,8 +175,8 @@ class Api::RolesController < Api::BaseController
 	
 	#
 	def require_online_role
-			@code = CODES[:role_not_online] unless @role.online
-			return render :partial => 'api/roles/result' unless @role.online
+		@code = CODES[:role_not_online] unless @role.online
+		return render :partial => 'api/roles/result' unless @role.online
 	end
 	
 	# 根据ckey取得对应的计算机
@@ -183,7 +188,6 @@ class Api::RolesController < Api::BaseController
 			@code = CODES[:computer_unchecked] unless @computer.checked
 			@code = CODES[:computer_no_server] unless @computer.set_server
 		end
-		#@code = CODES[:computer_no_server] unless @computer.set_server
 		return render :partial => 'api/roles/result' unless @code == 0
 		params[:cid] = @computer.id
 	end
@@ -195,6 +199,11 @@ class Api::RolesController < Api::BaseController
 			return render :partial => 'api/roles/result'
 		end
 	end
+
+	def go_on
+		return render :partial => 'api/roles/result' unless @code == 0
+	end
+
 
 
 end

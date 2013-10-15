@@ -6,11 +6,13 @@
 <table class="table table-bordered table-condensed">
 <thead>
 	<th width="15%">时间</th>
+	<th>帐号</th>
 	<th width="13%">角色</th>
 	<th width="17%">计算机</th>
 	<th width="10%">IP</th>
 	<th width="10%">Event</th>
-	<th width="5%">Code</th>
+	<th width="5%">Status</th>
+	<th width="5%">Server</th>
 	<th width="10%">在线小时</th>
 	<th>Msg</th>
 </thead>
@@ -18,11 +20,15 @@
 <% @notes.each do |note|%>
 <tr title="<%= note.msg %>">
 	<td title="<%= note.id%>"><%= time_str note.created_at %></td>
-	<td title="online_note_id: <%= note.online_note_id %>"><%= link_to "#{note.role.id}-#{note.role.account}##{note.role.role_index}",role_path(note.role) if note.role%></td>
-	<td><%= link_to note.computer.hostname,computer_path(note.computer) if note.computer%></td>
+	<td><%= link_to note.account,account_path(note.account) unless note.account.blank? %></td>
+	<td title="online_note_id: <%= note.online_note_id %>">
+		<%= link_to "#{note.role_id}",role_path(note.role_id) if note.role_id > 0%>
+	</td>
+	<td><%= link_to "#{note.hostname} #{note.computer_id}",computer_path(note.computer_id) if note.computer_id > 0%></td>
 	<td><%= link_to note.ip,search_notes_path(:ip => note.ip) %></td>
 	<th><%= event_badge(note.api_name,0)  %></th>
 	<th><%= note.api_code %></th>
+	<th><%= note.server %></th>
 	<td><%= note.online_hours if note.api_name == 'offline' %></td>
 	<th><%= note.msg %></th>
 </tr>
