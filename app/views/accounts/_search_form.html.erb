@@ -3,7 +3,9 @@
 <input type="text" name="date(created_at)" id="created_at" class="input-small" placeholder="注册日期" value='<%= params["date(created_at)"]%>' />
 <input type="text" name="no" class="input-small" placeholder="帐号" value="<%= params[:no]%>" />
 <input type="text" name="roles_count" class="input-small" placeholder="角色数量" value="<%= params[:roles_count]%>" />
-<input type="text" name="computers_count" class="input-small" placeholder="绑定机器数" value="<%= params[:computers_count]%>" />
+<input type="text" name="bind_cid" class="input-small" placeholder="绑定机器" value="<%= params[:bind_cid]%>" />
+<input type="text" name="online_cid" class="input-small" placeholder="在线机器" value="<%= params[:online_cid]%>" />
+
 <input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
 <!-- 	<hr style="margin:5px 0;"/> -->
 状态:

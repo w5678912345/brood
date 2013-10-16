@@ -19,8 +19,8 @@ class ComputersController < ApplicationController
     @computers = @computers.where(:checked => params[:checked]) unless params[:checked].blank?
     @computers = @computers.where(:started => params[:started]) unless params[:started].blank?
     @computers = @computers.where(:status => params[:status].to_i) unless params[:status].blank?
-    @computers = @computers.where(:online_roles_count => params[:online_roles_count].to_i) unless params[:online_roles_count].blank?
-    @computers = @computers.where(:roles_count => params[:roles_count]) unless params[:roles_count].blank?
+    #@computers = @computers.where(:online_roles_count => params[:online_roles_count].to_i) unless params[:online_roles_count].blank?
+    @computers = @computers.where(:accounts_count => params[:accounts_count]) unless params[:accounts_count].blank?
     @computers = @computers.where("date(created_at) =?",params["date(created_at)"]) unless params["date(created_at)"].blank?
     @computers = @computers.where("hostname like ?","%#{params[:hostname]}%") unless params[:hostname].blank?
     @computers = @computers.where("auth_key like ?","%#{params[:ckey]}%") unless params[:ckey].blank? 
@@ -62,7 +62,9 @@ class ComputersController < ApplicationController
     @computers.update_all(:checked => params[:checked],:check_user_id=>current_user.id,:checked_at => Time.now) if checked == 1 || checked ==0 
     #
     if checked == 3
-      
+      @computers.each do |computer|
+          computer.auto_bind_accounts
+      end
     end
 			# ids.each do |id|
 			# 	computer = Computer.find_by_id(id)

@@ -23,6 +23,10 @@ $(function(){
 		$("#checked").val(-1);
 		$("#computers_check_form").submit();
 	});
+	$("#bind_button").click(function(){
+		$("#checked").val(3);
+		$("#computers_check_form").submit();
+	});
 	$(".task_button").click(function(){
 		if ($("tbody :checked").length == 0){
 			alert("请选择你要执行任务的电脑");

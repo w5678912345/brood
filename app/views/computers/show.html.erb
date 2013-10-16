@@ -18,10 +18,10 @@
 <td>在线: <%= @computer.online_accounts_count%>
 绑定: <%= @computer.accounts_count %>
 </td>
+<td>区 / 版本</td>
+<td><%= @computer.server %> / <%= @computer.version %></td>
 <th>机器在线</th>
 <td><%= boolean_tag @computer.started %></td>
-<td>服务器/版本</td>
-<td><%= @computer.server %> / <%= @computer.version %></td>
 </tr>
 
 

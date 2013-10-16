@@ -2,6 +2,7 @@
 class Computer < ActiveRecord::Base
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count,:started
   attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at,:version,:online_roles_count,:online_accounts_count
+  attr_accessible :accounts_count
   #has_many :comroles,:dependent => :destroy
   #has_many :computer_accounts,:dependent => :destroy
 
@@ -54,25 +55,24 @@ class Computer < ActiveRecord::Base
 
   # 自动绑定账户
   def auto_bind_accounts
-    accounts_count = Setting.computer_accounts_count  # 机器可以绑定的账户数
+    # 机器可以绑定的账户数
+    accounts_count = Setting.computer_accounts_count  
     # 机器还可以绑定的账户数量
     can_accounts_count = accounts_count - self.accounts_count
     return if can_accounts_count < 1
     # 查询可以绑定的账户
     accounts = Account.unbind_scope.where("server is null or server = '' or server = ? ",self.server).limit(can_accounts_count)
+    return if accounts.blank?
     # 绑定账户
-    unless accounts.blank?
-      self.accounts << accounts
-      self.accounts_count = self.accounts.length
-    end
+    accounts.update_all(:bind_computer_id => self.id,:bind_computer_at => Time.now,:server => self.server)
+    self.accounts_count = self.accounts_count + accounts.length
     self.save
   end
 
   # 清空绑定账户
   def clear_bind_accounts
-    self.accounts.update_all(:bind_computer_id => 0)
-    self.accounts_count = 0
-    self.save
+    self.accounts.update_all(:bind_computer_id => 0) #
+    self.update_attributes(:accounts_count => 0) # 修改 绑定账户数量
   end
 
   def find_or_create_server

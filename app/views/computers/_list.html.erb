@@ -6,14 +6,15 @@
 <table class="table table-bordered table-condensed">
 <thead>
 <tr>
-<td colspan="6" class="left">
+<td colspan="5" class="left">
 	<label class="checkbox">
 	<input type="checkbox" id="check_all" name="check_all"  />全选
 	</label>
 </td>
-<td colspan="4">
+<td colspan="5">
 	<%= button_tag "通过",:class=>"btn btn-success btn-small",:id => "pass_button",:type => 'button' if action_name != "checked"%>
 	<%= button_tag "拒绝",:class=>"btn btn-danger btn-small",:id => "not_pass_button",:type => 'button' if action_name != "unchecked"%>
+	<%= button_tag "分配角色",:class=>"btn btn-success btn-small",:id => "bind_button",:type => 'button' %>
 	<%= button_tag "删除",:class=>"btn btn-inverse btn-small",:id => "delete_button",:type => 'button' %>
  	<%= render_cell :task, :sup %>
 </td>

@@ -6,7 +6,7 @@ class Account < ActiveRecord::Base
 
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
-    attr_accessible :online_computer_id
+    attr_accessible :bind_computer_id, :bind_computer_at
     #所属服务器
 	  belongs_to :game_server, :class_name => 'Server', :foreign_key => 'server',:primary_key => 'name'
 
@@ -110,7 +110,8 @@ class Account < ActiveRecord::Base
     	accounts = accounts.where("server = ?",opts[:server]) unless opts[:server].blank?
     	accounts = accounts.where("status = ?",opts[:status])	unless opts[:status].blank?
       accounts = accounts.where("roles_count = ?",opts[:roles_count].to_i) unless opts[:roles_count].blank?
-      accounts = accounts.where("computers_count = ?",opts[:computers_count].to_i) unless opts[:computers_count].blank?
+      accounts = accounts.where("online_computer_id = ?",opts[:online_cid].to_i) unless opts[:online_cid].blank?
+      accounts = accounts.where("bind_computer_id = ?",opts[:bind_cid].to_i) unless opts[:bind_cid].blank?
       accounts = accounts.where("date(created_at) = ?",opts["date(created_at)"]) unless opts["date(created_at)"].blank?
       return accounts
     end
