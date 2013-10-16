@@ -81,5 +81,7 @@ class Computer < ActiveRecord::Base
     @_server = Server.create(:name=>self.server) unless @_server
     return @_server
   end
+
+  
   
 end
