@@ -131,13 +131,13 @@ class Role < ActiveRecord::Base
 
         # 如果状态发生改变，记录note
         if self.status_changed?
-           Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>self.status,:server=>self.server,
-            :msg=>opts[:msg],:online_note_id=>self.online_note_id) 
+           Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>'0',:server=>self.server,
+            :msg=>opts[:msg],:online_note_id=>self.online_note_id,:version=>computer.version,:server=>self.server,:api_code => self.status) 
         end
         # 如果有事件发生，记录note
         if EVENT.include? opts[:event]
             Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>opts[:event],:server=>self.server,
-            :msg=>opts[:msg],:online_note_id=>self.online_note_id) 
+            :msg=>opts[:msg],:online_note_id=>self.online_note_id,:version=>computer.version,:server=>self.server) 
         end
 
         # 如果彼劳值变成了0,说明角色调度成功

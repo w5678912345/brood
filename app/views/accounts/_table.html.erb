@@ -20,7 +20,9 @@
 </td>
 <td><%= account.server %></td>
 <td><%= account.roles_count %></td>
-<td><%= account.bind_computer_id > 0 ? link_to(account.bind_computer_id,computer_path(account.bind_computer_id)) : 0 %>
+<td>
+
+<%= account.bind_computer_id > 0 ? link_to(account.bind_computer_id,computer_path(account.bind_computer_id)) : 0 %>
 
 </td>
 <td>

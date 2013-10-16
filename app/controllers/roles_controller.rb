@@ -180,7 +180,7 @@ class RolesController < ApplicationController
 	end
 
 	def group_count
-		@cols = {"server"=>"服务器","level"=>"等级","date(created_at)"=>"注册日期","computers_count"=>"绑定机器"} 
+		@cols = {"server"=>"服务器","level"=>"等级","date(created_at)"=>"注册日期","computers_count"=>"绑定机器","status"=>"状态"} 
 		@col = params[:col] || "server"
 		@records = Role.select("count(id) as roles_count, #{@col} as col").group(@col).reorder("roles_count desc")
 	end

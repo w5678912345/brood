@@ -29,9 +29,11 @@ class Account < ActiveRecord::Base
     validates_uniqueness_of :no
 
     default_scope order("online_note_id desc")
-    scope :online_scope,joins(:roles).where("accounts.online_note_id > 0").where("roles.vit_power > 0")
-    scope :unline_scope,where("online_note_id = 0")
+    scope :online_scope, where("online_note_id > 0") #
     #
+    scope :unline_scope, where("online_note_id = 0") # where(:status => 'normal')
+    #
+    scope :waiting_scope, joins(:roles).where("accounts.online_note_id = 0 and accounts.status = 'normal'").where("roles.vit_power > 0 and roles.status = 'normal' ").readonly(false)
     scope :bind_scope, where("bind_computer_id > 0")
     scope :unbind_scope, where("bind_computer_id = 0")
 
@@ -75,7 +77,7 @@ class Account < ActiveRecord::Base
         if STATUS.include? status
           self.status = (self.status == 'bslocked' && status == 'bslocked') ? 'bslocked_again' : status
           if self.status_changed?
-            Note.create(:role_id => self.online_role_id, :computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name=>self.status,
+            Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name=>self.status,
               :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version)
           end
         end
@@ -110,8 +112,8 @@ class Account < ActiveRecord::Base
     	accounts = accounts.where("server = ?",opts[:server]) unless opts[:server].blank?
     	accounts = accounts.where("status = ?",opts[:status])	unless opts[:status].blank?
       accounts = accounts.where("roles_count = ?",opts[:roles_count].to_i) unless opts[:roles_count].blank?
-      accounts = accounts.where("online_computer_id = ?",opts[:online_cid].to_i) unless opts[:online_cid].blank?
       accounts = accounts.where("bind_computer_id = ?",opts[:bind_cid].to_i) unless opts[:bind_cid].blank?
+      accounts = accounts.where("online_computer_id = ?",opts[:online_cid].to_i) unless opts[:online_cid].blank?
       accounts = accounts.where("date(created_at) = ?",opts["date(created_at)"]) unless opts["date(created_at)"].blank?
       return accounts
     end

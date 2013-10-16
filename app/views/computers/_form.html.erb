@@ -1,6 +1,6 @@
 <%= form_for(@computer,:html=>{:class=>"form-horizontal"}) do |f|  %>
 <div class="control-group">
-<label class="control-label">Hostname:</label>
+<label class="control-label">主机名:</label>
 <div class="controls docs-input-sizes" >
 	<%= f.text_field :hostname,:required=>"required"  %>
 </div>
@@ -13,14 +13,20 @@
 </div>
 
 <div class="control-group">
-<label class="control-label">Server:</label>
+<label class="control-label">区:</label>
 <div class="controls docs-input-sizes" >
 	<%= f.text_field :server  %>
 </div>
 </div>
+<div class="control-group">
+<label class="control-label">版本</label>
+<div class="controls docs-input-sizes" >
+	<%= f.text_field :version  %>
+</div>
+</div>
 
 <div class="control-group">
-<label class="control-label">Status:</label>
+<label class="control-label">状态:</label>
 <div class="controls docs-input-sizes" >
 	<%= f.text_field :status,:required=>"required"  %>
 </div>

@@ -12,19 +12,21 @@
 	<td><%= @account.status%></td>
 </tr>
 <tr>
-	<td>角色数量</td>
-	<td><%= @account.roles_count %></td>
-	<td>绑定机器</td>
-	<td><%= @account.computers_count %></td>
-	<td>所在区</td>
-	<td><%= @account.server %></td>
+<td>角色数量</td>
+<td><%= @account.roles_count %></td>
+<td>绑定机器</td>
+<td>
+<%= @account.bind_computer_id  > 0 ? link_to(@account.online_computer_id,computer_path(@account.online_computer_id)) : "-"  %>
+</td>
+<td>所在区</td>
+<td><%= @account.server %></td>
 </tr>
 <% if @account.is_online? %>
 <tr>
 	<td>在线角色</td>
 	<td><%= @account.online_role_id %></td>
 	<td>在线机器</td>
-	<td><%= @account.online_computer_id %></td>
+	<td><%= link_to @account.online_computer_id,computer_path(@account.online_computer_id) %></td>
 	<td>IP</td>
 	<td><%= @account.online_ip %></td>
 </tr>
