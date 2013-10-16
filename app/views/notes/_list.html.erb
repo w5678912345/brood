@@ -28,8 +28,8 @@
 	</td>
 	<td><%= note.version %></td>
 	<td><%= link_to note.ip,search_notes_path(:ip => note.ip) %></td>
-	<th><%= note.api_name  %></th>
-	<th><%= note.api_code %></th>
+	<th><%= note.api_name if note.api_name != '0' %></th>
+	<th><%= note.api_code if note.api_code != '0' %></th>
 	<th><%= note.msg %></th>
 </tr>
 <%end%>

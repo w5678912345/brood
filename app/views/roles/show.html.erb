@@ -69,12 +69,13 @@
 
 <tr>
 <th>创建时间</th>
-<td colspan="5"><%= time_str @role.created_at %></td>
-</tr>
-<tr>
+<td><%= time_str @role.created_at %></td>
 <th>修改时间</th>
-<td colspan="5"><%= time_str @role.updated_at %></td>
+<td><%= time_str @role.updated_at %></td>
+<th>操作</th>
+<td> <%= link_to "查看记录", search_notes_path(:role_id=>@role.id),:target=>"_blank" %></td>
 </tr>
+
 
 </tbody>
 </table>

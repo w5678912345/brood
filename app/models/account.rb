@@ -77,15 +77,15 @@ class Account < ActiveRecord::Base
         if STATUS.include? status
           self.status = (self.status == 'bslocked' && status == 'bslocked') ? 'bslocked_again' : status
           if self.status_changed?
-            Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name=>self.status,
-              :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version)
+            Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_code=>self.status,
+              :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:api_name => '0')
           end
         end
 
         #   
         if EVENT.include? opts[:event]
-          Note.create(:role_id => self.online_role_id, :computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name => 'default',
-          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:api_code=>opts[:event])
+          Note.create(:role_id => self.online_role_id, :computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name => opts[:event],
+          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version)
         end 
         return 1 if self.save
       end
