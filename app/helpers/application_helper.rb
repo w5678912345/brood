@@ -48,7 +48,7 @@ module ApplicationHelper
 
 	def status_tag status
 		#return raw('<span class="badge badge-success">正常</span>') if status == 1
-		return raw('<span class="badge badge-warning">异常</span>') if status != '1' && status != 'normal'
+		return raw('<span class="badge badge-warning">异常</span>') if status != '1' && status != 'normal' && status != 1
 	end
 
 	def boolean_tag bool

@@ -97,6 +97,7 @@ class Account < ActiveRecord::Base
       computer = Computer.find_by_auth_key(opts[:ckey])
       computer = Computer.find_by_id(opts[:cid]) unless computer
       self.transaction do 
+       computer.update_attributes(:online_accounts_count=>computer.online_accounts_count-1)
        note = Note.create(:role_id => self.online_role_id, :computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name=>'offline',:msg=>opts[:msg],
         :account => self.no,:server => self.server,:version => computer.version)
        return 1 if self.update_attributes(:online_ip=>nil,:online_computer_id=>0,:online_note_id => 0,:online_role_id => 0)

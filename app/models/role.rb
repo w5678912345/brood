@@ -164,7 +164,7 @@ class Role < ActiveRecord::Base
         self.bslocked = false
         self.normal = true
         self.unbslock_result = nil
-        Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"bs_unlock_success",:msg=>"发生支付后自动解除交易锁定")
+        #Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"bs_unlock_success",:msg=>"发生支付后自动解除交易锁定")
       end
       
       
