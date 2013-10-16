@@ -6,21 +6,24 @@ class Account < ActiveRecord::Base
 
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
-
+    attr_accessible :online_computer_id
+    #所属服务器
 	  belongs_to :game_server, :class_name => 'Server', :foreign_key => 'server',:primary_key => 'name'
 
+    #在线角色
     belongs_to :online_role, :class_name => 'Role', :foreign_key => 'online_role_id'
-
-
+    #在线记录
    	belongs_to :online_note, :class_name => 'Note', :foreign_key => 'online_note_id'
-   	
-   	belongs_to :online_computer, :class_name => 'Computer', :foreign_key => 'online_computer_id'
-    
+    #在线机器
+   	belongs_to :online_computer, :class_name => 'Computer', :foreign_key => 'online_computer_id' #, :counter_cache => :online_accounts_count
+    #绑定机器
+    belongs_to :bind_computer,  :class_name => 'Computer', :foreign_key => 'bind_computer_id' #, :counter_cache => :accounts_count
+    #包含角色
     has_many   :roles, :class_name => 'Role', :foreign_key => 'account', :primary_key => 'no'
 
-    has_many :computer_accounts,:dependent => :destroy,:foreign_key => 'account_no', :primary_key => 'no'
+    #has_many :computer_accounts,:dependent => :destroy,:foreign_key => 'account_no', :primary_key => 'no'
 
-    has_many   :computers,:class_name => 'Computer',through: :computer_accounts
+    #has_many   :computers,:class_name => 'Computer',through: :computer_accounts
 
 
     validates_uniqueness_of :no
@@ -28,6 +31,10 @@ class Account < ActiveRecord::Base
     default_scope order("online_note_id desc")
     scope :online_scope,joins(:roles).where("accounts.online_note_id > 0").where("roles.vit_power > 0")
     scope :unline_scope,where("online_note_id = 0")
+    #
+    scope :bind_scope, where("bind_computer_id > 0")
+    scope :unbind_scope, where("bind_computer_id = 0")
+
 
 
     # 在线记录ID >0 并且 在线机器ID > 0 表示帐号在线
@@ -98,7 +105,7 @@ class Account < ActiveRecord::Base
 
 
     def self.list_search opts
-    	accounts = Account.includes(:online_computer,:online_role)
+    	accounts = Account.includes(:online_computer,:online_role,:bind_computer)
       accounts = accounts.where("no = ?", opts[:no]) unless opts[:no].blank?
     	accounts = accounts.where("server = ?",opts[:server]) unless opts[:server].blank?
     	accounts = accounts.where("status = ?",opts[:status])	unless opts[:status].blank?

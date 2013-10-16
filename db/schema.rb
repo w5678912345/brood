@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131011092916) do
+ActiveRecord::Schema.define(:version => 20131016053800) do
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                       :null => false
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(:version => 20131011092916) do
     t.integer  "online_computer_id", :default => 0,        :null => false
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false
+    t.integer  "bind_computer_id",   :default => 0,        :null => false
+    t.datetime "bind_computer_at"
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true

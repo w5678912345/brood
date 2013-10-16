@@ -9,3 +9,6 @@ du -h -s /* | sort -nr
 # 看看，应该有很多你之前删除，但是还被系统打开的文件，找到相应的id，kill之。
 
 lsof |grep delete
+
+
+# 000CEF8B000FAEC7

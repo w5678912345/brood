@@ -20,7 +20,9 @@
 </td>
 <td><%= account.server %></td>
 <td><%= account.roles_count %></td>
-<td><%= account.computers_count %></td>
+<td><%= account.bind_computer_id > 0 ? link_to(account.bind_computer_id,computer_path(account.bind_computer_id)) : 0 %>
+
+</td>
 <td>
 <% if account.is_online? %>
 <%= link_to account.online_computer.hostname, computer_path(account.online_computer) %>#
@@ -41,4 +43,3 @@
 <%end%>
 </tbody>
 </table>
-<%= will_paginate accounts %>

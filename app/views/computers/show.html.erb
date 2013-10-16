@@ -1,53 +1,56 @@
 <%= render "navbar2" %>
-<table class="table">
-<thead>
-<tr>
-<th colspan="6">ID: <%= @computer.id %></th>
-</tr>
-</thead>
+<table class="table table-bordered table-condensed">
 <tbody>
 <tr>
-<th>主机名:</th>
+<th>主机名</th>
 <td><%= @computer.hostname %> <%= status_tag @computer.status %></td>
-<th>Auth Key:</th>
+<th>Auth Key</th>
 <td><%= @computer.auth_key %></td>
-<th>在线角色:</th>
-<td><%= link_to @computer.online_roles_count,online_roles_computer_path(@computer) %></td>
+<th>ID</th>
+<td><%= @computer.id %>
+<%= @computer.checked ? raw('<span class="label label-success">通过</span>') : raw('<span class="label label-important">未通过</span>') %>
+
+</td>
 </tr>
 
 <tr>
-<th>审核:</th>
-<td ><%= @computer.checked ? raw('<span class="label label-success">通过</span>') : raw('<span class="label label-important">未通过</span>') %></td>
-<th>在线:</th>
+<th>账户数量:</th>
+<td>在线: <%= @computer.online_accounts_count%>
+绑定: <%= @computer.accounts_count %>
+</td>
+<th>机器在线</th>
 <td><%= boolean_tag @computer.started %></td>
-<th>绑定角色</th>
-<td><%= link_to @computer.roles_count,roles_computer_path(@computer) %></td>
+<td>服务器/版本</td>
+<td><%= @computer.server %> / <%= @computer.version %></td>
 </tr>
+
 
 <tr>
-<th>服务器:</th>
-<td colspan="5">
-	<%= @computer.server %> 
-</td>
-
+<th>创建时间</th>
+<td><%= @computer.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+<th>修改时间</th>
+<td><%= @computer.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+<td>操作</td>
+<td><%= link_to "运行记录",search_notes_path(:cid => @computer.id),:target=>"_blank" %></td>
 </tr>
 
-<tr>
-<th>版本:</th>
-<td colspan="5">
-	<%= @computer.version %>
-</td>
-</tr>
-
-<tr>
-<th>创建时间:</th>
-<td colspan="5"><%= @computer.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
-</tr>
-
-<tr>
-<th>修改时间:</th>
-<td colspan="5"><%= @computer.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
-</tr>
 
 </tbody>
 </table>
+
+
+<ul id="myTab" class="nav nav-tabs">
+  <li class="active"><a href="#bind" data-toggle="tab">绑定账户</a></li>
+  <li><a href="#online" data-toggle="tab">在线账户</a></li>
+  
+</ul>
+<div id="myTabContent" class="tab-content">
+<div class="tab-pane fade in active" id="bind">
+<%= render :partial => "accounts/table",:locals=>{:accounts=>@computer.accounts} %>
+</div>
+<div class="tab-pane fade" id="online">
+<%= render :partial => "accounts/table",:locals=>{:accounts=>@computer.online_accounts} %>
+</div>
+
+</div>
+

@@ -60,7 +60,10 @@ class ComputersController < ApplicationController
     @computers = Computer.where(:id => ids)
     @computers.where(:roles_count => 0).destroy_all if checked == -1
     @computers.update_all(:checked => params[:checked],:check_user_id=>current_user.id,:checked_at => Time.now) if checked == 1 || checked ==0 
-
+    #
+    if checked == 3
+      
+    end
 			# ids.each do |id|
 			# 	computer = Computer.find_by_id(id)
 			# 	computer.update_attributes(:checked => params[:checked],:check_user_id=>current_user.id,:checked_at => Time.now) if computer

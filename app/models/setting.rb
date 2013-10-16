@@ -30,8 +30,21 @@ class Setting < ActiveRecord::Base
 
 
 	def self.role_max_computers
-		return val = find_value_by_key("role_max_computers")
+		val = find_value_by_key("role_max_computers")
 		return val == nil ? 3 : val
+	end
+
+
+	# 账户可以绑定的计算机数量
+	# def self.account_computers_count
+	# 	val = find_value_by_key("account_computers_count")
+	# 	return val == nil ? 1 : val
+	# end
+
+	# 计算机可以绑定的账户数量
+	def self.computer_accounts_count
+		val = find_value_by_key("computer_accounts_count")
+		return val == nil ? 1 : val
 	end
 
 

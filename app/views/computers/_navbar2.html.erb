@@ -3,18 +3,6 @@
 <li <%= active if controller_name == 'computers' && action_name == 'show' %>>
  <%= link_to raw('<i class="icon-info-sign"></i>计算机信息'),computer_path(@computer)  %>
 </li>
-<li <%= active if controller_name == 'computers' && action_name == 'notes' %>>
- <%= link_to raw('<i class="icon-list"></i>运行记录'),notes_computer_path(@computer)  %>
-</li>
-
-<li <%= active if controller_name == 'computers' && action_name == 'online_roles' %>>
- <%= link_to raw('<i class="icon-list"></i>在线角色'),online_roles_computer_path(@computer)  %>
-</li>
-
-<li <%= active if controller_name == 'computers' && action_name == 'roles' %>>
- <%= link_to raw('<i class="icon-list"></i>绑定角色'),roles_computer_path(@computer)  %>
-</li>
-
 <li <%= active if controller_name == 'computers' && action_name == 'edit' %>>
  <%= link_to raw('<i class="icon-pencil"></i>编辑计算机'),edit_computer_path(@computer)  %>
 </li>
