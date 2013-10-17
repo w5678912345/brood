@@ -33,7 +33,7 @@ class Account < ActiveRecord::Base
     default_scope order("online_note_id desc")
     scope :online_scope, where("online_note_id > 0") #
     #
-    scope :unline_scope, where("online_note_id = 0") # where(:status => 'normal')
+    scope :unline_scope, where("online_note_id = 0").reorder("updated_at desc") # where(:status => 'normal')
     #
     scope :waiting_scope, joins(:roles).where("accounts.online_note_id = 0 and accounts.status = 'normal'").where("roles.vit_power > 0 and roles.status = 'normal' ").readonly(false)
     scope :bind_scope, where("bind_computer_id > 0") # 已绑定

@@ -1,4 +1,4 @@
-<%= form_tag(checked_accounts_path,:method => :put,:id=>"account_checked_form") do -%>
+<%= form_tag(checked_accounts_path,:method => :put,:id=>"account_checked_form",:onSubmit=>"return validate(this);") do -%>
 
 <table class="table table-bordered table-condensed">
 <thead>
@@ -10,7 +10,7 @@
 </th>
 <th colspan="2" class="text-right">
 
-<select name="do" class="input-medium">
+<select id="do" name="do" class="input-medium">
 <option value="">选择操作</option>
 <% Account::Btns.each do | key, value |  %>
 	<option value="<%= key %>"><%= value%></option>
@@ -47,7 +47,6 @@
 <td><%= account.roles_count %></td>
 <td>
 <%= account_bind_tag account%>
-<%= account.bind_computer_id %>
 </td>
 <td>
 <% if account.is_online? %>
@@ -73,6 +72,22 @@
 <%end%>
 
 <script type="text/javascript">
+
+function validate(){
+	var action =  $("#do").val();
+	if(action == null || action == ""){
+		alert("请选择您需要执行的操作!");
+		$("#do").focus();
+	}else if($("#accounts_data input:checked").length == 0){
+		alert("请选择您需要执行的账户!");
+	}else{
+		return true;
+	}
+
+	//alert(action);
+	return false;
+}
+
 $(function(){
 
 $("#check_all").click(function(){
