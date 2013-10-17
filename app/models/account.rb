@@ -3,6 +3,8 @@ class Account < ActiveRecord::Base
 
     STATUS = ['normal','bslocked','bslocked_again','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','finished']
     EVENT = ['hello']
+    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"清空绑定","bind"=>"绑定机器", "auto_put"=>"自动下线", "delete"=>"删除账号"}
+
 
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
@@ -34,8 +36,9 @@ class Account < ActiveRecord::Base
     scope :unline_scope, where("online_note_id = 0") # where(:status => 'normal')
     #
     scope :waiting_scope, joins(:roles).where("accounts.online_note_id = 0 and accounts.status = 'normal'").where("roles.vit_power > 0 and roles.status = 'normal' ").readonly(false)
-    scope :bind_scope, where("bind_computer_id > 0")
-    scope :unbind_scope, where("bind_computer_id = 0")
+    scope :bind_scope, where("bind_computer_id > 0") # 已绑定
+    scope :unbind_scope, where("bind_computer_id = 0") # 未绑定 
+    scope :can_not_bind_scope ,where("bind_computer_id = -1") # 不能绑定
 
 
 
@@ -106,7 +109,7 @@ class Account < ActiveRecord::Base
 
 
 
-
+    #
     def self.list_search opts
     	accounts = Account.includes(:online_computer,:online_role,:bind_computer)
       accounts = accounts.where("no = ?", opts[:no]) unless opts[:no].blank?
@@ -114,6 +117,12 @@ class Account < ActiveRecord::Base
     	accounts = accounts.where("status = ?",opts[:status])	unless opts[:status].blank?
       accounts = accounts.where("roles_count = ?",opts[:roles_count].to_i) unless opts[:roles_count].blank?
       accounts = accounts.where("bind_computer_id = ?",opts[:bind_cid].to_i) unless opts[:bind_cid].blank?
+      #
+      unless opts[:online].blank?
+        accounts = opts[:online].to_i == 1 ? accounts.online_scope : accounts.unline_scope
+      end
+      # 根据在线IP 查询账户
+      accounts = accounts.where("online_ip like ?","%#{opts[:online_ip]}%") unless opts[:online_ip].blank?
       accounts = accounts.where("online_computer_id = ?",opts[:online_cid].to_i) unless opts[:online_cid].blank?
       accounts = accounts.where("date(created_at) = ?",opts["date(created_at)"]) unless opts["date(created_at)"].blank?
       return accounts

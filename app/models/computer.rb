@@ -30,6 +30,9 @@ class Computer < ActiveRecord::Base
   validates_presence_of :hostname,:auth_key,:user_id
   validates_uniqueness_of :auth_key
 
+  def dis_str
+    return "#{self.hostname}##{self.id}"
+  end
 
 	def check opts
 		self.checked = opts[:checked]

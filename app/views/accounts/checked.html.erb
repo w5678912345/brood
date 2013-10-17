@@ -1,0 +1,16 @@
+<fieldset>
+<legend><%= Account::Btns[params[:do]]%></legend>
+<div class="alert">
+<strong>提示信息:</strong>
+<span>您选中了<%= @no.length %> 个账号，执行[<%= Account::Btns[params[:do]]%>]操作!</span> 
+</div>
+
+<%= @no%>
+<%= params[:do]%>
+
+<%= form_tag(do_checked_accounts_path,:method => :put,:id=>"account_checked_form") do -%>
+<%= hidden_field_tag :do,params[:do]%>
+<button type="submit" class="btn btn-primary">确认执行</button>
+<%end%>
+
+</fieldset>

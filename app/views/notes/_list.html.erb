@@ -22,7 +22,7 @@
 	<td title="<%= note.id%>"><%= time_str note.created_at %></td>
 	<th><%= note.server %></th>
 	<td><%= link_to note.account,account_path(note.account) unless note.account.blank? %></td>
-	<td><%= link_to "#{note.hostname} #{note.computer_id}",computer_path(note.computer_id) if note.computer_id > 0%></td>
+	<td><%= computer_tag(note.computer) if note.computer_id > 0%></td>
 	<td title="online_note_id: <%= note.online_note_id %>">
 		<%= link_to "#{note.role_id}",role_path(note.role_id) if note.role_id > 0%>
 	</td>

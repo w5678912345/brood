@@ -1,7 +1,27 @@
+<%= form_tag(checked_accounts_path,:method => :put,:id=>"account_checked_form") do -%>
 
 <table class="table table-bordered table-condensed">
 <thead>
 <tr>
+<th colspan="7">
+<label class="checkbox">
+	<input type="checkbox" id="check_all" name="check_all"  />全选
+</label>
+</th>
+<th colspan="2" class="text-right">
+
+<select name="do" class="input-medium">
+<option value="">选择操作</option>
+<% Account::Btns.each do | key, value |  %>
+	<option value="<%= key %>"><%= value%></option>
+<%end%>
+</select>
+<button type="submit" class="btn btn-primary">执行操作</button>
+
+</th>
+</tr>
+<tr>
+<th>ID</th>
 <th>帐号</th>
 <th>服务器</th>
 <th>角色数量</th>
@@ -12,24 +32,28 @@
 <th>操作</th>
 </tr>
 </thead>
-<tbody>
+<tbody id="accounts_data">
 <% accounts.each do |account|%>
 <tr>
-<td><%= link_to account.no,account_path(account.no) %> <%= account.id %>
+<td>
+<label class="checkbox">
+<%= check_box_tag 'no[]',account.no,false,:id=>account.id %> <%= account.id %>
+</label>
+</td>
+<td><%= account_tag account %> 
 <%= raw('<i class="icon-flag" title="IP: '+account.ip_range+'"></i>') unless account.ip_range.blank? %>
 </td>
 <td><%= account.server %></td>
 <td><%= account.roles_count %></td>
 <td>
-
-<%= account.bind_computer_id > 0 ? link_to(account.bind_computer_id,computer_path(account.bind_computer_id)) : 0 %>
-
+<%= account_bind_tag account%>
+<%= account.bind_computer_id %>
 </td>
 <td>
 <% if account.is_online? %>
 <%= link_to account.online_computer.hostname, computer_path(account.online_computer) %>#
 <%=  account.online_role_id ==0 ? 'No Role ' : link_to(account.online_role_id,role_path(account.online_role.id)) %>#
-<%= link_to account.online_ip,roles_ip_path(ip_to_url account.online_ip) %>
+<%= link_to account.online_ip,search_notes_path(:ip => account.online_ip) %>
 <% end %>
 </td>
 <td><%= time_str account.created_at %></td>
@@ -45,3 +69,24 @@
 <%end%>
 </tbody>
 </table>
+
+<%end%>
+
+<script type="text/javascript">
+$(function(){
+
+$("#check_all").click(function(){
+	var checked = this.checked;
+	$("#accounts_data input[type=checkbox]").each(function(){
+		this.checked = checked;
+	});
+});
+
+});
+
+
+
+
+
+</script>
+

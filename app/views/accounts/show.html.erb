@@ -16,7 +16,7 @@
 <td><%= @account.roles_count %></td>
 <td>绑定机器</td>
 <td>
-<%= @account.bind_computer_id  > 0 ? link_to(@account.online_computer_id,computer_path(@account.online_computer_id)) : "-"  %>
+<%= computer_tag @account.bind_computer %>
 </td>
 <td>所在区</td>
 <td><%= @account.server %></td>

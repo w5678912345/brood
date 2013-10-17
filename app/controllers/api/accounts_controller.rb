@@ -6,7 +6,7 @@ class Api::AccountsController < Api::BaseController
 
 
 	before_filter :require_remote_ip									  # 获取请求IP
-	before_filter :require_computer_by_ckey,:only => [:index,:get,:set,:put,:show] #需要ckey，验证是否为有效的机器	
+	before_filter :require_computer_by_ckey, :only => [:index,:get,:set,:put,:show] #需要ckey，验证是否为有效的机器	
 	before_filter :valid_ip_use_count,					:only => [:index] # 验证当前IP的24小时使用次数
 	before_filter :valid_ip_range_online_count,			:only => [:index] # 验证当前IP 前三段的在线数量
 	before_filter :require_account_by_no,				:only => [:show,:get,:set,:put] # 根据帐号取得一个账户
@@ -68,7 +68,7 @@ class Api::AccountsController < Api::BaseController
 		#return render :text => "#{ip.value}===========#{ip.use_count}====#{Setting.ip_max_use_count}"
 		if ip.use_count >= Setting.ip_max_use_count
 			@code = CODES[:ip_used]
-			#return render :partial => 'api/result' unless  @code == 0
+			return render :partial => 'api/result' unless  @code == 0
 		end
 	end
 
@@ -78,7 +78,7 @@ class Api::AccountsController < Api::BaseController
 	   current_online_count = Account.online_scope.where("SUBSTRING_INDEX(online_ip,'.',3) = ?",params[:ip_range_3]).count(:id)
 	   #return render :text => "#{params[:ip_range_3]}--------#{max_online_count}---------#{current_online_count}"
 	   @code = CODES[:ip_used] if current_online_count > max_online_count
-	   #return render :partial => 'api/result' unless  @code == 0
+	   return render :partial => 'api/result' unless  @code == 0
 	end
 
 	# 根据ckey取得对应的计算机

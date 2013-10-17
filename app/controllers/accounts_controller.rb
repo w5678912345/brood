@@ -35,6 +35,26 @@ class AccountsController < ApplicationController
 		end
 	end
 
+	def checked 
+		@no = params[:no]
+		session[:no] = @no
+
+	end
+
+	def do_checked
+		@do = params[:do]
+		@no = session[:no]
+		@accounts = Account.where("no in (?)",@no)
+
+		if "disable_bind" == params[:do]
+			@accounts.update_all(:bind_computer_id => -1)
+			return redirect_to list_accounts_path(:bind_cid=>-1)
+		elsif "clear_bind" == @do
+			@accounts.update_all(:bind_computer_id => 0)
+			return redirect_to list_accounts_path(:bind_cid=> 0)
+		end
+	end
+
 	#放回帐号
 	def put
 		@account = Account.find_by_no(params[:id])

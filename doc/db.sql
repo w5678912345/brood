@@ -9,6 +9,9 @@
 -- select count(id) as all, (count(id) - (select count(DISTINCT role_id) as online_count from notes where api_name = 'online' and created_at between  '2013-09-26' and '2013-09-30' ) ) as   from roles;
 
 
+select accnout from roles where  into outfile '/tmp/data.txt'
+
+select account,password from roles  where close = 1 and close_hours = 120000 into outfile '/tmp/roles_close_12w.txt';
 
 
 select count(id) - (select count(DISTINCT role_id) as online_count from notes where api_name = 'online' and created_at between  '2013-09-26' and '2013-09-30' ) as un_count,count(id) all_count from roles;

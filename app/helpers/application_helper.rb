@@ -46,6 +46,7 @@ module ApplicationHelper
 
 	end
 
+
 	def status_tag status
 		#return raw('<span class="badge badge-success">正常</span>') if status == 1
 		return raw('<span class="badge badge-warning">异常</span>') if status != '1' && status != 'normal' && status != 1
@@ -55,5 +56,24 @@ module ApplicationHelper
 		return raw('<span class="label label-success">Yes</span>') if bool
 		return raw('<span class="label label-important">No</span>') 
 	end
+
+	def computer_tag computer
+		return unless computer
+		note = link_to(raw('<span class="icon-list-alt" title="查看记录"></span>'),search_notes_path(:cid => computer.id),:target=>"_blank")
+		raw("#{link_to("#{computer.hostname}",computer_path(computer.id))} ##{computer.id} #{note}")
+	end
+
+	def account_tag account
+		return unless account
+		return link_to(account.no,account_path(account.no))
+	end
+
+	def account_bind_tag account
+		return unless account
+		return "未绑定" if account.bind_computer_id  == 0
+		return "禁用绑定" if account.bind_computer_id  == -1
+		return computer_tag(account.bind_computer) if account.bind_computer
+	end
+
 
 end
