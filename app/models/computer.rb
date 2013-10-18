@@ -81,6 +81,19 @@ class Computer < ActiveRecord::Base
     return @_server
   end
 
-  
+  def self.reset_accounts_count
+      computers = Computer.all
+      computers.each do |computer|
+        computer.update_attributes(:accounts_count => computer.accounts.count)
+      end
+  end
+
+    def self.reset_online_accounts_count
+      computers = Computer.all
+      computers.each do |computer|
+        computer.update_attributes(:online_accounts_count => computer.online_accounts.count)
+      end
+  end
+
   
 end
