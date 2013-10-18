@@ -2,26 +2,32 @@
 <input type="text" name="no" class="input-small" placeholder="帐号" value="<%= params[:no]%>" />
 <input type="text" name="server" class="input-small" placeholder="服务器" value="<%= params[:server]%>" />
 <input type="text" name="roles_count" class="input-small" placeholder="角色数量" value="<%= params[:roles_count]%>" />
-<input type="text" name="bind_cid" class="input-small" placeholder="绑定机器ID" value="<%= params[:bind_cid]%>" />
+绑定:
+<select name="bind" class="input-small">
+<option value="">-All-</option>
+<option value="bind" <%= 'selected="selected"' if params[:bind] == "bind" %> >已绑</option>
+<option value="0" <%= 'selected="selected"' if params[:bind] == "0" %>>未绑</option>
+<option value="-1" <%= 'selected="selected"' if params[:bind] == "-1" %>>禁用</option>
+</select>
+<input type="text" name="bind_cid" class="input-small" value="<%= params[:bind_cid]%>" placeholder="机器ID"  title="绑定的机器ID" />
 上线:
 <select name="online" class="input-small">
-<option value="">-All-</option>
-<option value="1">Yes</option>
-<option value="0">No</option>
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:online] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:online] == "0" %> >No</option>
 </select>
-<input type="text" name="online_cid" class="input-small" placeholder="在线机器ID" value="<%= params[:online_cid]%>" />
-<!-- <input type="text" name="online_cid" class="input-small" placeholder="在线角色ID" value="<%= params[:online_rid]%>" />
- -->
-<input type="text" name="online_ip" class="input-small" placeholder="在线IP" value="<%= params[:online_ip]%>" />
-<input type="text" name="date(created_at)" id="created_at" class="input-small" placeholder="注册日期" value='<%= params["date(created_at)"]%>' />
+<input type="text" name="online_cid" value="<%= params[:online_cid]%>" class="input-small" placeholder="机器ID" title="在线机器ID"  />
+<input type="text" name="online_ip" value="<%= params[:online_ip]%>" class="input-small" placeholder="在线IP"  />
+<input type="text" name="online_cid" value="<%= params[:online_rid]%>" class="input-small" placeholder="角色ID"  />
 <hr style="margin:5px 0;">
 状态:
 <select name="status" class="input-medium">
-	<option value="">---All---</option>
-	<% Account::STATUS.each do |status|%>
-		<option value="<%= status%>"><%= status %></option>
-	<%end%>
+<option value="">---All---</option>
+<% Account::STATUS.each do |status|%>
+<option value="<%= status%>" <%= 'selected="selected"' if params[:status] == status %>><%= status %></option>
+<%end%>
 </select> 
+<input type="text" name="date(created_at)" id="created_at" value='<%= params["date(created_at)"]%>' class="input-small" placeholder="注册日期"  />
 
 <input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
 <button type="submit" class="btn">Search</button>

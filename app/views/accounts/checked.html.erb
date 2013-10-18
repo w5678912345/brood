@@ -5,11 +5,16 @@
 <span>您选中了<%= @no.length %> 个账号，执行[<%= Account::Btns[params[:do]]%>]操作!</span> 
 </div>
 
-<%= @no%>
-<%= params[:do]%>
+
 
 <%= form_tag(do_checked_accounts_path,:method => :put,:id=>"account_checked_form") do -%>
 <%= hidden_field_tag :do,params[:do]%>
+
+<select name="no[]" multiple="multiple" style="width:0px;height:0px;">
+<% @no.each do |no|%>
+<option value="<%= no%>" selected="selected"><%= no%></option>
+<%end%>
+</select>
 <button type="submit" class="btn btn-primary">确认执行</button>
 <%end%>
 
