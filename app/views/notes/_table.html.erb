@@ -1,0 +1,32 @@
+<table class="table table-bordered table-condensed">
+<thead>
+	<th>时间</th>
+	<th>区</th>
+	<th>帐号</th>
+	<th>计算机</th>
+	<th>角色</th>
+	<th>版本</th>
+	<th>IP</th>
+	<th>事件</th>
+	<th>状态</th>
+	<th>消息</th>
+</thead>
+<tbody>
+<% notes.each do |note|%>
+<tr title="<%= note.msg %>">
+	<td title="<%= note.id%>"><%= time_str note.created_at %></td>
+	<th><%= note.server %></th>
+	<td><%= account_tag(note.account) unless note.account.blank? %></td>
+	<td><%= computer_tag(note.computer) if note.computer_id > 0%></td>
+	<td title="online_note_id: <%= note.online_note_id %>">
+		<%= role_tag note.role_id if note.role_id > 0 %>
+	</td>
+	<td><%= note.version %></td>
+	<td><%= link_to note.ip,notes_path(:ip => note.ip) %></td>
+	<th><%= note.api_name if note.api_name != '0' %></th>
+	<th><%= note.api_code if note.api_code != '0' %></th>
+	<th><%= note.msg %></th>
+</tr>
+<%end%>
+</tbody>
+</table>

@@ -4,7 +4,9 @@
 <table class="table">
 <thead>
 <tr>
-<th colspan="6">ID: <%= @role.id %></th>
+<th colspan="6">ID: <%= @role.id %>
+<%= link_to "查看记录", notes_path(:role_id=>@role.id),:target=>"_blank" %>
+</th>
 
 </tr>
 </thead>

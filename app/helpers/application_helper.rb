@@ -59,14 +59,27 @@ module ApplicationHelper
 
 	def computer_tag computer
 		return unless computer
-		note = link_to(raw('<span class="icon-list-alt" title="查看记录"></span>'),notes_path(:cid => computer.id),:target=>"_blank")
-		raw("#{link_to("#{computer.hostname}",computer_path(computer.id))} ##{computer.id} #{note}")
+		return link_to("#{computer.hostname}",computer_path(computer.id)) + notes_link_tag(:cid => computer.id)
 	end
 
 	def account_tag account
+		#return account.class
 		return unless account
-		return link_to(account.no,account_path(account.no))
+		account = account.no if account.class.to_s != 'String'
+		return link_to(account,account_path(account),:target => "_blank") + notes_link_tag(:account=>account) 
 	end
+
+	#
+	def role_tag role_id
+		return unless role_id > 0 
+		return link_to(role_id,role_path(role_id),:target => "_blank") + notes_link_tag(:role_id=>role_id) 
+	end
+
+	def notes_link_tag opts
+		link_to(raw('<span class="icon-list-alt" title="查看记录"></span>'),notes_path(opts),:target => "_blank")
+	end
+
+
 
 	def account_bind_tag account
 		return unless account

@@ -3,12 +3,6 @@
 <li <%= active if controller_name == 'roles' && action_name == 'show' %>>
  <%= link_to raw('<i class="icon-info-sign"></i>角色信息'),role_path(@role)  %>
 </li>
-<li <%= active if controller_name == 'roles' && action_name == 'computers' %>>
- <%= link_to raw('<i class="icon-list"></i>绑定计算机'),computers_role_path(@role)  %>
-</li>
-<li <%= active if controller_name == 'roles' && action_name == 'notes' %>>
- <%= link_to raw('<i class="icon-list"></i>事件记录'),notes_role_path(@role)  %>
-</li>
 <li <%= active if controller_name == 'roles' && action_name == 'payments' %>>
  <%= link_to raw('<i class="icon-list"></i>金币支出'),payments_role_path(@role)  %>
 </li>

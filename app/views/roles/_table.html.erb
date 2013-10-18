@@ -2,7 +2,7 @@
 <thead>
 <tr>
 	<th>ID</th>
-	<th>Index</th>
+	<th>角色</th>
 	<th>账户</th>
 	<th>服务器</th>
 	<th>等级</th>
@@ -22,10 +22,8 @@
 <%= role.id %>
 </label>
 </td>
-<td><%= link_to role.id, role_path(role.id) %> <%= role.role_index %></td>
-<td><%= link_to "#{role.account}",account_path(role.account),:target => "_blank" %>
-</td>
-
+<td><%= role_tag role.id %> <%= role.role_index %></td>
+<td><%= account_tag role.account%></td>
 <td><%= role.server%></td>
 <td><%= role.level%></td>
 <td><%= role.vit_power %></td>
@@ -38,12 +36,8 @@
 No<%= "(Waiting...)" if role.can_online%>
 <%end%>
 </td>
-<td>
-<%= role.status %>
-</td>
-<td>
-<%= link_to "查看记录",notes_path(:role_id => role.id ),:target=>"_blank"%>
-</td>
+<td><%= role.status %></td>
+<td>#</td>
 </tr>
 <%end%>
 </tbody>

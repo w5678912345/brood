@@ -30,10 +30,6 @@ class Computer < ActiveRecord::Base
   validates_presence_of :hostname,:auth_key,:user_id
   validates_uniqueness_of :auth_key
 
-  def dis_str
-    return "#{self.hostname}##{self.id}"
-  end
-
 	def check opts
 		self.checked = opts[:checked]
 	end
@@ -48,12 +44,12 @@ class Computer < ActiveRecord::Base
 
   def start opts
     self.update_attributes(:started => true)
-    Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"start_computer",:msg=>opts[:msg])
+    Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"computer_online",:msg=>opts[:msg],:version=>self.version,:hostname => self.hostname,:server=>self.server)
   end
 
   def stop opts
     self.update_attributes(:started => false)
-    Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"stop_computer",:msg=>opts[:msg])
+    Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"computer_offline",:msg=>opts[:msg],:version=>self.version,:hostname => self.hostname,:server=>self.server)
   end
 
   # 自动绑定账户
