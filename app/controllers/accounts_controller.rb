@@ -11,6 +11,7 @@ class AccountsController < ApplicationController
 
 	def list
 		per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
+		#return render :text => params[:ss]
 		@accounts = Account.list_search(params).paginate(:page => params[:page], :per_page => per_page)
 	end
 

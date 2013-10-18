@@ -126,6 +126,9 @@ class Account < ActiveRecord::Base
         accounts = accounts.unbind_scope if opts[:bind] == '0'
         accounts = accounts.can_not_bind_scope if opts[:bind] == '-1'
       end
+      unless opts[:ss].blank?
+        accounts = accounts.where("status in (?)",opts[:ss])
+      end
       # 根据在线IP 查询账户
       accounts = accounts.where("online_ip like ?","%#{opts[:online_ip]}%") unless opts[:online_ip].blank?
       accounts = accounts.where("online_computer_id = ?",opts[:online_cid].to_i) unless opts[:online_cid].blank?
