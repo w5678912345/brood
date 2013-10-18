@@ -1,0 +1,37 @@
+<form class="form-search" action="<%= roles_path %>">
+  <!-- <input type="text" name="account" class="input-small" placeholder="Account" /> -->
+<input type="text" name="id" class="input-small" placeholder="角色ID" value="<%= params[:id]%>" />
+<input type="text" name="account" class="input-small" placeholder="帐号" value="<%= params[:account]%>" />
+<input type="text" name="server" class="input-small" placeholder="服务器" value="<%= params[:server]%>" />
+
+<input type="text" name="level" class="input-small" placeholder="等级(n-m)" value="<%= params[:level]%>" />
+<input type="text" name="vit" class="input-small" placeholder="疲劳(n-m)" value="<%= params[:vit]%>" />
+<!-- <input type="text" name="gold" class="input-small" placeholder="金币(n-m)" value="<%= params[:gold]%>" /> -->
+<input type="text" name="date(created_at)" id="created_at" class="input-small" placeholder="注册日期" value='<%= params["date(created_at)"]%>' />
+<hr style="margin:5px 0;"/>
+状态:
+<select name="status" class="input-medium"  >
+<option value="">---All---</option>
+<% Role::STATUS.each do |status|%>
+<option value="<%= status%>" <%= 'selected="selected"' if params[:status] == status %>><%= status %></option>
+<%end%>
+</select>
+在线:
+<select name="online" class="input-small">
+	<option value="">-All-</option>
+	<option value="1" <%= 'selected="selected"' if params[:online] == "1" %>>Yes</option>
+	<option value="0" <%= 'selected="selected"' if params[:online] == "0" %> >No</option>
+</select>
+
+
+
+<input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
+<button type="submit" class="btn">Search</button>
+
+</form>
+
+<script type="text/javascript">
+$(function(){
+	$("#created_at").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+});
+</script>

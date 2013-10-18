@@ -30,7 +30,7 @@
 <th>修改时间</th>
 <td><%= @computer.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
 <td>操作</td>
-<td><%= link_to "运行记录",search_notes_path(:cid => @computer.id),:target=>"_blank" %></td>
+<td><%= link_to "运行记录",notes_path(:cid => @computer.id),:target=>"_blank" %></td>
 </tr>
 
 
@@ -38,18 +38,5 @@
 </table>
 
 
-<ul id="myTab" class="nav nav-tabs">
-  <li class="active"><a href="#bind" data-toggle="tab">绑定账户</a></li>
-  <li><a href="#online" data-toggle="tab">在线账户</a></li>
-  
-</ul>
-<div id="myTabContent" class="tab-content">
-<div class="tab-pane fade in active" id="bind">
 <%= render :partial => "accounts/table",:locals=>{:accounts=>@computer.accounts} %>
-</div>
-<div class="tab-pane fade" id="online">
-<%= render :partial => "accounts/table",:locals=>{:accounts=>@computer.online_accounts} %>
-</div>
-
-</div>
 

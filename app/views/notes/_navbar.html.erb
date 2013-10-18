@@ -1,15 +1,7 @@
 <% active = 'class=active'%>
 <ul class="nav nav-tabs">
-<li <%= active if controller_name == 'notes' && action_name == 'home' %>>
- <%= link_to raw('<i class="icon-home"></i>记录主页'), home_notes_path %>
+<li <%= active if controller_name == 'notes' && action_name == 'index' %>>
+ <%= link_to raw('<i class="icon-list"></i>记录列表'), notes_path %>
 </li>
-
-
-
-<li <%= active if controller_name == 'notes' && action_name == 'search' %>>
- <%= link_to raw('<i class="icon-search"></i>记录列表'), search_notes_path %>
-</li>
-
-
 
 </ul>

@@ -2,9 +2,9 @@
 class Account < ActiveRecord::Base
 
     STATUS = ['normal','bslocked','bslocked_again','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','finished']
-    EVENT = ['hello']
-    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"清空绑定","bind"=>"绑定机器", "auto_put"=>"自动下线", "delete"=>"删除账号"}
-
+    EVENT = []
+    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"清空绑定"}
+    #"bind"=>"绑定机器", "auto_put"=>"自动下线", "delete"=>"删除账号"
 
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
@@ -61,7 +61,7 @@ class Account < ActiveRecord::Base
       self.transaction do
         computer.update_attributes(:online_accounts_count=>computer.online_accounts_count+1,:version=>opts[:version]|| opts[:msg]) 
         ip.update_attributes(:use_count=>ip.use_count+1)
-        note = Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>ip.value,:api_name=>"online",
+        note = Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>ip.value,:api_name=>"account_online",
           :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version)
         return 1 if self.update_attributes(:online_ip=>ip.value,:online_computer_id=>computer.id,:online_note_id => note.id)
       end
@@ -101,8 +101,8 @@ class Account < ActiveRecord::Base
       computer = Computer.find_by_id(opts[:cid]) unless computer
       self.transaction do 
        computer.update_attributes(:online_accounts_count=>computer.online_accounts_count-1)
-       note = Note.create(:role_id => self.online_role_id, :computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name=>'offline',:msg=>opts[:msg],
-        :account => self.no,:server => self.server,:version => computer.version)
+       note = Note.create(:role_id => self.online_role_id, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_offline',:msg=>opts[:msg],
+        :account => self.no,:server => self.server,:version => computer.version,:hostname=>computer.hostname)
        return 1 if self.update_attributes(:online_ip=>nil,:online_computer_id=>0,:online_note_id => 0,:online_role_id => 0)
       end
     end

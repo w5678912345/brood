@@ -3,7 +3,6 @@ Brood::Application.routes.draw do
   devise_for :users,:path => '/'
 
   resources :accounts do 
-    get   :list,        :on => :collection
     get   :merge,       :on => :collection
     put   :put,         :on => :member
     put   :checked,     :on => :collection
@@ -56,9 +55,7 @@ Brood::Application.routes.draw do
   resources :sheets ,:only =>[:index,:create,:destroy] do
     get :import, :on => :member
   end
-  resources :notes do
-    get :home, :on => :collection
-    get :search, :on => :collection
+  resources :notes , :only => [:index,:show] do
   end
   #
   resources :settings, :only => [:index,:create,:edit,:update,:destroy]

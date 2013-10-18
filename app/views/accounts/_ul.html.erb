@@ -1,11 +1,7 @@
 <% active = 'class=active'%>
 <ul class="nav nav-tabs">
 <li <%= active if controller_name == 'accounts' && action_name == 'index' %>>
- <%= link_to raw('<i class="icon-home"></i>账户主页'), accounts_path %>
-</li>
-
-<li <%= active if controller_name == "accounts" && action_name == 'list' %> >
- <%= link_to raw('<i class="icon-list"></i>账户列表'), list_accounts_path %>
+ <%= link_to raw('<i class="icon-list"></i>账户列表'), accounts_path %>
 </li>
 
 <li <%= active if controller_name == "accounts" && action_name == 'new' %> >

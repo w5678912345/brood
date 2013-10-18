@@ -15,7 +15,7 @@
 <tbody>
 <% @online_group_notes.each do |note|%>
 <tr>
-<td><%= link_to event_badge(note.api_name,0),search_notes_path(:event => note.api_name,:min_time=>@date.to_s) %></td>
+<td><%= link_to event_badge(note.api_name,0),notes_path(:event => note.api_name,:min_time=>@date.to_s) %></td>
 <td><%= note.ecount %></td>
 <td><%= @fail_hash[note.api_name] || 0 %></td>
 <td><%= @success_hash[note.api_name] %></td>

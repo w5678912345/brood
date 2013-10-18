@@ -17,8 +17,8 @@
 <tbody>
 <% @ips.each do |ip| %>
 <tr>
-<td><%= link_to ip.value,search_notes_path(:ip=>ip.value),:target=>"_blank" %></td>
-<td><%= link_to ip.use_count,roles_ip_path(ip.ip_url) %></td>
+<td><%= link_to ip.value,notes_path(:ip=>ip.value),:target=>"_blank" %></td>
+<td><%= link_to ip.use_count,accounts_path(:online_ip => ip.value) %></td>
 <td><%= ip.hours_ago %></td>
 <td><%= time_str ip.updated_at %></td>
 <td>

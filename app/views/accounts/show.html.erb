@@ -35,7 +35,7 @@
 <td>修改时间</td>
 <td><%= time_str @account.updated_at %></td>
 <td colspan="4">
-<%= link_to "查看记录", search_notes_path(:account=>@account.no),:target=>"_blank" %>
+<%= link_to "查看记录", notes_path(:account=>@account.no),:target=>"_blank" %>
 </td>
 </tr>
 

@@ -2,14 +2,6 @@
 class NotesController < ApplicationController
 	
 	def index
-		
-	end
-
-	def home
-		
-	end
-
-	def search
 		@notes = Note.where("id>0")
 		@notes = @notes.where(:role_id => params[:role_id]) unless params[:role_id].blank?
 		@notes = @notes.where(:account => params[:account]) unless params[:account].blank?
@@ -25,9 +17,6 @@ class NotesController < ApplicationController
 		@notes = @notes.where(:version => params[:version]) unless params[:version].blank?
 		per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
 		@notes = @notes.paginate(:page => params[:page], :per_page => per_page)
-	end
-
-	def group_count
 	end
 
 

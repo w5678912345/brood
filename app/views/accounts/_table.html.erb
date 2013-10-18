@@ -52,13 +52,13 @@
 <% if account.is_online? %>
 <%= link_to account.online_computer.hostname, computer_path(account.online_computer) %>#
 <%=  account.online_role_id ==0 ? 'No Role ' : link_to(account.online_role_id,role_path(account.online_role.id)) %>#
-<%= link_to account.online_ip,search_notes_path(:ip => account.online_ip) %>
+<%= link_to account.online_ip,notes_path(:ip => account.online_ip) %>
 <% end %>
 </td>
 <td><%= time_str account.created_at %></td>
 <td><%= account.status %></td>
 <td>
-<%= link_to "查看记录",search_notes_path(:account=>account.no) %>
+<%= link_to "查看记录",notes_path(:account=>account.no) %>
 <% if account.is_online? %>
  <%= link_to raw("下线"),put_account_path(account.no),confirm: 'Are you sure?',:method => :put %>
 <%end%>

@@ -59,7 +59,7 @@ module ApplicationHelper
 
 	def computer_tag computer
 		return unless computer
-		note = link_to(raw('<span class="icon-list-alt" title="查看记录"></span>'),search_notes_path(:cid => computer.id),:target=>"_blank")
+		note = link_to(raw('<span class="icon-list-alt" title="查看记录"></span>'),notes_path(:cid => computer.id),:target=>"_blank")
 		raw("#{link_to("#{computer.hostname}",computer_path(computer.id))} ##{computer.id} #{note}")
 	end
 

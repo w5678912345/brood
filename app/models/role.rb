@@ -179,6 +179,27 @@ class Role < ActiveRecord::Base
   end
 
 
+  def self.list_search opts
+    roles = Role.where("id > 0")
+    roles = roles.where("id = ?",opts[:id]) unless opts[:id].blank?
+    roles = roles.where("server =?",opts[:server]) unless opts[:server].blank?
+    roles = roles.where("account =?",opts[:account]) unless opts[:account].blank?
+    roles = roles.where("status = ?",opts[:status])  unless opts[:status].blank?
+    roles = roles.where("date(created_at) =?",opts["date(created_at)"]) unless opts["date(created_at)"].blank?
+    unless opts[:level].blank?
+      tmp_level = opts[:level].split("-")
+      roles = roles.where("level = ?",tmp_level[0].to_i) if tmp_level.length == 1
+      roles = roles.where("level >= ? and level <= ?",tmp_level[0].to_i,tmp_level[1].to_i) if tmp_level.length == 2
+    end
+    unless opts[:vit].blank?
+      tmp_vit = opts[:vit].split("-")
+      roles = roles.where("vit_power = ?",tmp_vit[0].to_i) if tmp_vit.length == 1
+      roles = roles.where("vit_power >= ? and vit_power <= ?",tmp_vit[0].to_i,tmp_vit[1].to_i) if tmp_vit.length == 2 
+    end
+    return roles
+  end
+
+
 
 	
   def to_account

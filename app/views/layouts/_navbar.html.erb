@@ -1,13 +1,24 @@
 <ul class="nav">
-<li><a href="/"><span class="icon-home"></span>Home</a></li>
-<li><a href="/api/doc">New Doc</a></li>
+<!-- <li><a href="/"><span class="icon-home"></span>Home</a></li> -->
+<li><a href="/api/doc">Doc</a></li>
+
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">计算机
+    <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+    <li class="nav-header">Computer</li>
+    <li><%= link_to "计算机列表", computers_path()%></li>
+    <li><%= link_to "计算机分布统计",group_count_computers_path()%></li>
+    <li><%= link_to "新建计算机", new_computer_path()%></li>
+    </ul>
+</li>
 
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">帐号
     <b class="caret"></b></a>
     <ul class="dropdown-menu">
-    <li class="nav-header">ACCOUNT</li>
-    <li><%= link_to "帐号列表", list_accounts_path()%></li>
+    <li class="nav-header">Account</li>
+    <li><%= link_to "帐号列表", accounts_path()%></li>
     </ul>
 </li>
 
@@ -16,25 +27,26 @@
     <b class="caret"></b></a>
     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
 		  <li class="nav-header">Role</li>
-		  <li><%= link_to "角色主页", home_roles_path()%></li>
-		  <li class="dropdown-submenu"><%= link_to "角色列表", roles_path()%>
-                <%= render "roles/ul"%>
-			</li>
-		  <li><%= link_to "搜索角色", search_roles_path()%></li>
+		  <li><%= link_to "角色列表", roles_path()%></li>
 		  <li><%= link_to "角色分布统计",group_count_roles_path()%></li>
     </ul>
 </li>
 
-
 <li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">计算机
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">记录
     <b class="caret"></b></a>
     <ul class="dropdown-menu">
-    <li class="nav-header">Computer</li>
-    <li><%= link_to "计算机主页", home_computers_path()%></li>
-    <li><%= link_to "计算机列表", computers_path()%></li>
-    <li><%= link_to "计算机分布统计",group_count_computers_path()%></li>
-    <li><%= link_to "新建计算机", new_computer_path()%></li>
+    <li class="nav-header">Note</li>
+    <li><%= link_to "记录记录", notes_path()%></li>
+    </ul>
+</li>
+
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">服务器
+    <b class="caret"></b></a>
+    <ul class="dropdown-menu">
+    <li class="nav-header">Server</li>
+    <li><%= link_to "服务器列表", servers_path()%></li>
     </ul>
 </li>
 
@@ -44,27 +56,6 @@
     <ul class="dropdown-menu">
     <li class="nav-header">IP</li>
     <li><%= link_to "IP 列表", ips_path()%></li>
-    </ul>
-</li>
-
-
-
-<li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">记录
-    <b class="caret"></b></a>
-    <ul class="dropdown-menu">
-    <li class="nav-header">Note</li>
-    <li><%= link_to "记录主页", home_notes_path()%></li>
-    <li><%= link_to "搜索记录", search_notes_path()%></li>
-    </ul>
-</li>
-
-<li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">服务器
-    <b class="caret"></b></a>
-    <ul class="dropdown-menu">
-    <li class="nav-header">SERVER</li>
-    <li><%= link_to "服务器列表", servers_path()%></li>
     </ul>
 </li>
 
@@ -92,26 +83,18 @@
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">用户
     <b class="caret"></b></a>
     <ul class="dropdown-menu">
-    <li class="nav-header">USER</li>
+    <li class="nav-header">User</li>
     <li><%= link_to "用户列表", users_path()%></li>
 		<li><%= link_to "新建用户", new_user_path()%></li>
     </ul>
 </li>
 
-<!-- <li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown">版本
-    <b class="caret"></b></a>
-    <ul class="dropdown-menu">
-    <li class="nav-header">VERSION</li>
-    <li><%= link_to "版本列表", versions_path()%></li>
-    </ul>
-</li> -->
 
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">设置
     <b class="caret"></b></a>
     <ul class="dropdown-menu">
-    <li class="nav-header">SETTING</li>
+    <li class="nav-header">Setting</li>
     <li><%= link_to "设置列表", settings_path()%></li>
     </ul>
 </li>

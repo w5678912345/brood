@@ -2,17 +2,12 @@
 class AccountsController < ApplicationController
 
 	def index
-
+		per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
+		@accounts = Account.list_search(params).paginate(:page => params[:page], :per_page => per_page)
 	end
 
 	def show
 		@account = Account.find_by_no(params[:id])
-	end
-
-	def list
-		per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
-		#return render :text => params[:ss]
-		@accounts = Account.list_search(params).paginate(:page => params[:page], :per_page => per_page)
 	end
 
 	def merge
@@ -21,7 +16,6 @@ class AccountsController < ApplicationController
 		Role.generate_accounts roles
 		return  render :text => roles.count
 	end
-
 
 	def new
 		@account = Account.new
@@ -66,8 +60,5 @@ class AccountsController < ApplicationController
 		redirect_to account_path(@account.no)
 	end
 
-	def generate
-
-	end
 
 end
