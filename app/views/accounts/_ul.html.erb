@@ -8,4 +8,8 @@
  <%= link_to raw('<i class="icon-plus"></i>新建账户'), new_account_path %>
 </li>
 
+<li <%= active if controller_name == "accounts" && action_name == 'import' %> >
+ <%= link_to raw('<i class="icon-folder-open"></i>导入账户'), import_accounts_path %>
+</li>
+
 </ul>

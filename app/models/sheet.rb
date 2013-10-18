@@ -39,5 +39,27 @@ class Sheet < ActiveRecord::Base
      end
       self.update_attributes(:imported=>true,:imported_at=>Time.now,:import_count=>count)
    end
+
+   # 导入账户
+   def to_accounts
+      filename = "#{Rails.root}/public/#{self.file.to_s}"
+      return false unless File.exists?(filename)
+      count = 0
+      File.open(filename) do |file|    
+        file.each_line do |line|
+          line = line.gsub("\r\n","")
+          tmp = line.split("----")
+          if tmp && tmp.length == 2
+            account = Account.new(:no=>tmp[0],:password=>tmp[1]) 
+            unless Account.exists?(:no=>tmp[0]) 
+              count = count + 1 if account.save
+            end
+            
+          end
+        end    
+        file.close();    
+      end
+      self.update_attributes(:imported=>true,:imported_at=>Time.now,:import_count=>count) 
+   end
    
 end

@@ -28,14 +28,7 @@
 <td><%= role.level%></td>
 <td><%= role.vit_power %></td>
 <td><%= role.gold %></td>
-<td>
-<% if role.is_online? %>
-<%= role.computer_id %>
-<%= link_to role.computer.hostname , computer_path(role.computer) if role.computer %>
-<%else%>
-No<%= "(Waiting...)" if role.can_online%>
-<%end%>
-</td>
+<td></td>
 <td><%= role.status %></td>
 <td>#</td>
 </tr>

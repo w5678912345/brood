@@ -7,6 +7,8 @@ Brood::Application.routes.draw do
     put   :put,         :on => :member
     put   :checked,     :on => :collection
     put   :do_checked,  :on => :collection
+    get   :import,      :on => :collection
+    post  :do_import,   :on => :collection
   end
 
   #

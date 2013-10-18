@@ -51,6 +51,22 @@ class AccountsController < ApplicationController
 		return render :text => "nothing"
 	end
 
+	#
+	def import
+		
+	end
+
+	def do_import
+		_file = params[:file]
+		@sheet = Sheet.new(:file=>_file)
+		@sheet.uploader = current_user
+		if @sheet.save
+			@sheet.to_accounts
+			flash[:msg] = "新导入了#{@sheet.import_count}个账号!"
+		end
+		redirect_to accounts_path()
+	end
+
 	#放回帐号
 	def put
 		@account = Account.find_by_no(params[:id])

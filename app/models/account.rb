@@ -141,6 +141,16 @@ class Account < ActiveRecord::Base
     end
 
 
+    def self.import file_path
+      return false unless File.exists?(file_path)
+      File.open(file_path) do |file|    
+        file.each_line do |line|
+          puts line 
+        end    
+        file.close();    
+      end   
+    end
+
 
     def sellers
       return [] unless self.game_server
