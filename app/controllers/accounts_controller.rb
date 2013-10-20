@@ -41,12 +41,16 @@ class AccountsController < ApplicationController
 
 		if "disable_bind" == @do
 			@accounts.update_all(:bind_computer_id => -1)
-			return redirect_to list_accounts_path(:bind=>-1)
+			return redirect_to accounts_path(:bind=>-1)
 		elsif "clear_bind" == @do
 			@accounts.update_all(:bind_computer_id => 0)
-			return redirect_to list_accounts_path(:bind=> 0)
-		elsif "" == @do
-
+			return redirect_to accounts_path(:bind=> 0)
+		elsif "add_role" == @do
+			@accounts.each do |account|
+				account.add_new_role
+			end
+			flash[:msg] = "#{@accounts.length}个账号,新建了角色!"
+			return redirect_to accounts_path(:roles_count => 1)
 		end
 		return render :text => "nothing"
 	end

@@ -3,7 +3,7 @@ class Account < ActiveRecord::Base
 
     STATUS = ['normal','bslocked','bslocked_again','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','finished']
     EVENT = []
-    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"清空绑定"}
+    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"清空绑定","add_role" => "添加角色"}
     #"bind"=>"绑定机器", "auto_put"=>"自动下线", "delete"=>"删除账号"
 
     # 
@@ -138,6 +138,11 @@ class Account < ActiveRecord::Base
 
     def self.get_well_account opts
 
+    end
+
+    def add_new_role
+      self.roles.build(:account=>self.no,:password => self.password,:role_index => self.roles.count,:vit_power=>156)
+      self.save
     end
 
 
