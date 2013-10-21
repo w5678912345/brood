@@ -28,8 +28,9 @@ ActiveRecord::Schema.define(:version => 20131016053800) do
     t.integer  "online_computer_id", :default => 0,        :null => false
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false
-    t.integer  "bind_computer_id",   :default => 0,        :null => false
+    t.integer  "bind_computer_id",   :default => -1,       :null => false
     t.datetime "bind_computer_at"
+    t.datetime "normal_at"
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true

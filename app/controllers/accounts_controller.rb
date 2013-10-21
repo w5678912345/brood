@@ -23,7 +23,6 @@ class AccountsController < ApplicationController
 
 	def create
 		@account = Account.new(params[:account])
-		@account.computers_count = -1
 		if @account.save
 			redirect_to account_path(@account.no)
 		else
@@ -39,25 +38,26 @@ class AccountsController < ApplicationController
 		@do = params[:do]
 		@no = params[:no]
 		@accounts = Account.where("no in (?)",@no)
-
+		# 禁用绑定
 		if "disable_bind" == @do
 			@accounts.update_all(:bind_computer_id => -1)
 			return redirect_to accounts_path(:bind=>-1)
+		# 清空绑定
 		elsif "clear_bind" == @do
 			@accounts.update_all(:bind_computer_id => 0)
 			return redirect_to accounts_path(:bind=> 0)
+		# 添加角色
 		elsif "add_role" == @do
 			@accounts.each do |account|
 				account.add_new_role
 			end
 			flash[:msg] = "#{@accounts.length}个账号,新建了角色!"
 			return redirect_to accounts_path(:roles_count => 1)
+		# 调用下线
 		elsif "call_offline" 
 			@accounts = @accounts.online_scope
 			@accounts.each do |account|
-				if account.is_online?
-					account.api_put(opts = {:ip=>"localhost",:cid=> account.online_computer_id})
-				end
+				account.api_put(opts = {:ip=>"localhost",:cid=> account.online_computer_id,:msg=>"auto"})
 			end
 			flash[:msg] = "#{@accounts.length}个账号被下线!"
 			return redirect_to accounts_path(:online => 1)
@@ -79,15 +79,6 @@ class AccountsController < ApplicationController
 			flash[:msg] = "新导入了#{@sheet.import_count}个账号!"
 		end
 		redirect_to accounts_path()
-	end
-
-	#放回帐号
-	def put
-		@account = Account.find_by_no(params[:id])
-
-		opts = {:ip => request.remote_ip,:cid => @account.online_computer_id}
-		@account.api_put opts
-		redirect_to account_path(@account.no)
 	end
 
 

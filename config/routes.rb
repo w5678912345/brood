@@ -4,7 +4,6 @@ Brood::Application.routes.draw do
 
   resources :accounts do 
     get   :merge,       :on => :collection
-    put   :put,         :on => :member
     put   :checked,     :on => :collection
     put   :do_checked,  :on => :collection
     get   :import,      :on => :collection

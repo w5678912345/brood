@@ -5,7 +5,7 @@
 <tbody>
 <tr>
 	<td>账户</td>
-	<td><%= @account.no %></td>
+	<td><%= account_tag @account.no %></td>
 	<td>创建时间</td>
 	<td><%= time_str @account.created_at %></td>
 	<td>状态</td>
@@ -21,16 +21,7 @@
 <td>所在区</td>
 <td><%= @account.server %></td>
 </tr>
-<% if @account.is_online? %>
-<tr>
-	<td>在线角色</td>
-	<td><%= @account.online_role_id %></td>
-	<td>在线机器</td>
-	<td><%= link_to @account.online_computer_id,computer_path(@account.online_computer_id) %></td>
-	<td>IP</td>
-	<td><%= @account.online_ip %></td>
-</tr>
-<%end%>
+
 <tr>
 <td>修改时间</td>
 <td><%= time_str @account.updated_at %></td>
@@ -39,6 +30,16 @@
 </td>
 </tr>
 
+<% if @account.is_online? %>
+<tr>
+	<th>在线角色</th>
+	<td><%= @account.online_role_id %></td>
+	<th>在线机器</th>
+	<td><%= computer_tag @account.online_computer %></td>
+	<th>IP</th>
+	<td><%= @account.online_ip %></td>
+</tr>
+<%end%>
 
 </tbody>
 </table>

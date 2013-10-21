@@ -5,6 +5,9 @@ class Account < ActiveRecord::Base
     STATUS = ['normal','bslocked','bslocked_again','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','finished']
     EVENT = []
     Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"清空绑定","add_role" => "添加角色","call_offline"=>"调用下线"}
+    # 需要自动恢复normal的状态
+    Auto_Normal = {"disconnect"=>2,"exception"=>3}
+
     #"bind"=>"绑定机器", "auto_put"=>"自动下线", "delete"=>"删除账号"
 
     # 
@@ -157,6 +160,11 @@ class Account < ActiveRecord::Base
         end    
         file.close();    
       end   
+    end
+
+    #账号自动恢复normal 状态
+    def self.auto_normal
+      
     end
 
     #可用的角色

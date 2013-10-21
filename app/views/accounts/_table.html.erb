@@ -57,13 +57,7 @@
 </td>
 <td><%= time_str account.created_at %></td>
 <td><%= account.status %></td>
-<td>
-<%= link_to "查看记录",notes_path(:account=>account.no) %>
-<% if account.is_online? %>
- <%= link_to raw("下线"),put_account_path(account.no),confirm: 'Are you sure?',:method => :put %>
-<%end%>
-
-</td>
+<td>#</td>
 </tr>
 <%end%>
 </tbody>
