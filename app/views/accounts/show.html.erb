@@ -8,26 +8,23 @@
 	<td><%= account_tag @account.no %></td>
 	<td>创建时间</td>
 	<td><%= time_str @account.created_at %></td>
-	<td>状态</td>
-	<td><%= @account.status%></td>
+	<td>所在区</td>
+<td><%= @account.server %></td>
 </tr>
 <tr>
 <td>角色数量</td>
 <td><%= @account.roles_count %></td>
 <td>绑定机器</td>
-<td>
-<%= computer_tag @account.bind_computer %>
-</td>
-<td>所在区</td>
-<td><%= @account.server %></td>
+<td><%= computer_tag @account.bind_computer %></td>
+<td>状态</td>
+<td><%= @account.status%></td>
 </tr>
 
 <tr>
 <td>修改时间</td>
-<td><%= time_str @account.updated_at %></td>
-<td colspan="4">
-<%= link_to "查看记录", notes_path(:account=>@account.no),:target=>"_blank" %>
-</td>
+<td colspan="3"><%= time_str @account.updated_at %></td>
+<th>恢复时间</th>
+<td> <%= time_str @account.normal_at %></td>
 </tr>
 
 <% if @account.is_online? %>

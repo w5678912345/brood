@@ -6,7 +6,7 @@ class Account < ActiveRecord::Base
     EVENT = []
     Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"清空绑定","add_role" => "添加角色","call_offline"=>"调用下线"}
     # 需要自动恢复normal的状态
-    Auto_Normal = {"disconnect"=>2,"exception"=>3}
+    Auto_Normal = {"disconnect"=>2,"exception"=>3,"bslocked"=>72}
 
     #"bind"=>"绑定机器", "auto_put"=>"自动下线", "delete"=>"删除账号"
 
@@ -39,6 +39,7 @@ class Account < ActiveRecord::Base
     scope :bind_scope, where("bind_computer_id > 0") # 已绑定
     scope :unbind_scope, where("bind_computer_id = 0") # 未绑定 
     scope :can_not_bind_scope ,where("bind_computer_id = -1") # 不能绑定
+    scope :un_normal_scope,where("status != 'normal' ")
 
 
 
@@ -76,7 +77,7 @@ class Account < ActiveRecord::Base
 
     # 设置当前帐号 属性
     def api_set opts
-      computer = Computer.find_by_auth_key(opts[:ckey])
+      computer = Computer.find_by_key_or_id(opts[:ckey] || opts[:cid])
       status = opts[:status]
       event = opts[:event]
 
@@ -88,7 +89,14 @@ class Account < ActiveRecord::Base
             Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_code=>self.status,
               :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:api_name => '0')
           end
+          #
+          if Auto_Normal.has_key?(status)
+            #  修改恢复时间
+            self.normal_at = Time.now.since(Account::Auto_Normal[status].hours)
+          end
         end
+        self.normal_at = nil if self.status == 'normal' #状态正常时，清空normal
+        self.updated_at = Time.now
 
         # 记录账号发生的事件
         if EVENT.include? event
@@ -104,8 +112,8 @@ class Account < ActiveRecord::Base
     def api_put opts
       # 判断账号是否在线
       return CODES[:account_is_offline] unless self.is_online?
-      computer = Computer.find_by_auth_key(opts[:ckey])
-      computer = Computer.find_by_id(opts[:cid]) unless computer
+      computer = Computer.find_by_key_or_id(opts[:ckey] || opts[:cid])
+      computer = Computer.new unless computer
       self.transaction do 
        # 修改机器的上线账号数量
        computer.update_attributes(:online_accounts_count=>computer.online_accounts_count-1)
@@ -146,25 +154,19 @@ class Account < ActiveRecord::Base
       return accounts
     end
 
+    #为账号新建一个角色
     def add_new_role
-      self.roles.build(:account=>self.no,:password => self.password,:role_index => self.roles.count,:vit_power=>156)
+      self.roles.build(:account=>self.no,:password => self.password,:role_index => self.roles.count,:vit_power=>156,:server => self.server)
       self.save
     end
 
 
-    def self.import file_path
-      return false unless File.exists?(file_path)
-      File.open(file_path) do |file|    
-        file.each_line do |line|
-          puts line 
-        end    
-        file.close();    
-      end   
-    end
-
     #账号自动恢复normal 状态
     def self.auto_normal
-      
+      now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+      # 状态为可恢复，并且恢复时间小于当前时间的账号
+      accounts = Account.where("status in (?)",Auto_Normal.keys).where("normal_at <= '#{now}'").reorder(:id)
+      accounts.update_all(:status => "normal",:normal => nil)
     end
 
     #可用的角色
@@ -172,7 +174,7 @@ class Account < ActiveRecord::Base
       self.roles.where("vit_power > 0 and status = 'normal' ")
     end
 
-
+    #
     def sellers
       return [] unless self.game_server
       return  self.game_server.roles

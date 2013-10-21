@@ -30,6 +30,13 @@ class Computer < ActiveRecord::Base
   validates_presence_of :hostname,:auth_key,:user_id
   validates_uniqueness_of :auth_key
 
+  #
+  def self.find_by_key_or_id c
+    computer = Computer.find_by_auth_key(c)
+    computer = Computer.find_by_id(c) unless computer
+    return computer
+  end
+
 	def check opts
 		self.checked = opts[:checked]
 	end
