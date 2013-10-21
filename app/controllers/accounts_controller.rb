@@ -23,6 +23,7 @@ class AccountsController < ApplicationController
 
 	def create
 		@account = Account.new(params[:account])
+		@account.computers_count = -1
 		if @account.save
 			redirect_to account_path(@account.no)
 		else
@@ -51,6 +52,15 @@ class AccountsController < ApplicationController
 			end
 			flash[:msg] = "#{@accounts.length}个账号,新建了角色!"
 			return redirect_to accounts_path(:roles_count => 1)
+		elsif "call_offline" 
+			@accounts = @accounts.online_scope
+			@accounts.each do |account|
+				if account.is_online?
+					account.api_put(opts = {:ip=>"localhost",:cid=> account.online_computer_id})
+				end
+			end
+			flash[:msg] = "#{@accounts.length}个账号被下线!"
+			return redirect_to accounts_path(:online => 1)
 		end
 		return render :text => "nothing"
 	end

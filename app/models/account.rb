@@ -1,9 +1,10 @@
 # encoding: utf-8
 class Account < ActiveRecord::Base
+    CODES = Api::CODES
 
     STATUS = ['normal','bslocked','bslocked_again','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','finished']
     EVENT = []
-    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"清空绑定","add_role" => "添加角色"}
+    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"清空绑定","add_role" => "添加角色","call_offline"=>"调用下线"}
     #"bind"=>"绑定机器", "auto_put"=>"自动下线", "delete"=>"删除账号"
 
     # 
@@ -23,11 +24,7 @@ class Account < ActiveRecord::Base
     #包含角色
     has_many   :roles, :class_name => 'Role', :foreign_key => 'account', :primary_key => 'no'
 
-    #has_many :computer_accounts,:dependent => :destroy,:foreign_key => 'account_no', :primary_key => 'no'
-
-    #has_many   :computers,:class_name => 'Computer',through: :computer_accounts
-
-
+    
     validates_uniqueness_of :no
 
     default_scope order("online_note_id desc")
@@ -56,13 +53,19 @@ class Account < ActiveRecord::Base
 
     # 获取当前帐号
     def api_get opts
+      # 判断账号是否在线
+      return CODES[:account_is_online] if self.is_online?
       ip = Ip.find_or_create(opts[:ip])
       computer = Computer.find_by_auth_key(opts[:ckey])
       self.transaction do
+        #增加计算机上线账号数
         computer.update_attributes(:online_accounts_count=>computer.online_accounts_count+1,:version=>opts[:version]|| opts[:msg]) 
+        #增加ip使用次数
         ip.update_attributes(:use_count=>ip.use_count+1)
+        # 记录note
         note = Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>ip.value,:api_name=>"account_online",
           :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version)
+        # 修改账号 上线IP, 上线机器ID, 上线记录ID
         return 1 if self.update_attributes(:online_ip=>ip.value,:online_computer_id=>computer.id,:online_note_id => note.id)
       end
     end
@@ -73,10 +76,9 @@ class Account < ActiveRecord::Base
       computer = Computer.find_by_auth_key(opts[:ckey])
       status = opts[:status]
       event = opts[:event]
-      #return 0 unless STATUS.include? status 
+
       self.transaction do 
-        #self.online_role_id = opts[:rid] unless opts[:rid].blank?
-        #
+        # 记录账户改变的状态
         if STATUS.include? status
           self.status = (self.status == 'bslocked' && status == 'bslocked') ? 'bslocked_again' : status
           if self.status_changed?
@@ -85,9 +87,9 @@ class Account < ActiveRecord::Base
           end
         end
 
-        #   
-        if EVENT.include? opts[:event]
-          Note.create(:role_id => self.online_role_id, :computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name => opts[:event],
+        # 记录账号发生的事件
+        if EVENT.include? event
+          Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name => opts[:event],
           :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version)
         end 
         return 1 if self.save
@@ -97,12 +99,17 @@ class Account < ActiveRecord::Base
 
     # 放回当前帐号
     def api_put opts
+      # 判断账号是否在线
+      return CODES[:account_is_offline] unless self.is_online?
       computer = Computer.find_by_auth_key(opts[:ckey])
       computer = Computer.find_by_id(opts[:cid]) unless computer
       self.transaction do 
+       # 修改机器的上线账号数量
        computer.update_attributes(:online_accounts_count=>computer.online_accounts_count-1)
-       note = Note.create(:role_id => self.online_role_id, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_offline',:msg=>opts[:msg],
+       # 记录 note
+       note = Note.create(:computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_offline',:msg=>opts[:msg],
         :account => self.no,:server => self.server,:version => computer.version,:hostname=>computer.hostname)
+       # 修改账号的 上线IP, 上线机器ID, 上线记录ID, 上线角色ID
        return 1 if self.update_attributes(:online_ip=>nil,:online_computer_id=>0,:online_note_id => 0,:online_role_id => 0)
       end
     end
@@ -134,10 +141,6 @@ class Account < ActiveRecord::Base
       accounts = accounts.where("online_computer_id = ?",opts[:online_cid].to_i) unless opts[:online_cid].blank?
       accounts = accounts.where("date(created_at) = ?",opts["date(created_at)"]) unless opts["date(created_at)"].blank?
       return accounts
-    end
-
-    def self.get_well_account opts
-
     end
 
     def add_new_role

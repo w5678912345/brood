@@ -10,6 +10,7 @@ class Api::AccountsController < Api::BaseController
 	before_filter :valid_ip_use_count,					:only => [:index] # 验证当前IP的24小时使用次数
 	before_filter :valid_ip_range_online_count,			:only => [:index] # 验证当前IP 前三段的在线数量
 	before_filter :require_account_by_no,				:only => [:show,:get,:set,:put] # 根据帐号取得一个账户
+	#before_filter :require_account_is_online,			:only => []
 
 
 	# 自动调度帐号

@@ -22,7 +22,9 @@ CODES = {
    :computer_no_server => -16,
    :not_find_task => -17,
    :not_find_role_by_ip => -18,
-   :not_find_account => -19
+   :not_find_account => -19,
+   :account_is_online => -20,
+   :account_is_offline => -21
   }
 
   EVENTS = {}
