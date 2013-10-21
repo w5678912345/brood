@@ -36,7 +36,8 @@ end
 
 #
 every 60.minutes do
-  runner 'Api.role_auto_reopen',:environment => str_environment
+  #runner 'Api.role_auto_reopen',:environment => str_environment
+  runner 'Account.auto_normal'
 end
 
 
