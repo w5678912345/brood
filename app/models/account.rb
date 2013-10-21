@@ -159,6 +159,11 @@ class Account < ActiveRecord::Base
       end   
     end
 
+    #可用的角色
+    def available_roles
+      self.roles.where("vit_power > 0 and status = 'normal' ")
+    end
+
 
     def sellers
       return [] unless self.game_server
