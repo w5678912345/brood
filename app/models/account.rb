@@ -4,30 +4,26 @@ class Account < ActiveRecord::Base
 
     STATUS = ['normal','bslocked','bslocked_again','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','finished']
     EVENT = []
-    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"清空绑定","add_role" => "添加角色","call_offline"=>"调用下线"}
+    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线"}
     # 需要自动恢复normal的状态
     Auto_Normal = {"disconnect"=>2,"exception"=>3,"bslocked"=>72}
-
-    #"bind"=>"绑定机器", "auto_put"=>"自动下线", "delete"=>"删除账号"
-
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
     attr_accessible :bind_computer_id, :bind_computer_at
     #所属服务器
 	  belongs_to :game_server, :class_name => 'Server', :foreign_key => 'server',:primary_key => 'name'
-
     #在线角色
     belongs_to :online_role, :class_name => 'Role', :foreign_key => 'online_role_id'
     #在线记录
    	belongs_to :online_note, :class_name => 'Note', :foreign_key => 'online_note_id'
     #在线机器
-   	belongs_to :online_computer, :class_name => 'Computer', :foreign_key => 'online_computer_id' #, :counter_cache => :online_accounts_count
+   	belongs_to :online_computer, :class_name => 'Computer', :foreign_key => 'online_computer_id' 
     #绑定机器
-    belongs_to :bind_computer,  :class_name => 'Computer', :foreign_key => 'bind_computer_id' #, :counter_cache => :accounts_count
+    belongs_to :bind_computer,  :class_name => 'Computer', :foreign_key => 'bind_computer_id'
     #包含角色
     has_many   :roles, :class_name => 'Role', :foreign_key => 'account', :primary_key => 'no'
 
-    
+    # 
     validates_uniqueness_of :no
 
     default_scope order("online_note_id desc")
@@ -39,7 +35,8 @@ class Account < ActiveRecord::Base
     scope :bind_scope, where("bind_computer_id > 0") # 已绑定
     scope :unbind_scope, where("bind_computer_id = 0") # 未绑定 
     scope :can_not_bind_scope ,where("bind_computer_id = -1") # 不能绑定
-    scope :un_normal_scope,where("status != 'normal' ")
+    scope :un_normal_scope,where("status != 'normal' ") # 非正常状态的账号
+    scope :no_server_scope,where("server is null or server = '' ") #服务器为空的账号 
 
 
 
@@ -117,6 +114,9 @@ class Account < ActiveRecord::Base
       self.transaction do 
        # 修改机器的上线账号数量
        computer.update_attributes(:online_accounts_count=>computer.online_accounts_count-1)
+       #
+       # 更新 在线时间
+       
        # 记录 note
        note = Note.create(:computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_offline',:msg=>opts[:msg],
         :account => self.no,:server => self.server,:version => computer.version,:hostname=>computer.hostname)
@@ -132,6 +132,7 @@ class Account < ActiveRecord::Base
     	accounts = Account.includes(:online_computer,:online_role,:bind_computer)
       accounts = accounts.where("no = ?", opts[:no]) unless opts[:no].blank?
     	accounts = accounts.where("server = ?",opts[:server]) unless opts[:server].blank?
+      accounts = accounts.no_server_scope if opts[:no_server].to_i == 1
     	accounts = accounts.where("status = ?",opts[:status])	unless opts[:status].blank?
       accounts = accounts.where("roles_count = ?",opts[:roles_count].to_i) unless opts[:roles_count].blank?
       accounts = accounts.where("bind_computer_id = ?",opts[:bind_cid].to_i) unless opts[:bind_cid].blank?

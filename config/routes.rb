@@ -34,18 +34,12 @@ Brood::Application.routes.draw do
   end
 
   resources :computers do 
-    get 	:home,  		:on => :collection
-		get 	:checked,		:on => :collection
-		get 	:unchecked,	:on => :collection
-    get   :version,   :on => :collection
-		put		:check,			:on	=> :collection
     get   :group_count, :on=> :collection
-    get 	:notes, 		:on => :member
-    get 	:roles, 		:on => :member
     get   :logs,      :on => :member
     get   :alogs,     :on => :member
     put   :enable,    :on => :member
-    get   :online_roles,    :on => :member
+    put   :checked,     :on => :collection
+    put   :do_checked,  :on => :collection
   end
   resources :ips,:only => [:index,:destroy,:show] do 
     get :clear, 		:on => :collection

@@ -10,5 +10,5 @@ max_conns: 1024
 max_persistent_conns: 100
 require: []
 wait: 30
-servers: 10
+servers: 1
 daemonize: true

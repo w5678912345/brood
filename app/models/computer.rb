@@ -1,5 +1,8 @@
 # encoding: utf-8
 class Computer < ActiveRecord::Base
+
+  Btns = { "pass"=>"审核通过", "refuse"=>"拒绝通过", "bind_accounts" => "分配账号","task"=>"任务分配"}
+
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count,:started
   attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at,:version,:online_roles_count,:online_accounts_count
   attr_accessible :accounts_count
@@ -60,7 +63,7 @@ class Computer < ActiveRecord::Base
   end
 
   # 自动绑定账户
-  def auto_bind_accounts
+  def auto_bind_accounts opts
     # 机器可以绑定的账户数
     accounts_count = Setting.computer_accounts_count  
     # 机器还可以绑定的账户数量
@@ -68,6 +71,7 @@ class Computer < ActiveRecord::Base
     return if can_accounts_count < 1
     # 查询可以绑定的账户
     accounts = Account.unbind_scope.where("server is null or server = '' or server = ? ",self.server).limit(can_accounts_count)
+    accounts = accounts.where("status = ?",opts[:status]) unless opts[:status].blank?
     return if accounts.blank?
     # 绑定账户
     accounts.update_all(:bind_computer_id => self.id,:bind_computer_at => Time.now,:server => self.server)

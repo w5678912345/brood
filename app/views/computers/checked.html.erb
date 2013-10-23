@@ -1,0 +1,24 @@
+<fieldset>
+<legend>计算机： <%= Computer::Btns[params[:do]]%></legend>
+<div class="alert">
+<strong>提示信息:</strong>
+<span>您选中了<%= @ids.length %> 个机器，执行[<%= Computer::Btns[params[:do]]%>]操作!</span> 
+</div>
+
+<%= form_tag(do_checked_computers_path,:method => :put,:id=>"computer_checked_form") do -%>
+<%= hidden_field_tag :do,params[:do]%>
+<select name="ids[]" multiple="multiple" style="display:none;">
+<% @ids.each do |id|%>
+<option value="<%= id%>" selected="selected"><%= id %></option>
+<%end%>
+</select>
+
+<% if params[:do] == "bind_accounts"%>
+<label>角色状态(分配指定状态的账号)</label><%= text_field_tag :status,nil,:placeholder=>"账号状态" %>
+<%end%>
+<p>
+<button type="submit" class="btn btn-primary">确认执行</button>
+</p>
+<%end%>
+
+</fieldset>

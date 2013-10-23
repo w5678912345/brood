@@ -1,16 +1,12 @@
 # encoding: utf-8
 class ComputersController < ApplicationController
 
-
-
-	load_and_authorize_resource :class => "Computer"
+  load_and_authorize_resource :class => "Computer"
 
   before_filter :require_tasks,:only=>[:index,:checked,:unchecked]
   
   def index
-
-   # return render :text => params["date(created_at)"]
-    
+  
     @computers = Computer.where(:status=>1).includes(:user)
     #@computers = @computers.where("server = '' or server is NULL") if params[:server] == "null"
     @computers = @computers.where(:server=>params[:server]) unless params[:server].blank? || params[:server] == "null"
@@ -19,7 +15,6 @@ class ComputersController < ApplicationController
     @computers = @computers.where(:checked => params[:checked]) unless params[:checked].blank?
     @computers = @computers.where(:started => params[:started]) unless params[:started].blank?
     @computers = @computers.where(:status => params[:status].to_i) unless params[:status].blank?
-    #@computers = @computers.where(:online_roles_count => params[:online_roles_count].to_i) unless params[:online_roles_count].blank?
     @computers = @computers.where(:accounts_count => params[:accounts_count]) unless params[:accounts_count].blank?
     @computers = @computers.where("date(created_at) =?",params["date(created_at)"]) unless params["date(created_at)"].blank?
     @computers = @computers.where("hostname like ?","%#{params[:hostname]}%") unless params[:hostname].blank?
@@ -27,25 +22,40 @@ class ComputersController < ApplicationController
     per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
   	@computers = @computers.order("hostname desc").paginate(:page => params[:page], :per_page => per_page)
 
-  
-
   end
 
-  def home
-
-  end
 
 
 
 	def checked
-		@computers = Computer.where(:checked => true).paginate(:page => params[:page], :per_page => 20)
-		render :action => "index"
-	end
+	 @ids = params[:ids]
+   @do = params[:do]
+
+  end
+
+  def do_checked
+    @ids = params[:ids]
+    @do = params[:do]
+    @computers = Computer.where("id in (?)",@ids)
+    #
+    if @do == "pass"
+      @computers.update_all(:checked=>true,:checked_at => Time.now)
+      flash[:msg] = "通过了#{@computers.length}台机器"
+      return redirect_to computers_path(:checked=>1)
+    elsif @do == "refuse"
+      @computers.update_all(:checked=>false,:checked_at => Time.now)
+      flash[:msg] = "拒绝了#{@computers.length}台机器"
+      return redirect_to computers_path(:checked=>0)
+    elsif @do == "bind_accounts"
+      @computers.each do |computer|
+          computer.auto_bind_accounts(opts={:status=>params[:status]})
+      end
+      flash[:msg] = "为#{@computers.length}台机器，分配了账号"
+    end
+
+    return render :text => @ids.length
+  end
 	
-	def unchecked
-		@computers = Computer.where(:checked => false).paginate(:page => params[:page], :per_page => 20)
-		render :action => "index"	
-	end
 	
 	def check
 		ids = params[:ids]

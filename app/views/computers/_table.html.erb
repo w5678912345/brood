@@ -1,24 +1,26 @@
-<div class="alert">
-<strong>提示信息:</strong>
-<button type="button" class="close" data-dismiss="alert">&times;</button>
-<span><%= @computers.total_entries%>个computer</span> 
-</div>
+<%= form_tag(checked_computers_path,:method => :put,:id=>"computers_checked_form",:onSubmit=>"return validate(this);") do -%>
 <table class="table table-bordered table-condensed">
 <thead>
+
 <tr>
-<td colspan="5" class="left">
-	<label class="checkbox">
+<th colspan="6">
+<label class="checkbox">
 	<input type="checkbox" id="check_all" name="check_all"  />全选
-	</label>
-</td>
-<td colspan="5">
-	<%= button_tag "通过",:class=>"btn btn-success btn-small",:id => "pass_button",:type => 'button' if action_name != "checked"%>
-	<%= button_tag "拒绝",:class=>"btn btn-danger btn-small",:id => "not_pass_button",:type => 'button' if action_name != "unchecked"%>
-	<%= button_tag "分配账号",:class=>"btn btn-success btn-small",:id => "bind_button",:type => 'button' %>
-	<%= button_tag "删除",:class=>"btn btn-inverse btn-small",:id => "delete_button",:type => 'button' %>
- 	<%= render_cell :task, :sup %>
-</td>
+</label>
+</th>
+<th colspan="5" class="text-right">
+<select id="do" name="do" class="input-medium">
+<option value="">选择操作</option>
+<% Computer::Btns.each do | key, value |  %>
+	<option value="<%= key %>"><%= value%></option>
+<%end%>
+</select>
+<button type="submit" class="btn btn-primary">执行操作</button>
+
+</th>
 </tr>
+
+
 <tr>
 	<th>选择</th>
 	<th>主机名</th>
@@ -34,16 +36,16 @@
 </tr>
 
 </thead>
-<tbody>
-<% @computers.each do |computer|%>
+<tbody id="computers_data">
+<% computers.each do |computer|%>
 <tr>
 <td>
 <label class="checkbox">
-<%= check_box_tag 'ids[]',computer.id,:id=>computer.id %>
+<%= check_box_tag 'ids[]',computer.id,false,:id=>computer.id %>
 <%= computer.id %>
 </label>
 </td>
-<td><%= link_to computer.hostname,computer_path(computer) %> <%= status_tag computer.status %></td>
+<td><%= computer_tag(computer) %> <%= status_tag computer.status %></td>
 <td><%= link_to computer.server || "" ,computers_path(:server => computer.server)%></td>
 <td><%= computer.auth_key %></td>
 <td><%= link_to computer.version, computers_path(:version => computer.version) %></td>
@@ -62,7 +64,7 @@
           <%= link_to raw("<i class='icon-edit'></i>修改"),edit_computer_path(computer) %>
       </li>
       <li>
-         <%= link_to raw("<i class='icon-trash'></i>删除"),computer_path(computer),confirm: 'Are you sure?',:method => :delete %>
+         <% link_to raw("<i class='icon-trash'></i>删除"),computer_path(computer),confirm: 'Are you sure?',:method => :delete %>
       </li>
     </ul>
   </div>
@@ -71,4 +73,37 @@
 <%end%>
 </tbody>
 </table>
-<%= will_paginate @computers %> 
+<%end%>
+
+<script type="text/javascript">
+
+function validate(){
+	var action =  $("#do").val();
+	if(action == null || action == ""){
+		alert("请选择您需要执行的操作!");
+		$("#do").focus();
+	}else if($("#computers_data input:checked").length == 0){
+		alert("请选择您需要执行的机器!");
+	}else{
+		return true;
+	}
+	return false;
+}
+	
+$(function(){
+
+/**/
+$("#check_all").click(function(){
+	var checked = this.checked;
+	$("#computers_data input[type=checkbox]").each(function(){
+		this.checked = checked;
+	});
+});
+
+/**/
+
+
+});
+
+
+</script>
