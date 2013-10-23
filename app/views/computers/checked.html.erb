@@ -14,6 +14,7 @@
 </select>
 
 <% if params[:do] == "bind_accounts"%>
+<label>可分配账号<%= Account.unbind_scope.count %></label>
 <label>角色状态(分配指定状态的账号)</label><%= text_field_tag :status,nil,:placeholder=>"账号状态" %>
 <%end%>
 <p>

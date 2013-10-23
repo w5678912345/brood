@@ -35,6 +35,7 @@ Brood::Application.routes.draw do
 
   resources :computers do 
     get   :group_count, :on=> :collection
+    put   :update_accounts_count, :on => :collection
     get   :logs,      :on => :member
     get   :alogs,     :on => :member
     put   :enable,    :on => :member

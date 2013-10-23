@@ -1,8 +1,9 @@
 # encoding: utf-8
 class Account < ActiveRecord::Base
     CODES = Api::CODES
-
+    # 账号可能发生的状态
     STATUS = ['normal','bslocked','bslocked_again','bs_unlock_fail','bs_unlock_success','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','finished']
+    # 账号可能发生的事件
     EVENT = []
     Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线"}
     # 需要自动恢复normal的状态
@@ -65,7 +66,7 @@ class Account < ActiveRecord::Base
         ip.update_attributes(:use_count=>ip.use_count+1)
         # 记录note
         note = Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>ip.value,:api_name=>"account_online",
-          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version)
+          :msg=>opts[:msg],:account => self.no,:server => computer.server,:version => computer.version)
         # 修改账号 上线IP, 上线机器ID, 上线记录ID
         return 1 if self.update_attributes(:online_ip=>ip.value,:online_computer_id=>computer.id,:online_note_id => note.id)
       end
@@ -113,13 +114,13 @@ class Account < ActiveRecord::Base
       computer = Computer.new unless computer
       self.transaction do 
        # 修改机器的上线账号数量
-       computer.update_attributes(:online_accounts_count=>computer.online_accounts_count-1)
+       computer.update_attributes(:online_accounts_count=>computer.online_accounts_count-1) if computer.online_accounts_count > 0
        #
        # 更新 在线时间
        
        # 记录 note
        note = Note.create(:computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_offline',:msg=>opts[:msg],
-        :account => self.no,:server => self.server,:version => computer.version,:hostname=>computer.hostname)
+        :account => self.no,:server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname)
        # 修改账号的 上线IP, 上线机器ID, 上线记录ID, 上线角色ID
        return 1 if self.update_attributes(:online_ip=>nil,:online_computer_id=>0,:online_note_id => 0,:online_role_id => 0)
       end
@@ -127,7 +128,7 @@ class Account < ActiveRecord::Base
 
 
 
-    #
+    #搜索账号列表
     def self.list_search opts
     	accounts = Account.includes(:online_computer,:online_role,:bind_computer)
       accounts = accounts.where("no = ?", opts[:no]) unless opts[:no].blank?

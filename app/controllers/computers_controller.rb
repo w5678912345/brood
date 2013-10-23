@@ -25,11 +25,20 @@ class ComputersController < ApplicationController
   end
 
 
+  def update_accounts_count
+    Computer.reset_accounts_count
+    redirect_to computers_path
+  end
+
+
 
 
 	def checked
 	 @ids = params[:ids]
    @do = params[:do]
+   if @do == "bind_accounts"
+     @unbind_accnouts_count =  Account.unbind_scope.count 
+   end
 
   end
 
@@ -51,6 +60,7 @@ class ComputersController < ApplicationController
           computer.auto_bind_accounts(opts={:status=>params[:status]})
       end
       flash[:msg] = "为#{@computers.length}台机器，分配了账号"
+      return redirect_to computers_path()
     end
 
     return render :text => @ids.length

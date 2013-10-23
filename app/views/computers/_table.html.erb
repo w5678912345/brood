@@ -27,8 +27,8 @@
 	<th>服务器</th>
 	<th>Auth Key</th>
 	<th>版本</th>
-  	<th>在线帐号</th>
   	<th>绑定帐号</th>
+  	<th>在线帐号</th>
 	<th>注册时间</th>
 	<th>审核</th>
   	<th>在线</th>
@@ -49,9 +49,8 @@
 <td><%= link_to computer.server || "" ,computers_path(:server => computer.server)%></td>
 <td><%= computer.auth_key %></td>
 <td><%= link_to computer.version, computers_path(:version => computer.version) %></td>
-<td><%= computer.online_accounts_count %></td>
 <td><%= computer.accounts_count %></td>
-
+<td><%= computer.online_accounts.count %></td>
 <td><%= time_str computer.created_at %></td>
 <td><%= computer.checked ? raw('<span class="label label-success">通过</span>') : raw('<span class="label label-important">未通过</span>') %></td>
 <td><%= boolean_tag computer.started %></td>

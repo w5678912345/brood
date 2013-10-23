@@ -1,7 +1,7 @@
 <form class="form-search" action="<%= accounts_path %>">
 <input type="text" name="no" class="input-small" placeholder="帐号" value="<%= params[:no]%>" />
 <input type="text" name="server" class="input-small" placeholder="服务器" value="<%= params[:server]%>" />
-<label class="checkbox"><input type="checkbox" name="no_server" value="1" <%= 'checked="checked"' if params[:no_server] == "1" %> />未设置</label> |
+<label class="checkbox" title="未设置服务器"><input type="checkbox" name="no_server" value="1" <%= 'checked="checked"' if params[:no_server] == "1" %> />为空</label> |
 <input type="text" name="roles_count" class="input-small" placeholder="角色数量" value="<%= params[:roles_count]%>" />
 绑定:
 <select name="bind" class="input-small">
