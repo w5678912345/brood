@@ -7,9 +7,10 @@ class ComputersController < ApplicationController
   
   def index
   
-    @computers = Computer.where(:status=>1).includes(:user)
+    @computers = Computer.where(:status=>1)
     #@computers = @computers.where("server = '' or server is NULL") if params[:server] == "null"
     @computers = @computers.where(:server=>params[:server]) unless params[:server].blank? || params[:server] == "null"
+    @computers = @computers.no_server_scope if params[:no_server].to_i == 1
     @computers = @computers.where(:version=>params[:version]) unless params[:version].blank?  
     @computers = @computers.where(:id => params[:id]) unless params[:id].blank?
     @computers = @computers.where(:checked => params[:checked]) unless params[:checked].blank?

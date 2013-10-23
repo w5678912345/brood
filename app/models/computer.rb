@@ -28,6 +28,7 @@ class Computer < ActiveRecord::Base
 
   scope :checked_scope,where(:checked => true)
   scope :ubchecked_scope,where(:checked => false)
+  scope :no_server_scope,where("server is null or server = '' ") #服务器为空的账号 
 	 
   
   validates_presence_of :hostname,:auth_key,:user_id
