@@ -2,7 +2,7 @@
 class Account < ActiveRecord::Base
     CODES = Api::CODES
 
-    STATUS = ['normal','bslocked','bslocked_again','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','finished']
+    STATUS = ['normal','bslocked','bslocked_again','bs_unlock_fail','bs_unlock_success','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','finished']
     EVENT = []
     Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线"}
     # 需要自动恢复normal的状态
