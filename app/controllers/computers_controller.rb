@@ -39,6 +39,8 @@ class ComputersController < ApplicationController
    @do = params[:do]
    if @do == "bind_accounts"
      @unbind_accnouts_count =  Account.unbind_scope.count 
+   elsif @do == "task"
+     @tasks = Task.sup_scope
    end
 
   end
@@ -61,6 +63,14 @@ class ComputersController < ApplicationController
           computer.auto_bind_accounts(opts={:status=>params[:status]})
       end
       flash[:msg] = "为#{@computers.length}台机器，分配了账号"
+      return redirect_to computers_path()
+    elsif @do == "task"
+      @task = Task.find_by_id(params[:task_id])
+      @ids.each do |cid|
+        task = @task.new_by_computer cid,current_user.id
+        task.save
+      end
+      flash[:msg] = "#{@computers.length}台机器，执行了远程任务 #{@task.name}"
       return redirect_to computers_path()
     end
 

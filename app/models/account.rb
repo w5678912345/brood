@@ -10,7 +10,7 @@ class Account < ActiveRecord::Base
     Auto_Normal = {"disconnect"=>2,"exception"=>3,"bslocked"=>72}
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
-    attr_accessible :bind_computer_id, :bind_computer_at
+    attr_accessible :bind_computer_id, :bind_computer_at,:roles_count
     #所属服务器
 	  belongs_to :game_server, :class_name => 'Server', :foreign_key => 'server',:primary_key => 'name'
     #在线角色
@@ -174,6 +174,13 @@ class Account < ActiveRecord::Base
     #可用的角色
     def available_roles
       self.roles.where("vit_power > 0 and status = 'normal' ")
+    end
+
+    def self.reset_roles_count
+      accounts = Account.all
+      accounts.each do |account|
+        account.update_attributes(:roles_count => account.roles.count)
+      end
     end
 
     #

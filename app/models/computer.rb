@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Computer < ActiveRecord::Base
 
-  Btns = { "pass"=>"审核通过", "refuse"=>"拒绝通过", "bind_accounts" => "分配账号","task"=>"任务分配"}
+  Btns = { "pass"=>"审核通过", "refuse"=>"拒绝通过", "bind_accounts" => "分配账号","task"=>"远程任务"}
 
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count,:started
   attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at,:version,:online_roles_count,:online_accounts_count

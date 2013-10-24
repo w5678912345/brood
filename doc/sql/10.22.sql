@@ -37,7 +37,7 @@ select * from roles where id > 5630 into outfile '/tmp/data.txt' --fields-termin
 LOAD DATA INFILE '/tmp/roles4.txt' INTO TABLE roles (account,password,role_index,server,level,vit_power,gold) TERMINATED BY '|';
 
 
-update roles set server = '广西1区s' where server = '广西1区';
+update roles set server = '广东1区' where server = '广东1区s';
 
 
 
