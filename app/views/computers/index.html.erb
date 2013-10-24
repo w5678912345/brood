@@ -4,7 +4,7 @@
 <div class="alert">
 <strong>提示信息:</strong>
 <button type="button" class="close" data-dismiss="alert">&times;</button>
-<span><%= @computers.total_entries%>个机器</span> 
+<span>查询了<%= @computers.total_entries%>台机器.</span> 
 <%= flash[:msg] if flash[:msg] %>
 <%= link_to "更新绑定计数",update_accounts_count_computers_path(),:class=>"btn",:method => :put %>
 </div>

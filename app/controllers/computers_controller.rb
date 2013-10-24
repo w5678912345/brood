@@ -72,6 +72,12 @@ class ComputersController < ApplicationController
       end
       flash[:msg] = "#{@computers.length}台机器，执行了远程任务 #{@task.name}"
       return redirect_to computers_path()
+    elsif @do == "clear_bind_accounts"
+      @computers.each do |computer|
+        computer.clear_bind_accounts
+      end
+      flash[:msg] = "#{@computers.length}台机器，清空了绑定账号"
+      return redirect_to computers_path()
     end
 
     return render :text => @ids.length
