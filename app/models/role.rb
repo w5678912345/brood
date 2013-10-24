@@ -142,7 +142,7 @@ class Role < ActiveRecord::Base
 
         # 如果彼劳值变成了0,说明角色调度成功
         if self.vit_power_changed? && self.vit_power == 0 
-            Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>"success",:server=>self.server,
+            Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>"role_success",:server=>self.server,
               :msg=>opts[:msg],:online_note_id=>self.online_note_id) 
         end
 
@@ -160,10 +160,10 @@ class Role < ActiveRecord::Base
       self.gold = payment.balance      #当前金币 = 支出后的余额
       self.total_pay = self.total_pay + payment.gold # 累计支出
       self.total = payment.total = self.total_pay + payment.balance # 产出总和
+      # 发生支付是，将bslocked的账号 恢复为normal
+      account = self.account
       if self.bslocked && payment.gold > 0 && payment.pay_type != "auto"
-        self.bslocked = false
-        self.normal = true
-        self.unbslock_result = nil
+        
         #Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"bs_unlock_success",:msg=>"发生支付后自动解除交易锁定")
       end
       

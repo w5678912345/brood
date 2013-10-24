@@ -48,12 +48,10 @@ end
 
 every :day, :at => '06:00 am' do
   runner 'Api.reset_role',:environment => str_environment 
+  runner 'Account.auto_disable_bind',:environment => str_environment
+  runner 'Api.reset_ip_use_count',:environment => str_environment 
 end
 
-
-every :day, :at => '6:30 am' do
-	runner 'Api.reset_ip_use_count',:environment => str_environment 
-end
 
 
 every 3.days do

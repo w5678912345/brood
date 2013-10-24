@@ -7,7 +7,7 @@ class Account < ActiveRecord::Base
     EVENT = []
     Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线"}
     # 需要自动恢复normal的状态
-    Auto_Normal = {"disconnect"=>2,"exception"=>3,"bslocked"=>72}
+    Auto_Normal = {"disconnect"=>2,"exception"=>3,"bslocked"=>72,"bs_unlock_fail"=>72}
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
     attr_accessible :bind_computer_id, :bind_computer_at,:roles_count
@@ -47,7 +47,7 @@ class Account < ActiveRecord::Base
     end
 
     # 帐号在线，并且在线角色ID > 0 表示正在工作
-    def working
+    def is_working?
       return self.is_online? && self.online_role_id > 0 
     end
 
@@ -181,6 +181,13 @@ class Account < ActiveRecord::Base
       accounts.each do |account|
         account.update_attributes(:roles_count => account.roles.count)
       end
+    end
+
+
+    def self.auto_disable_bind
+      time = Time.now.ago(1.day)
+      accounts = Account.where("updated_at < ?",time)
+      accounts.update_all(:bind_computer_id => -1)
     end
 
     #
