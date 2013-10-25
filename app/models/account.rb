@@ -185,7 +185,7 @@ class Account < ActiveRecord::Base
 
 
     def self.auto_disable_bind
-      time = Time.now.ago(1.day)
+      time = Time.now.ago(2.day)
       accounts = Account.where("updated_at < ?",time)
       accounts.update_all(:bind_computer_id => -1)
     end

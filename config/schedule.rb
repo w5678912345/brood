@@ -29,7 +29,7 @@ str_environment = 'production'
 # end
 
 #
-every 20.minutes do
+every 25.minutes do
   runner 'Api.account_auto_put',:environment => str_environment
   runner 'Api.computer_auto_stop',:environment => str_environment
 end
@@ -47,20 +47,17 @@ end
 
 
 every :day, :at => '06:00 am' do
-  runner 'Api.reset_role',:environment => str_environment 
-  runner 'Account.auto_disable_bind',:environment => str_environment
-  runner 'Api.reset_ip_use_count',:environment => str_environment 
+  runner 'TimeTask.at_06_time',:environment => str_environment 
 end
 
 
+# every 3.days do
+#   runner 'Api.reset_bslock_role',:environment => str_environment 
+# end
 
-every 3.days do
-  runner 'Api.reset_bslock_role',:environment => str_environment 
-end
-
-every 7.days do
-  runner 'Api.reset_role_ip_range',:environment => str_environment 
-end
+# every 7.days do
+#   runner 'Api.reset_role_ip_range',:environment => str_environment 
+# end
 
 
 
