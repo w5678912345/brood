@@ -17,6 +17,9 @@ class Api::AccountsController < Api::BaseController
 		@account  = @computer.accounts.waiting_scope.first
 		unless @account
 			@code = CODES[:not_find_account]
+			# 记录事件
+			Note.create(:computer_id=>@computer.id,:hostname=>@computer.hostname,:ip=>params[:ip],:server => @computer.server,
+				:version => @computer.version,:api_name=>"not_find_account")
 			return render :partial => '/api/result'
 		end
 		@code = @account.api_get params

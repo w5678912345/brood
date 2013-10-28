@@ -88,10 +88,10 @@ task :deploy => :environment do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
-    invoke :'db:create'
-    invoke :'rails:db_migrate'
+    #invoke :'db:create'
+    #invoke :'rails:db_migrate'
     #invoke :'db:migrate'
-    invoke :'rails:assets_precompile'
+    #invoke :'rails:assets_precompile'
 
 
     to :launch do
@@ -100,7 +100,7 @@ task :deploy => :environment do
     end
     
     to :clean do
-      invoke :shutdown
+      #invoke :shutdown
     end
   end
 end

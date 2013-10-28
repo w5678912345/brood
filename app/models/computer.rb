@@ -1,6 +1,8 @@
 # encoding: utf-8
 class Computer < ActiveRecord::Base
 
+  STATUS = []
+  EVENT = ['not_find_account']
   Btns = { "pass"=>"审核通过", "refuse"=>"拒绝通过","clear_bind_accounts" => "清空账号", "bind_accounts" => "分配账号","task"=>"远程任务"}
 
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count,:started
