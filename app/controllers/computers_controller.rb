@@ -9,7 +9,7 @@ class ComputersController < ApplicationController
   
     @computers = Computer.where(:status=>1)
     #@computers = @computers.where("server = '' or server is NULL") if params[:server] == "null"
-    @computers = @computers.where(:server=>params[:server]) unless params[:server].blank? || params[:server] == "null"
+    @computers = @computers.where(:server=>params[:server]) unless params[:server].blank? #|| params[:server] == "null"
     @computers = @computers.no_server_scope if params[:no_server].to_i == 1
     @computers = @computers.where(:version=>params[:version]) unless params[:version].blank?  
     @computers = @computers.where(:id => params[:id]) unless params[:id].blank?
@@ -20,6 +20,7 @@ class ComputersController < ApplicationController
     @computers = @computers.where("date(created_at) =?",params["date(created_at)"]) unless params["date(created_at)"].blank?
     @computers = @computers.where("hostname like ?","%#{params[:hostname]}%") unless params[:hostname].blank?
     @computers = @computers.where("auth_key like ?","%#{params[:ckey]}%") unless params[:ckey].blank? 
+    @sum_accounts_count = @computers.sum(:accounts_count)
     per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
   	@computers = @computers.order("hostname desc").paginate(:page => params[:page], :per_page => per_page)
 
