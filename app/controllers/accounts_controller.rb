@@ -57,7 +57,7 @@ class AccountsController < ApplicationController
 		elsif "call_offline" 
 			@accounts = @accounts.online_scope
 			@accounts.each do |account|
-				account.api_put(opts = {:ip=>request.remote_ip,:cid=> account.online_computer_id,:msg=>"click"})
+				account.api_stop(opts = {:ip=>request.remote_ip,:cid=> account.online_computer_id,:msg=>"click"})
 			end
 			flash[:msg] = "#{@accounts.length}个账号被下线!"
 			return redirect_to accounts_path(:online => 1)

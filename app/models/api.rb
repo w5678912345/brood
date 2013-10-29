@@ -42,17 +42,6 @@ CODES = {
     end
   end
 
-  def self.account_auto_put
-    last_at = Time.now.ago(10.minutes).strftime("%Y-%m-%d %H:%M:%S")
-    accounts = Account.online_scope.where("updated_at < '#{last_at}'")
-    opts = Hash.new()
-    accounts.each do |account|
-      opts[:cid] = account.online_computer_id
-      opts[:ip] = "localhost"
-      opts[:msg] =  "auto"
-      account.api_put opts
-    end
-  end
 
   # every day at 6:00 am
   def self.reset_role_vit_power
