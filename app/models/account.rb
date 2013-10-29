@@ -53,8 +53,8 @@ class Account < ActiveRecord::Base
 
 
 
-    # 获取当前帐号
-    def api_get opts
+    # 开始当前帐号
+    def api_start opts
       # 判断账号是否在线
       return CODES[:account_is_online] if self.is_online?
       ip = Ip.find_or_create(opts[:ip])
@@ -106,8 +106,8 @@ class Account < ActiveRecord::Base
     end
 
 
-    # 放回当前帐号
-    def api_put opts
+    # 停止当前帐号
+    def api_stop opts
       # 判断账号是否在线
       return CODES[:account_is_offline] unless self.is_online?
       computer = Computer.find_by_key_or_id(opts[:ckey] || opts[:cid])
@@ -163,13 +163,7 @@ class Account < ActiveRecord::Base
     end
 
 
-    #账号自动恢复normal 状态
-    def self.auto_normal
-      now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-      # 状态为可恢复，并且恢复时间小于当前时间的账号
-      accounts = Account.where("status in (?)",Auto_Normal.keys).where("normal_at <= '#{now}'").reorder(:id)
-      accounts.update_all(:status => "normal",:normal => nil)
-    end
+
 
     #可用的角色
     def available_roles
@@ -182,6 +176,23 @@ class Account < ActiveRecord::Base
         account.update_attributes(:roles_count => account.roles.count)
       end
     end
+
+    #账号自动恢复normal 状态
+    def self.auto_normal
+      now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+      # 状态为可恢复，并且恢复时间小于当前时间的账号
+      accounts = Account.where("status in (?)",Auto_Normal.keys).where("normal_at <= '#{now}'").reorder(:id)
+      accounts.update_all(:status => "normal",:normal => nil)
+    end
+
+    # 账号自动停止
+    def self.auto_stop
+      last_at = Time.now.ago(10.minutes).strftime("%Y-%m-%d %H:%M:%S")
+      accounts = Account.online_scope.where("updated_at < '#{last_at}'")
+      accounts.each do |account|
+        account.api_stop(opts={:cid=>account.online_computer_id,:ip=>"localhost",:msg=>"auto"})
+      end
+   end
 
 
     def self.auto_disable_bind

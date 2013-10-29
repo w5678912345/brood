@@ -14,15 +14,18 @@ class Api::AccountsController < Api::BaseController
 	
 	# 自动调度帐号
 	def index
+		@auto = true
 		@account  = @computer.accounts.waiting_scope.first
 		unless @account
 			@code = CODES[:not_find_account]
+			unless Note.where(:computer_id => @computer.id).where(:api_name=>"not_find_account").where("date(created_at) = ?",Date.today.to_s).exists?
 			# 记录事件
-			Note.create(:computer_id=>@computer.id,:hostname=>@computer.hostname,:ip=>params[:ip],:server => @computer.server,
-				:version => @computer.version,:api_name=>"not_find_account")
+			 Note.create(:computer_id=>@computer.id,:hostname=>@computer.hostname,:ip=>params[:ip],:server => @computer.server,
+			 	:version => @computer.version,:api_name=>"not_find_account")
+			end
 			return render :partial => '/api/result'
 		end
-		@code = @account.api_get params
+		@code = @account.api_start params
 		render :partial => '/api/accounts/data'
 	end
 
@@ -35,7 +38,8 @@ class Api::AccountsController < Api::BaseController
 	# 手动调度帐号
 	def get
 		@account = Account.find_by_no(params[:id])
-		@code = @account.api_get params
+		@auto = false
+		@code = @account.api_start params
 		render :partial => '/api/accounts/data'
 	end
 
@@ -49,7 +53,18 @@ class Api::AccountsController < Api::BaseController
 	# 返还调度帐号
 	def put
 		@account = Account.find_by_no(params[:id])
-		@code = @account.api_put params
+		@code = @account.api_stop params
+		render :partial => '/api/result'
+	end
+
+
+	def start
+
+	end
+
+	def stop
+		@account = Account.find_by_no(params[:id])
+		@code = @account.api_stop params
 		render :partial => '/api/result'
 	end
 

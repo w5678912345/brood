@@ -98,12 +98,7 @@ CODES = {
 
   #
   def self.computer_auto_stop
-    last_at = Time.now.ago(10.minutes).strftime("%Y-%m-%d %H:%M:%S")
-    computers = Computer.where(:started=>true).where("updated_at < '#{last_at}'")
-
-    computers.each do |computer|
-      computer.stop({:ip=>"localhost",:msg=>"auto"})
-    end
+    
   end
 
 end

@@ -30,8 +30,8 @@ str_environment = 'production'
 
 #
 every 25.minutes do
-  runner 'Api.account_auto_put',:environment => str_environment
-  runner 'Api.computer_auto_stop',:environment => str_environment
+  runner 'Account.auto_stop',:environment => str_environment
+  runner 'Computer.auto_stop',:environment => str_environment
 end
 
 #

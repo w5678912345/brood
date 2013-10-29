@@ -118,6 +118,10 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 <td>roles/:id/pay.json</td>
 <td>通过id记录role的金币支出。参数： gold => 支出金币数, balance => 余额, pay_type => 支出方式, reamrk => 备注(选填)，ckey => 计算机key</td>
 </tr>
+<tr>
+<td>roles/:id/stop.json</td>
+<td>通过id 停止角色，参数：ckey => 计算机key</td>
+</tr>
 
 
 <tr>

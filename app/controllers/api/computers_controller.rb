@@ -66,12 +66,12 @@ class Api::ComputersController < Api::BaseController
 
 
 	def start
-		@code = 1 if @computer.start params
+		@code = 1 if @computer.api_start params
 		render :partial => '/api/result'
 	end
 
 	def stop
-		@code = 1 if @computer.stop params
+		@code = 1 if @computer.api_stop params
 		render :partial => '/api/result'
 	end
 

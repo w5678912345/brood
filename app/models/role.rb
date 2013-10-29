@@ -94,7 +94,7 @@ class Role < ActiveRecord::Base
        computer = Computer.find_by_auth_key(opts[:ckey])
        # 修改角色属性
        self.role_index = opts[:role_index] unless opts[:role_index].blank?
-       self.server = opts[:server] unless opts[:server].blank?
+       #self.server = opts[:server] unless opts[:server].blank?
        self.level = opts[:level] if opts[:level] && opts[:level].to_i > 0
        self.vit_power = opts[:vit_power] unless opts[:vit_power].blank?
        self.gold = opts[:gold] unless opts[:gold].blank?
@@ -152,6 +152,25 @@ class Role < ActiveRecord::Base
   end
 
 
+  def api_start opts
+     # 修改帐号的上线角色ID
+      self.qq_account.online_role_id = self.id
+      # 上线当前角色
+      self.update_attributes(:online => true,:online_note_id => self.qq_account.online_note_id)
+      # 记录note
+      Note.create(:account => self.account,:role_id=>self.id,:computer_id => self.computer_id, :ip=>opts[:ip],:hostname=>computer.hostname, :api_name=>"role_online",:server=>self.server,
+        :msg=>opts[:msg],:online_note_id=>self.online_note_id)
+  end
+
+  # 角色下线
+  def api_stop opts
+    computer = Computer.find_by_auth_key(opts[:ckey])
+    self.transaction do 
+
+    end
+  end
+
+
   def api_pay opts
     computer = Computer.find_by_auth_key(opts[:ckey])
     self.transaction do
@@ -161,10 +180,11 @@ class Role < ActiveRecord::Base
       self.total_pay = self.total_pay + payment.gold # 累计支出
       self.total = payment.total = self.total_pay + payment.balance # 产出总和
       # 发生支付是，将bslocked的账号 恢复为normal
-      account = self.account
-      if self.bslocked && payment.gold > 0 && payment.pay_type != "auto"
-        
-        #Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip.value,:api_name=>"bs_unlock_success",:msg=>"发生支付后自动解除交易锁定")
+      account = self.qq_account
+      if account.status == 'bslocked' && payment.gold > 0 
+         account.update_attributes(:status => 'normal')
+         Note.create(:account => account.no,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:api_code=>"bs_unlock_success",
+          :version=>computer.version, :server=>computer.server, :msg=>"交易后自动解除锁定")
       end
       
       

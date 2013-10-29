@@ -55,14 +55,14 @@ class Computer < ActiveRecord::Base
 		return ! self.server.blank?
 	end
 
-  def start opts
+  def api_start opts
     self.update_attributes(:started => true)
-    Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"computer_online",:msg=>opts[:msg],:version=>self.version,:hostname => self.hostname,:server=>self.server)
+    Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"computer_start",:msg=>opts[:msg],:version=>self.version,:hostname => self.hostname,:server=>self.server)
   end
 
-  def stop opts
+  def api_stop opts
     self.update_attributes(:started => false)
-    Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"computer_offline",:msg=>opts[:msg],:version=>self.version,:hostname => self.hostname,:server=>self.server)
+    Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"computer_stop",:msg=>opts[:msg],:version=>self.version,:hostname => self.hostname,:server=>self.server)
   end
 
   # 自动绑定账户
@@ -107,6 +107,14 @@ class Computer < ActiveRecord::Base
       computers.each do |computer|
         computer.update_attributes(:online_accounts_count => computer.online_accounts.count)
       end
+  end
+
+  def self.auto_stop
+    last_at = Time.now.ago(10.minutes).strftime("%Y-%m-%d %H:%M:%S")
+    computers = Computer.where(:started=>true).where("updated_at < '#{last_at}'")
+    computers.each do |computer|
+      computer.api_stop({:ip=>"localhost",:msg=>"auto"})
+    end
   end
 
   

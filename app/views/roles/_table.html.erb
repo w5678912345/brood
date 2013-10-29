@@ -28,7 +28,7 @@
 <td><%= role.level%></td>
 <td><%= role.vit_power %></td>
 <td><%= role.gold %></td>
-<td></td>
+<td><%= role.qq_account.online_role_id == role.id ? "Yes" : "" %></td>
 <td><%= role.status %></td>
 <td>#</td>
 </tr>
