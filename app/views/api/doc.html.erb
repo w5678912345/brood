@@ -74,12 +74,12 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 </tr>
 <tr>
 <td>accounts/auto.json</td>
-<td>自动搜索一个合适的account在 ckey 对应的computer 上线。参数: ckey => 计算机key, msg => 消息 </td> 
+<td>自动搜索一个合适的account在 ckey 对应的computer 上线。参数: ckey => 计算机key, msg => 消息<span class="badge badge-important">New</span> </td> 
 </tr>
 
 <tr>
 <td>accounts/start.json</td>
-<td>通过 帐号使account在ckey对应的computer上线，参数: id => 账号, ckey => 计算机key  ,msg => 消息 </td>
+<td>通过 帐号使account在ckey对应的computer上线，参数: id => 账号, ckey => 计算机key  ,msg => 消息<span class="badge badge-important">New</span> </td>
 </tr>
 
 <tr>
@@ -89,6 +89,7 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 status => <%= Account::STATUS.to_s.gsub("\"","") %></br>
 event => <%= Account::EVENT.to_s.gsub("\"","") %>
 </b>
+<span class="badge badge-important">New</span>
 </td>
 </tr>
 <!-- [ normal(正常), bslocked(交易锁定), disconnect(掉线close2小时), exception(第三方数据异常close3小时), locked(帐号锁定), lost(帐号丢失), 
@@ -96,7 +97,7 @@ discard(永久封停close120小时和24万小时), </br> no_rms_file, no_qq_toke
 
 <tr>
 <td>accounts/stop.json</td>
-<td>通过 帐号回收对应account的属性,参数: id => 账号, ckey => 计算机key  ,msg => 消息</td>
+<td>通过 帐号回收对应account的属性,参数: id => 账号, ckey => 计算机key  ,msg => 消息 <span class="badge badge-important">New</span></td>
 </tr>
 
 <tr>
@@ -104,7 +105,7 @@ discard(永久封停close120小时和24万小时), </br> no_rms_file, no_qq_toke
 </tr>
 <tr>
 <td>roles/:id/start.json</td>
-<td>通过id 开始角色，参数：ckey => 计算机key</td>
+<td>通过id 开始角色，参数：ckey => 计算机key <span class="badge badge-important">New</span></td>
 </tr>
 <tr>
 <td>roles/:id/sync.json
@@ -114,6 +115,7 @@ discard(永久封停close120小时和24万小时), </br> no_rms_file, no_qq_toke
 status => <%= Role::STATUS.to_s.gsub("\"","") %> </br>
 event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 </b>
+<span class="badge badge-important">New</span>
 </td>
 </tr>
 
@@ -123,7 +125,7 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 </tr>
 <tr>
 <td>roles/:id/stop.json</td>
-<td>通过id 停止角色，参数：ckey => 计算机key</td>
+<td>通过id 停止角色，参数：ckey => 计算机key <span class="badge badge-important">New</span></td>
 </tr>
 
 
