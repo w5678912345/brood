@@ -6,14 +6,14 @@ class Api::AccountsController < Api::BaseController
 
 
 	before_filter :require_remote_ip									  # 获取请求IP
-	before_filter :require_computer_by_ckey, :only => [:index,:get,:set,:put,:show] #需要ckey，验证是否为有效的机器	
-	before_filter :valid_ip_use_count,					:only => [:index] # 验证当前IP的24小时使用次数
-	before_filter :valid_ip_range_online_count,			:only => [:index] # 验证当前IP 前三段的在线数量
-	before_filter :require_account_by_no,				:only => [:show,:get,:set,:put] # 根据帐号取得一个账户
+	before_filter :require_computer_by_ckey, :only => [:auto,:start,:sync,:stop,:show] #需要ckey，验证是否为有效的机器	
+	before_filter :valid_ip_use_count,					:only => [:auto] # 验证当前IP的24小时使用次数
+	before_filter :valid_ip_range_online_count,			:only => [:auto] # 验证当前IP 前三段的在线数量
+	before_filter :require_account_by_no,				:only => [:show,:start,:sync,:stop] # 根据帐号取得一个账户
 
 	
 	# 自动调度帐号
-	def index
+	def auto
 		@auto = true
 		@account  = @computer.accounts.waiting_scope.first
 		unless @account
@@ -29,37 +29,11 @@ class Api::AccountsController < Api::BaseController
 		render :partial => '/api/accounts/data'
 	end
 
-	# 显示帐号信息
-	def show
-		@code = 1 if @account
-		render :partial => '/api/accounts/data'
-	end
-
-	# 手动调度帐号
-	def get
+	def start
 		@account = Account.find_by_no(params[:id])
 		@auto = false
 		@code = @account.api_start params
 		render :partial => '/api/accounts/data'
-	end
-
-	# 设置帐号属性
-	def set
-		@account = Account.find_by_no(params[:id])
-		@code = @account.api_set params
-		render :partial => '/api/result'
-	end
-
-	# 返还调度帐号
-	def put
-		@account = Account.find_by_no(params[:id])
-		@code = @account.api_stop params
-		render :partial => '/api/result'
-	end
-
-
-	def start
-
 	end
 
 	def stop
@@ -67,6 +41,21 @@ class Api::AccountsController < Api::BaseController
 		@code = @account.api_stop params
 		render :partial => '/api/result'
 	end
+
+	# 设置帐号属性
+	def sync
+		@account = Account.find_by_no(params[:id])
+		@code = @account.api_set params
+		render :partial => '/api/result'
+	end
+
+	# 显示帐号信息
+	def show
+		@code = 1 if @account
+		render :partial => '/api/accounts/data'
+	end
+
+	
 
 	
 	private

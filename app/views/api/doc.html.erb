@@ -73,18 +73,18 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 <th colspan="2">帐号API</th>
 </tr>
 <tr>
-<td>accounts.json</td>
-<td>搜索一个合适的account在 ckey 对应的computer 上线。参数: ckey => 计算机key, msg => 消息 </td> 
+<td>accounts/auto.json</td>
+<td>自动搜索一个合适的account在 ckey 对应的computer 上线。参数: ckey => 计算机key, msg => 消息 </td> 
 </tr>
 
 <tr>
-<td>accounts/:id/get.json</td>
-<td>通过 帐号使account在ckey对应的computer上线，参数: ckey => 计算机key  ,msg => 消息 </td>
+<td>accounts/start.json</td>
+<td>通过 帐号使account在ckey对应的computer上线，参数: id => 账号, ckey => 计算机key  ,msg => 消息 </td>
 </tr>
 
 <tr>
-<td>accounts/:id/set.json</td>
-<td>修改帐号account的属性. 参数: ckey => 计算机key, status => 状态, event => 事件,  msg => 消息</br>
+<td>accounts/sync.json</td>
+<td>修改帐号account的属性. 参数: id => 账号, ckey => 计算机key, status => 状态, event => 事件,  msg => 消息</br>
 <b>
 status => <%= Account::STATUS.to_s.gsub("\"","") %></br>
 event => <%= Account::EVENT.to_s.gsub("\"","") %>
@@ -95,8 +95,8 @@ event => <%= Account::EVENT.to_s.gsub("\"","") %>
 discard(永久封停close120小时和24万小时), </br> no_rms_file, no_qq_token, bs_unlock_success, bs_unlock_fail ]</br> -->
 
 <tr>
-<td>accounts/:id/put.json</td>
-<td>通过 帐号回收对应account的属性,参数: ckey => 计算机key  ,msg => 消息</td>
+<td>accounts/stop.json</td>
+<td>通过 帐号回收对应account的属性,参数: id => 账号, ckey => 计算机key  ,msg => 消息</td>
 </tr>
 
 <tr>

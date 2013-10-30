@@ -175,10 +175,10 @@ Brood::Application.routes.draw do
 
     #
     resources :accounts, :only => [:index,:show],:defaults => {:format => 'json'} do 
-      match :hi,    :on => :collection
-      match :get,    :on => :member
-      match :set,    :on => :member
-      match :put,    :on => :member
+      match :auto,   :on => :collection
+      match :start,  :on => :collection
+      match :stop,   :on => :collection
+      match :sync,   :on => :collection
     end
 
   end
