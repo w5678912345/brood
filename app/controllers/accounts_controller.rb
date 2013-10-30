@@ -7,7 +7,8 @@ class AccountsController < ApplicationController
 	end
 
 	def show
-		@account = Account.find_by_no(params[:id])
+		@account = Account.find_by_no(params[:id]) if params[:id] != "0"
+		@account = Account.find_by_no(params[:no])
 	end
 
 	def merge

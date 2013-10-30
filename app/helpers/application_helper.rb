@@ -66,6 +66,7 @@ module ApplicationHelper
 		#return account.class
 		return unless account
 		account = account.no if account.class.to_s != 'String'
+		return link_to(account,account_path(:id=>0,:no=>account)) + notes_link_tag(:account=>account) if account.include?(".")
 		return link_to(account,account_path(account),:target => "_blank") + notes_link_tag(:account=>account) 
 	end
 
