@@ -102,9 +102,12 @@ discard(永久封停close120小时和24万小时), </br> no_rms_file, no_qq_toke
 <tr>
 <th colspan="2">角色API</th>
 </tr>
-
 <tr>
-<td>roles/:id/set.json
+<td>roles/:id/start.json</td>
+<td>通过id 开始角色，参数：ckey => 计算机key</td>
+</tr>
+<tr>
+<td>roles/:id/sync.json
 </td>
 <td>通过id修改role的属性 server,level,role_index,vit_power,gold，status => 状态, event => 事件, ckey => 计算机key, msg => 消息</br>
 <b>
@@ -122,6 +125,7 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 <td>roles/:id/stop.json</td>
 <td>通过id 停止角色，参数：ckey => 计算机key</td>
 </tr>
+
 
 
 <tr>

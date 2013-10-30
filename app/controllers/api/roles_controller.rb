@@ -6,14 +6,29 @@ class Api::RolesController < Api::BaseController
 	
 	##filters
 	before_filter :require_remote_ip
-	before_filter :valid_ip_use_count,					:only => [:online]
-	before_filter :valid_ip_range_online_count,			:only => [:online]
-	before_filter :require_computer_by_ckey,			:only => [:on,:off,:sync,:close,:note,:pay,:online,:lock,:unlock,:lose,:show,:bslock,:bs_unlock,:disable]
-	before_filter :require_role_by_id,					:only => [:on,:off,:sync,:close,:note,:pay,:show,:lock,:unlock,:lose,:bslock,:bs_unlock,:disable]
-	before_filter :require_online_role,					:only => [:off,:sync,:close,:note,:lock,:bslock,:bs_unlock]
-	before_filter :require_computer_eq_role,			:only => [:off,:sync,:close,:note,:pay,:lock]
+	#before_filter :valid_ip_use_count,					:only => [:online]
+	#before_filter :valid_ip_range_online_count,			:only => [:online]
+	#before_filter :require_computer_by_ckey,			:only => [:on,:off,:sync,:close,:note,:pay,:online,:lock,:unlock,:lose,:show,:bslock,:bs_unlock,:disable]
+	#before_filter :require_role_by_id,					:only => [:on,:off,:sync,:close,:note,:pay,:show,:lock,:unlock,:lose,:bslock,:bs_unlock,:disable]
+	#before_filter :require_online_role,					:only => [:off,:sync,:close,:note,:lock,:bslock,:bs_unlock]
+	#before_filter :require_computer_eq_role,			:only => [:off,:sync,:close,:note,:pay,:lock]
 	before_filter :go_on
 
+	def start
+		@code = 1
+		render :partial => 'api/result'
+	end
+
+	def stop
+		@code = 1
+		render :partial => 'api/result'
+	end
+
+	def sync
+		@role = Role.find_by_id(params[:id])
+		@code = @role.api_set params
+		render :partial => 'api/result'
+	end
 
 	def set
 		@role = Role.find_by_id(params[:id])
@@ -82,63 +97,7 @@ class Api::RolesController < Api::BaseController
 		  render :partial => 'api/roles/result'
 	end
 
-	#
-	def sync
-	    begin
-	       @code = @role.api_sync params 
-	    rescue Exception => ex
-	       @code = -1
-	    end
-		render :partial => 'api/roles/result'
-	end
-
-	#
-	def close
-	    @code = 1 if @role.api_close params
-	  	render :partial => 'api/roles/result'
-	end
-
-	#
-	def note
-		@code = @role.api_note params
-		render :partial => 'api/roles/result'
-	end
-
-	#
-	def pay
-	  @code = @role.api_pay params
-		render :partial => 'api/roles/result'
-	end
-
-	def lock
-		@code = @role.api_lock params
-		render :partial => 'api/roles/result'
-	end
-
-	def unlock
-		@code = @role.api_unlock params
-		render :partial => 'api/roles/result'
-	end
-
-	def lose
-		@code = @role.api_lose params
-		render :partial => 'api/roles/result'
-	end
-
-	def bslock
-		@code = @role.api_bslock params
-		render :partial => 'api/roles/result'
-	end
-
-	def bs_unlock
-		@code = @role.api_bs_unlock params
-		render :partial => 'api/roles/result'
-	end
-
-	def disable
-		@code = @role.api_disable params
-		render :partial => 'api/roles/result'
-	end
+	
 
 	private 
 

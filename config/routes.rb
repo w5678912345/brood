@@ -154,23 +154,25 @@ Brood::Application.routes.draw do
       match :call,    :on => :member
     end
     resources :roles ,:only => [:show],:defaults => { :format => 'json' } do
+			# match :online, :on => :collection
+   #    match :close,   :on => :member
+   #    match :on,      :on => :member
+   #    match :off,     :on => :member
+   #    match :sync,    :on => :member
+			# match :note,		:on => :member
 			
-      match :close,   :on => :member
-      match :on,      :on => :member
-      match :off,     :on => :member
+   #    match :lock,    :on => :member
+   #    match :unlock,  :on => :member
+   #    match :lose,    :on => :member
+   #    match :bslock,  :on => :member
+   #    match :bs_unlock,:on => :member
+   #    match :disable,     :on => :member
+   #    #
+			# match :add,			:on => :collection
+      match :start,   :on => :member
       match :sync,    :on => :member
-			match :note,		:on => :member
-			match :pay,			:on => :member
-      match :lock,    :on => :member
-      match :unlock,  :on => :member
-      match :lose,    :on => :member
-      match :bslock,  :on => :member
-      match :bs_unlock,:on => :member
-      match :disable,     :on => :member
-      #
-			match :add,			:on => :collection
-      match :online, :on => :collection
-      match :set,    :on => :member
+      match :pay,     :on => :member
+      match :stop,    :on => :member
     end
 
     #
@@ -179,6 +181,9 @@ Brood::Application.routes.draw do
       match :start,  :on => :collection
       match :stop,   :on => :collection
       match :sync,   :on => :collection
+      # match :get,    :on => :member
+      # match :set,    :on => :member
+      # match :put,    :on => :member
     end
 
   end
