@@ -15,11 +15,13 @@ class Api::RolesController < Api::BaseController
 	before_filter :go_on
 
 	def start
+		@role = Role.find_by_id(params[:id])
 		@code = 1
 		render :partial => 'api/result'
 	end
 
 	def stop
+		@role = Role.find_by_id(params[:id])
 		@code = 1
 		render :partial => 'api/result'
 	end
@@ -30,11 +32,13 @@ class Api::RolesController < Api::BaseController
 		render :partial => 'api/result'
 	end
 
-	def set
-		@role = Role.find_by_id(params[:id])
-		@code = @role.api_set params
-		render :partial => 'api/result'
+	def pay
+	  @role = Role.find_by_id(params[:id])
+	  @code = @role.api_pay params
+	  render :partial => 'api/roles/result'
 	end
+
+
 	
 	# actions
 	def show
@@ -75,30 +79,10 @@ class Api::RolesController < Api::BaseController
 	    #@role.get_sellers_by_server if @code == 1
 	end
 
-	#----------------------- 
-	#
-	def on
-	    begin
-	      #params[:auto] = false
-	      @code = @role.api_online params
-	    rescue Exception => ex
-	      @code = -1
-	    end
-	    render :template => 'api/roles/online'
-	end
+		#
 
-	#
-	def off
-	    begin
-	       @code = @role.api_offline params
-	    rescue Exception => ex
-	       @code = -1
-	    end
-		  render :partial => 'api/roles/result'
-	end
 
 	
-
 	private 
 
 	def require_remote_ip
