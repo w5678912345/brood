@@ -95,7 +95,7 @@ class Role < ActiveRecord::Base
       # 如果有事件发生，记录note
       if EVENT.include? opts[:event]
           Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>opts[:event],:server=>self.server || computer.server,
-          :msg=>opts[:msg],:session=>session.id,:version=>computer.version,:server=>self.server || computer.server) 
+          :msg=>opts[:msg],:session_id=>session.id,:version=>computer.version,:server=>self.server || computer.server) 
           
       end
 
