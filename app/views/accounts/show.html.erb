@@ -27,14 +27,14 @@
 <td> <%= time_str @account.normal_at %></td>
 </tr>
 
-<% if @account.is_online? %>
+<% if @account.is_started? %>
 <tr>
 	<th>在线角色</th>
 	<td><%= @account.online_role_id %></td>
 	<th>在线机器</th>
-	<td><%= computer_tag @account.online_computer %></td>
+	<td><%= computer_tag @account.session.computer %></td>
 	<th>IP</th>
-	<td><%= @account.online_ip %></td>
+	<td><%= @account.session.ip %></td>
 </tr>
 <%end%>
 

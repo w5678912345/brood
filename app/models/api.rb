@@ -23,8 +23,8 @@ CODES = {
    :not_find_task => -17,
    :not_find_role_by_ip => -18,
    :not_find_account => -19,
-   :account_is_online => -20,
-   :account_is_offline => -21
+   :account_is_started => -20, # 账号启动
+   :account_is_stopped => -21  # 账号停止
   }
 
   EVENTS = {}

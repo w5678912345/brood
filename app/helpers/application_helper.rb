@@ -62,6 +62,11 @@ module ApplicationHelper
 		return link_to("#{computer.hostname}",computer_path(computer.id)) + notes_link_tag(:cid => computer.id)
 	end
 
+	def session_tag sid
+		return unless sid
+		return notes_link_tag(:session_id=>sid)
+	end
+
 	def account_tag account
 		#return account.class
 		return unless account

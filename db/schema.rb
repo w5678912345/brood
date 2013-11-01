@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131023074723) do
+ActiveRecord::Schema.define(:version => 20131031063830) do
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                       :null => false
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20131023074723) do
     t.integer  "bind_computer_id",   :default => -1,       :null => false
     t.datetime "bind_computer_at"
     t.datetime "normal_at"
+    t.integer  "session_id",         :default => 0,        :null => false
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true
@@ -63,6 +64,7 @@ ActiveRecord::Schema.define(:version => 20131023074723) do
     t.boolean  "started",               :default => false,     :null => false
     t.integer  "accounts_count",        :default => 0,         :null => false
     t.integer  "online_accounts_count", :default => 0,         :null => false
+    t.integer  "session_id",            :default => 0,         :null => false
   end
 
   create_table "comroles", :force => true do |t|
@@ -100,6 +102,7 @@ ActiveRecord::Schema.define(:version => 20131023074723) do
     t.string   "account"
     t.string   "server"
     t.string   "hostname"
+    t.integer  "session_id",                   :default => 0,   :null => false
   end
 
   create_table "payments", :force => true do |t|
@@ -148,6 +151,7 @@ ActiveRecord::Schema.define(:version => 20131023074723) do
     t.string   "name"
     t.string   "ip_range2"
     t.integer  "computers_count",               :default => 0,        :null => false
+    t.integer  "session_id",                    :default => 0,        :null => false
   end
 
   create_table "servers", :force => true do |t|
@@ -162,6 +166,38 @@ ActiveRecord::Schema.define(:version => 20131023074723) do
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true
+
+  create_table "sessions", :force => true do |t|
+    t.integer  "computer_id",                            :default => 0,        :null => false
+    t.string   "account"
+    t.integer  "role_id",                                :default => 0,        :null => false
+    t.integer  "sup_id",                                 :default => 0,        :null => false
+    t.string   "ip",                      :limit => 15,                        :null => false
+    t.string   "hostname"
+    t.string   "server"
+    t.string   "version"
+    t.string   "game_version"
+    t.boolean  "ending",                                 :default => false,    :null => false
+    t.datetime "end_at"
+    t.float    "hours",                                  :default => 0.0,      :null => false
+    t.boolean  "success",                                :default => false,    :null => false
+    t.string   "code"
+    t.string   "result"
+    t.string   "status",                                 :default => "normal", :null => false
+    t.integer  "computer_accounts_count",                :default => 0,        :null => false
+    t.integer  "account_roles_count",                    :default => 0,        :null => false
+    t.string   "account_roles_ids"
+    t.integer  "role_start_level",                       :default => 0,        :null => false
+    t.integer  "role_end_level",                         :default => 0,        :null => false
+    t.integer  "role_start_gold",                        :default => 0,        :null => false
+    t.integer  "role_end_gold",                          :default => 0,        :null => false
+    t.integer  "trade_gold",                             :default => 0,        :null => false
+    t.string   "opts",                    :limit => 500, :default => "{}",     :null => false
+    t.string   "events",                  :limit => 500, :default => "{}",     :null => false
+    t.string   "msg"
+    t.datetime "created_at",                                                   :null => false
+    t.datetime "updated_at",                                                   :null => false
+  end
 
   create_table "settings", :force => true do |t|
     t.string   "key",                       :null => false

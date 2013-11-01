@@ -10,18 +10,19 @@ class Api::AccountsController < Api::BaseController
 	before_filter :valid_ip_use_count,					:only => [:auto] # 验证当前IP的24小时使用次数
 	before_filter :valid_ip_range_online_count,			:only => [:auto] # 验证当前IP 前三段的在线数量
 	before_filter :require_account_by_no,				:only => [:show,:start,:sync,:stop] # 根据帐号取得一个账户
-
+	#before_filter :require_account_started,				:only => [:stop,:sync]
 	
 	# 自动调度帐号
 	def auto
-		@auto = true
+		@auto  = params[:auto] = true
+		#@auto = true
 		@account  = @computer.accounts.waiting_scope.first
 		unless @account
 			@code = CODES[:not_find_account]
 			unless Note.where(:computer_id => @computer.id).where(:api_name=>"not_find_account").where("date(created_at) = ?",Date.today.to_s).exists?
 			# 记录事件
-			 Note.create(:computer_id=>@computer.id,:hostname=>@computer.hostname,:ip=>params[:ip],:server => @computer.server,
-			 	:version => @computer.version,:api_name=>"not_find_account")
+			 # Note.create(:computer_id=>@computer.id,:hostname=>@computer.hostname,:ip=>params[:ip],:server => @computer.server,
+			 # 	:version => @computer.version,:api_name=>"not_find_account")
 			end
 			return render :partial => '/api/result'
 		end
@@ -29,6 +30,7 @@ class Api::AccountsController < Api::BaseController
 		render :partial => '/api/accounts/data'
 	end
 
+	# 调度指定的账号
 	def start
 		@account = Account.find_by_no(params[:id])
 		@auto = false
@@ -36,16 +38,17 @@ class Api::AccountsController < Api::BaseController
 		render :partial => '/api/accounts/data'
 	end
 
+	# 
 	def stop
 		@account = Account.find_by_no(params[:id])
 		@code = @account.api_stop params
 		render :partial => '/api/result'
 	end
 
-	# 设置帐号属性
+	# 同步帐号属性
 	def sync
 		@account = Account.find_by_no(params[:id])
-		@code = @account.api_set params
+		@code = @account.api_sync params
 		render :partial => '/api/result'
 	end
 
@@ -90,7 +93,7 @@ class Api::AccountsController < Api::BaseController
 
 	# 根据ckey取得对应的计算机
 	def require_computer_by_ckey
-		@computer = Computer.find_by_auth_key(params[:ckey]) if params[:ckey]			
+		@computer = Computer.find_by_auth_key(params[:ckey]) if params[:ckey]		
 		@code = CODES[:not_find_computer] unless @computer
 		if @computer
 			@code = CODES[:not_find_computer] unless @computer.status == 1
@@ -108,6 +111,10 @@ class Api::AccountsController < Api::BaseController
 		return  render :partial => 'api/result' unless @code == 0
 	end
 
+	def require_account_started
+		#@code = CODES[:account_is_stopped] unless @account.is_started?
+		#return  render :partial => 'api/result' unless @code == 0
+	end
 
 	
 

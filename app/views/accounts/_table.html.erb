@@ -49,10 +49,10 @@
 <%= account_bind_tag account%>
 </td>
 <td>
-<% if account.is_online? %>
-<%= link_to account.online_computer.hostname, computer_path(account.online_computer) %>#
+<% if account.is_started? %>
+<%= link_to account.session.hostname, computer_path(account.session.computer_id) %>#
 <%=  account.online_role_id ==0 ? 'No Role ' : link_to(account.online_role_id,role_path(account.online_role.id)) %>#
-<%= link_to account.online_ip,notes_path(:ip => account.online_ip) %>
+<%= link_to account.session.ip,notes_path(:ip => account.session.ip) %>
 <% end %>
 </td>
 <td><%= time_str account.created_at %></td>

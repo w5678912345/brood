@@ -4,6 +4,7 @@ class NotesController < ApplicationController
 	def index
 		@notes = Note.where("id>0")
 		@notes = @notes.where(:role_id => params[:role_id]) unless params[:role_id].blank?
+		@notes = @notes.where(:session_id => params[:session_id]) unless params[:session_id].blank?
 		@notes = @notes.where(:account => params[:account]) unless params[:account].blank?
 		@notes = @notes.where(:server => params[:server]) unless params[:server].blank?
 		@notes = @notes.where(:computer_id => params[:cid]) unless params[:cid].blank?

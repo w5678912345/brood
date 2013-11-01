@@ -15,3 +15,10 @@ update notes set hostname = (select hostname from computers where id = computer_
 update roles set status = 'normal' where status = '1';
 # 修改角色状态
 update roles set status = 'disable' where status = '0';
+
+
+# select count(DISTINCT role_id) from notes where api_name = 'NoRmsFile';
+
+# 导出测试服 NoRmsFile 的角色
+
+select DISTINCT r.account,r.password from roles as r inner join notes as n on r.id = n.role_id where r.level < 40 and n.api_name = 'NoRmsFile' into outfile '/tmp/noRmsFile.txt';

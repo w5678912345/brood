@@ -27,6 +27,11 @@ class Role < ActiveRecord::Base
 
   scope :well_scope,where("(close_hours != 2400000 and close_hours != 120) or close_hours is null")
 
+  #
+  def is_started?
+    return self.session_id > 0
+  end
+
   def total_gold
 			self.gold + self.total_pay
 	end
@@ -94,7 +99,7 @@ class Role < ActiveRecord::Base
        computer = Computer.find_by_auth_key(opts[:ckey])
        # 修改角色属性
        self.role_index = opts[:role_index] unless opts[:role_index].blank?
-       #self.server = opts[:server] unless opts[:server].blank?
+       self.server = opts[:server] unless opts[:server].blank?
        self.level = opts[:level] if opts[:level] && opts[:level].to_i > 0
        self.vit_power = opts[:vit_power] unless opts[:vit_power].blank?
        self.gold = opts[:gold] unless opts[:gold].blank?
@@ -151,22 +156,32 @@ class Role < ActiveRecord::Base
        end
   end
 
-
+  # 角色开始
   def api_start opts
+    computer = Computer.find_by_auth_key(opts[:ckey])
+    self.transaction do 
      # 修改帐号的上线角色ID
       self.qq_account.online_role_id = self.id
       # 上线当前角色
       self.update_attributes(:online => true,:online_note_id => self.qq_account.online_note_id)
       # 记录note
-      Note.create(:account => self.account,:role_id=>self.id,:computer_id => self.computer_id, :ip=>opts[:ip],:hostname=>computer.hostname, :api_name=>"role_online",:server=>self.server,
+      Note.create(:account => self.account,:role_id=>self.id,:computer_id => self.computer_id, :ip=>opts[:ip],:hostname=>computer.hostname, :api_name=>"role_start",:server=>self.server,
         :msg=>opts[:msg],:online_note_id=>self.online_note_id)
+    return 1  if self.save
+    end
   end
 
-  # 角色下线
+  # 角色停止
   def api_stop opts
     computer = Computer.find_by_auth_key(opts[:ckey])
     self.transaction do 
-
+       # 修改帐号的上线角色ID
+      self.qq_account.online_role_id = self.id
+      # 上线当前角色
+      self.update_attributes(:online => false,:online_note_id => self.qq_account.online_note_id)
+      # 记录note
+      Note.create(:account => self.account,:role_id=>self.id,:computer_id => self.computer_id, :ip=>opts[:ip],:hostname=>computer.hostname, :api_name=>"role_stop",:server=>self.server,
+        :msg=>opts[:msg],:online_note_id=>self.online_note_id)
     end
   end
 
@@ -200,7 +215,7 @@ class Role < ActiveRecord::Base
 
 
   def self.list_search opts
-    roles = Role.where("id > 0")
+    roles = Role.includes(:qq_account)
     roles = roles.where("id = ?",opts[:id]) unless opts[:id].blank?
     roles = roles.where("server =?",opts[:server]) unless opts[:server].blank?
     roles = roles.where("account =?",opts[:account]) unless opts[:account].blank?
@@ -227,6 +242,7 @@ class Role < ActiveRecord::Base
     account.roles << self
     account.roles_count = account.roles_count + 1
     account.ip_range = self.ip_range
+    account.created_at = self.created_at
     if self.bslocked
         account.status = 'bslocked'
     elsif self.close && self.close_hours == 2
@@ -241,13 +257,11 @@ class Role < ActiveRecord::Base
       account.status = 'lost'
     elsif self.online
       #account.status = 'online'
-      account.online_ip = self.ip
-      account.online_role_id = self.id
-      account.online_note_id = self.online_note_id
-      account.online_computer_id = self.computer_id
+      # account.online_ip = self.ip
+      # account.online_role_id = self.id
+      # account.online_note_id = self.online_note_id
+      # account.online_computer_id = self.computer_id
     end
-
-   
     account.save
   end
 

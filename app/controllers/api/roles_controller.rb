@@ -5,18 +5,18 @@ class Api::RolesController < Api::BaseController
 	layout :nil
 	
 	##filters
-	before_filter :require_remote_ip
+	#before_filter :require_remote_ip
 	#before_filter :valid_ip_use_count,					:only => [:online]
 	#before_filter :valid_ip_range_online_count,			:only => [:online]
 	#before_filter :require_computer_by_ckey,			:only => [:on,:off,:sync,:close,:note,:pay,:online,:lock,:unlock,:lose,:show,:bslock,:bs_unlock,:disable]
 	#before_filter :require_role_by_id,					:only => [:on,:off,:sync,:close,:note,:pay,:show,:lock,:unlock,:lose,:bslock,:bs_unlock,:disable]
 	#before_filter :require_online_role,					:only => [:off,:sync,:close,:note,:lock,:bslock,:bs_unlock]
 	#before_filter :require_computer_eq_role,			:only => [:off,:sync,:close,:note,:pay,:lock]
-	before_filter :go_on
+	#before_filter :go_on
 
 	def start
 		@role = Role.find_by_id(params[:id])
-		@code = 1
+		@code = @role.api_start params
 		render :partial => 'api/result'
 	end
 
@@ -143,9 +143,7 @@ class Api::RolesController < Api::BaseController
 		end
 	end
 
-	def go_on
-		return render :partial => 'api/roles/result' unless @code == 0
-	end
+
 
 
 

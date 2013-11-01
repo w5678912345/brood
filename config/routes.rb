@@ -53,6 +53,10 @@ Brood::Application.routes.draw do
   end
   resources :notes , :only => [:index,:show] do
   end
+  resources :sessions, :only => [:index,:show] do 
+    get :account,   :on => :collection
+    get :role,      :on => :collection
+  end
   #
   resources :settings, :only => [:index,:create,:edit,:update,:destroy]
 

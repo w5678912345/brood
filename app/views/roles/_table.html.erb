@@ -23,7 +23,7 @@
 </label>
 </td>
 <td><%= role.role_index %></td>
-<td><%= account_tag role.account%></td>
+<td><%= account_tag role.account%> <%= role.qq_account.status if role.qq_account %> </td>
 <td><%= role.server%></td>
 <td><%= role.level%></td>
 <td><%= role.vit_power %></td>

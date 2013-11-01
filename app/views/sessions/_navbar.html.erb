@@ -1,0 +1,15 @@
+<% active = 'class=active'%>
+<ul class="nav nav-tabs">
+<li <%= active if controller_name == 'sessions' && action_name == 'index' %>>
+ <%= link_to raw('<i class="icon-list"></i>会话列表'), sessions_path %>
+</li>
+
+<li <%= active if controller_name == 'sessions' && action_name == 'account' %>>
+ <%= link_to raw('<i class="icon-list"></i>账号会话'), account_sessions_path %>
+</li>
+
+<li <%= active if controller_name == 'sessions' && action_name == 'role' %>>
+ <%= link_to raw('<i class="icon-list"></i>角色会话'), role_sessions_path %>
+</li>
+
+</ul>

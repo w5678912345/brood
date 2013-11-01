@@ -10,9 +10,10 @@ class Account < ActiveRecord::Base
     Auto_Normal = {"disconnect"=>2,"exception"=>3,"bslocked"=>72,"bs_unlock_fail"=>72}
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
-    attr_accessible :bind_computer_id, :bind_computer_at,:roles_count
+    attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id
     #所属服务器
 	  belongs_to :game_server, :class_name => 'Server', :foreign_key => 'server',:primary_key => 'name'
+    belongs_to :session,     :class_name => 'Session', :foreign_key => 'session_id'
     #在线角色
     belongs_to :online_role, :class_name => 'Role', :foreign_key => 'online_role_id'
     #在线记录
@@ -27,12 +28,15 @@ class Account < ActiveRecord::Base
     # 
     validates_uniqueness_of :no
 
-    default_scope order("online_note_id desc")
+    default_scope order("updated_at desc")
     scope :online_scope, where("online_note_id > 0") #
+
+    scope :started_scope, where("session_id > 0 ") #已开始的账号
+    scope :stopped_scope, where("session_id = 0 ") #已停止的账号
     #
     scope :unline_scope, where("online_note_id = 0").reorder("updated_at desc") # where(:status => 'normal')
     #
-    scope :waiting_scope, joins(:roles).where("accounts.online_note_id = 0 and accounts.status = 'normal'").where("roles.vit_power > 0 and roles.status = 'normal' ").readonly(false)
+    scope :waiting_scope, joins(:roles).where("accounts.session_id = 0 and accounts.status = 'normal'").where("roles.vit_power > 0 and roles.status = 'normal' ").readonly(false)
     scope :bind_scope, where("bind_computer_id > 0") # 已绑定
     scope :unbind_scope, where("bind_computer_id = 0") # 未绑定 
     scope :can_not_bind_scope ,where("bind_computer_id = -1") # 不能绑定
@@ -40,67 +44,72 @@ class Account < ActiveRecord::Base
     scope :no_server_scope,where("server is null or server = '' ") #服务器为空的账号 
 
 
-
-    # 在线记录ID >0 并且 在线机器ID > 0 表示帐号在线
-    def is_online?
-      return self.online_note_id > 0 && self.online_computer_id > 0
+    # session_id > 0 表示正在运行
+    def is_started?
+      return self.session_id > 0
     end
 
     # 帐号在线，并且在线角色ID > 0 表示正在工作
     def is_working?
-      return self.is_online? && self.online_role_id > 0 
+      return self.is_started? && self.online_role_id > 0 
     end
-
 
 
     # 开始当前帐号
     def api_start opts
       # 判断账号是否在线
-      return CODES[:account_is_online] if self.is_online?
+      return CODES[:account_is_started] if self.is_started?
       ip = Ip.find_or_create(opts[:ip])
       computer = Computer.find_by_auth_key(opts[:ckey])
       self.transaction do
         #增加计算机上线账号数
-        computer.update_attributes(:online_accounts_count=>computer.online_accounts_count+1,:version=>opts[:version]|| opts[:msg]) 
+        computer.update_attributes(:online_accounts_count=>computer.online_accounts_count+1)
         #增加ip使用次数
         ip.update_attributes(:use_count=>ip.use_count+1)
-        # 记录note
-        note = Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>ip.value,:api_name=>"account_online",
-          :msg=>opts[:msg],:account => self.no,:server => computer.server,:version => computer.version)
-        # 修改账号 上线IP, 上线机器ID, 上线记录ID
-        return 1 if self.update_attributes(:online_ip=>ip.value,:online_computer_id=>computer.id,:online_note_id => note.id)
+        # 记录 session
+        session = Session.create(:computer_id => computer.id,:account=>self.no,:ip=>ip.value,
+          :hostname=>computer.hostname,:server => computer.server,:version => computer.version)
+        #
+        self.session_id = session.id
+        note = Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>ip.value,:api_name=>"account_start",
+           :msg=>opts[:msg],:account => self.no,:server => computer.server,:version => computer.version,:session_id=>session.id)
+        # 修改
+        return 1 if self.save
       end
     end
 
 
     # 设置当前帐号 属性
-    def api_set opts
-      computer = Computer.find_by_key_or_id(opts[:ckey] || opts[:cid])
+    def api_sync opts
+      return CODES[:account_is_stopped] unless self.is_started?
       status = opts[:status]
       event = opts[:event]
-
+      return 0 if status.blank? && event.blank? #事件和状态都为空时，不进行跟新
+      session = self.session
+      computer = session.computer
+      #
       self.transaction do 
         # 记录账户改变的状态
         if STATUS.include? status
           self.status = (self.status == 'bslocked' && status == 'bslocked') ? 'bslocked_again' : status
           if self.status_changed?
-            Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_code=>self.status,
-              :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:api_name => '0')
+            Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_code=>self.status,:msg=>opts[:msg],
+              :account => self.no,:server => self.server,:version => computer.version,:api_name => '0',:session_id=>session.id)
           end
-          #
-          if Auto_Normal.has_key?(status)
-            #  修改恢复时间
+          # 修改恢复时间
+          if Auto_Normal.has_key?(status) 
             self.normal_at = Time.now.since(Account::Auto_Normal[status].hours)
           end
         end
+        session.update_attributes(:status => status)
         self.normal_at = nil if self.status == 'normal' #状态正常时，清空normal
         self.updated_at = Time.now
 
         # 记录账号发生的事件
-        if EVENT.include? event
-          Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name => opts[:event],
-          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version)
-        end 
+        # if EVENT.include? event
+        #   Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name => opts[:event],
+        #   :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id)
+        # end 
         return 1 if self.save
       end
     end
@@ -109,20 +118,21 @@ class Account < ActiveRecord::Base
     # 停止当前帐号
     def api_stop opts
       # 判断账号是否在线
-      return CODES[:account_is_offline] unless self.is_online?
-      computer = Computer.find_by_key_or_id(opts[:ckey] || opts[:cid])
-      computer = Computer.new unless computer
+      return CODES[:account_is_stopped] unless self.is_started?
+      session = self.session
+      computer = session.computer
       self.transaction do 
        # 修改机器的上线账号数量
        computer.update_attributes(:online_accounts_count=>computer.online_accounts_count-1) if computer.online_accounts_count > 0
-       #
-       # 更新 在线时间
-       
+       # 更新session
+       now = Time.now
+       hours = (now - session.created_at)/3600
+       session.update_attributes(:ending=>true, :end_at=>now,:hours=>hours)
        # 记录 note
-       note = Note.create(:computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_offline',:msg=>opts[:msg],
-        :account => self.no,:server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname)
-       # 修改账号的 上线IP, 上线机器ID, 上线记录ID, 上线角色ID
-       return 1 if self.update_attributes(:online_ip=>nil,:online_computer_id=>0,:online_note_id => 0,:online_role_id => 0)
+       note = Note.create(:account => self.no, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_stop',:msg=>opts[:msg],
+         :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:session_id=>session.id)
+       # 修改账号的session_id 为0 
+       return 1 if self.update_attributes(:session_id=>0)
       end
     end
 
@@ -130,7 +140,7 @@ class Account < ActiveRecord::Base
 
     #搜索账号列表
     def self.list_search opts
-    	accounts = Account.includes(:online_computer,:online_role,:bind_computer)
+    	accounts = Account.includes(:session,:bind_computer)
       accounts = accounts.where("no = ?", opts[:no]) unless opts[:no].blank?
     	accounts = accounts.where(:server => opts[:server]) unless opts[:server].blank?
       accounts = accounts.no_server_scope if opts[:no_server].to_i == 1
@@ -161,8 +171,6 @@ class Account < ActiveRecord::Base
       self.roles.build(:account=>self.no,:password => self.password,:role_index => self.roles.count,:vit_power=>156,:server => self.server)
       self.save
     end
-
-
 
 
     #可用的角色
