@@ -4,7 +4,7 @@ class Account < ActiveRecord::Base
     # 账号可能发生的状态
     STATUS = ['normal','bslocked','bslocked_again','bs_unlock_fail','bs_unlock_success','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','finished']
     # 账号可能发生的事件
-    EVENT = []
+    EVENT = ['bslock']
     Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线"}
     # 需要自动恢复normal的状态
     Auto_Normal = {"disconnect"=>2,"exception"=>3,"bslocked"=>72,"bs_unlock_fail"=>72}
@@ -103,10 +103,10 @@ class Account < ActiveRecord::Base
         self.normal_at = nil if self.status == 'normal' #状态正常时，清空normal
         
         # 记录账号发生的事件
-        # if EVENT.include? event
-        #   Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name => opts[:event],
-        #   :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id)
-        # end 
+        if EVENT.include? event
+          Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name => opts[:event],
+          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id)
+        end 
         return 1 if self.update_attributes(:updated_at => Time.now)
       end
     end

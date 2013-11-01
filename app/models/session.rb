@@ -9,6 +9,7 @@ class Session < ActiveRecord::Base
 	belongs_to :computer
     belongs_to :qq_account, :class_name => 'Account',:foreign_key=>'account',:primary_key=>'no'
 	belongs_to :role
+	belongs_to :sup, :class_name => 'Session', :foreign_key => 'sup_id', :primary_key => 'id'
 
 	#
 	scope :accounts_scope, where("account is not null and role_id = 0") #
