@@ -29,4 +29,4 @@ vendor/cache
 dump.rdb
 .ruby-version
 
-db/migrate/20131029014450_create_sessions.rb
+#db/migrate/20131029014450_create_sessions.rb
