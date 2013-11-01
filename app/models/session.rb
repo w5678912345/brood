@@ -12,8 +12,8 @@ class Session < ActiveRecord::Base
 	belongs_to :sup, :class_name => 'Session', :foreign_key => 'sup_id', :primary_key => 'id'
 
 	#
-	scope :accounts_scope, where("account is not null and role_id = 0") #
-	scope :roles_scope, where("account is not null and role_id > 0 ") #
+	scope :accounts_scope, where("account is not null and role_id = 0").order("updated_at desc") #
+	scope :roles_scope, where("account is not null and role_id > 0 ").order("updated_at desc") #
 
 
 	def self.list_search opts
