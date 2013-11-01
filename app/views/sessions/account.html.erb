@@ -1,10 +1,9 @@
 <%= render "navbar" %>
-<%= render "search_form"%>
+<%= render :partial => "search_form",:locals=>{:form_path => account_sessions_path}%>
 <div class="alert">
 <strong>提示信息:</strong>
 <button type="button" class="close" data-dismiss="alert">&times;</button>
 <span><%= @sessions.total_entries%>个会话</span> 
 </div>
-
 <%= render :partial => "account_table",:locals=>{:sessions=>@sessions} %>
 <%= will_paginate @sessions %>

@@ -1,0 +1,25 @@
+<form class="form-search" action="<%= form_path %>">
+<input type="text" name="start_date" id="start_date" class="input-small" placeholder="起始日期" value="<%= params[:start_date]%>" />-
+<input type="text" name="end_date" id="end_date" class="input-small" placeholder="结束日期" value="<%= params[:end_date]%>" />
+<input type="text" name="no" class="input-small" placeholder="帐号" value="<%= params[:no]%>" />
+结束:
+<select name="end" class="input-small">
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:end] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:end] == "0" %> >No</option>
+</select>
+成功:
+<select name="success" class="input-small">
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:success] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:success] == "0" %> >No</option>
+</select>
+<button type="submit" class="btn">Search</button>
+</form>
+
+<script type="text/javascript">
+$(function(){
+	$("#start_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+	$("#end_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+});
+</script>

@@ -7,7 +7,7 @@ class Role < ActiveRecord::Base
 
   belongs_to :computer,:class_name => 'Computer'
   belongs_to :online_note, :class_name => 'note', :foreign_key => 'online_note_id'
-  belongs_to :session
+  belongs_to :session, :foreign_key => 'session_id'
   has_many   :notes,		:dependent => :destroy, :order => 'id DESC'
   has_many	 :payments, :order => 'id DESC'
   has_many   :comroles, :class_name => 'Comrole'
@@ -50,17 +50,19 @@ class Role < ActiveRecord::Base
 
     # 角色开始
   def api_start opts
-    return CODES[:role_is_started] if self.is_started?
-    computer = Computer.find_by_auth_key(opts[:ckey])
-    self.transaction do 
+    return CODES[:account_is_stopped] unless self.qq_account.is_started?  # 账户未开始，角色不能开始
+    return CODES[:role_is_started] if self.is_started? # 角色开始了不能开始
+    account_session = self.qq_account.session
+    computer = account_session.computer
+    self.transaction do
       # 创建会话
-      session = Session.create(:computer_id => computer.id,:account=>self.account,:ip=>ip.value,:role_id=>self.id,
-          :hostname=>computer.hostname,:server => computer.server,:version => computer.version,:role_start_level=>self.level)
+      session = Session.create(:computer_id => computer.id,:account=>self.account,:ip=>opts[:ip],:role_id=>self.id,
+          :sup_id=> account_session.id,:hostname=>computer.hostname,:server => computer.server,:version => computer.version,:role_start_level=>self.level)
       # 修改帐号的上线角色ID
       self.qq_account.update_attributes(:online_role_id => self.id)
       # 记录note
       note = Note.create(:computer_id => computer.id, :account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,
-       :api_name=>"role_start",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=>session.id,:level=>self.level)
+       :api_name=>"role_start",:server=> self.server || computer.server,:msg=>opts[:msg],:session_id=>session.id,:level=>self.level)
       # 修改角色
       return 1 if self.update_attributes(:session_id => session.id)
     end
@@ -83,24 +85,28 @@ class Role < ActiveRecord::Base
      self.total = self.total_pay + self.gold if self.gold_changed?
      # 
      self.transaction do
-      # 修改账号最后访问时间
-      self.qq_account.update_attributes(:updated_at => Time.now)
+     
       # 如果状态发生改变，记录note
       if self.status_changed?
-         Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>'0',:server=>self.server || computer.server,
+         Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>'0',:server=>self.server || computer.server,
           :msg=>opts[:msg],:session_id=>session.id,:version=>computer.version,:server=>self.server,:api_code => self.status) 
+          session.update_attributes(:status => status)
       end
       # 如果有事件发生，记录note
       if EVENT.include? opts[:event]
-          Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>opts[:event],:server=>self.server || computer.server,
+          Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>opts[:event],:server=>self.server || computer.server,
           :msg=>opts[:msg],:session=>session.id,:version=>computer.version,:server=>self.server || computer.server) 
+          
       end
 
       # 如果彼劳值变成了0,说明角色调度成功
       if self.vit_power_changed? && self.vit_power == 0 
-          Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>self.computer_id,:ip=>opts[:ip],:hostname=> computer.hostname, :server=>self.server || computer.server,
-            :api_name=>"role_success",:msg=>opts[:msg],:session_id=>session.id) 
+          Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, :server=>self.server || computer.server,
+            :api_name=>"role_success",:msg=>opts[:msg],:session_id=>session.id)
+          session.update_attributes(:success => true)
       end
+      # 修改账号最后访问时间
+      self.qq_account.update_attributes(:updated_at => Time.now)
       return 1 if self.update_attributes(:updated_at=>Time.now)
      end
   end
@@ -113,14 +119,14 @@ class Role < ActiveRecord::Base
     computer = session.computer
     self.transaction do 
        # 修改帐号的上线角色ID
-      self.qq_account.online_role_id = 0
+      self.qq_account.update_attributes(:online_role_id => 0)
       # 修改会话
       now = Time.now
       hours = (now - session.created_at)/3600
-      session.update_attributes(:ending=>true, :end_at=>now,:hours=>hours)
+      session.update_attributes(:ending=>true, :end_at=>now,:hours=>hours,:role_end_level=>self.level)
       # 记录note
-      Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname, :api_name=>"role_stop",:server=>self.server,
-        :msg=>opts[:msg],:online_note_id=>self.online_note_id)
+      Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,
+       :api_name=>"role_stop",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=> session.id)
       # 清空会话
       return 1 if self.update_attributes(:session_id => 0)
     end
@@ -132,7 +138,7 @@ class Role < ActiveRecord::Base
     session = self.session
     computer = session.computer
     self.transaction do
-      payment = Payment.new(:role_id=>self.id,:gold => opts[:gold],:balance => opts[:balance],:remark => opts[:remark],:note_id => 0,:pay_type=>opts[:pay_type],:server=>self.server) 
+      payment = Payment.new(:role_id=>self.id,:gold => opts[:gold],:balance => opts[:balance],:remark => opts[:remark],:note_id => 0,:pay_type=>opts[:pay_type],:server=>self.server||computer.server) 
       return CODES[:not_valid_pay] unless payment.valid? # validate not pass
       self.gold = payment.balance      #当前金币 = 支出后的余额
       self.total_pay = self.total_pay + payment.gold # 累计支出
@@ -144,8 +150,10 @@ class Role < ActiveRecord::Base
          Note.create(:account => account.no,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:api_code=>"bs_unlock_success",
           :version=>computer.version, :server=>self.server || computer.server,:session_id=>session.id, :msg=>"交易后自动解除锁定")
       end
+      # 修改会话
+
       payment.save
-      return 1 if  self.save
+      return 1 if  self.update_attributes(:updated_at=>Time.now)
     end
   end
 

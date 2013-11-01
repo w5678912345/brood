@@ -5,6 +5,6 @@ class AddSessionIdToTables < ActiveRecord::Migration
 	add_column  :accounts,	:session_id, :integer, :null=> false, :default => 0
 	add_column  :roles,	:session_id, :integer, :null=> false, :default => 0
 	add_column  :notes,	:session_id, :integer, :null=> false, :default => 0
-	
+	add_column  :payments, :session_id, :integer, :null=> false, :default => 0
   end
 end

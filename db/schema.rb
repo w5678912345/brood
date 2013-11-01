@@ -106,16 +106,17 @@ ActiveRecord::Schema.define(:version => 20131031063830) do
   end
 
   create_table "payments", :force => true do |t|
-    t.integer  "role_id",    :null => false
-    t.integer  "note_id",    :null => false
-    t.integer  "gold",       :null => false
-    t.integer  "balance",    :null => false
-    t.integer  "total",      :null => false
-    t.string   "pay_type",   :null => false
+    t.integer  "role_id",                   :null => false
+    t.integer  "note_id",                   :null => false
+    t.integer  "gold",                      :null => false
+    t.integer  "balance",                   :null => false
+    t.integer  "total",                     :null => false
+    t.string   "pay_type",                  :null => false
     t.string   "remark"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
     t.string   "server"
+    t.integer  "session_id", :default => 0, :null => false
   end
 
   create_table "roles", :force => true do |t|

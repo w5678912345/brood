@@ -9,13 +9,13 @@ class SessionsController < ApplicationController
 
 
 	def account
-		@sessions = Session.accounts_scope
+		@sessions = Session.list_search(params).accounts_scope
 		per_page  = params[:per_page].blank? ? 20 : params[:per_page].to_i
 		@sessions = @sessions.paginate(:page => params[:page], :per_page => per_page)
 	end
 
 	def role
-		 @sessions = Session.roles_scope
+		 @sessions = Session.list_search(params).roles_scope
 		 per_page  = params[:per_page].blank? ? 20 : params[:per_page].to_i
 		 @sessions = @sessions.paginate(:page => params[:page], :per_page => per_page)
 	end
