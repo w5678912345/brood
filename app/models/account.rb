@@ -85,11 +85,12 @@ class Account < ActiveRecord::Base
       return 0 if status.blank? && event.blank? #事件和状态都为空时，不进行跟新
       session = self.session
       computer = session.computer
+
       #
       self.transaction do 
         # 记录账户改变的状态
         if STATUS.include? status
-          #self.status = (self.status == 'bslocked' && status == 'bslocked') ? 'bslocked_again' : status
+          self.status = status
           if self.status_changed?
             Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_code=>self.status,:msg=>opts[:msg],
               :account => self.no,:server => self.server,:version => computer.version,:api_name => '0',:session_id=>session.id)
