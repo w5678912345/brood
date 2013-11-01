@@ -2,9 +2,9 @@
 class Account < ActiveRecord::Base
     CODES = Api::CODES
     # 账号可能发生的状态
-    STATUS = ['normal','bslocked','bslocked_again','bs_unlock_fail','bs_unlock_success','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','finished']
+    STATUS = ['normal','bslocked','bslocked_again','bs_unlock_fail','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','finished']
     # 账号可能发生的事件
-    EVENT = ['bslock']
+    EVENT = ['bslock','bs_unlock_fail','bs_unlock_success']
     Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线"}
     # 需要自动恢复normal的状态
     Auto_Normal = {"disconnect"=>2,"exception"=>3,"bslocked"=>72,"bs_unlock_fail"=>72}
@@ -89,7 +89,7 @@ class Account < ActiveRecord::Base
       self.transaction do 
         # 记录账户改变的状态
         if STATUS.include? status
-          self.status = (self.status == 'bslocked' && status == 'bslocked') ? 'bslocked_again' : status
+          #self.status = (self.status == 'bslocked' && status == 'bslocked') ? 'bslocked_again' : status
           if self.status_changed?
             Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_code=>self.status,:msg=>opts[:msg],
               :account => self.no,:server => self.server,:version => computer.version,:api_name => '0',:session_id=>session.id)
