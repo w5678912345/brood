@@ -30,6 +30,7 @@ str_environment = 'production'
 
 #
 every 25.minutes do
+  runner 'Role.auto_stop',:environment => str_environment
   runner 'Account.auto_stop',:environment => str_environment
   runner 'Computer.auto_stop',:environment => str_environment
 end

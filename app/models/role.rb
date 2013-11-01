@@ -179,6 +179,15 @@ class Role < ActiveRecord::Base
   end
 
 
+  def self.auto_stop
+    last_at = Time.now.ago(10.minutes).strftime("%Y-%m-%d %H:%M:%S")
+    roles = Role.where("session_id > 0").where("updated_at < '#{last_at}'")
+    roles.each do |role|
+      role.api_stop(opts={:ip=>"localhost"})
+    end
+  end
+
+
 
 	
   def to_account
