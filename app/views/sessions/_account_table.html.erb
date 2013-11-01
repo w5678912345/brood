@@ -1,10 +1,9 @@
 <table class="table">
 <thead>
 <tr>
+ <th>ID</th>
  <th>账号</th>
-<th>ID</th>
  <th>机器</th>
-
  <th>IP</th>
  <th>时间</th>
  <th>区</th>
@@ -17,15 +16,14 @@
 <tbody>
 <% @sessions.each do |session|%>
 <tr>
-<td><%= account_tag session.account %></td>
 <td><%= session.id %><%= notes_link_tag(:session_id => session.id )%></td>
+<td><%= account_tag session.account %></td>
 <td><%= computer_tag session.computer %> </td>
-
 <td><%= session.ip %></td>
 <td><%= time_str session.created_at %></td>
 <td><%= session.server %></td>
 <td><%= session.version %></td>
-<td><%= session.ending ?  session.hours : "ing" %></td>
+<td><%= session.ending ?  session.hours : "未结束" %></td>
 <td><%= session.status %></td>
 <td>#</td>
 </tr>
