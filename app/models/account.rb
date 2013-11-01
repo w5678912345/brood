@@ -98,8 +98,9 @@ class Account < ActiveRecord::Base
           if Auto_Normal.has_key?(status) 
             self.normal_at = Time.now.since(Account::Auto_Normal[status].hours)
           end
+          session.update_attributes(:status => status)
         end
-        session.update_attributes(:status => status)
+        
         self.normal_at = nil if self.status == 'normal' #状态正常时，清空normal
         
         # 记录账号发生的事件
