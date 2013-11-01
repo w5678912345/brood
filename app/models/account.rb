@@ -10,7 +10,7 @@ class Account < ActiveRecord::Base
     Auto_Normal = {"disconnect"=>2,"exception"=>3,"bslocked"=>72,"bs_unlock_fail"=>72}
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
-    attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id
+    attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at
     #所属服务器
 	  belongs_to :game_server, :class_name => 'Server', :foreign_key => 'server',:primary_key => 'name'
     belongs_to :session,     :class_name => 'Session', :foreign_key => 'session_id'
@@ -29,20 +29,19 @@ class Account < ActiveRecord::Base
     validates_uniqueness_of :no
 
     default_scope order("updated_at desc")
-    scope :online_scope, where("online_note_id > 0") #
-
+    scope :online_scope, where("session_id > 0") #
+    scope :unline_scope, where("session_id = 0").reorder("updated_at desc") # where(:status => 'normal')
+    #
     scope :started_scope, where("session_id > 0 ") #已开始的账号
     scope :stopped_scope, where("session_id = 0 ") #已停止的账号
     #
-    scope :unline_scope, where("online_note_id = 0").reorder("updated_at desc") # where(:status => 'normal')
-    #
     scope :waiting_scope, joins(:roles).where("accounts.session_id = 0 and accounts.status = 'normal'").where("roles.vit_power > 0 and roles.status = 'normal' ").readonly(false)
+    #
     scope :bind_scope, where("bind_computer_id > 0") # 已绑定
     scope :unbind_scope, where("bind_computer_id = 0") # 未绑定 
     scope :can_not_bind_scope ,where("bind_computer_id = -1") # 不能绑定
     scope :un_normal_scope,where("status != 'normal' ") # 非正常状态的账号
     scope :no_server_scope,where("server is null or server = '' ") #服务器为空的账号 
-
 
     # session_id > 0 表示正在运行
     def is_started?
@@ -55,7 +54,7 @@ class Account < ActiveRecord::Base
     end
 
 
-    # 开始当前帐号
+    # 开始帐号
     def api_start opts
       # 判断账号是否在线
       return CODES[:account_is_started] if self.is_started?
@@ -70,16 +69,15 @@ class Account < ActiveRecord::Base
         session = Session.create(:computer_id => computer.id,:account=>self.no,:ip=>ip.value,
           :hostname=>computer.hostname,:server => computer.server,:version => computer.version)
         #
-        self.session_id = session.id
         note = Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>ip.value,:api_name=>"account_start",
            :msg=>opts[:msg],:account => self.no,:server => computer.server,:version => computer.version,:session_id=>session.id)
-        # 修改
-        return 1 if self.save
+        # 修改session 并修改上线 IP
+        return 1 if self.update_attributes(:session_id=>session.id,:online_ip=>ip.value)
       end
     end
 
 
-    # 设置当前帐号 属性
+    # 同步帐号
     def api_sync opts
       return CODES[:account_is_stopped] unless self.is_started?
       status = opts[:status]
@@ -103,22 +101,22 @@ class Account < ActiveRecord::Base
         end
         session.update_attributes(:status => status)
         self.normal_at = nil if self.status == 'normal' #状态正常时，清空normal
-        self.updated_at = Time.now
-
+        
         # 记录账号发生的事件
         # if EVENT.include? event
         #   Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name => opts[:event],
         #   :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id)
         # end 
-        return 1 if self.save
+        return 1 if self.update_attributes(:updated_at => Time.now)
       end
     end
 
 
-    # 停止当前帐号
+    # 停止帐号
     def api_stop opts
       # 判断账号是否在线
       return CODES[:account_is_stopped] unless self.is_started?
+      return 0 if self.online_role_id > 0 # 还有角色在线，账号不能下线
       session = self.session
       computer = session.computer
       self.transaction do 
@@ -131,8 +129,8 @@ class Account < ActiveRecord::Base
        # 记录 note
        note = Note.create(:account => self.no, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_stop',:msg=>opts[:msg],
          :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:session_id=>session.id)
-       # 修改账号的session_id 为0 
-       return 1 if self.update_attributes(:session_id=>0)
+       # 修改账号的session_id 为0 并清空上线 IP
+       return 1 if self.update_attributes(:session_id=>0,:online_ip=>nil)
       end
     end
 
@@ -149,7 +147,7 @@ class Account < ActiveRecord::Base
       accounts = accounts.where("bind_computer_id = ?",opts[:bind_cid].to_i) unless opts[:bind_cid].blank?
       #
       unless opts[:online].blank?
-        accounts = opts[:online].to_i == 1 ? accounts.online_scope : accounts.unline_scope
+        accounts = opts[:online].to_i == 1 ? accounts.started_scope : accounts.stopped_scope
       end
       unless opts[:bind].blank?
         accounts = accounts.bind_scope if opts[:bind] == 'bind'
@@ -178,6 +176,7 @@ class Account < ActiveRecord::Base
       self.roles.where("vit_power > 0 and status = 'normal' ")
     end
 
+    # 重置账号绑定数量
     def self.reset_roles_count
       accounts = Account.all
       accounts.each do |account|
@@ -193,8 +192,8 @@ class Account < ActiveRecord::Base
       accounts.update_all(:status => "normal",:normal => nil)
     end
 
-    # 账号自动停止
-    def self.auto_stop
+   # 账号自动停止
+   def self.auto_stop
       last_at = Time.now.ago(10.minutes).strftime("%Y-%m-%d %H:%M:%S")
       accounts = Account.online_scope.where("updated_at < '#{last_at}'")
       accounts.each do |account|
@@ -202,12 +201,12 @@ class Account < ActiveRecord::Base
       end
    end
 
-
-    def self.auto_disable_bind
+   # 自动禁用账号的绑定
+   def self.auto_disable_bind
       time = Time.now.ago(2.day)
       accounts = Account.where("updated_at < ?",time)
       accounts.update_all(:bind_computer_id => -1)
-    end
+   end
 
     #
     def sellers
