@@ -41,11 +41,12 @@ class AccountsController < ApplicationController
 		@accounts = Account.where("no in (?)",@no)
 		# 禁用绑定
 		if "disable_bind" == @do
-			@accounts.update_all(:bind_computer_id => -1)
+			#
+			@accounts.stopped_scope.update_all(:bind_computer_id => -1)
 			return redirect_to accounts_path(:bind=>-1)
 		# 清空绑定
 		elsif "clear_bind" == @do
-			@accounts.update_all(:bind_computer_id => 0)
+			@accounts.stopped_scope.update_all(:bind_computer_id => 0)
 			return redirect_to accounts_path(:bind=> 0)
 		# 添加角色
 		elsif "add_role" == @do
@@ -56,7 +57,7 @@ class AccountsController < ApplicationController
 			return redirect_to accounts_path(:roles_count => 1)
 		# 调用下线
 		elsif "call_offline" == @do
-			@accounts = @accounts.online_scope
+			@accounts = @accounts.started_scope
 			@accounts.each do |account|
 				account.api_stop(opts = {:ip=>request.remote_ip,:cid=> account.online_computer_id,:msg=>"click"})
 			end

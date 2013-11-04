@@ -84,8 +84,8 @@ class Computer < ActiveRecord::Base
 
   # 清空绑定账户
   def clear_bind_accounts
-    self.accounts.update_all(:bind_computer_id => -1) #
-    self.update_attributes(:accounts_count => 0) # 修改 绑定账户数量
+    self.accounts.stopped_scope.update_all(:bind_computer_id => -1) #
+    #self.update_attributes(:accounts_count => self.accounts.count) # 修改 绑定账户数量
   end
 
   def find_or_create_server
