@@ -20,6 +20,11 @@ class SessionsController < ApplicationController
 		 @sessions = @sessions.paginate(:page => params[:page], :per_page => per_page)
 	end
 
+	def analysis
+		@account_sessions = Session.accounts_scope.select("count(id) as scount,status").group("status")
+		@role_sessions = Session.roles_scope.select("count(id) as rscount,success").group("success")
+	end
+
 
 	def show
 

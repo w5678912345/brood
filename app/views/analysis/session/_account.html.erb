@@ -1,0 +1,16 @@
+<table class="table">
+<thead>
+<tr>
+<th>账号状态</th>
+<th>调度次数</th>
+</tr>
+</thead>
+<tbody>
+<% @account_sessions.each do |as|%>
+<tr>
+	<td><%= as.status %></td>
+	<td><%= link_to as.scount,account_sessions_path(:status=>as.status,:date=>@date),:target=>"_blank"%></td>
+</tr>
+<%end%>
+</tbody>
+</table>

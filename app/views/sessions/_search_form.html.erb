@@ -8,12 +8,18 @@
 <option value="1" <%= 'selected="selected"' if params[:end] == "1" %>>Yes</option>
 <option value="0" <%= 'selected="selected"' if params[:end] == "0" %> >No</option>
 </select>
+<% if action_name == "role"%>
 成功:
 <select name="success" class="input-small">
 <option value="" >-All-</option>
 <option value="1" <%= 'selected="selected"' if params[:success] == "1" %>>Yes</option>
 <option value="0" <%= 'selected="selected"' if params[:success] == "0" %> >No</option>
 </select>
+<%end%>
+<% if action_name == 'account'%>
+<input type="text" name="status" id="status" class="input-small" placeholder="状态" value="<%= params[:status]%>" />
+<% end%>
+<input type="text" name="date" id="date" class="input-small" placeholder="发生日期" value="<%= params[:date]%>" />
 <button type="submit" class="btn">Search</button>
 </form>
 
@@ -21,5 +27,6 @@
 $(function(){
 	$("#start_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
 	$("#end_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+	$("#date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
 });
 </script>

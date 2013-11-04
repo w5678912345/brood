@@ -1,0 +1,21 @@
+<table class="table">
+	<thead>
+	<tr>
+	<th colspan="2">
+	</th>
+	</tr>
+	<tr>
+		<th>是否成功</th>
+		<th>调度次数</th>
+	</tr>
+	</thead>
+	<tbody>
+
+	<% @role_sessions.each do |rs|%>
+	<tr>
+		<td><%= rs.success ? "成功" : "失败" %></td>
+		<td><%= link_to rs.rscount,role_sessions_path(:success=>1,:date=>@date) %></td>
+	</tr>
+	<%end%>
+	</tbody>
+	</table>

@@ -1,0 +1,35 @@
+<%= render "navbar" %>
+<fieldset>
+<legend>上线情况分析</legend>
+
+<table class="table">
+<thead>
+<tr>
+<th colspan="2">
+...
+</th>
+</tr>
+<tr>
+	<th>状态</th>
+	<th>数量</th>
+</tr>
+</thead>
+<tbody>
+
+<% @account_sessions.each do |as|%>
+<tr>
+	<td><%= as.status %></td>
+	<td><%= as.scount%></td>
+</tr>
+<%end%>
+</tbody>
+</table>
+
+
+
+<ul>
+<% @role_sessions.each do |as|%>
+<li><%= as.success %>==<%= as.rscount %></li>
+<%end%>
+</ul>
+</fieldset>

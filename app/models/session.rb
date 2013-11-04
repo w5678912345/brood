@@ -14,12 +14,14 @@ class Session < ActiveRecord::Base
 	#
 	scope :accounts_scope, where("account is not null and role_id = 0").order("updated_at desc") #
 	scope :roles_scope, where("account is not null and role_id > 0 ").order("updated_at desc") #
-
+	scope :day_scope, lambda{|date|where("date(created_at) = ? ",date)} 
 
 	def self.list_search opts
 		sessions = Session.includes(:role,:computer,:qq_account)
 		sessions = sessions.where(:ending=>opts[:end].to_i) unless opts[:end].blank?
+		sessions = sessions.where(:status=>opts[:status]) unless opts[:status].blank?
 		sessions = sessions.where(:success=>opts[:success].to_i) unless opts[:success].blank?
+		sessions = sessions.where("date(created_at) = ?",opts[:date]) unless opts[:date].blank?
 		sessions = sessions.where("created_at >= ?",opts[:start_date]) unless opts[:start_date].blank?
 		sessions = sessions.where("created_at <= ?",opts[:end_date]) unless opts[:end_date].blank?
 		return sessions

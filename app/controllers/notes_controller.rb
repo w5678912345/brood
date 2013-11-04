@@ -9,7 +9,7 @@ class NotesController < ApplicationController
 		@notes = @notes.where(:server => params[:server]) unless params[:server].blank?
 		@notes = @notes.where(:computer_id => params[:cid]) unless params[:cid].blank?
 		@notes = @notes.where(:api_name => params[:api_name]) unless params[:api_name].blank?
-		@notes = @notes.where("api_name like ?","%#{params[:event]}%") unless params[:event].blank?
+		@notes = @notes.where(:api_name => params[:event]) unless params[:event].blank?
 		@notes = @notes.where("ip like ?","%#{params[:ip]}%") unless params[:ip].blank?
 		@notes = @notes.where("msg like ?","%#{params[:msg]}%") unless params[:msg].blank?
 		@notes = @notes.where("created_at >= '#{params[:min_time]} 06:00:00'") unless params[:min_time].blank?

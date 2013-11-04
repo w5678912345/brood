@@ -48,6 +48,7 @@ Brood::Application.routes.draw do
   resources :sessions, :only => [:index,:show] do 
     get :account,   :on => :collection
     get :role,      :on => :collection
+    get :analysis,  :on => :collection
   end
   #
   resources :settings, :only => [:index,:create,:edit,:update,:destroy]
@@ -109,6 +110,7 @@ Brood::Application.routes.draw do
     get "/oneday/trade" => "oneday#trade",:as => "trade_oneday"
 
     resource :multiday,:only => [:show], controller: 'multiday'
+    resource :session, :only => [:show], controller: 'session'
 
   end
 

@@ -7,6 +7,11 @@ module TimeTask
 		Account.auto_disable_bind
 	end
 
+	def self.auto_stop
+		Role.auto_stop
+		Account.auto_stop
+		Computer.auto_stop
+	end
 
 	def self.every_60_minutes
 		Account.auto_normal
