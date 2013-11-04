@@ -14,23 +14,15 @@ Brood::Application.routes.draw do
   resources :roles do
     get		:home,  			:on => :collection
     get		:import, 			:on => :collection
-    get 	:can,     		:on => :collection
     get 	:search,  		:on => :collection
-    get 	:auto_off,    :on => :collection
     get 	:waiting,			:on => :collection
     get   :group_count, :on => :collection
-
-		put		:reset_vip_power,			:on => :collection
-		put 	:reopen_all,					:on => :collection
-    put   :task,                :on => :collection    
+    put   :task,        :on => :collection    
 		get 	:notes,   		:on => :member
 		get 	:payments, 		:on => :member
-		put		:off,					:on => :member
-		put		:reopen,			:on => :member
-		put   :unlock,      :on => :member
-    put   :regain,       :on => :member
-    put   :enable,      :on => :member
-    get   :computers,   :on => :member
+    put   :checked,     :on => :collection
+    put   :do_checked,  :on => :collection
+    #get   :computers,   :on => :member
   end
 
   resources :computers do 

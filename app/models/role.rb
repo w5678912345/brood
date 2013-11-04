@@ -4,6 +4,7 @@ class Role < ActiveRecord::Base
 
   STATUS = ['normal','disable']
   EVENT = ['answer_verify_code','restart_game','weak']
+  Btns = {"set_status"=>"修改状态" }
 
   belongs_to :computer,:class_name => 'Computer'
   belongs_to :online_note, :class_name => 'note', :foreign_key => 'online_note_id'

@@ -7,7 +7,7 @@
 
 
 
-<%= form_tag(do_checked_accounts_path,:method => :put,:id=>"account_checked_form") do -%>
+<%= form_tag(do_checked_accounts_path,:method => :put,:id=>"account_checked_form",:class=>"form-horizontal") do -%>
 <%= hidden_field_tag :do,params[:do]%>
 
 <select name="no[]" multiple="multiple" style="display:none;">
@@ -15,7 +15,20 @@
 <option value="<%= no%>" selected="selected"><%= no%></option>
 <%end%>
 </select>
-<button type="submit" class="btn btn-primary">确认执行</button>
+
+<% if params[:do] == "set_status"%>
+<div class="control-group">
+<label class="control-label">账号状态:</label>
+<div class="controls docs-input-sizes" >
+	<%= select_tag "status",options_for_select(Account::STATUS )%>
+</div>
+</div>
+<%end%>
+
+<div class="form-actions">
+  <%= submit_tag "确认执行", :class => "btn btn-primary"%>
+</div>
+
 <%end%>
 
 </fieldset>

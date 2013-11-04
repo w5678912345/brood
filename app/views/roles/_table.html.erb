@@ -1,5 +1,22 @@
+<%= form_tag(checked_roles_path,:method => :put,:id=>"role_checked_form",:onSubmit=>"return validate(this);") do -%>
 <table class="table table-bordered table-condensed">
 <thead>
+<tr>
+<th colspan="7">
+<label class="checkbox">
+	<input type="checkbox" id="check_all" name="check_all"  />全选
+</label>
+</th>
+<th colspan="2" class="text-right">
+<select id="do" name="do" class="input-medium">
+<option value="">选择操作</option>
+<% Role::Btns.each do | key, value |  %>
+	<option value="<%= key %>"><%= value%></option>
+<%end%>
+</select>
+<button type="submit" class="btn btn-primary">执行操作</button>
+</th>
+</tr>
 <tr>
 	<th>ID</th>
 	<th>Index</th>
@@ -13,7 +30,7 @@
 	<th>操作</th>
 </tr>
 </thead>
-<tbody>
+<tbody id="roles_data">
 <% roles.each do |role| %>
 <tr>
 <td>
@@ -23,7 +40,7 @@
 </label>
 </td>
 <td><%= role.role_index %></td>
-<td><%= account_tag role.account%> <%= role.qq_account.status if role.qq_account %> </td>
+<td><%= account_tag role.account%> <%= role.qq_account.status if role.qq_account && role.qq_account.status != "normal" %> </td>
 <td><%= role.server%></td>
 <td><%= role.level%></td>
 <td><%= role.vit_power %></td>
@@ -35,3 +52,34 @@
 <%end%>
 </tbody>
 </table>
+<%end%>
+
+<script type="text/javascript">
+
+function validate(){
+	var action =  $("#do").val();
+	if(action == null || action == ""){
+		alert("请选择您需要执行的操作!");
+		$("#do").focus();
+	}else if($("#roles_data input:checked").length == 0){
+		alert("请选择您需要执行的角色!");
+	}else{
+		return true;
+	}
+
+	//alert(action);
+	return false;
+}
+
+$(function(){
+
+$("#check_all").click(function(){
+	var checked = this.checked;
+	$("#roles_data input[type=checkbox]").each(function(){
+		this.checked = checked;
+	});
+});
+
+});
+
+</script>

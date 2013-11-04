@@ -55,13 +55,19 @@ class AccountsController < ApplicationController
 			flash[:msg] = "#{@accounts.length}个账号,新建了角色!"
 			return redirect_to accounts_path(:roles_count => 1)
 		# 调用下线
-		elsif "call_offline" 
+		elsif "call_offline" == @do
 			@accounts = @accounts.online_scope
 			@accounts.each do |account|
 				account.api_stop(opts = {:ip=>request.remote_ip,:cid=> account.online_computer_id,:msg=>"click"})
 			end
 			flash[:msg] = "#{@accounts.length}个账号被下线!"
 			return redirect_to accounts_path(:online => 1)
+		elsif "set_status" == @do
+			status = params[:status]
+    		@accounts.update_all(:status=>status) if Account::STATUS.include?(status)
+    		flash[:msg] = "#{@accounts.length}个账号状态设置为 #{status}"
+    		return redirect_to accounts_path(:status =>status)
+
 		end
 		return render :text => "nothing"
 	end

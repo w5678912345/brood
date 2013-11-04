@@ -39,6 +39,6 @@ LOAD DATA INFILE '/tmp/roles4.txt' INTO TABLE roles (account,password,role_index
 
 update roles set server = '广东1区' where server = '广东1区s';
 
-
+LOAD DATA INFILE '/tmp/2000.txt' INTO TABLE roles FIELDS TERMINATED BY '----' (account,password);
 
 

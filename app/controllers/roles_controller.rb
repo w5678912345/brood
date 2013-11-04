@@ -53,27 +53,6 @@ class RolesController < ApplicationController
 		render :template => 'roles/index'
 	end
 
-
-
-	def reset_vip_power
-		Api.reset_role_vit_power
-		redirect_to roles_path
-	end
-
-	
-
-	def unlock
-		@role = Role.find_by_id(params[:id])
-		@role.update_attributes(:locked => false) if @role
-		redirect_to locked_roles_path
-	end
-
-	def regain
-		@role = Role.find_by_id(params[:id])
-		@role.update_attributes(:lost => false) if @role
-		redirect_to lost_roles_path
-	end
-
 	
 	def notes
 		@date = Date.parse params[:date] unless params[:date].blank?
@@ -119,9 +98,6 @@ class RolesController < ApplicationController
 		redirect_to roles_path()
 	end
 
-	def hello
-		
-	end
 
 	def destroy
 		@role = Role.find(params[:id])
@@ -129,36 +105,6 @@ class RolesController < ApplicationController
 		redirect_to roles_path()
 	end
 
-	def auto_off
-		Api.role_auto_offline
-		redirect_to roles_path()
-	end
-	
-	def off
-			@role = Role.find(params[:id])
-			#return redirect_to roles_path() unless @role
-			opts = {:ip => request.remote_ip,:cid => @role.computer_id}
-			@role.api_offline opts
-			redirect_to role_path(@role)
-	end
-
-	def reopen
-		@role = Role.find(params[:id])
-		opts = {:ip => request.remote_ip,:cid => @role.computer_id}
-		@role.api_reopen opts
-		redirect_to role_path(@role)
-	end
-
-	def reopen_all
-			Api.role_auto_reopen
-			redirect_to closed_roles_path
-	end
-
-	def enable
-		@role = Role.find_by_id(params[:id])
-		@role.update_attributes(:status => 1) if @role
-		redirect_to role_path(@role)
-	end
 
 
 	def task
@@ -177,6 +123,24 @@ class RolesController < ApplicationController
 		return redirect_to search_roles_path
 	end
 
+	def checked 
+		@ids = params[:ids]
+   		@do = params[:do]
+	end
+
+	def do_checked
+		@ids = params[:ids]
+    	@do = params[:do]
+    	@roles = Role.where("id in (?)",@ids)
+    	if "set_status" == @do
+    		status = params[:status]
+    		@roles.update_all(:status=>status) if Role::STATUS.include?(status)
+    		flash[:msg] = "#{@roles.length}个角色，状态设置为 #{status}"
+    		return redirect_to roles_path(:status =>status)
+    	end
+	end
+
+
 	def computers
 		@role = Role.find_by_id(params[:id])
 		@computers = @role.computers.paginate(:page => params[:page],:per_page => 15)
@@ -188,11 +152,5 @@ class RolesController < ApplicationController
 		@records = Role.select("count(id) as roles_count, #{@col} as col").group(@col).reorder("roles_count desc")
 	end
 
-
-
-	private
-	def require_service
-		@service = Service.new
-	end
 
 end
