@@ -39,7 +39,7 @@ class ComputersController < ApplicationController
 	 @ids = params[:ids]
    @do = params[:do]
    if @do == "bind_accounts"
-     @unbind_accnouts_count =  Account.unbind_scope.count 
+     @unbind_accnouts_count =  Account.waiting_bind_scope.count 
    elsif @do == "task"
      @tasks = Task.sup_scope
    end

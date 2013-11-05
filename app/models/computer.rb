@@ -73,7 +73,7 @@ class Computer < ActiveRecord::Base
     can_accounts_count = accounts_count - self.accounts_count
     return if can_accounts_count < 1
     # 查询可以绑定的账户
-    accounts = Account.unbind_scope.where("server is null or server = '' or server = ? ",self.server).limit(can_accounts_count)
+    accounts = Account.waiting_bind_scope.where("server is null or server = '' or server = ? ",self.server).limit(can_accounts_count)
     accounts = accounts.where("status = ?",opts[:status]) unless opts[:status].blank?
     return if accounts.blank?
     # 绑定账户

@@ -4,7 +4,7 @@ module TimeTask
 	def self.at_06_time
 		Api.reset_role
 		Api.reset_ip_use_count
-		Account.auto_disable_bind
+		Account.auto_unbind
 	end
 
 	def self.auto_stop

@@ -38,8 +38,8 @@ class Account < ActiveRecord::Base
     scope :waiting_scope, joins(:roles).where("accounts.session_id = 0 and accounts.status = 'normal'").where("roles.vit_power > 0 and roles.status = 'normal' and roles.session_id = 0").readonly(false)
     #
     scope :bind_scope, where("bind_computer_id > 0") # 已绑定
-    scope :unbind_scope, where("bind_computer_id = 0") # 未绑定 
-    scope :can_not_bind_scope ,where("bind_computer_id = -1") # 不能绑定
+    scope :waiting_bind_scope, where("bind_computer_id = 0") # 未绑定 ,等待绑定的账户
+    scope :unbind_scope ,where("bind_computer_id = -1") # 不能绑定
     scope :un_normal_scope,where("status != 'normal' ") # 非正常状态的账号
     scope :no_server_scope,where("server is null or server = '' ") #服务器为空的账号 
 
@@ -153,8 +153,8 @@ class Account < ActiveRecord::Base
       end
       unless opts[:bind].blank?
         accounts = accounts.bind_scope if opts[:bind] == 'bind'
-        accounts = accounts.unbind_scope if opts[:bind] == '0'
-        accounts = accounts.can_not_bind_scope if opts[:bind] == '-1'
+        accounts = accounts.waiting_bind_scope if opts[:bind] == '0'
+        accounts = accounts.unbind_scope if opts[:bind] == '-1'
       end
       unless opts[:ss].blank?
         accounts = accounts.where("status in (?)",opts[:ss])
@@ -203,11 +203,29 @@ class Account < ActiveRecord::Base
       end
    end
 
+
+   # #绑定计算机
+   # def bind_computer cid
+
+   # end
+   # 
+   #
+   def unbind_computer opts
+      return if self.bind_computer_id == -1
+      computer = self.bind_computer || Computer.new
+      note = Note.create(:account => self.no, :computer_id=>computer.id || 0,:ip=>opts[:ip],:api_name=>'unbind_computer',:msg=>opts[:msg],
+         :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname)
+      self.update_attributes(:bind_computer_id => -1)
+   end
+
    # 自动禁用账号的绑定
-   def self.auto_disable_bind
+   def self.auto_unbind
       time = Time.now.ago(2.day)
       accounts = Account.where("updated_at < ?",time)
-      accounts.update_all(:bind_computer_id => -1)
+      accounts.each do |account|
+          account.unbind_computer(opts={:ip=>"localhost",:msg=>"auto"})
+      end
+      #accounts.update_all(:bind_computer_id => -1)
    end
 
     #
