@@ -91,23 +91,22 @@ class Account < ActiveRecord::Base
         # 记录账户改变的状态
         if STATUS.include? status
           self.status = status
-          if self.status_changed?
-            Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_code=>self.status,:msg=>opts[:msg],
-              :account => self.no,:server => self.server,:version => computer.version,:api_name => self.status,:session_id=>session.id)
-          end
-          # 修改恢复时间
-          if Auto_Normal.has_key?(status) 
-            self.normal_at = Time.now.since(Account::Auto_Normal[status].hours)
-          end
           session.update_attributes(:status => status)
+          if self.status_changed?
+            # 修改恢复时间
+              self.normal_at = Time.now.since(Account::Auto_Normal[status].hours) if Auto_Normal.has_key?(status)   
+            # Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_code=>self.status,:msg=>opts[:msg],
+            #   :account => self.no,:server => self.server,:version => computer.version,:api_name => self.status,:session_id=>session.id)
+          end
+          
         end
         
         self.normal_at = nil if self.status == 'normal' #状态正常时，清空normal
         
         # 记录账号发生的事件
-        if EVENT.include? event
-          Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name => opts[:event],
-          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id)
+        if (EVENT.include? event) || (STATUS.include? status)
+          Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name => event || status,
+          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id,:api_code=>status)
         end 
         return 1 if self.update_attributes(:updated_at => Time.now)
       end

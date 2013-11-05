@@ -2,6 +2,11 @@
 class AccountsController < ApplicationController
 
 	def index
+		unless params[:bind_computer_id].blank?
+			tmp_bind_cid = params[:bind_computer_id].to_i
+			params[:bind_cid] = tmp_bind_cid if tmp_bind_cid > 0
+			params[:bind] = tmp_bind_cid.to_s if tmp_bind_cid == 0 || tmp_bind_cid == -1
+		end
 		per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
 		@accounts = Account.list_search(params).paginate(:page => params[:page], :per_page => per_page)
 	end
@@ -87,6 +92,13 @@ class AccountsController < ApplicationController
 			flash[:msg] = "新导入了#{@sheet.import_count}个账号!"
 		end
 		redirect_to accounts_path()
+	end
+
+	#
+	def group_count
+		@cols = {"server"=>"服务器","roles_count"=>"角色数量","date(created_at)"=>"注册日期","bind_computer_id"=>"绑定机器","status"=>"状态"} 
+		@col = params[:col] || "server"
+		@records = Account.select("count(id) as accounts_count, #{@col} as col").group(@col).reorder("accounts_count desc")
 	end
 
 

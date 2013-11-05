@@ -21,8 +21,8 @@ class Api::AccountsController < Api::BaseController
 			@code = CODES[:not_find_account]
 			unless Note.where(:computer_id => @computer.id).where(:api_name=>"not_find_account").where("date(created_at) = ?",Date.today.to_s).exists?
 			# 记录事件
-			 # Note.create(:computer_id=>@computer.id,:hostname=>@computer.hostname,:ip=>params[:ip],:server => @computer.server,
-			 # 	:version => @computer.version,:api_name=>"not_find_account")
+			 Note.create(:computer_id=>@computer.id,:hostname=>@computer.hostname,:ip=>params[:ip],:server => @computer.server,
+			 	:version => @computer.version,:api_name=>"not_find_account")
 			end
 			return render :partial => '/api/result'
 		end

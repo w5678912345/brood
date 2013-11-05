@@ -8,6 +8,7 @@ Brood::Application.routes.draw do
     put   :do_checked,  :on => :collection
     get   :import,      :on => :collection
     post  :do_import,   :on => :collection
+    get   :group_count, :on => :collection
   end
 
   #

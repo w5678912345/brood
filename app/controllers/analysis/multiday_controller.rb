@@ -8,10 +8,10 @@ class Analysis::MultidayController < Analysis::AppController
 		@start_time = params[:date] if not params[:date].blank?
 		@end_time = params[:end_date] if not params[:end_date].blank?
 
-		@sevenS = Note.select("date(created_at) as Day,sum(if(api_name = 'success',1,0)) as SuccCount,
-				sum(if(api_name = 'online',1,0)) as OnlineCount,
+		@sevenS = Note.select("date(created_at) as Day,sum(if(api_name = 'role_success',1,0)) as SuccCount,
+				sum(if(api_name = 'role_start',1,0)) as OnlineCount,
 				sum(if(api_name = 'close',1,0)) as CloseCount,
-				sum(if(api_name = 'AnswerVerifyCode',1,0)) as VerifyCodeCount
+				sum(if(api_name = 'answer_verify_code',1,0)) as VerifyCodeCount
 			").group("date(created_at)").
 			time_scope(@start_time,@end_time).order("date(created_at)")
 		

@@ -12,6 +12,7 @@ class NotesController < ApplicationController
 		@notes = @notes.where(:api_name => params[:event]) unless params[:event].blank?
 		@notes = @notes.where("ip like ?","%#{params[:ip]}%") unless params[:ip].blank?
 		@notes = @notes.where("msg like ?","%#{params[:msg]}%") unless params[:msg].blank?
+		@notes = @notes.where("date(created_at) = ?",params[:date]) unless params[:date].blank?
 		@notes = @notes.where("created_at >= '#{params[:min_time]} 06:00:00'") unless params[:min_time].blank?
 		@notes = @notes.where("created_at <= '#{params[:max_time]} 06:00:00'") unless params[:max_time].blank?
 		@notes = @notes.where(:api_code => params[:code]) unless params[:code].blank?

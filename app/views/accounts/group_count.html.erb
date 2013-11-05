@@ -1,7 +1,7 @@
-<%= render "navbar" %>
+<%= render "ul" %>
 <fieldset>
-<legend>角色分布</legend>
-<form class="form-search" action="<%= group_count_roles_path %>">
+<legend>账号分布</legend>
+<form class="form-search" action="<%= group_count_accounts_path %>">
 统计条件:<select name="col">
 	
 <% @cols.each do |k,v| %>
@@ -13,15 +13,15 @@
 <table class="table table-bordered table-condensed">
 <thead>
 <tr>
-<th>角色数量</th>
+<th>账号数量</th>
 <th><%= @cols[@col]%></th>
 </tr>
 </thead>
 <tbody>
 <% @records.each do |record|%>
 <tr>
-<td><%= record.roles_count %></td>
-<td><%= record.col.blank? ? "" : link_to(record.col,roles_path(@col=>record.col))  %></td>
+<td><%= record.accounts_count %></td>
+<td><%= record.col.blank? ? "" : link_to(record.col,accounts_path(@col=>record.col))  %></td>
 </tr>
 <%end%>
 </tbody>
