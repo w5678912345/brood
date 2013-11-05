@@ -106,7 +106,7 @@ class Account < ActiveRecord::Base
         # 记录账号发生的事件
         if (EVENT.include? event) || (STATUS.include? status)
           Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name => event || status,
-          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id,:api_code=>status)
+          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id,:api_code=>status || "0")
         end 
         return 1 if self.update_attributes(:updated_at => Time.now)
       end
