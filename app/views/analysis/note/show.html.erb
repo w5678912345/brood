@@ -1,0 +1,15 @@
+<fieldset>
+<legend>数据分析</legend>
+<%= render :partial => "form",:locals => {:path=> analysis_note_path } %>
+<table class="table">
+<tbody>
+<% @tmp_notes.each do |n| %>
+<tr>
+	<td><%= n.day %></td>
+	<td><%= n.api_name %></td>
+	<td><%= link_to n.ncount,notes_path(:event=>n.api_name,:date=>n.day),:target=>"_blank" %></td>
+</tr>
+<%end%>
+</tbody>
+</table>
+</fieldset>

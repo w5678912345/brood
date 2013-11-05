@@ -111,6 +111,7 @@ Brood::Application.routes.draw do
 
     resource :multiday,:only => [:show], controller: 'multiday'
     resource :session, :only => [:show], controller: 'session'
+    resource :note,    :only => [:show], controller: 'note'
 
   end
 
