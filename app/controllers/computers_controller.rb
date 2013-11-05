@@ -75,7 +75,7 @@ class ComputersController < ApplicationController
       return redirect_to computers_path()
     elsif @do == "clear_bind_accounts"
       @computers.each do |computer|
-        computer.clear_bind_accounts
+        computer.clear_bind_accounts(opts={:ip=>request.remote_ip,:msg=>"click"})
       end
       flash[:msg] = "#{@computers.length}台机器，清空了绑定账号"
       return redirect_to computers_path()
