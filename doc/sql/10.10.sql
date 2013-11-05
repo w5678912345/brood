@@ -70,8 +70,9 @@ delete from notes where api_name = 'auto_pay';
 +-----------+-------------------+
 
 
-# 
-update notes set api_name = api_code where api_code in ('normal','bslocked','bslocked_again','bs_unlock_fail','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token')
+# 迁移测试服 
+update notes set api_name = api_code where api_code in ('normal','bslocked','bslocked_again','bs_unlock_fail','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','disable')
+
 
 
 

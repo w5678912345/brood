@@ -91,7 +91,7 @@ class Role < ActiveRecord::Base
      
       # 如果状态发生改变，记录note
       if self.status_changed?
-         Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>'0',:server=>self.server || computer.server,
+         Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>self.status,:server=>self.server || computer.server,
           :msg=>opts[:msg],:session_id=>session.id,:version=>computer.version,:server=>self.server,:api_code => self.status) 
           session.update_attributes(:status => status)
       end
