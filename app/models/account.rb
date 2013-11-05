@@ -35,7 +35,7 @@ class Account < ActiveRecord::Base
     scope :started_scope, where("session_id > 0 ") #已开始的账号
     scope :stopped_scope, where("session_id = 0 ") #已停止的账号
     #
-    scope :waiting_scope, joins(:roles).where("accounts.session_id = 0 and accounts.status = 'normal'").where("roles.vit_power > 0 and roles.status = 'normal' ").readonly(false)
+    scope :waiting_scope, joins(:roles).where("accounts.session_id = 0 and accounts.status = 'normal'").where("roles.vit_power > 0 and roles.status = 'normal' and roles.session_id = 0").readonly(false)
     #
     scope :bind_scope, where("bind_computer_id > 0") # 已绑定
     scope :unbind_scope, where("bind_computer_id = 0") # 未绑定 
@@ -118,7 +118,8 @@ class Account < ActiveRecord::Base
     def api_stop opts
       # 判断账号是否在线
       return CODES[:account_is_stopped] unless self.is_started?
-      return 0 if self.online_role_id > 0 # 还有角色在线，账号不能下线
+      self.online_role.api_stop opts if self.online_role # 同时下线角色
+      #return 0 if self.online_role_id > 0 # 还有角色在线，账号不能下线
       session = self.session
       computer = session.computer
       self.transaction do 
