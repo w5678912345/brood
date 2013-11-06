@@ -82,32 +82,27 @@ class Account < ActiveRecord::Base
       return CODES[:account_is_stopped] unless self.is_started?
       status = opts[:status]
       event = opts[:event]
-      return 0 if status.blank? && event.blank? #事件和状态都为空时，不进行跟新
+      return 0 unless  (STATUS.include? status) || (EVENT.include? event) #事件和状态都未定义，不进行更新
       session = self.session
       computer = session.computer
-
+      api_name = "0",api_code = "0"
       #
       self.transaction do 
         # 记录账户改变的状态
         if STATUS.include? status
+          api_name = status # 如果定义了有效状态 设置 api_name => status
+          api_code = status # 如果定义了有效状态 设置 api_code => status
           self.status = status
           session.update_attributes(:status => status)
-          if self.status_changed?
-            # 修改恢复时间
-              self.normal_at = Time.now.since(Account::Auto_Normal[status].hours) if Auto_Normal.has_key?(status)   
-            # Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_code=>self.status,:msg=>opts[:msg],
-            #   :account => self.no,:server => self.server,:version => computer.version,:api_name => self.status,:session_id=>session.id)
-          end
-          
+          self.normal_at = Time.now.since(Account::Auto_Normal[status].hours) if Auto_Normal.has_key?(status)
         end
-        
-        self.normal_at = nil if self.status == 'normal' #状态正常时，清空normal
-        
+        #状态正常时，清空normal
+        self.normal_at = nil if self.status == 'normal'
         # 记录账号发生的事件
-        if (EVENT.include? event) || (STATUS.include? status)
-          Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>opts[:ip],:api_name => event || status,
-          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id,:api_code=>status || "0")
-        end 
+        api_name = event if EVENT.include? event # 如果定义了有效事件，设置api_name => event
+        
+        Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:role_id => self.online_role_id,:ip=>opts[:ip],:api_name => api_name,
+          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id,:api_code=>api_code)
         return 1 if self.update_attributes(:updated_at => Time.now)
       end
     end

@@ -85,30 +85,25 @@ class Role < ActiveRecord::Base
      self.vit_power = opts[:vit_power] unless opts[:vit_power].blank?
      self.gold = opts[:gold] unless opts[:gold].blank?
      self.name = opts[:name]  unless opts[:name].blank?
-     
      # 更新总产出
      self.total = self.total_pay + self.gold if self.gold_changed?
      # 
+     api_name = "0",api_code = "0"
      self.transaction do
 
      if STATUS.include? status
+       api_name = status # 如果定义了有效状态 设置 api_name => status
+       api_code = status # 如果定义了有效状态 设置 api_code => status
        self.status = status 
        session.update_attributes(:status => status)
      end
-     
-      # 如果状态发生改变，记录note
-      # if self.status_changed?
-      #    Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, :api_name=>self.status,:server=>self.server || computer.server,
-      #     :msg=>opts[:msg],:session_id=>session.id,:version=>computer.version,:server=>self.server,:api_code => self.status) 
-      #     session.update_attributes(:status => status)
-      # end
-      # 如果有事件发生，记录note
-
-      if (EVENT.include? event) || (STATUS.include? status)
+     api_name = event if EVENT.include? event # 如果定义了有效事件，设置api_name => event
+     # 发生事件或状态改变时，插入记录
+     if (STATUS.include? status) || (EVENT.include? event)
           Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, 
-            :api_name=> event || status,:api_code => status || 0,:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=>session.id,:version=>computer.version,:server=>self.server || computer.server) 
-      end
-
+            :api_name=> api_name,:api_code => api_code,:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=>session.id,:version=>computer.version,:server=>self.server || computer.server) 
+     end
+    
       # 如果彼劳值变成了0,说明角色调度成功
       if self.vit_power_changed? && self.vit_power == 0 
           Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, :server=>self.server || computer.server,

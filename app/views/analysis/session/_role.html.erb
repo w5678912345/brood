@@ -12,9 +12,10 @@
 	<tbody>
 
 	<% @role_sessions.each do |rs|%>
+	<% success = rs.success ? 1 : 0 %>
 	<tr>
 		<td><%= rs.success ? "成功" : "失败" %></td>
-		<td><%= link_to rs.rscount,role_sessions_path(:success=>1,:date=>@date) %></td>
+		<td><%= link_to rs.rscount,role_sessions_path(:success=>success,:date=>@date) %></td>
 	</tr>
 	<%end%>
 	</tbody>
