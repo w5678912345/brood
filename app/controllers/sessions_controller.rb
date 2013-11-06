@@ -2,9 +2,7 @@
 class SessionsController < ApplicationController
 
 	def index
-		per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
-
-		@sessions =Session.paginate(:page => params[:page], :per_page => per_page)
+		
 	end
 
 
@@ -21,8 +19,24 @@ class SessionsController < ApplicationController
 	end
 
 	def analysis
-		@account_sessions = Session.accounts_scope.select("count(id) as scount,status").group("status")
-		@role_sessions = Session.roles_scope.select("count(id) as rscount,success").group("success")
+		@start_date = Time.now - 7.day 
+		@end_date = Time.now + 1.day
+		@start_date = params[:start_date] unless params[:start_date].blank?
+		@end_date = params[:end_date]  unless params[:end_date].blank?
+		#
+		#@account_sessions = Session.date_scope(@start_date,@end_date).accounts_scope
+#if(ccc_news_comments.id = 'approved', ccc_news_comments.id, 0)
+		#Session.select("date(created_at) as date,count(id),count(id) as scount").accounts_scope
+
+
+		@tmp_sessions = Session.select("date(created_at) as date,
+			sum(if(role_id = 0,1,0)) account_count,sum(if(success=1 and role_id = 0,1,0)) as account_success_count,
+			sum(if(role_id>0,1,0)) as role_count,sum(if(success=1 and role_id>0,1,0)) as role_success_count,
+			count(DISTINCT account) as acounts_count,
+			count(DISTINCT role_id) as roles_count,
+			sum(if(role_id = 0,sessions.hours,0)) as account_hours,
+			sum(if(role_id > 0,sessions.hours,0)) as role_hours")
+		.date_scope(@start_date,@end_date).group("date(created_at)").reorder("date(created_at) desc")
 	end
 
 

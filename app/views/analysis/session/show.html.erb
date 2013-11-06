@@ -18,7 +18,7 @@
 <% @tmp_sessions.each do |as|%>
 <tr>
 <td><%= as.date %></td>
-<td><%= as.acounts_count%> 个</td>
+<td><%= as.acounts_count%> 个 <%= sprintf('%.2f', as.account_hours) %>小时</td>
 <td><%= link_to "#{as.account_count}次",account_sessions_path(:date=>as.date) %></td>
 <td><%= link_to "#{as.account_success_count}次",account_sessions_path(:date=>as.date,:success=>1) %></td>
 <td><%= "%2.0f%" % (as.account_success_count*100.00/as.account_count) %></td>

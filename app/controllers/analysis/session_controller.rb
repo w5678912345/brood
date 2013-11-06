@@ -16,7 +16,9 @@ class Analysis::SessionController < Analysis::AppController
 			sum(if(role_id = 0,1,0)) account_count,sum(if(success=1 and role_id = 0,1,0)) as account_success_count,
 			sum(if(role_id>0,1,0)) as role_count,sum(if(success=1 and role_id>0,1,0)) as role_success_count,
 			count(DISTINCT account) as acounts_count,
-			count(DISTINCT role_id) as roles_count")
+			count(DISTINCT role_id) as roles_count,
+			sum(if(role_id = 0,sessions.hours,0)) as account_hours,
+			sum(if(role_id > 0,sessions.hours,0)) as role_hours")
 		.date_scope(@start_date,@end_date).group("date(created_at)").reorder("date(created_at) desc")
 
 	end
