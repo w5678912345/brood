@@ -77,12 +77,15 @@ class Account < ActiveRecord::Base
         # 可以调度的角色
         @online_roles = opts[:all] ? self.roles : self.roles.waiting_scope
         @online_roles = @online_roles.reorder("level desc").limit(Setting.account_start_roles_count)
+        # 调度角色
         @online_roles.each do |role|
-            role.update_attributes(:online=>true)
             tmp[:api_name] = "role_dispatch"
             tmp[:role_id] = role.id
             _note = Note.create(tmp)
+            role.update_attributes(:online=>true)
         end
+        # 调度的角色数量
+        session.update_attributes(:account_roles_count => @online_roles.length)
         # 修改session 并修改上线 IP
         return 1 if self.update_attributes(:session_id=>session.id,:online_ip=>ip.value)
       end
@@ -135,18 +138,22 @@ class Account < ActiveRecord::Base
        now = Time.now
        hours = (now - session.created_at)/3600
        session.update_attributes(:ending=>true, :end_at=>now,:hours=>hours)
+       #
+       tmp = {:account => self.no, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_stop',:msg=>opts[:msg],
+         :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:session_id=>session.id}
+       note = Note.create(tmp)
        self.roles.update_all(:online => false)
+       # 调度的角色数量 等于 成功的角色数量，表示成功
+       if session.account_roles_count == session.subs.success_scope.count
+          session.update_attributes(:success => true)
+          tmp[:api_name]="account_success"
+          note = Note.create(tmp)
+       end
        # 记录 note
-       note = Note.create(:account => self.no, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_stop',:msg=>opts[:msg],
-         :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:session_id=>session.id)
+       
        # 修改账号的session_id 为0 并清空上线 IP
        return 1 if self.update_attributes(:session_id=>0,:online_ip=>nil)
       end
-    end
-
-
-    def get_roles
-      roles = self.roles
     end
 
 

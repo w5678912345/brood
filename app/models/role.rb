@@ -55,6 +55,7 @@ class Role < ActiveRecord::Base
 
     # 角色开始
   def api_start opts
+    return 0 unless self.online
     return CODES[:account_is_stopped] unless self.qq_account.is_started?  # 账户未开始，角色不能开始
     return CODES[:role_is_started] if self.is_started? # 角色开始了不能开始
     account_session = self.qq_account.session
