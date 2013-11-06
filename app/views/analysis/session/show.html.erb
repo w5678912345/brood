@@ -1,27 +1,37 @@
 <fieldset>
 <legend>会话分析</legend>
-<%= render "form"%>
+<%= render :partial => "form",:locals => {:path=> analysis_session_path }%>
 
-<div class="alert">
-<strong>提示信息:</strong>
-共<%= @accounts_count %>个账号，调度了<%= @account_sessions_count %>次。
-<%= @roles_count%>个角色，调度了<%= @role_sessions_count %>次
-</div>
-
-<ul id="myTab" class="nav nav-tabs">
-  <li class="active"><a href="#account" data-toggle="tab">账号状态情况</a></li>
-  <li><a href="#role" data-toggle="tab">角色成功情况</a></li>
-</ul>
-
-<div id="myTabContent" class="tab-content">
-<div class="tab-pane fade in active" id="account">
-	<%= render "account"%>
-</div>
-<div class="tab-pane fade" id="role">
-	<%= render "role"%>
-</div>
-</div>
-
+<table class="table">
+<thead>
+	<th>日期</th>
+	<th>账号</th>
+	<th>账号调度</th>
+	<th>账号成功</th>
+	<th>账号成功比</th>
+	<th>角色</th>
+	<th>角色调度</th>
+	<th>角色成功</th>
+	<th>角色成功比</th>
+</thead>
+<tbody>
+<% @tmp_sessions.each do |as|%>
+<tr>
+<td><%= as.date %></td>
+<td><%= as.acounts_count%> 个</td>
+<td><%= link_to "#{as.account_count}次",account_sessions_path(:date=>as.date) %></td>
+<td><%= link_to "#{as.account_success_count}次",account_sessions_path(:date=>as.date,:success=>1) %></td>
+<td><%= "%2.0f%" % (as.account_success_count*100.00/as.account_count) %></td>
+<td><%= as.roles_count-1 %></td>
+<td><%= link_to "#{as.role_count}次",role_sessions_path(:date=>as.date) %></td>
+<td><%= link_to "#{as.role_success_count}次",role_sessions_path(:date=>as.date,:success=>1) %></td>
+<td>
+<%= "%2.0f%" % (as.role_success_count*100.00/as.role_count) %>
+</td>
+</tr>
+<%end%>
+</tbody>
+</table>
 
 
 

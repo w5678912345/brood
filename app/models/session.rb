@@ -17,6 +17,8 @@ class Session < ActiveRecord::Base
 	scope :roles_scope, where("account is not null and role_id > 0 ").order("updated_at desc") #
 	scope :day_scope, lambda{|date|where("date(created_at) = ? ",date)} 
 	scope :success_scope, where(:success => true)
+	#
+	scope :date_scope,lambda{|start_date,end_date|where(created_at: start_date..end_date)}
 
 	def self.list_search opts
 		sessions = Session.includes(:role,:computer,:qq_account)

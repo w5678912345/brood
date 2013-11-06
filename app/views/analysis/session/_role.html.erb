@@ -20,3 +20,24 @@
 	<%end%>
 	</tbody>
 	</table>
+
+
+	<div class="alert">
+<strong>提示信息:</strong>
+共<%= @accounts_count %>个账号，调度了<%= @account_sessions_count %>次。
+<%= @roles_count%>个角色，调度了<%= @role_sessions_count %>次
+</div>
+
+<ul id="myTab" class="nav nav-tabs">
+  <li class="active"><a href="#account" data-toggle="tab">账号状态情况</a></li>
+  <li><a href="#role" data-toggle="tab">角色成功情况</a></li>
+</ul>
+
+<div id="myTabContent" class="tab-content">
+<div class="tab-pane fade in active" id="account">
+	<%= render "account"%>
+</div>
+<div class="tab-pane fade" id="role">
+	<%= render "role"%>
+</div>
+</div>
