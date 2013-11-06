@@ -79,10 +79,9 @@ class Account < ActiveRecord::Base
         @online_roles = @online_roles.reorder("level desc").limit(Setting.account_start_roles_count)
         @online_roles.each do |role|
             role.update_attributes(:online=>true)
-            _note = Note.new(tmp)
-            _note.api_name = "role_dispatch"
-            _note.role_id = role.id
-            _note.save
+            tmp[:api_name] = "role_dispatch"
+            tmp[:role_id] = role.id
+            _note = Note.create(tmp)
         end
         # 修改session 并修改上线 IP
         return 1 if self.update_attributes(:session_id=>session.id,:online_ip=>ip.value)
