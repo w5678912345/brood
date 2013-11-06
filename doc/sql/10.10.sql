@@ -1,3 +1,7 @@
+# mysqldump -u root -p brood_production>brood.sql
+
+#
+# mysql -u root -p brood_hello<~/brood_new.sql
 TRUNCATE TABLE accounts;
 
 # 修改notes 的账户 为对应角色的 账户

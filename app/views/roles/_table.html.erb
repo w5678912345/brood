@@ -2,10 +2,13 @@
 <table class="table table-bordered table-condensed">
 <thead>
 <tr>
-<th colspan="7">
+<th colspan="1">
 <label class="checkbox">
-	<input type="checkbox" id="check_all" name="check_all"  />全选
+<input type="checkbox" id="check_all" name="check_all"  />全选
 </label>
+</th>
+<th class="info" colspan="6">
+	<span class="alert-info">已调度</span>
 </th>
 <th colspan="2" class="text-right">
 <select id="do" name="do" class="input-medium">
@@ -32,7 +35,7 @@
 </thead>
 <tbody id="roles_data">
 <% roles.each do |role| %>
-<tr>
+<tr class=<%= "info" if role.online %> >
 <td>
 <label class="checkbox">
 <%= check_box_tag 'ids[]',role.id,false,:id=>role.id %>
@@ -45,7 +48,8 @@
 <td><%= role.level%></td>
 <td><%= role.vit_power %></td>
 <td><%= role.gold %></td>
-<td><%= role.is_started? ? "Yes" : "" %></td>
+<td>
+<%= role.is_started? ? "Yes" : "" %></td>
 <td><%= role.status %></td>
 <td>#</td>
 </tr>

@@ -12,10 +12,10 @@
 </select>
 <input type="text" name="bind_cid" class="input-small" value="<%= params[:bind_cid]%>" placeholder="机器ID"  title="绑定的机器ID" />
 上线:
-<select name="online" class="input-small">
+<select name="started" class="input-small">
 <option value="" >-All-</option>
-<option value="1" <%= 'selected="selected"' if params[:online] == "1" %>>Yes</option>
-<option value="0" <%= 'selected="selected"' if params[:online] == "0" %> >No</option>
+<option value="1" <%= 'selected="selected"' if params[:started] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:started] == "0" %> >No</option>
 </select>
 <input type="text" name="online_cid" value="<%= params[:online_cid]%>" class="input-small" placeholder="机器ID" title="在线机器ID"  />
 <input type="text" name="online_ip" value="<%= params[:online_ip]%>" class="input-small" placeholder="在线IP"  />

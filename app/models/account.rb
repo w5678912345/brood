@@ -132,6 +132,11 @@ class Account < ActiveRecord::Base
     end
 
 
+    def get_roles
+      roles = self.roles
+    end
+
+
 
     #搜索账号列表
     def self.list_search opts
@@ -143,8 +148,8 @@ class Account < ActiveRecord::Base
       accounts = accounts.where("roles_count = ?",opts[:roles_count].to_i) unless opts[:roles_count].blank?
       accounts = accounts.where("bind_computer_id = ?",opts[:bind_cid].to_i) unless opts[:bind_cid].blank?
       #
-      unless opts[:online].blank?
-        accounts = opts[:online].to_i == 1 ? accounts.started_scope : accounts.stopped_scope
+      unless opts[:started].blank?
+        accounts = opts[:started].to_i == 1 ? accounts.started_scope : accounts.stopped_scope
       end
       unless opts[:bind].blank?
         accounts = accounts.bind_scope if opts[:bind] == 'bind'

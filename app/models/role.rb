@@ -169,7 +169,12 @@ class Role < ActiveRecord::Base
     roles = roles.where("server =?",opts[:server]) unless opts[:server].blank?
     roles = roles.where("account =?",opts[:account]) unless opts[:account].blank?
     roles = roles.where("status = ?",opts[:status])  unless opts[:status].blank?
+    roles = roles.where("online = ?",opts[:online].to_i) unless opts[:online].blank?
+    #
     roles = roles.where("date(created_at) =?",opts["date(created_at)"]) unless opts["date(created_at)"].blank?
+    unless opts[:started].blank?
+      roles = opts[:started].to_i == 1 ? roles.started_scope : roles.stopped_scope
+    end
     unless opts[:level].blank?
       tmp_level = opts[:level].split("-")
       roles = roles.where("level = ?",tmp_level[0].to_i) if tmp_level.length == 1

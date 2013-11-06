@@ -47,5 +47,11 @@ class Setting < ActiveRecord::Base
 		return val == nil ? 1 : val
 	end
 
+	# 账号可以上线的角色数量
+	def self.account_start_roles_count
+		val = find_value_by_key("account_start_roles_count")
+		return val == nil ? 1 : val
+	end
+
 
 end
