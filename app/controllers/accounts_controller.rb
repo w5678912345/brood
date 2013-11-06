@@ -73,7 +73,7 @@ class AccountsController < ApplicationController
 				account.api_stop(opts = {:ip=>request.remote_ip,:cid=> account.online_computer_id,:msg=>"click"})
 			end
 			flash[:msg] = "#{@accounts.length}个账号被下线!"
-			return redirect_to accounts_path(:online => 1)
+			return redirect_to accounts_path(:started => 1)
 		elsif "set_status" == @do
 			status = params[:status]
     		@accounts.update_all(:status=>status) if Account::STATUS.include?(status)

@@ -11,6 +11,7 @@ class Account < ActiveRecord::Base
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
     attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at
+    attr_accessor :online_roles 
     #所属服务器
 	  belongs_to :game_server, :class_name => 'Server', :foreign_key => 'server',:primary_key => 'name'
     belongs_to :session,     :class_name => 'Session', :foreign_key => 'session_id'
@@ -35,7 +36,8 @@ class Account < ActiveRecord::Base
     scope :started_scope, where("session_id > 0 ") #已开始的账号
     scope :stopped_scope, where("session_id = 0 ") #已停止的账号
     #
-    scope :waiting_scope, joins(:roles).where("accounts.session_id = 0 and accounts.status = 'normal'").where("roles.vit_power > 0 and roles.status = 'normal' and roles.session_id = 0").readonly(false)
+    scope :waiting_scope, joins(:roles).where("accounts.session_id = 0 and accounts.status = 'normal'")
+    .where("roles.vit_power > 0 and roles.status = 'normal' and roles.session_id = 0").where("roles.level < ?",Setting.role_max_level).readonly(false)
     #
     scope :bind_scope, where("bind_computer_id > 0") # 已绑定
     scope :waiting_bind_scope, where("bind_computer_id = 0") # 未绑定 ,等待绑定的账户
@@ -68,9 +70,20 @@ class Account < ActiveRecord::Base
         # 记录 session
         session = Session.create(:computer_id => computer.id,:account=>self.no,:ip=>ip.value,
           :hostname=>computer.hostname,:server => computer.server,:version => computer.version)
-        #
-        note = Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>ip.value,:api_name=>"account_start",
-           :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id)
+        #插入账号开始记录
+        tmp = {:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>ip.value,:api_name=>"account_start",
+           :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id}
+        note = Note.create(tmp)
+        # 可以调度的角色
+        @online_roles = opts[:all] ? self.roles : self.roles.waiting_scope
+        @online_roles = @online_roles.reorder("level desc").limit(Setting.account_start_roles_count)
+        @online_roles.each do |role|
+            role.update_attributes(:online=>true)
+            _note = Note.new(tmp)
+            _note.api_name = "role_dispatch"
+            _note.role_id = role.id
+            _note.save
+        end
         # 修改session 并修改上线 IP
         return 1 if self.update_attributes(:session_id=>session.id,:online_ip=>ip.value)
       end
@@ -123,6 +136,7 @@ class Account < ActiveRecord::Base
        now = Time.now
        hours = (now - session.created_at)/3600
        session.update_attributes(:ending=>true, :end_at=>now,:hours=>hours)
+       self.roles.update_all(:online => false)
        # 记录 note
        note = Note.create(:account => self.no, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_stop',:msg=>opts[:msg],
          :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:session_id=>session.id)

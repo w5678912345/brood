@@ -14,8 +14,6 @@ class Api::AccountsController < Api::BaseController
 	
 	# 自动调度帐号
 	def auto
-		@auto  = params[:auto] = true
-		#@auto = true
 		@account  = @computer.accounts.waiting_scope.first
 		unless @account
 			@code = CODES[:not_find_account]
@@ -33,7 +31,7 @@ class Api::AccountsController < Api::BaseController
 	# 调度指定的账号
 	def start
 		@account = Account.find_by_no(params[:id])
-		@auto = false
+		params[:all] = true
 		@code = @account.api_start params
 		render :partial => '/api/accounts/data'
 	end
