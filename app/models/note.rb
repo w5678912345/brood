@@ -21,6 +21,7 @@ class Note < ActiveRecord::Base
     
     scope :event_scope, lambda{|event|where(:api_name => event)}
 
+    scope :day_grpup_scope,lambda{|day|select("count(id) as ncount,api_name").where("date(created_at)=?",day).group("api_name").reorder("api_name")}
 
     #
     def self.list_search opts

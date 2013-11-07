@@ -46,6 +46,7 @@ Brood::Application.routes.draw do
   end
   resources :notes , :only => [:index,:show] do
     get :analysis,   :on => :collection
+    get :group_count, :on => :collection
   end
   resources :sessions, :only => [:index,:show] do 
     get :account,   :on => :collection
