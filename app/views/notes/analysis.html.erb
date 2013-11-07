@@ -16,20 +16,28 @@
 <table class="table table-bordered">
 <thead>
 <tr>
-	<th>日期</th>
-	<th colspan="2"  style="text-align:center;">机器</th>
+	<th width="10%">日期</th>
+	<th width="5%">标准时</th>
+	<th width="5%">金币</th>
+	<th colspan="3"  style="text-align:center;">机器</th>
 	<th colspan="3"  style="text-align:center;">账号</th>
 	<th colspan="3" style="text-align:center;">角色</th>
 </tr>
 <tr>
 <td></td>
-<td>start(次)</td>
+<td></td>
+<td></td>
+<!-- computer -->
+<td>Start(次)</td>
+<td>No Account</td>
 <td>时间(小时)</td>
-<td>start(次)</td>
+<!-- account -->
+<td>Start(次)</td>
 <td>成功(次)</td>
 <td>#</td>
-<td>pull(次)</td>
-<td>start</td>
+<!-- role -->
+<td>Pull(次)</td>
+<td>Start</td>
 <td>成功</td>
 </tr>
 </thead>
@@ -37,8 +45,13 @@
 <% @tmp_notes.each do |n|%>
 <tr>
 <td><%= n.date %></td>
+<td></td>
+<td></td>
+<!-- computer -->
 <td><%= n.computer_start %></td>
+<td><%= n.computer_no_acount %></td>
 <td>#</td>
+<!-- account -->
 <td><%= n.account_start %></td>
 <td><%= n.account_success %></td>
 <td>#</td>

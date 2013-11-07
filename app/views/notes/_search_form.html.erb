@@ -1,12 +1,13 @@
 <form class="form-search" action="<%= notes_path %>">
 
-<input type="text" name="min_time" id="start_time" class="input-small" placeholder="起始日期" value="<%= params[:min_time]%>" />-
-<input type="text" name="max_time" id="end_time" class="input-small" placeholder="结束日期" value="<%= params[:max_time]%>" />
+<input type="text" name="start_date" id="start_date" class="input-small" placeholder="起始日期" value="<%= params[:start_date]%>" />-
+<input type="text" name="end_date" id="end_date" class="input-small" placeholder="结束日期" value="<%= params[:end_date]%>" />
 <input type="text" name="server" class="input-small" placeholder="区" value="<%= params[:server]%>" />
 <input type="text" name="account" class="input-small" placeholder="账号" value="<%= params[:account]%>" />
 <input type="text" name="cid" class="input-small" placeholder="机器ID" value="<%= params[:cid]%>" />
 <input type="text" name="role_id" class="input-small" placeholder="角色ID" value="<%= params[:role_id]%>" />
 <input type="text" name="version" class="input-small" placeholder="版本" value="<%= params[:version]%>" />
+<input type="text" name="date" id="date" class="input-small" placeholder="发生日期" value="<%= params[:date]%>" />
 <hr style="margin:5px 0;"/>
 <input type="text" name="event" class="input-small" placeholder="事件" value="<%= params[:event]%>" title="支持模糊查询" />
 
@@ -27,7 +28,8 @@
 
 <script type="text/javascript">
 $(function(){
-	$("#start_time").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
-	$("#end_time").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+	$("#start_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+	$("#end_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+	$("#date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
 });
 </script>

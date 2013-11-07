@@ -13,8 +13,8 @@ class NotesController < ApplicationController
 		@notes = @notes.where("ip like ?","%#{params[:ip]}%") unless params[:ip].blank?
 		@notes = @notes.where("msg like ?","%#{params[:msg]}%") unless params[:msg].blank?
 		@notes = @notes.where("date(created_at) = ?",params[:date]) unless params[:date].blank?
-		@notes = @notes.where("created_at >= '#{params[:min_time]} 06:00:00'") unless params[:min_time].blank?
-		@notes = @notes.where("created_at <= '#{params[:max_time]} 06:00:00'") unless params[:max_time].blank?
+		@notes = @notes.where("created_at >= '#{params[:start_date]} 06:00:00'") unless params[:start_date].blank?
+		@notes = @notes.where("created_at <= '#{params[:end_date]} 06:00:00'") unless params[:end_date].blank?
 		@notes = @notes.where(:api_code => params[:code]) unless params[:code].blank?
 		@notes = @notes.where(:version => params[:version]) unless params[:version].blank?
 		per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
@@ -28,6 +28,7 @@ class NotesController < ApplicationController
 		@end_date = params[:end_date]  unless params[:end_date].blank?
 		@tmp_notes = Note.select("date(created_at) as date,
 			sum(if(api_name='computer_start',1,0)) as computer_start,
+			sum(if(api_name='not_find_account',1,0)) as computer_no_acount,
 			sum(if(api_name='account_start',1,0)) as account_start,
 			sum(if(api_name='role_dispatch',1,0)) as role_dispatch,
 			sum(if(api_name='role_start',1,0)) as role_start,
