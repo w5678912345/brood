@@ -13,23 +13,37 @@
 
 
 </form>
-<table class="table">
+<table class="table table-bordered">
 <thead>
+<tr>
 	<th>日期</th>
-	<th>机器</th>
-	<th>账号start</th>
-	<th>角色start</th>
-	<th>账号成功</th>
-	<th>角色成功</th>
+	<th colspan="2"  style="text-align:center;">机器</th>
+	<th colspan="3"  style="text-align:center;">账号</th>
+	<th colspan="3" style="text-align:center;">角色</th>
+</tr>
+<tr>
+<td></td>
+<td>start(次)</td>
+<td>时间(小时)</td>
+<td>start(次)</td>
+<td>成功(次)</td>
+<td>#</td>
+<td>pull(次)</td>
+<td>start</td>
+<td>成功</td>
+</tr>
 </thead>
 <tbody>
 <% @tmp_notes.each do |n|%>
 <tr>
 <td><%= n.date %></td>
 <td><%= n.computer_start %></td>
+<td>#</td>
 <td><%= n.account_start %></td>
-<td><%= n.role_start %></td>
-<td><%= n.account_success%></td>
+<td><%= n.account_success %></td>
+<td>#</td>
+<td><%= n.role_dispatch %></td>
+<td><%= n.role_start%></td>
 <td><%= n.role_success%></td>
 </td>
 </tr>
