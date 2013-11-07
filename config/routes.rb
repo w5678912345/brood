@@ -45,6 +45,7 @@ Brood::Application.routes.draw do
     get :import, :on => :member
   end
   resources :notes , :only => [:index,:show] do
+    get :analysis,   :on => :collection
   end
   resources :sessions, :only => [:index,:show] do 
     get :account,   :on => :collection

@@ -21,5 +21,22 @@ class NotesController < ApplicationController
 		@notes = @notes.paginate(:page => params[:page], :per_page => per_page)
 	end
 
+	def analysis
+		@start_date = Time.now - 7.day 
+		@end_date = Time.now + 1.day
+		@start_date = params[:start_date] unless params[:start_date].blank?
+		@end_date = params[:end_date]  unless params[:end_date].blank?
+		@tmp_notes = Note.select("date(created_at) as date,
+			sum(if(api_name='computer_start',1,0)) as computer_start,
+			sum(if(api_name='account_start',1,0)) as account_start,
+			sum(if(api_name='role_dispatch',1,0)) as role_dispatch,
+			sum(if(api_name='role_start',1,0)) as role_start,
+			sum(if(api_name='account_success',1,0)) as account_success,
+			sum(if(api_name='role_success',1,0)) as role_success
+			").date_scope(@start_date,@end_date).reorder("date(created_at)")
+	end
+
+
+
 
 end

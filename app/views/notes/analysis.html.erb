@@ -1,0 +1,46 @@
+<%= render "navbar" %>
+
+<form class="form-search" action="<%= analysis_sessions_path %>">
+<div class="input-prepend input-append">
+<span class="add-on"><i class="icon-calendar"></i></span>
+<input type="text" name="start_date" id="start_date" value=<%=@start_date%> class="input-medium" placeholder="from" style="width:90px;" value="<%= @start_date.to_s %>" />
+<span class="add-on">-</span>
+<input type="text" name="end_date" id="end_date" value=<%=@end_date%> class="input-medium" placeholder="to" style="width:90px;" value="<%= @end_date.to_s %>" />
+</div>
+
+
+<button type="submit" class="btn">Search</button>
+
+
+</form>
+<table class="table">
+<thead>
+	<th>日期</th>
+	<th>机器</th>
+	<th>账号start</th>
+	<th>角色start</th>
+	<th>账号成功</th>
+	<th>角色成功</th>
+</thead>
+<tbody>
+<% @tmp_notes.each do |n|%>
+<tr>
+<td><%= n.date %></td>
+<td><%= n.computer_start %></td>
+<td><%= n.account_start %></td>
+<td><%= n.role_start %></td>
+<td><%= n.account_success%></td>
+<td><%= n.role_success%></td>
+</td>
+</tr>
+<%end%>
+</tbody>
+</table>
+
+<script type="text/javascript">
+$(function(){
+	$("#start_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+	$("#end_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+});
+</script>
+
