@@ -33,7 +33,7 @@ class NotesController < ApplicationController
 			sum(if(api_name='role_start',1,0)) as role_start,
 			sum(if(api_name='account_success',1,0)) as account_success,
 			sum(if(api_name='role_success',1,0)) as role_success
-			").date_scope(@start_date,@end_date).reorder("date(created_at)")
+			").group("date(created_at)").date_scope(@start_date,@end_date).reorder("date(created_at) desc")
 	end
 
 
