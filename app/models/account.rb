@@ -80,11 +80,11 @@ class Account < ActiveRecord::Base
         @online_roles = @online_roles.reorder("level desc").limit(Setting.account_start_roles_count)
         # 调度角色
         tmp[:session_id] = session.id # 
-        tmp[:api_name] = "role_start" #
+        tmp[:api_name] = "role_dispatch" #
         @online_roles.each do |role|
             tmp[:role_id] = role.id
-            role_session = Note.create(tmp) # 创建角色会话
-            role.update_attributes(:session_id=>role_session.id) # 修改角色 session_id
+            role_note = Note.create(tmp) # 创建角色会话
+            role.update_attributes(:online=>true,:online_note_id=>role_note.id) # 修改角色 session_id
         end
         # 修改session 并修改上线 IP
         return 1 if self.update_attributes(:session_id=>session.id,:online_ip=>ip.value)
@@ -127,8 +127,10 @@ class Account < ActiveRecord::Base
     def api_stop opts
       # 判断账号是否在线
       return CODES[:account_is_stopped] unless self.is_started?
-      # 下线当前角色
-      self.online_role.api_stop opts if self.online_role 
+      # 停止已启动的角色
+      self.roles.started_scope.each do |role|
+        role.api_stop(opts)
+      end
       # 当前 session
       session = self.session
       computer = session.computer
@@ -139,13 +141,15 @@ class Account < ActiveRecord::Base
        # 修改机器的上线账号数量
        session.computer.increment(:online_accounts_count,-1) if session.computer && session.computer.online_accounts_count > 0 
       # 清空角色 session
-       self.roles.update_all(:session_id => 0,:online => false)  
+       self.roles.update_all(:session_id => 0,:online => false)
        # 更新 session    
        now = Time.now
        hours = (now - session.created_at)/3600
-       role_sessions = session.notes.role_session_scope
+       role_dispatch_count = session.notes.where(:api_name=>"role_dispatch").select(:role_id).uniq().count
+       role_success_count = session.notes.where(:api_name=>"role_start").where(:success=>true).select(:role_id).uniq().count
+       p "=====================#{role_dispatch_count}====#{role_success_count}"
        # 调度的角色数量 等于 成功的角色数量，表示成功
-       session.success = true if role_sessions.count == role_sessions.success_scope.count
+       session.success = true if role_dispatch_count == role_success_count
        # 完成session 
        session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
        # 修改账号的session_id 为0 并清空上线 IP

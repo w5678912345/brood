@@ -45,7 +45,7 @@ class Note < ActiveRecord::Base
     def self.list_search opts
         notes = Note.where("id>0")
         notes = notes.where(:role_id => opts[:role_id]) unless opts[:role_id].blank?
-        notes = notes.where("session_id =? or id = ?",opts[:session_id].to_i,opts[:session_id].to_i) unless opts[:session_id].blank?
+        notes = notes.where("session_id =? or id = ? or sup_id = ?",opts[:session_id].to_i,opts[:session_id].to_i,opts[:session_id].to_i) unless opts[:session_id].blank?
         notes = notes.where(:account => opts[:account]) unless opts[:account].blank?
         notes = notes.where(:server => opts[:server]) unless opts[:server].blank?
         notes = notes.where(:computer_id => opts[:cid]) unless opts[:cid].blank?

@@ -41,7 +41,7 @@ class Role < ActiveRecord::Base
   end
 
   def is_working?
-    return self.is_started? && self.online
+    #return self.is_started? && self.online
   end
 
   #
@@ -60,17 +60,18 @@ class Role < ActiveRecord::Base
 
   # 角色开始
   def api_start opts
-    return CODES[:role_is_stopped] unless self.is_started?
-    return 0 if self.online
+    return CODES[:role_is_started] if self.is_started?
     return CODES[:account_is_stopped] unless self.qq_account.is_started?  # 账户未开始，角色不能开始
-    
+    account_session = self.qq_account.session
+    computer = account_session.computer
     self.transaction do
+       #创建session
+       session = Note.create(:computer_id => computer.id, :account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,
+       :api_name=>"role_start",:server=> self.server || computer.server,:msg=>opts[:msg],:level=>self.level,:sup_id =>account_session.id)
       # 修改账号的当前角色
       self.qq_account.update_attributes(:online_role_id => self.id)
-      # 修改角色session 的 started_at 
-      self.session.update_attributes(:started_at => Time.now)
-      # 修改角色online状态
-      return 1 if self.update_attributes(:online=>true)
+      # 修改角色 session
+       return 1 if self.update_attributes(:session_id => session.id)
     end
   end
 
@@ -79,6 +80,7 @@ class Role < ActiveRecord::Base
     return CODES[:role_is_stopped] unless self.is_started?
     status = opts[:status]
     event = opts[:event]
+    account_session = self.qq_account.session
     session = self.session
     computer = session.computer
     # 修改角色属性
@@ -104,13 +106,14 @@ class Role < ActiveRecord::Base
      # 发生事件或状态改变时，插入记录
      if (STATUS.include? status) || (EVENT.include? event)
           Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, 
-            :api_name=> api_name,:api_code => api_code,:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=>session.id,:version=>computer.version,:server=>self.server || computer.server) 
+            :api_name=> api_name,:api_code => api_code,:msg=>opts[:msg],:session_id=>session.id,:sup_id => account_session.id,
+            :version=>computer.version,:server=>self.server || computer.server) 
      end
     
       # 如果彼劳值变成了0,说明角色调度成功
       if self.vit_power_changed? && self.vit_power == 0 
           Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, :server=>self.server || computer.server,
-            :api_name=>"role_success",:msg=>opts[:msg],:session_id=>session.id)
+            :api_name=>"role_success",:msg=>opts[:msg],:session_id=>session.id,:sup_id=>account_session.id)
           session.update_attributes(:success => true)
       end
       # 修改账号最后访问时间
@@ -123,20 +126,21 @@ class Role < ActiveRecord::Base
   # 角色停止
   def api_stop opts
     return CODES[:role_is_stopped] unless self.is_started?
+    account_session = self.qq_account.session
     session = self.session
     computer = session.computer
     self.transaction do 
        # 修改帐号的上线角色ID
-      self.qq_account.update_attributes(:online_role_id => 0)
+      self.qq_account.update_attributes(:online_role_id => 0) if self.qq_account.online_role_id = self.id
       # 修改会话
       now = Time.now
       hours = (now - session.created_at)/3600
       session.update_attributes(:ending=>true, :stopped_at=>now,:hours=>hours)
       # 记录note
       Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,
-       :api_name=>"role_stop",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=> session.id)
+       :api_name=>"role_stop",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=> session.id,:sup_id=>account_session.id)
       # 清空会话
-      return 1 if self.update_attributes(:session_id => 0,:online => false)
+      return 1 if self.update_attributes(:online => false)
     end
   end
 

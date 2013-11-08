@@ -1,12 +1,6 @@
 <% active = 'class=active'%>
 <ul class="nav nav-tabs">
-<li <%= active if controller_name == 'sessions' && action_name == 'analysis' %>>
- <%= link_to raw('<i class="icon-list"></i>会话分析'), analysis_sessions_path %>
-</li>
 
-<li <%= active if controller_name == 'sessions' && action_name == 'index' %>>
- <%= link_to raw('<i class="icon-list"></i>会话列表'), sessions_path %>
-</li>
 
 <li <%= active if controller_name == 'sessions' && action_name == 'computer' %>>
  <%= link_to raw('<i class="icon-list"></i>机器会话'), computer_sessions_path %>

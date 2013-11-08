@@ -16,13 +16,13 @@ class NotesController < ApplicationController
 			sum(if(api_name='computer_start',1,0)) as computer_start,
 			sum(if(api_name='not_find_account',1,0)) as computer_no_acount,
 			sum(if(api_name='account_start',1,0)) as account_start,
-			sum(if(api_name='account_success',1,0)) as account_success,
+			sum(if(api_name='account_start' and success=1,1,0)) as account_success,
 			sum(if(api_name='disconnect',1,0)) as disconnect,
 			sum(if(api_name='exception',1,0)) as exception,
-			sum(if(api_name='role_dispatch',1,0)) as role_dispatch,
+			sum(if(api_name='role_dispatch' and started_at is not null,1,0)) as role_dispatch,
 			sum(if(api_name='role_start',1,0)) as role_start,
 			sum(if(api_name='disable',1,0)) as disable,
-			sum(if(api_name='role_success',1,0)) as role_success
+			sum(if(api_name='role_start' and success = 1,1,0)) as role_success
 			").group("date(created_at)").date_scope(@start_date,@end_date).reorder("date(created_at) desc")
 	end
 
