@@ -22,6 +22,10 @@ update roles set status = 'disable' where status = '0';
 # select count(id),api_name from notes group by api_name;
 select count(id),date(created_at),api_name from notes group by date(created_at),api_name;
 
+
+update notes set api_name = 'computer_reg' where api_name = 'reg';
+
+#
 update notes set api_name = 'role_start' where api_name = 'role_online' or api_name = 'online';
 update notes set api_name = 'role_stop' where api_name = 'role_offline' or api_name = 'offline';
 update notes set api_name = 'restart_game' where api_name = 'RestartGame';

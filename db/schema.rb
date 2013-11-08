@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131031063830) do
+ActiveRecord::Schema.define(:version => 20131108025055) do
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                       :null => false
@@ -84,25 +84,37 @@ ActiveRecord::Schema.define(:version => 20131031063830) do
   end
 
   create_table "notes", :force => true do |t|
-    t.integer  "user_id",                      :default => 0,   :null => false
-    t.integer  "role_id",                      :default => 0,   :null => false
-    t.integer  "computer_id",                  :default => 0,   :null => false
-    t.string   "ip",             :limit => 15,                  :null => false
-    t.string   "api_name",                                      :null => false
-    t.string   "api_code",                     :default => "0", :null => false
+    t.integer  "user_id",                      :default => 0,     :null => false
+    t.integer  "role_id",                      :default => 0,     :null => false
+    t.integer  "computer_id",                  :default => 0,     :null => false
+    t.string   "ip",             :limit => 15,                    :null => false
+    t.string   "api_name",                                        :null => false
+    t.string   "api_code",                     :default => "0",   :null => false
     t.string   "action"
     t.string   "msg"
-    t.datetime "created_at",                                    :null => false
-    t.datetime "updated_at",                                    :null => false
-    t.integer  "online_note_id",               :default => 0,   :null => false
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
+    t.integer  "online_note_id",               :default => 0,     :null => false
     t.datetime "online_at"
-    t.float    "online_hours",                 :default => 0.0, :null => false
+    t.float    "online_hours",                 :default => 0.0,   :null => false
     t.integer  "level"
     t.string   "version"
     t.string   "account"
     t.string   "server"
     t.string   "hostname"
-    t.integer  "session_id",                   :default => 0,   :null => false
+    t.integer  "session_id",                   :default => 0,     :null => false
+    t.integer  "sup_id",                       :default => 0,     :null => false
+    t.boolean  "effective",                    :default => true,  :null => false
+    t.boolean  "ending",                       :default => false, :null => false
+    t.boolean  "success",                      :default => false, :null => false
+    t.float    "hours",                        :default => 0.0,   :null => false
+    t.integer  "gold",                         :default => 0,     :null => false
+    t.datetime "started_at"
+    t.datetime "stopped_at"
+    t.datetime "success_at"
+    t.string   "target"
+    t.string   "result"
+    t.string   "opts"
   end
 
   create_table "payments", :force => true do |t|

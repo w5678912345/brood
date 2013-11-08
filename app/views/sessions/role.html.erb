@@ -6,5 +6,5 @@
 <span><%= @sessions.total_entries%>个会话</span> 
 </div>
 
-<%= render :partial => "role_table",:locals=>{:sessions=>@sessions} %>
+<%= render :partial => "table",:locals=>{:sessions=>@sessions,:show_account=>true,:show_role=>true} %>
 <%= will_paginate @sessions %>

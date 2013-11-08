@@ -2,27 +2,37 @@
 <thead>
 <tr>
 <th>ID</th>
- <th>机器</th>
- <th>账号</th>
- <th>IP</th>
- <th>时间</th>
- <th>区</th>
- <th>版本</th>
- <th>状态</th>
- <th>操作</th>
+<th>机器</th>
+<%= raw('<th>账号</th>') if show_account %>
+<%= raw('<th>角色</th>') if show_role %>
+<th>IP</th>
+<th>时间</th>
+<th>区</th>
+<th>版本</th>
+<th>用时</th>
+<th>结果</th>
+<th>操作</th>
 </tr>
 </thead>
 <tbody>
 <% @sessions.each do |session|%>
 <tr>
-<td><%= session.id %></td>
+<td><%= session.id %><%= notes_link_tag(:session_id => session.id )%></td>
 <td><%= computer_tag session.computer %> </td>
-<td><%= account_tag session.account %></td>
+<% if show_account %>
+	<td><%= account_tag session.account %></td>
+<% end %>
+<% if show_role %>
+	<td><%= role_tag session.role_id %></td>
+<% end %>
 <td><%= session.ip %></td>
 <td><%= time_str session.created_at %></td>
 <td><%= session.server %></td>
 <td><%= session.version %></td>
-<td><%= session.ending ? "结束" : "进行中" %></td>
+<td><%= session.ending ? session.hours : "#"%></td>
+<td><%= session.success %>
+
+</td>
 <td>#</td>
 </tr>
 <%end%>

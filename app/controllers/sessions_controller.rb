@@ -2,18 +2,28 @@
 class SessionsController < ApplicationController
 
 	def index
-		
-	end
-
-
-	def account
-		@sessions = Session.list_search(params).accounts_scope
+		@sessions = Note.session_scope.list_search(params)
 		per_page  = params[:per_page].blank? ? 20 : params[:per_page].to_i
 		@sessions = @sessions.paginate(:page => params[:page], :per_page => per_page)
 	end
 
+	# 机器会话列表
+	def computer
+		@sessions = Note.computer_session_scope.list_search(params)
+		per_page  = params[:per_page].blank? ? 20 : params[:per_page].to_i
+		@sessions = @sessions.paginate(:page => params[:page], :per_page => per_page)
+	end
+
+	#账号会话列表
+	def account
+		@sessions = Note.account_session_scope.list_search(params)
+		per_page  = params[:per_page].blank? ? 20 : params[:per_page].to_i
+		@sessions = @sessions.paginate(:page => params[:page], :per_page => per_page)
+	end
+
+	#角色会话列表
 	def role
-		 @sessions = Session.list_search(params).roles_scope
+		 @sessions = Note.role_session_scope .list_search(params)
 		 per_page  = params[:per_page].blank? ? 20 : params[:per_page].to_i
 		 @sessions = @sessions.paginate(:page => params[:page], :per_page => per_page)
 	end

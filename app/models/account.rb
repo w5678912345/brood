@@ -14,7 +14,7 @@ class Account < ActiveRecord::Base
     attr_accessor :online_roles 
     #所属服务器
 	  belongs_to :game_server, :class_name => 'Server', :foreign_key => 'server',:primary_key => 'name'
-    belongs_to :session,     :class_name => 'Session', :foreign_key => 'session_id'
+    belongs_to :session,     :class_name => 'Note', :foreign_key => 'session_id'
     #在线角色
     belongs_to :online_role, :class_name => 'Role', :foreign_key => 'online_role_id'
     #在线记录
@@ -64,28 +64,28 @@ class Account < ActiveRecord::Base
       computer = Computer.find_by_auth_key(opts[:ckey])
       self.transaction do
         #增加计算机上线账号数
-        computer.update_attributes(:online_accounts_count=>computer.online_accounts_count+1)
+        computer.increment(:online_accounts_count,1)
         #增加ip使用次数
         ip.update_attributes(:use_count=>ip.use_count+1)
-        # 记录 session
-        session = Session.create(:computer_id => computer.id,:account=>self.no,:ip=>ip.value,
-          :hostname=>computer.hostname,:server => computer.server,:version => computer.version)
+        # # 记录 session
+        # session = Session.create(:computer_id => computer.id,:account=>self.no,:ip=>ip.value,
+        #   :hostname=>computer.hostname,:server => computer.server,:version => computer.version)
         #插入账号开始记录
         tmp = {:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>ip.value,:api_name=>"account_start",
-           :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id}
-        note = Note.create(tmp)
+           :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version}
+        session = Note.create(tmp)
+        
         # 可以调度的角色
         @online_roles = opts[:all] ? self.roles : self.roles.waiting_scope
         @online_roles = @online_roles.reorder("level desc").limit(Setting.account_start_roles_count)
         # 调度角色
+        tmp[:session_id] = session.id # 
+        tmp[:api_name] = "role_start" #
         @online_roles.each do |role|
-            tmp[:api_name] = "role_dispatch"
             tmp[:role_id] = role.id
-            _note = Note.create(tmp)
-            role.update_attributes(:online=>true)
+            role_session = Note.create(tmp) # 创建角色会话
+            role.update_attributes(:session_id=>role_session.id) # 修改角色 session_id
         end
-        # 调度的角色数量
-        session.update_attributes(:account_roles_count => @online_roles.length)
         # 修改session 并修改上线 IP
         return 1 if self.update_attributes(:session_id=>session.id,:online_ip=>ip.value)
       end
@@ -108,7 +108,7 @@ class Account < ActiveRecord::Base
           api_name = status # 如果定义了有效状态 设置 api_name => status
           api_code = status # 如果定义了有效状态 设置 api_code => status
           self.status = status
-          session.update_attributes(:status => status)
+          #session.update_attributes(:result => status)
           self.normal_at = Time.now.since(Account::Auto_Normal[status].hours) if Auto_Normal.has_key?(status)
         end
         #状态正常时，清空normal
@@ -127,30 +127,27 @@ class Account < ActiveRecord::Base
     def api_stop opts
       # 判断账号是否在线
       return CODES[:account_is_stopped] unless self.is_started?
-      self.online_role.api_stop opts if self.online_role # 同时下线角色
-      #return 0 if self.online_role_id > 0 # 还有角色在线，账号不能下线
+      # 下线当前角色
+      self.online_role.api_stop opts if self.online_role 
+      # 当前 session
       session = self.session
       computer = session.computer
       self.transaction do 
+      # 创建stop 记录
+       Note.create(:account => self.no, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_stop',:msg=>opts[:msg],
+         :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:session_id=>session.id)
        # 修改机器的上线账号数量
-       computer.update_attributes(:online_accounts_count=>computer.online_accounts_count-1) if computer.online_accounts_count > 0
-       # 更新session
+       session.computer.increment(:online_accounts_count,-1) if session.computer && session.computer.online_accounts_count > 0 
+      # 清空角色 session
+       self.roles.update_all(:session_id => 0,:online => false)  
+       # 更新 session    
        now = Time.now
        hours = (now - session.created_at)/3600
-       session.update_attributes(:ending=>true, :end_at=>now,:hours=>hours)
-       #
-       tmp = {:account => self.no, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_stop',:msg=>opts[:msg],
-         :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:session_id=>session.id}
-       note = Note.create(tmp)
-       self.roles.update_all(:online => false)
+       role_sessions = session.notes.role_session_scope
        # 调度的角色数量 等于 成功的角色数量，表示成功
-       if session.account_roles_count == session.subs.success_scope.count
-          session.update_attributes(:success => true)
-          tmp[:api_name]="account_success"
-          note = Note.create(tmp)
-       end
-       # 记录 note
-       
+       session.success = true if role_sessions.count == role_sessions.success_scope.count
+       # 完成session 
+       session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
        # 修改账号的session_id 为0 并清空上线 IP
        return 1 if self.update_attributes(:session_id=>0,:online_ip=>nil)
       end

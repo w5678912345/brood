@@ -5,5 +5,5 @@
 <button type="button" class="close" data-dismiss="alert">&times;</button>
 <span><%= @sessions.total_entries%>个会话</span> 
 </div>
-<%= render :partial => "account_table",:locals=>{:sessions=>@sessions} %>
+<%= render :partial => "table",:locals=>{:sessions=>@sessions,:show_account=>true,:show_role=>false} %>
 <%= will_paginate @sessions %>

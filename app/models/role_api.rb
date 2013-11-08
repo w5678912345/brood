@@ -11,7 +11,7 @@ module RoleApi
     computer = Computer.find_by_auth_key(opts[:ckey])
     return CODES[:not_find_computer] unless computer
 	return CODES[:computer_unchecked] unless computer.checked
-	return CODES[:computer_no_server] unless computer.set_server
+	return CODES[:computer_no_server] if computer.server_blank?
 	max_roles_count = Setting.find_value_by_key("computer_max_roles_count")
 	p  "============================#{max_roles_count}"
 	return CODES[:full_use_computer] if max_roles_count && computer.online_roles_count >= max_roles_count 

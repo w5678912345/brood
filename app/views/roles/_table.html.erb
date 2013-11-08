@@ -49,7 +49,8 @@
 <td><%= role.vit_power %></td>
 <td><%= role.gold %></td>
 <td>
-<%= role.is_started? ? "Yes" : "" %></td>
+<%= raw("#{role.session_id}#{notes_link_tag(:session_id => role.session_id )}") if role.session_id>0  %>
+</td>
 <td><%= role.status %></td>
 <td>#</td>
 </tr>

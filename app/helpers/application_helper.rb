@@ -95,4 +95,8 @@ module ApplicationHelper
 	end
 
 
+	def session_result_tag session
+		
+	end
+
 end

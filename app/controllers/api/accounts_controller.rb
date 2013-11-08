@@ -96,7 +96,7 @@ class Api::AccountsController < Api::BaseController
 		if @computer
 			@code = CODES[:not_find_computer] unless @computer.status == 1
 			@code = CODES[:computer_unchecked] unless @computer.checked
-			@code = CODES[:computer_no_server] unless @computer.set_server
+			@code = CODES[:computer_no_server] if @computer.server_blank?
 		end
 		return render :partial => 'api/result' unless @code == 0
 		params[:cid] = @computer.id

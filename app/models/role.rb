@@ -8,7 +8,7 @@ class Role < ActiveRecord::Base
 
   belongs_to :computer,:class_name => 'Computer'
   belongs_to :online_note, :class_name => 'note', :foreign_key => 'online_note_id'
-  belongs_to :session, :foreign_key => 'session_id'
+  belongs_to :session, :class_name => 'Note', :foreign_key => 'session_id'
   has_many   :notes,		:dependent => :destroy, :order => 'id DESC'
   has_many	 :payments, :order => 'id DESC'
   has_many   :comroles, :class_name => 'Comrole'
@@ -34,9 +34,14 @@ class Role < ActiveRecord::Base
   scope :stopped_scope, where("session_id = 0 ") #已停止的角色
   scope :waiting_scope, stopped_scope.where("roles.vit_power > 0 and roles.status = 'normal' and roles.session_id = 0")
     .where("roles.level < ?",Setting.role_max_level).readonly(false)
+
   #
   def is_started?
     return self.session_id > 0
+  end
+
+  def is_working?
+    return self.is_started? && self.online
   end
 
   #
@@ -53,24 +58,19 @@ class Role < ActiveRecord::Base
 		return "#{self.account}##{self.role_index}"
 	end
 
-    # 角色开始
+  # 角色开始
   def api_start opts
-    return 0 unless self.online
+    return CODES[:role_is_stopped] unless self.is_started?
+    return 0 if self.online
     return CODES[:account_is_stopped] unless self.qq_account.is_started?  # 账户未开始，角色不能开始
-    return CODES[:role_is_started] if self.is_started? # 角色开始了不能开始
-    account_session = self.qq_account.session
-    computer = account_session.computer
+    
     self.transaction do
-      # 创建会话
-      session = Session.create(:computer_id => computer.id,:account=>self.account,:ip=>opts[:ip],:role_id=>self.id,
-          :sup_id=> account_session.id,:hostname=>computer.hostname,:server => computer.server,:version => computer.version,:role_start_level=>self.level)
-      # 修改帐号的上线角色ID
+      # 修改账号的当前角色
       self.qq_account.update_attributes(:online_role_id => self.id)
-      # 记录note
-      note = Note.create(:computer_id => computer.id, :account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,
-       :api_name=>"role_start",:server=> self.server || computer.server,:msg=>opts[:msg],:session_id=>session.id,:level=>self.level)
-      # 修改角色
-      return 1 if self.update_attributes(:session_id => session.id)
+      # 修改角色session 的 started_at 
+      self.session.update_attributes(:started_at => Time.now)
+      # 修改角色online状态
+      return 1 if self.update_attributes(:online=>true)
     end
   end
 
@@ -131,12 +131,12 @@ class Role < ActiveRecord::Base
       # 修改会话
       now = Time.now
       hours = (now - session.created_at)/3600
-      session.update_attributes(:ending=>true, :end_at=>now,:hours=>hours,:role_end_level=>self.level)
+      session.update_attributes(:ending=>true, :stopped_at=>now,:hours=>hours)
       # 记录note
       Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,
        :api_name=>"role_stop",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=> session.id)
       # 清空会话
-      return 1 if self.update_attributes(:session_id => 0)
+      return 1 if self.update_attributes(:session_id => 0,:online => false)
     end
   end
 

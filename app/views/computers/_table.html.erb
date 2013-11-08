@@ -30,7 +30,7 @@
   	<th>绑定帐号</th>
   	<th>在线帐号</th>
 	<th>注册时间</th>
-	<th>审核</th>
+	<th>通过</th>
   	<th>在线</th>
 	<th>操作</th>
 </tr>
@@ -52,8 +52,8 @@
 <td><%= computer.accounts_count %></td>
 <td><%= computer.online_accounts_count %></td>
 <td><%= time_str computer.created_at %></td>
-<td><%= computer.checked ? raw('<span class="label label-success">通过</span>') : raw('<span class="label label-important">未通过</span>') %></td>
-<td><%= boolean_tag computer.started %></td>
+<td><%= boolean_tag computer.checked %></td>
+<td><%= boolean_tag computer.is_started? %></td>
 <td>
 <div class="btn-group">
     <%= link_to "查看", computer_path(computer),:class=>"btn btn-small" %>

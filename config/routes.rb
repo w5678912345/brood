@@ -49,6 +49,7 @@ Brood::Application.routes.draw do
     get :group_count, :on => :collection
   end
   resources :sessions, :only => [:index,:show] do 
+    get :computer,  :on => :collection
     get :account,   :on => :collection
     get :role,      :on => :collection
     get :analysis,  :on => :collection
@@ -143,12 +144,10 @@ Brood::Application.routes.draw do
     match '/' => 'base#readme'
     match '/doc' => 'base#doc'
     match '/reg'  => 'computers#reg'
-    match '/set'  => 'computers#set'
     match '/cinfo' => 'computers#cinfo'
-    match '/computers/disable' => 'computers#disable'
-    match 'computers/note' => 'computers#note'
     resources :computers,:only => [] do 
       get :start,     :on => :collection
+      get :sync,      :on => :collection
       get :stop,      :on => :collection
     end
     resources :tasks ,:only =>[],:defaults => {:format => 'json'} do

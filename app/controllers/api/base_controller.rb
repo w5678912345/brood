@@ -9,7 +9,7 @@ class Api::BaseController < ActionController::Base
 
 	def readme
     	render :layout => 'application',:template => 'api/readme'
-  	end
+  end
 
 
   def doc
