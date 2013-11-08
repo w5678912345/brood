@@ -6,6 +6,7 @@ class Note < ActiveRecord::Base
 	belongs_to :role
     belongs_to :session, :class_name => 'Note', :foreign_key => 'session_id'
     has_many :notes,   :class_name => 'Note', :foreign_key => 'session_id'
+    has_many :subs,    :class_name => 'Note', :foreign_key => 'sup_id'
     #has_many
 	#
     attr_accessible :user_id, :role_id, :computer_id, :api_name, :api_code, :ip, :msg, :online_at, :online_note_id, :online_hours

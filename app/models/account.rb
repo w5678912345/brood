@@ -141,12 +141,12 @@ class Account < ActiveRecord::Base
        # 修改机器的上线账号数量
        session.computer.increment(:online_accounts_count,-1) if session.computer && session.computer.online_accounts_count > 0 
       # 清空角色 session
-       self.roles.update_all(:session_id => 0,:online => false)
+       self.roles.update_all(:online => false)
        # 更新 session    
        now = Time.now
        hours = (now - session.created_at)/3600
        role_dispatch_count = session.notes.where(:api_name=>"role_dispatch").select(:role_id).uniq().count
-       role_success_count = session.notes.where(:api_name=>"role_start").where(:success=>true).select(:role_id).uniq().count
+       role_success_count = session.subs.where(:api_name=>"role_start").where(:success=>true).select(:role_id).uniq().count
        p "=====================#{role_dispatch_count}====#{role_success_count}"
        # 调度的角色数量 等于 成功的角色数量，表示成功
        session.success = true if role_dispatch_count == role_success_count

@@ -60,6 +60,7 @@ class Role < ActiveRecord::Base
 
   # 角色开始
   def api_start opts
+    return 0 unless self.online
     return CODES[:role_is_started] if self.is_started?
     return CODES[:account_is_stopped] unless self.qq_account.is_started?  # 账户未开始，角色不能开始
     account_session = self.qq_account.session
@@ -67,7 +68,7 @@ class Role < ActiveRecord::Base
     self.transaction do
        #创建session
        session = Note.create(:computer_id => computer.id, :account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,
-       :api_name=>"role_start",:server=> self.server || computer.server,:msg=>opts[:msg],:level=>self.level,:sup_id =>account_session.id)
+       :api_name=>"role_start",:server=> self.server || computer.server,:msg=>opts[:msg],:level=>self.level,:sup_id =>account_session.id,:version=>computer.version)
       # 修改账号的当前角色
       self.qq_account.update_attributes(:online_role_id => self.id)
       # 修改角色 session
@@ -113,7 +114,7 @@ class Role < ActiveRecord::Base
       # 如果彼劳值变成了0,说明角色调度成功
       if self.vit_power_changed? && self.vit_power == 0 
           Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, :server=>self.server || computer.server,
-            :api_name=>"role_success",:msg=>opts[:msg],:session_id=>session.id,:sup_id=>account_session.id)
+            :api_name=>"role_success",:msg=>opts[:msg],:session_id=>session.id,:sup_id=>account_session.id,:version=>computer.version)
           session.update_attributes(:success => true)
       end
       # 修改账号最后访问时间
@@ -140,13 +141,14 @@ class Role < ActiveRecord::Base
       Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,
        :api_name=>"role_stop",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=> session.id,:sup_id=>account_session.id)
       # 清空会话
-      return 1 if self.update_attributes(:online => false)
+      return 1 if self.update_attributes(:session_id => 0)
     end
   end
 
   # 角色支付
   def api_pay opts
     return CODES[:role_is_stopped] unless self.is_started?
+    account_session = self.qq_account.session
     session = self.session
     computer = session.computer
     self.transaction do
@@ -160,7 +162,7 @@ class Role < ActiveRecord::Base
       if account.status == 'bslocked' && payment.gold > 0 
          account.update_attributes(:status => 'normal')
          Note.create(:account => account.no,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:api_code=>"bs_unlock_success",
-          :version=>computer.version, :server=>self.server || computer.server,:session_id=>session.id, :msg=>"交易后自动解除锁定")
+          :version=>computer.version, :server=>self.server || computer.server,:session_id=>session.id,:sup_id=>account_session.id, :msg=>"交易后自动解除锁定")
       end
       # 修改会话
 
