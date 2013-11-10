@@ -86,6 +86,11 @@ module ApplicationHelper
 	end
 
 
+	def note_tag note
+		
+	end
+
+
 
 	def account_bind_tag account
 		return unless account

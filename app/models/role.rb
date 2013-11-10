@@ -40,10 +40,6 @@ class Role < ActiveRecord::Base
     return self.session_id > 0
   end
 
-  def is_working?
-    #return self.is_started? && self.online
-  end
-
   #
   def total_gold
 			self.gold + self.total_pay
@@ -132,10 +128,11 @@ class Role < ActiveRecord::Base
     computer = session.computer
     self.transaction do 
        # 修改帐号的上线角色ID
-      self.qq_account.update_attributes(:online_role_id => 0) if self.qq_account.online_role_id = self.id
+      self.qq_account.update_attributes(:online_role_id => 0) if self.qq_account.online_role_id == self.id
       # 修改会话
       now = Time.now
       hours = (now - session.created_at)/3600
+      session.success = true if opts[:success].to_i == 1 #成功
       session.update_attributes(:ending=>true, :stopped_at=>now,:hours=>hours)
       # 记录note
       Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,

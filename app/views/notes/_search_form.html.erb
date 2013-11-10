@@ -8,6 +8,18 @@
 <input type="text" name="role_id" class="input-small" placeholder="角色ID" value="<%= params[:role_id]%>" />
 <input type="text" name="version" class="input-small" placeholder="版本" value="<%= params[:version]%>" />
 <input type="text" name="date" id="date" class="input-small" placeholder="发生日期" value="<%= params[:date]%>" />
+结束:
+<select name="end" class="input-small">
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:end] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:end] == "0" %> >No</option>
+</select>
+成功:
+<select name="success" class="input-small">
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:success] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:success] == "0" %> >No</option>
+</select>
 <hr style="margin:5px 0;"/>
 <input type="text" name="event" class="input-small" placeholder="事件" value="<%= params[:event]%>" title="支持模糊查询" />
 

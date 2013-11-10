@@ -10,8 +10,8 @@
 <tr>
 <th></th>
 <th>金币(<%="%d亿" % (@tradesum/100000000)%>)</th>
-<th>标准机</th> 
-<th>标准时</th>
+<th title="机器总时间/24">标准机</th> 
+<th title="账号总时间/角色成功数">标准时</th>
 <!-- computer -->
 <th>Start</th>
 <th>Hours</th>
@@ -30,6 +30,7 @@
 </thead>
 <tbody>
 <% @tmp_notes.each do |n|%>
+<% h = {:date=>n.date,:server=>params[:server]}%>
 <tr>
 <td class="date_cell"><%= n.date %><i class="icon-eye-open"></i></td>
 <td><%= "%d亿" % (@trade[n.date]/100000000) if @trade[n.date] %></td>
@@ -40,26 +41,26 @@
 
 <!-- computer -->
 <td>
-<%= link_to "#{n.computer_start_count}台 / #{n.computer_start}次",computer_sessions_path(:date=>n.date)  %>
+<%= link_to "#{n.computer_start_count}台 / #{n.computer_start}次",notes_path(h.merge(:api_name=>"computer_start"))  %>
 </td>
 
 <td><%= sprintf('%.2f', n.computer_sum_hours) %></td>
 <!-- account -->
 <td>
-<%= link_to "#{n.account_start_count}个 / #{n.account_start}次",account_sessions_path(:date=>n.date) %></td>
+<%= link_to "#{n.account_start_count}个 / #{n.account_start}次",notes_path(h.merge(:api_name=>"account_start")) %></td>
 <td>
-<%= link_to "#{n.account_success_count}次",account_sessions_path(:date=>n.date,:success=>1) %>
+<%= link_to "#{n.account_success_count}次",notes_path(h.merge(:api_name=>"account_start",:success=>1)) %>
 </td>
 <td><%=  n.account_start >0 ? ("%2.0f%" % (n.account_success*100.00/n.account_start)) : "0%"  %></td>
 <td>
 <%= sprintf('%.2f', n.account_sum_hours)   %>
 </td>
 <!-- -->
-<td><%= link_to "#{n.role_online_count}个#{n.role_online}次",notes_path(:date=>n.date,:api_name=>"role_online") %>
+<td><%= link_to "#{n.role_online_count}个#{n.role_online}次",notes_path(h.merge(:api_name=>"role_online")) %>
 </td>
 
-<td><%= link_to "#{n.role_start_count}个#{n.role_start}次",notes_path(:date=>n.date,:api_name=>"role_start")%></td>
-<td><%= link_to "#{n.role_success}次",notes_path(:date=>n.date,:api_name=>"role_success")%></td>
+<td><%= link_to "#{n.role_start_count}个#{n.role_start}次",notes_path(h.merge(:api_name=>"role_start"))%></td>
+<td><%= link_to "#{n.role_success}次",notes_path(h.merge(:api_name=>"role_start",:success=>1))%></td>
 <td>
 	<%=  n.account_start >0 ? ("%2.0f%" % (n.account_success*100.00/n.account_start)) : "0%"  %>
 </td>

@@ -145,7 +145,7 @@ class Account < ActiveRecord::Base
        # 更新 session    
        now = Time.now
        hours = (now - session.created_at)/3600
-       role_dispatch_count = session.notes.where(:api_name=>"role_dispatch").select(:role_id).uniq().count
+       role_dispatch_count = session.notes.where(:api_name=>"role_online").select(:role_id).uniq().count
        role_success_count = session.subs.where(:api_name=>"role_start").where(:success=>true).select(:role_id).uniq().count
        p "=====================#{role_dispatch_count}====#{role_success_count}"
        # 调度的角色数量 等于 成功的角色数量，表示成功
