@@ -80,7 +80,7 @@ class Account < ActiveRecord::Base
         @online_roles = @online_roles.reorder("level desc").limit(Setting.account_start_roles_count)
         # 调度角色
         tmp[:session_id] = session.id # 
-        tmp[:api_name] = "role_dispatch" #
+        tmp[:api_name] = "role_online" #
         @online_roles.each do |role|
             tmp[:role_id] = role.id
             role_note = Note.create(tmp) # 创建角色会话

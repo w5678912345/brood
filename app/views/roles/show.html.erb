@@ -43,10 +43,10 @@
 <!-- -->
 <tr>
 <th>在线:</th>
-<% if @role.online %>
+<% if @role.is_started? %>
 <td> Yes </td>
 <th>计算机:</th>
-<td><%= link_to @role.computer.hostname,computer_path(@role.computer) if @role.computer %></td>
+<td><%= link_to @role.session.computer.hostname,computer_path(@role.session.computer) if @role.session %></td>
 <th>IP</th>
 <td><%= link_to @role.ip,roles_ip_path(ip_to_url @role.ip) %></td>
 <%else%>

@@ -48,9 +48,8 @@
 </td>
 <td>
 <% if account.is_started? %>
-<%= link_to account.session.hostname, computer_path(account.session.computer_id) %>#
-<%=  account.online_role_id ==0 ? 'No Role ' : link_to(account.online_role_id,role_path(account.online_role.id)) %>#
-<%= link_to account.session.ip,notes_path(:ip => account.session.ip) %>
+<%= link_to account.session.ip,notes_path(:ip => account.session.ip) %> #
+<%=  account.online_role_id ==0 ? 'No Role ' : link_to(account.online_role_id,role_path(account.online_role.id)) %>
 <% end %>
 </td>
 <td><%= time_str account.created_at %></td>

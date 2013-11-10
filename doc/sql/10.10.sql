@@ -47,6 +47,9 @@ update notes set api_name = 'lost', api_code = 'lost' where api_name = 'lose';
 # 角色
 update notes set api_name = 'disable', api_code = 'disable' where api_name= 'role_disable';
 
+update notes set api_name = 'role_online' where api_name = 'role_dispatch';
+	
+
 
 delete from notes where api_name = 'auto_pay';
 

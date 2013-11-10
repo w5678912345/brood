@@ -112,9 +112,9 @@ class Role < ActiveRecord::Base
      end
     
       # 如果彼劳值变成了0,说明角色调度成功
-      if self.vit_power_changed? && self.vit_power == 0 
-          Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, :server=>self.server || computer.server,
-            :api_name=>"role_success",:msg=>opts[:msg],:session_id=>session.id,:sup_id=>account_session.id,:version=>computer.version)
+      if (self.vit_power_changed? && self.vit_power == 0 ) || opts[:success].to_i == 1
+          # Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, :server=>self.server || computer.server,
+          #   :api_name=>"role_success",:msg=>opts[:msg],:session_id=>session.id,:sup_id=>account_session.id,:version=>computer.version)
           session.update_attributes(:success => true)
       end
       # 修改账号最后访问时间

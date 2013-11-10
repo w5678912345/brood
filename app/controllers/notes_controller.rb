@@ -15,11 +15,12 @@ class NotesController < ApplicationController
 		@tmp_notes = Note.select("date(created_at) as date,
 			sum(if(api_name='computer_start',1,0)) as computer_start,
 			sum(if(api_name='not_find_account',1,0)) as computer_no_acount,
+			sum(if(api_name='computer_start',hours,0)) as computer_sum_hours,
 			sum(if(api_name='account_start',1,0)) as account_start,
 			sum(if(api_name='account_start' and success=1,1,0)) as account_success,
 			sum(if(api_name='disconnect',1,0)) as disconnect,
 			sum(if(api_name='exception',1,0)) as exception,
-			sum(if(api_name='role_dispatch' and started_at is not null,1,0)) as role_dispatch,
+			sum(if(api_name='role_online',1,0)) as role_online,
 			sum(if(api_name='role_start',1,0)) as role_start,
 			sum(if(api_name='disable',1,0)) as disable,
 			sum(if(api_name='role_start' and success = 1,1,0)) as role_success
