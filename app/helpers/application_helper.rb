@@ -90,7 +90,7 @@ module ApplicationHelper
 		return unless note || note.api_name == "0"
 		return note.api_name unless ['computer_start','account_start','role_start'].include? note.api_name
 		hours = note.ending ? raw("&nbsp;<span class='label label-info' title='在线小时'>#{sprintf('%.2f',note.hours)}</span>") : ""
-		return raw("<span class='badge badge-success' title='成功'>#{note.api_name}</span>#{hours}") if note.success  
+		return link_to(raw("<span class='badge badge-success' title='成功'>#{note.api_name}</span>#{hours}"),notes_path(:session_id=>note.id)) if note.success  
 		return raw("<span class='badge badge-warning' title='进行中'>#{note.api_name}</span>#{hours}") unless note.ending 
 		return raw("<span class='badge badge-important' title='失败'>#{note.api_name}</span>#{hours}") unless note.success  
 	end

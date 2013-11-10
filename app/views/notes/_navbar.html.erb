@@ -1,14 +1,9 @@
 <% active = 'class=active'%>
 <ul class="nav nav-tabs">
-<li <%= active if controller_name == 'notes' && action_name == 'analysis' %>>
- <%= link_to raw('<i class="icon-list"></i>记录分析'), analysis_notes_path %>
-</li>
 <li <%= active if controller_name == 'notes' && action_name == 'group_count' %>>
  <%= link_to raw('<i class="icon-list"></i>记录统计'), group_count_notes_path %>
 </li>
 <li <%= active if controller_name == 'notes' && action_name == 'index' %>>
  <%= link_to raw('<i class="icon-list"></i>记录列表'), notes_path %>
 </li>
-
-
 </ul>

@@ -135,7 +135,7 @@ class Role < ActiveRecord::Base
       session.success = true if opts[:success].to_i == 1 #成功
       session.update_attributes(:ending=>true, :stopped_at=>now,:hours=>hours)
       # 记录note
-      Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,
+      Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,:version=>computer.version,
        :api_name=>"role_stop",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=> session.id,:sup_id=>account_session.id)
       # 清空会话
       return 1 if self.update_attributes(:session_id => 0)
