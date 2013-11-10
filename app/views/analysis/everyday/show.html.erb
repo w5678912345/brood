@@ -1,103 +1,11 @@
 <fieldset>
 <legend>日常情况分析</legend>
-<form class="form-search" action="<%= analysis_everyday_path %>">
-<div class="input-prepend input-append">
-<span class="add-on"><i class="icon-calendar"></i></span>
-<input type="text" name="start_date" id="start_date" value=<%=@start_date%> class="input-medium" placeholder="from" style="width:90px;" value="<%= @start_date.to_s %>" />
-<span class="add-on">-</span>
-<input type="text" name="end_date" id="end_date" value=<%=@end_date%> class="input-medium" placeholder="to" style="width:90px;" value="<%= @end_date.to_s %>" />
-<input type="text" name="server" class="input-small" placeholder="服务器" value="<%= params[:server]%>" />
-</div>
-<button type="submit" class="btn">Search</button>
-</form>
-<table class="table table-bordered table-condensed">
-<thead>
-<tr>
-	<th width="10%">日期</th>
-	<th colspan="3" style="text-align:center;">基本</th>
-	<th colspan="2"  style="text-align:center;">机器</th>
-	<th colspan="4"  style="text-align:center;">账号</th>
-	<th colspan="5" style="text-align:center;">角色</th>
-</tr>
-<tr>
-<td></td>
-<td>金币(<%="%d亿" % (@tradesum/100000000)%>)</td>
-<td>标准机</td> 
-<td>标准时</td>
-<!-- computer -->
-<td>Start</td>
-<td>Hours</td>
-<!-- account -->
-<td>Start</td>
-<td>Success</td>
-<td>%</td>
-<td>Hours</td>
-<!-- role -->
-<td>Online</td>
-<td>Start</td>
-<td>Success</td>
-<td>%</td>
-<td>Hours</td>
-</tr>
-</thead>
-<tbody>
-<% @tmp_notes.each do |n|%>
-<tr>
-<td class="date_cell"><%= n.date %><i class="icon-eye-open"></i></td>
-<td><%= "%d亿" % (@trade[n.date]/100000000) if @trade[n.date] %></td>
-<td><%= sprintf('%.2f', n.computer_sum_hours/24)%> 个</td>
-<td>
-	<%= sprintf('%.2f', n.account_sum_hours/n.role_success_count)  if n.role_success_count >0 %>
-</td>
 
-<!-- computer -->
-<td>
-<%= link_to "#{n.computer_start_count}台 / #{n.computer_start}次",computer_sessions_path(:date=>n.date)  %>
-</td>
+<%= render "form" %>
 
-<td><%= sprintf('%.2f', n.computer_sum_hours) %></td>
-<!-- account -->
-<td>
-<%= link_to "#{n.account_start_count}个 / #{n.account_start}次",account_sessions_path(:date=>n.date) %></td>
-<td>
-<%= link_to "#{n.account_success_count}次",account_sessions_path(:date=>n.date,:success=>1) %>
-</td>
-<td><%=  n.account_start >0 ? ("%2.0f%" % (n.account_success*100.00/n.account_start)) : "0%"  %></td>
-<td>
-<%= sprintf('%.2f', n.account_sum_hours)   %>
-</td>
-<!-- -->
-<td><%= link_to "#{n.role_online_count}个#{n.role_online}次",notes_path(:date=>n.date,:api_name=>"role_online") %>
-</td>
+<%= render "result" %>
 
-<td><%= link_to "#{n.role_start_count}个#{n.role_start}次",notes_path(:date=>n.date,:api_name=>"role_start")%></td>
-<td><%= link_to "#{n.role_success}次",notes_path(:date=>n.date,:api_name=>"role_success")%></td>
-<td>
-	<%=  n.account_start >0 ? ("%2.0f%" % (n.account_success*100.00/n.account_start)) : "0%"  %>
-</td>
-<td><%= sprintf('%.2f', n.role_sum_hours)   %></td>
-
-</tr>
-<tr style="display:none;">
-<td></td>
-<td colspan="12">
-
-</td>
-</tr>
-<%end%>
-</tbody>
-</table>
 </fieldset>
 
-<script type="text/javascript">
-$(function(){
-	$("#start_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
-	$("#end_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
 
-	$(".date_cell").click(function(){
-		$(this).parent().next().toggle();
-	});
-
-});
-</script>
 

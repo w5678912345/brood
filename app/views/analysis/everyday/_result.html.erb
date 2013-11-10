@@ -1,0 +1,77 @@
+<table class="table table-bordered table-condensed">
+<thead>
+<tr>
+	<th width="10%">日期</th>
+	<th colspan="3" style="text-align:center;">基本</th>
+	<th colspan="2" style="text-align:center;">机器</th>
+	<th colspan="4" style="text-align:center;">账号</th>
+	<th colspan="5" style="text-align:center;">角色</th>
+</tr>
+<tr>
+<th></th>
+<th>金币(<%="%d亿" % (@tradesum/100000000)%>)</th>
+<th>标准机</th> 
+<th>标准时</th>
+<!-- computer -->
+<th>Start</th>
+<th>Hours</th>
+<!-- account -->
+<th>Start</th>
+<th>Success</th>
+<th>%</th>
+<th>Hours</th>
+<!-- role -->
+<th title="被取得的角色">Online</th>
+<th title="被调度的角色">Start</th>
+<th>Success</th>
+<th>%</th>
+<th>Hours</th>
+</tr>
+</thead>
+<tbody>
+<% @tmp_notes.each do |n|%>
+<tr>
+<td class="date_cell"><%= n.date %><i class="icon-eye-open"></i></td>
+<td><%= "%d亿" % (@trade[n.date]/100000000) if @trade[n.date] %></td>
+<td><%= sprintf('%.2f', n.computer_sum_hours/24)%> 个</td>
+<td>
+	<%= sprintf('%.2f', n.account_sum_hours/n.role_success_count)  if n.role_success_count >0 %>
+</td>
+
+<!-- computer -->
+<td>
+<%= link_to "#{n.computer_start_count}台 / #{n.computer_start}次",computer_sessions_path(:date=>n.date)  %>
+</td>
+
+<td><%= sprintf('%.2f', n.computer_sum_hours) %></td>
+<!-- account -->
+<td>
+<%= link_to "#{n.account_start_count}个 / #{n.account_start}次",account_sessions_path(:date=>n.date) %></td>
+<td>
+<%= link_to "#{n.account_success_count}次",account_sessions_path(:date=>n.date,:success=>1) %>
+</td>
+<td><%=  n.account_start >0 ? ("%2.0f%" % (n.account_success*100.00/n.account_start)) : "0%"  %></td>
+<td>
+<%= sprintf('%.2f', n.account_sum_hours)   %>
+</td>
+<!-- -->
+<td><%= link_to "#{n.role_online_count}个#{n.role_online}次",notes_path(:date=>n.date,:api_name=>"role_online") %>
+</td>
+
+<td><%= link_to "#{n.role_start_count}个#{n.role_start}次",notes_path(:date=>n.date,:api_name=>"role_start")%></td>
+<td><%= link_to "#{n.role_success}次",notes_path(:date=>n.date,:api_name=>"role_success")%></td>
+<td>
+	<%=  n.account_start >0 ? ("%2.0f%" % (n.account_success*100.00/n.account_start)) : "0%"  %>
+</td>
+<td><%= sprintf('%.2f', n.role_sum_hours)   %></td>
+
+</tr>
+<tr style="display:none;">
+<td></td>
+<td colspan="12">
+
+</td>
+</tr>
+<%end%>
+</tbody>
+</table>
