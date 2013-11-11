@@ -49,7 +49,7 @@
 <td>
 <%= link_to "#{n.account_start_count}个 / #{n.account_start}次",notes_path(h.merge(:api_name=>"account_start")) %></td>
 <td>
-<%= link_to "#{n.account_success_count}次",notes_path(h.merge(:api_name=>"account_start",:success=>1)) %>
+<%= link_to "#{n.account_success}次",notes_path(h.merge(:api_name=>"account_start",:success=>1)) %>
 </td>
 <td><%=  n.account_start >0 ? ("%2.0f%" % (n.account_success*100.00/n.account_start)) : "0%"  %></td>
 <td>
