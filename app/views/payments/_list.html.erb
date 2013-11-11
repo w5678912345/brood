@@ -7,6 +7,7 @@
 <thead>
 <tr>
 	<th>时间</th>
+	<th>账号</th>
 	<th>角色</th>
 	<th>服务区</th>	
 	<th>支出金额</th>
@@ -18,16 +19,17 @@
 </thead>
 <tbody>
 <% @payments.each do |payment|%>
-	<tr>
-		<td><%= payment.id %>#<%= time_str payment.created_at  %></td>
-		<td><%= link_to "#{payment.role.account}##{payment.role.role_index}",payments_role_path(payment.role)  if payment.role %></td>
-		<td><%= payment.server %></td>
-		<td><%= payment.gold %></td>
-		<td><%= payment.balance %></td>
-		<td><%= payment.total %></td>
-		<td><%= payment.remark %></td>
-		<td><%= link_to payment.pay_type,payments_path(:type=>payment.pay_type) %></td>
-	</tr>
+<tr>
+	<td><%= payment.id %>#<%= time_str payment.created_at  %></td>
+	<td><%= account_tag payment.role.account%></td>
+	<td><%= link_to role_tag(payment.role_id)%></td>
+	<td><%= payment.server %></td>
+	<td><%= payment.gold %></td>
+	<td><%= payment.balance %></td>
+	<td><%= payment.total %></td>
+	<td><%= payment.remark %></td>
+	<td><%= link_to payment.pay_type,payments_path(:type=>payment.pay_type) %></td>
+</tr>
 <%end%>
 </tbody>
 </table>

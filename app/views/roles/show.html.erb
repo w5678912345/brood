@@ -25,7 +25,7 @@
 <th>当前金币：</th>
 <td><%= @role.gold %></td>
 <th>支出合计：</th>
-<td><%= link_to @role.total_pay,payments_role_path(@role) %></td>
+<td><%= link_to(@role.total_pay,payments_path(:role_id => @role.id),:target=>"_blank") %></td>
 <th>累计产出:</th>
 <td><%= @role.total_gold %></td>
 </tr>

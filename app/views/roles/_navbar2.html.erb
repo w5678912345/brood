@@ -3,9 +3,6 @@
 <li <%= active if controller_name == 'roles' && action_name == 'show' %>>
  <%= link_to raw('<i class="icon-info-sign"></i>角色信息'),role_path(@role)  %>
 </li>
-<li <%= active if controller_name == 'roles' && action_name == 'payments' %>>
- <%= link_to raw('<i class="icon-list"></i>金币支出'),payments_role_path(@role)  %>
-</li>
 <li <%= active if controller_name == 'roles' && action_name == 'edit' %>>
  <%= link_to raw('<i class="icon-pencil"></i>编辑角色'),edit_role_path(@role)  %>
 </li>
