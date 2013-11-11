@@ -30,7 +30,7 @@ class Role < ActiveRecord::Base
 
   scope :well_scope,where("(close_hours != 2400000 and close_hours != 120) or close_hours is null")
 
-  scope :online_scope, where(:online=>1)
+  scope :online_scope, where(:online=>true)
   scope :started_scope, where("session_id > 0 ") #已开始的角色
   scope :stopped_scope, where("session_id = 0 ") #已停止的角色
   # 等待上线的角色
