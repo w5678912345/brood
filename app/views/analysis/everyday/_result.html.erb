@@ -62,7 +62,7 @@
 <td><%= link_to "#{n.role_start_count}个#{n.role_start}次",notes_path(h.merge(:api_name=>"role_start"))%></td>
 <td><%= link_to "#{n.role_success}次",notes_path(h.merge(:api_name=>"role_start",:success=>1))%></td>
 <td>
-	<%=  n.account_start >0 ? ("%2.0f%" % (n.role_success*100.00/n.role_start)) : "0%"  %>
+	<%=  n.role_start >0 ? ("%2.0f%" % (n.role_success*100.00/n.role_start)) : "0%"  %>
 </td>
 <td><%= sprintf('%.2f', n.role_sum_hours)   %></td>
 
