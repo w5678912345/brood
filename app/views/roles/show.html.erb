@@ -1,24 +1,14 @@
 <%= render "navbar2" %>
-<fieldset>
-<legend>角色详细</legend>
-<table class="table">
-<thead>
-<tr>
-<th colspan="6">ID: <%= @role.id %>
-<%= link_to "查看记录", notes_path(:role_id=>@role.id),:target=>"_blank" %>
-</th>
 
-</tr>
-</thead>
+<table class="table">
 <tbody>
 <tr>
+<td>ID</td>
+<td><%= role_tag @role.id %></td>
 <th>账户:</th>
-<td><%= @role.account %>
-<%= role_icon @role %>
-<%= status_tag @role.status %>
+<td><%= account_tag @role.account %>
 </td>
-<td><b>密码:</b></td>
-<td>*********</td>
+
 <td><b>Index:</b></td>
 <td><%= @role.role_index  || "#" %></td>
 </tr>
@@ -41,45 +31,32 @@
 </tr>
 
 <!-- -->
+
 <tr>
-<th>在线:</th>
-<% if @role.is_started? %>
-<td> Yes </td>
-<th>计算机:</th>
-<td><%= link_to @role.session.computer.hostname,computer_path(@role.session.computer) if @role.session %></td>
-<th>IP</th>
-<td><%= link_to @role.ip,roles_ip_path(ip_to_url @role.ip) %></td>
-<%else%>
-<td colspan="5"> No </td>
-<%end%>
+<th>状态:</th>
+<td colspan="5"><%= @role.status %></td>
 </tr>
 
 <tr>
-<th>关闭:</th>
-<% if @role.close %>
-<td> Yes </td>
-<th>关闭时间:</th>
-<td><%= time_str @role.closed_at %> 
-<span class="label label-important">(<%= @role.close_hours%>小时)</span>
-</td>
-<th>重开时间:</th>
-<td><%= time_str @role.reopen_at %></td>
-<%else%>
-<td colspan="5"> No </td>
-<%end%>
-</tr>
-
-<tr>
+<th>状态:</th>
+<td><%= @role.status %></td>
 <th>创建时间</th>
 <td><%= time_str @role.created_at %></td>
 <th>修改时间</th>
 <td><%= time_str @role.updated_at %></td>
-<th>操作</th>
-<td> <%= link_to "查看记录", notes_path(:role_id=>@role.id),:target=>"_blank" %></td>
 </tr>
 
-
+<% if @role.is_started? %>
+<tr class="info">
+<td>在线:</td>
+<td><%= session_id_tag @role.session.id%></td>
+<td>计算机:</td>
+<td>
+<%= computer_tag @role.session.computer %></td>
+<td>IP</td>
+<td><%= link_to @role.session.ip,notes_path(:ip=>@role.session.ip) %></td>
+<%end%>
+</tr>
 </tbody>
 </table>
 
-</fieldset>

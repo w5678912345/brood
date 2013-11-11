@@ -140,18 +140,17 @@ class Account < ActiveRecord::Base
          :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:session_id=>session.id)
        # 修改机器的上线账号数量
        session.computer.increment(:online_accounts_count,-1) if session.computer && session.computer.online_accounts_count > 0 
-      # 清空角色 session
-       self.roles.update_all(:online => false)
        # 更新 session    
        now = Time.now
        hours = (now - session.created_at)/3600
-       role_dispatch_count = session.notes.where(:api_name=>"role_online").select(:role_id).uniq().count
-       role_success_count = session.subs.where(:api_name=>"role_start").where(:success=>true).select(:role_id).uniq().count
-       p "=====================#{role_dispatch_count}====#{role_success_count}"
-       # 调度的角色数量 等于 成功的角色数量，表示成功
-       session.success = true if role_dispatch_count == role_success_count
+      
+       p "=====================#{self.online_role_ids}====#{session.success_role_ids}"
+       # 参数成功，或者online 的角色 等于 success 的角色 表示本次会话成功
+       session.success = true if (opts[:success].to_i ==1) || (self.online_role_ids == session.success_role_ids)
        # 完成session 
        session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
+        # 修改角色 online
+       self.roles.update_all(:online => false)
        # 修改账号的session_id 为0 并清空上线 IP
        return 1 if self.update_attributes(:session_id=>0,:online_ip=>nil)
       end
@@ -187,12 +186,9 @@ class Account < ActiveRecord::Base
       return accounts
     end
 
-    def online_roles
-      self.roles.online_scope
-    end
 
     def online_role_ids
-      self.roles.online_scope.select(:id).uniq().map(&:id)
+      self.roles.online_scope.select(:id).reorder("id desc").uniq().map(&:id)
     end
 
     #为账号新建一个角色

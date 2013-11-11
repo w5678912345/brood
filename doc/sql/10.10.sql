@@ -87,6 +87,10 @@ delete from notes where api_name = 'auto_pay';
 update notes set api_name = api_code where api_code in ('normal','bslocked','bslocked_again','bs_unlock_fail','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','disable')
 
 
+select id,status,no,updated_at from accounts where status in('disconnect', 'exception', 'lost', 'bslocked', 'bs_unlock_fail') and normal_at is null;
+
+update accounts set normal_at = updated_at where status in('disconnect', 'exception', 'lost', 'bslocked', 'bs_unlock_fail') and normal_at is null;
+	
 
 
 # select count(DISTINCT role_id) from notes where api_name = 'NoRmsFile';

@@ -55,9 +55,10 @@ class Note < ActiveRecord::Base
         return self.api_name == 'role_start'
     end
 
-    def start_role_ids
-        return [] unless self.api_name != 'account_start'
-        self.subs.role_session_scope.success_scope.select(:id).uniq().map(&:role_id)
+    # 当前会话完成的角色ID
+    def success_role_ids
+        return [] unless self.api_name == 'account_start'
+        self.subs.role_session_scope.success_scope.select(:role_id).reorder("role_id desc").uniq().map(&:role_id)
     end
 
     #
