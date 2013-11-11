@@ -31,6 +31,9 @@ class Computer < ActiveRecord::Base
   scope :ubchecked_scope,where(:checked => false)
   scope :no_server_scope,where("server is null or server = '' ") #服务器为空的账号 
 	#
+  scope :started_scope, where("session_id > 0 ") #已开始的机器
+  scope :stopped_scope, where("session_id = 0 ") #已停止的机器
+  #
   validates_presence_of :hostname,:auth_key
   validates_uniqueness_of :auth_key
 
@@ -135,11 +138,21 @@ class Computer < ActiveRecord::Base
       end
   end
 
-    def self.reset_online_accounts_count
+  def self.reset_online_accounts_count
       computers = Computer.all
       computers.each do |computer|
         computer.update_attributes(:online_accounts_count => computer.online_accounts.count)
       end
+  end
+
+  # 机器每天
+  def self.auto_stop_start
+    computers = Computer.started_scope
+    h = {:ip=>"localhost",:msg=>"auto"}
+    computers.each do |computer|
+      computer.api_start(h)
+      computer.api_stop(h)
+    end
   end
 
   def self.auto_stop

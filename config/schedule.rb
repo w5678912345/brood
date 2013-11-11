@@ -35,14 +35,13 @@ end
 
 #
 every 60.minutes do
-  #runner 'Api.role_auto_reopen',:environment => str_environment
-  runner 'Account.auto_normal'
+  runner 'Account.auto_normal',:environment => str_environment
 end
 
 
-# every :day ,:at => '0:00 am' do
-#   runner 'Api.role_auto_pay',:environment => str_environment 
-# end
+every :day ,:at => '0:00 am' do
+  runner 'Computer.auto_stop_start',:environment => str_environment 
+end
 
 
 every :day, :at => '06:00 am' do

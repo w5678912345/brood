@@ -37,7 +37,7 @@ class Account < ActiveRecord::Base
     scope :stopped_scope, where("session_id = 0 ") #已停止的账号
     #
     scope :waiting_scope, joins(:roles).where("accounts.session_id = 0 and accounts.status = 'normal'")
-    .where("roles.vit_power > 0 and roles.status = 'normal' and roles.session_id = 0").where("roles.level < ?",Setting.role_max_level).readonly(false)
+    .where("roles.vit_power > 0 and roles.status = 'normal' and roles.session_id = 0 and roles.online = 0").where("roles.level < ?",Setting.role_max_level).readonly(false)
     #
     scope :bind_scope, where("bind_computer_id > 0") # 已绑定
     scope :waiting_bind_scope, where("bind_computer_id = 0") # 未绑定 ,等待绑定的账户

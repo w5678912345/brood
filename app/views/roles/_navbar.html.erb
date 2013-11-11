@@ -3,6 +3,9 @@
 <li <%= active if controller_name == 'roles' && action_name == 'index' %>>
  <%= link_to raw('<i class="icon-list"></i>角色列表'), roles_path %>
 </li>
+<li <%= active if controller_name == 'roles' && action_name == 'waiting' %>>
+ <%= link_to raw('<i class="icon-list"></i>等待上线'), waiting_roles_path %>
+</li>
 
 <li <%= active if controller_name == "roles" && action_name == 'group_count' %> >
  <%= link_to raw('<i class="icon-map-marker"></i>角色分布'), group_count_roles_path %>
