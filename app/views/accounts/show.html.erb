@@ -28,13 +28,21 @@
 </tr>
 
 <% if @account.is_started? %>
-<tr>
-	<th>在线角色</th>
-	<td><%= @account.online_role_id %></td>
-	<th>在线机器</th>
+<tr class="info">
+	<td>上线时间</td>
+	<td><%= time_str @account.session.created_at %> # <%= @account.session.hours %></td>
+	<td>在线机器</td>
 	<td><%= computer_tag @account.session.computer %></td>
-	<th>IP</th>
+	<td>IP</td>
 	<td><%= @account.session.ip %></td>
+</tr>
+<tr class="info">
+	<td>当前角色</td>
+	<td><%= @account.online_role_id %></td>
+	<td>会话</td>
+	<td><%= @account.session_id%><%= notes_link_tag(:session_id=>@account.session_id)%></td>
+	<td>成功</td>
+	<td><%= boolean_tag @account.session.success %></td>
 </tr>
 <%end%>
 

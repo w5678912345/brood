@@ -23,13 +23,14 @@ class Role < ActiveRecord::Base
   # validates 
 	validates_presence_of :account, :password
 	# 可以上线的角色
-  scope :can_online_scope, where(:online => false).where(:close => false).where(:locked=>false)
-    .where(:lost=>false).where("vit_power > 0").where(:normal => true).where(:status=>1).where("level < ?",Setting.role_max_level)
+  # scope :can_online_scope, where(:online => false).where(:close => false).where(:locked=>false)
+  #   .where(:lost=>false).where("vit_power > 0").where(:normal => true).where(:status=>1).where("level < ?",Setting.role_max_level)
 	
-	default_scope order("online desc").order("close asc").order("level desc").order("vit_power desc")
+	default_scope order("level desc").order("vit_power desc")
 
   scope :well_scope,where("(close_hours != 2400000 and close_hours != 120) or close_hours is null")
 
+  scope :online_scope, where(:online=>1)
   scope :started_scope, where("session_id > 0 ") #已开始的角色
   scope :stopped_scope, where("session_id = 0 ") #已停止的角色
   # 等待上线的角色

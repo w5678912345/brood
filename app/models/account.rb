@@ -187,6 +187,14 @@ class Account < ActiveRecord::Base
       return accounts
     end
 
+    def online_roles
+      self.roles.online_scope
+    end
+
+    def online_role_ids
+      self.roles.online_scope.select(:id).uniq().map(&:id)
+    end
+
     #为账号新建一个角色
     def add_new_role
       self.roles.build(:account=>self.no,:password => self.password,:role_index => self.roles.count,:vit_power=>156,:server => self.server)

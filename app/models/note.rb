@@ -42,6 +42,24 @@ class Note < ActiveRecord::Base
         return ['computer_start','account_start','role_start'].include? self.api_name
     end
 
+
+    def is_computer_session?
+        return self.api_name == 'computer_start'
+    end
+
+    def is_account_session?
+        return self.api_name == 'account_start'
+    end
+
+    def is_role_session?
+        return self.api_name == 'role_start'
+    end
+
+    def start_role_ids
+        return [] unless self.api_name != 'account_start'
+        self.subs.role_session_scope.success_scope.select(:id).uniq().map(&:role_id)
+    end
+
     #
     def self.list_search opts
         notes = Note.where("id>0")

@@ -32,7 +32,9 @@
 <% @tmp_notes.each do |n|%>
 <% h = {:date=>n.date,:server=>params[:server]}%>
 <tr>
-<td class="date_cell"><%= n.date %><i class="icon-eye-open"></i></td>
+<td class="date_cell"><%= n.date %>
+<%= link_to raw('<i class="icon-eye-open"></i>'),group_count_notes_path(h),:target=>"_blank"%>
+</td>
 <td><%= "%d亿" % (@trade[n.date]/100000000) if @trade[n.date] %></td>
 <td><%= sprintf('%.2f', n.computer_sum_hours/24)%> 个</td>
 <td>

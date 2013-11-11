@@ -16,17 +16,18 @@
 <option value="<%= status%>" <%= 'selected="selected"' if params[:status] == status %>><%= status %></option>
 <%end%>
 </select>
-在线:
-<select name="started" class="input-small">
-	<option value="">-All-</option>
-	<option value="1" <%= 'selected="selected"' if params[:started] == "1" %>>Yes</option>
-	<option value="0" <%= 'selected="selected"' if params[:started] == "0" %> >No</option>
-</select>
 调度:
 <select name="online" class="input-small">
 	<option value="">-All-</option>
 	<option value="1" <%= 'selected="selected"' if params[:online] == "1" %>>Yes</option>
 	<option value="0" <%= 'selected="selected"' if params[:online] == "0" %> >No</option>
+</select>
+
+在线:
+<select name="started" class="input-small">
+	<option value="">-All-</option>
+	<option value="1" <%= 'selected="selected"' if params[:started] == "1" %>>Yes</option>
+	<option value="0" <%= 'selected="selected"' if params[:started] == "0" %> >No</option>
 </select>
 
 
