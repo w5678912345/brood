@@ -38,10 +38,6 @@ every 60.minutes do
   runner 'Account.auto_normal',:environment => str_environment
 end
 
-every 9.minutes do
-  runner 'Account.auto_unbind',:environment => str_environment
-end
-
 every :day ,:at => '00:01 am' do
   runner 'Computer.auto_stop_start',:environment => str_environment 
 end
