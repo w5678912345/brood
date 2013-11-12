@@ -229,7 +229,7 @@ class Account < ActiveRecord::Base
 
       # 自动禁用账号的绑定
    def self.auto_unbind
-      time = Time.now.ago(24.hour)
+      time = Time.now.ago(1.day)
       accounts = Account.stopped_scope.where("bind_computer_id != -1").where("updated_at < ?",time)
       accounts.each do |account|
           account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto"})
