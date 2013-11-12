@@ -26,7 +26,7 @@ class Analysis::EverydayController < Analysis::AppController
 		@tmp_notes = @tmp_notes.where(:server=>params[:server]) unless params[:server].blank?
 		@tmp_notes = @tmp_notes.group("date(created_at)").date_scope(@start_date,@end_date).reorder("date(created_at) desc")
 		#
-		tradetemp = Payment.select("date(created_at) as Day,sum(gold) Gold").group("date(created_at)").
+		tradetemp = Payment.select("date(created_at) as Day,sum(gold) Gold").trade_scope.group("date(created_at)").
 						time_scope(@start_date,@end_date).order("date(created_at)")
 		@trade = {}
 		@tradesum = 0
@@ -38,3 +38,9 @@ class Analysis::EverydayController < Analysis::AppController
 	end
 
 end
+
+
+
+Payment.select("date(created_at) as Day,sum(gold) Gold").group("date(created_at)").order("date(created_at)")
+
+

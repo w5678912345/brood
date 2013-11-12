@@ -158,8 +158,8 @@ class Computer < ActiveRecord::Base
     computers = Computer.started_scope
     h = {:ip=>"localhost",:msg=>"auto"}
     computers.each do |computer|
-      computer.api_start(h)
       computer.api_stop(h)
+      computer.api_start(h)
     end
   end
 

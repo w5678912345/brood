@@ -9,7 +9,7 @@
 </tr>
 <tr>
 <th></th>
-<th>金币(<%="%d亿" % (@tradesum/100000000)%>)</th>
+<th title="<%= @tradesum %>">金币(<%="%d亿" % (@tradesum/100000000)%>)</th>
 <th title="机器总时间/24">标准机</th> 
 <th title="账号总时间/角色成功数">标准时</th>
 <!-- computer -->
@@ -35,7 +35,7 @@
 <td class="date_cell"><%= n.date %>
 <%= link_to raw('<i class="icon-eye-open"></i>'),group_count_notes_path(h),:target=>"_blank"%>
 </td>
-<td><%= "%d亿" % (@trade[n.date]/100000000) if @trade[n.date] %></td>
+<td tilte="<%= @trade[n.date] %>"><%= "%d亿" % (@trade[n.date]/100000000) if @trade[n.date] %></td>
 <td><%= sprintf('%.2f', n.computer_sum_hours/24)%> 个</td>
 <td>
 	<%= sprintf('%.2f', n.account_sum_hours/n.role_success_count)  if n.role_success_count >0 %>

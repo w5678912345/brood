@@ -39,7 +39,7 @@ every 60.minutes do
 end
 
 
-every :day ,:at => '11:55 pm' do
+every :day ,:at => '00:01 am' do
   runner 'Computer.auto_stop_start',:environment => str_environment 
 end
 
