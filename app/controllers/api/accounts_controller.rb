@@ -53,6 +53,7 @@ class Api::AccountsController < Api::BaseController
 	# 显示帐号信息
 	def show
 		@code = 1 if @account
+		#@accounts.online_roles = @account.roles
 		render :partial => '/api/accounts/data'
 	end
 
