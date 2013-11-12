@@ -64,15 +64,13 @@ class Account < ActiveRecord::Base
       computer = Computer.find_by_auth_key(opts[:ckey])
       self.transaction do
         #增加计算机上线账号数
-        computer.increment(:online_accounts_count,1)
+        computer.update_attributes(:online_accounts_count => computer.online_accounts_count+1)
         #增加ip使用次数
         ip.update_attributes(:use_count=>ip.use_count+1)
-        # # 记录 session
-        # session = Session.create(:computer_id => computer.id,:account=>self.no,:ip=>ip.value,
-        #   :hostname=>computer.hostname,:server => computer.server,:version => computer.version)
         #插入账号开始记录
         tmp = {:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>ip.value,:api_name=>"account_start",
            :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version}
+        # 记录 session
         session = Note.create(tmp)
         
         # 可以调度的角色
@@ -87,6 +85,7 @@ class Account < ActiveRecord::Base
             role.update_attributes(:online=>true,:online_note_id=>role_note.id) # 修改角色 session_id
         end
         # 修改session 并修改上线 IP
+        computer.save
         return 1 if self.update_attributes(:session_id=>session.id,:online_ip=>ip.value)
       end
     end
@@ -139,7 +138,7 @@ class Account < ActiveRecord::Base
        Note.create(:account => self.no, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_stop',:msg=>opts[:msg],
          :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:session_id=>session.id)
        # 修改机器的上线账号数量
-       session.computer.increment(:online_accounts_count,-1) if session.computer && session.computer.online_accounts_count > 0 
+       computer.update_attributes(:online_accounts_count => computer.online_accounts_count-1) if computer.online_accounts_count > 0
        # 更新 session    
        now = Time.now
        hours = (now - session.created_at)/3600
@@ -233,14 +232,38 @@ class Account < ActiveRecord::Base
    # def bind_computer cid
 
    # end
-   # 
-   #
-   def unbind_computer opts
+
+   # 绑定机器
+   def do_bind_computer computer,opts
+      return unless computer
+      return if self.bind_computer_id != 0
+      self.transaction do 
+        # 绑定机器
+        self.update_attributes(:bind_computer_id => computer.id,:server => computer.server)
+        # 修改机器绑定数量
+        computer.update_attributes(:accounts_count =>computer.accounts_count+1)
+        # 插入记录
+        note = Note.create(:account => self.no, :computer_id=>computer.id || 0,:ip=>opts[:ip],:api_name=>'bind_computer',:msg=>opts[:msg],
+           :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname)
+      end
+   end
+
+   # 取消绑定
+   def do_unbind_computer opts
       return if self.bind_computer_id == -1
-      computer = self.bind_computer || Computer.new
-      note = Note.create(:account => self.no, :computer_id=>computer.id || 0,:ip=>opts[:ip],:api_name=>'unbind_computer',:msg=>opts[:msg],
-         :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname)
-      self.update_attributes(:bind_computer_id => -1)
+      computer = self.bind_computer
+      self.transaction do 
+        # 禁用绑定
+        self.update_attributes(:bind_computer_id => -1)
+        return unless computer
+        # 修改机器的账号数量
+        computer.update_attributes(:accounts_count=>computer.accounts_count-1) if computer.accounts_count > 0
+        # 默认IP
+        opts[:ip] = "localhost" if opts[:ip].blank?
+        # 插入记录
+        note = Note.create(:account => self.no, :computer_id=>computer.id || 0,:ip=>opts[:ip],:api_name=>'unbind_computer',:msg=>opts[:msg],
+             :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname)
+      end
    end
 
    # 自动禁用账号的绑定

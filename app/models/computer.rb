@@ -116,20 +116,20 @@ class Computer < ActiveRecord::Base
     accounts = Account.waiting_bind_scope.where("server is null or server = '' or server = ? ",self.server).limit(can_accounts_count)
     accounts = accounts.where("status = ?",opts[:status]) unless opts[:status].blank?
     return if accounts.blank?
-    # 绑定账户
-    accounts.update_all(:bind_computer_id => self.id,:bind_computer_at => Time.now,:server => self.server)
-    self.accounts_count = self.accounts_count + accounts.length
-    self.save
+    accounts.each do |account|
+      account.do_bind_computer(self,opts) # 绑定
+    end
   end
+
+
+
 
   # 清空绑定账户
   def clear_bind_accounts opts
     accounts = self.accounts.stopped_scope
     accounts.each do |account|
-        account.unbind_computer(opts)
+        account.do_unbind_computer(opts)
     end
-
-    #self.update_attributes(:accounts_count => self.accounts.count) # 修改 绑定账户数量
   end
 
   def find_or_create_server

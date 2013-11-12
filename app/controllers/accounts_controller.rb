@@ -49,14 +49,14 @@ class AccountsController < ApplicationController
 			#
 			@accounts = @accounts.stopped_scope.where("bind_computer_id != -1")
 			@accounts.each do |account|
-				account.unbind_computer(opts={:ip=>request.remote_ip,:msg=>"click"})
+				account.do_unbind_computer(opts={:ip=>request.remote_ip,:msg=>"click"})
 			end
 			flash[:msg] = "#{@accounts.length}个账号,被禁用绑定!"
 			return redirect_to accounts_path(:bind=>-1)
 		# 清空绑定
 		elsif "clear_bind" == @do
 			# 未上线并禁用绑定账户，才能启用绑定
-			c = @accounts.unbind_scope.stopped_scope.update_all(:bind_computer_id => 0)
+			c = @accounts.unbind_scope.stopped_scope.update_all(:bind_computer_id => 0,:updated_at=>Time.now)
 			flash[:msg] = "#{c}个账号,进入待绑定状态!"
 			return redirect_to accounts_path(:bind=> 0)
 		# 添加角色
