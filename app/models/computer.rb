@@ -164,7 +164,7 @@ class Computer < ActiveRecord::Base
   end
 
   def self.auto_stop
-    last_at = Time.now.ago(10.minutes).strftime("%Y-%m-%d %H:%M:%S")
+    last_at = Time.now.ago(10.minute).strftime("%Y-%m-%d %H:%M:%S")
     computers = Computer.where(:started=>true).where("updated_at < '#{last_at}'")
     computers.each do |computer|
       computer.api_stop({:ip=>"localhost",:msg=>"auto"})

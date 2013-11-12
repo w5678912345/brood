@@ -61,7 +61,7 @@ class ComputersController < ApplicationController
       return redirect_to computers_path(:checked=>0)
     elsif @do == "bind_accounts"
       @computers.each do |computer|
-          computer.auto_bind_accounts(opts={:status=>params[:status],:ip=>request.remote_ip})
+          computer.auto_bind_accounts(opts={:status=>params[:status],:ip=>request.remote_ip,:msg=>"click"})
       end
       flash[:msg] = "为#{@computers.length}台机器，分配了账号"
       return redirect_to computers_path()

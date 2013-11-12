@@ -227,6 +227,15 @@ class Account < ActiveRecord::Base
       end
    end
 
+      # 自动禁用账号的绑定
+   def self.auto_unbind
+      time = Time.now.ago(24.hour)
+      accounts = Account.stopped_scope.where("bind_computer_id != -1").where("updated_at < ?",time)
+      accounts.each do |account|
+          account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto"})
+      end
+   end
+
 
    # #绑定计算机
    # def bind_computer cid
@@ -266,15 +275,7 @@ class Account < ActiveRecord::Base
       end
    end
 
-   # 自动禁用账号的绑定
-   def self.auto_unbind
-      time = Time.now.ago(2.day)
-      accounts = Account.where("updated_at < ?",time)
-      accounts.each do |account|
-          account.unbind_computer(opts={:ip=>"localhost",:msg=>"auto"})
-      end
-      #accounts.update_all(:bind_computer_id => -1)
-   end
+
 
     #
     def sellers
