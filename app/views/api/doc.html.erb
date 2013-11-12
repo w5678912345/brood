@@ -97,7 +97,7 @@ discard(永久封停close120小时和24万小时), </br> no_rms_file, no_qq_toke
 
 <tr>
 <td>accounts/stop.json</td>
-<td>通过 帐号回收对应account的属性,参数: id => 账号, ckey => 计算机key  ,msg => 消息 <span class="badge badge-important">New</span></td>
+<td>通过 帐号回收对应account的属性,参数: id => 账号, success => 成功(1表示成功), ckey => 计算机key  ,msg => 消息 <span class="badge badge-important">New</span></td>
 </tr>
 
 <tr>
@@ -110,7 +110,7 @@ discard(永久封停close120小时和24万小时), </br> no_rms_file, no_qq_toke
 <tr>
 <td>roles/:id/sync.json
 </td>
-<td>通过id修改role的属性 server,level,role_index,vit_power,gold，status => 状态, event => 事件, ckey => 计算机key, msg => 消息</br>
+<td>通过id修改role的属性 server,level,role_index,vit_power,gold, success => 成功(1表示成功), status => 状态, event => 事件, ckey =>key, msg => 消息</br>
 <b>
 status => <%= Role::STATUS.to_s.gsub("\"","") %> </br>
 event  => <%= Role::EVENT.to_s.gsub("\"","") %>
@@ -125,7 +125,7 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 </tr>
 <tr>
 <td>roles/:id/stop.json</td>
-<td>通过id 停止角色，参数：ckey => 计算机key <span class="badge badge-important">New</span></td>
+<td>通过id 停止角色，参数：success => 成功(1表示成功), ckey => 计算机key <span class="badge badge-important">New</span></td>
 </tr>
 
 

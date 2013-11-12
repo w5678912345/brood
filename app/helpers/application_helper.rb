@@ -89,7 +89,7 @@ module ApplicationHelper
 	def note_tag note
 		return unless note || note.api_name == "0"
 		return note.api_name unless note.is_session?
-		hours = note.ending ? raw("&nbsp;<span class='label label-info' title='在线小时'>#{sprintf('%.2f',note.hours)}</span>") : ""
+		hours = raw("&nbsp;<span class='label label-info' title='在线小时'>#{sprintf('%.2f',note.hours)}</span>")
 		return link_to(raw("<span class='badge badge-success' title='成功'>#{note.api_name}</span>#{hours}"),notes_path(:session_id => note.id)) if note.success  
 		return link_to(raw("<span class='badge badge-warning' title='进行中'>#{note.api_name}</span>#{hours}"),notes_path(:session_id => note.id)) unless note.ending 
 		return link_to(raw("<span class='badge badge-important' title='失败'>#{note.api_name}</span>#{hours}"),notes_path(:session_id => note.id)) unless note.success  

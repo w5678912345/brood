@@ -143,7 +143,7 @@ class Account < ActiveRecord::Base
        now = Time.now
        hours = (now - session.created_at)/3600
       
-       p "=====================#{self.online_role_ids}====#{session.success_role_ids}"
+       #p "=====================#{self.online_role_ids}====#{session.success_role_ids}"
        # 参数成功，或者online 的角色 等于 success 的角色 表示本次会话成功
        session.success = true if (opts[:success].to_i ==1) || (self.online_role_ids == session.success_role_ids)
        # 完成session 
@@ -215,7 +215,7 @@ class Account < ActiveRecord::Base
       now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
       # 状态为可恢复，并且恢复时间小于当前时间的账号
       accounts = Account.where("status in (?)",Auto_Normal.keys).where("normal_at <= '#{now}'").reorder(:id)
-      accounts.update_all(:status => "normal",:normal => nil)
+      accounts.update_all(:status => "normal",:normal => nil,:updated_at => Time.now)
     end
 
    # 账号自动停止

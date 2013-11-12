@@ -8,8 +8,8 @@ module TimeTask
 	end
 
 	def self.auto_stop
-		Role.auto_stop
 		Account.auto_stop
+		#Role.auto_stop
 		Computer.auto_stop
 	end
 
