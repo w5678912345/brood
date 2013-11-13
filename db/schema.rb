@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131108025055) do
+ActiveRecord::Schema.define(:version => 20131113084039) do
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                       :null => false
@@ -76,6 +76,16 @@ ActiveRecord::Schema.define(:version => 20131108025055) do
   end
 
   add_index "comroles", ["role_id", "computer_id"], :name => "index_comroles_on_role_id_and_computer_id", :unique => true
+
+  create_table "data_nodes", :force => true do |t|
+    t.string   "computers",  :limit => 500, :default => "{}", :null => false
+    t.string   "accounts",   :limit => 500, :default => "{}", :null => false
+    t.string   "roles",      :limit => 500, :default => "{}", :null => false
+    t.string   "events",     :limit => 500, :default => "{}", :null => false
+    t.string   "opts",       :limit => 500, :default => "{}", :null => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
+  end
 
   create_table "ips", :primary_key => "value", :force => true do |t|
     t.integer  "use_count",  :default => 0, :null => false

@@ -14,6 +14,11 @@ Brood::Application.routes.draw do
   end
 
   #
+  resources :data_nodes, :only => [:index] do 
+    post :mark,         :on => :collection
+  end
+
+  #
   resources :roles do
     get		:home,  			:on => :collection
     get		:import, 			:on => :collection

@@ -1,0 +1,26 @@
+<fieldset>
+<legend>数据采集</legend>
+<%= form_tag(mark_data_nodes_path, method: :post,:class=>"form-inline") do %>
+<button type="submit" class="btn btn-primary">采集数据</button>
+<%end%>
+
+<table class="table">
+<thead>
+<tr>
+<th>采样时间</th>
+<th>账号状态分布</th>		
+</tr>
+</thead>
+<tbody>
+<% @data_nodes.each do |data|%>
+<tr>
+	<td><%= time_str data.created_at %></td>
+	<td><%= data.accounts_data %></td>
+</tr>
+<%end%>
+</tbody>
+</table>
+
+<%= will_paginate @data_nodes,inner_window: 1, outer_window: 0  %>
+
+</fieldset>
