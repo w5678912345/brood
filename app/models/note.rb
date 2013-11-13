@@ -55,6 +55,13 @@ class Note < ActiveRecord::Base
         return self.api_name == 'role_start'
     end
 
+    def update_hours
+        return unless self.is_session?
+        now = Time.now
+        hours = (now - self.created_at)/3600
+        self.update_attributes(:hours=>hours)
+    end
+
     # 当前会话完成的角色ID
     def success_role_ids
         return [] unless self.api_name == 'account_start'

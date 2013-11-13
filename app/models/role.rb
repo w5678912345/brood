@@ -117,6 +117,12 @@ class Role < ActiveRecord::Base
       end
       # 修改账号最后访问时间
       self.qq_account.update_attributes(:updated_at => Time.now)
+      #
+      session.update_hours
+      account_session.update_hours
+      # 更新机器使用时间
+      computer.session.update_hours if computer.session
+
       # 修改角色最后访问时间
       return 1 if self.update_attributes(:updated_at => Time.now)
      end

@@ -10,8 +10,6 @@ class Api::TasksController < Api::BaseController
 			return @code = CODES[:not_find_computer] unless @computer
 			# update computer
 			@computer.update_attributes(:updated_at=>Time.now)
-			# 更新机器使用时间
-      		@computer.update_hours
 			@task = Task.where(:pushed=>false).where(:computer_id => @computer.id).where(:pushed=>false).first
 
 		elsif !params[:rid].blank?

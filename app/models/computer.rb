@@ -61,14 +61,6 @@ class Computer < ActiveRecord::Base
     return self.server.blank?
   end
 
-  #
-  def update_hours
-    return unless self.session
-    now = Time.now
-    hours = (now - self.session.created_at)/3600
-    self.session.update_attributes(:hours=>hours)
-  end
-
   # 机器注册
   def api_reg opts
     return CODES[:not_valid_computer] unless self.valid?
