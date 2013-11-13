@@ -2,7 +2,8 @@
 class Account < ActiveRecord::Base
     CODES = Api::CODES
     # 账号可能发生的状态
-    STATUS = ['normal','bslocked','bslocked_again','bs_unlock_fail','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token']
+    STATUS = ['normal','bslocked','bslocked_again','bs_unlock_fail','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','discardfordays','discardbysailia','discardforyears']
+    #CAN_START_STATUS=['normal','bslocked','disconnect','exception']
     # 账号可能发生的事件
     EVENT = ['bslock','bs_unlock_fail','bs_unlock_success']
     Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线","set_status"=>"修改状态"}
@@ -36,7 +37,7 @@ class Account < ActiveRecord::Base
     scope :started_scope, where("session_id > 0 ") #已开始的账号
     scope :stopped_scope, where("session_id = 0 ") #已停止的账号
     #
-    scope :waiting_scope, joins(:roles).where("accounts.session_id = 0 and accounts.status = 'normal'")
+    scope :waiting_scope, joins(:roles).where("accounts.session_id = 0").where("accounts.status = 'normal' or (accounts.status in (?) and accounts.normal_at < ?)", Account::Auto_Normal.keys,Time.now)
     .where("roles.vit_power > 0 and roles.status = 'normal' and roles.session_id = 0 and roles.online = 0").where("roles.level < ?",Setting.role_max_level).readonly(false)
     #
     scope :bind_scope, where("bind_computer_id > 0") # 已绑定
@@ -119,6 +120,10 @@ class Account < ActiveRecord::Base
           :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id,:api_code=>api_code)
         return 1 if self.update_attributes(:updated_at => Time.now)
       end
+    end
+
+    #
+    def api_note opts
     end
 
 
@@ -212,10 +217,10 @@ class Account < ActiveRecord::Base
 
     #账号自动恢复normal 状态
     def self.auto_normal
-      now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+      #now = Time.now.strftime("%Y-%m-%d %H:%M:%S")
       # 状态为可恢复，并且恢复时间小于当前时间的账号
-      accounts = Account.where("status in (?)",Auto_Normal.keys).where("normal_at <= '#{now}'").reorder(:id)
-      accounts.update_all(:status => "normal",:normal => nil,:updated_at => Time.now)
+      #accounts = Account.where("status in (?)",Auto_Normal.keys).where("normal_at <= '#{now}'").reorder(:id)
+      #accounts.update_all(:status => "normal",:normal => nil,:updated_at => Time.now)
     end
 
    # 账号自动停止

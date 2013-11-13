@@ -29,14 +29,14 @@ str_environment = 'production'
 # end
 
 #
-every 25.minutes do
+every 30.minutes do
   runner 'TimeTask.auto_stop',:environment => str_environment
 end
 
 #
-every 60.minutes do
-  runner 'Account.auto_normal',:environment => str_environment
-end
+# every 60.minutes do
+#   runner 'Account.auto_normal',:environment => str_environment
+# end
 
 every :day ,:at => '00:01 am' do
   runner 'Computer.auto_stop_start',:environment => str_environment 

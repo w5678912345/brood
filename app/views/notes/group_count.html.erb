@@ -15,7 +15,7 @@
 <% if n.api_name != "0" %>
 <tr>
 	<td><%= n.api_name %></td>
-	<td><%= link_to n.ncount,notes_path(:event=>n.api_name) %></td>
+	<td><%= link_to n.ncount,notes_path(params.merge(:api_name=>n.api_name)) %></td>
 </tr>
 <%end%>
 <%end%>

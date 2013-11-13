@@ -85,6 +85,31 @@ class AccountsController < ApplicationController
 	end
 
 	#
+	def setting
+		@status = Account::STATUS
+		@hash = Account::Auto_Normal
+	end
+
+	def set
+		@status = Account::STATUS
+		pkeys =@status && params.keys
+		pkeys.each do |k|
+			v = params[k].to_i
+			if v > 0 
+				Account::Auto_Normal[k] = v
+			else
+				Account::Auto_Normal.delete(k)
+			end
+		end
+		redirect_to setting_accounts_path
+	end
+
+	def update_setting
+		auto_normal = params[:auto_normal]
+		#redirect_to setting_accounts_path
+	end
+
+	#
 	def import
 		
 	end

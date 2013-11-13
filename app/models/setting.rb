@@ -2,6 +2,8 @@
 class Setting < ActiveRecord::Base
    attr_accessible :ip_max_use_count, :role_timeout_minutes,:key,:val
 
+   #ROLE_MAX_LEVEL = 
+
    def self.find_value_by_key key
 		setting = Setting.find_by_key(key)
 		return setting.val  if setting

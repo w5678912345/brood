@@ -9,6 +9,8 @@ Brood::Application.routes.draw do
     get   :import,      :on => :collection
     post  :do_import,   :on => :collection
     get   :group_count, :on => :collection
+    get   :setting,     :on => :collection
+    post  :set,         :on => :collection
   end
 
   #

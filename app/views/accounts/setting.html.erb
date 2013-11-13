@@ -1,0 +1,29 @@
+<%= render "ul" %>
+<fieldset>
+<legend>账号设置</legend>
+<%= form_tag(set_accounts_path, method: :post,:class=>"form-horizontal") do %>
+<table class="table">
+<thead>
+<tr>
+	<th>状态</th>
+	<th>冷却时间(小时)</th>
+</tr>		
+</thead>
+<tbody>
+<% @status.each do |s|%>
+<tr>
+	<td><%= s %></td>
+	<td>
+	<% if @hash.has_key?(s)%>
+		<input type="text" class="input-mini" name="<%= s %>" value="<%= @hash[s] %>" style="border-color:red;" />
+	<%else%>
+		<input type="text" class="input-mini" name="<%= s %>" value="0" />
+	<%end%>
+	</td>
+</tr>
+<%end%>
+</tbody>
+</table>
+<button type="submit" class="btn btn-primary">确 定</button>
+<%end %>
+</fieldset>

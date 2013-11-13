@@ -214,7 +214,9 @@ class Role < ActiveRecord::Base
 
 
 
-	
+#  discardfordays
+#  discardforyears
+#  discardbysailia
   def to_account
     account =  Account.new(:no => self.account,:password => self.password,:server => self.server)
     account.roles << self
@@ -227,8 +229,12 @@ class Role < ActiveRecord::Base
       account.status = 'disconnect'
     elsif self.close && self.close_hours == 3
       account.status = 'exception'
-    elsif self.close && (self.close_hours == 120 || self.close_hours == 2400000)
-        account.status = 'discard'
+    elsif self.close && (self.close_hours == 120 || self.close_hours == 72)
+        account.status = 'discardfordays'
+    elsif self.close && (self.close_hours == 120000)
+        account.status = 'discardbysailia'
+    elsif self.close && (self.close_hours == 2400000)
+        account.status = 'discardforyears'
     elsif self.locked
       account.status = 'locked'
     elsif self.lost
