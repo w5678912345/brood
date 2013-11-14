@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131113084039) do
+ActiveRecord::Schema.define(:version => 20131114064140) do
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                       :null => false
@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(:version => 20131113084039) do
     t.datetime "bind_computer_at"
     t.datetime "normal_at"
     t.integer  "session_id",         :default => 0,        :null => false
+    t.boolean  "today_success",      :default => false,    :null => false
+    t.integer  "current_role_id",    :default => 0,        :null => false
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true
@@ -175,6 +177,7 @@ ActiveRecord::Schema.define(:version => 20131113084039) do
     t.string   "ip_range2"
     t.integer  "computers_count",               :default => 0,        :null => false
     t.integer  "session_id",                    :default => 0,        :null => false
+    t.boolean  "today_success",                 :default => false,    :null => false
   end
 
   create_table "servers", :force => true do |t|

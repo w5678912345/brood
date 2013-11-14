@@ -30,7 +30,7 @@
   	<th>金币</th>
 	<th>在线</th>
 	<th>状态</th>
-	<th>操作</th>
+	<th>成功</th>
 </tr>
 </thead>
 <tbody id="roles_data">
@@ -52,7 +52,7 @@
 <%= raw("#{role.session_id}#{notes_link_tag(:session_id => role.session_id )}") if role.session_id>0  %>
 </td>
 <td><%= role.status %></td>
-<td>#</td>
+<td><%= boolean_tag role.today_success %></td>
 </tr>
 <%end%>
 </tbody>

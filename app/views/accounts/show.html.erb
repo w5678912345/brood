@@ -22,9 +22,11 @@
 
 <tr>
 <td>修改时间</td>
-<td colspan="3"><%= time_str @account.updated_at %></td>
+<td><%= time_str @account.updated_at %></td>
 <th>恢复时间</th>
 <td> <%= time_str @account.normal_at %></td>
+<td>今天成功</td>
+<td><%= boolean_tag @account.today_success %></td>
 </tr>
 
 <% if @account.is_started? %>
@@ -41,7 +43,7 @@
 	<td><%= @account.online_role_id %></td>
 	<td>会话</td>
 	<td><%= @account.session_id%><%= notes_link_tag(:session_id=>@account.session_id)%></td>
-	<td>成功</td>
+	<td>会话成功</td>
 	<td><%= boolean_tag @account.session.success %></td>
 </tr>
 <%end%>

@@ -27,7 +27,7 @@
 <th>在线</th>
 <th>创建时间</th>
 <th>状态</th>
-<th>操作</th>
+<th>成功</th>
 </tr>
 </thead>
 <tbody id="accounts_data">
@@ -52,12 +52,11 @@
 <%= link_to account.session.ip,notes_path(:ip => account.session.ip) %> #
 
 <%=  account.online_role_id ==0 ? 'No Role ' : link_to(account.online_role_id,role_path(account.online_role.id)) %>
-
 <% end %>
 </td>
 <td><%= time_str account.created_at %></td>
 <td><%= account.status %></td>
-<td>#</td>
+<td><%= boolean_tag account.today_success %></td>
 </tr>
 <%end%>
 </tbody>

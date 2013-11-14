@@ -37,8 +37,8 @@ class Account < ActiveRecord::Base
     scope :started_scope, where("session_id > 0 ") #已开始的账号
     scope :stopped_scope, where("session_id = 0 ") #已停止的账号
     #
-    scope :waiting_scope, joins(:roles).where("accounts.session_id = 0").where("accounts.status = 'normal' or (accounts.status in (?) and accounts.normal_at < ?)", Account::Auto_Normal.keys,Time.now)
-    .where("roles.vit_power > 0 and roles.status = 'normal' and roles.session_id = 0 and roles.online = 0").where("roles.level < ?",Setting.role_max_level).readonly(false)
+    scope :waiting_scope, joins(:roles).where("accounts.session_id = 0 and accounts.today_success = 0").where("accounts.status = 'normal' or (accounts.status in (?) and accounts.normal_at < ?)", Account::Auto_Normal.keys,Time.now)
+    .where("roles.vit_power > 0 and roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0").where("roles.level < ?",Setting.role_max_level).readonly(false)
     #
     scope :bind_scope, where("bind_computer_id > 0") # 已绑定
     scope :waiting_bind_scope, where("bind_computer_id = 0") # 未绑定 ,等待绑定的账户
@@ -177,7 +177,10 @@ class Account < ActiveRecord::Base
       
        #p "=====================#{self.online_role_ids}====#{session.success_role_ids}"
        # 参数成功，或者online 的角色 等于 success 的角色 表示本次会话成功
-       session.success = true if opts[:success].to_i ==1 #|| (self.online_role_ids == session.success_role_ids)
+       if opts[:success].to_i ==1
+          session.success = true 
+          self.today_success = true
+       end
        # 完成session 
        session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
         # 修改角色 online

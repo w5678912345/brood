@@ -34,7 +34,7 @@ class Role < ActiveRecord::Base
   scope :started_scope, where("session_id > 0 ") #已开始的角色
   scope :stopped_scope, where("session_id = 0 ") #已停止的角色
   # 等待上线的角色
-  scope :waiting_scope, stopped_scope.where("roles.vit_power > 0 and roles.status = 'normal' and roles.session_id = 0 and roles.online = 0")
+  scope :waiting_scope, stopped_scope.where("roles.vit_power > 0 and roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0")
     .where("roles.level < ?",Setting.role_max_level).readonly(false)
 
   #
@@ -113,9 +113,10 @@ class Role < ActiveRecord::Base
     
       # 如果彼劳值变成了0,说明角色调度成功
       if (self.vit_power_changed? && self.vit_power == 0 ) || opts[:success].to_i == 1
-          # Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, :server=>self.server || computer.server,
-          #   :api_name=>"role_success",:msg=>opts[:msg],:session_id=>session.id,:sup_id=>account_session.id,:version=>computer.version)
+          self.today_success = true
           session.update_attributes(:success => true)
+           # Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, :server=>self.server || computer.server,
+          #   :api_name=>"role_success",:msg=>opts[:msg],:session_id=>session.id,:sup_id=>account_session.id,:version=>computer.version)
       end
       # 修改账号最后访问时间
       self.qq_account.update_attributes(:updated_at => Time.now)
@@ -143,7 +144,10 @@ class Role < ActiveRecord::Base
       # 修改会话
       now = Time.now
       hours = (now - session.created_at)/3600
-      session.success = true if opts[:success].to_i == 1 #成功
+      if opts[:success].to_i == 1
+        self.today_success = true
+        session.success = true
+      end #成功
       session.update_attributes(:ending=>true, :stopped_at=>now,:hours=>hours)
       # 记录note
       Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,:version=>computer.version,
