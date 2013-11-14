@@ -8,6 +8,12 @@
 <input type="text" name="vit" class="input-small" placeholder="疲劳(n-m)" value="<%= params[:vit]%>" />
 <!-- <input type="text" name="gold" class="input-small" placeholder="金币(n-m)" value="<%= params[:gold]%>" /> -->
 <input type="text" name="date(created_at)" id="created_at" class="input-small" placeholder="创建日期" value='<%= params["date(created_at)"]%>' />
+成功:
+<select name="ts" class="input-small">
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:ts] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:ts] == "0" %> >No</option>
+</select>
 <hr style="margin:5px 0;"/>
 状态:
 <select name="status" class="input-medium"  >

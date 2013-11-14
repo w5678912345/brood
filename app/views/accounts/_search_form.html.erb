@@ -20,6 +20,12 @@
 <input type="text" name="online_cid" value="<%= params[:online_cid]%>" class="input-small" placeholder="机器ID" title="在线机器ID"  />
 <input type="text" name="online_ip" value="<%= params[:online_ip]%>" class="input-small" placeholder="在线IP"  />
 <input type="text" name="online_cid" value="<%= params[:online_rid]%>" class="input-small" placeholder="角色ID"  />
+成功:
+<select name="ts" class="input-small">
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:ts] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:ts] == "0" %> >No</option>
+</select>
 <hr style="margin:5px 0;">
 状态:
 <select name="status" class="input-medium"  >
