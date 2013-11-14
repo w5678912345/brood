@@ -11,7 +11,7 @@ class Account < ActiveRecord::Base
     Auto_Normal = {"disconnect"=>2,"exception"=>3,"lost"=>24,"bslocked"=>72,"bs_unlock_fail"=>72}
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
-    attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at
+    attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at,:today_success
     attr_accessor :online_roles 
     #所属服务器
 	  belongs_to :game_server, :class_name => 'Server', :foreign_key => 'server',:primary_key => 'name'
@@ -311,6 +311,9 @@ class Account < ActiveRecord::Base
       end
    end
 
+   def self.reset_today_success
+      Account.where(:today_success=>true).update_all(:today_success => false)
+   end
 
 
     #

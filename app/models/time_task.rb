@@ -4,6 +4,7 @@ module TimeTask
 	def self.at_06_time
 		Api.reset_role
 		Api.reset_ip_use_count
+		Account.reset_today_success
 		Account.auto_unbind
 		DataNode.mark
 	end
