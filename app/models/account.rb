@@ -124,6 +124,33 @@ class Account < ActiveRecord::Base
 
     #
     def api_note opts
+      return CODES[:account_is_stopped] unless self.is_started?
+      status = opts[:status]
+      event = opts[:event]
+      return 0 unless  (STATUS.include? status) || (EVENT.include? event) #事件和状态都未定义，不进行更新
+      session = self.session
+      computer = session.computer
+      api_name = "0",api_code = "0"
+      #
+      self.transaction do 
+        # 记录账户改变的状态
+        if STATUS.include? status
+          api_name = status # 如果定义了有效状态 设置 api_name => status
+          api_code = status # 如果定义了有效状态 设置 api_code => status
+          self.status = status
+          #session.update_attributes(:result => status)
+          self.normal_at = Time.now.since(Account::Auto_Normal[status].hours) if Auto_Normal.has_key?(status)
+        end
+        #状态正常时，清空normal
+        self.normal_at = nil if self.status == 'normal'
+        # 记录账号发生的事件
+        api_name = event if EVENT.include? event # 如果定义了有效事件，设置api_name => event
+        
+        Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:role_id => self.online_role_id,:ip=>opts[:ip],:api_name => api_name,
+          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id,:api_code=>api_code)
+        return 1 if self.update_attributes(:updated_at => Time.now)
+      end
+
     end
 
 
@@ -150,7 +177,7 @@ class Account < ActiveRecord::Base
       
        #p "=====================#{self.online_role_ids}====#{session.success_role_ids}"
        # 参数成功，或者online 的角色 等于 success 的角色 表示本次会话成功
-       session.success = true if (opts[:success].to_i ==1) || (self.online_role_ids == session.success_role_ids)
+       session.success = true if opts[:success].to_i ==1 #|| (self.online_role_ids == session.success_role_ids)
        # 完成session 
        session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
         # 修改角色 online

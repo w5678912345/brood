@@ -14,7 +14,11 @@ class ComputersController < ApplicationController
     @computers = @computers.where(:version=>params[:version]) unless params[:version].blank?  
     @computers = @computers.where(:id => params[:id]) unless params[:id].blank?
     @computers = @computers.where(:checked => params[:checked]) unless params[:checked].blank?
-    @computers = @computers.where(:started => params[:started]) unless params[:started].blank?
+    #
+    unless params[:started].blank?
+        @computers = params[:started].to_i == 1 ? @computers.started_scope : @computers.stopped_scope
+    end
+
     @computers = @computers.where(:status => params[:status].to_i) unless params[:status].blank?
     @computers = @computers.where(:accounts_count => params[:accounts_count]) unless params[:accounts_count].blank?
     @computers = @computers.where("date(created_at) =?",params["date(created_at)"]) unless params["date(created_at)"].blank?

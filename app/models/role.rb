@@ -76,7 +76,9 @@ class Role < ActiveRecord::Base
 
   # 角色同步
   def api_sync opts
-    return CODES[:role_is_stopped] unless self.is_started?
+   unless self.is_started?
+      self.api_start opts
+   end
     status = opts[:status]
     event = opts[:event]
     account_session = self.qq_account.session
@@ -153,7 +155,10 @@ class Role < ActiveRecord::Base
 
   # 角色支付
   def api_pay opts
-    return CODES[:role_is_stopped] unless self.is_started?
+    #return CODES[:role_is_stopped] unless self.is_started?
+    unless self.is_started?
+      self.api_start opts
+    end
     account_session = self.qq_account.session
     session = self.session
     computer = session.computer
@@ -167,7 +172,7 @@ class Role < ActiveRecord::Base
       account = self.qq_account
       if account.status == 'bslocked' && payment.gold > 0 
          account.update_attributes(:status => 'normal')
-         Note.create(:account => account.no,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:api_code=>"bs_unlock_success",
+         Note.create(:account => account.no,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:api_name=>"bs_unlock_success",
           :version=>computer.version, :server=>self.server || computer.server,:session_id=>session.id,:sup_id=>account_session.id, :msg=>"交易后自动解除锁定")
       end
       # 修改会话
