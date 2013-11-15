@@ -43,15 +43,11 @@ CODES = {
   end
 
 
-  # every day at 6:00 am
-  def self.reset_role_vit_power
-    Role.where("vit_power < 156").update_all(:vit_power => 156)
-    Role.where(:today_success=>true).update_all(:today_success => false)
-    #Note.create(:role_id=>0,:ip=>"localhost",:api_name => "reset_role")
-  end
+
 
   def self.reset_role
      Role.where("vit_power < 156").update_all(:vit_power => 156)
+     Role.where(:today_success=>true).update_all(:today_success => false)
      Note.create(:role_id=>0,:ip=>"localhost",:api_name => "reset_role")
   end
 
@@ -86,9 +82,5 @@ CODES = {
     Role.update_all(:ip_range=>nil,:ip_range2=>nil)
   end
 
-  #
-  def self.computer_auto_stop
-    
-  end
 
 end

@@ -16,8 +16,10 @@
 <td><%= @account.roles.count %></td>
 <td>绑定机器</td>
 <td><%= computer_tag @account.bind_computer %></td>
-<td>状态</td>
-<td><%= @account.status%></td>
+<td>状态/可用</td>
+<td><%= @account.status%> /
+<%= boolean_tag @account.can_start? %>
+</td>
 </tr>
 
 <tr>

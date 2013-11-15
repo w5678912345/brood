@@ -61,6 +61,10 @@ class Computer < ActiveRecord::Base
     return self.server.blank?
   end
 
+  def to_note_hash
+    hash = {:computer_id => self.id,:version => self.version,:server => self.server,:hostname=>self.hostname}
+  end
+
   # 机器注册
   def api_reg opts
     return CODES[:not_valid_computer] unless self.valid?

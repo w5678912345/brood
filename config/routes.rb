@@ -190,6 +190,7 @@ Brood::Application.routes.draw do
       match :start,  :on => :collection
       match :stop,   :on => :collection
       match :sync,   :on => :collection
+      match :note,   :on => :collection
       # match :get,    :on => :member
       # match :set,    :on => :member
       # match :put,    :on => :member

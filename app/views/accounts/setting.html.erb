@@ -10,15 +10,11 @@
 </tr>		
 </thead>
 <tbody>
-<% @status.each do |s|%>
+<% @status.each do |k,v|%>
 <tr>
-	<td><%= s %></td>
+	<td><%= k %></td>
 	<td>
-	<% if @hash.has_key?(s)%>
-		<input type="text" class="input-mini" name="<%= s %>" value="<%= @hash[s] %>" style="border-color:red;" />
-	<%else%>
-		<input type="text" class="input-mini" name="<%= s %>" value="0" />
-	<%end%>
+		<input type="text" class="input-mini" name="<%= k %>" value="<%= v %>" style="border-color:red;" />
 	</td>
 </tr>
 <%end%>

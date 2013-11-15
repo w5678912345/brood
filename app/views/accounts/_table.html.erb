@@ -26,7 +26,7 @@
 <th>绑定机器</th>
 <th>在线</th>
 <th>创建时间</th>
-<th>状态</th>
+<th>状态/可用</th>
 <th>成功</th>
 </tr>
 </thead>
@@ -55,7 +55,7 @@
 <% end %>
 </td>
 <td><%= time_str account.created_at %></td>
-<td><%= account.status %></td>
+<td><%= account.status %> / <%= boolean_tag account.can_start? %></td>
 <td><%= boolean_tag account.today_success %></td>
 </tr>
 <%end%>

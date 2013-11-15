@@ -50,11 +50,33 @@ class Api::AccountsController < Api::BaseController
 		render :partial => '/api/result'
 	end
 
+	def note
+		@account = Account.find_by_no(params[:id])
+		@code = @account.api_note params
+		render :partial => '/api/result'
+	end
+
 	# 显示帐号信息
 	def show
 		@code = 1 if @account
 		#@accounts.online_roles = @account.roles
 		render :partial => '/api/accounts/data'
+	end
+
+	def role_start
+
+	end
+
+	def role_note
+
+	end
+
+	def role_pay
+
+	end
+
+	def role_stop
+
 	end
 
 	

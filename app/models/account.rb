@@ -2,13 +2,17 @@
 class Account < ActiveRecord::Base
     CODES = Api::CODES
     # 账号可能发生的状态
-    STATUS = ['normal','bslocked','bslocked_again','bs_unlock_fail','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','discardfordays','discardbysailia','discardforyears']
+    #STATUS = ['normal','bslocked','bslocked_again','bs_unlock_fail','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','discardfordays','discardbysailia','discardforyears']
     #CAN_START_STATUS=['normal','bslocked','disconnect','exception']
     # 账号可能发生的事件
     EVENT = ['bslock','bs_unlock_fail','bs_unlock_success']
     Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线","set_status"=>"修改状态"}
     # 需要自动恢复normal的状态
-    Auto_Normal = {"disconnect"=>2,"exception"=>3,"lost"=>24,"bslocked"=>72,"bs_unlock_fail"=>72}
+    Auto_Normal = {"disconnect"=>2,"exception"=>3,"lost"=>0,"bslocked"=>72,"bs_unlock_fail"=>72}
+    #
+    STATUS = {"normal" => 0,"bslocked"=>72,"bslocked_again"=>72,"bs_unlock_fail"=>72,"disconnect"=>2,"exception"=>3,
+      "locked"=>1200, "lost"=>24,"discard"=>1200,"no_rms_file"=>1200,"no_qq_token"=>1200,
+      "discardfordays"=>72,"discardbysailia"=>240,"discardforyears"=>12000}
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
     attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at,:today_success
@@ -18,6 +22,8 @@ class Account < ActiveRecord::Base
     belongs_to :session,     :class_name => 'Note', :foreign_key => 'session_id'
     #在线角色
     belongs_to :online_role, :class_name => 'Role', :foreign_key => 'online_role_id'
+    #
+    belongs_to :current_role, :class_name => 'Role', :foreign_key => 'current_role_id'
     #在线记录
    	belongs_to :online_note, :class_name => 'Note', :foreign_key => 'online_note_id'
     #在线机器
@@ -37,7 +43,7 @@ class Account < ActiveRecord::Base
     scope :started_scope, where("session_id > 0 ") #已开始的账号
     scope :stopped_scope, where("session_id = 0 ") #已停止的账号
     #
-    scope :waiting_scope, joins(:roles).where("accounts.session_id = 0 and accounts.today_success = 0").where("accounts.status = 'normal' or (accounts.status in (?) and accounts.normal_at < ?)", Account::Auto_Normal.keys,Time.now)
+    scope :waiting_scope, joins(:roles).where("accounts.session_id = 0 and accounts.today_success = 0").where("accounts.status = 'normal' or accounts.normal_at <= ?",Time.now)
     .where("roles.vit_power > 0 and roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0").where("roles.level < ?",Setting.role_max_level).readonly(false)
     #
     scope :bind_scope, where("bind_computer_id > 0") # 已绑定
@@ -56,6 +62,10 @@ class Account < ActiveRecord::Base
       return self.is_started? && self.online_role_id > 0 
     end
 
+    def can_start?
+      return self.session_id == 0 && self.today_success == false && (self.status == 'normal' || self.normal_at <= Time.now)
+    end
+
 
     # 开始帐号
     def api_start opts
@@ -64,13 +74,12 @@ class Account < ActiveRecord::Base
       ip = Ip.find_or_create(opts[:ip])
       computer = Computer.find_by_auth_key(opts[:ckey])
       self.transaction do
-        #增加计算机上线账号数
-        computer.update_attributes(:online_accounts_count => computer.online_accounts_count+1)
-        #增加ip使用次数
-        ip.update_attributes(:use_count=>ip.use_count+1)
+        computer.increment(:online_accounts_count,1).save  #增加计算机上线账号数
+        ip.increment(:use_count,1).save #增加ip使用次数
         #插入账号开始记录
-        tmp = {:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>ip.value,:api_name=>"account_start",
-           :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version}
+        # tmp = {:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>ip.value,:api_name=>"account_start",
+        #    :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version}
+        tmp = computer.to_note_hash.merge(:account=>self.no,:api_name=>"account_start",:ip=>opts[:ip],:msg=>opts[:msg])
         # 记录 session
         session = Note.create(tmp)
         
@@ -95,31 +104,11 @@ class Account < ActiveRecord::Base
     # 同步帐号
     def api_sync opts
       return CODES[:account_is_stopped] unless self.is_started?
-      status = opts[:status]
-      event = opts[:event]
-      return 0 unless  (STATUS.include? status) || (EVENT.include? event) #事件和状态都未定义，不进行更新
-      session = self.session
-      computer = session.computer
-      api_name = "0",api_code = "0"
-      #
-      self.transaction do 
-        # 记录账户改变的状态
-        if STATUS.include? status
-          api_name = status # 如果定义了有效状态 设置 api_name => status
-          api_code = status # 如果定义了有效状态 设置 api_code => status
-          self.status = status
-          #session.update_attributes(:result => status)
-          self.normal_at = Time.now.since(Account::Auto_Normal[status].hours) if Auto_Normal.has_key?(status)
-        end
-        #状态正常时，清空normal
-        self.normal_at = nil if self.status == 'normal'
-        # 记录账号发生的事件
-        api_name = event if EVENT.include? event # 如果定义了有效事件，设置api_name => event
-        
-        Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:role_id => self.online_role_id,:ip=>opts[:ip],:api_name => api_name,
-          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id,:api_code=>api_code)
-        return 1 if self.update_attributes(:updated_at => Time.now)
-      end
+      role = self.roles.find_by_id(opts[:rid])
+      #role.api_sync(opts) if role
+      self.api_note opts
+      self.session.update_hours
+      return 1 if self.update_attributes(:updated_at => Time.now)
     end
 
     #
@@ -127,19 +116,18 @@ class Account < ActiveRecord::Base
       return CODES[:account_is_stopped] unless self.is_started?
       status = opts[:status]
       event = opts[:event]
-      return 0 unless  (STATUS.include? status) || (EVENT.include? event) #事件和状态都未定义，不进行更新
+      return 0 unless  (STATUS.has_key? status) || (EVENT.include? event) #事件和状态都未定义，不进行更新
       session = self.session
       computer = session.computer
       api_name = "0",api_code = "0"
       #
       self.transaction do 
         # 记录账户改变的状态
-        if STATUS.include? status
+        if STATUS.has_key? status
           api_name = status # 如果定义了有效状态 设置 api_name => status
           api_code = status # 如果定义了有效状态 设置 api_code => status
           self.status = status
-          #session.update_attributes(:result => status)
-          self.normal_at = Time.now.since(Account::Auto_Normal[status].hours) if Auto_Normal.has_key?(status)
+          self.normal_at = Time.now.since(Account::STATUS[status].hours)
         end
         #状态正常时，清空normal
         self.normal_at = nil if self.status == 'normal'
