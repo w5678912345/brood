@@ -162,9 +162,11 @@ class Account < ActiveRecord::Base
           self.today_success = session.success = true
           at = session.created_at
           at = at.since(1.day) if (6..23).include?(at.hour)
-          at = at.change(:hour => 6,:min => 0,:sec => 0)
+          self.normal_at = at.change(:hour => 6,:min => 0,:sec => 0)
+       else
+        self.normal_at = Time.now.since(Account::STATUS[self.status].hours)
        end
-       self.normal_at = at if self.status != "normal"
+       
        # 完成session 
        session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
         # 修改角色 online
