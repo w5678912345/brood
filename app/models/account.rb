@@ -164,7 +164,7 @@ class Account < ActiveRecord::Base
           at = at.since(1.day) if (6..23).include?(at.hour)
           at = at.change(:hour => 6,:min => 0,:sec => 0)
        end
-       self.normal_at = at
+       self.normal_at = at if self.status != "normal"
        # 完成session 
        session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
         # 修改角色 online
