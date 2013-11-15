@@ -43,8 +43,8 @@ class Account < ActiveRecord::Base
     scope :started_scope, where("session_id > 0 ") #已开始的账号
     scope :stopped_scope, where("session_id = 0 ") #已停止的账号
     #
-    scope :waiting_scope, joins(:roles).where("accounts.session_id = 0 and accounts.today_success = 0").where("accounts.status = 'normal' or accounts.normal_at <= ?",Time.now)
-    .where("roles.vit_power > 0 and roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0").where("roles.level < ?",Setting.role_max_level).readonly(false)
+    scope :waiting_scope, lambda{|time|joins(:roles).where("accounts.session_id = 0").where("accounts.normal_at <= ? ",time || Time.now)
+    .where(" roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0").where("roles.level < ?",Setting.role_max_level).uniq().readonly(false)}
     #
     scope :bind_scope, where("bind_computer_id > 0") # 已绑定
     scope :waiting_bind_scope, where("bind_computer_id = 0") # 未绑定 ,等待绑定的账户
@@ -77,8 +77,6 @@ class Account < ActiveRecord::Base
         computer.increment(:online_accounts_count,1).save  #增加计算机上线账号数
         ip.increment(:use_count,1).save #增加ip使用次数
         #插入账号开始记录
-        # tmp = {:computer_id=>computer.id,:hostname=>computer.hostname,:ip=>ip.value,:api_name=>"account_start",
-        #    :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version}
         tmp = computer.to_note_hash.merge(:account=>self.no,:api_name=>"account_start",:ip=>opts[:ip],:msg=>opts[:msg])
         # 记录 session
         session = Note.create(tmp)
@@ -87,15 +85,11 @@ class Account < ActiveRecord::Base
         @online_roles = opts[:all] ? self.roles : self.roles.waiting_scope
         @online_roles = @online_roles.reorder("level desc").limit(Setting.account_start_roles_count)
         # 调度角色
-        tmp[:session_id] = session.id # 
-        tmp[:api_name] = "role_online" #
         @online_roles.each do |role|
-            tmp[:role_id] = role.id
-            role_note = Note.create(tmp) # 创建角色会话
+            role_note = Note.create(tmp.merge(:role_id => role.id,:session_id=>session.id,:api_name=>"role_online")) # 创建角色 online 记录
             role.update_attributes(:online=>true,:online_note_id=>role_note.id) # 修改角色 session_id
         end
-        # 修改session 并修改上线 IP
-        computer.save
+    
         return 1 if self.update_attributes(:session_id=>session.id,:online_ip=>ip.value)
       end
     end
@@ -129,8 +123,6 @@ class Account < ActiveRecord::Base
           self.status = status
           self.normal_at = Time.now.since(Account::STATUS[status].hours)
         end
-        #状态正常时，清空normal
-        self.normal_at = nil if self.status == 'normal'
         # 记录账号发生的事件
         api_name = event if EVENT.include? event # 如果定义了有效事件，设置api_name => event
         
@@ -157,18 +149,22 @@ class Account < ActiveRecord::Base
       # 创建stop 记录
        Note.create(:account => self.no, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_stop',:msg=>opts[:msg],
          :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:session_id=>session.id)
-       # 修改机器的上线账号数量
-       computer.update_attributes(:online_accounts_count => computer.online_accounts_count-1) if computer.online_accounts_count > 0
+       
+       computer.decrement(:online_accounts_count,1).save if computer.online_accounts_count > 0 # 修改机器的上线账号数量
        # 更新 session    
        now = Time.now
        hours = (now - session.created_at)/3600
       
        #p "=====================#{self.online_role_ids}====#{session.success_role_ids}"
        # 参数成功，或者online 的角色 等于 success 的角色 表示本次会话成功
+       at = Time.now
        if opts[:success].to_i ==1
-          session.success = true 
-          self.today_success = true
+          self.today_success = session.success = true 
+          at = session.created_at
+          at = at.since(1.day) if (6..23).include?(at.hour)
+          at = at.change(:hour => 6,:min => 0,:sec => 0)
        end
+       self.normal_at = at
        # 完成session 
        session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
         # 修改角色 online

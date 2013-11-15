@@ -14,7 +14,7 @@ class Api::AccountsController < Api::BaseController
 	
 	# 自动调度帐号
 	def auto
-		@account  = @computer.accounts.waiting_scope.first
+		@account  = @computer.accounts.waiting_scope(Time.now).first
 		unless @account
 			@code = CODES[:not_find_account]
 			unless Note.where(:computer_id => @computer.id).where(:api_name=>"not_find_account").where("date(created_at) = ?",Date.today.to_s).exists?
