@@ -34,7 +34,7 @@ class Role < ActiveRecord::Base
   scope :started_scope, where("session_id > 0 ") #已开始的角色
   scope :stopped_scope, where("session_id = 0 ") #已停止的角色
   # 等待上线的角色
-  scope :waiting_scope, stopped_scope.where("roles.vit_power > 0 and roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0")
+  scope :waiting_scope, stopped_scope.where("roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0")
     .where("roles.level < ?",Setting.role_max_level).readonly(false)
 
   #

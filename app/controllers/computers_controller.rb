@@ -64,8 +64,9 @@ class ComputersController < ApplicationController
       flash[:msg] = "拒绝了#{@computers.length}台机器"
       return redirect_to computers_path(:checked=>0)
     elsif @do == "bind_accounts"
+      #return render :text => @computers.length
       @computers.each do |computer|
-          computer.auto_bind_accounts(opts={:status=>params[:status],:ip=>request.remote_ip,:msg=>"click"})
+          computer.auto_bind_accounts({:status=>params[:status],:ip=>request.remote_ip,:msg=>"click"})
       end
       flash[:msg] = "为#{@computers.length}台机器，分配了账号"
       return redirect_to computers_path()
@@ -141,6 +142,7 @@ class ComputersController < ApplicationController
 
   def show
   	@computer = Computer.find(params[:id])
+    @accounts = @computer.accounts.joins(:roles).reorder("accounts.session_id desc").order("roles.level desc").uniq()
   end
 
   def destroy

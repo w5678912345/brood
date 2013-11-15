@@ -36,7 +36,7 @@ class Account < ActiveRecord::Base
     # 
     validates_uniqueness_of :no
 
-    default_scope order("updated_at desc")
+    default_scope order("normal_at asc").order("updated_at desc")
     scope :online_scope, where("session_id > 0") #
     scope :unline_scope, where("session_id = 0").reorder("updated_at desc") # where(:status => 'normal')
     #
@@ -44,7 +44,7 @@ class Account < ActiveRecord::Base
     scope :stopped_scope, where("session_id = 0 ") #已停止的账号
     #
     scope :waiting_scope, lambda{|time|joins(:roles).where("accounts.session_id = 0").where("accounts.normal_at <= ? ",time || Time.now)
-    .where(" roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0").where("roles.level < ?",Setting.role_max_level).uniq().readonly(false)}
+    .where(" roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0").where("roles.level < ?",Setting.role_max_level).reorder("roles.level desc").uniq().readonly(false)}
     #
     scope :bind_scope, where("bind_computer_id > 0") # 已绑定
     scope :waiting_bind_scope, where("bind_computer_id = 0") # 未绑定 ,等待绑定的账户
@@ -247,9 +247,9 @@ class Account < ActiveRecord::Base
       end
    end
 
-      # 自动禁用账号的绑定
+   # 自动禁用账号的绑定
    def self.auto_unbind
-      time = Time.now.ago(1.day)
+      time = Time.now.ago(5.day)
       accounts = Account.stopped_scope.where("bind_computer_id != -1").where("updated_at < ?",time)
       accounts.each do |account|
           account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto"})
@@ -299,6 +299,10 @@ class Account < ActiveRecord::Base
       Account.where(:today_success=>true).update_all(:today_success => false)
    end
 
+
+   def max_role_level
+      return self.roles.maximum("level")
+   end
 
     #
     def sellers
