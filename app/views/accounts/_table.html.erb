@@ -53,6 +53,8 @@
 <%= link_to account.session.ip,notes_path(:ip => account.session.ip) %> #
 
 <%=  account.online_role_id ==0 ? 'No Role ' : link_to(account.online_role_id,role_path(account.online_role.id)) %>
+<%else%>
+<%= normal_at_tag account.normal_at  %>
 <% end %>
 </td>
 <td><%= time_str account.created_at %></td>

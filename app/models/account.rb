@@ -36,7 +36,7 @@ class Account < ActiveRecord::Base
     # 
     validates_uniqueness_of :no
 
-    default_scope order("normal_at asc").order("updated_at desc")
+    default_scope order("session_id desc").order("normal_at asc").order("updated_at desc")
     scope :online_scope, where("session_id > 0") #
     scope :unline_scope, where("session_id = 0").reorder("updated_at desc") # where(:status => 'normal')
     #
@@ -63,7 +63,7 @@ class Account < ActiveRecord::Base
     end
 
     def can_start?
-      return self.session_id == 0 && self.today_success == false && (self.status == 'normal' || self.normal_at <= Time.now)
+      return self.session_id == 0 && self.today_success == false && (self.normal_at <= Time.now)
     end
 
 
@@ -159,7 +159,7 @@ class Account < ActiveRecord::Base
        # 参数成功，或者online 的角色 等于 success 的角色 表示本次会话成功
        at = Time.now
        if opts[:success].to_i ==1
-          self.today_success = session.success = true 
+          self.today_success = session.success = true
           at = session.created_at
           at = at.since(1.day) if (6..23).include?(at.hour)
           at = at.change(:hour => 6,:min => 0,:sec => 0)
