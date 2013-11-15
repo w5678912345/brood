@@ -30,7 +30,7 @@
 状态:
 <select name="status" class="input-medium"  >
 <option value="">---All---</option>
-<% Account::STATUS.each do |status|%>
+<% Account::STATUS.keys.each do |status|%>
 <option value="<%= status%>" <%= 'selected="selected"' if params[:status] == status %>><%= status %></option>
 <%end%>
 </select>
@@ -41,7 +41,7 @@
 <button type="submit" class="btn">Search</button>
 <hr style="margin:5px 0;">
 多状态:
-<% Account::STATUS.each do |status|%>
+<% Account::STATUS.keys.each do |status|%>
 <label class="checkbox"> <input type="checkbox" name="ss[]" value="<%= status%>" <%= 'checked="checked"' if params[:ss] && params[:ss].include?(status) %> /><%= status%> </label>
 <%end%>
 
