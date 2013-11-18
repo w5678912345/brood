@@ -17,8 +17,7 @@
 <td>绑定机器</td>
 <td><%= computer_tag @account.bind_computer %></td>
 <td>状态/可用</td>
-<td><%= @account.status%> /
-<%= boolean_tag @account.can_start? %>
+<td><%= @account.status%> 
 </td>
 </tr>
 
@@ -26,7 +25,7 @@
 <td>修改时间</td>
 <td><%= time_str @account.updated_at %></td>
 <th>恢复时间</th>
-<td> <%= time_str @account.normal_at %></td>
+<td> <%= normal_at_tag @account.normal_at %></td>
 <td>今天成功</td>
 <td><%= boolean_tag @account.today_success %></td>
 </tr>

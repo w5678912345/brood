@@ -233,6 +233,9 @@ class Role < ActiveRecord::Base
     account.roles_count = account.roles_count + 1
     account.ip_range = self.ip_range
     account.created_at = self.created_at
+    account.updated_at = self.updated_at
+    account.normal_at = self.reopen_at
+
     if self.bslocked
         account.status = 'bslocked'
     elsif self.close && self.close_hours == 2
@@ -255,6 +258,9 @@ class Role < ActiveRecord::Base
       # account.online_role_id = self.id
       # account.online_note_id = self.online_note_id
       # account.online_computer_id = self.computer_id
+    end
+    if account.normal_at.blank?
+        account.normal_at = account.updated_at.since(Account::STATUS[account.status].hours)
     end
     account.save
   end

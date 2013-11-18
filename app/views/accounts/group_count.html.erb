@@ -2,12 +2,13 @@
 <fieldset>
 <legend>账号分布</legend>
 <form class="form-search" action="<%= group_count_accounts_path %>">
-统计条件:<select name="col">
-	
+统计条件:
+<select name="col">
 <% @cols.each do |k,v| %>
 <option value="<%= k%>" <%= 'selected="selected"' if k == @col %>><%= v %></option>
 <%end%>
 </select>
+<input type="text" name="server" value="<%= params[:server]%>" class="input-small" placeholder="服务器" />
 <button type="submit" class="btn">确定</button>
 </form>
 <table class="table table-bordered table-condensed">

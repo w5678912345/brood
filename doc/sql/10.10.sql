@@ -54,7 +54,7 @@ update notes set api_name = 'role_online' where api_name = 'role_dispatch';
 delete from notes where api_name = 'auto_pay';
 
 
-
+#TRUNCATE
 +-----------+-------------------+
 | count(id) | api_name          |
 +-----------+-------------------+
@@ -81,7 +81,6 @@ delete from notes where api_name = 'auto_pay';
 |       189 | StopReason        |
 |    358698 | success           |
 +-----------+-------------------+
-
 
 # 迁移测试服 
 update notes set api_name = api_code where api_code in ('normal','bslocked','bslocked_again','bs_unlock_fail','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','disable')

@@ -22,4 +22,8 @@ LOAD DATA INFILE '/tmp/roles_gdx.txt' INTO TABLE roles FIELDS TERMINATED BY '|' 
 
 
 
-LOAD DATA INFILE '/tmp/new_roles_2000.txt' INTO TABLE roles FIELDS TERMINATED BY '----' (account,password);
+LOAD DATA INFILE '/tmp/11_17_150_roles.txt' INTO TABLE roles FIELDS TERMINATED BY '----' (account,password);
+
+
+delete from comroles where role_id in (select id from roles where server = '上海测试区');
+

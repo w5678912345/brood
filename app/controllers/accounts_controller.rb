@@ -91,7 +91,7 @@ class AccountsController < ApplicationController
 
 	def set
 		@status = Account::STATUS
-		pkeys =@status.keys && params.keys
+		pkeys =@status.keys
 		pkeys.each do |k|
 			Account::STATUS[k] = params[k].to_i
 		end
@@ -121,9 +121,11 @@ class AccountsController < ApplicationController
 
 	#
 	def group_count
-		@cols = {"server"=>"服务器","roles_count"=>"角色数量","date(created_at)"=>"注册日期","bind_computer_id"=>"绑定机器","status"=>"状态"} 
-		@col = params[:col] || "server"
-		@records = Account.select("count(id) as accounts_count, #{@col} as col").group(@col).reorder("accounts_count desc")
+		@cols = {"status"=>"状态","server"=>"服务器","roles_count"=>"角色数量","date(created_at)"=>"注册日期","bind_computer_id"=>"绑定机器"} 
+		@col = params[:col] || "status"
+		@records = Account.select("count(id) as accounts_count, #{@col} as col")
+		@records = @records.where(:server => params[:server]) unless params[:server].blank?
+		@records = @records.group(@col).reorder("accounts_count desc")
 	end
 
 

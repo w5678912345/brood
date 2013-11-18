@@ -251,11 +251,11 @@ class Account < ActiveRecord::Base
 
    # 自动禁用账号的绑定
    def self.auto_unbind
-      time = Time.now.ago(5.day)
-      accounts = Account.stopped_scope.where("bind_computer_id != -1").where("updated_at < ?",time)
-      accounts.each do |account|
-          account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto"})
-      end
+      time = Time.now.since(1000.hours).change(:hour=>6)
+      # accounts = Account.stopped_scope.where("bind_computer_id != -1").where("normal_at >= ?",time)
+      # accounts.each do |account|
+      #     account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto"})
+      # end
    end
 
 
@@ -270,7 +270,7 @@ class Account < ActiveRecord::Base
       return if self.bind_computer_id != 0
       self.transaction do 
         # 绑定机器
-        self.update_attributes(:bind_computer_id => computer.id,:server => computer.server)
+        self.update_attributes(:bind_computer_id => computer.id,:server => computer.server,:updated_at => Time.now)
         # 修改机器绑定数量
         computer.update_attributes(:accounts_count =>computer.accounts_count+1)
         # 插入记录
@@ -285,7 +285,7 @@ class Account < ActiveRecord::Base
       computer = self.bind_computer
       self.transaction do 
         # 禁用绑定
-        self.update_attributes(:bind_computer_id => -1)
+        self.update_attributes(:bind_computer_id => -1,:updated_at => Time.now)
         return unless computer
         # 修改机器的账号数量
         computer.update_attributes(:accounts_count=>computer.accounts_count-1) if computer.accounts_count > 0
