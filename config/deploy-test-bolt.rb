@@ -2,8 +2,8 @@
 # 发布应用分支 master 到服务器
 #
 # 使用用法：
-#   部署：mina deploy -f config/deploy-test.rb -v
-#   停止：mina shutdown -f config/deploy-test.rb -v
+#   部署：mina deploy -f config/deploy-test-bolt.rb -v
+#   停止：mina shutdown -f config/deploy-test-bolt.rb -v
 #   其他命令参见：mina tasks
 #
 # **************
@@ -29,14 +29,14 @@ set_default :term_mode, :pretty
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 # ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com
-set :domain, 'ec2-54-249-17-3.ap-northeast-1.compute.amazonaws.com'
-set :deploy_to, '/home/ubuntu/apps/test.brood.com'
+set :domain, 'ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com'
+set :deploy_to, '/home/ubuntu/apps/test_bolt.dabi.co'
 set :user, 'ubuntu'
 
 set :rails_env, 'production'
 
 set :repository, 'ubuntu@ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com:repo/brood.git'
-set :branch, 'master'
+set :branch, 'bolt'
 set :rvm_path, '/home/ubuntu/.rvm/scripts/rvm' #'/usr/local/rvm/scripts/rvm'
 
 # thin settings
@@ -88,9 +88,10 @@ task :deploy => :environment do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
-    invoke :'rails:db_migrate'
+    #invoke :'db:create'
+    #invoke :'rails:db_migrate'
     #invoke :'db:migrate'
-    invoke :'rails:assets_precompile'
+    #invoke :'rails:assets_precompile'
 
 
     to :launch do
@@ -114,7 +115,7 @@ end
 desc "Shutdown app."
 task :shutdown do
   queue %[echo "-----> Shutting down..."]
-  invoke :'rvm:use[ruby-1.9.3-p429]'
+  invoke :'rvm:use[ruby-1.9.3]'
   invoke :'thin:stop'
   invoke :'whenever:clear'
 end
@@ -164,3 +165,4 @@ end
 #  - http://nadarei.co/mina/tasks
 #  - http://nadarei.co/mina/settings
 #  - http://nadarei.co/mina/helpers
+# sudo /etc/init.d/nginx restart
