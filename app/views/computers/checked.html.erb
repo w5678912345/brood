@@ -18,15 +18,20 @@
 <!-- define form  -->
 <% if @do == "bind_accounts"%>
 <div class="control-group">
-	<label class="control-label">账号状态:</label>
-	<div class="controls docs-input-sizes" >
-	<%= select_tag "status",options_for_select(Account::STATUS.keys )%>
-	</div>
+<label class="control-label">账号状态:</label>
+<div class="controls docs-input-sizes" >
+	<select name="status" class="input-medium"  >
+	<option value="">---不限---</option>
+	<% Account::STATUS.keys.each do |status|%>
+	<option value="<%= status%>" ><%= status %></option>
+	<%end%>
+	</select>
+</div>
 </div>
 <div class="control-group">
 	<label class="control-label">平均分配:</label>
 	<div class="controls docs-input-sizes" >
-		<input type="text" value="3" name="avg" />个
+		<input type="text" value="1" name="avg" />个
 	</div>
 </div>
 <% elsif @do == "task" %>

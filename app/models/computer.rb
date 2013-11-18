@@ -113,6 +113,7 @@ class Computer < ActiveRecord::Base
     # 查询可以绑定的账户
     accounts = Account.waiting_bind_scope.where("server is null or server = '' or server = ? ",self.server).limit(limit)
     accounts = accounts.where("status = ?",opts[:status]) unless opts[:status].blank?
+    accounts = accounts.limit(limit)
     return if accounts.blank?
     accounts.each do |account|
       account.do_bind_computer(self,opts) # 绑定
