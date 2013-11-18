@@ -7,7 +7,7 @@ class Computer < ActiveRecord::Base
 
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count,:started
   attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at,:version,:online_roles_count,:online_accounts_count
-  attr_accessible :accounts_count,:session_id
+  attr_accessible :accounts_count,:session_id,:version
   #has_many :comroles,:dependent => :destroy
   #has_many :computer_accounts,:dependent => :destroy
 
