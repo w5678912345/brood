@@ -103,13 +103,15 @@ class Computer < ActiveRecord::Base
 
   # 自动绑定账户
   def auto_bind_accounts opts
+    avg = opts[:avg].to_i
     # 机器可以绑定的账户数
     accounts_count = Setting.computer_accounts_count  
     # 机器还可以绑定的账户数量
     can_accounts_count = accounts_count - self.accounts_count
     return if can_accounts_count < 1
+    limit = avg > can_accounts_count ? can_accounts_count : avg
     # 查询可以绑定的账户
-    accounts = Account.waiting_bind_scope.where("server is null or server = '' or server = ? ",self.server).limit(can_accounts_count)
+    accounts = Account.waiting_bind_scope.where("server is null or server = '' or server = ? ",self.server).limit(limit)
     accounts = accounts.where("status = ?",opts[:status]) unless opts[:status].blank?
     return if accounts.blank?
     accounts.each do |account|
