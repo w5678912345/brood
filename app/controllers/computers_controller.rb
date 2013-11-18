@@ -196,7 +196,7 @@ class ComputersController < ApplicationController
   end
 
   def group_count
-    @cols = {"server"=>"服务器","version"=>"版本","date(created_at)"=>"注册日期","roles_count"=>"绑定角色","checked"=>"审核状态","online_roles_count"=>"在线角色","started"=>"计算机在线"}
+    @cols = {"server"=>"服务器","version"=>"版本","date(created_at)"=>"注册日期","accounts_count"=>"绑定账户","checked"=>"审核状态","online_accounts_count"=>"在线账户","started"=>"计算机在线"}
     @col = params[:col] || "server"
     @records = Computer.where(:status=>1).select("count(id) as computers_count, #{@col} as col").group(@col).reorder("computers_count desc")
   end

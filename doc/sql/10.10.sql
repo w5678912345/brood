@@ -12,15 +12,15 @@ update notes set server = (select server from roles where id = role_id);
 update notes set hostname = (select hostname from computers where id = computer_id);
 
 # 修改角色状态
-update roles set status = 'normal' where status = '1';
+update roles set status = 'normal'; #where status = '1';
 # 修改角色状态
-update roles set status = 'disable' where status = '0';
+#update roles set status = 'disable' where status = '0';
 
 #STATUS = ['normal','bslocked','bslocked_again','bs_unlock_fail','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token']
 
 # 修改notes 的 api_name
 # select count(id),api_name from notes group by api_name;
-select count(id),date(created_at),api_name from notes group by date(created_at),api_name;
+# select count(id),date(created_at),api_name from notes group by date(created_at),api_name;
 
 
 update notes set api_name = 'computer_reg' where api_name = 'reg';
@@ -47,7 +47,7 @@ update notes set api_name = 'lost', api_code = 'lost' where api_name = 'lose';
 # 角色
 update notes set api_name = 'disable', api_code = 'disable' where api_name= 'role_disable';
 
-update notes set api_name = 'role_online' where api_name = 'role_dispatch';
+#update notes set api_name = 'role_online' where api_name = 'role_dispatch';
 	
 
 
