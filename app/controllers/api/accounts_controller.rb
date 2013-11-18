@@ -56,6 +56,14 @@ class Api::AccountsController < Api::BaseController
 		render :partial => '/api/result'
 	end
 
+	def look
+		@account = Account.find_by_no(params[:id])
+		@code = 1 if @account
+		@account.set_online_roles
+		#@accounts.online_roles = @account.roles
+		render :partial => '/api/accounts/data'
+	end
+
 	# 显示帐号信息
 	def show
 		@code = 1 if @account

@@ -207,6 +207,10 @@ class Account < ActiveRecord::Base
       return accounts
     end
 
+    def set_online_roles
+      @online_roles = self.roles
+    end
+
 
     def online_role_ids
       self.roles.online_scope.select(:id).reorder("id desc").uniq().map(&:id)
