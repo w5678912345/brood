@@ -1,5 +1,5 @@
 #
-# 发布应用分支 master 到服务器
+# 发布应用分支 bolt 到服务器
 #
 # 使用用法：
 #   部署：mina deploy -f config/deploy-test-bolt.rb -v
