@@ -77,7 +77,7 @@ class Note < ActiveRecord::Base
         notes = notes.where(:server => opts[:server]) unless opts[:server].blank?
         notes = notes.where(:computer_id => opts[:cid]) unless opts[:cid].blank?
         notes = notes.where(:api_name => opts[:api_name]) unless opts[:api_name].blank?
-        notes = notes.where(:api_name => opts[:event]) unless opts[:event].blank?
+        #notes = notes.where(:api_name => opts[:event]) unless opts[:event].blank?
         notes = notes.where("ip like ?","%#{opts[:ip]}%") unless opts[:ip].blank?
         notes = notes.where("msg like ?","%#{opts[:msg]}%") unless opts[:msg].blank?
         notes = notes.where("date(created_at) = ?",opts[:date]) unless opts[:date].blank?

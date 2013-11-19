@@ -7,7 +7,7 @@
 <tr>
 	<td><%= n.day %></td>
 	<td><%= n.api_name %></td>
-	<td><%= link_to n.ncount,notes_path(:event=>n.api_name,:date=>n.day),:target=>"_blank" %></td>
+	<td><%= link_to n.ncount,notes_path(:api_name=>n.api_name,:date=>n.day),:target=>"_blank" %></td>
 </tr>
 <%end%>
 </tbody>

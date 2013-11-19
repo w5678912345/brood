@@ -52,7 +52,7 @@ No
 	<a class="btn dropdown-toggle btn-small" data-toggle="dropdown" href="#"><span class="caret"></span></a>
 	<ul class="dropdown-menu">
 	<%notes.each do |note|%>
-		<li><%= link_to event_badge(note.api_name,note.ecount),notes_role_path(role,:date=>@date.to_s,:event=>note.api_name)%>
+		<li><%= link_to event_badge(note.api_name,note.ecount),notes_role_path(role,:date=>@date.to_s,:api_name=>note.api_name)%>
 		</li>
 	<%end%>
 </ul>  
