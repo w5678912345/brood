@@ -255,11 +255,12 @@ class Account < ActiveRecord::Base
 
    # 自动禁用账号的绑定
    def self.auto_unbind
-      time = Time.now.since(1000.hours).change(:hour=>6)
-      # accounts = Account.stopped_scope.where("bind_computer_id != -1").where("normal_at >= ?",time)
-      # accounts.each do |account|
-      #     account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto"})
-      # end
+      normal_at = Time.now.since(1000.hours).change(:hour=>6)
+      updated_at = Time.now.ago(120).change(:hour => 6)
+      accounts = Account.stopped_scope.where("bind_computer_id != -1").where("normal_at >= ? or updated_at <= ?",normal_at,updated_at)
+      accounts.each do |account|
+          account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto"})
+      end
    end
 
 
