@@ -29,6 +29,9 @@
 
 <input type="text" name="date(created_at)" id="created_at" class="input-small" placeholder="注册日期" value='<%= params["date(created_at)"]%>' />
 <input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
+<label class="checkbox">
+	<input type="checkbox" value="1" name="all" <%= 'checked="checked"' if params[:all] == "1"%> />ALL
+</label>
 <button type="submit" class="btn">Search</button>
 </form>
 

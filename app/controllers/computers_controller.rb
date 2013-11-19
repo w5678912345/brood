@@ -25,8 +25,9 @@ class ComputersController < ApplicationController
     @computers = @computers.where("hostname like ?","%#{params[:hostname]}%") unless params[:hostname].blank?
     @computers = @computers.where("auth_key like ?","%#{params[:ckey]}%") unless params[:ckey].blank? 
     @sum_accounts_count = @computers.sum(:accounts_count)
-    per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
-  	@computers = @computers.order("hostname desc").paginate(:page => params[:page], :per_page => per_page)
+    params[:per_page] = params[:per_page].blank? ? 20 : params[:per_page].to_i
+    params[:per_page] = @computers.count unless params[:all].blank?
+  	@computers = @computers.order("hostname desc").paginate(:page => params[:page], :per_page => params[:per_page])
 
   end
 
