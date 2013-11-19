@@ -18,15 +18,21 @@ class ComputersController < ApplicationController
     unless params[:started].blank?
         @computers = params[:started].to_i == 1 ? @computers.started_scope : @computers.stopped_scope
     end
+    unless params[:accounts_count].blank?
+      tmp = params[:accounts_count].split("-")
+      @computers = @computers.where(:accounts_count => params[:accounts_count]) if tmp.length == 1
+      @computers = @computers.where("accounts_count >= ? and accounts_count <= ?",tmp[0].to_i,tmp[1].to_i) if tmp.length == 2
+    end
 
     @computers = @computers.where(:status => params[:status].to_i) unless params[:status].blank?
-    @computers = @computers.where(:accounts_count => params[:accounts_count]) unless params[:accounts_count].blank?
+    
     @computers = @computers.where("date(created_at) =?",params["date(created_at)"]) unless params["date(created_at)"].blank?
     @computers = @computers.where("hostname like ?","%#{params[:hostname]}%") unless params[:hostname].blank?
     @computers = @computers.where("auth_key like ?","%#{params[:ckey]}%") unless params[:ckey].blank? 
     @sum_accounts_count = @computers.sum(:accounts_count)
-    per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
-  	@computers = @computers.order("hostname desc").paginate(:page => params[:page], :per_page => per_page)
+    params[:per_page] = params[:per_page].blank? ? 20 : params[:per_page].to_i
+    params[:per_page] = @computers.count unless params[:all].blank?
+  	@computers = @computers.order("hostname desc").paginate(:page => params[:page], :per_page => params[:per_page])
 
   end
 

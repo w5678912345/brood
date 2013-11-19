@@ -5,10 +5,12 @@ class RolesController < ApplicationController
 
 	# actions
 	def index
+		@roles = Role.list_search(params)
 		vit = params[:vit]
 		level = params[:level]
-		per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
-		@roles = Role.list_search(params).paginate(:page => params[:page], :per_page => per_page)
+		params[:per_page] = params[:per_page].blank? ? 20 : params[:per_page].to_i
+		params[:per_page] = @roles.count unless params[:all].blank?
+		@roles = @roles.paginate(:page => params[:page], :per_page => params[:per_page])
 	end
 
 	#

@@ -36,9 +36,10 @@
 	<option value="0" <%= 'selected="selected"' if params[:started] == "0" %> >No</option>
 </select>
 
-
-
 <input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
+<label class="checkbox">
+	<input type="checkbox" value="1" name="all" <%= 'checked="checked"' if params[:all] == "1"%> />ALL
+</label>
 <button type="submit" class="btn">Search</button>
 
 </form>

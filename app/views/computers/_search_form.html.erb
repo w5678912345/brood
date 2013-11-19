@@ -5,8 +5,7 @@
 <label class="checkbox" title="未设置服务器"><input type="checkbox" name="no_server" value="1" <%= 'checked="checked"' if params[:no_server] == "1" %> />为空</label> |
 <input type="text" name="version" class="input-small" placeholder="版本号" value="<%= params[:version]%>" />
 <input type="text" name="ckey" class="input-small" placeholder="ckey" value="<%= params[:ckey]%>" />
-<input type="text" name="accounts_count" class="input-small" placeholder="绑定账号" value="<%= params[:accounts_count]%>" />个
-<input type="checkbox" /> 
+<input type="text" name="accounts_count" class="input-small" placeholder="账号(n-m)" value="<%= params[:accounts_count]%>" />个
 <hr style="margin: 5px 0;"/>
 通过:
 <select name="checked" class="input-small">
@@ -29,6 +28,9 @@
 
 <input type="text" name="date(created_at)" id="created_at" class="input-small" placeholder="注册日期" value='<%= params["date(created_at)"]%>' />
 <input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
+<label class="checkbox">
+	<input type="checkbox" value="1" name="all" <%= 'checked="checked"' if params[:all] == "1"%> />ALL
+</label>
 <button type="submit" class="btn">Search</button>
 </form>
 
