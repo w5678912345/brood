@@ -151,6 +151,7 @@ Brood::Application.routes.draw do
   namespace :api  do
     match '/' => 'base#readme'
     match '/doc' => 'base#doc'
+    match '/hi' => 'base#hi'
     match '/reg'  => 'computers#reg'
     match '/cinfo' => 'computers#cinfo'
     resources :computers,:only => [] do 

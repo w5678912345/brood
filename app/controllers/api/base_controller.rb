@@ -16,6 +16,10 @@ class Api::BaseController < ActionController::Base
     render :layout => 'application',:template => 'api/doc'
   end
 
+  def hi
+    render :text => request.remote_ip
+  end
+
   	private 
   	def print_log
       params[:ip] = params[:ip] || request.remote_ip
