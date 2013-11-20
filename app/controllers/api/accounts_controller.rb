@@ -21,6 +21,7 @@ class Api::AccountsController < Api::BaseController
 			# 记录事件
 			 Note.create(:computer_id=>@computer.id,:hostname=>@computer.hostname,:ip=>params[:ip],:server => @computer.server,
 			 	:version => @computer.version,:api_name=>"not_find_account")
+			 @computer.auto_bind_accounts({:ip=>request.remote_ip,:msg=>"auto by start",:avg=>5})
 			end
 			return render :partial => '/api/result'
 		end
