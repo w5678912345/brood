@@ -255,18 +255,21 @@ class Account < ActiveRecord::Base
 
    # 自动禁用账号的绑定
    def self.auto_unbind
-      time = Time.now.since(1000.hours).change(:hour=>6)
-      # accounts = Account.stopped_scope.where("bind_computer_id != -1").where("normal_at >= ?",time)
-      # accounts.each do |account|
-      #     account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto"})
-      # end
+      
+      updated_at = Time.now.ago(120).change(:hour => 6)
+      accounts = Account.stopped_scope.bind_scope.where("updated_at <= ? ",updated_at)
+      accounts.each do |account|
+           account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto",:bind=>0})
+      end
+      #
+      normal_at = Time.now.since(1200.hours).change(:hour=>6)
+      accounts = Account.stopped_scope.where("bind_computer_id != -1").where("normal_at >= ?",normal_at)
+      accounts.each do |account|
+          account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto",:bind=>-1})
+      end
+      # return 0
    end
 
-
-   # #绑定计算机
-   # def bind_computer cid
-
-   # end
 
    # 绑定机器
    def do_bind_computer computer,opts
@@ -283,21 +286,24 @@ class Account < ActiveRecord::Base
       end
    end
 
-   # 取消绑定
+
+   # 禁用绑定
    def do_unbind_computer opts
-      return if self.bind_computer_id == -1
+      bind = opts[:bind].to_i
+      return if bind != -1 && bind != 0
       computer = self.bind_computer
       self.transaction do 
         # 禁用绑定
-        self.update_attributes(:bind_computer_id => -1,:updated_at => Time.now)
+        self.update_attributes(:bind_computer_id => bind,:updated_at => Time.now)
         return unless computer
         # 修改机器的账号数量
         computer.update_attributes(:accounts_count=>computer.accounts_count-1) if computer.accounts_count > 0
         # 默认IP
         opts[:ip] = "localhost" if opts[:ip].blank?
+        api_name=  bind == 0 ? "cancel_bind" : "disable_bind"
         # 插入记录
-        note = Note.create(:account => self.no, :computer_id=>computer.id || 0,:ip=>opts[:ip],:api_name=>'unbind_computer',:msg=>opts[:msg],
-             :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname)
+        note = Note.create(:account => self.no, :computer_id=>computer.id || 0,:ip=>opts[:ip],:api_name=>api_name,:msg=>opts[:msg],
+             :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:api_code=>bind)
       end
    end
 

@@ -51,7 +51,7 @@ class AccountsController < ApplicationController
 			#
 			@accounts = @accounts.stopped_scope.where("bind_computer_id != -1")
 			@accounts.each do |account|
-				account.do_unbind_computer(opts={:ip=>request.remote_ip,:msg=>"click"})
+				account.do_unbind_computer(opts={:ip=>request.remote_ip,:msg=>"click",:bind=>-1})
 			end
 			flash[:msg] = "#{@accounts.length}个账号,被禁用绑定!"
 			return redirect_to accounts_path(:bind=>-1)
