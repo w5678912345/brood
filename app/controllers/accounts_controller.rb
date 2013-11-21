@@ -78,7 +78,7 @@ class AccountsController < ApplicationController
 			return redirect_to accounts_path(:started => 1)
 		elsif "set_status" == @do
 			status = params[:status]
-    		@accounts.update_all(:status=>status) if Account::STATUS.include?(status)
+    		@accounts.update_all(:status=>status) if Account::STATUS.keys.include?(status)
     		flash[:msg] = "#{@accounts.length}个账号状态设置为 #{status}"
     		return redirect_to accounts_path(:status =>status)
 
