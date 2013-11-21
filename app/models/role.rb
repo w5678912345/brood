@@ -66,7 +66,7 @@ class Role < ActiveRecord::Base
     self.transaction do
        #创建session
        session = Note.create(:computer_id => computer.id, :account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,
-       :api_name=>"role_start",:server=> self.server || computer.server,:msg=>opts[:msg],:level=>self.level,:sup_id =>account_session.id,:version=>computer.version)
+       :api_name=>"role_start",:server=> self.server || computer.server,:msg=>opts[:msg],:level=>self.level,:session_id =>account_session.id,:version=>computer.version)
       # 修改账号的当前角色
       self.qq_account.update_attributes(:online_role_id => self.id)
       # 修改角色 session
@@ -81,9 +81,6 @@ class Role < ActiveRecord::Base
    end
     status = opts[:status]
     event = opts[:event]
-    account_session = self.qq_account.session
-    session = self.session
-    computer = session.computer
     # 修改角色属性
      self.role_index = opts[:role_index] unless opts[:role_index].blank?
      self.server = opts[:server] unless opts[:server].blank?
@@ -94,41 +91,36 @@ class Role < ActiveRecord::Base
      # 更新总产出
      self.total = self.total_pay + self.gold if self.gold_changed?
      # 
-     api_name = "0",api_code = "0"
      self.transaction do
+      # 修改角色在线时间
+      self.session.update_hours
+      # 修改角色最后访问时间
+      return 1 if self.update_attributes(:updated_at => Time.now)
+     end
+  end
 
+
+  def api_note opts
+     return CODES[:role_is_started] unless self.is_started?
+     status = opts[:status]
+     event = opts[:event]
+     api_name = "0",api_code = "0"
+     computer = self.session.computer
+     return 0 unless  (STATUS.include? status) || (EVENT.include? event) #事件和状态都未定义，不进行更新
+     self.transaction do
      if STATUS.include? status
        api_name = status # 如果定义了有效状态 设置 api_name => status
        api_code = status # 如果定义了有效状态 设置 api_code => status
        self.status = status 
-       session.update_attributes(:status => status)
      end
      api_name = event if EVENT.include? event # 如果定义了有效事件，设置api_name => event
      # 发生事件或状态改变时，插入记录
-     if (STATUS.include? status) || (EVENT.include? event)
-          Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, 
-            :api_name=> api_name,:api_code => api_code,:msg=>opts[:msg],:session_id=>session.id,:sup_id => account_session.id,
+      Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, 
+            :api_name=> api_name,:api_code => api_code,:msg=>opts[:msg],:session_id=>self.qq_account.session_id,
             :version=>computer.version,:server=>self.server || computer.server) 
-     end
-    
-      # 如果彼劳值变成了0,说明角色调度成功
-      if (self.vit_power_changed? && self.vit_power == 0 ) || opts[:success].to_i == 1
-          self.today_success = true
-          session.update_attributes(:success => true)
-           # Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, :server=>self.server || computer.server,
-          #   :api_name=>"role_success",:msg=>opts[:msg],:session_id=>session.id,:sup_id=>account_session.id,:version=>computer.version)
-      end
-      # 修改账号最后访问时间
-      self.qq_account.update_attributes(:updated_at => Time.now)
       #
-      session.update_hours
-      account_session.update_hours
-      # 更新机器使用时间
-      computer.session.update_hours if computer.session
-
-      # 修改角色最后访问时间
       return 1 if self.update_attributes(:updated_at => Time.now)
-     end
+      end
   end
 
 
@@ -151,7 +143,7 @@ class Role < ActiveRecord::Base
       session.update_attributes(:ending=>true, :stopped_at=>now,:hours=>hours)
       # 记录note
       Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,:version=>computer.version,
-       :api_name=>"role_stop",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=> session.id,:sup_id=>account_session.id)
+       :api_name=>"role_stop",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=> account_session.id)
       # 清空会话
       return 1 if self.update_attributes(:session_id => 0)
     end
@@ -177,7 +169,7 @@ class Role < ActiveRecord::Base
       if account.status == 'bslocked' && payment.gold > 0 
          account.update_attributes(:status => 'normal')
          Note.create(:account => account.no,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:api_name=>"bs_unlock_success",
-          :version=>computer.version, :server=>self.server || computer.server,:session_id=>session.id,:sup_id=>account_session.id, :msg=>"交易后自动解除锁定")
+          :version=>computer.version, :server=>self.server || computer.server,:session_id=>account_session.id, :msg=>"交易后自动解除锁定")
       end
       # 修改会话
 

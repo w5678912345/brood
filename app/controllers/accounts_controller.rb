@@ -64,7 +64,7 @@ class AccountsController < ApplicationController
 		# 添加角色
 		elsif "add_role" == @do
 			@accounts.each do |account|
-				account.add_new_role
+				account.add_new_role(params[:n] || 1)
 			end
 			flash[:msg] = "#{@accounts.length}个账号,新建了角色!"
 			return redirect_to accounts_path()
@@ -78,7 +78,7 @@ class AccountsController < ApplicationController
 			return redirect_to accounts_path(:started => 1)
 		elsif "set_status" == @do
 			status = params[:status]
-    		@accounts.update_all(:status=>status) if Account::STATUS.include?(status)
+    		@accounts.update_all(:status=>status) if Account::STATUS.keys.include?(status)
     		flash[:msg] = "#{@accounts.length}个账号状态设置为 #{status}"
     		return redirect_to accounts_path(:status =>status)
 

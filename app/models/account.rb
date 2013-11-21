@@ -99,9 +99,14 @@ class Account < ActiveRecord::Base
     def api_sync opts
       return CODES[:account_is_stopped] unless self.is_started?
       role = self.roles.find_by_id(opts[:rid])
-      #role.api_sync(opts) if role
-      self.api_note opts
+      # 修改角色
+      role.api_sync(opts) if role
+      #当前会话机器
+      computer = self.session.computer
+      #更新当前会话时间
       self.session.update_hours
+      #更新机器开机时间
+      computer.session.update_hours if computer.session
       return 1 if self.update_attributes(:updated_at => Time.now)
     end
 
@@ -110,6 +115,7 @@ class Account < ActiveRecord::Base
       return CODES[:account_is_stopped] unless self.is_started?
       status = opts[:status]
       event = opts[:event]
+      
       return 0 unless  (STATUS.has_key? status) || (EVENT.include? event) #事件和状态都未定义，不进行更新
       session = self.session
       computer = session.computer
@@ -217,8 +223,12 @@ class Account < ActiveRecord::Base
     end
 
     #为账号新建一个角色
-    def add_new_role
-      self.roles.build(:account=>self.no,:password => self.password,:role_index => self.roles.count,:vit_power=>156,:server => self.server)
+    def add_new_role n
+      i = self.roles_count
+      n.to_i.times.each do 
+         self.roles.build(:account=>self.no,:password => self.password,:role_index => i,:vit_power=>156,:server => self.server)
+        i = i+1
+      end
       self.save
     end
 
@@ -337,5 +347,7 @@ class Account < ActiveRecord::Base
       tmp = self.server.split("|")
       return Server.find_by_name(tmp[0]) if tmp.length == 2
     end
+
+    
 
 end

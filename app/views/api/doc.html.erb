@@ -45,17 +45,6 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 </tr>
 
 <tr>
-<td>set.json</td>
-<td>修改 ckey 对应的computer的区。参数: ckey => 计算机key，server => 区</td>
-</tr>
-
-<tr>
-<td>cinfo.json</td>
-<td>搜索 ckey 对应的computer。参数: ckey => 计算机key</td>
-</tr>
-
-
-<tr>
 <td>computers/note.json</td>
 <td>通过ckey 记录计算机异常，参数：event => 事件, code => 代码， msg => 消息, ckey => 计算机key </td> 
 </tr>
@@ -72,86 +61,63 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 <tr>
 <th colspan="2">帐号API</th>
 </tr>
-<tr>
-<td>accounts/auto.json</td>
-<td>自动搜索一个合适的account在 ckey 对应的computer 上线。参数: ckey => 计算机key, msg => 消息<span class="badge badge-important">New</span> </td> 
+<tr class="info">
+<td>account/auto.json</td>
+<td>自动搜索一个合适的account在 ckey 对应的computer 上线。参数: ckey => 计算机key, msg => 消息</td> 
 </tr>
 
-<tr>
-<td>accounts/start.json</td>
-<td>通过 帐号使account在ckey对应的computer上线，参数: id => 账号, ckey => 计算机key  ,msg => 消息<span class="badge badge-important">New</span> </td>
+<tr class="info">
+<td>account/start.json</td>
+<td>通过 帐号使account在ckey对应的computer上线，参数: id => 账号, ckey => 计算机key  ,msg => 消息 </td>
 </tr>
 
-<tr>
-<td>accounts/sync.json</td>
-<td>同步API, 参数: id => 账号, rid => 角色ID, role的属性 => {server,level,role_index,vit_power,gold,success}
+<tr class="info">
+<td>account/sync.json</td>
+<td>同步API, 参数: id => 账号, rid => 角色ID(null=>true), role的属性 => {server,level,role_index,vit_power,gold ...}
 </td>
 </tr>
 
-<tr>
-<td>accounts/note.json</td>
-<td>修改帐号account的属性. 参数: id => 账号,rid => 角色ID, ckey => 计算机key, status => 状态, event => 事件,  msg => 消息</br>
+<tr class="info">
+<td>account/note.json</td>
+<td>帐号Note. 参数: id => 账号,rid => 角色ID, ckey => 计算机key, status => 状态, event => 事件,  msg => 消息</br>
 <b>
 status => <%= Account::STATUS.to_s.gsub("\"","") %></br>
 event => <%= Account::EVENT.to_s.gsub("\"","") %>
 </b>
-<span class="badge badge-important">New</span>
 </td>
 </tr>
 
-<!-- [ normal(正常), bslocked(交易锁定), disconnect(掉线close2小时), exception(第三方数据异常close3小时), locked(帐号锁定), lost(帐号丢失), 
-discard(永久封停close120小时和24万小时), </br> no_rms_file, no_qq_token, bs_unlock_success, bs_unlock_fail ]</br> -->
 
-<tr>
-<td>accounts/stop.json</td>
-<td>通过 帐号回收对应account的属性,参数: id => 账号, success => 成功(1表示成功), ckey => 计算机key  ,msg => 消息 <span class="badge badge-important">New</span></td>
+<tr class="info">
+<td>account/stop.json</td>
+<td>通过 帐号回收对应account的属性,参数: id => 账号, success => 成功(1表示成功), ckey => 计算机key  ,msg => 消息 </td>
 </tr>
-<tr>
-	<td>accounts/look.json</td>
+<tr class="info">
+	<td>account/look.json</td>
 	<td>id 查看账号数据</td>
 </tr>
-<!-- <tr>
-	<td>accounts/role_start.json</td>
-	<td></td>
+
+<tr class="info">
+<td>account/role_start.json</td>
+<td>通过id 开始角色，参数：id => 账号, rid => 角色ID ckey => 计算机key </td>
 </tr>
-<tr>
-	<td>accounts/role_pay.json</td>
-	<td></td>
-</tr>
-<tr>
-	<td>accounts/role_note.json</td>
-	<td></td>
-</tr>
-<tr>
-	<td>accounts/role_stop.json</td>
-	<td></td>
-</tr> -->
-<tr>
-<th colspan="2">角色API</th>
-</tr>
-<tr>
-<td>roles/:id/start.json</td>
-<td>通过id 开始角色，参数：ckey => 计算机key <span class="badge badge-important">New</span></td>
-</tr>
-<tr>
-<td>roles/:id/sync.json
-</td>
-<td>通过id修改role的属性 server,level,role_index,vit_power,gold, success => 成功(1表示成功), status => 状态, event => 事件, ckey =>key, msg => 消息</br>
+<tr class="info">
+<td>account/role_note.json</td>
+<td>角色Note 参数：id => 账号, rid => 角色ID ckey => 计算机key, status => 状态, event => 事件, ckey =>key, msg => 消息</br>
 <b>
 status => <%= Role::STATUS.to_s.gsub("\"","") %> </br>
 event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 </b>
-<span class="badge badge-important">New</span>
 </td>
 </tr>
 
-<tr>
-<td>roles/:id/pay.json</td>
-<td>通过id记录role的金币支出。参数： gold => 支出金币数, balance => 余额, pay_type => 支出方式, reamrk => 备注(选填)，ckey => 计算机key</td>
+<tr class="info">
+<td>account/role_pay.json</td>
+<td>参数：id => 账号, rid => 角色ID ckey => 计算机key, gold => 支出金币数, balance => 余额, pay_type => 支出方式, reamrk => 备注(选填)，ckey => 计算机key</td>
 </tr>
-<tr>
-<td>roles/:id/stop.json</td>
-<td>通过id 停止角色，参数：success => 成功(1表示成功), ckey => 计算机key <span class="badge badge-important">New</span></td>
+<tr class="info">
+<td>account/role_stop.json</td>
+<td>参数：id => 账号, rid => 角色ID ckey => 计算机key, success => 成功(1表示成功) </td>
 </tr>
 
 
