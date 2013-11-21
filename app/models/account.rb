@@ -223,8 +223,12 @@ class Account < ActiveRecord::Base
     end
 
     #为账号新建一个角色
-    def add_new_role
-      self.roles.build(:account=>self.no,:password => self.password,:role_index => self.roles.count,:vit_power=>156,:server => self.server)
+    def add_new_role n
+      i = self.roles_count
+      n.to_i.times.each do 
+         self.roles.build(:account=>self.no,:password => self.password,:role_index => i,:vit_power=>156,:server => self.server)
+        i = i+1
+      end
       self.save
     end
 

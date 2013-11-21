@@ -64,7 +64,7 @@ class AccountsController < ApplicationController
 		# 添加角色
 		elsif "add_role" == @do
 			@accounts.each do |account|
-				account.add_new_role
+				account.add_new_role(params[:n] || 1)
 			end
 			flash[:msg] = "#{@accounts.length}个账号,新建了角色!"
 			return redirect_to accounts_path()
