@@ -319,17 +319,17 @@ class Account < ActiveRecord::Base
     #
     def sellers
       return [] unless self.real_server
-      return  self.game_server.roles
+      return  self.real_server.roles
     end
 
     def sell_goods
       return "" unless self.real_server
-      return  self.game_server.goods
+      return  self.real_server.goods
     end
 
     def goods_price
       return 1 unless self.real_server
-      return  self.game_server.price
+      return  self.real_server.price
     end
 
     def real_server
