@@ -198,6 +198,18 @@ Brood::Application.routes.draw do
       # match :put,    :on => :member
     end
 
+    resources :account, :only => [:index,:show],controller: 'account',:defaults => {:format => 'json'} do 
+      match :auto,   :on => :collection
+      match :start,  :on => :collection
+      match :stop,   :on => :collection
+      match :sync,   :on => :collection
+      match :note,   :on => :collection
+      match :look,   :on => :collection
+      # match :get,    :on => :member
+      # match :set,    :on => :member
+      # match :put,    :on => :member
+    end
+
   end
 
 end

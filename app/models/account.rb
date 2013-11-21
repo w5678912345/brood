@@ -256,13 +256,13 @@ class Account < ActiveRecord::Base
    # 自动禁用账号的绑定
    def self.auto_unbind
 
-      updated_at = Time.now.ago(24.hour).change(:hour => 6)
+      updated_at = Time.now.ago(336.hours).change(:hour => 6)
       accounts = Account.stopped_scope.bind_scope.where("updated_at <= ? ",updated_at)
       accounts.each do |account|
            account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto",:bind=>0})
       end
       #
-      normal_at = Time.now.since(1200.hours).change(:hour=>6)
+      normal_at = Time.now.since(1000.hours).change(:hour=>6)
       accounts = Account.stopped_scope.where("bind_computer_id != -1").where("normal_at >= ?",normal_at)
       accounts.each do |account|
           account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto",:bind=>-1})
@@ -318,18 +318,24 @@ class Account < ActiveRecord::Base
 
     #
     def sellers
-      return [] unless self.game_server
-      return  self.game_server.roles
+      return [] unless self.real_server
+      return  self.real_server.roles
     end
 
     def sell_goods
-      return "" unless self.game_server
-      return  self.game_server.goods
+      return "" unless self.real_server
+      return  self.real_server.goods
     end
 
     def goods_price
-      return 1 unless self.game_server
-      return  self.game_server.price
+      return 1 unless self.real_server
+      return  self.real_server.price
+    end
+
+    def real_server
+      return self.game_server if self.game_server
+      tmp = self.server.split("|")
+      return Server.find_by_name(tmp[0]) if tmp.length == 2
     end
 
 end
