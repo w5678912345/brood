@@ -10,6 +10,7 @@ module ApplicationHelper
 	end
 
 	def normal_at_tag at
+		return unless at
 		cls = at <= Time.now ? "badge badge-info" : "badge badge-warning" 
 		raw("<span class='#{cls}'>#{time_str(at)}</span>")
 	end
