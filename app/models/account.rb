@@ -332,4 +332,10 @@ class Account < ActiveRecord::Base
       return  self.game_server.price
     end
 
+    def real_server
+      return self.game_server if self.game_server
+      tmp = self.server.split("|")
+      return Server.find_by_name(tmp[0]) if tmp.length == 2
+    end
+
 end
