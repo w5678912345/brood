@@ -20,7 +20,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 
 end
-gem 'jekyll'
+#gem 'jekyll'
 gem 'jquery-rails'
 
 gem 'devise' # user auth

@@ -99,7 +99,7 @@ task :deploy => :environment do
     end
     
     to :clean do
-      invoke :shutdown
+      #invoke :shutdown
     end
   end
 end
