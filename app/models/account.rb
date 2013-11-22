@@ -348,6 +348,11 @@ class Account < ActiveRecord::Base
       return Server.find_by_name(tmp[0]) if tmp.length == 2
     end
 
+    before_create :init_data
+
+    def init_data
+      self.normal_at = Time.now
+    end
     
 
 end

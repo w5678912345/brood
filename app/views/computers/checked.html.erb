@@ -45,6 +45,16 @@
 		</select>
 		</div>
 	</div>
+<% elsif @do == "clear_bind_accounts"%>
+	<div class="control-group">
+		<label class="control-label">状态</label>
+		<div class="controls docs-input-sizes" >
+		<select name="bind">
+			<option value="-1">禁用绑定</option>
+			<option value="0">未绑定</option>
+		</select>
+		</div>
+	</div>
 <%end%>
 
 
