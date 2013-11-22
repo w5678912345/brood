@@ -22,7 +22,7 @@
 <% @records.each do |record|%>
 <tr>
 <td><%= record.accounts_count %></td>
-<td><%= record.col.blank? ? "" : link_to(record.col,accounts_path(@col=>record.col))  %></td>
+<td><%= record.col.blank? ? "" : link_to(record.col,accounts_path(@col=>record.col,:server=>params[:server]))  %></td>
 </tr>
 <%end%>
 </tbody>
