@@ -188,7 +188,7 @@ class Account < ActiveRecord::Base
     def self.list_search opts
     	accounts = Account.includes(:session,:bind_computer)
       accounts = accounts.where("no = ?", opts[:no]) unless opts[:no].blank?
-    	accounts = accounts.where(:server => opts[:server]) unless opts[:server].blank?
+    	accounts = accounts.where("server like ?","%#{opts[:server]}%") unless opts[:server].blank?
       accounts = accounts.no_server_scope if opts[:no_server].to_i == 1
     	accounts = accounts.where("status = ?",opts[:status])	unless opts[:status].blank?
       accounts = accounts.where("today_success =?",opts[:ts].to_i) unless opts[:ts].blank?
@@ -348,6 +348,11 @@ class Account < ActiveRecord::Base
       return Server.find_by_name(tmp[0]) if tmp.length == 2
     end
 
+    before_create :init_data
+
+    def init_data
+      self.normal_at = Time.now
+    end
     
 
 end

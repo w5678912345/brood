@@ -11,9 +11,6 @@
  <%= link_to raw('<i class="icon-map-marker"></i>角色分布'), group_count_roles_path %>
 </li>
 
-<li <%= active if controller_name == "roles" && action_name == 'new' %> >
- <%= link_to raw('<i class="icon-plus"></i>新建角色'), new_role_path %>
-</li>
 
 <!-- <li <%= active if controller_name == "sheets" %> >
  <%= link_to raw('<i class=" icon-folder-open"></i>导入角色'), sheets_path %>

@@ -32,7 +32,8 @@ class AccountsController < ApplicationController
 	def create
 		@account = Account.new(params[:account])
 		if @account.save
-			redirect_to account_path(@account.no)
+			@account.add_new_role(params[:n] || 1)
+			redirect_to account_path(:id => 0,:no => @account.no)
 		else
 			render :action => :new
 		end
@@ -48,7 +49,7 @@ class AccountsController < ApplicationController
 		@account = Account.find_by_id(params[:id]) if params[:id] != "0"
 		#@account = Account.find_by_no(params[:no]) unless @account
 		@account.update_attributes(params[:account])
-		redirect_to account_path(@account.no)
+		redirect_to account_path(:id=>0,:no=>@account.no)
 	end
 
 	def checked 

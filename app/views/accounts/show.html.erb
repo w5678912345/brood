@@ -5,7 +5,7 @@
 <tbody>
 <tr>
 	<td>账户</td>
-	<td><%= account_tag @account.no %></td>
+	<td><%= @account.id%> <%= account_tag @account.no %></td>
 	<td>创建时间</td>
 	<td><%= time_str @account.created_at %></td>
 	<td>服务器</td>
