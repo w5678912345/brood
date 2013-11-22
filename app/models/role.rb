@@ -76,6 +76,7 @@ class Role < ActiveRecord::Base
 
   # 角色同步
   def api_sync opts
+  return CODES[:account_is_stopped] unless self.qq_account.is_started? 
    unless self.is_started?
       self.api_start opts
    end

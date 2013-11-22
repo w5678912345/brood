@@ -21,6 +21,12 @@
     <%= f.password_field :password,:required=>"required" %>
   </div>
 </div>
+<div class="control-group">
+<label class="control-label">角色数量:</label>
+  <div class="controls docs-input-sizes" >
+    <%= text_field_tag :n,1,:required=>"required" %>
+  </div>
+</div>
 <%end%>
 <div class="control-group">
 <label class="control-label">服务区:</label>
