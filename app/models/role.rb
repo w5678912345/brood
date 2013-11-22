@@ -183,7 +183,8 @@ class Role < ActiveRecord::Base
   def self.list_search opts
     roles = Role.includes(:qq_account)
     roles = roles.where("id = ?",opts[:id]) unless opts[:id].blank?
-    roles = roles.where("server =?",opts[:server]) unless opts[:server].blank?
+    #roles = roles.where("server =?",opts[:server]) unless opts[:server].blank?
+    roles = roles.where("server like ?","%#{opts[:server]}%") unless opts[:server].blank?
     roles = roles.where("account =?",opts[:account]) unless opts[:account].blank?
     roles = roles.where("status = ?",opts[:status])  unless opts[:status].blank?
     roles = roles.where("online = ?",opts[:online].to_i) unless opts[:online].blank?
