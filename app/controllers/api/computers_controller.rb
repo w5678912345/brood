@@ -8,7 +8,7 @@ class Api::ComputersController < Api::BaseController
 	before_filter :require_computer_by_ckey,:only =>[:start,:sync,:stop]
 
 	def reg
-		@computer = Computer.new(:hostname=>params[:hostname],:auth_key => params[:auth_key],:server=>params[:server],:version=>params[:version],:user_id=>0)
+		@computer = Computer.new(:hostname=>params[:hostname],:auth_key => params[:auth_key],:server=>params[:server],:version=>params[:version]||"default",:user_id=>0)
 		@code = @computer.api_reg params
 	end
 
