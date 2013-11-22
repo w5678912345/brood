@@ -153,6 +153,7 @@ Brood::Application.routes.draw do
     match '/doc' => 'base#doc'
     match '/hi' => 'base#hi'
     match '/reg'  => 'computers#reg'
+    match '/set'  => 'computers#set'
     match '/cinfo' => 'computers#cinfo'
     resources :computers,:only => [] do 
       get :start,     :on => :collection
