@@ -93,6 +93,7 @@ class Role < ActiveRecord::Base
      self.total = self.total_pay + self.gold if self.gold_changed?
      # 
      self.transaction do
+      self.qq_account.update_attributes(:updated_at => Time.now)
       # 修改角色在线时间
       self.session.update_hours
       # 修改角色最后访问时间
