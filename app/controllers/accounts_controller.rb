@@ -95,7 +95,10 @@ class AccountsController < ApplicationController
     		@accounts.update_all(:status=>status) if Account::STATUS.keys.include?(status)
     		flash[:msg] = "#{@accounts.length}个账号状态设置为 #{status}"
     		return redirect_to accounts_path(:status =>status)
-
+    	elsif "edit_normal_at" == @do
+    		at = params[:at]
+    		@accounts.update_all(:normal_at => at,:today_success => params[:ts].to_i)
+    		return redirect_to accounts_path()
 		end
 		return render :text => "nothing"
 	end
