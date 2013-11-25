@@ -287,7 +287,8 @@ class Account < ActiveRecord::Base
       return if self.bind_computer_id != 0
       self.transaction do 
         # 绑定机器
-        self.update_attributes(:bind_computer_id => computer.id,:server => computer.server,:updated_at => Time.now)
+        server = self.server.blank? ? computer.server : self.server 
+        self.update_attributes(:bind_computer_id => computer.id,:server => server,:updated_at => Time.now)
         # 修改机器绑定数量
         computer.update_attributes(:accounts_count =>computer.accounts_count+1)
         # 插入记录
