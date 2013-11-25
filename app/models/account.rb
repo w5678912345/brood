@@ -98,6 +98,7 @@ class Account < ActiveRecord::Base
     # 同步帐号
     def api_sync opts
       return CODES[:account_is_stopped] unless self.is_started?
+      self.api_note(opts)
       role = self.roles.find_by_id(opts[:rid])
       # 修改角色
       role.api_sync(opts) if role
