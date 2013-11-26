@@ -21,7 +21,7 @@ class Note < ActiveRecord::Base
 
     scope :online_at_scope,lambda{|start_time,end_time|where(online_at: start_time..end_time)}
 
-    scope :date_scope,lambda{|start_date,end_date|where(created_at: start_date..end_date)}
+    scope :date_scope,lambda{|start_date,end_date|where(created_at: start_date.at_beginning_of_day..end_date.end_of_day)}
 
     scope :day_scope,lambda{|time|time_scope(time,time+1.day)}
     

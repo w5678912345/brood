@@ -5,7 +5,7 @@ class Api::ComputersController < Api::BaseController
 
 	CODES = Api::CODES
 
-	before_filter :require_computer_by_ckey,:only =>[:start,:sync,:stop]
+	before_filter :require_computer_by_ckey,:only =>[:start,:sync,:stop,:note]
 
 	def reg
 		@computer = Computer.new(:hostname=>params[:hostname],:auth_key => params[:auth_key],:server=>params[:server],:version=>params[:version]||"default",:user_id=>0)
@@ -35,6 +35,11 @@ class Api::ComputersController < Api::BaseController
 
 	def sync
 		@code = @computer.api_sync(params)
+		render :partial => '/api/result'
+	end
+
+	def note
+		@code = @computer.api_note(params)
 		render :partial => '/api/result'
 	end
 

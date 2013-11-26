@@ -5,8 +5,8 @@ class Account < ActiveRecord::Base
     #STATUS = ['normal','bslocked','bslocked_again','bs_unlock_fail','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','discardfordays','discardbysailia','discardforyears']
     #CAN_START_STATUS=['normal','bslocked','disconnect','exception']
     # 账号可能发生的事件
-    EVENT = ['bslock','bs_unlock_fail','bs_unlock_success']
-    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线","set_status"=>"修改状态"}
+    EVENT = ['bslock','bs_unlock_fail','bs_unlock_success','code_error']
+    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线","set_status"=>"修改状态","edit_normal_at"=>"修改冷却时间"}
     # 需要自动恢复normal的状态
     Auto_Normal = {"disconnect"=>2,"exception"=>3,"lost"=>0,"bslocked"=>72,"bs_unlock_fail"=>72}
     #

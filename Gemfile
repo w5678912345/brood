@@ -52,6 +52,11 @@ group :development,:test do
   
   gem 'thin', require: false #
 end
+gem "highcharts-rails", "~> 3.0.7"
+
+# group :test do 
+# 	gem "rspec", "~> 2.14.1"
+# end
 
 
 # To use ActiveModel has_secure_password

@@ -2,7 +2,7 @@
 class Computer < ActiveRecord::Base
   CODES = Api::CODES
   STATUS = []
-  EVENT = ['not_find_account']
+  EVENT = ['not_find_account','code_error']
   Btns = { "pass"=>"审核通过", "refuse"=>"拒绝通过","clear_bind_accounts" => "清空账号", "bind_accounts" => "分配账号","task"=>"远程任务","swap_account"=>"转移账号"}
 
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count,:started
@@ -88,6 +88,16 @@ class Computer < ActiveRecord::Base
   def api_sync opts
     self.version = opts[:version] unless opts[:version].blank?
     self.server = opts[:server] unless opts[:server].blank?
+    return 1 if self.update_attributes(:updated_at => Time.now)
+  end
+
+  def api_note opts
+    status = opts[:status]
+    event = opts[:event]
+    return 0 unless  (STATUS.include? status) || (EVENT.include? event) #事件和状态都未定义，不进行更新
+    if EVENT.include?(event)
+        Note.create(self.to_note_hash.merge(:msg=>opts[:msg],:api_name=>event,:ip=>opts[:ip]))
+    end
     return 1 if self.update_attributes(:updated_at => Time.now)
   end
 

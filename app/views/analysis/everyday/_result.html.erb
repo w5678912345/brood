@@ -71,7 +71,10 @@
 <td>
 	<%=  n.role_start >0 ? ("%2.0f%" % (n.role_success*100.00/n.role_start)) : "0%"  %>
 </td>
-<td><%= sprintf('%.2f', n.role_sum_hours) %></td>
+<td><%= sprintf('%.2f', n.role_sum_hours) %>
+<%= sprintf('%.2f', n.role_success_sum_hours) %>
+<%= sprintf('%.2f', n.role_success_sum_hours/n.role_success)  if n.role_success >0 %>
+</td>
 
 </tr>
 <tr style="display:none;">

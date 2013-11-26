@@ -1,0 +1,63 @@
+<%= render :partial => "/common/date_range_form",:locals=>{:path=>chart_data_nodes_path }%>
+
+
+<hr/>
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+<script type="text/javascript">
+$(function () {
+$('#container').highcharts({
+    title: {
+        text: '账号数量',
+        x: -20 //center
+    },
+    subtitle: {
+        text: 'account status',
+        x: -20
+    },
+    xAxis: {
+        categories: <%= raw(@days.to_json) %>
+    },
+    yAxis: {
+        title: {
+            text: '数量 (个)'
+        },
+        plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+        }]
+    },
+    tooltip: {
+        valueSuffix: '个'
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle',
+        borderWidth: 0
+    },
+    series: <%= raw(@d.to_json) %>
+});
+});
+
+
+</script>
+<!-- 
+
+        {
+                name: 'normal',
+                data: [70, 6.9, 9.5, 14.5, 18.2, 21.5]
+            }, {
+                name: 'lost',
+                data: [0.8, 5.7, 11.3, 17.0, 22.0, 24.8]
+            }, {
+                name: 'locked',
+                data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0]
+            }, {
+                name: 'bslocked',
+                data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2]
+            },{
+                name: 'exception',
+                data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2]
+            } -->

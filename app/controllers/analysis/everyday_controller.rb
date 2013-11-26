@@ -4,8 +4,8 @@ class Analysis::EverydayController < Analysis::AppController
 	def show
 		@start_date = Date.today - 7.day 
 		@end_date = Date.today + 1.day
-		@start_date = params[:start_date] unless params[:start_date].blank?
-		@end_date = params[:end_date]  unless params[:end_date].blank?
+		@start_date = Date.parse(params[:start_date]) unless params[:start_date].blank?
+		@end_date = Date.parse(params[:end_date])  unless params[:end_date].blank?
 		@tmp_notes = Note.select("date(created_at) as date,
 			sum(if(api_name='computer_start',1,0)) as computer_start,
 			sum(if(api_name='computer_start',hours,0)) as computer_sum_hours,
