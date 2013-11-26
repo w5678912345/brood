@@ -16,6 +16,7 @@ class Analysis::EverydayController < Analysis::AppController
 			sum(if(api_name='role_start',1,0)) as role_start,
 			sum(if(api_name='role_start' and success = 1,1,0)) as role_success,
 			sum(if(api_name='role_start',hours,0)) as role_sum_hours,
+			sum(if(api_name='role_start' and success = 1,hours,0)) as role_success_sum_hours,
 			COUNT(DISTINCT if(api_name='computer_start',computer_id,null)) as computer_start_count,
 			COUNT(DISTINCT if(api_name='account_start',account,null)) as account_start_count,
 			COUNT(DISTINCT if(api_name='account_start' and success = 1, account, null)) as account_success_count,
