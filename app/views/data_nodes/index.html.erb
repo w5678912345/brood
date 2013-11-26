@@ -15,7 +15,10 @@
 <% @data_nodes.each do |data|%>
 <tr>
 	<td><%= time_str data.created_at %></td>
-	<td><%= data.accounts_data %></td>
+	<td><% data.accounts_data.each do |k,v| %>
+	<%= "#{k}(#{v})" %>
+	<%end%>
+	</td>
 </tr>
 <%end%>
 </tbody>

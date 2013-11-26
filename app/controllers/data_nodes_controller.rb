@@ -3,7 +3,7 @@ class DataNodesController < ApplicationController
 
 
 	def index
-		@data_nodes = DataNode.order("created_at desc").paginate(:page => params[:page], :per_page => 20)
+		@data_nodes = DataNode.order("created_at desc").paginate(:page => params[:page], :per_page => 10)
 	end
 
 

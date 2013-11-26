@@ -5,7 +5,7 @@ class DataNode < ActiveRecord::Base
    attr_accessible :computers, :accounts, :roles, :events, :opts
 
    def self.mark
-   		records = Account.select("count(id) as accounts_count, status").group("status")
+   		records = Account.select("count(id) as accounts_count, status").reorder("status").group("status")
    		h = {}
    		records.each do |record|
    			h[record.status] = record.accounts_count
