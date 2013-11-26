@@ -7,4 +7,4 @@
 //= require bootstrap
 //= require jquery.validate
 //= require jquery.validate.messages_zh
-
+//= require highcharts

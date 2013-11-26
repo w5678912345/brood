@@ -78,6 +78,8 @@ GEM
     eventmachine (1.0.3)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    highcharts-rails (3.0.7)
+      railties (>= 3.1)
     hike (1.2.2)
     i18n (0.6.1)
     jbuilder (1.2.1)
@@ -194,6 +196,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   delayed_job_active_record
   devise
+  highcharts-rails (~> 3.0.7)
   jbuilder (~> 1.2.0)
   jquery-rails
   mina (~> 0.2.0)
