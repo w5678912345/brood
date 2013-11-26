@@ -103,3 +103,6 @@ update accounts set normal_at = updated_at where status in('disconnect', 'except
 # 导出测试服 NoRmsFile 的角色
 
 select DISTINCT r.account,r.password from roles as r inner join notes as n on r.id = n.role_id where r.level < 40 and n.api_name = 'NoRmsFile' into outfile '/tmp/noRmsFile.txt';
+
+
+select date(created_at),COUNT(if(api_name='role_start',id, null)) as role_s_count from notes where hours < 0.01 and created_at between '2013-11-18' and '2013-11-26' group by date(created_at);
