@@ -29,3 +29,7 @@ puts 'seed computers...'
 	Computer.create(:hostname=>"computer#{n+1}",:user_id=>User.first.id,:auth_key=>"computer#{n+1}")
 end
 end
+
+
+User.create({:email => "bolt@dabi.co", :name => "管理员",:is_admin => true,:password => '12345678', :password_confirmation => '12345678'})
+
