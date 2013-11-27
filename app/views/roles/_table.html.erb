@@ -49,7 +49,10 @@
 <td><%= role.vit_power %></td>
 <td><%= role.gold %></td>
 <td>
-<%= raw("#{role.session_id}#{notes_link_tag(:session_id => role.session_id )}") if role.session_id>0  %>
+<% if role.session_id > 0 %>
+<%= link_to role.session.computer_id ,computer_path(role.session.computer_id)%>
+<%= notes_link_tag(:cid => role.session.computer_id) %>
+<%end%>
 </td>
 <td><%= role.status %></td>
 <td><%= boolean_tag role.today_success %></td>
