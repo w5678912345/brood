@@ -9,24 +9,36 @@
 <%= form_for(@server,:html=>{:class=>"form-horizontal"}) do |f|  %>
 <div class="control-group">
 <label class="control-label">名称:</label>
-<div class="controls docs-input-sizes" >
+<div class="controls">
 	<%= f.text_field :name,:required=>"required"  %>
 </div>
 </div>
 
 <div class="control-group">
 <label class="control-label">出售商品:</label>
-<div class="controls docs-input-sizes" >
+<div class="controls">
 	<%= f.text_field :goods,:required=>"required"  %>
 </div>
 </div>
 
 <div class="control-group">
 <label class="control-label">商品单价:</label>
-<div class="controls docs-input-sizes" >
+<div class="controls">
 	<%= f.text_field :price,:required=>"required"  %>
 </div>
 </div>
+
+<div class="control-group">
+<label class="control-label">金币单价:</label>
+<div class="controls">
+	<div class="input-append">
+	<%= f.text_field :gold_price,:required=>"required",:class=>"input-small"  %>
+  <span class="add-on">元/万金币</span>
+</div>
+</div>
+</div>
+
+
 
 <!-- <div class="control-group">
 <label class="control-label">收款角色:</label>
