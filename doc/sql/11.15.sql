@@ -5,3 +5,15 @@
   AND ( roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0) 
   AND (roles.level < 65) 
   ORDER BY roles.level desc LIMIT 1;
+
+
+
+ select no,a.password,r.id from accounts as a inner JOIN roles as r on a.no = r.account where a.status = 'locked' and r.level > 30 and date(a.created_at) = '2013-11-21' LIMIT 3;
+
+
+
+select no,a.password,a.server,r.level from accounts as a inner JOIN roles as r on a.no = r.account where a.status = 'locked' and r.role_index = 0 into outfile '/tmp/all_locked_account.txt';
+
+
+select count(DISTINCT no) from accounts as a inner JOIN roles as r on a.no = r.account where a.status = 'locked' and r.level > 40;
+
