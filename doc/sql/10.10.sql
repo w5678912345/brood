@@ -97,6 +97,18 @@ select id,status,no,updated_at from accounts where status in('disconnect', 'exce
 update accounts set normal_at = updated_at where status in('disconnect', 'exception', 'lost', 'bslocked', 'bs_unlock_fail') and normal_at is null;
 	
 
+select count(id) from notes where date(created_at) < '2013-11-18';
+
+delete from notes where api_name = 'answer_verify_code' and date(created_at) < '2013-12-01';
+
+
+
+select count(id) delete from notes where api_name not in('computer_start','account_start','role_start','role_online') and date(created_at) < '2013-11-30';
+
+delete from notes where api_name not in('computer_start','account_start','role_start','role_online') and date(created_at) < '2013-11-25';
+
+
+
 
 # select count(DISTINCT role_id) from notes where api_name = 'NoRmsFile';
 

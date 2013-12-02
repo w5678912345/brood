@@ -114,7 +114,7 @@ end
 desc "Shutdown app."
 task :shutdown do
   queue %[echo "-----> Shutting down..."]
-  invoke :'rvm:use[ruby-1.9.3-p429]'
+  invoke :'rvm:use[ruby-2.0.0-p247]'
   invoke :'thin:stop'
   invoke :'whenever:clear'
 end
