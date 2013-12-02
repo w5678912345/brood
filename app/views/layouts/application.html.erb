@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app>
 <head>
-  <title><%= content_for?(:title) ? yield(:title) : "Brood" %></title>
+  <title><%= content_for?(:title) ? "#{yield(:title)}Brood" : "Brood" %></title>
   <%= stylesheet_link_tag    'application' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
