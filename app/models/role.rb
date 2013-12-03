@@ -103,7 +103,7 @@ class Role < ActiveRecord::Base
 
 
   def api_note opts
-     return CODES[:role_is_started] unless self.is_started?
+     return CODES[:role_is_stopped] unless self.is_started?
      status = opts[:status]
      event = opts[:event]
      api_name = "0",api_code = "0"
