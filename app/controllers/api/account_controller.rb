@@ -6,8 +6,9 @@ class Api::AccountController < Api::BaseController
 
 	before_filter :require_remote_ip									  # 获取请求IP
 	before_filter :require_computer_by_ckey, :only => [:auto,:start,:sync,:stop] #需要ckey，验证是否为有效的机器	
-	before_filter :valid_ip_use_count,					:only => [:auto] # 验证当前IP的24小时使用次数
-	before_filter :valid_ip_range_online_count,			:only => [:auto] # 验证当前IP 前三段的在线数量
+	#before_filter :valid_ip_use_count,					:only => [:auto] # 验证当前IP的24小时使用次数
+	#before_filter :valid_ip_range_online_count,			:only => [:auto] # 验证当前IP 前三段的在线数量
+	before_filter :validate_ip_can_use,					:only => [:auto]
 	before_filter :require_account_by_no,				:only => [:start,:sync,:note,:stop,:look,:role_start,:role_stop,:role_note,:role_pay] # 根据帐号取得一个账户
 	#before_filter :require_account_is_started,			:only => [:sync,:note,:stop] # 确定账号在线
 	before_filter :require_role_by_rid,					:only => [:role_start,:role_stop,:role_note,:role_pay]
@@ -87,6 +88,14 @@ class Api::AccountController < Api::BaseController
 		return @code = CODES[:ip_used] unless tmps.length == 4 # IP地址有效性
 		params[:ip_range] = "#{tmps[0]}.#{tmps[1]}"  # IP地址的前2段
 		params[:ip_range_3] = "#{tmps[0]}.#{tmps[1]}.#{tmps[2]}" # IP地址的前3段
+	end
+
+	def validate_ip_can_use
+		ip = Ip.find_or_create(params[:ip])
+		unless ip.can_use?
+			@code = CODES[:ip_used]
+			return render :partial => 'api/result' unless  @code == 0
+		end
 	end
 
 	# 验证当前IP的24小时使用次数
