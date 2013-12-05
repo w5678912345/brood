@@ -17,7 +17,8 @@ class Api::BaseController < ActionController::Base
   end
 
   def hi
-    render :text => request.remote_ip
+    ip = Ip.find_or_create(request.remote_ip)
+    render :json =>{:ip=>request.remote_ip,:can_use=>ip.can_use?}
   end
 
   	private 
