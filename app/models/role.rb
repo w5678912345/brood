@@ -189,6 +189,7 @@ class Role < ActiveRecord::Base
     roles = roles.where("status = ?",opts[:status])  unless opts[:status].blank?
     roles = roles.where("online = ?",opts[:online].to_i) unless opts[:online].blank?
     roles = roles.where("today_success =?",opts[:ts].to_i) unless opts[:ts].blank?
+    roles = roles.where(:role_index => opts[:index].to_i) unless opts[:index].blank?
     #
     roles = roles.where("date(created_at) =?",opts["date(created_at)"]) unless opts["date(created_at)"].blank?
     unless opts[:started].blank?
