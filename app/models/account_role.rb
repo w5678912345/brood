@@ -12,6 +12,8 @@ class AccountRole
 		records = records.where("date(accounts.created_at) = ?",opts[:a_created_at]) unless opts[:a_created_at].blank?
 		#
 		records = records.where("roles.id = ?",opts[:rid].to_i) unless opts[:rid].blank?
+		records = records.where("roles.role_index = ?",opts[:index].to_i) unless opts[:index].blank?
+		records = records.where("roles.status in (?)",opts[:rss]) unless opts[:rss].blank?
 		records = records.where("date(roles.created_at) = ?",opts[:r_created_at]) unless opts[:r_created_at].blank?
 		unless opts[:level].blank?
 	      tmp = opts[:level].split("-")
