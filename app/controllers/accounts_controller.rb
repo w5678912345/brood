@@ -103,9 +103,8 @@ class AccountsController < ApplicationController
     		computer = Computer.find_by_key_or_id(params[:c])
     		if computer
     			opts = {:ip=>request.remote_ip,:msg=>"bind by computer",:bind=>0}
-    			computer.clear_bind_accounts(opts) if params[:clear].to_i == 1
+    			#computer.clear_bind_accounts(opts) if params[:clear].to_i == 1
     			@accounts.stopped_scope.each do |account|
-    				account.do_unbind_computer(opts)
     				account.do_bind_computer(computer,opts)
     			end
     			return redirect_to computer_path(computer)
