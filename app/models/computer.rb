@@ -3,11 +3,11 @@ class Computer < ActiveRecord::Base
   CODES = Api::CODES
   STATUS = []
   EVENT = ['not_find_account','code_error']
-  Btns = { "pass"=>"审核通过", "refuse"=>"拒绝通过","clear_bind_accounts" => "清空账号", "bind_accounts" => "分配账号","task"=>"远程任务","swap_account"=>"转移账号"}
+  Btns = { "pass"=>"审核通过", "refuse"=>"拒绝通过","clear_bind_accounts" => "清空账号", "bind_accounts" => "分配账号","task"=>"远程任务","auto_binding_account"=>"自动绑定账号","swap_account"=>"转移账号"}
 
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count,:started
   attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at,:version,:online_roles_count,:online_accounts_count
-  attr_accessible :accounts_count,:session_id,:version
+  attr_accessible :accounts_count,:session_id,:version,:auto_binding
   #has_many :comroles,:dependent => :destroy
   #has_many :computer_accounts,:dependent => :destroy
 

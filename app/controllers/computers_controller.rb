@@ -93,6 +93,11 @@ class ComputersController < ApplicationController
       end
       flash[:msg] = "#{@computers.length}台机器，清空了绑定账号"
       return redirect_to computers_path()
+    elsif @do == "auto_binding_account"
+      i = @computers.update_all(:auto_binding=>params[:auto_binding].to_i)
+      flash[:msg] = "#{i}台机器设置了自动绑定账号"
+      return redirect_to computers_path();
+     # return render :js => "alert();"
     end
 
     return render :text => @ids.length
