@@ -32,13 +32,13 @@ select count(account) from
 #
 select count(DISTINCT accounts.no),tmp.m from accounts inner join
 (select account,min(date(created_at)) m from notes where api_name = 'account_start' group by account) as tmp on accounts.no = tmp.account
-where accounts.status = 'discardforyears' and  tmp.m > '2013-12-01' and accounts.server like '网通三区%' group by tmp.m;
+where accounts.status = 'discardforyears' and  tmp.m > '2013-12-01' group by tmp.m;
 
 
 #
 select count(DISTINCT accounts.no),tmp.m from accounts inner join
 (select account,min(date(created_at)) m from notes where api_name = 'account_start' group by account) as tmp on accounts.no = tmp.account
-where accounts.status != 'locked' and  tmp.m > '2013-12-01' and accounts.server like '网通三区%' group by tmp.m;
+where accounts.status != 'locked' and  tmp.m > '2013-12-01' group by tmp.m;
 
 
 select count(account) from 

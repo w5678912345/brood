@@ -15,7 +15,7 @@ class Account < ActiveRecord::Base
       "discardfordays"=>72,"discardbysailia"=>240,"discardforyears"=>12000}
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
-    attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at,:today_success
+    attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at,:today_success,:last_start_ip
     attr_accessor :online_roles 
     #所属服务器
 	  belongs_to :game_server, :class_name => 'Server', :foreign_key => 'server',:primary_key => 'name'
@@ -90,7 +90,7 @@ class Account < ActiveRecord::Base
             role.update_attributes(:online=>true,:online_note_id=>role_note.id) # 修改角色 session_id
         end
     
-        return 1 if self.update_attributes(:session_id=>session.id,:online_ip=>ip.value)
+        return 1 if self.update_attributes(:session_id=>session.id,:online_ip=>ip.value,:last_start_ip=>ip.value)
       end
     end
 

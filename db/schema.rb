@@ -11,29 +11,30 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131129022603) do
+ActiveRecord::Schema.define(:version => 20131211030347) do
 
   create_table "accounts", :force => true do |t|
-    t.string   "no",                                       :null => false
-    t.string   "password",                                 :null => false
+    t.string   "no",                                                     :null => false
+    t.string   "password",                                               :null => false
     t.string   "server"
-    t.integer  "roles_count",        :default => 0,        :null => false
-    t.integer  "computers_count",    :default => 0,        :null => false
-    t.boolean  "normal",             :default => true,     :null => false
-    t.string   "status",             :default => "normal", :null => false
+    t.integer  "roles_count",                      :default => 0,        :null => false
+    t.integer  "computers_count",                  :default => 0,        :null => false
+    t.boolean  "normal",                           :default => true,     :null => false
+    t.string   "status",                           :default => "normal", :null => false
     t.string   "ip_range"
     t.string   "online_ip"
-    t.integer  "online_note_id",     :default => 0,        :null => false
-    t.integer  "online_role_id",     :default => 0,        :null => false
-    t.integer  "online_computer_id", :default => 0,        :null => false
-    t.datetime "created_at",                               :null => false
-    t.datetime "updated_at",                               :null => false
-    t.integer  "bind_computer_id",   :default => -1,       :null => false
+    t.integer  "online_note_id",                   :default => 0,        :null => false
+    t.integer  "online_role_id",                   :default => 0,        :null => false
+    t.integer  "online_computer_id",               :default => 0,        :null => false
+    t.datetime "created_at",                                             :null => false
+    t.datetime "updated_at",                                             :null => false
+    t.integer  "bind_computer_id",                 :default => -1,       :null => false
     t.datetime "bind_computer_at"
     t.datetime "normal_at"
-    t.integer  "session_id",         :default => 0,        :null => false
-    t.boolean  "today_success",      :default => false,    :null => false
-    t.integer  "current_role_id",    :default => 0,        :null => false
+    t.integer  "session_id",                       :default => 0,        :null => false
+    t.boolean  "today_success",                    :default => false,    :null => false
+    t.integer  "current_role_id",                  :default => 0,        :null => false
+    t.string   "last_start_ip",      :limit => 32
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true
@@ -67,6 +68,7 @@ ActiveRecord::Schema.define(:version => 20131129022603) do
     t.integer  "accounts_count",        :default => 0,         :null => false
     t.integer  "online_accounts_count", :default => 0,         :null => false
     t.integer  "session_id",            :default => 0,         :null => false
+    t.boolean  "auto_binding",          :default => true,      :null => false
   end
 
   create_table "comroles", :force => true do |t|
@@ -127,6 +129,11 @@ ActiveRecord::Schema.define(:version => 20131129022603) do
     t.string   "target"
     t.string   "result"
     t.string   "opts"
+    t.string   "goods"
+    t.integer  "amount",                       :default => 0,     :null => false
+    t.integer  "cost",                         :default => 0,     :null => false
+    t.string   "role_type"
+    t.string   "role_name"
   end
 
   create_table "payments", :force => true do |t|
@@ -141,6 +148,7 @@ ActiveRecord::Schema.define(:version => 20131129022603) do
     t.datetime "updated_at",                :null => false
     t.string   "server"
     t.integer  "session_id", :default => 0, :null => false
+    t.string   "target"
   end
 
   create_table "roles", :force => true do |t|
@@ -178,7 +186,15 @@ ActiveRecord::Schema.define(:version => 20131129022603) do
     t.integer  "computers_count",               :default => 0,        :null => false
     t.integer  "session_id",                    :default => 0,        :null => false
     t.boolean  "today_success",                 :default => false,    :null => false
+    t.integer  "bag_value",                     :default => 0,        :null => false
+    t.integer  "start_count",                   :default => 0,        :null => false
+    t.integer  "experience",                    :default => 0,        :null => false
+    t.string   "task_name"
+    t.boolean  "reset_talent",                  :default => false,    :null => false
+    t.boolean  "is_agent",                      :default => false,    :null => false
   end
+
+  add_index "roles", ["account"], :name => "index_roles_on_account"
 
   create_table "servers", :force => true do |t|
     t.string   "name",            :limit => 124,                  :null => false
@@ -191,6 +207,10 @@ ActiveRecord::Schema.define(:version => 20131129022603) do
     t.integer  "price",                          :default => 1,   :null => false
     t.float    "gold_price",                     :default => 0.0, :null => false
     t.float    "gold_unit",                      :default => 0.0, :null => false
+    t.string   "goods2"
+    t.integer  "price2",                         :default => 1,   :null => false
+    t.integer  "max_price",                      :default => 1,   :null => false
+    t.integer  "max_price2",                     :default => 1,   :null => false
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true
