@@ -27,7 +27,7 @@
 	<th>服务器</th>
 	<th>Auth Key</th>
 	<th>版本</th>
-  	<th>绑定帐号</th>
+  	<th>绑定帐号/自动</th>
   	<th>在线帐号</th>
 	<th>注册时间</th>
 	<th>通过</th>
@@ -49,7 +49,7 @@
 <td><%= link_to computer.server || "" ,computers_path(:server => computer.server)%></td>
 <td><%= computer.auth_key %></td>
 <td><%= link_to computer.version, computers_path(:version => computer.version) %></td>
-<td><%= computer.accounts_count %></td>
+<td><%= computer.accounts_count %> <%= boolean_tag computer.auto_binding %></td>
 <td><%= computer.online_accounts_count %></td>
 <td><%= time_str computer.created_at %></td>
 <td><%= boolean_tag computer.checked %></td>
@@ -61,9 +61,6 @@
     <ul class="dropdown-menu">
       <li>
           <%= link_to raw("<i class='icon-edit'></i>修改"),edit_computer_path(computer) %>
-      </li>
-      <li>
-         <% link_to raw("<i class='icon-trash'></i>删除"),computer_path(computer),confirm: 'Are you sure?',:method => :delete %>
       </li>
     </ul>
   </div>

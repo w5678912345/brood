@@ -16,6 +16,15 @@ class Ip < ActiveRecord::Base
   	self.value.gsub(".","_")
   end
 
+  def can_use?
+    return false if self.use_count >= Setting.ip_max_use_count
+    tmps = self.value.split(".")
+    ip_range = "#{tmps[0]}.#{tmps[1]}.#{tmps[2]}"
+    current_online_count = Account.started_scope.where("SUBSTRING_INDEX(online_ip,'.',3) = ?",ip_range).count(:id)
+    return false if current_online_count >= Setting.ip_range_max_online_count
+    return true
+  end
+
   def self.find_or_create(value)
       ip = Ip.find_by_value(value)
       ip = Ip.create(:value => value) unless ip

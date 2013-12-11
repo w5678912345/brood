@@ -17,3 +17,7 @@ select no,a.password,a.server,r.level from accounts as a inner JOIN roles as r o
 
 select count(DISTINCT no) from accounts as a inner JOIN roles as r on a.no = r.account where a.status = 'locked' and r.level > 40;
 
+
+select no,password from accounts where server = '上海1区' and  status = 'bslocked' limit 20 into outfile '/tmp/t20.txt';
+
+

@@ -3,7 +3,9 @@
 <tbody>
 <tr>
 <th>主机名</th>
-<td><%= @computer.hostname %> <%= status_tag @computer.status %></td>
+<td><%= computer_tag(@computer)  %>
+
+</td>
 <th>Auth Key</th>
 <td><%= @computer.auth_key %></td>
 <th>ID</th>
@@ -15,7 +17,7 @@
 <tr>
 <th>账户数量:</th>
 <td>在线: <%= @computer.online_accounts_count%>
-绑定: <%= @computer.accounts_count %>
+绑定: <%= @computer.accounts_count %> 自动:<%= boolean_tag @computer.auto_binding %>
 </td>
 <td>区 / 版本</td>
 <td><%= @computer.server %> / <%= @computer.version %></td>
@@ -29,8 +31,8 @@
 <td><%= @computer.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
 <th>修改时间</th>
 <td><%= @computer.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
-<td>操作</td>
-<td><%= link_to "运行记录",notes_path(:cid => @computer.id),:target=>"_blank" %></td>
+<td>状态</td>
+<td> <%= status_tag @computer.status %></td>
 </tr>
 
 

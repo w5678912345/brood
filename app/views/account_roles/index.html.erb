@@ -1,0 +1,18 @@
+<% content_for :title do%>账号列表<%end%>
+
+<%= render "search_form" %>
+
+
+ <div class="alert">
+<strong><a href="#myModal" role="button" class="btn" data-toggle="modal">搜索</a>
+提示信息:</strong>
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<span>查询到<%= @records.total_entries%>条记录. <%= flash[:msg] if flash[:msg]%></span> 
+</div>
+<% if params[:tag] == "role"%>
+<%= render :partial => "roles/table",:locals=>{:roles=>@records} %>
+<%else%>
+<%= render :partial => "accounts/table",:locals=>{:accounts=>@records} %>
+<%end%>
+
+<%= will_paginate @records %>

@@ -34,6 +34,10 @@ Brood::Application.routes.draw do
     #get   :computers,   :on => :member
   end
 
+  resources :account_roles, :only => [:index] do 
+    
+  end
+
   resources :computers do 
     get   :group_count, :on=> :collection
     put   :update_accounts_count, :on => :collection

@@ -36,6 +36,11 @@ class Setting < ActiveRecord::Base
 		return val == nil ? 3 : val
 	end
 
+	def self.computer_auto_binding_account_count
+		val = find_value_by_key("computer_auto_binding_account_count")
+		return val == nil ? 2 : val
+	end
+
 
 	# 账户可以绑定的计算机数量
 	# def self.account_computers_count

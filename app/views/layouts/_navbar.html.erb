@@ -19,6 +19,7 @@
     <ul class="dropdown-menu">
     <li class="nav-header">Account</li>
     <li><%= link_to "帐号列表", accounts_path()%></li>
+    <li><%= link_to "帐号列表 New", account_roles_path(:tag=>"account")%></li>
     <li><%= link_to "帐号分布", group_count_accounts_path()%></li>
     <li><%= link_to "帐号设置", setting_accounts_path()%></li>
     </ul>
@@ -30,6 +31,7 @@
     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
 		  <li class="nav-header">Role</li>
 		  <li><%= link_to "角色列表", roles_path()%></li>
+          <li><%= link_to "角色列表 New", account_roles_path(:tag=>"role")%></li>
 		  <li><%= link_to "角色分布统计",group_count_roles_path()%></li>
     </ul>
 </li>
@@ -64,7 +66,6 @@
     <li class="nav-header">金币支出</li>
 		<li><%= link_to "支出主页", home_payments_path()%></li>
     <li><%= link_to "所有支出", payments_path()%></li>
-		<li><%= link_to "搜索支出记录", search_payments_path()%></li>
     </ul>
 </li>
 

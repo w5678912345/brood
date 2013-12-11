@@ -20,8 +20,11 @@ class ComputersController < ApplicationController
     end
     unless params[:accounts_count].blank?
       tmp = params[:accounts_count].split("-")
-      @computers = @computers.where(:accounts_count => params[:accounts_count]) if tmp.length == 1
-      @computers = @computers.where("accounts_count >= ? and accounts_count <= ?",tmp[0].to_i,tmp[1].to_i) if tmp.length == 2
+      @computers = tmp.length == 2 ? @computers.where("accounts_count >= ? and accounts_count <= ?",tmp[0].to_i,tmp[1].to_i) : @computers.where(:accounts_count => params[:accounts_count])
+    end
+    unless params[:start_count].blank?
+      tmp = params[:start_count].split("-")
+      @computers = tmp.length == 2 ? @computers.where("online_accounts_count >= ? and online_accounts_count <= ?",tmp[0],tmp[1]) : @computers.where(:online_accounts_count=>tmp[0].to_i)
     end
 
     @computers = @computers.where(:status => params[:status].to_i) unless params[:status].blank?
@@ -90,6 +93,11 @@ class ComputersController < ApplicationController
       end
       flash[:msg] = "#{@computers.length}台机器，清空了绑定账号"
       return redirect_to computers_path()
+    elsif @do == "auto_binding_account"
+      i = @computers.update_all(:auto_binding=>params[:auto_binding].to_i)
+      flash[:msg] = "#{i}台机器设置了自动绑定账号"
+      return redirect_to computers_path();
+     # return render :js => "alert();"
     end
 
     return render :text => @ids.length

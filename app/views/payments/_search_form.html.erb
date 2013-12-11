@@ -1,7 +1,7 @@
 <form class="form-search" action="<%= payments_path %>">
 	时间:
-  <input type="text" name="min_time" class="input-medium search-query" placeholder="开始时间" value="<%= params[:min_time]%>" />-
-  <input type="text" name="max_time" class="input-medium search-query" placeholder="截止时间" value="<%= params[:max_time]%>" />  
+  <input type="text" name="min_time" id="start_date" class="input-small" placeholder="开始日期" value="<%= params[:min_time]%>" />-
+  <input type="text" name="max_time" id="end_date" class="input-small" placeholder="截止日期" value="<%= params[:max_time]%>" />  
 	支出:
   <input type="text" name="min_gold" class="input-small" placeholder="最小金额" value="<%= params[:min_gold]%>" />-
   <input type="text" name="max_gold" class="input-small" placeholder="最大金额" value="<%= params[:max_gold]%>" />
@@ -11,3 +11,9 @@
 	<input type="text" name="role_id" class="input-small" placeholder="角色ID" value="<%= params[:role_id]%>" />
   <button type="submit" class="btn">Search</button>
 </form>
+<script type="text/javascript">
+$(function(){
+  $("#start_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+  $("#end_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+});
+</script>
