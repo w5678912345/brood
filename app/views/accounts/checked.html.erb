@@ -45,6 +45,16 @@
 </label>
 </div>
 </div>
+<% elsif params[:do] == "bind_this_computer" %>
+<div class="control-group">
+<label class="control-label">机器ID/Key:</label>
+<div class="controls docs-input-sizes" >
+<input type="text" name="c" value="" placeholder="机器ID/Key" />
+<label class="checkbox">
+	<input id="ts" name="clear" type="checkbox" value="1">清空机器当前账号
+</label>
+</div>
+</div>
 <%end%>
 
 <div class="form-actions">
