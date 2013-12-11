@@ -109,6 +109,7 @@ class AccountsController < ApplicationController
     			end
     			return redirect_to computer_path(computer)
     		else
+    			flash[:error] = "没有对应的机器"
     			return render :action => :checked
     		end
 		end
