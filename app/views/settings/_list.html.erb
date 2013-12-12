@@ -1,17 +1,21 @@
 <table class="table table-bordered table-striped">
 <thead>
 <tr>
-<th>Key</th>
-<th>Value</th>
-<th>Created At</th>
-<th>Operate</th>
+<th>配置</th>
+<th>值</th>
+<th>备注</th>
+<th>修改时间</th>
+<th>历史</th>
+<th>操作</th>
 </tr>
 <tbody>
 <% @settings.each do |set|%>
 <tr>
 <td><%= set.key %></td>
 <td><%= set.val %></td>
-<td><%= set.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+<td><%= set.remark %></td>
+<td><%= time_str set.updated_at %></td>
+<td><%= set.history%></td>
 <td class="span3">
 <%= link_to raw("<i class='icon-edit'></i>修改"),edit_setting_path(set),:class=>"btn" %>
  <%= link_to raw("<i class='icon-trash'></i>删除"),setting_path(set),confirm: 'Are you sure?',:method => :delete,:class=>"btn" %>

@@ -1,17 +1,10 @@
-<%= form_for(@setting,:html=>{:class=>"form form-horizontal"}) do |form|  %>
+<%= form_for(@setting,:html=>{:class=>"form form-inline"}) do |form|  %>
 <input type="hidden" value="✓" name="utf8">
-<div class="control-group">
-  <%= form.label :Key ,:class=>"control-label" %>
-  <div class="controls docs-input-sizes">
-     <%= form.text_field :key %>
-  </div>
-</div>
-<div class="control-group">
-  <%= form.label :Value ,:class=>"control-label" %>
-  <div class="controls docs-input-sizes">
-   <%= form.text_field :val %>
-   <%= form.submit "提交",:class=>"btn btn-primary"%>
-  </div>
-</div>
+
+<%= form.label :Key ,:class=>"control-label" %> <%= form.text_field :key,:placeholder=>"配置项" %>
+<%= form.label :Value ,:class=>"control-label" %><%= form.text_field :val,:class=>"input-small",:placeholder=>"配置值" %>
+<%= form.label :remark ,:class=>"control-label" %><%= form.text_field :remark,:class=>"input-small",:placeholder=>"备注"%>
+<%= form.submit "提交",:class=>"btn btn-primary"%>
+
 
 <%end%>
