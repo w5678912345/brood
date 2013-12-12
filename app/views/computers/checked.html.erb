@@ -1,5 +1,6 @@
+<% content_for :title do%>机器 <%= Computer::Btns[@do]%><%end%>
 <fieldset>
-<legend>计算机： <%= Computer::Btns[@do]%></legend>
+<legend>机器： <%= Computer::Btns[@do]%></legend>
 <div class="alert">
 <strong>提示信息:</strong>
 <span>您选中了<%= @ids.length %> 个机器，执行[<%= Computer::Btns[@do]%>]操作!</span> 

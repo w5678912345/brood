@@ -99,6 +99,19 @@ class AccountsController < ApplicationController
     		at = params[:at]
     		@accounts.update_all(:normal_at => at,:today_success => params[:ts].to_i)
     		return redirect_to accounts_path()
+    	elsif "bind_this_computer" == @do
+    		computer = Computer.find_by_key_or_id(params[:c])
+    		if computer
+    			opts = {:ip=>request.remote_ip,:msg=>"bind by computer",:bind=>0}
+    			#computer.clear_bind_accounts(opts) if params[:clear].to_i == 1
+    			@accounts.stopped_scope.each do |account|
+    				account.do_bind_computer(computer,opts)
+    			end
+    			return redirect_to computer_path(computer)
+    		else
+    			flash[:error] = "没有对应的机器"
+    			return render :action => :checked
+    		end
 		end
 		return render :text => "nothing"
 	end

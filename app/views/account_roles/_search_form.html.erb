@@ -13,18 +13,19 @@
 </div>
 <div class="modal-body">
 
-
+账号:
 <input type="text" name="no" class="input-small" placeholder="帐号" value="<%= params[:no]%>" />
 <input type="text" name="server" class="input-small" placeholder="服务器" value="<%= params[:server]%>" />
 <input type="text" name="roles_count" class="input-small" placeholder="角色数量" value="<%= params[:roles_count]%>" />
 <input type="text" name="bind_cid" class="input-small" value="<%= params[:bind_cid]%>" placeholder="绑定机器"  title="绑定的机器" />
+ <input type="text" name="a_created_at" id="a_created_at" value="<%= params[:a_created_at]%>" class="input-small" placeholder="创建日期"  />
+<hr style="margin:5px 0;">
 上线:
 <select name="started" class="input-small">
 <option value="" >-All-</option>
 <option value="1" <%= 'selected="selected"' if params[:started] == "1" %>>Yes</option>
 <option value="0" <%= 'selected="selected"' if params[:started] == "0" %> >No</option>
 </select>
-<input type="text" name="a_created_at" id="a_created_at" value="<%= params[:a_created_at]%>" class="input-small" placeholder="账号注册日期"  />
 <hr style="margin:5px 0;">
 账号状态:
 <% Account::STATUS.keys.each do |status|%>
@@ -39,21 +40,34 @@
 <input type="text" name="gold" class="input-small" placeholder="金币(n-m)" value="<%= params[:gold]%>" />
 <input type="text" name="r_created_at" id="r_created_at" class="input-small" placeholder="创建日期" value="<%= params[:r_created_at]%>" />
 <hr style="margin:5px 0;">
-<input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
-<label class="checkbox">
-	<input type="checkbox" value="1" name="all" <%= 'checked="checked"' if params[:all] == "1"%> />ALL
-</label>
-<button type="submit" class="btn">Search</button>
+角色上线:
+<select name="r_started" class="input-small">
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:r_started] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:r_started] == "0" %> >No</option>
+</select>
+调度:
+<select name="online" class="input-small">
+	<option value="">-All-</option>
+	<option value="1" <%= 'selected="selected"' if params[:online] == "1" %>>Yes</option>
+	<option value="0" <%= 'selected="selected"' if params[:online] == "0" %> >No</option>
+</select>
+
 <hr style="margin:5px 0;">
 角色状态:
 <% Role::STATUS.each do |status|%>
 <label class="checkbox"> <input type="checkbox" name="rss[]" value="<%= status%>" <%= 'checked="checked"' if params[:rss] && params[:rss].include?(status) %> /><%= status%> </label>
 <%end%>
+<hr style="margin:5px 0;">
 
 
 </div>
   
 <div class="modal-footer">
+<input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
+<label class="checkbox">
+	<input type="checkbox" value="1" name="all" <%= 'checked="checked"' if params[:all] == "1"%> />ALL
+</label>
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
     <button type="submit" class="btn btn-primary">确定搜索</button>
   </div>
