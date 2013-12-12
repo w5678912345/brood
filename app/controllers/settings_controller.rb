@@ -19,6 +19,7 @@ class SettingsController < ApplicationController
 
 	def update
 		@setting =Setting.find_by_id(params[:id])
+		@setting.history = @setting.val
 		@setting.update_attributes(params[:setting])
 		redirect_to settings_path
 	end

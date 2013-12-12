@@ -1,6 +1,6 @@
 #
 class Setting < ActiveRecord::Base
-   attr_accessible :ip_max_use_count, :role_timeout_minutes,:key,:val
+   attr_accessible :ip_max_use_count, :role_timeout_minutes,:key,:val,:remark
 
    #ROLE_MAX_LEVEL = 
 
