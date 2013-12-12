@@ -7,6 +7,7 @@ class AccountRolesController < ApplicationController
 		#params[:per_page] = @records.count unless params[:all].blank?
 		@v = "accounts/table"
 		@v = "roles/table" if params[:tag] == "role"
+		params[:per_page] = @records.count unless params[:all].blank?
 		@records = @records.paginate(:page => params[:page], :per_page => params[:per_page])
 	end
 
