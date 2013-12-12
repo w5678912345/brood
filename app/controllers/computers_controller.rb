@@ -14,6 +14,7 @@ class ComputersController < ApplicationController
     @computers = @computers.where(:version=>params[:version]) unless params[:version].blank?  
     @computers = @computers.where(:id => params[:id]) unless params[:id].blank?
     @computers = @computers.where(:checked => params[:checked]) unless params[:checked].blank?
+    @computers = @computers.where(:group => params[:group]) unless params[:group].blank?
     #
     unless params[:started].blank?
         @computers = params[:started].to_i == 1 ? @computers.started_scope : @computers.stopped_scope
@@ -98,6 +99,10 @@ class ComputersController < ApplicationController
       flash[:msg] = "#{i}台机器设置了自动绑定账号"
       return redirect_to computers_path();
      # return render :js => "alert();"
+    elsif @do == "set_group"
+      i = @computers.update_all(:group => params[:group])
+      flash[:msg] = "#{i}台机器设置了分组"
+      return redirect_to computers_path(:group=>params[:group])
     end
 
     return render :text => @ids.length
@@ -213,6 +218,16 @@ class ComputersController < ApplicationController
     @cols = {"server"=>"服务器","version"=>"版本","date(created_at)"=>"注册日期","accounts_count"=>"绑定账户","checked"=>"审核状态","online_accounts_count"=>"在线账户","started"=>"计算机在线"}
     @col = params[:col] || "server"
     @records = Computer.where(:status=>1).select("count(id) as computers_count, #{@col} as col").group(@col).reorder("computers_count desc")
+  end
+
+  def discardforyears
+    @records = Computer.joins("LEFT JOIN notes ON computers.id = notes.computer_id")
+    @records = @records.where(:group=>params[:group]) unless params[:group].blank?
+    @records = @records.select("
+      date(notes.created_at) as date,
+      COUNT(DISTINCT if(api_name='account_start',account,null)) as start_count,
+      COUNT(DISTINCT if(api_name='discardforyears',account,null)) as discardforyears_count
+    ").group("date(notes.created_at)").reorder("notes.created_at desc")
   end
 
 

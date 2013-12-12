@@ -16,6 +16,9 @@
 <li <%= active if controller_name == 'computers' && action_name == 'group_count' %>>
  <%= link_to raw('<i class="icon-map-marker"></i>计算机分布'),group_count_computers_path  %>
 </li>
+<li <%= active if controller_name == 'computers' && action_name == 'discardforyears' %>>
+ <%= link_to raw('<i class="icon-map-marker"></i>封号比例'),discardforyears_computers_path(:group=>params[:group])  %>
+</li>
 <li <%= active if controller_name == 'computers' && action_name == 'new' %>>
  <%= link_to raw('<i class="icon-plus"></i>新建计算机'),new_computer_path  %>
 </li>
