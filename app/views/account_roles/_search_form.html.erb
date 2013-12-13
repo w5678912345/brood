@@ -2,14 +2,17 @@
 <!-- Modal -->
 
 <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-<form class="form-search" action="<%= account_roles_path %>" style="margin:0px;padding:0px;">
+<form class="form-search" action="<%= account_roles_path %>" style="margin:0px;padding:0px;" id="myForm">
 <div class="modal-header">
 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 <label>搜索数据:</label>
-<select name="tag" class="input-small">
-<option value="account" <%= 'selected="selected"' if params[:tag] == "account" %>>账号</option>
+<select name="tag" class="input-small" id="tag">
+<option value="account">账号</option>
 <option value="role" <%= 'selected="selected"' if params[:tag] == "role" %> >角色</option>
 </select>
+
+
+
 </div>
 <div class="modal-body">
 <input type="text" name="no" class="input-small" placeholder="帐号" value="<%= params[:no]%>"  />
@@ -84,11 +87,18 @@
 </div>
   
 <div class="modal-footer">
+<div class="btn-group">
+ 	<button type="button" id="clearFrom" class="btn">清空</button>
+	<button type="reset"  class="btn">重置</button>
+	<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+</div>
+
 <input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
 <label class="checkbox">
 	<input type="checkbox" value="1" name="all" <%= 'checked="checked"' if params[:all] == "1"%> />ALL
 </label>
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+
+    
     <button type="submit" class="btn btn-primary">确定搜索</button>
   </div>
 </form>
@@ -101,8 +111,12 @@ $(function(){
 	var today = new Date();
 	$("#a_created_at").datepicker({dateFormat:"yy-mm-dd",maxDate:today});
 	$("#r_created_at").datepicker({dateFormat:"yy-mm-dd",maxDate:today});
-	$("#end_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
-	$("#date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+	
+	$("#clearFrom").click(function(){
+	$(':input','#myForm .modal-body').not(':button, :submit, :reset, :hidden, #tag').val('').removeAttr('checked').removeAttr('selected');
+	});
+
+
 });
 </script>
 
