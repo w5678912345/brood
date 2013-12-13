@@ -19,3 +19,7 @@ update accounts set created_at = now(),updated_at= now(),normal_at = now() where
 
 
 update accounts set created_at = '2013-12-12 17:00:00' where id <= 300;
+
+
+
+select no,password from accounts where status = 'exception' into outfile '/tmp/e.ext';
