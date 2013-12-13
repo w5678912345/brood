@@ -1,0 +1,18 @@
+<% content_for :title do%>机器<%end%>
+<%= render "navbar" %>
+<table class="table">
+<thead>
+<tr>
+	<th>日期</th>
+	<th>调度账号</th>
+	<th>封停账号</th>
+</tr>
+</thead>
+<% @records.each do |r|%>
+<tr>
+	<td><%= r.date %></td>
+	<td><%= r.start_count %>个</td>
+	<td><%= r.discardforyears_count %>个</td>
+</tr>
+<%end%>
+</table>

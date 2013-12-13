@@ -23,7 +23,7 @@
 
 <tr>
 	<th>选择</th>
-	<th>主机名</th>
+	<th>主机名/分组名</th>
 	<th>服务器</th>
 	<th>Auth Key</th>
 	<th>版本</th>
@@ -45,7 +45,7 @@
 <%= computer.id %>
 </label>
 </td>
-<td><%= computer_tag(computer) %> <%= status_tag computer.status %></td>
+<td><%= computer_tag(computer) %> <%=  computer.group %></td>
 <td><%= link_to computer.server || "" ,computers_path(:server => computer.server)%></td>
 <td><%= computer.auth_key %></td>
 <td><%= link_to computer.version, computers_path(:version => computer.version) %></td>

@@ -46,6 +46,7 @@ Brood::Application.routes.draw do
     put   :enable,    :on => :member
     put   :checked,     :on => :collection
     put   :do_checked,  :on => :collection
+    get   :discardforyears, :on=> :collection
   end
   resources :ips,:only => [:index,:destroy,:show] do 
     get :clear, 		:on => :collection

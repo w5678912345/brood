@@ -112,6 +112,10 @@ class AccountsController < ApplicationController
     			flash[:error] = "没有对应的机器"
     			return render :action => :checked
     		end
+    	elsif "set_server" == @do
+    		i =  @accounts.stopped_scope.update_all(:server => params[:server])
+			flash[:error] = "#{i}个账号的区发生改变"
+			return redirect_to accounts_path(:server =>params[:server])
 		end
 		return render :text => "nothing"
 	end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131212025235) do
+ActiveRecord::Schema.define(:version => 20131212111530) do
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(:version => 20131212025235) do
     t.integer  "online_accounts_count", :default => 0,         :null => false
     t.integer  "session_id",            :default => 0,         :null => false
     t.boolean  "auto_binding",          :default => true,      :null => false
+    t.string   "group"
   end
 
   create_table "comroles", :force => true do |t|
@@ -136,6 +137,11 @@ ActiveRecord::Schema.define(:version => 20131212025235) do
     t.string   "role_type"
     t.string   "role_name"
   end
+
+  add_index "notes", ["account"], :name => "index_notes_on_account"
+  add_index "notes", ["computer_id"], :name => "index_notes_on_computer_id"
+  add_index "notes", ["role_id"], :name => "index_notes_on_role_id"
+  add_index "notes", ["session_id"], :name => "index_notes_on_session_id"
 
   create_table "payments", :force => true do |t|
     t.integer  "role_id",                   :null => false
