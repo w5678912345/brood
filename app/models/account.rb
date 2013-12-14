@@ -238,6 +238,10 @@ class Account < ActiveRecord::Base
       self.roles.where("vit_power > 0 and status = 'normal' ")
     end
 
+    def reorder_roles
+      self.roles.reorder("role_index")
+    end
+
     # 重置账号绑定数量
     def self.reset_roles_count
       accounts = Account.all
