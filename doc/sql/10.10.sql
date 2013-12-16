@@ -99,7 +99,7 @@ delete from notes where api_name = 'answer_verify_code' and date(created_at) < '
 
 select count(id) delete from notes where api_name not in('computer_start','account_start','role_start','role_online') and date(created_at) < '2013-11-30';
 
-delete from notes where api_name not in('computer_start','account_start','role_start','role_online') and date(created_at) < '2013-11-25';
+delete from notes where api_name not in('computer_start','account_start','role_start','role_online') and date(created_at) < '2013-12-05';
 
 
 
