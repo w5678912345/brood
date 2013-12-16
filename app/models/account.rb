@@ -83,7 +83,7 @@ class Account < ActiveRecord::Base
         
         # 可以调度的角色
         @online_roles = opts[:all] ? self.roles : self.roles.waiting_scope
-        @online_roles = @online_roles.reorder("level desc").limit(Setting.account_start_roles_count)
+        @online_roles = @online_roles.reorder("role_index").limit(Setting.account_start_roles_count)
         # 调度角色
         @online_roles.each do |role|
             role_note = Note.create(tmp.merge(:role_id => role.id,:session_id=>session.id,:api_name=>"role_online")) # 创建角色 online 记录
@@ -236,6 +236,10 @@ class Account < ActiveRecord::Base
     #可用的角色
     def available_roles
       self.roles.where("vit_power > 0 and status = 'normal' ")
+    end
+
+    def reorder_roles
+      self.roles.reorder("role_index")
     end
 
     # 重置账号绑定数量

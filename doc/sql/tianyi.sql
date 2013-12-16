@@ -23,3 +23,13 @@ update accounts set created_at = '2013-12-12 17:00:00' where id <= 300;
 
 
 select no,password from accounts where status = 'exception' into outfile '/tmp/e.ext';
+
+select count(DISTINCT account) from notes where api_name ='locked';
+
+
+select account from 
+(select account,count(id) as times from notes where api_name ='locked' and date(created_at) = '2013-12-13'
+ group by account) as t1 where times > 1;
+
+
+ group by account;
