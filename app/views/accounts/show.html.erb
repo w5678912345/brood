@@ -58,6 +58,6 @@
 <fieldset>
 <legend>包含角色</legend>
 
-<%= render :partial => "roles/table",:locals=>{:roles=>@account.roles} %>
+<%= render :partial => "roles/table",:locals=>{:roles=>@account.reorder_roles} %>
 
 </fieldset>
