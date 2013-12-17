@@ -74,7 +74,7 @@ class Note < ActiveRecord::Base
         notes = notes.where(:role_id => opts[:role_id]) unless opts[:role_id].blank?
         notes = notes.where("session_id =? or id = ? ",opts[:session_id].to_i,opts[:session_id].to_i) unless opts[:session_id].blank?
         notes = notes.where(:account => opts[:account]) unless opts[:account].blank?
-        notes = notes.where(:server => opts[:server]) unless opts[:server].blank?
+        notes = notes.where("server like ?","%#{opts[:server]}%") unless opts[:server].blank?
         notes = notes.where(:computer_id => opts[:cid]) unless opts[:cid].blank?
         notes = notes.where(:api_name => opts[:api_name]) unless opts[:api_name].blank?
         #notes = notes.where(:api_name => opts[:event]) unless opts[:event].blank?
