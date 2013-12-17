@@ -1,0 +1,13 @@
+<div class="alert">
+<strong>提示信息:</strong>
+<span><%= flash[:msg]%></span> 
+</div>
+
+
+<script type="text/javascript">
+	
+$(function(){
+	alert("<%= flash[:msg] %>");
+	window.close();
+});
+</script>

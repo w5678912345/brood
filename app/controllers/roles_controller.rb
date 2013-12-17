@@ -134,12 +134,12 @@ class RolesController < ApplicationController
 	def do_checked
 		@ids = params[:ids]
     	@do = params[:do]
+    	@success = true
     	@roles = Role.where("id in (?)",@ids)
     	if "set_status" == @do
     		status = params[:status]
-    		@roles.update_all(:status=>status) if Role::STATUS.include?(status)
-    		flash[:msg] = "#{@roles.length}个角色，状态设置为 #{status}"
-    		return redirect_to roles_path(:status =>status)
+    		 i = @roles.update_all(:status=>status) if Role::STATUS.include?(status)
+    		flash[:msg] = "#{i}个角色，状态设置为 #{status}"
     	end
 	end
 

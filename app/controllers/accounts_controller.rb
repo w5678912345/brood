@@ -68,20 +68,17 @@ class AccountsController < ApplicationController
 				account.do_unbind_computer(opts={:ip=>request.remote_ip,:msg=>"click",:bind=>-1})
 			end
 			flash[:msg] = "#{@accounts.length}个账号,被禁用绑定!"
-			return redirect_to accounts_path(:bind=>-1)
 		# 清空绑定
 		elsif "clear_bind" == @do
 			# 未上线并禁用绑定账户，才能启用绑定
 			c = @accounts.unbind_scope.stopped_scope.update_all(:bind_computer_id => 0,:updated_at=>Time.now)
 			flash[:msg] = "#{c}个账号,进入待绑定状态!"
-			return redirect_to accounts_path(:bind=> 0)
 		# 添加角色
 		elsif "add_role" == @do
 			@accounts.each do |account|
 				account.add_new_role(params[:n] || 1)
 			end
 			flash[:msg] = "#{@accounts.length}个账号,新建了角色!"
-			return redirect_to accounts_path()
 		# 调用下线
 		elsif "call_offline" == @do
 			@accounts = @accounts.started_scope
@@ -89,16 +86,14 @@ class AccountsController < ApplicationController
 				account.api_stop(opts = {:ip=>request.remote_ip,:cid=> account.online_computer_id,:msg=>"click"})
 			end
 			flash[:msg] = "#{@accounts.length}个账号被下线!"
-			return redirect_to accounts_path(:started => 1)
 		elsif "set_status" == @do
 			status = params[:status]
-    		@accounts.update_all(:status=>status) if Account::STATUS.keys.include?(status)
-    		flash[:msg] = "#{@accounts.length}个账号状态设置为 #{status}"
-    		return redirect_to accounts_path(:status =>status)
+    		i = @accounts.update_all(:status=>status) if Account::STATUS.keys.include?(status)
+    		flash[:msg] = "#{i}个账号状态设置为 #{status}"
     	elsif "edit_normal_at" == @do
     		at = params[:at]
-    		@accounts.update_all(:normal_at => at,:today_success => params[:ts].to_i)
-    		return redirect_to accounts_path()
+    		i= @accounts.update_all(:normal_at => at,:today_success => params[:ts].to_i)
+    		flash[:msg] = "#{i}个账号修改了冷却时间"
     	elsif "bind_this_computer" == @do
     		computer = Computer.find_by_key_or_id(params[:c])
     		if computer
@@ -109,15 +104,12 @@ class AccountsController < ApplicationController
     			end
     			return redirect_to computer_path(computer)
     		else
-    			flash[:error] = "没有对应的机器"
-    			return render :action => :checked
+    			flash[:msg] = "没有对应的机器"
     		end
     	elsif "set_server" == @do
     		i =  @accounts.stopped_scope.update_all(:server => params[:server])
-			flash[:error] = "#{i}个账号的区发生改变"
-			return redirect_to accounts_path(:server =>params[:server])
+			flash[:msg] = "#{i}个账号的区发生改变"
 		end
-		return render :text => "nothing"
 	end
 
 	#

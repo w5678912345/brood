@@ -68,18 +68,14 @@ class ComputersController < ApplicationController
     if @do == "pass"
       @computers.update_all(:checked=>true,:checked_at => Time.now)
       flash[:msg] = "通过了#{@computers.length}台机器"
-      return redirect_to computers_path(:checked=>1)
     elsif @do == "refuse"
       @computers.update_all(:checked=>false,:checked_at => Time.now)
       flash[:msg] = "拒绝了#{@computers.length}台机器"
-      return redirect_to computers_path(:checked=>0)
     elsif @do == "bind_accounts"
-      #return render :text => @computers.length
       @computers.each do |computer|
           computer.auto_bind_accounts({:status=>params[:status],:ip=>request.remote_ip,:msg=>"click",:avg=>params[:avg].to_i})
       end
       flash[:msg] = "为#{@computers.length}台机器，分配了账号"
-      return redirect_to computers_path()
     elsif @do == "task"
       @task = Task.find_by_id(params[:task_id])
       @ids.each do |cid|
@@ -87,25 +83,19 @@ class ComputersController < ApplicationController
         task.save
       end
       flash[:msg] = "#{@computers.length}台机器，执行了远程任务 #{@task.name}"
-      return redirect_to computers_path()
     elsif @do == "clear_bind_accounts"
       @computers.each do |computer|
         computer.clear_bind_accounts(opts={:ip=>request.remote_ip,:msg=>"click",:bind=>params[:bind]})
       end
       flash[:msg] = "#{@computers.length}台机器，清空了绑定账号"
-      return redirect_to computers_path()
     elsif @do == "auto_binding_account"
       i = @computers.update_all(:auto_binding=>params[:auto_binding].to_i)
       flash[:msg] = "#{i}台机器设置了自动绑定账号"
-      return redirect_to computers_path();
-     # return render :js => "alert();"
     elsif @do == "set_group"
       i = @computers.update_all(:group => params[:group])
       flash[:msg] = "#{i}台机器设置了分组"
-      return redirect_to computers_path(:group=>params[:group])
     end
 
-    return render :text => @ids.length
   end
 	
 	
