@@ -33,3 +33,6 @@ select account from
 
 
  group by account;
+
+select count(DISTINCT account) from notes where api_name ='exception';
+
