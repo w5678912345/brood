@@ -2,7 +2,7 @@
 class Role < ActiveRecord::Base
 	include RoleApi
 
-  STATUS = ['normal','disable']
+  STATUS = ['normal','disable','discardforverifycode']
   EVENT = ['answer_verify_code','restart_game','weak']
   Btns = {"set_status"=>"修改状态"}
 

@@ -36,3 +36,18 @@ select account from
 
 select count(DISTINCT account) from notes where api_name ='exception';
 
+select count(DISTINCT account) from (
+select count(notes.id) as c ,notes.account from notes inner join roles on notes.role_id = roles.id
+where date(notes.created_at) = '2013-12-17' and api_name ='answer_verify_code' and roles.level >= 60
+group by account having count(notes.id) >= 10) as t1;
+
+select count(DISTINCT  account),c from (
+select count(id) as c ,account from notes where date(created_at) = '2013-12-17' and api_name ='answer_verify_code' 
+group by account) as t1 group by c ;
+
+
+# level > 60 
+# 
+
+
+
