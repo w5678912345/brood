@@ -104,9 +104,11 @@ class Computer < ActiveRecord::Base
   # 机器停止
   def api_stop opts
     return 0 unless self.is_started?
-    now = Time.now
-    hours = (now - session.created_at)/3600
-    self.session.update_attributes(:ending=>true, :stopped_at=>now, :hours=>hours)
+    if self.session
+      now = Time.now
+      hours = (now - session.created_at)/3600
+      self.session.update_attributes(:ending=>true, :stopped_at=>now, :hours=>hours)
+    end
     Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"computer_stop",:msg=>opts[:msg],:version=>self.version,:hostname => self.hostname,:server=>self.server)
     return 1 if self.update_attributes(:session_id => 0)
   end
