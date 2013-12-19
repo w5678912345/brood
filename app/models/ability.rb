@@ -7,6 +7,8 @@ class Ability
 			can :manage, :all
 		else
 			#can :read, :all
+            can :index,   Account
+            can :note,    Note
 			can :index,   User
 			can [:index,:show,:home,:online,:offline,:closed,:not_closed,:notes,:payments,:search,:warting], Role
 			can [:index,:show,:home,:checked,:unchecked,:notes,:roles],	Computer
