@@ -60,5 +60,10 @@ class Setting < ActiveRecord::Base
 		return val == nil ? 1 : val
 	end
 
+	def self.is_open
+		val = find_value_by_key("is_open")
+		return 0 if val == 0
+		return 1
+	end
 
 end

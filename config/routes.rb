@@ -158,6 +158,7 @@ Brood::Application.routes.draw do
     match '/' => 'base#readme'
     match '/doc' => 'base#doc'
     match '/hi' => 'base#hi'
+    match '/is_open' => 'base#is_open'
     match '/reg'  => 'computers#reg'
     match '/set'  => 'computers#set'
     match '/cinfo' => 'computers#cinfo'

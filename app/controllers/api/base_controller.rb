@@ -21,6 +21,10 @@ class Api::BaseController < ActionController::Base
     render :json =>{:ip=>request.remote_ip,:can_use=>ip.can_use?}
   end
 
+  def is_open
+    render :json => {:code=>Setting.is_open}
+  end
+
   	private 
   	def print_log
       params[:ip] = params[:ip] || request.remote_ip
