@@ -109,6 +109,14 @@ class AccountsController < ApplicationController
     	elsif "set_server" == @do
     		i =  @accounts.stopped_scope.update_all(:server => params[:server])
 			flash[:msg] = "#{i}个账号的区发生改变"
+		elsif "export" == @do
+			query_sql = @accounts.select("no,password,server").reorder(:id).to_sql
+			file_name= "#{Time.now.to_i}.txt"
+			path = "#{Rails.root}/public/uploads/#{file_name}"
+			sql = "#{query_sql} into outfile '#{path}' FIELDS TERMINATED BY '|'"
+			ActiveRecord::Base.connection.execute(sql)
+			send_file(path ,:filename => file_name,:type => 'application/text',
+            :disposition  =>  'attachment',:streaming    =>  'true',:buffer_size  =>  '4096')
 		end
 	end
 
