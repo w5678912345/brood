@@ -57,7 +57,7 @@ CODES = {
 
    # every day at 6:00 am
    def self.reset_ip_use_count
-     at = Time.now().ago(36.hours)
+     at = Time.now().ago(24.hours)
      i = Ip.where("use_count > 0").where("updated_at <= ?",at).update_all(:use_count => 0)
      Note.create(:role_id=>0,:ip=>"localhost",:api_name => "reset_ip",:msg=>"#{i} from #{at.to_s}")
    end
