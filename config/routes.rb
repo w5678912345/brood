@@ -155,7 +155,7 @@ Brood::Application.routes.draw do
   # match 'api/readme' => 'api#readme'
 
   namespace :api  do
-   
+    match '/' => 'base#ping'
     match '/doc' => 'base#doc'
     match '/hi' => 'base#hi'
     match '/is_open' => 'base#is_open'
