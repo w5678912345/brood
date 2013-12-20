@@ -6,13 +6,14 @@ class Account < ActiveRecord::Base
     #CAN_START_STATUS=['normal','bslocked','disconnect','exception']
     # 账号可能发生的事件
     EVENT = ['bslock','bs_unlock_fail','bs_unlock_success','code_error']
-    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线","set_status"=>"修改状态","edit_normal_at"=>"修改冷却时间","bind_this_computer"=>"绑定指定机器","set_server"=>"修改服务器","export" =>"导出账号"}
+    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线","set_status"=>"修改状态","edit_normal_at"=>"修改冷却时间","bind_this_computer"=>"绑定指定机器","set_server"=>"修改服务器","set_can_start"=>"设置账号可用","export" =>"导出账号"}
+
     # 需要自动恢复normal的状态
     Auto_Normal = {"disconnect"=>2,"exception"=>3,"lost"=>0,"bslocked"=>72,"bs_unlock_fail"=>72}
     #
     STATUS = {"normal" => 0,"bslocked"=>72,"bslocked_again"=>72,"bs_unlock_fail"=>72,"disconnect"=>2,"exception"=>3,
       "locked"=>1200, "lost"=>24,"discard"=>1200,"no_rms_file"=>1200,"no_qq_token"=>1200,
-      "discardfordays"=>72,"discardbysailia"=>240,"discardforyears"=>12000}
+      "discardfordays"=>72,"discardbysailia"=>240,"discardforyears"=>12000,"account_disable"=>1200}
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
     attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at,:today_success,:last_start_ip
