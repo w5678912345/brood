@@ -16,6 +16,10 @@ class Api::BaseController < ActionController::Base
     render :layout => 'application',:template => 'api/doc'
   end
 
+  def ping
+    render :json=>{:code=>1}
+  end
+
   def hi
     ip = Ip.find_or_create(request.remote_ip)
     render :json =>{:ip=>request.remote_ip,:can_use=>ip.can_use?}
