@@ -1,7 +1,7 @@
 # encoding: utf-8
 class AccountsController < ApplicationController
 
-	load_and_authorize_resource :class => "Account"
+	load_and_authorize_resource :class => "Account", :except => [:show,:edit]
 
 	def index
 		unless params[:bind_computer_id].blank?
@@ -16,6 +16,7 @@ class AccountsController < ApplicationController
 	end
 
 	def show
+		#@account = Account.find_by_id(params[:id])
 		@account = Account.find_by_no(params[:id]) if params[:id] != "0"
 		@account = Account.find_by_no(params[:no]) unless @account
 	end
