@@ -5,7 +5,7 @@ class Api::AccountController < Api::BaseController
 	layout :nil
 
 	before_filter :require_remote_ip									  # 获取请求IP
-	before_filter :require_computer_by_ckey, :only => [:auto,:start,:sync,:stop] #需要ckey，验证是否为有效的机器	
+	before_filter :require_computer_by_ckey, :only => [:auto,:start,:sync,:stop,:reg] #需要ckey，验证是否为有效的机器	
 	#before_filter :valid_ip_use_count,					:only => [:auto] # 验证当前IP的24小时使用次数
 	#before_filter :valid_ip_range_online_count,			:only => [:auto] # 验证当前IP 前三段的在线数量
 	before_filter :validate_ip_can_use,					:only => [:auto]
@@ -77,6 +77,12 @@ class Api::AccountController < Api::BaseController
 	def role_pay
 		@code = @role.api_pay params
 		render :partial => 'api/result'
+	end
+
+	def reg
+		@account = Account.new(:no=>params[:id],:password=>params[:pwd],:remark=>params[:remark],:is_auto=>true)
+		@code = @account.api_reg params,@computer
+		render :partial => '/api/result'
 	end
 
 	private

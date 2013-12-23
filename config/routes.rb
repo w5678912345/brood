@@ -214,6 +214,7 @@ Brood::Application.routes.draw do
       match :sync,   :on => :collection
       match :note,   :on => :collection
       match :look,   :on => :collection
+      match :reg,    :on => :collection
       #
       match :role_start, :on => :collection
       match :role_note,  :on => :collection

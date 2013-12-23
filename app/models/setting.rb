@@ -41,6 +41,11 @@ class Setting < ActiveRecord::Base
 		return val == nil ? 2 : val
 	end
 
+	def self.account_reg_roles_count
+		val = find_value_by_key("account_reg_roles_count")
+		return val == nil ? 1 :val
+	end
+
 
 	# 账户可以绑定的计算机数量
 	# def self.account_computers_count

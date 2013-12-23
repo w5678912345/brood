@@ -9,7 +9,7 @@
 	<%= link_to raw('<i class="icon-edit"></i>'),edit_account_path(:no=>@account.no)%>
 	</td>
 	<td>创建时间</td>
-	<td><%= time_str @account.created_at %></td>
+	<td><%= time_str @account.created_at %> <%= boolean_tag @account.is_auto %></td>
 	<td>服务器</td>
 <td><%= @account.server %></td>
 </tr>
