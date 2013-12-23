@@ -24,7 +24,8 @@ CODES = {
    :not_find_role_by_ip => -18,
    :not_find_account => -19,
    :account_is_started => -20, # 账号启动
-   :account_is_stopped => -21  # 账号停止
+   :account_is_stopped => -21,  # 账号停止
+   :not_valid => -22
   }
 
   EVENTS = {}

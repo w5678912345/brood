@@ -17,6 +17,7 @@ class Account < ActiveRecord::Base
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
     attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at,:today_success,:last_start_ip
+    attr_accessible :remark,:is_auto
     attr_accessor :online_roles 
     #所属服务器
 	  belongs_to :game_server, :class_name => 'Server', :foreign_key => 'server',:primary_key => 'name'
@@ -181,6 +182,15 @@ class Account < ActiveRecord::Base
        # 修改账号的session_id 为0 并清空上线 IP
        return 1 if self.update_attributes(:session_id=>0,:online_ip=>nil)
       end
+    end
+
+
+    def api_reg opts,computer
+      return CODES[:not_valid_pay] unless self.valid?
+      tmp = computer.to_note_hash.merge(:account=>self.no,:api_name=>"account_reg",:ip=>opts[:ip],:msg=>opts[:msg])
+      Note.create(tmp)
+      self.add_new_role(Setting.account_reg_roles_count)
+      return 1 if self.save
     end
 
 

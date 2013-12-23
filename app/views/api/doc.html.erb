@@ -21,7 +21,7 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 <tbody>
 <tr>
 <td colspan="2">new API (采用RESTFUL原则重新设计API)</td>
-<td rowspan="23">
+<td rowspan="24">
 <ul>
 	<% Api::CODES.each do | key, value | %>
 	<li><%= value %>  => <%= key %></li>
@@ -60,6 +60,10 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 
 <tr>
 <th colspan="2">帐号API</th>
+</tr>
+<tr class="error">
+<td>account/reg.json</td>
+<td>注册新账号！ 参数: ckey => 计算机key, id => 账号, pwd=> 密码 ,msg => 消息</td> 
 </tr>
 <tr class="info">
 <td>account/auto.json</td>
