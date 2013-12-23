@@ -31,7 +31,10 @@
 <td>今天成功</td>
 <td><%= boolean_tag @account.today_success %></td>
 </tr>
-
+<tr>
+	<td>备注:</td>
+	<td colspan="5"><%= @account.remark %></td>
+</tr>
 <% if @account.is_started? %>
 <tr class="info">
 	<td>上线时间</td>
