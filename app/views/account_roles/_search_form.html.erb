@@ -28,6 +28,12 @@
 <input type="text" name="bind_cid" class="input-small" value="<%= params[:bind_cid]%>" placeholder="绑定机器"  title="绑定的机器" />
  <input type="text" name="a_created_at" id="a_created_at" value="<%= params[:a_created_at]%>" class="input-small" placeholder="创建日期"  />
 <hr style="margin:5px 0;">
+自动:
+<select name="auto" class="input-small">
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:auto] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:auto] == "0" %> >No</option>
+</select>
 上线:
 <select name="started" class="input-small">
 <option value="" >-All-</option>
