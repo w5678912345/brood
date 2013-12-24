@@ -49,7 +49,7 @@ class Sheet < ActiveRecord::Base
         file.each_line do |line|
           line = line.gsub("\r\n","")
           tmp = line.split("----")
-          if tmp && tmp.length == 2
+          if tmp && tmp.length >= 2
             account = Account.new(:no=>tmp[0],:password=>tmp[1]) 
             unless Account.exists?(:no=>tmp[0]) 
               count = count + 1 if account.save
