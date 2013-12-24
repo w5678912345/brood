@@ -1,5 +1,5 @@
 四川2区
-
+ mysqldump -u root -p tianyi_pro>tianyi_pro_new.sql
 
 select count(id) from accounts where server in('四川1区','四川2区','四川6区');
 
