@@ -57,7 +57,7 @@
 <%= normal_at_tag account.normal_at  %>
 <% end %>
 </td>
-<td data-t="<%= account.password %>"><%= time_str account.created_at %></td>
+<td data-t="<%= account.password %>"><%= time_str account.created_at %> <%= boolean_tag account.is_auto%></td>
 <td><%= account.status %></td>
 <td><%= time_str account.normal_at %></td>
 <td><%= boolean_tag account.today_success %></td>

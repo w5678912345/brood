@@ -14,6 +14,7 @@ class AccountRole
 		records = records.where("accounts.today_success =?",opts[:ts].to_i) unless opts[:ts].blank?
 		records = records.where("accounts.online_ip = ?",opts[:online_ip]) unless opts[:online_ip].blank?
 		records = records.where("accounts.online_role_id =?",opts[:online_rid]) unless opts[:online_rid].blank?
+		records = records.where("accounts.is_auto = ?",opts[:auto].to_i) unless opts[:auto].blank?
 		unless opts[:started].blank?
 			records = records.where("accounts.session_id = 0") if opts[:started].to_i == 0
 			records = records.where("accounts.session_id > 0") if opts[:started].to_i == 1
