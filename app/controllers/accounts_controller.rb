@@ -116,7 +116,7 @@ class AccountsController < ApplicationController
 			query_sql = @accounts.select("no,password,server").reorder(:id).to_sql
 			file_name= "#{Time.now.to_i}.txt"
 			path = "/tmp/export/#{file_name}"
-			sql = "#{query_sql} into outfile '#{path}' FIELDS TERMINATED BY '|'"
+			sql = "#{query_sql} into outfile '#{path}' FIELDS TERMINATED BY '----'"
 			ActiveRecord::Base.connection.execute(sql)
 			send_file(path ,:filename => file_name,:type => 'application/text',
             :disposition  =>  'attachment',:streaming    =>  'true',:buffer_size  =>  '4096')
