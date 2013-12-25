@@ -1,0 +1,11 @@
+<form class="form-search" action="<%= ips_path %>">
+<input type="text" name="ip" class="input-small" placeholder="IP" value="<%= params[:ip]%>" />
+<input type="text" name="no" class="input-small" placeholder="帐号" value="<%= params[:no]%>" />
+<button type="submit" class="btn">Search</button>
+</form>
+
+<script type="text/javascript">
+$(function(){
+	//$("#created_at").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+});
+</script>

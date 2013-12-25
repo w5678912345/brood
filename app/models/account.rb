@@ -77,7 +77,7 @@ class Account < ActiveRecord::Base
       computer = Computer.find_by_auth_key(opts[:ckey])
       self.transaction do
         computer.increment(:online_accounts_count,1).save  #增加计算机上线账号数
-        ip.increment(:use_count,1).save #增加ip使用次数
+        ip.update_attributes(:use_count=>ip.use_count+1,:last_account=>self.no) #增加ip使用次数
         #插入账号开始记录
         tmp = computer.to_note_hash.merge(:account=>self.no,:api_name=>"account_start",:ip=>opts[:ip],:msg=>opts[:msg])
         # 记录 session
