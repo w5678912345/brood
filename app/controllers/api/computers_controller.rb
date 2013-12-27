@@ -13,7 +13,7 @@ class Api::ComputersController < Api::BaseController
 			@computer = Computer.new(:hostname=>params[:hostname],:auth_key => params[:auth_key],:server=>params[:server],:version=>params[:version]||"default",:user_id=>0)
 			@code = @computer.api_reg params
 		else
-			@code = 1 if @computer.update_attributes(:hostname => params[:hostname],:server=>params[:server])
+			@code = 1 if @computer.update_attributes(:hostname => params[:hostname],:server=>params[:server],:version=>params[:version]||"default",:status=>1)
 		end
 	end
 

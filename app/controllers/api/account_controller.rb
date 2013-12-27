@@ -128,7 +128,7 @@ class Api::AccountController < Api::BaseController
 		@computer = Computer.find_by_auth_key(params[:ckey]) if params[:ckey]		
 		@code = CODES[:not_find_computer] unless @computer
 		if @computer
-			@code = CODES[:not_find_computer] unless @computer.status == 1
+			@code = CODES[:computer_exception] unless @computer.status == 1
 			@code = CODES[:computer_unchecked] unless @computer.checked
 			@code = CODES[:computer_no_server] if @computer.server_blank?
 		end
