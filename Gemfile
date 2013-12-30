@@ -54,6 +54,7 @@ group :development,:test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'factory_girl'
+  gem "factory_girl_rails"
 end
 gem "highcharts-rails", "~> 3.0.7"
 
