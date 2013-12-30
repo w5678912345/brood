@@ -2,5 +2,6 @@
 
 FactoryGirl.define do
   factory :phone_machine do
+  	sequence(:name){|n| "machine#{n}"} 
   end
 end

@@ -1,0 +1,25 @@
+<h1>Listing phones</h1>
+
+<table>
+  <tr>
+    <th>号码</th>
+    <th>激活</th>
+    <th>机器</th>
+    <th>最后一次使用时间</th>
+    <th>操作</th>
+  </tr>
+
+<% @phones.each do |phone| %>
+  <tr>
+    <td><%= phone.no%></td>
+    <td><%= link_to phone.enabled.to_s, phone_path(phone,phone:{enabled: (not phone.enabled)}),method: :put%></td>
+    <td><%= phone.phone_machine.nil? ? ("空") : (phone.phone_machine.name)%></td>
+    <td><%= phone.last_active_at%></td>
+    <td><%= link_to 'Destroy', phone, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Phone', new_phone_path %>

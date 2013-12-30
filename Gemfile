@@ -23,6 +23,7 @@ end
 #gem 'jekyll'
 gem 'jquery-rails'
 
+gem 'formtastic'
 gem 'devise' # user auth
 gem 'will_paginate', '~> 3.0' #pages
 gem 'bootstrap-will_paginate' #

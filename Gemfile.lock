@@ -84,6 +84,8 @@ GEM
     factory_girl_rails (4.3.0)
       factory_girl (~> 4.3.0)
       railties (>= 3.0.0)
+    formtastic (2.2.1)
+      actionpack (>= 3.0)
     highcharts-rails (3.0.7)
       railties (>= 3.1)
     hike (1.2.2)
@@ -219,6 +221,7 @@ DEPENDENCIES
   devise
   factory_girl
   factory_girl_rails
+  formtastic
   highcharts-rails (~> 3.0.7)
   jbuilder (~> 1.2.0)
   jquery-rails

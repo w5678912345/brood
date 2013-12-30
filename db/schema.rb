@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131230025751) do
+ActiveRecord::Schema.define(:version => 20131230073758) do
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(:version => 20131230025751) do
     t.string   "last_start_ip",      :limit => 32
     t.string   "remark"
     t.boolean  "is_auto",                          :default => false,    :null => false
+    t.string   "phone_id"
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true
@@ -133,6 +134,11 @@ ActiveRecord::Schema.define(:version => 20131230025751) do
     t.string   "target"
     t.string   "result"
     t.string   "opts"
+    t.string   "goods"
+    t.integer  "amount",                       :default => 0,     :null => false
+    t.integer  "cost",                         :default => 0,     :null => false
+    t.string   "role_type"
+    t.string   "role_name"
   end
 
   add_index "notes", ["account"], :name => "index_notes_on_account"
@@ -152,12 +158,16 @@ ActiveRecord::Schema.define(:version => 20131230025751) do
     t.datetime "updated_at",                :null => false
     t.string   "server"
     t.integer  "session_id", :default => 0, :null => false
+    t.string   "target"
   end
 
   create_table "phone_machines", :force => true do |t|
+    t.string   "name",       :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "phone_machines", ["name"], :name => "index_phone_machines_on_name", :unique => true
 
   create_table "phones", :primary_key => "no", :force => true do |t|
     t.boolean  "enabled",          :default => true, :null => false
@@ -204,6 +214,12 @@ ActiveRecord::Schema.define(:version => 20131230025751) do
     t.integer  "computers_count",               :default => 0,        :null => false
     t.integer  "session_id",                    :default => 0,        :null => false
     t.boolean  "today_success",                 :default => false,    :null => false
+    t.integer  "bag_value",                     :default => 0,        :null => false
+    t.integer  "start_count",                   :default => 0,        :null => false
+    t.integer  "experience",                    :default => 0,        :null => false
+    t.string   "task_name"
+    t.boolean  "reset_talent",                  :default => false,    :null => false
+    t.boolean  "is_agent",                      :default => false,    :null => false
   end
 
   add_index "roles", ["account"], :name => "index_roles_on_account"
@@ -219,6 +235,10 @@ ActiveRecord::Schema.define(:version => 20131230025751) do
     t.integer  "price",                          :default => 1,   :null => false
     t.float    "gold_price",                     :default => 0.0, :null => false
     t.float    "gold_unit",                      :default => 0.0, :null => false
+    t.string   "goods2"
+    t.integer  "price2",                         :default => 1,   :null => false
+    t.integer  "max_price",                      :default => 1,   :null => false
+    t.integer  "max_price2",                     :default => 1,   :null => false
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true

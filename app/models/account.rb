@@ -33,6 +33,8 @@ class Account < ActiveRecord::Base
    	belongs_to :online_computer, :class_name => 'Computer', :foreign_key => 'online_computer_id' 
     #绑定机器
     belongs_to :bind_computer,  :class_name => 'Computer', :foreign_key => 'bind_computer_id'
+    #绑定的电话
+    belongs_to :phone
     #包含角色
     has_many   :roles, :class_name => 'Role', :foreign_key => 'account', :primary_key => 'no'
 

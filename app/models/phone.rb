@@ -1,7 +1,8 @@
 class Phone < ActiveRecord::Base
-   attr_accessible :no,:enabled,:last_active_at
+   attr_accessible :id,:phone_machine_id,:no,:enabled,:last_active_at
    self.primary_key=:no
    belongs_to :phone_machine
+   has_many :accounts
    @@MAX_COOLDOWN = 3.minute
    scope :cooldown,where("last_active_at < ?",Time.now - @@MAX_COOLDOWN)
 

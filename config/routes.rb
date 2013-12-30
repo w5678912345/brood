@@ -118,7 +118,8 @@ Brood::Application.routes.draw do
   #     get :test,  :on => :collection
        
   # end
-
+  resources :phones
+  resources :phone_machines
   namespace :analysis do
     resource :oneday, :only =>[:show], controller: 'oneday'
     get "/oneday/roles/:mark" => "oneday#roles",:as => "roles_oneday"
