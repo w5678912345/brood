@@ -1,5 +1,21 @@
 <p id="notice"><%= notice %></p>
+<p> <%= @phone_machine.name%> </p>
+<p>共 <%= @phone_machine.phones.count%> 个号码</p>
+<table>
+  <tr>
+    <th>号码</th>
+    <th>激活</th>
+    <th>最后一次使用时间</th>
+  </tr>
 
+<% @phone_machine.phones.each do |phone| %>
+  <tr>
+    <td><%= phone.no%></td>
+    <td><%= link_to phone.enabled.to_s, phone_path(phone,phone:{enabled: (not phone.enabled)}),method: :put%></td>
+     <td><%= phone.last_active_at%></td>
+   </tr>
+<% end %>
+</table>
 
 <%= link_to 'Edit', edit_phone_machine_path(@phone_machine) %> |
 <%= link_to 'Back', phone_machines_path %>

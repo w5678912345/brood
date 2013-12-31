@@ -29,11 +29,12 @@ describe PhonesController do
   # in order to pass any filters (e.g. authentication) defined in
   # PhonesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
-
+  login_admin
+  
   describe "GET index" do
     it "assigns all phones as @phones" do
       phone = Phone.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}
       assigns(:phones).should eq([phone])
     end
   end
@@ -41,14 +42,14 @@ describe PhonesController do
   describe "GET show" do
     it "assigns the requested phone as @phone" do
       phone = Phone.create! valid_attributes
-      get :show, {:id => phone.to_param}, valid_session
+      get :show, {:id => phone.to_param}
       assigns(:phone).should eq(phone)
     end
   end
 
   describe "GET new" do
     it "assigns a new phone as @phone" do
-      get :new, {}, valid_session
+      get :new, {}
       assigns(:phone).should be_a_new(Phone)
     end
   end
@@ -56,7 +57,7 @@ describe PhonesController do
   describe "GET edit" do
     it "assigns the requested phone as @phone" do
       phone = Phone.create! valid_attributes
-      get :edit, {:id => phone.to_param}, valid_session
+      get :edit, {:id => phone.to_param}
       assigns(:phone).should eq(phone)
     end
   end
@@ -65,18 +66,18 @@ describe PhonesController do
     describe "with valid params" do
       it "creates a new Phone" do
         expect {
-          post :create, {:phone => valid_attributes}, valid_session
+          post :create, {:phone => valid_attributes}
         }.to change(Phone, :count).by(1)
       end
 
       it "assigns a newly created phone as @phone" do
-        post :create, {:phone => valid_attributes}, valid_session
+        post :create, {:phone => valid_attributes}
         assigns(:phone).should be_a(Phone)
         assigns(:phone).should be_persisted
       end
 
       it "redirects to the created phone" do
-        post :create, {:phone => valid_attributes}, valid_session
+        post :create, {:phone => valid_attributes}
         response.should redirect_to(Phone.last)
       end
     end
@@ -85,14 +86,14 @@ describe PhonesController do
       it "assigns a newly created but unsaved phone as @phone" do
         # Trigger the behavior that occurs when invalid params are submitted
         Phone.any_instance.stub(:save).and_return(false)
-        post :create, {:phone => {  }}, valid_session
+        post :create, {:phone => {  }}
         assigns(:phone).should be_a_new(Phone)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Phone.any_instance.stub(:save).and_return(false)
-        post :create, {:phone => {  }}, valid_session
+        post :create, {:phone => {  }}
         response.should render_template("new")
       end
     end
@@ -107,18 +108,18 @@ describe PhonesController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Phone.any_instance.should_receive(:update_attributes).with({ "these" => "params" })
-        put :update, {:id => phone.to_param, :phone => { "these" => "params" }}, valid_session
+        put :update, {:id => phone.to_param, :phone => { "these" => "params" }}
       end
 
       it "assigns the requested phone as @phone" do
         phone = Phone.create! valid_attributes
-        put :update, {:id => phone.to_param, :phone => valid_attributes}, valid_session
+        put :update, {:id => phone.to_param, :phone => valid_attributes}
         assigns(:phone).should eq(phone)
       end
 
       it "redirects to the phone" do
         phone = Phone.create! valid_attributes
-        put :update, {:id => phone.to_param, :phone => valid_attributes}, valid_session
+        put :update, {:id => phone.to_param, :phone => valid_attributes}
         response.should redirect_to(phone)
       end
     end
@@ -128,7 +129,7 @@ describe PhonesController do
         phone = Phone.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Phone.any_instance.stub(:save).and_return(false)
-        put :update, {:id => phone.to_param, :phone => {  }}, valid_session
+        put :update, {:id => phone.to_param, :phone => {  }}
         assigns(:phone).should eq(phone)
       end
 
@@ -136,7 +137,7 @@ describe PhonesController do
         phone = Phone.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Phone.any_instance.stub(:save).and_return(false)
-        put :update, {:id => phone.to_param, :phone => {  }}, valid_session
+        put :update, {:id => phone.to_param, :phone => {  }}
         response.should render_template("edit")
       end
     end
@@ -146,13 +147,13 @@ describe PhonesController do
     it "destroys the requested phone" do
       phone = Phone.create! valid_attributes
       expect {
-        delete :destroy, {:id => phone.to_param}, valid_session
+        delete :destroy, {:id => phone.to_param}
       }.to change(Phone, :count).by(-1)
     end
 
     it "redirects to the phones list" do
       phone = Phone.create! valid_attributes
-      delete :destroy, {:id => phone.to_param}, valid_session
+      delete :destroy, {:id => phone.to_param}
       response.should redirect_to(phones_url)
     end
   end

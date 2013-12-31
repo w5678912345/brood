@@ -34,6 +34,8 @@
 <tr>
 	<td>备注:</td>
 	<td colspan="5"><%= @account.remark %></td>
+	<td>绑定手机:</td>
+	<td colspan="5"><%= @account.phone.nil? ? "无" : @account.phone.id %></td>
 </tr>
 <% if @account.is_started? %>
 <tr class="info">

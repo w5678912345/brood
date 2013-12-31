@@ -1,11 +1,14 @@
 require 'spec_helper'
 
-describe "Phones" do
-  describe "GET /phones" do
+describe "PhoneMachines" do
+  before do
+    sign_in
+  end
+  describe "GET /phone_machines" do
     it "works! (now write some real specs)" do
       # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
-      get phones_path
-      response.status.should be(200)
+      visit phone_machines_path
+      expect(page).to have_content('退出')
     end
   end
 end

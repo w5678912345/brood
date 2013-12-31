@@ -2,7 +2,7 @@ class PhonesController < ApplicationController
   # GET /phones
   # GET /phones.json
   def index
-    @phones = Phone.all
+    @phones = Phone.includes(:phone_machine).all
 
     respond_to do |format|
       format.html # index.html.erb

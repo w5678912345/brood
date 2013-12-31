@@ -23,40 +23,42 @@ describe PhoneMachinesController do
   # This should return the minimal set of attributes required to create a valid
   # PhoneMachine. As you add validations to PhoneMachine, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { {  } }
+  let(:valid_attributes) { {:name => "machine22"  } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # PhoneMachinesController. Be sure to keep this updated too.
   let(:valid_session) { {} }
-
+  login_admin
   describe "GET index" do
     it "assigns all phone_machines as @phone_machines" do
-      phone_machine = PhoneMachine.create! valid_attributes
-      get :index, {}, valid_session
+      phone_machine = FactoryGirl.create(:phone_machine)
+      PhoneMachine.count.should eq 1
+      get :index
+      expect(response.status).to eq(200)
       assigns(:phone_machines).should eq([phone_machine])
     end
   end
 
   describe "GET show" do
     it "assigns the requested phone_machine as @phone_machine" do
-      phone_machine = PhoneMachine.create! valid_attributes
-      get :show, {:id => phone_machine.to_param}, valid_session
+      phone_machine = FactoryGirl.create(:phone_machine)
+      get :show, {:id => phone_machine.to_param}
       assigns(:phone_machine).should eq(phone_machine)
     end
   end
 
   describe "GET new" do
     it "assigns a new phone_machine as @phone_machine" do
-      get :new, {}, valid_session
+      get :new, {}
       assigns(:phone_machine).should be_a_new(PhoneMachine)
     end
   end
 
   describe "GET edit" do
     it "assigns the requested phone_machine as @phone_machine" do
-      phone_machine = PhoneMachine.create! valid_attributes
-      get :edit, {:id => phone_machine.to_param}, valid_session
+      phone_machine = FactoryGirl.create(:phone_machine)
+      get :edit, {:id => phone_machine.to_param}
       assigns(:phone_machine).should eq(phone_machine)
     end
   end
@@ -65,18 +67,18 @@ describe PhoneMachinesController do
     describe "with valid params" do
       it "creates a new PhoneMachine" do
         expect {
-          post :create, {:phone_machine => valid_attributes}, valid_session
+          post :create, {:phone_machine => valid_attributes}
         }.to change(PhoneMachine, :count).by(1)
       end
 
       it "assigns a newly created phone_machine as @phone_machine" do
-        post :create, {:phone_machine => valid_attributes}, valid_session
+        post :create, {:phone_machine => valid_attributes}
         assigns(:phone_machine).should be_a(PhoneMachine)
         assigns(:phone_machine).should be_persisted
       end
 
       it "redirects to the created phone_machine" do
-        post :create, {:phone_machine => valid_attributes}, valid_session
+        post :create, {:phone_machine => valid_attributes}
         response.should redirect_to(PhoneMachine.last)
       end
     end
@@ -85,14 +87,14 @@ describe PhoneMachinesController do
       it "assigns a newly created but unsaved phone_machine as @phone_machine" do
         # Trigger the behavior that occurs when invalid params are submitted
         PhoneMachine.any_instance.stub(:save).and_return(false)
-        post :create, {:phone_machine => {  }}, valid_session
+        post :create, {:phone_machine => {  }}
         assigns(:phone_machine).should be_a_new(PhoneMachine)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         PhoneMachine.any_instance.stub(:save).and_return(false)
-        post :create, {:phone_machine => {  }}, valid_session
+        post :create, {:phone_machine => {  }}
         response.should render_template("new")
       end
     end
@@ -101,42 +103,42 @@ describe PhoneMachinesController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested phone_machine" do
-        phone_machine = PhoneMachine.create! valid_attributes
+        phone_machine = FactoryGirl.create(:phone_machine)
         # Assuming there are no other phone_machines in the database, this
         # specifies that the PhoneMachine created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         PhoneMachine.any_instance.should_receive(:update_attributes).with({ "these" => "params" })
-        put :update, {:id => phone_machine.to_param, :phone_machine => { "these" => "params" }}, valid_session
+        put :update, {:id => phone_machine.to_param, :phone_machine => { "these" => "params" }}
       end
 
       it "assigns the requested phone_machine as @phone_machine" do
-        phone_machine = PhoneMachine.create! valid_attributes
-        put :update, {:id => phone_machine.to_param, :phone_machine => valid_attributes}, valid_session
+        phone_machine = FactoryGirl.create(:phone_machine)
+        put :update, {:id => phone_machine.to_param, :phone_machine => valid_attributes}
         assigns(:phone_machine).should eq(phone_machine)
       end
 
       it "redirects to the phone_machine" do
-        phone_machine = PhoneMachine.create! valid_attributes
-        put :update, {:id => phone_machine.to_param, :phone_machine => valid_attributes}, valid_session
+        phone_machine = FactoryGirl.create(:phone_machine)
+        put :update, {:id => phone_machine.to_param, :phone_machine => valid_attributes}
         response.should redirect_to(phone_machine)
       end
     end
 
     describe "with invalid params" do
       it "assigns the phone_machine as @phone_machine" do
-        phone_machine = PhoneMachine.create! valid_attributes
+        phone_machine = FactoryGirl.create(:phone_machine)
         # Trigger the behavior that occurs when invalid params are submitted
         PhoneMachine.any_instance.stub(:save).and_return(false)
-        put :update, {:id => phone_machine.to_param, :phone_machine => {  }}, valid_session
+        put :update, {:id => phone_machine.to_param, :phone_machine => {  }}
         assigns(:phone_machine).should eq(phone_machine)
       end
 
       it "re-renders the 'edit' template" do
-        phone_machine = PhoneMachine.create! valid_attributes
+        phone_machine = FactoryGirl.create(:phone_machine)
         # Trigger the behavior that occurs when invalid params are submitted
         PhoneMachine.any_instance.stub(:save).and_return(false)
-        put :update, {:id => phone_machine.to_param, :phone_machine => {  }}, valid_session
+        put :update, {:id => phone_machine.to_param, :phone_machine => {  }}
         response.should render_template("edit")
       end
     end
@@ -144,15 +146,15 @@ describe PhoneMachinesController do
 
   describe "DELETE destroy" do
     it "destroys the requested phone_machine" do
-      phone_machine = PhoneMachine.create! valid_attributes
+      phone_machine = FactoryGirl.create(:phone_machine)
       expect {
-        delete :destroy, {:id => phone_machine.to_param}, valid_session
+        delete :destroy, {:id => phone_machine.to_param}
       }.to change(PhoneMachine, :count).by(-1)
     end
 
     it "redirects to the phone_machines list" do
-      phone_machine = PhoneMachine.create! valid_attributes
-      delete :destroy, {:id => phone_machine.to_param}, valid_session
+      phone_machine = FactoryGirl.create(:phone_machine)
+      delete :destroy, {:id => phone_machine.to_param}
       response.should redirect_to(phone_machines_url)
     end
   end
