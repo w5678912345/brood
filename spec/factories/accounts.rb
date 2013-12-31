@@ -6,4 +6,7 @@ FactoryGirl.define do
 	password "pwd11111"
 	phone
   end
+  factory :online_account,:parent => :account do
+  	association :session,factory: :note 
+  end
 end

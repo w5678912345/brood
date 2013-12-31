@@ -80,4 +80,9 @@ class PhoneMachinesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def can_unlock_accounts
+    @phone_machine = PhoneMachine.find(params[:id])
+    @accounts = Account.online_scope.joins(:phone).where("phone_machine_id = ? and accounts.status = ?",params[:id],'bslocked')
+  end
 end

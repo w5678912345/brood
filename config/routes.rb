@@ -119,7 +119,11 @@ Brood::Application.routes.draw do
        
   # end
   resources :phones
-  resources :phone_machines
+  resources :phone_machines do
+    member do
+      get :can_unlock_accounts
+    end
+  end
   namespace :analysis do
     resource :oneday, :only =>[:show], controller: 'oneday'
     get "/oneday/roles/:mark" => "oneday#roles",:as => "roles_oneday"

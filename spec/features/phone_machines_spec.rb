@@ -9,6 +9,7 @@ describe "PhoneMachines" do
       # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
       visit phone_machines_path
       expect(page).to have_content('退出')
+      expect(page).to have_content('Listing phone_machines')
     end
   end
 end

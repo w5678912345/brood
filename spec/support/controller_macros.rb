@@ -14,7 +14,5 @@ module ControllerMacros
       sign_in user
     end
   end
-  def request_login(user)
-    post login_path, :login => user.login, :password => user.password
-  end
+
 end

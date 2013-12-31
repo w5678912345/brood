@@ -158,5 +158,20 @@ describe PhoneMachinesController do
       response.should redirect_to(phone_machines_url)
     end
   end
-
+  describe "GET show" do
+    it "获取当前需要解bslock的账号" do
+      phone_machine = FactoryGirl.create(:phone_machine)
+      phone_machine1 = FactoryGirl.create(:phone_machine)
+      phone1 = FactoryGirl.create(:phone,:phone_machine => phone_machine)
+      phone2 = FactoryGirl.create(:phone,:phone_machine => phone_machine)
+      phone3 = FactoryGirl.create(:phone,:phone_machine => phone_machine1)
+      a0 = FactoryGirl.create(:account)
+      a1 = FactoryGirl.create(:account,:phone => phone1,:status => 'bslocked')
+      a2 = FactoryGirl.create(:online_account,:phone => phone1,:status => 'bslocked')
+      a3 = FactoryGirl.create(:online_account,:phone => phone3,:status => 'bslocked')
+      
+      get :can_unlock_accounts, {:id => phone_machine.to_param}
+      assigns(:accounts).should eq([a2])
+    end
+  end
 end
