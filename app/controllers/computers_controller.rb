@@ -6,8 +6,9 @@ class ComputersController < ApplicationController
   before_filter :require_tasks,:only=>[:index,:checked,:unchecked]
   
   def index
-  
-    @computers = Computer.where(:status=>1)
+    
+    @computers = Computer.where("id > 0 ")
+    @computers = @computers.where(:status=>params[:status]) unless params[:status].blank?
     #@computers = @computers.where("server = '' or server is NULL") if params[:server] == "null"
     @computers = @computers.where(:server=>params[:server]) unless params[:server].blank? #|| params[:server] == "null"
     @computers = @computers.no_server_scope if params[:no_server].to_i == 1
@@ -94,6 +95,9 @@ class ComputersController < ApplicationController
     elsif @do == "set_group"
       i = @computers.update_all(:group => params[:group])
       flash[:msg] = "#{i}台机器设置了分组"
+    elsif @do == "set_status"
+      i = @computers.update_all(:status => params[:status].to_i)
+      flash[:msg] = "#{i}台机器设置了状态"
     end
 
   end
