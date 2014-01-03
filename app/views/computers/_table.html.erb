@@ -47,7 +47,7 @@
 </td>
 <td><%= computer_tag(computer) %> <%=  computer.group %></td>
 <td><%= link_to computer.server || "" ,computers_path(:server => computer.server)%></td>
-<td><%= computer.auth_key %></td>
+<td><%= computer.auth_key %><%= status_tag computer.status %></td>
 <td><%= link_to computer.version, computers_path(:version => computer.version) %></td>
 <td><%= computer.accounts_count %> <%= boolean_tag computer.auto_binding %></td>
 <td><%= computer.online_accounts_count %></td>
