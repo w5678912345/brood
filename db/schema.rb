@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131223025025) do
+ActiveRecord::Schema.define(:version => 20131230073758) do
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(:version => 20131223025025) do
     t.string   "last_start_ip",      :limit => 32
     t.string   "remark"
     t.boolean  "is_auto",                          :default => false,    :null => false
+    t.string   "phone_id"
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true
@@ -159,6 +160,24 @@ ActiveRecord::Schema.define(:version => 20131223025025) do
     t.integer  "session_id", :default => 0, :null => false
     t.string   "target"
   end
+
+  create_table "phone_machines", :force => true do |t|
+    t.string   "name",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "phone_machines", ["name"], :name => "index_phone_machines_on_name", :unique => true
+
+  create_table "phones", :primary_key => "no", :force => true do |t|
+    t.boolean  "enabled",          :default => true, :null => false
+    t.datetime "last_active_at"
+    t.integer  "phone_machine_id"
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+  end
+
+  add_index "phones", ["no"], :name => "index_phones_on_no", :unique => true
 
   create_table "roles", :force => true do |t|
     t.string   "account",                                             :null => false

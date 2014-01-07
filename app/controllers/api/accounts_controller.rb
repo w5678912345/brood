@@ -146,6 +146,7 @@ class Api::AccountsController < Api::BaseController
 	end
 
 	
-
+	def bind_phone
+	end
 
 end

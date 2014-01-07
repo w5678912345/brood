@@ -118,7 +118,12 @@ Brood::Application.routes.draw do
   #     get :test,  :on => :collection
        
   # end
-
+  resources :phones
+  resources :phone_machines do
+    member do
+      get :can_unlock_accounts
+    end
+  end
   namespace :analysis do
     resource :oneday, :only =>[:show], controller: 'oneday'
     get "/oneday/roles/:mark" => "oneday#roles",:as => "roles_oneday"
@@ -202,12 +207,14 @@ Brood::Application.routes.draw do
       match :sync,   :on => :collection
       match :note,   :on => :collection
       match :look,   :on => :collection
+ 
       # match :get,    :on => :member
       # match :set,    :on => :member
       # match :put,    :on => :member
     end
 
     resources :account, :only => [:index,:show],controller: 'account',:defaults => {:format => 'json'} do 
+      match :bind_phone, :on => :collection
       match :auto,   :on => :collection
       match :start,  :on => :collection
       match :stop,   :on => :collection

@@ -84,6 +84,13 @@ class Api::AccountController < Api::BaseController
 		@code = @account.api_reg params,@computer
 		render :partial => '/api/result'
 	end
+	def bind_phone
+		@account = Account.find_by_no(params[:id])
+		@account.phone_id = params[:phone_no]
+		@account.save!
+		@code = 1
+		render :partial => '/api/result'
+	end
 
 	private
 
@@ -149,9 +156,6 @@ class Api::AccountController < Api::BaseController
 		@code = CODES[:not_find_role] unless @role
 		return  render :partial => 'api/result' unless @role
 	end
-
-
-
 
 
 end
