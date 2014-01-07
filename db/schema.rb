@@ -240,6 +240,9 @@ ActiveRecord::Schema.define(:version => 20140107093342) do
     t.integer  "price2",                         :default => 1,   :null => false
     t.integer  "max_price",                      :default => 1,   :null => false
     t.integer  "max_price2",                     :default => 1,   :null => false
+    t.string   "goods3"
+    t.integer  "price3",                         :default => 1,   :null => false
+    t.integer  "max_price3",                     :default => 1,   :null => false
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true

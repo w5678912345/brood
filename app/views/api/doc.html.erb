@@ -21,7 +21,7 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 <tbody>
 <tr>
 <td colspan="2">new API (采用RESTFUL原则重新设计API)</td>
-<td rowspan="24">
+<td rowspan="26">
 <ul>
 	<% Api::CODES.each do | key, value | %>
 	<li><%= value %>  => <%= key %></li>
@@ -143,6 +143,11 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 
 <tr>
 <th colspan="2">手机相关</th>
+</tr>
+
+<tr>
+<td>phone_machine/reg.json</td>
+<td>注册机器，name => phone_machine 的name</td> 
 </tr>
 
 <tr>

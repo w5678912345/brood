@@ -7,6 +7,14 @@ class Api::PhoneMachineController < Api::BaseController
 			render json: @phone_machine.errors, status: :unprocessable_entity
       	end
 	end
+	def reg
+		@phone_machine = PhoneMachine.new(:name => params[:name])
+		if @phone_machine.save
+			render json: @phone_machine, status: :created, location: @phone_machine
+      	else
+			render json: @phone_machine.errors, status: :unprocessable_entity
+      	end
+	end
 	def bind_phones
 		@phone_machine = PhoneMachine.find_by_name(params[:name])
 
