@@ -21,7 +21,7 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 <tbody>
 <tr>
 <td colspan="2">new API (采用RESTFUL原则重新设计API)</td>
-<td rowspan="26">
+<td rowspan="27">
 <ul>
 	<% Api::CODES.each do | key, value | %>
 	<li><%= value %>  => <%= key %></li>
@@ -124,7 +124,10 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 <td>参数：id => 账号, rid => 角色ID ckey => 计算机key, success => 成功(1表示成功) </td>
 </tr>
 
-
+<tr class="error">
+<td>account/role_stop.json</td>
+<td>参数：id => 账号, phone_no => 手机号</td>
+</tr>
 
 <tr>
 <th colspan="2">任务API</th>
