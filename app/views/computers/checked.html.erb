@@ -72,6 +72,15 @@
 		<input type="text" value="tmp" name="group" />
 	</div>
 </div>
+<% elsif @do == "set_status"%>
+<div class="control-group">
+	<label class="control-label">设置状态:</label>
+	<div class="controls docs-input-sizes" >
+	<label class="checkbox">
+		<input type="checkbox" value="1" name="status" checked="checked" />机器可用
+	</label>
+	</div>
+</div>
 <%end%>
 
 

@@ -48,6 +48,14 @@ group by account) as t1 group by c ;
 
 # level > 60 
 # 
+select count(DISTINCT role_index) t ,count(role_index) tr, min(id),account from roles 
+group by account having t = 2 and tr = 3;
+
+# 修改 错误的role_index
+select count(DISTINCT role_index) t ,count(role_index) tr, min(id),account from roles where server ='华北2区' 
+group by account having t = 2 and tr = 3 limit 10;
 
 
-
+update roles inner join (
+select count(DISTINCT role_index) t ,count(role_index) tr, min(id) min_id,account from roles group by account having t = 2 and tr = 3 
+) as t1 on roles.id = t1.min_id set role_index = 0  where role_index = 1 ;  roles.server = '天津1区';

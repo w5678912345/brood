@@ -1,5 +1,6 @@
 /*
  *= require_tree .
+ *= require formtastic
  */
 body { padding-top:45px; }
 
@@ -9,6 +10,3 @@ body { padding-top:45px; }
 .form-search .input-select {width:90px;}
 
 select{margin-bottom: 0px;color: #b94a48;font-weight: bold;}
- # app/assets/stylesheets/application.css
-  *= require formtastic
-  *= require my_formtastic_changes

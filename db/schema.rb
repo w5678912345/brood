@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131230073758) do
+ActiveRecord::Schema.define(:version => 20140107032826) do
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -223,6 +223,16 @@ ActiveRecord::Schema.define(:version => 20131230073758) do
     t.integer  "price",                          :default => 1,   :null => false
     t.float    "gold_price",                     :default => 0.0, :null => false
     t.float    "gold_unit",                      :default => 0.0, :null => false
+<<<<<<< HEAD
+    t.string   "goods2"
+    t.integer  "price2",                         :default => 1,   :null => false
+    t.integer  "max_price",                      :default => 1,   :null => false
+    t.integer  "max_price2",                     :default => 1,   :null => false
+    t.string   "goods3"
+    t.integer  "price3",                         :default => 1,   :null => false
+    t.integer  "max_price3",                     :default => 1,   :null => false
+=======
+>>>>>>> 4dd9e786964c82ea38c10e3922c234699def2bca
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true

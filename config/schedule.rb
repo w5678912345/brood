@@ -56,5 +56,7 @@ end
 #   runner 'Api.reset_role_ip_range',:environment => str_environment 
 # end
 
-
+# every :day, :at => '04:30 am' do
+# 	command "cd /root/apps/tianyi.dabi.co && thin -C config/thin.yml stop"
+# end
 
