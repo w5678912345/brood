@@ -26,7 +26,11 @@ class Api::PhoneMachineController < Api::BaseController
 	def can_unlock_accounts
 		@phone_machine = PhoneMachine.find_by_name(params[:name])
     	if @phone_machine
-	    	@accounts = Account.online_scope.joins(:phone).where("phone_machine_id = ? and accounts.status = ?",@phone_machine.id,'bs_unlock_fail').order("accounts.id")
+	    	#因为真正的查询是在render的时候发生的，所以更新计数的操作会在查询前执行
+	    	@accounts = Account.online_scope.joins(:phone).where("phone_machine_id = ? and accounts.status = ? and phone_event_count < 5",@phone_machine.id,'bs_unlock_fail').order("accounts.id")
+	    	targets = @accounts.map {|i| i.id}
+	    	Account.where("id in (?)",targets).update_all("phone_event_count = phone_event_count + 1")
+
 	    	render json: @accounts.map {|i| {:account => i.no,:password => i.password,:phone => i.phone_id}}
     	else
     		render json: {:code => -1}

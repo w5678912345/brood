@@ -46,12 +46,20 @@ describe Api::PhoneMachineController do
 			phone3 = FactoryGirl.create(:phone,:phone_machine => phone_machine1)
 			a0 = FactoryGirl.create(:account)
 			a1 = FactoryGirl.create(:account,:phone => phone1,:status => 'bs_unlock_fail')
-			a2 = FactoryGirl.create(:online_account,:phone => phone1,:status => 'bs_unlock_fail')
+
+			a20 = FactoryGirl.create(:online_account,:phone => phone1,:status => 'bs_unlock_fail',:phone_event_count => 5)
+			
+			a2 = FactoryGirl.create(:online_account,:phone => phone1,:status => 'bs_unlock_fail',:phone_event_count => 4)
 			a21 = FactoryGirl.create(:online_account,:phone => phone2,:status => 'bs_unlock_fail')
 			a3 = FactoryGirl.create(:online_account,:phone => phone3,:status => 'bs_unlock_fail')
 			get :can_unlock_accounts, {:name => phone_machine.name}
+			
+			assigns(:accounts).count.should eq(2)
+
+			#a21.phone_event_count += 1
+			#a2.phone_event_count += 1
 			#返回的账号是和上线顺序相反的，即session_id desc
 			assigns(:accounts).should eq([a21,a2])
     	end
-  end
+	end
 end
