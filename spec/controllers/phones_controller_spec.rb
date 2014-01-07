@@ -23,7 +23,7 @@ describe PhonesController do
   # This should return the minimal set of attributes required to create a valid
   # Phone. As you add validations to Phone, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { {  } }
+  let(:valid_attributes) { { :no => '12345678901' } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -33,7 +33,7 @@ describe PhonesController do
   
   describe "GET index" do
     it "assigns all phones as @phones" do
-      phone = Phone.create! valid_attributes
+      phone = FactoryGirl.create(:phone)
       get :index, {}
       assigns(:phones).should eq([phone])
     end
@@ -41,7 +41,7 @@ describe PhonesController do
 
   describe "GET show" do
     it "assigns the requested phone as @phone" do
-      phone = Phone.create! valid_attributes
+      phone = FactoryGirl.create(:phone)
       get :show, {:id => phone.to_param}
       assigns(:phone).should eq(phone)
     end
@@ -56,7 +56,7 @@ describe PhonesController do
 
   describe "GET edit" do
     it "assigns the requested phone as @phone" do
-      phone = Phone.create! valid_attributes
+      phone = FactoryGirl.create(:phone)
       get :edit, {:id => phone.to_param}
       assigns(:phone).should eq(phone)
     end
@@ -102,7 +102,7 @@ describe PhonesController do
   describe "PUT update" do
     describe "with valid params" do
       it "updates the requested phone" do
-        phone = Phone.create! valid_attributes
+        phone = FactoryGirl.create(:phone)
         # Assuming there are no other phones in the database, this
         # specifies that the Phone created on the previous line
         # receives the :update_attributes message with whatever params are
@@ -112,13 +112,13 @@ describe PhonesController do
       end
 
       it "assigns the requested phone as @phone" do
-        phone = Phone.create! valid_attributes
+        phone = FactoryGirl.create(:phone)
         put :update, {:id => phone.to_param, :phone => valid_attributes}
         assigns(:phone).should eq(phone)
       end
 
       it "redirects to the phone" do
-        phone = Phone.create! valid_attributes
+        phone = FactoryGirl.create(:phone)
         put :update, {:id => phone.to_param, :phone => valid_attributes}
         response.should redirect_to(phone)
       end
@@ -126,7 +126,7 @@ describe PhonesController do
 
     describe "with invalid params" do
       it "assigns the phone as @phone" do
-        phone = Phone.create! valid_attributes
+        phone = FactoryGirl.create(:phone)
         # Trigger the behavior that occurs when invalid params are submitted
         Phone.any_instance.stub(:save).and_return(false)
         put :update, {:id => phone.to_param, :phone => {  }}
@@ -134,7 +134,7 @@ describe PhonesController do
       end
 
       it "re-renders the 'edit' template" do
-        phone = Phone.create! valid_attributes
+        phone = FactoryGirl.create(:phone)
         # Trigger the behavior that occurs when invalid params are submitted
         Phone.any_instance.stub(:save).and_return(false)
         put :update, {:id => phone.to_param, :phone => {  }}
@@ -145,14 +145,14 @@ describe PhonesController do
 
   describe "DELETE destroy" do
     it "destroys the requested phone" do
-      phone = Phone.create! valid_attributes
+      phone = FactoryGirl.create(:phone)
       expect {
         delete :destroy, {:id => phone.to_param}
       }.to change(Phone, :count).by(-1)
     end
 
     it "redirects to the phones list" do
-      phone = Phone.create! valid_attributes
+      phone = FactoryGirl.create(:phone)
       delete :destroy, {:id => phone.to_param}
       response.should redirect_to(phones_url)
     end
