@@ -29,11 +29,17 @@ describe Api::PhoneMachineController do
         	Phone.find("13212341234").phone_machine.should eq @machine
         	Phone.find("13212341235").phone_machine.should eq @machine
         end
+        it "bind to none phone_machine" do
+        	expect {
+          		post :bind_phones, {:format => "json",:name => "PhoneMachine1",:password => "12345678",
+          			:phones => "13212341234,13213241239,13212341236,13212341237"}
+        	}.to change(Phone, :count).by(0)
+        end
 	end
 
 	describe "GET bslock" do
     	it "获取当前需要解bslock的账号" do
-			phone_machine = FactoryGirl.create(:phone_machine)
+    		phone_machine = FactoryGirl.create(:phone_machine)
 			phone_machine1 = FactoryGirl.create(:phone_machine)
 			phone1 = FactoryGirl.create(:phone,:phone_machine => phone_machine)
 			phone2 = FactoryGirl.create(:phone,:phone_machine => phone_machine)
@@ -41,10 +47,11 @@ describe Api::PhoneMachineController do
 			a0 = FactoryGirl.create(:account)
 			a1 = FactoryGirl.create(:account,:phone => phone1,:status => 'bs_unlock_fail')
 			a2 = FactoryGirl.create(:online_account,:phone => phone1,:status => 'bs_unlock_fail')
+			a21 = FactoryGirl.create(:online_account,:phone => phone2,:status => 'bs_unlock_fail')
 			a3 = FactoryGirl.create(:online_account,:phone => phone3,:status => 'bs_unlock_fail')
-
-			get :can_unlock_accounts, {:id => phone_machine.to_param}
-			assigns(:accounts).should eq([a2])
+			get :can_unlock_accounts, {:name => phone_machine.name}
+			#返回的账号是和上线顺序相反的，即session_id desc
+			assigns(:accounts).should eq([a21,a2])
     	end
   end
 end

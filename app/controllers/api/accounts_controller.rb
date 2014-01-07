@@ -144,9 +144,4 @@ class Api::AccountsController < Api::BaseController
 		#@code = CODES[:account_is_stopped] unless @account.is_started?
 		#return  render :partial => 'api/result' unless @code == 0
 	end
-
-	
-	def bind_phone
-	end
-
 end

@@ -141,8 +141,19 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 </tr>
 
 
+<tr>
+<th colspan="2">手机相关</th>
+</tr>
 
+<tr>
+<td>phone_machine/bind_phones.json</td>
+<td>将手机关联到指明的机器, name => phone_machine的name,phones => 以逗号分隔的电话号码集</td> 
+</tr>
 
+<tr>
+<td>phone_machine/can_unlock_accounts.json</td>
+<td>获取当前机器可以解绑的号码, name => phone_machine的name,count => 要获取的数量</td> 
+</tr>
 
 </tbody>
 </table>
