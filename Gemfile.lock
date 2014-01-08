@@ -241,7 +241,7 @@ DEPENDENCIES
   pry (~> 0.9.12.2)
   rails (= 3.2.13)
   roo
-  rspec (= 2.14.1)
+  rspec
   rspec-rails
   sass-rails (~> 3.2.3)
   therubyracer
