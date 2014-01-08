@@ -52,7 +52,7 @@ group :development,:test do
   gem 'pry', '~> 0.9.12.2' #调试
   
   gem 'thin', require: false #
-  gem 'rspec'
+  gem 'rspec','2.14.1'
   gem 'rspec-rails'
   gem 'factory_girl'
   gem "factory_girl_rails"
