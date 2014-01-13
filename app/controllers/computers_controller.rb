@@ -10,7 +10,8 @@ class ComputersController < ApplicationController
     @computers = Computer.where("id > 0 ")
     @computers = @computers.where(:status=>params[:status]) unless params[:status].blank?
     #@computers = @computers.where("server = '' or server is NULL") if params[:server] == "null"
-    @computers = @computers.where(:server=>params[:server]) unless params[:server].blank? #|| params[:server] == "null"
+    #@computers = @computers.where(:server=>params[:server]) unless params[:server].blank? #|| params[:server] == "null"
+    @computers = @computers.where("server like ?","%#{params[:server]}%") unless params[:server].blank?
     @computers = @computers.no_server_scope if params[:no_server].to_i == 1
     @computers = @computers.where(:version=>params[:version]) unless params[:version].blank?  
     @computers = @computers.where(:id => params[:id]) unless params[:id].blank?
