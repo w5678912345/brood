@@ -1,0 +1,24 @@
+<table class="table">
+<thead>
+<tr>
+	<th>ID</th>
+	<th>账号</th>
+	<th>手机</th>
+	<th>触发事件</th>
+	<th>Pull/Sent/Finished</th>
+	<th>创建时间</th>
+</tr>		
+</thead>
+<tbody>
+<% orders.each do |order|%>
+<tr>
+	<td><%= order.id %></td>
+	<td><%= order.account_no %></td>
+	<td><%= order.phone_no %></td>
+	<td><%= order.trigger_event %></td>
+	<td><%= order.pulled %></td>
+	<td><%= time_str order.created_at %></td>
+</tr>
+<%end%>
+</tbody>
+</table>

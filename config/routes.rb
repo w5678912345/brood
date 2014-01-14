@@ -124,6 +124,9 @@ Brood::Application.routes.draw do
       get :can_unlock_accounts
     end
   end
+  resources :orders,:only =>[:index] do
+      
+    end
   namespace :analysis do
     resource :oneday, :only =>[:show], controller: 'oneday'
     get "/oneday/roles/:mark" => "oneday#roles",:as => "roles_oneday"
@@ -238,6 +241,11 @@ Brood::Application.routes.draw do
       match :set_can_bind, :on => :collection
 
     end
+
+    resources :orders, :only => [:show] do 
+        match :pull, :on=>:collection
+    end
+
   end
 
 end

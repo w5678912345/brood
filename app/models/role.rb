@@ -206,6 +206,7 @@ class Role < ActiveRecord::Base
       roles = roles.where("vit_power = ?",tmp_vit[0].to_i) if tmp_vit.length == 1
       roles = roles.where("vit_power >= ? and vit_power <= ?",tmp_vit[0].to_i,tmp_vit[1].to_i) if tmp_vit.length == 2 
     end
+    
     return roles
   end
 

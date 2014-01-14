@@ -4,8 +4,10 @@ class Phone < ActiveRecord::Base
    self.primary_key=:no
    belongs_to :phone_machine
    has_many :accounts
+   has_many :orders, :class_name=>'Order',:foreign_key => 'phone_no', :primary_key => 'no'
    @@MAX_COOLDOWN = 3.minute
    scope :cooldown,where("last_active_at < ?",Time.now - @@MAX_COOLDOWN)
+   scope :can_pull_scope, lambda{|machine_id|joins(:orders).where(:phone_machine_id=>machine_id).where("orders.pulled=0")}
 
    def cooldown?
    		Time.now - self.last_active_at > @@MAX_COOLDOWN

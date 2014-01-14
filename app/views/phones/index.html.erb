@@ -15,7 +15,7 @@
     <td><%= phone.no%></td>
     <td><%= link_to phone.enabled.to_s, phone_path(phone,phone:{enabled: (not phone.enabled)}),method: :put%></td>
     <td><%= phone.phone_machine.nil? ? "空" : link_to(phone.phone_machine.name,phone_machine_path(phone.phone_machine))%></td>
-    <td><%= phone.accounts_count %> <%= boolean_tag phone.can_bind %></td>
+    <td><%= link_to phone.accounts_count,accounts_path(:phone=>phone.no) %> <%= boolean_tag phone.can_bind %></td>
     <td><%= phone.last_active_at%></td>
     <td><%= link_to 'Destroy', phone, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>

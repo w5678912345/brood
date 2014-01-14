@@ -6,7 +6,8 @@ class Account < ActiveRecord::Base
     #CAN_START_STATUS=['normal','bslocked','disconnect','exception']
     # 账号可能发生的事件
     EVENT = ['bslock','bs_unlock_fail','bs_unlock_success','code_error','wrong_password']
-    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线","set_status"=>"修改状态","edit_normal_at"=>"修改冷却时间","bind_this_computer"=>"绑定指定机器","set_server"=>"修改服务器","export" =>"导出账号"}
+    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线","set_status"=>"修改状态","edit_normal_at"=>"修改冷却时间",
+      "bind_this_computer"=>"绑定指定机器","set_server"=>"修改服务器","export" =>"导出账号","add_sms_order"=>"添加工单"}
 
     # 需要自动恢复normal的状态
     Auto_Normal = {"disconnect"=>2,"exception"=>3,"lost"=>0,"bslocked"=>72,"bs_unlock_fail"=>72}
@@ -56,6 +57,8 @@ class Account < ActiveRecord::Base
     scope :unbind_scope ,where("bind_computer_id = -1") # 不能绑定
     scope :un_normal_scope,where("status != 'normal' ") # 非正常状态的账号
     scope :no_server_scope,where("server is null or server = '' ") #服务器为空的账号 
+    scope :bind_phone_scope, where("phone_id is not null") # 绑定手机的账号
+    scope :unbind_phone_scope, where("phone_id is null") # 未绑定手机的账号
 
     # session_id > 0 表示正在运行
     def is_started?
@@ -209,6 +212,7 @@ class Account < ActiveRecord::Base
       accounts = accounts.where("roles_count = ?",opts[:roles_count].to_i) unless opts[:roles_count].blank?
       accounts = accounts.where("bind_computer_id = ?",opts[:bind_cid].to_i) unless opts[:bind_cid].blank?
       accounts = accounts.where(:is_auto => opts[:auto].to_i) unless opts[:auto].blank?
+      accounts = accounts.where("phone_id like ?","%#{opts[:phone]}%") unless opts[:phone].blank?
       #
       unless opts[:started].blank?
         accounts = opts[:started].to_i == 1 ? accounts.started_scope : accounts.stopped_scope
@@ -220,6 +224,9 @@ class Account < ActiveRecord::Base
       end
       unless opts[:ss].blank?
         accounts = accounts.where("status in (?)",opts[:ss])
+      end
+      unless opts[:bind_phone].blank?
+        accounts = opts[:bind_phone].to_i == 0 ? accounts.unbind_phone_scope : accounts.bind_phone_scope
       end
       # 根据在线IP 查询账户
       accounts = accounts.where("online_ip like ?","%#{opts[:online_ip]}%") unless opts[:online_ip].blank?
