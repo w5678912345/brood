@@ -149,8 +149,16 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 </tr>
 
 <tr>
-<td>phone_machine/reg.json</td>
-<td>注册机器，name => phone_machine 的name</td> 
+<td>phones/get.json</td>
+<td>得到可以绑定的手机 与账号</td> 
+</tr>
+<tr>
+<td>phones/bind.json</td>
+<td>手机与账号绑定, no => 手机, id => 账号</td> 
+</tr>
+<tr>
+<td>phones/set_can_bind.json</td>
+<td>设置手机是否可以绑定, no => 手机, bind => 1表示yes | 0表示no</td> 
 </tr>
 
 <tr>
