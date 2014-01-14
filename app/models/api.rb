@@ -26,7 +26,8 @@ CODES = {
    :account_is_started => -20, # 账号启动
    :account_is_stopped => -21,  # 账号停止
    :not_valid => -22,
-   :computer_exception => -23
+   :computer_exception => -23,
+   :not_find_phone => -24
   }
 
   EVENTS = {}
