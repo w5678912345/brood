@@ -245,7 +245,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 3.2.3)
   therubyracer
-  thin
+  thin (= 1.5.0)
   uglifier (>= 1.0.3)
   whenever (~> 0.8.2)
   will_paginate (~> 3.0)
