@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Api::PhoneMachineController < Api::BaseController
 	def create
 		@phone_machine = PhoneMachine.new(:name => params[:name])
