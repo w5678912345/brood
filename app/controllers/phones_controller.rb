@@ -1,3 +1,4 @@
+# encoding: utf-8
 class PhonesController < ApplicationController
   # GET /phones
   # GET /phones.json
