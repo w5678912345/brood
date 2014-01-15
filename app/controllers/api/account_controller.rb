@@ -5,11 +5,11 @@ class Api::AccountController < Api::BaseController
 	layout :nil
 
 	before_filter :require_remote_ip									  # 获取请求IP
-	before_filter :require_computer_by_ckey, :only => [:auto,:start,:sync,:stop,:reg] #需要ckey，验证是否为有效的机器	
+	before_filter :require_computer_by_ckey, :only => [:auto,:start,:sync,:stop,:reg,:sub_order] #需要ckey，验证是否为有效的机器	
 	#before_filter :valid_ip_use_count,					:only => [:auto] # 验证当前IP的24小时使用次数
 	#before_filter :valid_ip_range_online_count,			:only => [:auto] # 验证当前IP 前三段的在线数量
 	before_filter :validate_ip_can_use,					:only => [:auto]
-	before_filter :require_account_by_no,				:only => [:start,:sync,:note,:stop,:look,:role_start,:role_stop,:role_note,:role_pay] # 根据帐号取得一个账户
+	before_filter :require_account_by_no,				:only => [:start,:sync,:note,:stop,:look,:role_start,:role_stop,:role_note,:role_pay,:sub_order] # 根据帐号取得一个账户
 	#before_filter :require_account_is_started,			:only => [:sync,:note,:stop] # 确定账号在线
 	before_filter :require_role_by_rid,					:only => [:role_start,:role_stop,:role_note,:role_pay]
 	#
@@ -90,6 +90,12 @@ class Api::AccountController < Api::BaseController
 		@account.save!
 		@code = 1
 		render :partial => '/api/result'
+	end
+
+	def sub_order
+		return render :json=>{:code=>CODES[:not_bind_phone]} unless @account.is_bind_phone
+		@code = 1 if Order.create(:phone_no=>@account.phone_id,:account_no=>@account.no,:trigger_event=>params[:event])
+		render :json => {:code=>@code}
 	end
 
 	private

@@ -375,6 +375,10 @@ class Account < ActiveRecord::Base
       return Server.find_by_name(tmp[0]) if tmp.length == 2
     end
 
+    def is_bind_phone
+      return !self.phone_id.blank?
+    end
+
     before_create :init_data
 
     def init_data
