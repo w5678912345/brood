@@ -2,12 +2,10 @@ class PhonesController < ApplicationController
   # GET /phones
   # GET /phones.json
   def index
-    @phones = Phone.includes(:phone_machine).all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @phones }
-    end
+    @phones = Phone.includes(:phone_machine)
+    per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
+    @phones = @phones.paginate(:page => params[:page], :per_page => per_page)
+    
   end
 
   # GET /phones/1

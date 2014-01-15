@@ -1,0 +1,21 @@
+<form class="form-search" action="<%= orders_path %>">
+<input type="text" name="account" class="input-small" placeholder="帐号" value="<%= params[:account]%>" />
+<input type="text" name="phone" class="input-small" placeholder="手机" value="<%= params[:phone]%>" />
+<input type="text" name="event" class="input-small" placeholder="手机" value="<%= params[:event]%>" />
+<input type="text" name="result" class="input-small" placeholder="手机" value="<%= params[:result]%>" />
+结束:
+<select name="finished" class="input-small">
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:finished] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:finished] == "0" %> >No</option>
+</select>
+<input type="text" name="msg" class="input-small" placeholder="Msg" value="<%= params[:msg]%>" />
+<input type="text" name="date(created_at)" id="created_at" value='<%= params["date(created_at)"]%>' class="input-small" placeholder="注册日期"  />
+<button type="submit" class="btn">Search</button>
+</form>
+
+<script type="text/javascript">
+$(function(){
+	$("#created_at").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+});
+</script>
