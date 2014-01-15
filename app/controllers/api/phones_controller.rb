@@ -21,7 +21,7 @@ class Api::PhonesController < Api::BaseController
 	end
 
 
-	def send_to
+	def sent
 		@phone = Phone.find_or_create_by_no(params[:no])
 		return render :json => {:code => CODES[:not_find_phone]} unless @phone
 		@code = 1 if @phone.update_attributes(:status=>"sent")

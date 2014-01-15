@@ -5,7 +5,9 @@
 	<th>账号</th>
 	<th>手机</th>
 	<th>触发事件</th>
-	<th>Pull/Sent/Finished</th>
+	<th>结束</th>
+	<th>结果</th>
+	<th>Msg</th>
 	<th>创建时间</th>
 </tr>		
 </thead>
@@ -16,7 +18,9 @@
 	<td><%= order.account_no %></td>
 	<td><%= order.phone_no %></td>
 	<td><%= order.trigger_event %></td>
-	<td><%= order.pulled %></td>
+	<td><%= order.finished ? time_str(order.finished_at) : "No" %></td>
+	<td><%= order.result %></td>
+	<td><%= order.msg %></td>
 	<td><%= time_str order.created_at %></td>
 </tr>
 <%end%>

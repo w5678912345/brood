@@ -125,8 +125,16 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 </tr>
 
 <tr class="error">
-<td>account/sub_order.json</td>
-<td>提交短信工单 参数：id => 账号, event => 触发事件</td>
+<td>orders/sub.json</td>
+<td>提交短信工单 参数：id => 账号, event => 触发事件 </td>
+</tr>
+<tr class="error">
+<td>orders/get.json</td>
+<td>获取工单信息 参数：id => 账号 </td>
+</tr>
+<tr class="error">
+<td>orders/end.json</td>
+<td>获取工单信息 参数：id => 账号, result=> 工单的结果, msg => 消息 </td>
 </tr>
 
 <tr>
@@ -165,6 +173,12 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 <td>phones/pull.json</td>
 <td>pull phones，参数 name => phone_machine的名称</td> 
 </tr>
+
+<tr>
+<td>phones/sent.json</td>
+<td>修改手机状态为已发送 sent 参数 no => 手机号码</td> 
+</tr>
+
 
 <tr>
 <td>phone_machine/bind_phones.json</td>

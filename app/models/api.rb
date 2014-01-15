@@ -28,7 +28,8 @@ CODES = {
    :not_valid => -22,
    :computer_exception => -23,
    :not_find_phone => -24,
-   :not_bind_phone => -25
+   :not_bind_phone => -25,
+   :not_fint_order => -26
   }
 
   EVENTS = {}
