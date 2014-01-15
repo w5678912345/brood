@@ -17,7 +17,7 @@ class Api::PhonesController < Api::BaseController
 			phone.update_attributes(:status=>"busy")
 		end
 		phone_no = @phones.map(&:no)
-		render :json=>{:phone_no=>phone_no}
+		render :json=>phone_no.to_json
 	end
 
 
