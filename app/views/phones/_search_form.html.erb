@@ -1,0 +1,18 @@
+<form class="form-search" action="<%= phones_path %>">
+<input type="text" name="no" class="input-small" placeholder="号码" value="<%= params[:no]%>" />
+<input type="text" name="status" class="input-small" placeholder="状态" value="<%= params[:status]%>" />
+激活:
+<select name="enabled" class="input-small">
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:enabled] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:enabled] == "0" %> >No</option>
+</select>
+<input type="text" name="date(created_at)" id="created_at" value='<%= params["date(created_at)"]%>' class="input-small" placeholder="创建时间"  />
+<button type="submit" class="btn">Search</button>
+</form>
+
+<script type="text/javascript">
+$(function(){
+	$("#created_at").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+});
+</script>

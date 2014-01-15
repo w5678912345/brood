@@ -1,0 +1,83 @@
+<%= form_tag(checked_phones_path,:method => :put,:id=>"phone_checked_form",:onSubmit=>"return validate(this);",:target=>"_blank") do -%>
+<table class="table">
+<thead>
+<tr>
+<th colspan="7">
+<label class="checkbox">
+  <input type="checkbox" id="check_all" name="check_all"  />全选
+</label>
+</th>
+<th colspan="2" class="text-right">
+<select id="do" name="do" class="input-medium">
+<option value="">选择操作</option>
+<% Phone::Btns.each do | key, value |  %>
+  <option value="<%= key %>"><%= value%></option>
+<%end%>
+</select>
+<button type="submit" class="btn btn-primary">执行操作</button>
+</th>
+</tr>
+<tr>
+  <th>号码</th>
+  <th>激活</th>
+  <th>机器</th>
+  <th>状态</th>
+  <th>账号数量</th>
+  <th>发送次数</th>
+  <th>最后一次使用时间</th>
+  <th>操作</th>
+</tr>  
+</thead>
+<tbody id="phones_data">
+<% phones.each do |phone| %>
+  <tr>
+    <td>
+<label class="checkbox">
+<%= check_box_tag 'no[]',phone.no,false,:id=>phone.no %> <%= phone.no%>
+</label>
+    </td>
+    <td><%= boolean_tag phone.enabled %></td>
+    <td><%= phone.phone_machine.nil? ? "空" : link_to(phone.phone_machine.name,phone_machine_path(phone.phone_machine))%></td>
+    <td><%= phone.status %></td>
+    <td><%= link_to phone.accounts_count,accounts_path(:phone=>phone.no) %> <%= boolean_tag phone.can_bind %></td>
+    <td><%= phone.sms_count %># <%= phone.today_sms_count %></td>
+    <td><%= phone.last_active_at%></td>
+    <td><%= link_to 'Destroy', phone, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>  
+</tbody>
+
+
+</table>
+<%end%>
+
+
+<script type="text/javascript">
+
+function validate(){
+  var action =  $("#do").val();
+  if(action == null || action == ""){
+    alert("请选择您需要执行的操作!");
+    $("#do").focus();
+  }else if($("#phones_data input:checked").length == 0){
+    alert("请选择您需要执行的账户!");
+  }else{
+    return true;
+  }
+
+  //alert(action);
+  return false;
+}
+
+$(function(){
+
+$("#check_all").click(function(){
+  var checked = this.checked;
+  $("#phones_data input[type=checkbox]").each(function(){
+    this.checked = checked;
+  });
+});
+
+});
+
+</script>
