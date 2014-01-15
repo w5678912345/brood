@@ -51,7 +51,7 @@ group :development,:test do
   #gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
   gem 'pry', '~> 0.9.12.2' #调试
   
-  gem 'thin', require: false #
+  gem 'thin', '1.5.0'#
   gem 'rspec'
   gem 'rspec-rails'
   gem 'factory_girl'
