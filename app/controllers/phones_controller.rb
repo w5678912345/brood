@@ -2,7 +2,7 @@ class PhonesController < ApplicationController
   # GET /phones
   # GET /phones.json
   def index
-    @phones = Phone.includes(:phone_machine)
+    @phones = Phone.search(params)
     per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
     @phones = @phones.paginate(:page => params[:page], :per_page => per_page)
     
@@ -78,4 +78,20 @@ class PhonesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def checked
+    @no = params[:no] || []
+  end
+
+  def do_checked
+    @do = params[:do]
+    @no = params[:no]
+    @phones = Phone.where("no in (?)",@no)
+    if "set_status" == @do
+        status = params[:status]
+        i = @phones.update_all(:status=>status) if Phone::STATUS.include?(status)
+        flash[:msg] = "#{i}个号码状态设置为 #{status}"
+    end
+  end
+
 end

@@ -118,7 +118,10 @@ Brood::Application.routes.draw do
   #     get :test,  :on => :collection
        
   # end
-  resources :phones
+  resources :phones do 
+    put   :checked,     :on => :collection
+    put   :do_checked,  :on => :collection
+  end
   resources :phone_machines do
     member do
       get :can_unlock_accounts
