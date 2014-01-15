@@ -94,8 +94,9 @@ class Api::AccountController < Api::BaseController
 
 	def sub_order
 		return render :json=>{:code=>CODES[:not_bind_phone]} unless @account.is_bind_phone
-		@code = 1 if Order.create(:phone_no=>@account.phone_id,:account_no=>@account.no,:trigger_event=>params[:event])
-		render :json => {:code=>@code}
+		@order =  Order.create(:phone_no=>@account.phone_id,:account_no=>@account.no,:trigger_event=>params[:event])
+		@code = 1 if @order
+		render :json => {:code=>@code,:order_id=>@order.id}
 	end
 
 	private
