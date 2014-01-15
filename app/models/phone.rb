@@ -1,6 +1,7 @@
 class Phone < ActiveRecord::Base
  CODES = Api::CODES
  STATUS = ['idle','sent','busy']
+ Btns = { "set_status"=>"修改状态"}
    attr_accessible :id,:phone_machine_id,:no,:enabled,:last_active_at,:accounts_count,:can_bind,:status,:sms_count,:today_sms_count
    self.primary_key=:no
    belongs_to :phone_machine
@@ -12,7 +13,7 @@ class Phone < ActiveRecord::Base
    scope :can_pull_scope, lambda{|machine_id| joins(:orders).where("phones.status = ?","idle").where("phones.phone_machine_id =?",machine_id).where("orders.finished=0").uniq().readonly(false)}
 
 
-   Btns = { "set_status"=>"修改状态"}
+   
 
    def cooldown?
    		Time.now - self.last_active_at > @@MAX_COOLDOWN
