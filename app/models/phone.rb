@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Phone < ActiveRecord::Base
  CODES = Api::CODES
  STATUS = ['idle','sent','busy']
