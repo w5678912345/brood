@@ -1,7 +1,7 @@
 class Phone < ActiveRecord::Base
  CODES = Api::CODES
  STATUS = ['idle','sent','busy']
-   attr_accessible :id,:phone_machine_id,:no,:enabled,:last_active_at,:accounts_count,:can_bind,:status
+   attr_accessible :id,:phone_machine_id,:no,:enabled,:last_active_at,:accounts_count,:can_bind,:status,:sms_count,:today_sms_count
    self.primary_key=:no
    belongs_to :phone_machine
    has_many :accounts
