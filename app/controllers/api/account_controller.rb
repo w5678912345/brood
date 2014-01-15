@@ -99,6 +99,11 @@ class Api::AccountController < Api::BaseController
 		render :json => {:code=>@code,:order_id=>@order.id}
 	end
 
+	def get_order
+		@order = Order.find_by_id(:params[:order_id])
+		
+	end
+
 	private
 
 	# 取得请求IP

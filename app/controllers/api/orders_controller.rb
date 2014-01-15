@@ -2,7 +2,6 @@
 # @suxu
 # 
 class Api::OrdersController < Api::BaseController
-
 	
 	def pull
 		@phone_machine = PhoneMachine.find_by_name(params[:name])

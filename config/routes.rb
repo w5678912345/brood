@@ -238,14 +238,13 @@ Brood::Application.routes.draw do
     end
     resources :phones,:only => [:show] do 
       match :get,  :on => :collection
+      match :pull, :on => :collection
       match :bind, :on => :collection
       match :set_can_bind, :on => :collection
 
     end
 
-    resources :orders, :only => [:show] do 
-        match :pull, :on=>:collection
-    end
+    
 
   end
 
