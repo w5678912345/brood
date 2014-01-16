@@ -3,7 +3,7 @@ class ComputersController < ApplicationController
 
   load_and_authorize_resource :class => "Computer"
 
-  before_filter :require_tasks,:only=>[:index,:checked,:unchecked]
+  before_filter :require_tasks,:only=>[:index,:checked,:unchecked,:show]
   
   def index
     
