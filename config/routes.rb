@@ -128,8 +128,9 @@ Brood::Application.routes.draw do
     end
   end
   resources :orders,:only =>[:index] do
-      
-    end
+    put   :checked,     :on => :collection
+    put   :do_checked,  :on => :collection
+  end
   namespace :analysis do
     resource :oneday, :only =>[:show], controller: 'oneday'
     get "/oneday/roles/:mark" => "oneday#roles",:as => "roles_oneday"

@@ -1,5 +1,22 @@
+<%= form_tag(checked_orders_path,:method => :put,:id=>"order_checked_form",:onSubmit=>"return validate(this);",:target=>"_blank") do -%>
 <table class="table">
 <thead>
+<tr>
+<th colspan="7">
+<label class="checkbox">
+  <input type="checkbox" id="check_all" name="check_all"  />全选
+</label>
+</th>
+<th colspan="2" class="text-right">
+<select id="do" name="do" class="input-medium">
+<option value="">选择操作</option>
+<% Order::Btns.each do | key, value |  %>
+  <option value="<%= key %>"><%= value%></option>
+<%end%>
+</select>
+<button type="submit" class="btn btn-primary">执行操作</button>
+</th>
+</tr>
 <tr>
 	<th>ID</th>
 	<th>账号</th>
@@ -11,10 +28,14 @@
 	<th>创建时间</th>
 </tr>		
 </thead>
-<tbody>
+<tbody id="orders_data">
 <% orders.each do |order|%>
 <tr>
-	<td><%= order.id %></td>
+	<td>
+		<label class="checkbox">
+			<%= check_box_tag 'ids[]',order.id,false,:id=>order.id %> <%= order.id %>
+		</label>
+	</td>
 	<td><%= order.account_no %></td>
 	<td><%= order.phone_no %></td>
 	<td><%= order.trigger_event %></td>
@@ -26,3 +47,34 @@
 <%end%>
 </tbody>
 </table>
+<%end%>
+
+<script type="text/javascript">
+
+function validate(){
+  var action =  $("#do").val();
+  if(action == null || action == ""){
+    alert("请选择您需要执行的操作!");
+    $("#do").focus();
+  }else if($("#orders_data input:checked").length == 0){
+    alert("请选择您需要执行的工单!");
+  }else{
+    return true;
+  }
+
+  //alert(action);
+  return false;
+}
+
+$(function(){
+
+$("#check_all").click(function(){
+  var checked = this.checked;
+  $("#orders_data input[type=checkbox]").each(function(){
+    this.checked = checked;
+  });
+});
+
+});
+
+</script>

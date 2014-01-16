@@ -1,0 +1,36 @@
+<% content_for :title do%>工单 <%= Order::Btns[params[:do]]%><%end%>
+<fieldset>
+<legend>工单 <%= Order::Btns[params[:do]]%></legend>
+<div class="alert">
+<strong>提示信息:</strong>
+<span>您选中了<%= @ids.length %> 个号码，执行[<%= Order::Btns[params[:do]]%>]操作!</span> 
+</div>
+
+
+
+<%= form_tag(do_checked_orders_path,:method => :put,:id=>"order_checked_form",:class=>"form-horizontal") do -%>
+<%= hidden_field_tag :do,params[:do]%>
+
+<select name="ids[]" multiple="multiple" style="display:none;">
+<% @ids.each do |id|%>
+<option value="<%= id%>" selected="selected"><%= id%></option>
+<%end%>
+</select>
+
+
+
+<div class="form-actions">
+  <%= submit_tag "确认执行", :class => "btn btn-primary"%>
+</div>
+
+<%end%>
+
+</fieldset>
+<script type="text/javascript">
+$(function(){
+$("#at").datepicker({dateFormat:"yy-mm-dd"});
+<% if flash[:error] %>
+ alert("<%= flash[:error]%>");
+<%end%>
+});
+</script>
