@@ -10,7 +10,7 @@
 <option value="0" <%= 'selected="selected"' if params[:finished] == "0" %> >No</option>
 </select>
 <input type="text" name="msg" class="input-small" placeholder="Msg" value="<%= params[:msg]%>" />
-<input type="text" name="date(created_at)" id="created_at" value='<%= params["date(created_at)"]%>' class="input-small" placeholder="注册日期"  />
+<input type="text" name="created_at" id="created_at" value='<%= params[:created_at]%>' class="input-small" placeholder="注册日期"  />
 <button type="submit" class="btn">Search</button>
 </form>
 

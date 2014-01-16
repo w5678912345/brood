@@ -16,6 +16,7 @@ class Order < ActiveRecord::Base
 		orders = orders.where("trigger_event =? ",opts[:event]) unless opts[:event].blank?
 		orders = orders.where("result =?",opts[:result]) unless opts[:result].blank?
 		orders = orders.where("msg like ?","%#{opts[:msg]}%") unless opts[:msg].blank?
+		orders = orders.where("date(created_at)=?",opts[:created_at]) unless opts[:created_at].blank?
 		orders = orders.where("finished =? ",opts[:finished].to_i) unless opts[:finished].blank?
 		return orders
 	end
