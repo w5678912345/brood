@@ -2,6 +2,7 @@
 class Order < ActiveRecord::Base
     Btns = { "finish"=>"结束工单"}
     attr_accessible :phone_no, :account_no,:trigger_event, :pulled, :pulled_at, :finished, :finished_at, :result, :msg 
+    attr_accessible :sms
 
 	belongs_to :phone, :class_name => 'Phone', :foreign_key => 'phone_no',:primary_key => 'no'
 

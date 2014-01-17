@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140115072607) do
+ActiveRecord::Schema.define(:version => 20140117061853) do
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -162,6 +162,7 @@ ActiveRecord::Schema.define(:version => 20140115072607) do
     t.datetime "updated_at",                                      :null => false
     t.string   "result",        :limit => 64
     t.string   "msg",           :limit => 128
+    t.string   "sms"
   end
 
   create_table "payments", :force => true do |t|
