@@ -17,6 +17,7 @@ class ComputersController < ApplicationController
     @computers = @computers.where(:id => params[:id]) unless params[:id].blank?
     @computers = @computers.where(:checked => params[:checked]) unless params[:checked].blank?
     @computers = @computers.where(:group => params[:group]) unless params[:group].blank?
+    @computers = @computers.where(:auto_binding => params[:ab]) unless params[:ab].blank?
     #
     unless params[:started].blank?
         @computers = params[:started].to_i == 1 ? @computers.started_scope : @computers.stopped_scope
