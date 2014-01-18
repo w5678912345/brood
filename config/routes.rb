@@ -1,4 +1,7 @@
 Brood::Application.routes.draw do
+  resources :links
+
+
   #
   devise_for :users,:path => '/'
 
@@ -245,6 +248,7 @@ Brood::Application.routes.draw do
       match :bind, :on => :collection
       match :set_can_bind, :on => :collection
       match :pull, :on => :collection
+      match :pulls, :on => :collection
       match :sent, :on => :collection
     end
     resources :orders, :only => [:show] do

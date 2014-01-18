@@ -21,7 +21,8 @@
 	<th>ID</th>
 	<th>账号</th>
 	<th>手机</th>
-	<th>触发事件</th>
+	<th>事件</th>
+	<th>内容</th>
 	<th>结束</th>
 	<th>结果</th>
 	<th>Msg</th>
@@ -39,6 +40,7 @@
 	<td><%= order.account_no %></td>
 	<td><%= order.phone_no %></td>
 	<td><%= order.trigger_event %></td>
+	<td><%= order.sms %></td>
 	<td><%= order.finished ? time_str(order.finished_at) : "No" %></td>
 	<td><%= order.result %></td>
 	<td><%= order.msg %></td>

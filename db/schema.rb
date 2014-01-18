@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140117061853) do
+ActiveRecord::Schema.define(:version => 20140118062857) do
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -102,6 +102,21 @@ ActiveRecord::Schema.define(:version => 20140117061853) do
     t.datetime "updated_at",                  :null => false
     t.string   "last_account"
   end
+
+  create_table "links", :force => true do |t|
+    t.string   "phone_no",            :limit => 32,                     :null => false
+    t.string   "event",               :limit => 32,                     :null => false
+    t.string   "status",              :limit => 32, :default => "idle", :null => false
+    t.string   "link_type",           :limit => 32, :default => "send", :null => false
+    t.integer  "sms_count",                         :default => 0,      :null => false
+    t.integer  "today_sms_count",                   :default => 0,      :null => false
+    t.integer  "timeout_count",                     :default => 0,      :null => false
+    t.integer  "today_timeout_count",               :default => 0,      :null => false
+    t.datetime "created_at",                                            :null => false
+    t.datetime "updated_at",                                            :null => false
+  end
+
+  add_index "links", ["phone_no", "event"], :name => "index_links_on_phone_no_and_event", :unique => true
 
   create_table "notes", :force => true do |t|
     t.integer  "user_id",                      :default => 0,     :null => false

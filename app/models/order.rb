@@ -8,6 +8,7 @@ class Order < ActiveRecord::Base
 
 	belongs_to :account, :class_name => 'Account', :foreign_key => 'account_no', :primary_key => 'no'
 
+	#belongs_to :link,  :class_name => 'Link', :foreign_key => 'phone_no',:primary_key => 'phone_no',:conditions => {:event=>trigger_event}	
 	default_scope order("id desc")
 
 	def self.search opts
@@ -20,6 +21,14 @@ class Order < ActiveRecord::Base
 		orders = orders.where("date(created_at)=?",opts[:created_at]) unless opts[:created_at].blank?
 		orders = orders.where("finished =? ",opts[:finished].to_i) unless opts[:finished].blank?
 		return orders
+	end
+
+
+	def link(auto_create=true)
+		event =  self.trigger_event.blank? ? "default" : self.trigger_event
+		link = Link.where(:phone_no=>self.phone_no,:event=>event).first
+		link = Link.create(:phone_no=>self.phone_no,:event=>event) if link.nil? && auto_create
+		return link
 	end
 
 	def self.auto_finish

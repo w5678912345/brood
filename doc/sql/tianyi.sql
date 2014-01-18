@@ -1,6 +1,12 @@
 四川2区
  mysqldump -u root -p tianyi_pro>tianyi_pro_new.sql
 
+
+
+select count(id) as cc, msg from notes where api_name ='answer_verify_code' and date(created_at) = '2014-01-18'
+  group by msg order by cc ;
+
+
 select count(id) from accounts where server in('四川1区','四川2区','四川6区');
 
 # 导出四川区的账号 到 brood_test

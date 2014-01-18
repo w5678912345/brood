@@ -9,9 +9,14 @@ class Api::PhoneMachineController < Api::BaseController
       	end
 	end
 
+	def reset
+		@phone_machine = PhoneMachine.find_by_name(params[:name])
+		@phone_machine.phones.update_all(:enabled=>false)
+	end
+
 	def bind_phones
 		@phone_machine = PhoneMachine.find_by_name(params[:name])
-		@phone_machine = PhoneMachine.new(:name => params[:name]).save unless @phone_machine
+		@phone_machine = PhoneMachine.create(:name => params[:name]) unless @phone_machine
 		if @phone_machine.nil? 
 			render json: {:code => -1}
 		else
