@@ -2,6 +2,7 @@
 
 <table class="table">
   <tr>
+   <th>ID</th>
     <th>Phone no</th>
     <th>Event</th>
     <th>Status</th>
@@ -12,6 +13,7 @@
 
 <% @links.each do |link| %>
   <tr>
+    <td><%= link.id %></td>
     <td><%= link.phone_no %></td>
     <td><%= link.event %></td>
     <td><%= link.status %></td>

@@ -6,6 +6,8 @@ class Order < ActiveRecord::Base
 
 	belongs_to :phone, :class_name => 'Phone', :foreign_key => 'phone_no',:primary_key => 'no'
 
+	belongs_to :link, :class_name => 'Link', :foreign_key => 'link_id'
+
 	belongs_to :account, :class_name => 'Account', :foreign_key => 'account_no', :primary_key => 'no'
 
 	#belongs_to :link,  :class_name => 'Link', :foreign_key => 'phone_no',:primary_key => 'phone_no',:conditions => {:event=>trigger_event}	
@@ -24,7 +26,7 @@ class Order < ActiveRecord::Base
 	end
 
 
-	def link(auto_create=true)
+	def get_link(auto_create=true)
 		event =  self.trigger_event.blank? ? "default" : self.trigger_event
 		link = Link.where(:phone_no=>self.phone_no,:event=>event).first
 		link = Link.create(:phone_no=>self.phone_no,:event=>event) if link.nil? && auto_create
@@ -37,5 +39,8 @@ class Order < ActiveRecord::Base
       orders.update_all(:finished=>true,:finished_at=>Time.now,:updated_at=>Time.now,:result=>"timeout",:msg=>"auto")
 	end
 
+	before_save do |order|
+		order.link_id = self.get_link.id
+	end
 
 end

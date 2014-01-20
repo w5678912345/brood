@@ -11,28 +11,35 @@ class Api::PhonesController < Api::BaseController
 
 
 	def pull
+
 		@phone_machine = PhoneMachine.find_by_name(params[:name])
-		@phones = Phone.can_pull_scope(@phone_machine.id)
-		@phones = @phones.select("phone_no,sms")
-		#@phones.update_all("phones.status"=>"busy")
-		@phones.each do |phone|
-			phone.update_attributes(:status=>"busy")
+		@orders = Order.joins(:phone).joins(:link).where("links.status=?","idle").where("phones.status = ?","idle").where("phones.phone_machine_id =?",@phone_machine.id).where("orders.finished=0")
+		@orders = @orders.where("orders.link_id>0").group("trigger_event")
+		@orders.each do |order|
+			order.link.update_status("busy")
 		end
-		phone_no = @phones.map(&:no)
-		render :json=>phone_no.to_json
+		render :json => @orders.as_json({:only => [:phone_no,:trigger_event,:sms]}) 
+
+		# @phone_machine = PhoneMachine.find_by_name(params[:name])
+		# @phones = Phone.can_pull_scope(@phone_machine.id)
+		# @phones = @phones.select("phone_no,sms")
+		# #@phones.update_all("phones.status"=>"busy")
+		# @phones.each do |phone|
+		# 	phone.update_attributes(:status=>"busy")
+		# end
+		# phone_no = @phones.map(&:no)
+		# render :json=>phone_no.to_json
 	end
 
 	def pulls
 		@phone_machine = PhoneMachine.find_by_name(params[:name])
-		@orders = Order.joins(:phone).where("phones.status = ?","idle").where("phones.phone_machine_id =?",@phone_machine.id).where("orders.finished=0")
-		@orders = @orders.select("DISTINCT(orders.phone_no) as phone_no,trigger_event as trigger_event,sms ").group("trigger_event")
-		str = ""
+		@orders = Order.joins(:phone).joins(:link).where("links.status=?","idle").where("phones.status = ?","idle").where("phones.phone_machine_id =?",@phone_machine.id).where("orders.finished=0")
+		@orders = @orders.where("orders.link_id>0").group("trigger_event")
 		@orders.each do |order|
-			order.link.udpate_status("busy")
-			str = str+ "========#{order.link.id}"
+			order.link.update_status("busy")
 		end
-		#render :text => str
-		render :json=>@orders.to_json
+		render :json => @orders.as_json({:only => [:phone_no,:trigger_event,:sms]}) 
+	
 	end
 
 

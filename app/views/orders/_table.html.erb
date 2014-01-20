@@ -19,6 +19,7 @@
 </tr>
 <tr>
 	<th>ID</th>
+	<th>LINK ID</th>
 	<th>账号</th>
 	<th>手机</th>
 	<th>事件</th>
@@ -37,6 +38,7 @@
 			<%= check_box_tag 'ids[]',order.id,false,:id=>order.id %> <%= order.id %>
 		</label>
 	</td>
+	<td><%= order.link_id %></td>
 	<td><%= order.account_no %></td>
 	<td><%= order.phone_no %></td>
 	<td><%= order.trigger_event %></td>
