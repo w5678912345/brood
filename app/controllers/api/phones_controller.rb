@@ -18,7 +18,7 @@ class Api::PhonesController < Api::BaseController
 		@orders.each do |order|
 			order.link.update_status("busy")
 		end
-		render :json => @orders.as_json({:only => [:phone_no,:trigger_event,:sms]}) 
+		render :json => @orders.as_json({:only => [:phone_no,:trigger_event,:sms,:link_id]}) 
 
 		# @phone_machine = PhoneMachine.find_by_name(params[:name])
 		# @phones = Phone.can_pull_scope(@phone_machine.id)
@@ -46,7 +46,10 @@ class Api::PhonesController < Api::BaseController
 	def sent
 		@phone = Phone.find_or_create_by_no(params[:no])
 		return render :json => {:code => CODES[:not_find_phone]} unless @phone
-		@code = 1 if @phone.update_attributes(:status=>"sent",:sms_count=>@phone.sms_count+1,:today_sms_count=>@phone.today_sms_count+1)
+		@link = @phone.links.find_by_id(params[:link_id])
+
+		@code = 1 if @link.update_attributes(:status=>"sent")  #if @phone.update_attributes(:status=>"sent",:sms_count=>@phone.sms_count+1,:today_sms_count=>@phone.today_sms_count+1)
+		
 		render :json=>{:code=>@code}
 	end
 

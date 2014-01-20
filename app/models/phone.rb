@@ -8,6 +8,8 @@ class Phone < ActiveRecord::Base
    belongs_to :phone_machine
    has_many :accounts
    has_many :orders, :class_name=>'Order',:foreign_key => 'phone_no', :primary_key => 'no'
+   has_many :links, :class_name => 'Link', :foreign_key => 'phone_no', :primary_key => 'no'
+
    @@MAX_COOLDOWN = 3.minute
    scope :cooldown,where("last_active_at < ?",Time.now - @@MAX_COOLDOWN)
 
