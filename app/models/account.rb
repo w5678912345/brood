@@ -159,31 +159,31 @@ class Account < ActiveRecord::Base
       end
       computer = Computer.find_by_id(opts[:cid])
       unless self.session.nil?
-      # 当前 session
-      session = self.session
-      computer = session.computer
-      
-      # 创建stop 记录
-       Note.create(:account => self.no, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_stop',:msg=>opts[:msg],
-         :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:session_id=>session.id)
-       
-       # 更新 session    
-       now = Time.now
-       hours = (now - session.created_at)/3600
-      
-       #p "=====================#{self.online_role_ids}====#{session.success_role_ids}"
-       # 参数成功，或者online 的角色 等于 success 的角色 表示本次会话成功
-       at = Time.now
-       if opts[:success].to_i ==1
-          self.today_success = session.success = true
-          at = session.created_at
-          at = at.since(1.day) if (6..23).include?(at.hour)
-          self.normal_at = at.change(:hour => 6,:min => 0,:sec => 0)
-       else
-        self.normal_at = Time.now.since(Account::STATUS[self.status].hours)
-       end
-       # 完成session 
-       session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
+        # 当前 session
+        session = self.session
+        computer = session.computer
+        
+        # 创建stop 记录
+         Note.create(:account => self.no, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_stop',:msg=>opts[:msg],
+           :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:session_id=>session.id)
+         
+         # 更新 session    
+         now = Time.now
+         hours = (now - session.created_at)/3600
+        
+         #p "=====================#{self.online_role_ids}====#{session.success_role_ids}"
+         # 参数成功，或者online 的角色 等于 success 的角色 表示本次会话成功
+         at = Time.now
+         if opts[:success].to_i ==1
+            self.today_success = session.success = true
+            at = session.created_at
+            at = at.since(1.day) if (6..23).include?(at.hour)
+            self.normal_at = at.change(:hour => 6,:min => 0,:sec => 0)
+         else
+          self.normal_at = Time.now.since(Account::STATUS[self.status].hours)
+         end
+         # 完成session 
+         session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
       end
        computer.decrement(:online_accounts_count,1).save if computer && computer.online_accounts_count > 0
       # 修改角色 online
