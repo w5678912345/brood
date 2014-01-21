@@ -16,11 +16,14 @@ class Api::OrdersController < Api::BaseController
 	# end
 
 	def sub
+		@phone = Phone.find_by_no(params[:phone_id])
+		return render :json => {:code=>CODES[:not_find_phone]} unless @phone
+
 		@account = Account.find_by_no(params[:id] || params[:account_id])
-		return render :json=>{:code=>CODES[:not_find_account]} unless @account
-		return render :json=>{:code=>CODES[:not_bind_phone]} unless @account.is_bind_phone
-		@order =  Order.create(:phone_no=>@account.phone_id,:account_no=>@account.no,:trigger_event=>params[:event],:sms=>params[:sms])
-		if @order
+		
+		@order =  Order.new(:phone_no=>@phone.no,:trigger_event=>params[:event],:sms=>params[:sms])
+		@order.account_no = @account.no if @account
+		if @order.save
 			render :json => {:code=>1,:data=>{:id=>@order.id,:finished=>@order.finished,:trigger_event=>@order.trigger_event,:link_status=>@order.link.status}}
 		end
 	end
