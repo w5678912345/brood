@@ -129,7 +129,7 @@ class Role < ActiveRecord::Base
   # 角色停止
   def api_stop opts
     return CODES[:role_is_stopped] unless self.is_started?
-    if self.qq_account.session
+    if self.qq_account.session && self.session
     account_session = self.qq_account.session
     session = self.session
     computer = session.computer
