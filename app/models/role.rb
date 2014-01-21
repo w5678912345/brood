@@ -129,6 +129,7 @@ class Role < ActiveRecord::Base
   # 角色停止
   def api_stop opts
     return CODES[:role_is_stopped] unless self.is_started?
+    if self.qq_account.session
     account_session = self.qq_account.session
     session = self.session
     computer = session.computer
@@ -147,6 +148,7 @@ class Role < ActiveRecord::Base
       Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,:version=>computer.version,
        :api_name=>"role_stop",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=> account_session.id)
       # 清空会话
+      end
       return 1 if self.update_attributes(:session_id => 0)
     end
   end
