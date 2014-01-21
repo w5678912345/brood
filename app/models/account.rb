@@ -158,7 +158,7 @@ class Account < ActiveRecord::Base
         role.api_stop(opts)
       end
       computer = Computer.find_by_id(opts[:cid])
-      if self.session
+      unless self.session.nil?
       # 当前 session
       session = self.session
       computer = session.computer
@@ -182,10 +182,9 @@ class Account < ActiveRecord::Base
        else
         self.normal_at = Time.now.since(Account::STATUS[self.status].hours)
        end
-       
        # 完成session 
        session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
-        end
+      end
        computer.decrement(:online_accounts_count,1).save if computer && computer.online_accounts_count > 0
       # 修改角色 online
        self.roles.update_all(:online => false)
