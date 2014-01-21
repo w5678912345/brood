@@ -21,14 +21,14 @@ class Api::OrdersController < Api::BaseController
 		return render :json=>{:code=>CODES[:not_bind_phone]} unless @account.is_bind_phone
 		@order =  Order.create(:phone_no=>@account.phone_id,:account_no=>@account.no,:trigger_event=>params[:event],:sms=>params[:sms])
 		if @order
-			render :json => {:code=>1,:data=>{:id=>@order.id,:finished=>@order.finished,:event=>@order.trigger_event,:link_status=>@order.link.status}}
+			render :json => {:code=>1,:data=>{:id=>@order.id,:finished=>@order.finished,:trigger_event=>@order.trigger_event,:link_status=>@order.link.status}}
 		end
 	end
 
 	def show
 		@order = Order.find_by_id(params[:id])
 		return render :json=>{:code=>CODES[:not_fint_order],:msg=>"not find order"} unless @order
-		render :json => {:code=>1,:data=>{:id=>@order.id,:finished=>@order.finished,:event=>@order.trigger_event,:link_status=>@order.link.status}}
+		render :json => {:code=>1,:data=>{:id=>@order.id,:finished=>@order.finished,:trigger_event=>@order.trigger_event,:link_status=>@order.link.status}}
 	end
 
 	def get
