@@ -25,6 +25,8 @@ class Api::OrdersController < Api::BaseController
 		@order.account_no = @account.no if @account
 		if @order.save
 			render :json => {:code=>1,:data=>{:id=>@order.id,:finished=>@order.finished,:trigger_event=>@order.trigger_event,:link_status=>@order.link.status}}
+		else
+			render :json => {:code=>CODES[:errors],:msg=>"errors"}
 		end
 	end
 
