@@ -25,16 +25,16 @@ class Api::OrdersController < Api::BaseController
 	end
 
 	def get
-		@order = Order.joins(:phone).where(:finished=>false).where("phones.status=?","sent").find_by_account_no(params[:id])
+		@order = Order.joins(:link).where(:finished=>false).where("links.status=?","sent").find_by_id(params[:id])
 		return render :json=>{:code=>CODES[:not_fint_order]} unless @order
 		render :json=>{:code=>1,:order_id=>@order.id}
 	end
 
 	def end
-		@order = Order.where(:finished=>false).find_by_account_no(params[:id])
+		@order = Order.where(:finished=>false).find_by_id(params[:id])
 		return render :json=>{:code=>CODES[:not_fint_order]} unless @order
 		@order.update_attributes(:finished=>true,:finished_at=>Time.now,:result=>params[:result],:msg=>params[:msg])
-		@order.phone.update_attributes(:status=>"idle") if @order.phone
+		@order.link.update_attributes(:status=>"idle") if @order.link
 		render :json => {:code=>1}
 	end
 
