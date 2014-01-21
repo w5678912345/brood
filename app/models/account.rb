@@ -150,21 +150,23 @@ class Account < ActiveRecord::Base
 
     # 停止帐号
     def api_stop opts
+      self.transaction do 
       # 判断账号是否在线
       return CODES[:account_is_stopped] unless self.is_started?
       # 停止已启动的角色
       self.roles.started_scope.each do |role|
         role.api_stop(opts)
       end
+      
+      if self.session
       # 当前 session
       session = self.session
       computer = session.computer
-      self.transaction do 
+      
       # 创建stop 记录
        Note.create(:account => self.no, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_stop',:msg=>opts[:msg],
          :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:session_id=>session.id)
        
-       computer.decrement(:online_accounts_count,1).save if computer.online_accounts_count > 0 # 修改机器的上线账号数量
        # 更新 session    
        now = Time.now
        hours = (now - session.created_at)/3600
@@ -184,6 +186,9 @@ class Account < ActiveRecord::Base
        # 完成session 
        session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
         # 修改角色 online
+        end
+       computer.decrement(:online_accounts_count,1).save if computer.online_accounts_count > 0
+     
        self.roles.update_all(:online => false)
        # 修改账号的session_id 为0 并清空上线 IP
        return 1 if self.update_attributes(:session_id=>0,:online_ip=>nil)
