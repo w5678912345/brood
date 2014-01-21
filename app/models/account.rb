@@ -157,7 +157,7 @@ class Account < ActiveRecord::Base
       self.roles.started_scope.each do |role|
         role.api_stop(opts)
       end
-      
+      computer = Computer.find_by_id(opts[:cid])
       if self.session
       # 当前 session
       session = self.session
@@ -185,10 +185,9 @@ class Account < ActiveRecord::Base
        
        # 完成session 
        session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
-        # 修改角色 online
         end
-       computer.decrement(:online_accounts_count,1).save if computer.online_accounts_count > 0
-     
+       computer.decrement(:online_accounts_count,1).save if computer && computer.online_accounts_count > 0
+      # 修改角色 online
        self.roles.update_all(:online => false)
        # 修改账号的session_id 为0 并清空上线 IP
        return 1 if self.update_attributes(:session_id=>0,:online_ip=>nil)
