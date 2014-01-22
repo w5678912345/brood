@@ -89,7 +89,15 @@ class Note < ActiveRecord::Base
         notes = notes.where(:ending => opts[:end].to_i) unless opts[:end].blank?
         notes = notes.where(:success => opts[:success].to_i) unless opts[:success].blank?
         notes = notes.where(:result => opts[:result]) unless opts[:result].blank?
+        unless opts[:level].blank?
+          tmp = opts[:level].split("-")
+          notes = tmp.length == 2 ? notes.where("level >= ? and level <= ?",tmp[0],tmp[1]) : notes.where("level =? ",opts[:level].to_i)
+        end
         return notes
+    end
+
+    before_create do |note|
+        note.level = note.role.level if note.role_id>0 && note.role
     end
 
 end
