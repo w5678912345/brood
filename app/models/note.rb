@@ -92,4 +92,8 @@ class Note < ActiveRecord::Base
         return notes
     end
 
+    before_create do |note|
+        note.level = note.role.level if note.role_id>0 && note.role
+    end
+
 end
