@@ -15,6 +15,7 @@ class AccountRole
 		records = records.where("accounts.online_ip = ?",opts[:online_ip]) unless opts[:online_ip].blank?
 		records = records.where("accounts.online_role_id =?",opts[:online_rid]) unless opts[:online_rid].blank?
 		records = records.where("accounts.is_auto = ?",opts[:auto].to_i) unless opts[:auto].blank?
+		records = records.where("accounts.phone_id like ?","%#{opts[:phone]}%") unless opts[:phone].blank?
 		unless opts[:started].blank?
 			records = records.where("accounts.session_id = 0") if opts[:started].to_i == 0
 			records = records.where("accounts.session_id > 0") if opts[:started].to_i == 1
@@ -22,6 +23,9 @@ class AccountRole
 		unless opts[:bind].blank?
 			records = opts[:bind] == "bind" ? records.where("bind_computer_id > 0") : records.where("accounts.bind_computer_id =?",opts[:bind].to_i)
 		end
+		unless opts[:bind_phone].blank?
+        	records = opts[:bind_phone].to_i == 0 ? records.where("accounts.phone_id is null") : records.where("accounts.phone_id is not null")
+      	end
 		records = records.where("date(accounts.created_at) = ?",opts[:a_created_at]) unless opts[:a_created_at].blank?
 		#
 		records = records.where("roles.id = ?",opts[:rid].to_i) unless opts[:rid].blank?

@@ -50,6 +50,14 @@
 <option value="0" <%= 'selected="selected"' if params[:ts] == "0" %> >No</option>
 </select>
 <hr style="margin:5px 0;">
+绑定手机:
+<select name="bind_phone" class="input-small">
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:bind_phone] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:bind_phone] == "0" %> >No</option>
+</select>
+<input type="text" name="phone" value="<%= params[:phone]%>" class="input-small" placeholder="手机" title=""  />
+<hr style="margin:5px 0;">
 账号状态:
 <% Account::STATUS.keys.each do |status|%>
 <label class="checkbox"> <input type="checkbox" name="ass[]" value="<%= status%>" <%= 'checked="checked"' if params[:ass] && params[:ass].include?(status) %> /><%= status%> </label>
