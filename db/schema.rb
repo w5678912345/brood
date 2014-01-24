@@ -216,6 +216,7 @@ ActiveRecord::Schema.define(:version => 20140124092554) do
     t.integer  "sms_count",        :default => 0,    :null => false
     t.integer  "today_sms_count",  :default => 0,    :null => false
     t.boolean  "can_unlock",       :default => true, :null => false
+    t.integer  "unlock_count",     :default => 0,    :null => false
   end
 
   add_index "phones", ["no"], :name => "index_phones_on_no", :unique => true

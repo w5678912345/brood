@@ -23,6 +23,7 @@
   <th>机器</th>
   <th>状态</th>
   <th>账号数量</th>
+  <th>解锁数量</th>
   <th>发送次数</th>
   <th>最后一次使用时间</th>
   <th>操作</th>
@@ -40,6 +41,7 @@
     <td><%= phone.phone_machine.nil? ? "空" : link_to(phone.phone_machine.name,phone_machine_path(phone.phone_machine))%></td>
     <td><%= phone.status %></td>
     <td><%= link_to phone.accounts_count,accounts_path(:phone=>phone.no) %> <%= boolean_tag phone.can_bind %></td>
+    <td><%= phone.unlock_count%> <%= boolean_tag phone.can_unlock %></td>
     <td><%= phone.sms_count %># <%= phone.today_sms_count %></td>
     <td><%= phone.last_active_at%></td>
     <td><%= link_to 'Destroy', phone, method: :delete, data: { confirm: 'Are you sure?' } %></td>

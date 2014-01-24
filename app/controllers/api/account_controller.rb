@@ -96,15 +96,15 @@ class Api::AccountController < Api::BaseController
 		@phone = Phone.find_by_no(params[:phone_id])
 		return render :json => {:code => CODES[:not_find_phone]} unless @phone
 		
-		@account = Account.find_by_no(params[:id])
-		return render :json => {:code => CODES[:not_find_phone]} unless @account
+		@account = Account.where(:status=>"locked").find_by_no(params[:id])
+		return render :json => {:code => CODES[:not_find_account]} unless @account
 		result = params[:result]
 		if result == "normal"
-			@account.update_attributes(:status=>"normal",:normal_at=>Time.now)
+			@code = 1 if @account.update_attributes(:status=>"normal",:normal_at=>Time.now)
 		elsif result == "recycle"
-			@account.update_attributes(:status=>"recycle")
+			@code = 1 if @account.update_attributes(:status=>"recycle")
 		elsif result == "phone_can_not_unlock"
-			@phone.update_attributes(:can_unlock=>0)
+			@code = 1 if @phone.update_attributes(:can_unlock=>0)
 		else
 			@code = 0
 		end
