@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Sheet < ActiveRecord::Base
   require 'roo'
 

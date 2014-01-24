@@ -1,3 +1,4 @@
+# encoding: utf-8
 class AliyunHelper
 	# -*- encoding : utf-8 -*-
 	require 'aliyun/oss'
