@@ -1,3 +1,4 @@
+# encoding: utf-8
 class AddColumnsToPhones < ActiveRecord::Migration
   def change
   	add_column :phones, :accounts_count, :integer, :null => false, :default => 0

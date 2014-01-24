@@ -1,3 +1,4 @@
+# encoding: utf-8
 class CreatePhoneMachines < ActiveRecord::Migration
   def change
     create_table :phone_machines do |t|
