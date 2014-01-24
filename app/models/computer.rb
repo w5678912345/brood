@@ -132,7 +132,7 @@ class Computer < ActiveRecord::Base
       account.do_bind_computer(self,opts) # 绑定
     end
   end
-.
+
 
 
   # 清空绑定账户
