@@ -124,7 +124,7 @@ class Computer < ActiveRecord::Base
     return if can_accounts_count < 1
     limit = avg > can_accounts_count ? can_accounts_count : avg
     # 查询可以绑定的账户
-    accounts = Account.waiting_bind_scope.joins(:roles).where("accounts.server is null or accounts.server = '' or accounts.server = ? or accounts.server like ?",self.server,"#{self.server}|%").where("accounts.normal_at <= ?",Time.now).reorder("normal_at asc").order("roles.level desc")
+    accounts = Account.waiting_bind_scope.joins(:roles).where("accounts.server is null or accounts.server = '' or accounts.server = ? or accounts.server like ?",self.server,"#{self.server}|%").where("accounts.normal_at <= ?",Time.now).reorder("normal_at asc").order("roles.level desc").uniq().readonly(false)
     accounts = accounts.where("status = ?",opts[:status]) unless opts[:status].blank?
     accounts = accounts.limit(limit)
     return if accounts.blank?
