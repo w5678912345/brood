@@ -92,6 +92,26 @@ class Api::AccountController < Api::BaseController
 		render :partial => '/api/result'
 	end
 
+	def unlock
+		@phone = Phone.find_by_no(params[:phone_id])
+		return render :json => {:code => CODES[:not_find_phone]} unless @phone
+		
+		@account = Account.find_by_no(params[:id])
+		return render :json => {:code => CODES[:not_find_phone]} unless @account
+		result = params[:result]
+		if result == "normal"
+			@account.update_attributes(:status=>"normal",:normal_at=>Time.now)
+		elsif result == "recycle"
+			@account.update_attributes(:status=>"recycle")
+		elsif result == "phone_can_not_unlock"
+			@phone.update_attributes(:can_unlock=>0)
+		else
+			@code = 0
+		end
+		@account.update_attributes(:remark=>"#{@account.remark} #{result} #{params[:msg]}")
+		render :json=>{:code=>@code,:msg=>result}
+	end
+
 	private
 
 	# 取得请求IP

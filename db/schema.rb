@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140120100553) do
+ActiveRecord::Schema.define(:version => 20140124092554) do
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -215,6 +215,7 @@ ActiveRecord::Schema.define(:version => 20140120100553) do
     t.string   "status"
     t.integer  "sms_count",        :default => 0,    :null => false
     t.integer  "today_sms_count",  :default => 0,    :null => false
+    t.boolean  "can_unlock",       :default => true, :null => false
   end
 
   add_index "phones", ["no"], :name => "index_phones_on_no", :unique => true
@@ -341,23 +342,25 @@ ActiveRecord::Schema.define(:version => 20140120100553) do
   end
 
   create_table "tasks", :force => true do |t|
-    t.string   "user_id",                        :null => false
-    t.integer  "role_id",     :default => 0,     :null => false
-    t.integer  "computer_id", :default => 0,     :null => false
-    t.integer  "sup_id",      :default => 0,     :null => false
-    t.string   "name",                           :null => false
+    t.string   "user_id",                                      :null => false
+    t.integer  "role_id",                   :default => 0,     :null => false
+    t.integer  "computer_id",               :default => 0,     :null => false
+    t.integer  "sup_id",                    :default => 0,     :null => false
+    t.string   "name",                                         :null => false
     t.string   "command"
     t.string   "args"
     t.string   "code"
     t.string   "remark"
-    t.boolean  "pushed",      :default => false, :null => false
+    t.boolean  "pushed",                    :default => false, :null => false
     t.datetime "pushed_at"
-    t.boolean  "callback",    :default => false, :null => false
+    t.boolean  "callback",                  :default => false, :null => false
     t.datetime "callback_at"
     t.string   "msg"
-    t.boolean  "success",     :default => false, :null => false
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.boolean  "success",                   :default => false, :null => false
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
+    t.string   "account_no",  :limit => 32
+    t.datetime "log_at"
   end
 
   create_table "users", :force => true do |t|

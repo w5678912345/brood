@@ -69,6 +69,11 @@ class Api::PhonesController < Api::BaseController
 		render :partial => '/api/result'
 	end
 
+	def unlock
+		@phone = Phone.find_by_no(params[:phone_id])
+
+	end
+
 	
 
 end
