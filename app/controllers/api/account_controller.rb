@@ -93,7 +93,7 @@ class Api::AccountController < Api::BaseController
 	end
 
 	def unlock
-		@phone = Phone.find_by_no(params[:phone_id])
+		@phone = Phone.where(:can_unlock=>true).find_by_no(params[:phone_id])
 		return render :json => {:code => CODES[:not_find_phone]} unless @phone
 		
 		@account = Account.where(:status=>"locked").find_by_no(params[:id])
