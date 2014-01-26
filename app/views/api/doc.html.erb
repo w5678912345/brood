@@ -21,7 +21,7 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 <tbody>
 <tr>
 <td colspan="2">new API (采用RESTFUL原则重新设计API)</td>
-<td rowspan="30">
+<td rowspan="35">
 <ul>
 	<% Api::CODES.each do | key, value | %>
 	<li><%= value %>  => <%= key %></li>
@@ -187,6 +187,11 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 <tr>
 <td>phone_machine/bind_phones.json</td>
 <td>将手机关联到指明的机器, name => phone_machine的name,phones => 以逗号分隔的电话号码集</td> 
+</tr>
+
+<tr>
+<td>phone_machine/shutdown.json</td>
+<td>机器停机，修改机器所有号码 enabled = false, name => phone_machine的name</td> 
 </tr>
 
 <tr>
