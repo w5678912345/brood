@@ -41,7 +41,7 @@
 </td>
 <td title="<%= account.phone_id %>"><%= account_tag account %> 
 <%= sanitize('<i class="icon-flag" title="IP: '+account.ip_range+'"></i>') unless account.ip_range.blank? %>
-<%= sanitize('<i class="icon-bookmark" title=""></i>') unless account.phone_id.blank?%>
+<%= sanitize('<i class="icon-bookmark" title=""></i>') if account.is_bind_phone%>
 </td>
 <td><%= account.server %></td>
 <td><%= account.roles_count %></td>
