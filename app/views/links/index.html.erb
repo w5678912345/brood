@@ -1,29 +1,6 @@
-<h1>Listing links</h1>
+<%= render :partial =>"search_form" %>
+<%= render :partial =>"table" , :locals=>{:links=>@links}%>
+<%= will_paginate @links %>
 
-<table class="table">
-  <tr>
-   <th>ID</th>
-    <th>Phone no</th>
-    <th>Event</th>
-    <th>Status</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
 
-<% @links.each do |link| %>
-  <tr>
-    <td><%= link.id %></td>
-    <td><%= link.phone_no %></td>
-    <td><%= link.event %></td>
-    <td><%= link.status %></td>
-    <td><%= link_to 'Show', link %></td>
-    <td><%= link_to 'Edit', edit_link_path(link) %></td>
-    <td><%= link_to 'Destroy', link, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</table>
 
-<br />
-
-<%= link_to 'New Link', new_link_path %>

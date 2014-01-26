@@ -20,4 +20,13 @@ class Link < ActiveRecord::Base
   	links.update_all(:updated_at=>Time.now,:status=>"idle")
   end
 
+  def self.search(opts)
+  	links = Link.where("id > 0 ")
+  	links = links.where("phone_no = ?",opts[:no]) unless opts[:no].blank?
+  	links = links.where("status = ?",opts[:status]) unless opts[:status].blank?
+  	links = links.where("event =? ",opts[:event]) unless opts[:event].blank?
+    links = links.where("date(created_at)=?",opts[:created_at]) unless opts[:created_at].blank?
+  	return links
+  end
+
 end

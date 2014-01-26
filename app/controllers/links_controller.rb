@@ -2,7 +2,10 @@ class LinksController < ApplicationController
   # GET /links
   # GET /links.json
   def index
-    @links = Link.all
+    @links = Link.search(params)
+
+    per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
+    @links = @links.paginate(:page => params[:page], :per_page => per_page)
 
     respond_to do |format|
       format.html # index.html.erb

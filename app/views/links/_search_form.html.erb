@@ -1,0 +1,14 @@
+<form class="form-search" action="<%= links_path %>">
+<input type="text" name="no" class="input-small" placeholder="号码" value="<%= params[:no]%>" />
+<input type="text" name="event" class="input-small" placeholder="事件" value="<%= params[:event]%>" />
+<input type="text" name="status" class="input-small" placeholder="状态" value="<%= params[:status]%>" />
+
+<input type="text" name="created_at" id="created_at" value='<%= params["created_at"]%>' class="input-small" placeholder="创建时间"  />
+<button type="submit" class="btn">Search</button>
+</form>
+
+<script type="text/javascript">
+$(function(){
+	$("#created_at").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+});
+</script>

@@ -13,6 +13,7 @@ module TimeTask
 		Account.auto_stop
 		#Role.auto_stop
 		Computer.auto_stop
+		Order.auto_finish
 		Link.auto_idle
 	end
 
