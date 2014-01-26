@@ -100,7 +100,7 @@ class Api::AccountController < Api::BaseController
 		return render :json => {:code => CODES[:not_find_account]} unless @account
 		result = params[:result]
 		if result == "normal"
-			@code = 1 if @account.update_attributes(:status=>"normal",:normal_at=>Time.now)
+			@code = 1 if @account.update_attributes(:status=>"normal",:normal_at=>Time.now,:unlock_phone_id=>@phone.no,:unlocked_at=>Time.now)
 		elsif result == "recycle"
 			@code = 1 if @account.update_attributes(:status=>"recycle")
 		elsif result == "phone_can_not_unlock"

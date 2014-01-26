@@ -19,7 +19,7 @@ class Account < ActiveRecord::Base
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
     attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at,:today_success,:last_start_ip
-    attr_accessible :remark,:is_auto,:phone_id,:normal_at
+    attr_accessible :remark,:is_auto,:phone_id,:normal_at,:unlock_phone_id,:unlocked_at
     attr_accessor :online_roles 
     #所属服务器
 	  belongs_to :game_server, :class_name => 'Server', :foreign_key => 'server',:primary_key => 'name'
@@ -57,8 +57,9 @@ class Account < ActiveRecord::Base
     scope :unbind_scope ,where("bind_computer_id = -1") # 不能绑定
     scope :un_normal_scope,where("status != 'normal' ") # 非正常状态的账号
     scope :no_server_scope,where("server is null or server = '' ") #服务器为空的账号 
-    scope :bind_phone_scope, where("phone_id is not null") # 绑定手机的账号
-    scope :unbind_phone_scope, where("phone_id is null") # 未绑定手机的账号
+    scope :bind_phone_scope, where("phone_id is not null and phone_id != '' ") # 绑定手机的账号
+    scope :unbind_phone_scope, where("phone_id is null || phone_id = '' ") # 未绑定手机的账号
+    scope :unlocked_scope,where("unlock_phone_id is not null and unlock_phone_id != '' ") 
 
     # session_id > 0 表示正在运行
     def is_started?
@@ -231,6 +232,8 @@ class Account < ActiveRecord::Base
       unless opts[:bind_phone].blank?
         accounts = opts[:bind_phone].to_i == 0 ? accounts.unbind_phone_scope : accounts.bind_phone_scope
       end
+      accounts = accounts.unlocked_scope unless opts[:unlocked].blank?
+      accounts = accounts.where("date(unlocked_at) =? ",opts[:unlocked_at]) unless opts[:unlocked_at].blank?
       # 根据在线IP 查询账户
       accounts = accounts.where("online_ip like ?","%#{opts[:online_ip]}%") unless opts[:online_ip].blank?
       accounts = accounts.where("online_computer_id = ?",opts[:online_cid].to_i) unless opts[:online_cid].blank?
@@ -380,6 +383,10 @@ class Account < ActiveRecord::Base
 
     def is_bind_phone
       return !self.phone_id.blank?
+    end
+
+    def was_unlocked
+      return !self.unlock_phone_id.blank?
     end
 
     before_create :init_data

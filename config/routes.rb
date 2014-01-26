@@ -247,6 +247,7 @@ Brood::Application.routes.draw do
     end
     resources :phones,:only => [:show] do 
       match :get,  :on => :collection
+      match :get_unlock, :on => :collection
       match :bind, :on => :collection
       match :set_can_bind, :on => :collection
       match :pull, :on => :collection

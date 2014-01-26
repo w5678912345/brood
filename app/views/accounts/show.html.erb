@@ -32,10 +32,16 @@
 <td><%= boolean_tag @account.today_success %></td>
 </tr>
 <tr>
-	<td>备注:</td>
-	<td colspan="3"><%= @account.remark %></td>
 	<td>绑定手机:</td>
-	<td><%= @account.phone.nil? ? "无" : @account.phone.id %></td>
+	<td><%= @account.phone.blank? ? "无" : @account.phone.id %></td>
+	<td>解锁手机:</td>
+	<td><%= @account.unlock_phone_id.blank? ? "无" : @account.unlock_phone_id %></td>
+	<td>解锁时间:</td>
+	<td><%= time_str @account.unlocked_at %></td>
+</tr>
+<tr>
+	<td>备注:</td>
+	<td colspan="5"><%= @account.remark %></td>
 </tr>
 <% if @account.is_started? %>
 <tr class="info">

@@ -59,7 +59,9 @@
 <% end %>
 </td>
 <td data-t="<%= account.password %>"><%= time_str account.created_at %> <%= boolean_tag account.is_auto%></td>
-<td><%= account.status %></td>
+<td><%= account.status %>
+<%= sanitize('<i class="icon-fire" title=""></i>') if account.was_unlocked %> 
+</td>
 <td><%= time_str account.normal_at %></td>
 <td><%= boolean_tag account.today_success %></td>
 </tr>

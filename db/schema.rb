@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140124092554) do
+ActiveRecord::Schema.define(:version => 20140126080534) do
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -39,6 +39,8 @@ ActiveRecord::Schema.define(:version => 20140124092554) do
     t.boolean  "is_auto",                          :default => false,    :null => false
     t.string   "phone_id"
     t.integer  "phone_event_count",                :default => 0
+    t.string   "unlock_phone_id",    :limit => 16
+    t.datetime "unlocked_at"
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true
