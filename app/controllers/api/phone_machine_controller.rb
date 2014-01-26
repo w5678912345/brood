@@ -27,9 +27,11 @@ class Api::PhoneMachineController < Api::BaseController
 			@phone_machine.phones.create(ids.map do |i|
 				{:id => i}
 			end)
+			@phone_machine.phones.where("no in (?)",params[:phones].split(",")).update_all(:enabled=>true)
 			render json: {:code => 1}
 		end
 	end
+
 	def can_unlock_accounts
 		@phone_machine = PhoneMachine.find_by_name(params[:name])
     	if @phone_machine
@@ -43,4 +45,12 @@ class Api::PhoneMachineController < Api::BaseController
     		render json: {:code => -1}
     	end
 	end
+
+	def shutdown
+		@phone_machine = PhoneMachine.find_by_name(params[:name])
+		return render :json=>{:code=>0,:msg=>"not find machine"} unless @phone_machine
+		@code =1 if @phone_machine.phones.update_all(:enabled=>false)
+		render :json=>{:code=>@code}
+	end
+
 end
