@@ -15,7 +15,7 @@ class Link < ActiveRecord::Base
   end
 
   def self.auto_idle
-  	last_at = Time.now.ago(30.minutes).strftime("%Y-%m-%d %H:%M:%S")
+  	last_at = Time.now.ago(20.minutes).strftime("%Y-%m-%d %H:%M:%S")
   	links = Link.where("status != ?","idle").where("updated_at <= ? ",last_at)
   	links.update_all(:updated_at=>Time.now,:status=>"idle")
   end

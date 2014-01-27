@@ -34,7 +34,7 @@ class Order < ActiveRecord::Base
 	end
 
 	def self.auto_finish
-	  last_at = Time.now.ago(30.minutes).strftime("%Y-%m-%d %H:%M:%S")
+	  last_at = Time.now.ago(20.minutes).strftime("%Y-%m-%d %H:%M:%S")
       orders = Order.where(:finished=>false).where("updated_at < '#{last_at}'")
       orders.update_all(:finished=>true,:finished_at=>Time.now,:updated_at=>Time.now,:result=>"timeout",:msg=>"auto")
       orders.each do |order|
