@@ -34,7 +34,7 @@ every 30.minutes do
 end
 
 every 10.minutes do
-  runner 'TimeTask.auto_stop',:environment => str_environment
+  runner 'TimeTask.every_10_minutes',:environment => str_environment
 end
 
 #
