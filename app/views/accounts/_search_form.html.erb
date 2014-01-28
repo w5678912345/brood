@@ -42,6 +42,8 @@
 <option value="1" <%= 'selected="selected"' if params[:auto] == "1" %>>Yes</option>
 <option value="0" <%= 'selected="selected"' if params[:auto] == "0" %> >No</option>
 </select>
+<input type="text" name="min_nat" id="min_nat" value='<%= params[:min_nat]%>' class="input-small" placeholder="恢复日期"  />
+To<input type="text" name="max_nat" id="max_nat" value='<%= params[:max_nat]%>' class="input-small" placeholder="恢复日期"  />
 <input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
 <label class="checkbox">
 	<input type="checkbox" value="1" name="all" <%= 'checked="checked"' if params[:all] == "1"%> />ALL
@@ -59,5 +61,8 @@
 <script type="text/javascript">
 $(function(){
 	$("#created_at").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+	$("#min_nat").datepicker({dateFormat:"yy-mm-dd"});
+	$("#max_nat").datepicker({dateFormat:"yy-mm-dd",maxDate:$("#min_nat").val()});
+	
 });
 </script>
