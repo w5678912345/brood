@@ -16,6 +16,8 @@ class AccountRole
 		records = records.where("accounts.online_role_id =?",opts[:online_rid]) unless opts[:online_rid].blank?
 		records = records.where("accounts.is_auto = ?",opts[:auto].to_i) unless opts[:auto].blank?
 		records = records.where("accounts.phone_id like ?","%#{opts[:phone]}%") unless opts[:phone].blank?
+		records = records.where("accounts.normal_at >= ?",opts[:min_nat]) unless opts[:min_nat].blank?
+        records = records.where("accounts.normal_at <= ?",opts[:max_nat]) unless opts[:max_nat].blank?
 		unless opts[:started].blank?
 			records = records.where("accounts.session_id = 0") if opts[:started].to_i == 0
 			records = records.where("accounts.session_id > 0") if opts[:started].to_i == 1

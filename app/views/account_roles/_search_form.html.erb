@@ -50,6 +50,7 @@
 <option value="0" <%= 'selected="selected"' if params[:ts] == "0" %> >No</option>
 </select>
 <hr style="margin:5px 0;">
+<<<<<<< HEAD
 绑定手机:
 <select name="bind_phone" class="input-small">
 <option value="" >-All-</option>
@@ -57,6 +58,10 @@
 <option value="0" <%= 'selected="selected"' if params[:bind_phone] == "0" %> >No</option>
 </select>
 <input type="text" name="phone" value="<%= params[:phone]%>" class="input-small" placeholder="手机" title=""  />
+=======
+<input type="text" name="min_nat" id="min_nat" value='<%= params[:min_nat]%>' class="input-small" placeholder="恢复日期"  />
+To<input type="text" name="max_nat" id="max_nat" value='<%= params[:max_nat]%>' class="input-small" placeholder="恢复日期"  />
+>>>>>>> master
 <hr style="margin:5px 0;">
 账号状态:
 <% Account::STATUS.keys.each do |status|%>

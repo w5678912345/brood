@@ -8,6 +8,7 @@ class Task < ActiveRecord::Base
    belongs_to :role
 
    belongs_to :sup, :class_name => 'Task', inverse_of: 'subs'
+   belongs_to :account, :class_name => 'Account', :foreign_key => 'account_no', :primary_key => 'no'
    has_many :subs, :class_name => 'Task', :foreign_key => :sup_id
 
    default_scope :order => 'id DESC'

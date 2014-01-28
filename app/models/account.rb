@@ -217,6 +217,8 @@ class Account < ActiveRecord::Base
       accounts = accounts.where("bind_computer_id = ?",opts[:bind_cid].to_i) unless opts[:bind_cid].blank?
       accounts = accounts.where(:is_auto => opts[:auto].to_i) unless opts[:auto].blank?
       accounts = accounts.where("phone_id like ?","%#{opts[:phone]}%") unless opts[:phone].blank?
+      accounts = accounts.where("normal_at >= ?",opts[:min_nat]) unless opts[:min_nat].blank?
+      accounts = accounts.where("normal_at <= ?",opts[:max_nat]) unless opts[:max_nat].blank?
       #
       unless opts[:started].blank?
         accounts = opts[:started].to_i == 1 ? accounts.started_scope : accounts.stopped_scope
