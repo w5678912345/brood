@@ -23,7 +23,7 @@ class Api::PhonesController < Api::BaseController
 			phone_id = @phone.no
 		end
 		
-		render :json => {:code=>1,:no=>phone_id,:id=>@account.no,:status=>@account.status}
+		render :json => {:code=>1,:no=>phone_id,:id=>@account.no,:password=>@account.password,:status=>@account.status}
 	end
 
 
