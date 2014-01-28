@@ -73,12 +73,9 @@ To<input type="text" name="max_nat" id="max_nat" value='<%= params[:max_nat]%>' 
 <script type="text/javascript">
 $(function(){
 	$("#created_at").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
-<<<<<<< HEAD
 	$("#unlocked_at").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
-=======
 	$("#min_nat").datepicker({dateFormat:"yy-mm-dd"});
 	$("#max_nat").datepicker({dateFormat:"yy-mm-dd",maxDate:$("#min_nat").val()});
-	
->>>>>>> master
+
 });
 </script>
