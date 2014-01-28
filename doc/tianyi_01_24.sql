@@ -34,6 +34,10 @@ select date(accounts.created_at) as _date,count(accounts.id) as _count from acco
  where notes.api_name = 'account_start' and notes.created_at >= '2014-01-23 16:00:00' and notes.created_at <= '2014-01-23 20:00:00'
  group by date(accounts.created_at) order by _count;
 
+ # 各个区可以调度的号
+
+ select count(accounts.id) ac, server from accounts where status in('normal','exception','disconnect') group by server order by ac;
+
 +---------------------------+--------------------+
 | date(accounts.created_at) | count(accounts.id) |
 +---------------------------+--------------------+

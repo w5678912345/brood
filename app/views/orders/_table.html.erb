@@ -38,7 +38,7 @@
 			<%= check_box_tag 'ids[]',order.id,false,:id=>order.id %> <%= order.id %>
 		</label>
 	</td>
-	<td><%= order.link_id %> <%= order.link.status if order.link%></td>
+	<td><%= order.link_id %> <%= order.link.status if order.link && !order.finished %></td>
 	<td><%= order.account_no %></td>
 	<td><%= order.phone_no %></td>
 	<td><%= order.trigger_event %></td>
