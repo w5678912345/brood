@@ -103,7 +103,7 @@ class Api::AccountController < Api::BaseController
 			@code = 1 if @account.update_attributes(:status=>"normal",:normal_at=>Time.now,:unlock_phone_id=>@phone.no,:unlocked_at=>Time.now)
 			@account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto by unlock",:bind=>0})
 		elsif result == "recycle"
-			@code = 1 if @account.update_attributes(:status=>"recycle")
+			@code = 1 if @account.update_attributes(:status=>"recycle",:normal_at=>Time.now.since(10.years))
 		elsif result == "phone_can_not_unlock"
 			@code = 1 if @phone.update_attributes(:can_unlock=>0)
 		else
