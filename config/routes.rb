@@ -182,6 +182,7 @@ Brood::Application.routes.draw do
       get :sync,      :on => :collection
       get :stop,      :on => :collection
       get :note,      :on => :collection
+      get :set,       :on => :collection
     end
     resources :tasks ,:only =>[],:defaults => {:format => 'json'} do
       match :pull,    :on => :collection
