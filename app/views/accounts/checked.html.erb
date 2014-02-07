@@ -81,7 +81,7 @@
 </fieldset>
 <script type="text/javascript">
 $(function(){
-$("#at").datepicker({dateFormat:"yy-mm-dd"});
+$("#at").datetimepicker({dateFormat:"yy-mm-dd",timeFormat:"HH:mm:ss"});
 <% if flash[:error] %>
  alert("<%= flash[:error]%>");
 <%end%>
