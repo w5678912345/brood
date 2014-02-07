@@ -14,7 +14,7 @@ class Account < ActiveRecord::Base
     #
     STATUS = {"normal" => 0,"bslocked"=>72,"bslocked_again"=>72,"bs_unlock_fail"=>72,"disconnect"=>2,"exception"=>3,
       "locked"=>1200, "lost"=>24,"discard"=>1200,"no_rms_file"=>1200,"no_qq_token"=>1200,
-      "discardfordays"=>72,"discardbysailia"=>240,"discardforyears"=>12000,"discardforverifycode"=>1200,"recycle"=>0}
+      "discardfordays"=>72,"discardbysailia"=>240,"discardforyears"=>12000,"discardforverifycode"=>1200,"recycle"=>12000}
 
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
