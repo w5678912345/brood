@@ -7,11 +7,29 @@
 <button type="button" class="close" data-dismiss="alert">&times;</button>
 <span>选择一个txt文本文件，文件中每一行一个账号，并用 ---- 分割账号和密码</span> 
 </div>
-<%= form_tag(do_import_accounts_path,:method => :post,:id=>"account_import_form",:multipart => true ) do -%>
+<%= form_tag(do_import_accounts_path,:method => :post,:id=>"account_import_form",:class=>"form-horizontal",:multipart => true ) do -%>
 
+<div class="control-group">
+<label class="control-label">选择文件</label>
+<div class="controls">
+  <%= file_field_tag "file" %>
+</div>
+</div>
 
-<%= file_field_tag "file" %>
+<div class="control-group">
+<label class="control-label">账号来源</label>
+<div class="controls">
+<label class="checkbox">
+  <%= hidden_field_tag :auto, 0%>
+  <%= check_box_tag :auto %>自动注册
+</label>
+</div>
+</div>
+
+<div class="form-actions text-center">
 <button type="submit" class="btn btn-primary">确定导入</button>
+</div>
+
 
 
 <%end%>

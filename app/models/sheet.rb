@@ -41,7 +41,7 @@ class Sheet < ActiveRecord::Base
    end
 
    # 导入账户
-   def to_accounts
+   def to_accounts(is_auto=false)
       filename = "#{Rails.root}/public/#{self.file.to_s}"
       return false unless File.exists?(filename)
       count = 0
@@ -50,7 +50,7 @@ class Sheet < ActiveRecord::Base
           line = line.gsub("\r\n","")
           tmp = line.split("----")
           if tmp && tmp.length >= 2
-            account = Account.new(:no=>tmp[0],:password=>tmp[1]) 
+            account = Account.new(:no=>tmp[0],:password=>tmp[1],:is_auto=>is_auto)
             unless Account.exists?(:no=>tmp[0]) 
               count = count + 1 if account.save
             end
