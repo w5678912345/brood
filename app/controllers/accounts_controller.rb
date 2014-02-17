@@ -158,8 +158,9 @@ class AccountsController < ApplicationController
 		_file = params[:file]
 		@sheet = Sheet.new(:file=>_file)
 		@sheet.uploader = current_user
+		#is_auto = 
 		if @sheet.save
-			@sheet.to_accounts
+			@sheet.to_accounts(params[:auto].to_i)
 			flash[:msg] = "新导入了#{@sheet.import_count}个账号!"
 		end
 		redirect_to accounts_path()
