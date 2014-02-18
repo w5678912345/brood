@@ -29,13 +29,13 @@ set_default :term_mode, :pretty
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 # ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com
-set :domain, 'ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com'
+set :domain, '54.199.199.189'
 set :deploy_to, '/home/ubuntu/apps/test_bolt.dabi.co'
 set :user, 'ubuntu'
 
 set :rails_env, 'production'
 
-set :repository, 'ubuntu@ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com:repo/brood.git'
+set :repository, 'ubuntu@54.199.199.189:repo/brood.git'
 set :branch, 'bolt'
 set :rvm_path, '/home/ubuntu/.rvm/scripts/rvm' #'/usr/local/rvm/scripts/rvm'
 
