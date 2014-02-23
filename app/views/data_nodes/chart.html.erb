@@ -29,13 +29,27 @@ $('#container').highcharts({
         }]
     },
     tooltip: {
-        valueSuffix: '个'
+            formatter: function() {
+                return '<b>'+ this.x +'</b><br/>'+
+                this.series.name +': '+ this.y +'<br/>'+
+                'Total: '+ this.point.stackTotal;
+            }
     },
     legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle',
-        borderWidth: 0
+                align: 'right',
+                x: -70,
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+    },
+    plotOptions: {
+        column: {
+            stacking: 'normal'
+        }
     },
     series: <%= raw(@d.to_json) %>
 });
