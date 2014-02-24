@@ -15,7 +15,21 @@ class DataNodesController < ApplicationController
 	def add_array(a,b)
   		a.zip(b).map{|pair| pair.reduce(&:+) }
 	end
+	def chart_data(records)
+		@status= Account::STATUS.keys
 
+		all_data = {}
+		@status.each do |s|
+			_data = []
+			all_data[s.to_s] = []
+
+			records.each do |r|
+				tmp = eval(r.accounts)
+				all_data[s.to_s] << (tmp[s.to_s] || 0)
+			end
+		end
+		all_data
+	end
 	def chart
 		@start_date = Date.today - 7.day
 		@end_date = Date.today + 1.day
@@ -26,25 +40,15 @@ class DataNodesController < ApplicationController
 		@start_date -= 1.day 
 
 		@records = DataNode.select("date(created_at) as day,accounts").date_scope(@start_date,@end_date).order("created_at asc").group("date(created_at)")
-		@status= Account::STATUS.keys
-		@key_status = ["bslocked","locked","discardforyears"]
-		@d = []
-
 		@days = @records.map(&:day)
+		all_data = chart_data(@records)
 
-		all_data = {}
-		@status.each do |s|
-			_data = []
-			all_data[s.to_s] = []
-
-			@records.each do |r|
-				tmp = eval(r.accounts)
-				all_data[s.to_s] << (tmp[s.to_s] || 0)
-			end
-		end
+		@key_status = ["bslocked","locked","discardforyears","lost","account_disable"]
+		@d = []
 
 		type = 'column'
 		yAxis = 1
+
 		@key_status.each do |s|
 			@d << {:type => type,:yAxis => yAxis,:name=>s.to_s,:stack=>'bad_delta',:data =>all_data[s.to_s].each_cons(2).map { |a,b| b-a }}
 		end
@@ -56,7 +60,7 @@ class DataNodesController < ApplicationController
 				other_data = add_array(other_data,all_data[s.to_s]) if other_data
 			end
 		end
-
+		#binding.pry
 		@d << {:type => type,:yAxis => yAxis,:name=>"other",:stack=>'bad_delta',:data =>other_data.each_cons(2).map { |a,b| b-a }}
 		yAxis = 0
 		type = 'line' 
@@ -66,6 +70,7 @@ class DataNodesController < ApplicationController
 
 		#去掉用作差值的第一个元素
 		@days.shift
+		@start_date += 1.day 
 	end
 
 end
