@@ -2,40 +2,78 @@
 
 
 <hr/>
+<div style="color:#AA0000">test</div>
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 <script type="text/javascript">
 $(function () {
 $('#container').highcharts({
     title: {
-        text: '账号数量',
+        text: '账号数量变化报表',
         x: -20 //center
     },
     subtitle: {
-        text: 'account status',
+        text: '正常账号数量追踪',
         x: -20
     },
     xAxis: {
         categories: <%= raw(@days.to_json) %>
     },
-    yAxis: {
+    yAxis: [{
         title: {
-            text: '数量 (个)'
+            text: '数量 (个)',
+            style: {
+                color: '#89A54E'
+            } 
+        },
+        labels: {
+            format: '{value}个',
+            style: {
+                color: '#89A54E'
+            }
         },
         plotLines: [{
             value: 0,
             width: 1,
-            color: '#808080'
+            color: '#89A54E'
         }]
-    },
+    },{
+        title: {
+            text: '数量变化 (个)',
+            style: {
+                color: '#AA4643'
+            }        },
+        labels: {
+            format: '{value} 个',
+            style: {
+                color: '#AA4643'
+            }
+        },
+        plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#AA4643'
+        }],
+        opposite: true
+
+    }],
     tooltip: {
-        valueSuffix: '个'
+            formatter: function() {
+                return '<b style="color:'+this.series.color+'">'+ this.x +'</b><br/>'+
+                this.series.name +': '+ this.y +'<br/>'+
+                'Total: '+ this.point.stackTotal;
+            }
     },
     legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'middle',
-        borderWidth: 0
+        align: 'bottom',
+        verticalAlign: 'top',
+        x: 30,
+        backgroundColor: '#FFFFFF'
+    },
+    plotOptions: {
+        column: {
+            stacking: 'normal'
+        }
     },
     series: <%= raw(@d.to_json) %>
 });
