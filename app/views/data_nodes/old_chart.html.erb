@@ -1,0 +1,45 @@
+<%= render :partial => "/common/date_range_form",:locals=>{:path=>chart_data_nodes_path }%>
+
+
+<hr/>
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+<script type="text/javascript">
+$(function () {
+$('#container').highcharts({
+    title: {
+        text: '账号数量',
+        x: -20 //center
+    },
+    subtitle: {
+        text: 'account status',
+        x: -20
+    },
+    xAxis: {
+        categories: <%= raw(@days.to_json) %>
+    },
+    yAxis: {
+        title: {
+            text: '数量 (个)'
+        },
+        plotLines: [{
+            value: 0,
+            width: 1,
+            color: '#808080'
+        }]
+    },
+    tooltip: {
+        valueSuffix: '个'
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle',
+        borderWidth: 0
+    },
+    series: <%= raw(@d.to_json) %>
+});
+});
+
+
+</script>
