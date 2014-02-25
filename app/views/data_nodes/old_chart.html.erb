@@ -1,4 +1,4 @@
-<%= render :partial => "/common/date_range_form",:locals=>{:path=>chart_data_nodes_path }%>
+<%= render :partial => "/common/date_range_form",:locals=>{:path=>old_chart_data_nodes_path }%>
 
 
 <hr/>
@@ -7,6 +7,9 @@
 <script type="text/javascript">
 $(function () {
 $('#container').highcharts({
+    chart: {
+        type: 'area'
+    },
     title: {
         text: '账号数量',
         x: -20 //center
@@ -16,19 +19,30 @@ $('#container').highcharts({
         x: -20
     },
     xAxis: {
-        categories: <%= raw(@days.to_json) %>
+        categories: <%= raw(@days.to_json) %>,
+        tickmarkPlacement: 'on',
+        title: {
+            enabled: false
+        }
     },
     yAxis: {
         title: {
             text: '数量 (个)'
         },
-        plotLines: [{
-            value: 0,
-            width: 1,
-            color: '#808080'
-        }]
+    },
+    plotOptions: {
+        area: {
+            stacking: 'normal',
+            lineColor: '#666666',
+            lineWidth: 1,
+            marker: {
+                lineWidth: 1,
+                lineColor: '#666666'
+            }
+        }
     },
     tooltip: {
+        shared: true,
         valueSuffix: '个'
     },
     legend: {
