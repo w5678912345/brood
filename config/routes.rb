@@ -17,6 +17,7 @@ Brood::Application.routes.draw do
   resources :data_nodes, :only => [:index] do 
     post :mark,         :on => :collection
     get  :chart,        :on => :collection
+    get  :old_chart,    :on => :collection
   end
 
   #
