@@ -50,23 +50,30 @@ class DataNodesController < ApplicationController
 		yAxis = 1
 
 		@key_status.each do |s|
-			@d << {:type => type,:yAxis => yAxis,:name=>s.to_s,:stack=>'bad_delta',:data =>all_data[s.to_s].each_cons(2).map { |a,b| b-a }}
+			if all_data[s.to_s]
+				@d << {:type => type,:yAxis => yAxis,:name=>s.to_s,:stack=>'bad_delta',:data =>all_data[s.to_s].each_cons(2).map { |a,b| b-a }}
+			end
 		end
 
 		other_data=nil
+
+		@status= Account::STATUS.keys
 		@status.each do |s|
-			if @key_status.include?(s.to_s) != true and s.to_s != 'normal'
+			if @key_status.include?(s.to_s) != true and s.to_s != 'normal' and all_data[s.to_s]
 				other_data = (other_data || all_data[s.to_s])
 				other_data = add_array(other_data,all_data[s.to_s]) if other_data
 			end
 		end
 		#binding.pry
-		@d << {:type => type,:yAxis => yAxis,:name=>"other",:stack=>'bad_delta',:data =>other_data.each_cons(2).map { |a,b| b-a }}
+		if other_data
+			@d << {:type => type,:yAxis => yAxis,:name=>"other",:stack=>'bad_delta',:data =>other_data.each_cons(2).map { |a,b| b-a }}
+		end
 		yAxis = 0
 		type = 'line' 
-		all_data["normal"].shift
-		@d << {:type => type,:yAxis => yAxis,:name=>"normal",:color=>'#89A54E',:stack=>'good',:data =>all_data["normal"]}
-
+		if all_data["normal"]
+			all_data["normal"].shift
+			@d << {:type => type,:yAxis => yAxis,:name=>"normal",:color=>'#89A54E',:stack=>'good',:data =>all_data["normal"]}
+		end
 
 		#去掉用作差值的第一个元素
 		@days.shift
