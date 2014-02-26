@@ -55,11 +55,11 @@ class Note < ActiveRecord::Base
         return self.api_name == 'role_start'
     end
 
-    def update_hours
+    def update_hours(target = "")
         return unless self.is_session?
         now = Time.now
         hours = (now - self.created_at)/3600
-        self.update_attributes(:hours=>hours)
+        self.update_attributes(:hours=>hours,:target=>target)
     end
 
     # 当前会话完成的角色ID

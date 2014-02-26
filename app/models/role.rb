@@ -66,7 +66,7 @@ class Role < ActiveRecord::Base
     self.transaction do
        #创建session
        session = Note.create(:computer_id => computer.id, :account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,
-       :api_name=>"role_start",:server=> self.server || computer.server,:msg=>opts[:msg],:level=>self.level,:session_id =>account_session.id,:version=>computer.version)
+       :api_name=>"role_start",:server=> self.server || computer.server,:msg=>opts[:msg],:level=>self.level,:session_id =>account_session.id,:version=>computer.version,:target=>opts[:target])
       # 修改账号的当前角色
       self.qq_account.update_attributes(:online_role_id => self.id)
       # 修改角色 session
@@ -95,7 +95,7 @@ class Role < ActiveRecord::Base
      self.transaction do
       self.qq_account.update_attributes(:updated_at => Time.now)
       # 修改角色在线时间
-      self.session.update_hours
+      self.session.update_hours(opts[:target])
       # 修改角色最后访问时间
       return 1 if self.update_attributes(:updated_at => Time.now)
      end
