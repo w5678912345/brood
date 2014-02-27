@@ -11,11 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20140126080534) do
-=======
-ActiveRecord::Schema.define(:version => 20140122064035) do
->>>>>>> master
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -43,11 +39,8 @@ ActiveRecord::Schema.define(:version => 20140122064035) do
     t.boolean  "is_auto",                          :default => false,    :null => false
     t.string   "phone_id"
     t.integer  "phone_event_count",                :default => 0
-<<<<<<< HEAD
     t.string   "unlock_phone_id",    :limit => 16
     t.datetime "unlocked_at"
-=======
->>>>>>> master
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true
@@ -224,11 +217,8 @@ ActiveRecord::Schema.define(:version => 20140122064035) do
     t.string   "status"
     t.integer  "sms_count",        :default => 0,    :null => false
     t.integer  "today_sms_count",  :default => 0,    :null => false
-<<<<<<< HEAD
     t.boolean  "can_unlock",       :default => true, :null => false
     t.integer  "unlock_count",     :default => 0,    :null => false
-=======
->>>>>>> master
   end
 
   add_index "phones", ["no"], :name => "index_phones_on_no", :unique => true
