@@ -222,14 +222,14 @@ DEPENDENCIES
   bootstrap-will_paginate
   by_star (~> 1.0.1)
   cancan (~> 1.6.10)
-  capybara
+  capybara (= 2.2.0)
   carrierwave
   cells
   coffee-rails (~> 3.2.1)
   delayed_job_active_record
   devise
-  factory_girl
-  factory_girl_rails
+  factory_girl (= 4.3.0)
+  factory_girl_rails (= 4.3.0)
   formtastic
   highcharts-rails (~> 3.0.7)
   jbuilder (~> 1.2.0)
@@ -241,8 +241,8 @@ DEPENDENCIES
   pry (~> 0.9.12.2)
   rails (= 3.2.13)
   roo
-  rspec
-  rspec-rails
+  rspec (= 2.14.1)
+  rspec-rails (= 2.14.0)
   sass-rails (~> 3.2.3)
   therubyracer
   thin (= 1.5.0)
