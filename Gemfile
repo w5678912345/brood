@@ -51,6 +51,11 @@ group :development,:test do
 	gem 'pry', '~> 0.9.12.2' #调试
   
   gem 'thin', require: false #
+  gem 'rspec', '2.14.1'
+  gem 'rspec-rails','2.14.0'
+  gem 'factory_girl','4.3.0'
+  gem "factory_girl_rails",'4.3.0'
+  gem 'capybara','2.2.0'
 end
 gem "highcharts-rails", "~> 3.0.7"
 
