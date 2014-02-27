@@ -33,7 +33,8 @@ describe Api::PhoneMachineController do
         	expect {
           		post :bind_phones, {:format => "json",:name => "PhoneMachine1",:password => "12345678",
           			:phones => "13212341234,13213241239,13212341236,13212341237"}
-        	}.to change(Phone, :count).by(0)
+        	}.to change(Phone, :count).by(4)
+        	PhoneMachine.count.should eq 1
         end
 	end
 
@@ -45,20 +46,18 @@ describe Api::PhoneMachineController do
 			phone2 = FactoryGirl.create(:phone,:phone_machine => phone_machine)
 			phone3 = FactoryGirl.create(:phone,:phone_machine => phone_machine1)
 			a0 = FactoryGirl.create(:account)
-			a1 = FactoryGirl.create(:account,:phone => phone1,:status => 'bs_unlock_fail')
+			a1 = FactoryGirl.create(:account,:phone => phone1,:status => 'bslocked')
 
-			a20 = FactoryGirl.create(:online_account,:phone => phone1,:status => 'bs_unlock_fail',:phone_event_count => 5)
+			#每个账号只能处理5次
+			a20 = FactoryGirl.create(:online_account,:phone => phone1,:status => 'bslocked',:phone_event_count => 5)
 			
-			a2 = FactoryGirl.create(:online_account,:phone => phone1,:status => 'bs_unlock_fail',:phone_event_count => 4)
-			a21 = FactoryGirl.create(:online_account,:phone => phone2,:status => 'bs_unlock_fail')
-			a3 = FactoryGirl.create(:online_account,:phone => phone3,:status => 'bs_unlock_fail')
+			a2 = FactoryGirl.create(:online_account,:phone => phone1,:status => 'bslocked',:phone_event_count => 3)
+			a21 = FactoryGirl.create(:online_account,:phone => phone2,:status => 'bslocked',:phone_event_count => 2)
+			a3 = FactoryGirl.create(:online_account,:phone => phone3,:status => 'bslocked')
 			get :can_unlock_accounts, {:name => phone_machine.name}
 			
 			assigns(:accounts).count.should eq(2)
 
-			#a21.phone_event_count += 1
-			#a2.phone_event_count += 1
-			#返回的账号是和上线顺序相反的，即session_id desc
 			assigns(:accounts).should eq([a21,a2])
     	end
 	end

@@ -23,17 +23,19 @@ describe LinksController do
   # This should return the minimal set of attributes required to create a valid
   # Link. As you add validations to Link, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "phone_no" => "MyString" } }
+  let(:valid_attributes) { { "phone_no" => "MyString","event" => "bslock" ,"status" =>"busy"} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # LinksController. Be sure to keep this updated too.
   let(:valid_session) { {} }
-
+  login_admin
   describe "GET index" do
     it "assigns all links as @links" do
       link = Link.create! valid_attributes
-      get :index, {}, valid_session
+      Link.count.should eq 1
+      get :index, {}#, valid_session
+      response.should be_success
       assigns(:links).should eq([link])
     end
   end
@@ -41,14 +43,14 @@ describe LinksController do
   describe "GET show" do
     it "assigns the requested link as @link" do
       link = Link.create! valid_attributes
-      get :show, {:id => link.to_param}, valid_session
+      get :show, {:id => link.to_param}##, valid_session
       assigns(:link).should eq(link)
     end
   end
 
   describe "GET new" do
     it "assigns a new link as @link" do
-      get :new, {}, valid_session
+      get :new, {}#, valid_session
       assigns(:link).should be_a_new(Link)
     end
   end
@@ -56,7 +58,7 @@ describe LinksController do
   describe "GET edit" do
     it "assigns the requested link as @link" do
       link = Link.create! valid_attributes
-      get :edit, {:id => link.to_param}, valid_session
+      get :edit, {:id => link.to_param}#, valid_session
       assigns(:link).should eq(link)
     end
   end
@@ -65,18 +67,18 @@ describe LinksController do
     describe "with valid params" do
       it "creates a new Link" do
         expect {
-          post :create, {:link => valid_attributes}, valid_session
+          post :create, {:link => valid_attributes}#, valid_session
         }.to change(Link, :count).by(1)
       end
 
       it "assigns a newly created link as @link" do
-        post :create, {:link => valid_attributes}, valid_session
+        post :create, {:link => valid_attributes}#, valid_session
         assigns(:link).should be_a(Link)
         assigns(:link).should be_persisted
       end
 
       it "redirects to the created link" do
-        post :create, {:link => valid_attributes}, valid_session
+        post :create, {:link => valid_attributes}#, valid_session
         response.should redirect_to(Link.last)
       end
     end
@@ -85,14 +87,14 @@ describe LinksController do
       it "assigns a newly created but unsaved link as @link" do
         # Trigger the behavior that occurs when invalid params are submitted
         Link.any_instance.stub(:save).and_return(false)
-        post :create, {:link => { "phone_no" => "invalid value" }}, valid_session
+        post :create, {:link => { "phone_no" => "invalid value" }}#, valid_session
         assigns(:link).should be_a_new(Link)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Link.any_instance.stub(:save).and_return(false)
-        post :create, {:link => { "phone_no" => "invalid value" }}, valid_session
+        post :create, {:link => { "phone_no" => "invalid value" }}#, valid_session
         response.should render_template("new")
       end
     end
@@ -107,18 +109,18 @@ describe LinksController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Link.any_instance.should_receive(:update_attributes).with({ "phone_no" => "MyString" })
-        put :update, {:id => link.to_param, :link => { "phone_no" => "MyString" }}, valid_session
+        put :update, {:id => link.to_param, :link => { "phone_no" => "MyString" }}#, valid_session
       end
 
       it "assigns the requested link as @link" do
         link = Link.create! valid_attributes
-        put :update, {:id => link.to_param, :link => valid_attributes}, valid_session
+        put :update, {:id => link.to_param, :link => valid_attributes}#, valid_session
         assigns(:link).should eq(link)
       end
 
       it "redirects to the link" do
         link = Link.create! valid_attributes
-        put :update, {:id => link.to_param, :link => valid_attributes}, valid_session
+        put :update, {:id => link.to_param, :link => valid_attributes}#, valid_session
         response.should redirect_to(link)
       end
     end
@@ -128,7 +130,7 @@ describe LinksController do
         link = Link.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Link.any_instance.stub(:save).and_return(false)
-        put :update, {:id => link.to_param, :link => { "phone_no" => "invalid value" }}, valid_session
+        put :update, {:id => link.to_param, :link => { "phone_no" => "invalid value" }}#, valid_session
         assigns(:link).should eq(link)
       end
 
@@ -136,7 +138,7 @@ describe LinksController do
         link = Link.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Link.any_instance.stub(:save).and_return(false)
-        put :update, {:id => link.to_param, :link => { "phone_no" => "invalid value" }}, valid_session
+        put :update, {:id => link.to_param, :link => { "phone_no" => "invalid value" }}#, valid_session
         response.should render_template("edit")
       end
     end
@@ -146,13 +148,13 @@ describe LinksController do
     it "destroys the requested link" do
       link = Link.create! valid_attributes
       expect {
-        delete :destroy, {:id => link.to_param}, valid_session
+        delete :destroy, {:id => link.to_param}#, valid_session
       }.to change(Link, :count).by(-1)
     end
 
     it "redirects to the links list" do
       link = Link.create! valid_attributes
-      delete :destroy, {:id => link.to_param}, valid_session
+      delete :destroy, {:id => link.to_param}#, valid_session
       response.should redirect_to(links_url)
     end
   end

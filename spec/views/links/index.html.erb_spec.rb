@@ -1,4 +1,5 @@
 require 'spec_helper'
+require "will_paginate/array"
 
 describe "links/index" do
   before(:each) do
@@ -13,7 +14,7 @@ describe "links/index" do
         :event => "Event",
         :status => "Status"
       )
-    ])
+    ].paginate(:page => 1, :per_page => 2))
   end
 
   it "renders a list of links" do
