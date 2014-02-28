@@ -88,6 +88,19 @@ class Api::AccountController < Api::BaseController
 		 render :json => {:role_start_count => @start_count}
 	end
 
+	# @records = Note.where(:api_name => "role_start").where(:ending=>false)
+	# 	 @records = @records.where(:level => params[:level].to_i) unless params[:level].blank?
+	# 	 counts = []
+	# 	 unless params[:target].blank?
+	# 	 	targets = params[:target].split(",")
+	# 	 	targets.each do |t|
+	# 	 		count = @records.where(:target=>t).count("DISTINCT role_id")
+	# 	 		counts << count
+	# 	 	end
+	# 	 end
+	# 	 render :json => {:targets => targets, :counts => counts}
+		 #@records = @records.where(:target => params[:target]) unless 
+
 	def reg
 		@account = Account.new(:no=>params[:id],:password=>params[:pwd],:remark=>params[:remark],:is_auto=>true)
 		@code = @account.api_reg params,@computer
