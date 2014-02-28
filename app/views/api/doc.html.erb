@@ -207,6 +207,11 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 <td>获取当前机器可以解绑的号码, name => phone_machine的name,count => 要获取的数量</td> 
 </tr>
 
+<tr>
+<td>maps/valid.json</td>
+<td>根据角色ID，取的一个可用的副本。 如果取到副本返回{"key":副本ID,"name":"副本名称"} 否则返回{"code":-1}</td> 
+</tr>
+
 </tbody>
 </table>
 <%end%>

@@ -23,8 +23,7 @@ describe InstanceMapsController do
   # This should return the minimal set of attributes required to create a valid
   # InstanceMap. As you add validations to InstanceMap, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "name" => "MyString", "min_level" => 10, "max_level" => 50, "gold"=> 10000,
-    "safety_limit" => 100, "death_limit" => 200 } }
+  let(:valid_attributes) { FactoryGirl.attributes_for(:instance_map) }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in

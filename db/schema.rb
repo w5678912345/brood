@@ -99,6 +99,7 @@ ActiveRecord::Schema.define(:version => 20140228055446) do
   end
 
   create_table "instance_maps", :force => true do |t|
+    t.integer  "key",                                           :null => false
     t.string   "name",         :limit => 64,                    :null => false
     t.integer  "min_level",                                     :null => false
     t.integer  "max_level",                                     :null => false
