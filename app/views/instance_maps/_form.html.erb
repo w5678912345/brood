@@ -1,0 +1,17 @@
+<%= semantic_form_for @instance_map do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :name %>
+    <%= f.input :min_level %>
+    <%= f.input :max_level %>
+    <%= f.input :gold %>
+    <%= f.input :safety_limit %>
+    <%= f.input :death_limit %>
+    <%= f.input :enter_count %>
+    <%= f.input :remark %>
+    <%= f.input :enabled %>
+  <% end %>
+
+  <%= f.actions do %>
+    <%= f.action :submit, :as => :input %>
+  <% end %>
+<% end %>

@@ -5,5 +5,7 @@ FactoryGirl.define do
   	name "user1"
   	email "user1@126.com"
   	password "12345678"
+  	account "123456789"
+  	level 35
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140126080534) do
+ActiveRecord::Schema.define(:version => 20140228055446) do
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -96,6 +96,21 @@ ActiveRecord::Schema.define(:version => 20140126080534) do
     t.string   "opts",       :limit => 500, :default => "{}", :null => false
     t.datetime "created_at",                                  :null => false
     t.datetime "updated_at",                                  :null => false
+  end
+
+  create_table "instance_maps", :force => true do |t|
+    t.string   "name",         :limit => 64,                    :null => false
+    t.integer  "min_level",                                     :null => false
+    t.integer  "max_level",                                     :null => false
+    t.integer  "gold",                        :default => 0,    :null => false
+    t.integer  "exp",                         :default => 0,    :null => false
+    t.boolean  "enabled",                     :default => true, :null => false
+    t.integer  "safety_limit",                                  :null => false
+    t.integer  "death_limit",                                   :null => false
+    t.integer  "enter_count",                 :default => 0,    :null => false
+    t.string   "remark",       :limit => 128
+    t.datetime "created_at",                                    :null => false
+    t.datetime "updated_at",                                    :null => false
   end
 
   create_table "ips", :primary_key => "value", :force => true do |t|

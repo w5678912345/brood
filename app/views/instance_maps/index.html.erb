@@ -1,0 +1,39 @@
+<h1>Listing instance_maps</h1>
+
+<table class="table">
+  <tr>
+    <th>Name</th>
+    <th>Min level</th>
+    <th>Max level</th>
+    <th>Gold</th>
+    <th>Enabled</th>
+    <th>Safety limit</th>
+    <th>Death limit</th>
+    <th>Enter count</th>
+    <th>Remark</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @instance_maps.each do |instance_map| %>
+  <tr>
+    <td><%= instance_map.name %></td>
+    <td><%= instance_map.min_level %></td>
+    <td><%= instance_map.max_level %></td>
+    <td><%= instance_map.gold %></td>
+    <td><%= instance_map.enabled %></td>
+    <td><%= instance_map.safety_limit %></td>
+    <td><%= instance_map.death_limit %></td>
+    <td><%= instance_map.enter_count %></td>
+    <td><%= instance_map.remark %></td>
+    <td><%= link_to 'Show', instance_map %></td>
+    <td><%= link_to 'Edit', edit_instance_map_path(instance_map) %></td>
+    <td><%= link_to 'Destroy', instance_map, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Instance map', new_instance_map_path %>

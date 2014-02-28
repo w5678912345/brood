@@ -1,4 +1,7 @@
 Brood::Application.routes.draw do
+  resources :instance_maps
+
+
   resources :links
 
 
@@ -261,6 +264,10 @@ Brood::Application.routes.draw do
       match :sub,  :on => :collection
       match :get,  :on => :collection
       match :end,  :on => :collection
+    end
+
+    resources :maps, :only => [:show] do 
+      get :pull,   :on => :collection
     end
 
     
