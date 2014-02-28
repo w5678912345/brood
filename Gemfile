@@ -57,6 +57,7 @@ group :development,:test do
   gem 'factory_girl','4.3.0'
   gem "factory_girl_rails",'4.3.0'
   gem 'capybara','2.2.0'
+  gem 'faker'
 
 end
 gem "highcharts-rails", "~> 3.0.7"

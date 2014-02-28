@@ -34,7 +34,7 @@ describe InstanceMapsController do
   describe "GET index" do
     it "assigns all instance_maps as @instance_maps" do
       instance_map = InstanceMap.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {}#, valid_session
       assigns(:instance_maps).should eq([instance_map])
     end
   end
