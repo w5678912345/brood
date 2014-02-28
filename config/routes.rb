@@ -267,7 +267,7 @@ Brood::Application.routes.draw do
     end
 
     resources :maps, :only => [:show] do 
-      get :pull,   :on => :collection
+      get :valid,   :on => :collection
     end
 
     
