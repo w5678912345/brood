@@ -9,9 +9,10 @@ class Api::MapsController < Api::BaseController
 		return render json: {:code => CODES[:not_find_role]} unless @role
 		level = @role.level
 
-		@map = InstanceMap.first
+		@map = InstanceMap.level_scope(level).first
 		
-		render :json => {:code=>1, :id => @map.id ,:name=>@map.name}
+		render :json => {}
+		#render :json => {:code=>1, :id => @map.id ,:name=>@map.name} if @map
 	end
 
 
