@@ -31,9 +31,12 @@ describe InstanceMapsController do
   # InstanceMapsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  login_admin
+
   describe "GET index" do
     it "assigns all instance_maps as @instance_maps" do
       instance_map = InstanceMap.create! valid_attributes
+      InstanceMap.count.should eq 1
       get :index, {}#, valid_session
       assigns(:instance_maps).should eq([instance_map])
     end
@@ -42,14 +45,14 @@ describe InstanceMapsController do
   describe "GET show" do
     it "assigns the requested instance_map as @instance_map" do
       instance_map = InstanceMap.create! valid_attributes
-      get :show, {:id => instance_map.to_param}, valid_session
+      get :show, {:id => instance_map.to_param} #, valid_session
       assigns(:instance_map).should eq(instance_map)
     end
   end
 
   describe "GET new" do
     it "assigns a new instance_map as @instance_map" do
-      get :new, {}, valid_session
+      get :new, {}#, valid_session
       assigns(:instance_map).should be_a_new(InstanceMap)
     end
   end
@@ -57,7 +60,7 @@ describe InstanceMapsController do
   describe "GET edit" do
     it "assigns the requested instance_map as @instance_map" do
       instance_map = InstanceMap.create! valid_attributes
-      get :edit, {:id => instance_map.to_param}, valid_session
+      get :edit, {:id => instance_map.to_param}#, valid_session
       assigns(:instance_map).should eq(instance_map)
     end
   end
@@ -66,18 +69,18 @@ describe InstanceMapsController do
     describe "with valid params" do
       it "creates a new InstanceMap" do
         expect {
-          post :create, {:instance_map => valid_attributes}, valid_session
+          post :create, {:instance_map => valid_attributes}#, valid_session
         }.to change(InstanceMap, :count).by(1)
       end
 
       it "assigns a newly created instance_map as @instance_map" do
-        post :create, {:instance_map => valid_attributes}, valid_session
+        post :create, {:instance_map => valid_attributes}#, valid_session
         assigns(:instance_map).should be_a(InstanceMap)
         assigns(:instance_map).should be_persisted
       end
 
       it "redirects to the created instance_map" do
-        post :create, {:instance_map => valid_attributes}, valid_session
+        post :create, {:instance_map => valid_attributes}#, valid_session
         response.should redirect_to(InstanceMap.last)
       end
     end
@@ -86,14 +89,14 @@ describe InstanceMapsController do
       it "assigns a newly created but unsaved instance_map as @instance_map" do
         # Trigger the behavior that occurs when invalid params are submitted
         InstanceMap.any_instance.stub(:save).and_return(false)
-        post :create, {:instance_map => { "name" => "invalid value" }}, valid_session
+        post :create, {:instance_map => { "name" => "invalid value" }}#, valid_session
         assigns(:instance_map).should be_a_new(InstanceMap)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         InstanceMap.any_instance.stub(:save).and_return(false)
-        post :create, {:instance_map => { "name" => "invalid value" }}, valid_session
+        post :create, {:instance_map => { "name" => "invalid value" }}#, valid_session
         response.should render_template("new")
       end
     end
@@ -108,18 +111,18 @@ describe InstanceMapsController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         InstanceMap.any_instance.should_receive(:update_attributes).with({ "name" => "MyString" })
-        put :update, {:id => instance_map.to_param, :instance_map => { "name" => "MyString" }}, valid_session
+        put :update, {:id => instance_map.to_param, :instance_map => { "name" => "MyString" }}#, valid_session
       end
 
       it "assigns the requested instance_map as @instance_map" do
         instance_map = InstanceMap.create! valid_attributes
-        put :update, {:id => instance_map.to_param, :instance_map => valid_attributes}, valid_session
+        put :update, {:id => instance_map.to_param, :instance_map => valid_attributes}#, valid_session
         assigns(:instance_map).should eq(instance_map)
       end
 
       it "redirects to the instance_map" do
         instance_map = InstanceMap.create! valid_attributes
-        put :update, {:id => instance_map.to_param, :instance_map => valid_attributes}, valid_session
+        put :update, {:id => instance_map.to_param, :instance_map => valid_attributes}#, valid_session
         response.should redirect_to(instance_map)
       end
     end
@@ -129,7 +132,7 @@ describe InstanceMapsController do
         instance_map = InstanceMap.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         InstanceMap.any_instance.stub(:save).and_return(false)
-        put :update, {:id => instance_map.to_param, :instance_map => { "name" => "invalid value" }}, valid_session
+        put :update, {:id => instance_map.to_param, :instance_map => { "name" => "invalid value" }}#, valid_session
         assigns(:instance_map).should eq(instance_map)
       end
 
@@ -137,7 +140,7 @@ describe InstanceMapsController do
         instance_map = InstanceMap.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         InstanceMap.any_instance.stub(:save).and_return(false)
-        put :update, {:id => instance_map.to_param, :instance_map => { "name" => "invalid value" }}, valid_session
+        put :update, {:id => instance_map.to_param, :instance_map => { "name" => "invalid value" }}#, valid_session
         response.should render_template("edit")
       end
     end
@@ -147,13 +150,13 @@ describe InstanceMapsController do
     it "destroys the requested instance_map" do
       instance_map = InstanceMap.create! valid_attributes
       expect {
-        delete :destroy, {:id => instance_map.to_param}, valid_session
+        delete :destroy, {:id => instance_map.to_param}#, valid_session
       }.to change(InstanceMap, :count).by(-1)
     end
 
     it "redirects to the instance_maps list" do
       instance_map = InstanceMap.create! valid_attributes
-      delete :destroy, {:id => instance_map.to_param}, valid_session
+      delete :destroy, {:id => instance_map.to_param}#, valid_session
       response.should redirect_to(instance_maps_url)
     end
   end
