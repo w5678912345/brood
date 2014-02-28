@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :link do
-    phone_no "MyString"
-    event "MyString"
-    status "MyString"
+    phone_no Faker::PhoneNumber.phone_number
+    event "bslock"
+    status "idle"
   end
 end

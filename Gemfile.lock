@@ -90,6 +90,8 @@ GEM
     factory_girl_rails (4.3.0)
       factory_girl (~> 4.3.0)
       railties (>= 3.0.0)
+    faker (1.2.0)
+      i18n (~> 0.5)
     formtastic (2.2.1)
       actionpack (>= 3.0)
     highcharts-rails (3.0.7)
@@ -228,8 +230,14 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   delayed_job_active_record
   devise
+<<<<<<< HEAD
   factory_girl (= 4.3.0)
   factory_girl_rails (= 4.3.0)
+=======
+  factory_girl
+  factory_girl_rails
+  faker
+>>>>>>> 2f758ad5b0243a83afd7419e544b14f3de044afb
   formtastic
   highcharts-rails (~> 3.0.7)
   jbuilder (~> 1.2.0)

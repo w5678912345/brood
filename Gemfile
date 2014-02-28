@@ -50,7 +50,6 @@ group :development,:test do
   gem 'better_errors'
   #gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
   gem 'pry', '~> 0.9.12.2' #调试
-  
 
   gem 'thin', require: false #
   gem 'rspec', '2.14.1'
@@ -58,6 +57,7 @@ group :development,:test do
   gem 'factory_girl','4.3.0'
   gem "factory_girl_rails",'4.3.0'
   gem 'capybara','2.2.0'
+
 end
 gem "highcharts-rails", "~> 3.0.7"
 
