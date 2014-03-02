@@ -248,6 +248,8 @@ ActiveRecord::Schema.define(:version => 20140302130426) do
     t.datetime "updated_at",       :null => false
   end
 
+  add_index "role_sessions", ["role_id"], :name => "index_role_sessions_on_role_id"
+
   create_table "roles", :force => true do |t|
     t.string   "account",                                             :null => false
     t.string   "password",                                            :null => false

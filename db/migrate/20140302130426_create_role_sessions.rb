@@ -14,5 +14,6 @@ class CreateRoleSessions < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :role_sessions, :role_id
   end
 end
