@@ -8,7 +8,9 @@ describe Api::RolesController do
     expect(response).to be_success
     print response.body
     RoleSession.count.should eq 1
-    RoleSession.find_by_role_id(role.id).should_not eq nil
+    session = RoleSession.find_by_role_id(role.id)
+    session.should_not eq nil
+    session.start_level.should eq role.level
   end
   it "can stop"
   it "can reconnect"
