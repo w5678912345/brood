@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Role:</b>
+  <%= @role_session.role_id %>
+</p>
+
+<p>
+  <b>Computer:</b>
+  <%= @role_session.computer_id %>
+</p>
+
+<p>
+  <b>Start level:</b>
+  <%= @role_session.start_level %>
+</p>
+
+<p>
+  <b>Start gold:</b>
+  <%= @role_session.start_gold %>
+</p>
+
+<p>
+  <b>Start exp:</b>
+  <%= @role_session.start_exp %>
+</p>
+
+<p>
+  <b>Used gold:</b>
+  <%= @role_session.used_gold %>
+</p>
+
+<p>
+  <b>Exchanged gold:</b>
+  <%= @role_session.exchanged_gold %>
+</p>
+
+<p>
+  <b>Task:</b>
+  <%= @role_session.task %>
+</p>
+
+<p>
+  <b>Connection times:</b>
+  <%= @role_session.connection_times %>
+</p>
+
+<p>
+  <b>Live at:</b>
+  <%= @role_session.live_at %>
+</p>
+
+
+<%= link_to 'Edit', edit_role_session_path(@role_session) %> |
+<%= link_to 'Back', role_sessions_path %>

@@ -4,5 +4,6 @@ FactoryGirl.define do
   factory :note do
   	api_name 'online'
   	ip '111.111.111.111'
+  	computer
   end
 end
