@@ -13,6 +13,7 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20140302130426) do
 =======
 ActiveRecord::Schema.define(:version => 20140228055446) do
@@ -23,6 +24,9 @@ ActiveRecord::Schema.define(:version => 20140228055446) do
 ActiveRecord::Schema.define(:version => 20140302130426) do
 >>>>>>> master
 >>>>>>> 0bd4620f9e8e64241b8efb6dacccc4a847e0958e
+=======
+ActiveRecord::Schema.define(:version => 20140302130426) do
+>>>>>>> 00f76e375e80fd18fa008e35b8dc608c2fdf771e
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -247,6 +251,7 @@ ActiveRecord::Schema.define(:version => 20140302130426) do
   create_table "role_sessions", :force => true do |t|
     t.integer  "role_id"
     t.integer  "computer_id"
+    t.integer  "instance_map_id",  :default => 0
     t.integer  "start_level"
     t.integer  "start_gold"
     t.integer  "start_exp"

@@ -15,4 +15,7 @@ FactoryGirl.define do
   factory :online_role,:parent => :role do
   	association :qq_account,factory: :online_account
   end
+  factory :online_session_role,:parent => :online_role do
+    role_session
+  end
 end
