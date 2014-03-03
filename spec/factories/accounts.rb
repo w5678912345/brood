@@ -4,9 +4,9 @@ FactoryGirl.define do
   factory :account do
 	sequence(:no){|n| "account#{n}"} 
 	password "pwd11111"
-	phone
   end
   factory :online_account,:parent => :account do
+	association :online_computer,factory: :computer
   	association :session,factory: :note 
   end
 end

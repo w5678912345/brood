@@ -30,7 +30,7 @@ class Account < ActiveRecord::Base
     belongs_to :current_role, :class_name => 'Role', :foreign_key => 'current_role_id'
     #在线记录
    	belongs_to :online_note, :class_name => 'Note', :foreign_key => 'online_note_id'
-    #在线机器
+    #在线机器,由于手动可以调度不属于自己的账号，导致绑定的机器和在线的机器可能不一样
    	belongs_to :online_computer, :class_name => 'Computer', :foreign_key => 'online_computer_id' 
     #绑定机器
     belongs_to :bind_computer,  :class_name => 'Computer', :foreign_key => 'bind_computer_id'

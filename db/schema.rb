@@ -11,7 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20140228055446) do
+=======
+ActiveRecord::Schema.define(:version => 20140302130426) do
+>>>>>>> master
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -232,6 +236,24 @@ ActiveRecord::Schema.define(:version => 20140228055446) do
   end
 
   add_index "phones", ["no"], :name => "index_phones_on_no", :unique => true
+
+  create_table "role_sessions", :force => true do |t|
+    t.integer  "role_id"
+    t.integer  "computer_id"
+    t.integer  "start_level"
+    t.integer  "start_gold"
+    t.integer  "start_exp"
+    t.string   "ip"
+    t.integer  "used_gold",        :default => 0
+    t.integer  "exchanged_gold",   :default => 0
+    t.string   "task"
+    t.integer  "connection_times", :default => 0
+    t.datetime "live_at"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+  end
+
+  add_index "role_sessions", ["role_id"], :name => "index_role_sessions_on_role_id"
 
   create_table "roles", :force => true do |t|
     t.string   "account",                                             :null => false

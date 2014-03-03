@@ -13,7 +13,7 @@ class Role < ActiveRecord::Base
   has_many	 :payments, :order => 'id DESC'
   has_many   :comroles, :class_name => 'Comrole'
   has_many   :computers,:class_name => 'Computer',through: :comroles
-
+  has_one    :role_session
   belongs_to  :qq_account, :class_name => 'Account',:foreign_key=>'account',:primary_key=>'no', :counter_cache => :roles_count
 
   #
@@ -60,15 +60,18 @@ class Role < ActiveRecord::Base
   def api_start opts
     return 0 unless self.online
     return CODES[:role_is_started] if self.is_started?
+
     return CODES[:account_is_stopped] unless self.qq_account.is_started?  # 账户未开始，角色不能开始
     account_session = self.qq_account.session
     computer = account_session.computer
+
     self.transaction do
        #创建session
        session = Note.create(:computer_id => computer.id, :account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,
        :api_name=>"role_start",:server=> self.server || computer.server,:msg=>opts[:msg],:level=>self.level,:session_id =>account_session.id,:version=>computer.version,:target=>opts[:target])
       # 修改账号的当前角色
       self.qq_account.update_attributes(:online_role_id => self.id)
+      self.role_session = RoleSession.create! :start_level => self.level,:start_gold => self.total,:computer_id => self.qq_account.online_computer.id,:live_at => Time.now,:ip => opts[:ip]
       # 修改角色 session
        return 1 if self.update_attributes(:session_id => session.id)
     end
@@ -96,6 +99,10 @@ class Role < ActiveRecord::Base
       self.qq_account.update_attributes(:updated_at => Time.now)
       # 修改角色在线时间
       self.session.update_hours(opts[:target])
+
+      self.role_session.live_at = Time.now
+      self.role_session.save
+
       # 修改角色最后访问时间
       return 1 if self.update_attributes(:updated_at => Time.now)
      end
@@ -148,8 +155,9 @@ class Role < ActiveRecord::Base
       Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,:version=>computer.version,
        :api_name=>"role_stop",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=> account_session.id)
       # 清空会话
-      end
-      return 1 if self.update_attributes(:session_id => 0)
+        self.role_session.destroy
+    end
+    return 1 if self.update_attributes(:session_id => 0)
     end
   end
 
@@ -215,9 +223,11 @@ class Role < ActiveRecord::Base
 
   def self.auto_stop
     last_at = Time.now.ago(10.minutes).strftime("%Y-%m-%d %H:%M:%S")
+    print last_at
     roles = Role.where("session_id > 0").where("updated_at < '#{last_at}'")
     roles.each do |role|
       role.api_stop(opts={:ip=>"localhost"})
+      role.role_session.destroy
     end
   end
 

@@ -1,0 +1,41 @@
+<h1>Listing role_sessions</h1>
+
+<table>
+  <tr>
+    <th>Role</th>
+    <th>Computer</th>
+    <th>Start level</th>
+    <th>Start gold</th>
+    <th>Start exp</th>
+    <th>Used gold</th>
+    <th>Exchanged gold</th>
+    <th>Task</th>
+    <th>Connection times</th>
+    <th>Live at</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @role_sessions.each do |role_session| %>
+  <tr>
+    <td><%= role_session.role_id %></td>
+    <td><%= role_session.computer_id %></td>
+    <td><%= role_session.start_level %></td>
+    <td><%= role_session.start_gold %></td>
+    <td><%= role_session.start_exp %></td>
+    <td><%= role_session.used_gold %></td>
+    <td><%= role_session.exchanged_gold %></td>
+    <td><%= role_session.task %></td>
+    <td><%= role_session.connection_times %></td>
+    <td><%= role_session.live_at %></td>
+    <td><%= link_to 'Show', role_session %></td>
+    <td><%= link_to 'Edit', edit_role_session_path(role_session) %></td>
+    <td><%= link_to 'Destroy', role_session, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Role session', new_role_session_path %>

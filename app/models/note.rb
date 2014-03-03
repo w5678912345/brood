@@ -81,8 +81,8 @@ class Note < ActiveRecord::Base
         notes = notes.where("ip like ?","%#{opts[:ip]}%") unless opts[:ip].blank?
         notes = notes.where("msg like ?","%#{opts[:msg]}%") unless opts[:msg].blank?
         notes = notes.where("date(created_at) = ?",opts[:date]) unless opts[:date].blank?
-        notes = notes.where("created_at >= '#{opts[:start_date]} 06:00:00'") unless opts[:start_date].blank?
-        notes = notes.where("created_at <= '#{opts[:end_date]} 06:00:00'") unless opts[:end_date].blank?
+        notes = notes.where("created_at >= ?",opts[:start_time]) unless opts[:start_time].blank?
+        notes = notes.where("created_at <= ?",opts[:end_time]) unless opts[:end_time].blank?
         notes = notes.where(:api_code => opts[:code]) unless opts[:code].blank?
         notes = notes.where(:version => opts[:version]) unless opts[:version].blank?
         #

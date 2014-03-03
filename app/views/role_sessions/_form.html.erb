@@ -1,0 +1,57 @@
+<%= form_for(@role_session) do |f| %>
+  <% if @role_session.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@role_session.errors.count, "error") %> prohibited this role_session from being saved:</h2>
+
+      <ul>
+      <% @role_session.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :role_id %><br />
+    <%= f.number_field :role_id %>
+  </div>
+  <div class="field">
+    <%= f.label :computer_id %><br />
+    <%= f.number_field :computer_id %>
+  </div>
+  <div class="field">
+    <%= f.label :start_level %><br />
+    <%= f.number_field :start_level %>
+  </div>
+  <div class="field">
+    <%= f.label :start_gold %><br />
+    <%= f.number_field :start_gold %>
+  </div>
+  <div class="field">
+    <%= f.label :start_exp %><br />
+    <%= f.number_field :start_exp %>
+  </div>
+  <div class="field">
+    <%= f.label :used_gold %><br />
+    <%= f.number_field :used_gold %>
+  </div>
+  <div class="field">
+    <%= f.label :exchanged_gold %><br />
+    <%= f.number_field :exchanged_gold %>
+  </div>
+  <div class="field">
+    <%= f.label :task %><br />
+    <%= f.text_field :task %>
+  </div>
+  <div class="field">
+    <%= f.label :connection_times %><br />
+    <%= f.number_field :connection_times %>
+  </div>
+  <div class="field">
+    <%= f.label :live_at %><br />
+    <%= f.datetime_select :live_at %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

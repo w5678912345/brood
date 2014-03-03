@@ -1,8 +1,7 @@
 Brood::Application.routes.draw do
   resources :instance_maps
-
-
   resources :links
+  resources :role_sessions
 
 
   #
