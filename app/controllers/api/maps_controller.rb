@@ -8,7 +8,6 @@ class Api::MapsController < Api::BaseController
 		@role = Role.find_by_id(params[:role_id])
 		return render json: {:code => CODES[:not_find_role]} unless @role
 		level = @role.level
-
 		@map = InstanceMap.level_scope(level).safety_scope.first
 		
 		if @map

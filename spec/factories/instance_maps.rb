@@ -8,8 +8,8 @@ FactoryGirl.define do
     max_level 1
     gold 1
     enabled true
-    safety_limit 1
-    death_limit 1
+    safety_limit 2
+    death_limit 2
     enter_count 0
     remark "MyString"
   end

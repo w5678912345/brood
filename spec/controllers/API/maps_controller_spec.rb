@@ -9,6 +9,10 @@ describe Api::MapsController do
         @map = FactoryGirl.create(:instance_map, :min_level => 10,:max_level=>20,:enter_count=>0)
      	get :valid, {:role_id=>@role.id}
         assigns(:map).enter_count.should eq 1
+        #TODO 同样的角色去取2次，会导致计数增加，需要修改
+        get :valid, {:role_id=>@role.id}
+        InstanceMap.first.enter_count.should eq 2
+        assigns(:map).enter_count.should eq 2
 	end
 
 	it "can not pull valid a map" do
