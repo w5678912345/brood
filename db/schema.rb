@@ -11,11 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(:version => 20140228055446) do
-=======
 ActiveRecord::Schema.define(:version => 20140302130426) do
->>>>>>> master
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -240,6 +236,7 @@ ActiveRecord::Schema.define(:version => 20140302130426) do
   create_table "role_sessions", :force => true do |t|
     t.integer  "role_id"
     t.integer  "computer_id"
+    t.integer  "instance_map_id",  :default => 0
     t.integer  "start_level"
     t.integer  "start_gold"
     t.integer  "start_exp"

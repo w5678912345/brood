@@ -3,6 +3,7 @@ class CreateRoleSessions < ActiveRecord::Migration
     create_table :role_sessions do |t|
       t.integer :role_id
       t.integer :computer_id
+      t.integer :instance_map_id,:default => 0
       t.integer :start_level
       t.integer :start_gold
       t.integer :start_exp
