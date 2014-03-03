@@ -71,7 +71,7 @@ class Role < ActiveRecord::Base
        :api_name=>"role_start",:server=> self.server || computer.server,:msg=>opts[:msg],:level=>self.level,:session_id =>account_session.id,:version=>computer.version,:target=>opts[:target])
       # 修改账号的当前角色
       self.qq_account.update_attributes(:online_role_id => self.id)
-      self.role_session = RoleSession.create! :start_level => self.level,:start_gold => self.total,:computer_id => self.qq_account.online_computer.id,:live_at => Time.now,:ip => opts[:ip]
+      self.role_session = RoleSession.create! :start_level => self.level,:start_gold => self.total,:computer_id => computer.id,:live_at => Time.now,:ip => opts[:ip]
       # 修改角色 session
        return 1 if self.update_attributes(:session_id => session.id)
     end

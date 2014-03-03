@@ -11,22 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20140302130426) do
-=======
-ActiveRecord::Schema.define(:version => 20140228055446) do
->>>>>>> 61116fb5fdbaf9ce104c6dbed79e9c966f6776d1
-=======
-ActiveRecord::Schema.define(:version => 20140228055446) do
-=======
-ActiveRecord::Schema.define(:version => 20140302130426) do
->>>>>>> master
->>>>>>> 0bd4620f9e8e64241b8efb6dacccc4a847e0958e
-=======
-ActiveRecord::Schema.define(:version => 20140302130426) do
->>>>>>> 00f76e375e80fd18fa008e35b8dc608c2fdf771e
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -129,6 +114,8 @@ ActiveRecord::Schema.define(:version => 20140302130426) do
     t.datetime "updated_at",                                    :null => false
   end
 
+  add_index "instance_maps", ["key"], :name => "index_instance_maps_on_key", :unique => true
+
   create_table "ips", :primary_key => "value", :force => true do |t|
     t.integer  "use_count",    :default => 0, :null => false
     t.datetime "created_at",                  :null => false
@@ -183,6 +170,11 @@ ActiveRecord::Schema.define(:version => 20140302130426) do
     t.string   "target"
     t.string   "result"
     t.string   "opts"
+    t.string   "goods"
+    t.integer  "amount",                       :default => 0,     :null => false
+    t.integer  "cost",                         :default => 0,     :null => false
+    t.string   "role_type"
+    t.string   "role_name"
   end
 
   add_index "notes", ["account"], :name => "index_notes_on_account"
@@ -221,6 +213,7 @@ ActiveRecord::Schema.define(:version => 20140302130426) do
     t.datetime "updated_at",                :null => false
     t.string   "server"
     t.integer  "session_id", :default => 0, :null => false
+    t.string   "target"
   end
 
   create_table "phone_machines", :force => true do |t|
@@ -232,18 +225,18 @@ ActiveRecord::Schema.define(:version => 20140302130426) do
   add_index "phone_machines", ["name"], :name => "index_phone_machines_on_name", :unique => true
 
   create_table "phones", :primary_key => "no", :force => true do |t|
-    t.boolean  "enabled",          :default => true,   :null => false
+    t.boolean  "enabled",          :default => true, :null => false
     t.datetime "last_active_at"
     t.integer  "phone_machine_id"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
-    t.integer  "accounts_count",   :default => 0,      :null => false
-    t.boolean  "can_bind",         :default => true,   :null => false
-    t.string   "status",           :default => "idle"
-    t.integer  "sms_count",        :default => 0,      :null => false
-    t.integer  "today_sms_count",  :default => 0,      :null => false
-    t.boolean  "can_unlock",       :default => true,   :null => false
-    t.integer  "unlock_count",     :default => 0,      :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.integer  "accounts_count",   :default => 0,    :null => false
+    t.boolean  "can_bind",         :default => true, :null => false
+    t.string   "status"
+    t.integer  "sms_count",        :default => 0,    :null => false
+    t.integer  "today_sms_count",  :default => 0,    :null => false
+    t.boolean  "can_unlock",       :default => true, :null => false
+    t.integer  "unlock_count",     :default => 0,    :null => false
   end
 
   add_index "phones", ["no"], :name => "index_phones_on_no", :unique => true
@@ -302,21 +295,35 @@ ActiveRecord::Schema.define(:version => 20140302130426) do
     t.integer  "computers_count",               :default => 0,        :null => false
     t.integer  "session_id",                    :default => 0,        :null => false
     t.boolean  "today_success",                 :default => false,    :null => false
+    t.integer  "bag_value",                     :default => 0,        :null => false
+    t.integer  "start_count",                   :default => 0,        :null => false
+    t.integer  "experience",                    :default => 0,        :null => false
+    t.string   "task_name"
+    t.boolean  "reset_talent",                  :default => false,    :null => false
+    t.boolean  "is_agent",                      :default => false,    :null => false
   end
 
   add_index "roles", ["account"], :name => "index_roles_on_account"
 
   create_table "servers", :force => true do |t|
-    t.string   "name",            :limit => 124,                  :null => false
+    t.string   "name",            :limit => 124,                    :null => false
     t.string   "role_str"
-    t.integer  "roles_count",                    :default => 0,   :null => false
-    t.integer  "computers_count",                :default => 0,   :null => false
-    t.datetime "created_at",                                      :null => false
-    t.datetime "updated_at",                                      :null => false
+    t.integer  "roles_count",                    :default => 0,     :null => false
+    t.integer  "computers_count",                :default => 0,     :null => false
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
     t.string   "goods"
-    t.integer  "price",                          :default => 1,   :null => false
-    t.float    "gold_price",                     :default => 0.0, :null => false
-    t.float    "gold_unit",                      :default => 0.0, :null => false
+    t.integer  "price",                          :default => 1,     :null => false
+    t.float    "gold_price",                     :default => 0.0,   :null => false
+    t.float    "gold_unit",                      :default => 0.0,   :null => false
+    t.string   "goods2"
+    t.integer  "price2",                         :default => 1,     :null => false
+    t.integer  "max_price",                      :default => 1,     :null => false
+    t.integer  "max_price2",                     :default => 1,     :null => false
+    t.string   "goods3"
+    t.integer  "price3",                         :default => 1,     :null => false
+    t.integer  "max_price3",                     :default => 1,     :null => false
+    t.boolean  "sell_closed",                    :default => false
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true
