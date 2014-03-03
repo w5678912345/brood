@@ -120,6 +120,13 @@ class AccountsController < ApplicationController
 			ActiveRecord::Base.connection.execute(sql)
 			send_file(path ,:filename => file_name,:type => 'application/text',
             :disposition  =>  'attachment',:streaming    =>  'true',:buffer_size  =>  '4096')
+        elsif "add_sms_order" == @do
+    		@accounts= @accounts.bind_phone_scope
+    		@accounts.each do |account|
+    			Order.create(:phone_no=>account.phone_id,:account_no=>account.no,:trigger_event=>params[:event])
+    		end
+    		i = @accounts.count
+    		flash[:msg] = "#{i}个账号创建了工单"
 		end
 	end
 

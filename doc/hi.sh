@@ -12,3 +12,9 @@ lsof |grep delete
 
 
 # 000CEF8B000FAEC7
+
+gem install nokogiri -v 1.5.9 --with-xml2-include=/usr/local/Cellar/libxml2/2.9.1/include/libxml2 --with-xml2-lib=/usr/local/Cellar/libxml2/2.9.1/lib --with-xslt-dir=/usr/local/Cellar/libxslt/1.1.28
+
+
+
+gem install nokogiri -v 1.5.9 -- --with-xml2-include=/usr/local/Cellar/libxml2/2.9.1/include/libxml2 --with-xml2-lib=/usr/local/Cellar/libxml2/2.9.1/lib --with-xslt-dir=/usr/local/Cellar/libxslt/1.1.28

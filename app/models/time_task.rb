@@ -15,4 +15,9 @@ module TimeTask
 		Computer.auto_stop
 	end
 
+	def self.every_10_minutes
+		Order.auto_finish
+		Link.auto_idle
+	end
+
 end

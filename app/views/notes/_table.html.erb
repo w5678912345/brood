@@ -9,7 +9,7 @@
 	<th>IP</th>
 	<th>?</th>
 	<th>状态</th>
-	<th>消息</th>
+	<th>副本/消息</th>
 </thead>
 <tbody>
 <% notes.each do |note|%>
@@ -26,7 +26,7 @@
 	<td><%= link_to note.ip,notes_path(:ip => note.ip) %></td>
 	<td><%= note_tag note %></td>
 	<th><%= note.api_code if note.api_code != '0' %></th>
-	<th><%= note.msg %></th>
+	<th><%= "#{note.target} /" if note.api_name == 'role_start' %><%= note.msg %></th>
 </tr>
 <%end%>
 </tbody>

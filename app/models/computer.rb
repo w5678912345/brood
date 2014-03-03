@@ -79,6 +79,7 @@ class Computer < ActiveRecord::Base
     return 0 if self.is_started?
     return CODES[:computer_unchecked] unless self.checked
     self.version = opts[:version] unless opts[:version].blank?
+    self.hostname = opts[:hostname] unless opts[:hostname].blank?
     # 创建session
     session = Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"computer_start",:msg=>opts[:msg],:version=>self.version,:hostname => self.hostname,:server=>self.server)
     return 1 if self.update_attributes(:session_id => session.id)
@@ -124,15 +125,14 @@ class Computer < ActiveRecord::Base
     return if can_accounts_count < 1
     limit = avg > can_accounts_count ? can_accounts_count : avg
     # 查询可以绑定的账户
-    accounts = Account.waiting_bind_scope.where("server is null or server = '' or server = ? or server like ?",self.server,"#{self.server}|%").where("normal_at <= ?",Time.now).reorder("normal_at asc")
-    accounts = accounts.where("status = ?",opts[:status]) unless opts[:status].blank?
+    accounts = Account.waiting_bind_scope.joins(:roles).where("accounts.server is null or accounts.server = '' or accounts.server = ? or accounts.server like ?",self.server,"#{self.server}|%").where("accounts.normal_at <= ?",Time.now).reorder("roles.level desc").uniq().readonly(false)
+    accounts = accounts.where("accounts.status = ?",opts[:status]) unless opts[:status].blank?
     accounts = accounts.limit(limit)
     return if accounts.blank?
     accounts.each do |account|
       account.do_bind_computer(self,opts) # 绑定
     end
   end
-
 
 
 

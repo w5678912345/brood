@@ -43,7 +43,7 @@ class DataNodesController < ApplicationController
 		@days = @records.map(&:day)
 		all_data = chart_data(@records)
 
-		@key_status = ["bslocked","locked","discardforyears","lost","account_disable"]
+		@key_status = ["bslocked","locked","discardforyears","lost","exception","disconnect","discardbysailia"]
 		@d = []
 
 		type = 'column'

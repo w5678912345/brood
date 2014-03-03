@@ -1,0 +1,44 @@
+<% content_for :title do%>号码 <%= Phone::Btns[params[:do]]%><%end%>
+<fieldset>
+<legend>号码 <%= Phone::Btns[params[:do]]%></legend>
+<div class="alert">
+<strong>提示信息:</strong>
+<span>您选中了<%= @no.length %> 个号码，执行[<%= Phone::Btns[params[:do]]%>]操作!</span> 
+</div>
+
+
+
+<%= form_tag(do_checked_phones_path,:method => :put,:id=>"phone_checked_form",:class=>"form-horizontal") do -%>
+<%= hidden_field_tag :do,params[:do]%>
+
+<select name="no[]" multiple="multiple" style="display:none;">
+<% @no.each do |no|%>
+<option value="<%= no%>" selected="selected"><%= no%></option>
+<%end%>
+</select>
+
+<% if params[:do] == "set_status"%>
+<div class="control-group">
+<label class="control-label">账号状态:</label>
+<div class="controls docs-input-sizes" >
+	<%= select_tag "status",options_for_select(Phone::STATUS )%>
+</div>
+</div>
+
+<%end%>
+
+<div class="form-actions">
+  <%= submit_tag "确认执行", :class => "btn btn-primary"%>
+</div>
+
+<%end%>
+
+</fieldset>
+<script type="text/javascript">
+$(function(){
+$("#at").datepicker({dateFormat:"yy-mm-dd"});
+<% if flash[:error] %>
+ alert("<%= flash[:error]%>");
+<%end%>
+});
+</script>

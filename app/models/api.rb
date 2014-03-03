@@ -26,7 +26,10 @@ CODES = {
    :account_is_started => -20, # 账号启动
    :account_is_stopped => -21,  # 账号停止
    :not_valid => -22,
-   :computer_exception => -23
+   :computer_exception => -23,
+   :not_find_phone => -24,
+   :not_bind_phone => -25,
+   :not_fint_order => -26
   }
 
   EVENTS = {}
@@ -59,7 +62,7 @@ CODES = {
 
    # every day at 6:00 am
    def self.reset_ip_use_count
-     at = Time.now().ago(36.hours)
+     at = Time.now().ago(24.hours)
      i = Ip.where("use_count > 0").where("updated_at <= ?",at).update_all(:use_count => 0)
      Note.create(:role_id=>0,:ip=>"localhost",:api_name => "reset_ip",:msg=>"#{i} from #{at.to_s}")
    end

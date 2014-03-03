@@ -82,6 +82,12 @@ delete from notes where api_name = 'auto_pay';
 |    358698 | success           |
 +-----------+-------------------+
 
+
+select count(a.id),a.server from accounts as a inner join roles  as r on a.no = r.account
+  where a.status = 'bslocked' and a.bind_computer_id <1 and r.level > 50 group by a.server;
+
+
+
 # 迁移测试服 
 update notes set api_name = api_code where api_code in ('normal','bslocked','bslocked_again','bs_unlock_fail','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','disable')
 
@@ -99,7 +105,7 @@ delete from notes where api_name = 'answer_verify_code' and date(created_at) < '
 
 select count(id) delete from notes where api_name not in('computer_start','account_start','role_start','role_online') and date(created_at) < '2013-11-30';
 
-delete from notes where api_name not in('computer_start','account_start','role_start','role_online') and date(created_at) < '2013-12-05';
+delete from notes where api_name not in('computer_start','account_start','role_start','role_online') and date(created_at) < '2013-01-05';
 
 
 
@@ -109,3 +115,6 @@ delete from notes where api_name not in('computer_start','account_start','role_s
 # 导出测试服 NoRmsFile 的角色
 
 select DISTINCT r.account,r.password from roles as r inner join notes as n on r.id = n.role_id where r.level < 40 and n.api_name = 'NoRmsFile' into outfile '/tmp/noRmsFile.txt';
+
+
+select date(created_at),COUNT(if(api_name='role_start',id, null)) as role_s_count from notes where hours < 0.01 and created_at between '2013-11-18' and '2013-11-26' group by date(created_at);

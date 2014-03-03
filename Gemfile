@@ -1,5 +1,5 @@
-#source 'https://rubygems.org'
-source 'http://ruby.taobao.org'
+source 'https://rubygems.org'
+#source 'http://ruby.taobao.org'
 gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:   hello
@@ -20,9 +20,10 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 
 end
-
+#gem 'jekyll'
 gem 'jquery-rails'
 
+gem 'formtastic'
 gem 'devise' # user auth
 gem 'will_paginate', '~> 3.0' #pages
 gem 'bootstrap-will_paginate' #
@@ -47,20 +48,22 @@ gem 'aliyun-oss', '~> 0.7.0.1349333720' #
 
 group :development,:test do
   gem 'better_errors'
-	#gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
-	gem 'pry', '~> 0.9.12.2' #调试
-  
+  #gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
+  gem 'pry', '~> 0.9.12.2' #调试
+
   gem 'thin', require: false #
   gem 'rspec', '2.14.1'
   gem 'rspec-rails','2.14.0'
   gem 'factory_girl','4.3.0'
   gem "factory_girl_rails",'4.3.0'
   gem 'capybara','2.2.0'
+  gem 'faker'
+
 end
 gem "highcharts-rails", "~> 3.0.7"
 
 # group :test do 
-# 	gem "rspec", "~> 2.14.1"
+#   gem "rspec", "~> 2.14.1"
 # end
 
 

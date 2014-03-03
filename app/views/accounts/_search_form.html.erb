@@ -26,6 +26,13 @@
 <option value="1" <%= 'selected="selected"' if params[:ts] == "1" %>>Yes</option>
 <option value="0" <%= 'selected="selected"' if params[:ts] == "0" %> >No</option>
 </select>
+绑定手机:
+<select name="bind_phone" class="input-small">
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:bind_phone] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:bind_phone] == "0" %> >No</option>
+</select>
+<input type="text" name="phone" value="<%= params[:phone]%>" class="input-small" placeholder="手机" title=""  />
 <hr style="margin:5px 0;">
 状态:
 <select name="status" class="input-medium"  >
@@ -34,8 +41,13 @@
 <option value="<%= status%>" <%= 'selected="selected"' if params[:status] == status %>><%= status %></option>
 <%end%>
 </select>
-<!-- <label class="checkbox"><input type="checkbox"  name="not_status" value="1"  />多状态</label> -->
+<label class="checkbox">
+解锁:<input type="checkbox" name="unlocked" value="1" <%= 'checked="checked"' unless params[:unlocked].blank? %>  /> 
+</label>
+<input type="text" name="unlocked_at" id="unlocked_at" value='<%= params[:unlocked_at]%>' class="input-small" placeholder="解锁日期"  />
 <input type="text" name="date(created_at)" id="created_at" value='<%= params["date(created_at)"]%>' class="input-small" placeholder="注册日期"  />
+<!-- <label class="checkbox"><input type="checkbox"  name="not_status" value="1"  />多状态</label> -->
+
 自动:
 <select name="auto" class="input-small">
 <option value="" >-All-</option>
@@ -61,8 +73,9 @@ To<input type="text" name="max_nat" id="max_nat" value='<%= params[:max_nat]%>' 
 <script type="text/javascript">
 $(function(){
 	$("#created_at").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+	$("#unlocked_at").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
 	$("#min_nat").datepicker({dateFormat:"yy-mm-dd"});
 	$("#max_nat").datepicker({dateFormat:"yy-mm-dd",maxDate:$("#min_nat").val()});
-	
+
 });
 </script>

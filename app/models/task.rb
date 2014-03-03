@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Task < ActiveRecord::Base
    attr_accessible :user_id, :role_id,:computer_id,:sup_id
    attr_accessible :name,:command,:args,:code,:remark

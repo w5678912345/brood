@@ -11,7 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20140302130426) do
+=======
+ActiveRecord::Schema.define(:version => 20140228055446) do
+>>>>>>> 61116fb5fdbaf9ce104c6dbed79e9c966f6776d1
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false

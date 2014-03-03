@@ -1,5 +1,11 @@
 Brood::Application.routes.draw do
+
   resources :role_sessions
+
+  resources :instance_maps
+
+
+  resources :links
 
 
   #
@@ -122,7 +128,19 @@ Brood::Application.routes.draw do
   #     get :test,  :on => :collection
        
   # end
-
+  resources :phones do 
+    put   :checked,     :on => :collection
+    put   :do_checked,  :on => :collection
+  end
+  resources :phone_machines do
+    member do
+      get :can_unlock_accounts
+    end
+  end
+  resources :orders,:only =>[:index] do
+    put   :checked,     :on => :collection
+    put   :do_checked,  :on => :collection
+  end
   namespace :analysis do
     resource :oneday, :only =>[:show], controller: 'oneday'
     get "/oneday/roles/:mark" => "oneday#roles",:as => "roles_oneday"
@@ -171,6 +189,7 @@ Brood::Application.routes.draw do
       get :sync,      :on => :collection
       get :stop,      :on => :collection
       get :note,      :on => :collection
+      get :set,       :on => :collection
     end
     resources :tasks ,:only =>[],:defaults => {:format => 'json'} do
       match :pull,    :on => :collection
@@ -206,12 +225,14 @@ Brood::Application.routes.draw do
       match :sync,   :on => :collection
       match :note,   :on => :collection
       match :look,   :on => :collection
+ 
       # match :get,    :on => :member
       # match :set,    :on => :member
       # match :put,    :on => :member
     end
 
     resources :account, :only => [:index,:show],controller: 'account',:defaults => {:format => 'json'} do 
+      match :bind_phone, :on => :collection
       match :auto,   :on => :collection
       match :start,  :on => :collection
       match :stop,   :on => :collection
@@ -224,9 +245,35 @@ Brood::Application.routes.draw do
       match :role_note,  :on => :collection
       match :role_pay,   :on => :collection
       match :role_stop,  :on => :collection
-
-     
+      match :sub_order,  :on => :collection
+      match :unlock,     :on => :collection
+      match :role_start_count, :on => :collection
     end
+    resources :phone_machine do
+      match :bind_phones, :on => :collection
+      match :can_unlock_accounts, :on => :collection
+      match :shutdown, :on => :collection
+    end
+    resources :phones,:only => [:show] do 
+      match :get,  :on => :collection
+      match :get_unlock, :on => :collection
+      match :bind, :on => :collection
+      match :set_can_bind, :on => :collection
+      match :pull, :on => :collection
+      match :pulls, :on => :collection
+      match :sent, :on => :collection
+    end
+    resources :orders, :only => [:show] do
+      match :sub,  :on => :collection
+      match :get,  :on => :collection
+      match :end,  :on => :collection
+    end
+
+    resources :maps, :only => [:show] do 
+      get :valid,   :on => :collection
+    end
+
+    
 
   end
 

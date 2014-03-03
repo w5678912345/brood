@@ -1,0 +1,19 @@
+Tianyi 副本控制
+
+1.服务器在调度时候，返回需要使用的副本( 副本名称，ID，准入等级(范围)，产币量，同时在线警戒线，和死亡线)
+2.角色两个事件，没有副本和副本不可用
+3.
+
+
+Instance 副本
+
+id，
+name，
+min_level,
+max_level,
+gold,
+enabled,
+
+rails g scaffold instance_map name:string min_level:integer max_level:integer gold:integer  enabled:boolean safety_limit:integer death_limit:integer enter_count:integer remark:string  
+
+

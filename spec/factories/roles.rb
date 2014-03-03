@@ -13,5 +13,8 @@ FactoryGirl.define do
   end
   factory :online_role,:parent => :role do
   	association :qq_account,factory: :online_account
+  	password "12345678"
+  	account "123456789"
+  	level 35
   end
 end

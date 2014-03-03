@@ -21,7 +21,7 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 <tbody>
 <tr>
 <td colspan="2">new API (采用RESTFUL原则重新设计API)</td>
-<td rowspan="24">
+<td rowspan="35">
 <ul>
 	<% Api::CODES.each do | key, value | %>
 	<li><%= value %>  => <%= key %></li>
@@ -50,7 +50,7 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 </tr>
 <tr>
 <td>computers/start.json</td>
-<td>通过ckey 启动计算机，参数： msg => 消息, ckey => 计算机key, version => 版本</td> 
+<td>通过ckey 启动计算机，参数： msg => 消息, ckey => 计算机key, version => 版本, hostname => 机器名</td> 
 </tr>
 
 <tr>
@@ -60,6 +60,10 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 
 <tr>
 <th colspan="2">帐号API</th>
+</tr>
+<tr class="error">
+<td>account/role_start_count.json</td>
+<td>角色在线数量 参数: ckey => 计算机key, level => 角色等级, target => 副本</td> 
 </tr>
 <tr class="error">
 <td>account/reg.json</td>
@@ -123,8 +127,23 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 <td>account/role_stop.json</td>
 <td>参数：id => 账号, rid => 角色ID ckey => 计算机key, success => 成功(1表示成功) </td>
 </tr>
+<tr class="warning">
+<td>account/unlock.json</td>
+<td>参数：id => 账号, phone_id => 电话号码, result=>结果(normal,recycle,phone_can_not_unlock),msg=>消息 </td>
+</tr>
 
-
+<tr class="error">
+<td>orders/sub.json</td>
+<td>提交短信工单 参数：phone_id => 手机号 , account_id => 账号, event => 触发事件, sms => 发送内容 </td>
+</tr>
+<tr class="error">
+<td>orders/:id.json</td>
+<td>获取工单信息 参数：id => 工单ID </td>
+</tr>
+<tr class="error">
+<td>orders/end.json</td>
+<td>获取工单信息 参数：id => 工单ID, result=> 工单的结果, msg => 消息 </td>
+</tr>
 
 <tr>
 <th colspan="2">任务API</th>
@@ -141,8 +160,57 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 </tr>
 
 
+<tr>
+<th colspan="2">手机相关</th>
+</tr>
+
+<tr>
+<td>phones/get.json</td>
+<td>得到可以绑定的手机 与账号 参数 server 服务器</td> 
+</tr>
+<tr class="warning">
+<td>phones/get_unlock.json</td>
+<td>得到需要unlock的手机 与账号, 参数 server 服务器</td> 
+</tr>
+<tr>
+<td>phones/bind.json</td>
+<td>手机与账号绑定, no => 手机, id => 账号</td> 
+</tr>
+<tr>
+<td>phones/set_can_bind.json</td>
+<td>设置手机是否可以绑定, no => 手机, bind => 1表示yes | 0表示no</td> 
+</tr>
+
+<tr>
+<td>phones/pull.json</td>
+<td>pull phones，参数 name => phone_machine的名称</td> 
+</tr>
+
+<tr class="error">
+<td>phones/sent.json</td>
+<td>修改手机状态为已发送 sent 参数 no => 手机号码, link_id => 通道ID</td> 
+</tr>
 
 
+<tr>
+<td>phone_machine/bind_phones.json</td>
+<td>将手机关联到指明的机器, name => phone_machine的name,phones => 以逗号分隔的电话号码集</td> 
+</tr>
+
+<tr>
+<td>phone_machine/shutdown.json</td>
+<td>机器停机，修改机器所有号码 enabled = false, name => phone_machine的name</td> 
+</tr>
+
+<tr>
+<td>phone_machine/can_unlock_accounts.json</td>
+<td>获取当前机器可以解绑的号码, name => phone_machine的name,count => 要获取的数量</td> 
+</tr>
+
+<tr>
+<td>maps/valid.json</td>
+<td>根据角色ID，取的一个可用的副本。 如果取到副本返回{"key":副本ID,"name":"副本名称"} 否则返回{"code":-1}</td> 
+</tr>
 
 </tbody>
 </table>

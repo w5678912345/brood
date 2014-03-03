@@ -26,4 +26,9 @@ SELECT COUNT(DISTINCT role_id) as role_count,ip_range_count  from (SELECT  role_
 +------------+----------------+
 
 
+update accounts set bind_computer_id = 0 where no in(
+select accounts.no from accounts inner join computers on accounts.bind_computer_id = computers.id
+	where accounts.server != computers.server );
 
+
+update accounts inner join computers on accounts.bind_computer_id = computers.id set accounts.bind_computer_id = 0 where accounts.server != computers.server ;

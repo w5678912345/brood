@@ -5,6 +5,8 @@
 <span class="add-on">-</span>
 <input type="text" name="end_date" id="end_date" value=<%=@end_date%> class="input-medium" placeholder="to" style="width:90px;" value="<%= @end_date.to_s %>" />
 <input type="text" name="server" class="input-small" placeholder="服务器" value="<%= params[:server]%>" />
+<input type="text" name="cid" class="input-small" placeholder="机器ID" value="<%= params[:cid]%>" />
+<input type="text" name="account" class="input-small" placeholder="账号" value="<%= params[:account]%>" />
 </div>
 <button type="submit" class="btn">Search</button>
 </form>

@@ -5,19 +5,21 @@ class Account < ActiveRecord::Base
     #STATUS = ['normal','bslocked','bslocked_again','bs_unlock_fail','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','discardfordays','discardbysailia','discardforyears']
     #CAN_START_STATUS=['normal','bslocked','disconnect','exception']
     # 账号可能发生的事件
-    EVENT = ['bslock','bs_unlock_fail','bs_unlock_success','code_error']
-    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线","set_status"=>"修改状态","edit_normal_at"=>"修改冷却时间","bind_this_computer"=>"绑定指定机器","set_server"=>"修改服务器","set_can_start"=>"设置账号可用","export" =>"导出账号"}
+    EVENT = ['bslock','bs_unlock_fail','bs_unlock_success','code_error','wrong_password']
+    Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线","set_status"=>"修改状态","edit_normal_at"=>"修改冷却时间",
+      "bind_this_computer"=>"绑定指定机器","set_server"=>"修改服务器","export" =>"导出账号","add_sms_order"=>"添加工单"}
 
     # 需要自动恢复normal的状态
     Auto_Normal = {"disconnect"=>2,"exception"=>3,"lost"=>0,"bslocked"=>72,"bs_unlock_fail"=>72}
     #
     STATUS = {"normal" => 0,"bslocked"=>72,"bslocked_again"=>72,"bs_unlock_fail"=>72,"disconnect"=>2,"exception"=>3,
       "locked"=>1200, "lost"=>24,"discard"=>1200,"no_rms_file"=>1200,"no_qq_token"=>1200,
-      "discardfordays"=>72,"discardbysailia"=>240,"discardforyears"=>12000,"account_disable"=>1200}
+      "discardfordays"=>72,"discardbysailia"=>240,"discardforyears"=>12000,"discardforverifycode"=>1200,"recycle"=>12000}
+
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
     attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at,:today_success,:last_start_ip
-    attr_accessible :remark,:is_auto
+    attr_accessible :remark,:is_auto,:phone_id,:normal_at,:unlock_phone_id,:unlocked_at
     attr_accessor :online_roles 
     #所属服务器
 	  belongs_to :game_server, :class_name => 'Server', :foreign_key => 'server',:primary_key => 'name'
@@ -32,6 +34,8 @@ class Account < ActiveRecord::Base
    	belongs_to :online_computer, :class_name => 'Computer', :foreign_key => 'online_computer_id' 
     #绑定机器
     belongs_to :bind_computer,  :class_name => 'Computer', :foreign_key => 'bind_computer_id'
+    #绑定的电话
+    belongs_to :phone
     #包含角色
     has_many   :roles, :class_name => 'Role', :foreign_key => 'account', :primary_key => 'no'
 
@@ -53,6 +57,9 @@ class Account < ActiveRecord::Base
     scope :unbind_scope ,where("bind_computer_id = -1") # 不能绑定
     scope :un_normal_scope,where("status != 'normal' ") # 非正常状态的账号
     scope :no_server_scope,where("server is null or server = '' ") #服务器为空的账号 
+    scope :bind_phone_scope, where("phone_id is not null and phone_id != '' ") # 绑定手机的账号
+    scope :unbind_phone_scope, where("phone_id is null || phone_id = '' ") # 未绑定手机的账号
+    scope :unlocked_scope,where("unlock_phone_id is not null and unlock_phone_id != '' ") 
 
     # session_id > 0 表示正在运行
     def is_started?
@@ -133,7 +140,10 @@ class Account < ActiveRecord::Base
         end
         # 记录账号发生的事件
         api_name = event if EVENT.include? event # 如果定义了有效事件，设置api_name => event
-        
+        if status == 'discardfordays'
+            count = Note.where(:api_name=>"discardfordays").where("date(created_at)=?",Date.today.to_s).count
+            computer.update_attributes(:status=>0) if count >= Setting.account_discardfordays
+        end
         Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:role_id => self.online_role_id,:ip=>opts[:ip],:api_name => api_name,
           :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id,:api_code=>api_code)
         return 1 if self.update_attributes(:updated_at => Time.now)
@@ -144,40 +154,43 @@ class Account < ActiveRecord::Base
 
     # 停止帐号
     def api_stop opts
+      self.transaction do 
       # 判断账号是否在线
       return CODES[:account_is_stopped] unless self.is_started?
       # 停止已启动的角色
       self.roles.started_scope.each do |role|
         role.api_stop(opts)
       end
-      # 当前 session
-      session = self.session
-      computer = session.computer
-      self.transaction do 
-      # 创建stop 记录
-       Note.create(:account => self.no, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_stop',:msg=>opts[:msg],
-         :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:session_id=>session.id)
-       
-       computer.decrement(:online_accounts_count,1).save if computer.online_accounts_count > 0 # 修改机器的上线账号数量
-       # 更新 session    
-       now = Time.now
-       hours = (now - session.created_at)/3600
-      
-       #p "=====================#{self.online_role_ids}====#{session.success_role_ids}"
-       # 参数成功，或者online 的角色 等于 success 的角色 表示本次会话成功
-       at = Time.now
-       if opts[:success].to_i ==1
-          self.today_success = session.success = true
-          at = session.created_at
-          at = at.since(1.day) if (6..23).include?(at.hour)
-          self.normal_at = at.change(:hour => 6,:min => 0,:sec => 0)
-       else
-        self.normal_at = Time.now.since(Account::STATUS[self.status].hours)
-       end
-       
-       # 完成session 
-       session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
-        # 修改角色 online
+      computer = Computer.find_by_id(opts[:cid])
+      unless self.session.nil?
+        # 当前 session
+        session = self.session
+        computer = session.computer
+        
+        # 创建stop 记录
+         Note.create(:account => self.no, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_stop',:msg=>opts[:msg],
+           :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:session_id=>session.id)
+         
+         # 更新 session    
+         now = Time.now
+         hours = (now - session.created_at)/3600
+        
+         #p "=====================#{self.online_role_ids}====#{session.success_role_ids}"
+         # 参数成功，或者online 的角色 等于 success 的角色 表示本次会话成功
+         at = Time.now
+         if opts[:success].to_i ==1
+            self.today_success = session.success = true
+            at = session.created_at
+            at = at.since(1.day) if (6..23).include?(at.hour)
+            self.normal_at = at.change(:hour => 6,:min => 0,:sec => 0)
+         else
+          self.normal_at = Time.now.since(Account::STATUS[self.status].hours) if Account::STATUS.has_key?(status)
+         end
+         # 完成session 
+         session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
+      end
+       computer.decrement(:online_accounts_count,1).save if computer && computer.online_accounts_count > 0
+      # 修改角色 online
        self.roles.update_all(:online => false)
        # 修改账号的session_id 为0 并清空上线 IP
        return 1 if self.update_attributes(:session_id=>0,:online_ip=>nil)
@@ -206,6 +219,7 @@ class Account < ActiveRecord::Base
       accounts = accounts.where("roles_count = ?",opts[:roles_count].to_i) unless opts[:roles_count].blank?
       accounts = accounts.where("bind_computer_id = ?",opts[:bind_cid].to_i) unless opts[:bind_cid].blank?
       accounts = accounts.where(:is_auto => opts[:auto].to_i) unless opts[:auto].blank?
+      accounts = accounts.where("phone_id like ?","%#{opts[:phone]}%") unless opts[:phone].blank?
       accounts = accounts.where("normal_at >= ?",opts[:min_nat]) unless opts[:min_nat].blank?
       accounts = accounts.where("normal_at <= ?",opts[:max_nat]) unless opts[:max_nat].blank?
       #
@@ -220,6 +234,11 @@ class Account < ActiveRecord::Base
       unless opts[:ss].blank?
         accounts = accounts.where("status in (?)",opts[:ss])
       end
+      unless opts[:bind_phone].blank?
+        accounts = opts[:bind_phone].to_i == 0 ? accounts.unbind_phone_scope : accounts.bind_phone_scope
+      end
+      accounts = accounts.unlocked_scope unless opts[:unlocked].blank?
+      accounts = accounts.where("date(unlocked_at) =? ",opts[:unlocked_at]) unless opts[:unlocked_at].blank?
       # 根据在线IP 查询账户
       accounts = accounts.where("online_ip like ?","%#{opts[:online_ip]}%") unless opts[:online_ip].blank?
       accounts = accounts.where("online_computer_id = ?",opts[:online_cid].to_i) unless opts[:online_cid].blank?
@@ -283,8 +302,8 @@ class Account < ActiveRecord::Base
 
    # 自动禁用账号的绑定
    def self.auto_unbind
-      
-      updated_at = Time.now.ago(336.hours).change(:hour => 6)
+
+      updated_at = Time.now.ago(120.hours).change(:hour => 6)
       accounts = Account.stopped_scope.bind_scope.where("updated_at <= ? ",updated_at)
       accounts.each do |account|
            account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto",:bind=>0})
@@ -295,7 +314,7 @@ class Account < ActiveRecord::Base
       accounts.each do |account|
           account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto",:bind=>-1})
       end
-      # return 0
+
    end
 
 
@@ -365,6 +384,14 @@ class Account < ActiveRecord::Base
       return self.game_server if self.game_server
       tmp = self.server.split("|")
       return Server.find_by_name(tmp[0]) if tmp.length == 2
+    end
+
+    def is_bind_phone
+      return !self.phone_id.blank?
+    end
+
+    def was_unlocked
+      return !self.unlock_phone_id.blank?
     end
 
     before_create :init_data

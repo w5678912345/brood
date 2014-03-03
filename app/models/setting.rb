@@ -71,4 +71,9 @@ class Setting < ActiveRecord::Base
 		return 1
 	end
 
+	def self.account_discardfordays
+		val = find_value_by_key("account_discardfordays")
+		return val == nil ? 1 : val
+	end
+
 end

@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @instance_map.name %>
+</p>
+
+<p>
+  <b>Min level:</b>
+  <%= @instance_map.min_level %>
+</p>
+
+<p>
+  <b>Max level:</b>
+  <%= @instance_map.max_level %>
+</p>
+
+<p>
+  <b>Gold:</b>
+  <%= @instance_map.gold %>
+</p>
+
+<p>
+  <b>Enabled:</b>
+  <%= @instance_map.enabled %>
+</p>
+
+<p>
+  <b>Safety limit:</b>
+  <%= @instance_map.safety_limit %>
+</p>
+
+<p>
+  <b>Death limit:</b>
+  <%= @instance_map.death_limit %>
+</p>
+
+<p>
+  <b>Enter count:</b>
+  <%= @instance_map.enter_count %>
+</p>
+
+<p>
+  <b>Remark:</b>
+  <%= @instance_map.remark %>
+</p>
+
+
+<%= link_to 'Edit', edit_instance_map_path(@instance_map) %> |
+<%= link_to 'Back', instance_maps_path %>

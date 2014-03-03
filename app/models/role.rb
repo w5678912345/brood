@@ -2,7 +2,7 @@
 class Role < ActiveRecord::Base
 	include RoleApi
 
-  STATUS = ['normal','disable']
+  STATUS = ['normal','disable','discardforverifycode','disableforlevel']
   EVENT = ['answer_verify_code','restart_game','weak']
   Btns = {"set_status"=>"修改状态"}
 
@@ -68,7 +68,7 @@ class Role < ActiveRecord::Base
     self.transaction do
        #创建session
        session = Note.create(:computer_id => computer.id, :account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,
-       :api_name=>"role_start",:server=> self.server || computer.server,:msg=>opts[:msg],:level=>self.level,:session_id =>account_session.id,:version=>computer.version)
+       :api_name=>"role_start",:server=> self.server || computer.server,:msg=>opts[:msg],:level=>self.level,:session_id =>account_session.id,:version=>computer.version,:target=>opts[:target])
       # 修改账号的当前角色
       self.qq_account.update_attributes(:online_role_id => self.id)
       self.role_session = RoleSession.create! :start_level => self.level
@@ -96,8 +96,9 @@ class Role < ActiveRecord::Base
      self.total = self.total_pay + self.gold if self.gold_changed?
      # 
      self.transaction do
+      self.qq_account.update_attributes(:updated_at => Time.now)
       # 修改角色在线时间
-      self.session.update_hours
+      self.session.update_hours(opts[:target])
       # 修改角色最后访问时间
       return 1 if self.update_attributes(:updated_at => Time.now)
      end
@@ -131,6 +132,7 @@ class Role < ActiveRecord::Base
   # 角色停止
   def api_stop opts
     return CODES[:role_is_stopped] unless self.is_started?
+    if self.qq_account.session && self.session
     account_session = self.qq_account.session
     session = self.session
     computer = session.computer
@@ -149,6 +151,7 @@ class Role < ActiveRecord::Base
       Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,:version=>computer.version,
        :api_name=>"role_stop",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=> account_session.id)
       # 清空会话
+      end
       return 1 if self.update_attributes(:session_id => 0)
     end
   end
@@ -208,6 +211,7 @@ class Role < ActiveRecord::Base
       roles = roles.where("vit_power = ?",tmp_vit[0].to_i) if tmp_vit.length == 1
       roles = roles.where("vit_power >= ? and vit_power <= ?",tmp_vit[0].to_i,tmp_vit[1].to_i) if tmp_vit.length == 2 
     end
+    
     return roles
   end
 

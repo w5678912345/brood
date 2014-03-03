@@ -1,5 +1,6 @@
 /*
  *= require_tree .
+ *= require formtastic
  */
 body { padding-top:45px; }
 
@@ -9,6 +10,7 @@ body { padding-top:45px; }
 .form-search .input-select {width:90px;}
 
 select{margin-bottom: 0px;color: #b94a48;font-weight: bold;}
+
 /* css for timepicker */
 .ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
 .ui-timepicker-div dl { text-align: left; }
@@ -21,3 +23,4 @@ select{margin-bottom: 0px;color: #b94a48;font-weight: bold;}
 .ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
 .ui-timepicker-rtl dl dt{ float: right; clear: right; }
 .ui-timepicker-rtl dl dd { margin: 0 40% 10px 10px; }
+

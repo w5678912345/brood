@@ -79,10 +79,60 @@ class Api::AccountController < Api::BaseController
 		render :partial => 'api/result'
 	end
 
+
+	def role_start_count
+		 @records = Note.where(:api_name => "role_start").where(:ending=>false)
+		 @records = @records.where(:level => params[:level].to_i) unless params[:level].blank?
+		 @records = @records.where(:target => params[:target]) unless params[:target].blank?
+		 @start_count = @records.count("DISTINCT role_id")
+		 render :json => {:role_start_count => @start_count}
+	end
+
+	# @records = Note.where(:api_name => "role_start").where(:ending=>false)
+	# 	 @records = @records.where(:level => params[:level].to_i) unless params[:level].blank?
+	# 	 counts = []
+	# 	 unless params[:target].blank?
+	# 	 	targets = params[:target].split(",")
+	# 	 	targets.each do |t|
+	# 	 		count = @records.where(:target=>t).count("DISTINCT role_id")
+	# 	 		counts << count
+	# 	 	end
+	# 	 end
+	# 	 render :json => {:targets => targets, :counts => counts}
+		 #@records = @records.where(:target => params[:target]) unless 
+
 	def reg
 		@account = Account.new(:no=>params[:id],:password=>params[:pwd],:remark=>params[:remark],:is_auto=>true)
 		@code = @account.api_reg params,@computer
 		render :partial => '/api/result'
+	end
+	def bind_phone
+		@account = Account.find_by_no(params[:id])
+		@account.phone_id = params[:phone_no]
+		@account.save!
+		@code = 1
+		render :partial => '/api/result'
+	end
+
+	def unlock
+		@phone = Phone.where(:can_unlock=>true).find_by_no(params[:phone_id])
+		return render :json => {:code => CODES[:not_find_phone]} unless @phone
+		
+		@account = Account.where(:status=>"locked").find_by_no(params[:id])
+		return render :json => {:code => CODES[:not_find_account]} unless @account
+		result = params[:result]
+		if result == "normal"
+			@code = 1 if @account.update_attributes(:status=>"normal",:normal_at=>Time.now,:unlock_phone_id=>@phone.no,:unlocked_at=>Time.now)
+			@account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto by unlock",:bind=>0})
+		elsif result == "recycle"
+			@code = 1 if @account.update_attributes(:status=>"recycle",:normal_at=>Time.now.since(10.years))
+		elsif result == "phone_can_not_unlock"
+			@code = 1 if @phone.update_attributes(:can_unlock=>0)
+		else
+			@code = 0
+		end
+		@account.update_attributes(:remark=>"#{@account.remark} #{result} #{params[:msg]}")
+		render :json=>{:code=>@code,:msg=>result}
 	end
 
 	private
@@ -149,9 +199,6 @@ class Api::AccountController < Api::BaseController
 		@code = CODES[:not_find_role] unless @role
 		return  render :partial => 'api/result' unless @role
 	end
-
-
-
 
 
 end

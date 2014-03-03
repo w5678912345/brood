@@ -33,6 +33,10 @@ every 30.minutes do
   runner 'TimeTask.auto_stop',:environment => str_environment
 end
 
+every 10.minutes do
+  runner 'TimeTask.every_10_minutes',:environment => str_environment
+end
+
 #
 # every 60.minutes do
 #   runner 'Account.auto_normal',:environment => str_environment
