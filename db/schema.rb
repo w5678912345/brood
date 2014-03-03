@@ -239,6 +239,7 @@ ActiveRecord::Schema.define(:version => 20140302130426) do
     t.integer  "start_level"
     t.integer  "start_gold"
     t.integer  "start_exp"
+    t.string   "ip"
     t.integer  "used_gold",        :default => 0
     t.integer  "exchanged_gold",   :default => 0
     t.string   "task"

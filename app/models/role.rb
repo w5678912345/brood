@@ -71,7 +71,7 @@ class Role < ActiveRecord::Base
        :api_name=>"role_start",:server=> self.server || computer.server,:msg=>opts[:msg],:level=>self.level,:session_id =>account_session.id,:version=>computer.version)
       # 修改账号的当前角色
       self.qq_account.update_attributes(:online_role_id => self.id)
-      self.role_session = RoleSession.create! :start_level => self.level,:start_gold => self.total,:computer_id => self.qq_account.online_computer.id
+      self.role_session = RoleSession.create! :start_level => self.level,:start_gold => self.total,:computer_id => self.qq_account.online_computer.id,:live_at => Time.now,:ip => opts[:ip]
       # 修改角色 session
        return 1 if self.update_attributes(:session_id => session.id)
     end
@@ -217,6 +217,7 @@ class Role < ActiveRecord::Base
 
   def self.auto_stop
     last_at = Time.now.ago(10.minutes).strftime("%Y-%m-%d %H:%M:%S")
+    print last_at
     roles = Role.where("session_id > 0").where("updated_at < '#{last_at}'")
     roles.each do |role|
       role.api_stop(opts={:ip=>"localhost"})
