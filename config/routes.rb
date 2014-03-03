@@ -1,11 +1,11 @@
 Brood::Application.routes.draw do
 
+
   resources :role_sessions
 
   resources :instance_maps
-
-
   resources :links
+
 
 
   #

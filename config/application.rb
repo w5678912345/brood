@@ -46,18 +46,6 @@ module Brood
             :feature_specs => true 
         g.fixture_replacement :factory_girl, :dir => "spec/factories"
     end
-
-	config.generators do |g| 
-        g.test_framework :rspec,
-            :fixtures => true, 
-            :view_specs => false, 
-            :helper_specs => false, 
-            :routing_specs => false, 
-            :controller_specs => true, 
-            :request_specs => false,
-            :feature_specs => true 
-        g.fixture_replacement :factory_girl, :dir => "spec/factories"
-    end
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 

@@ -1,7 +1,7 @@
 <form class="form-search" action="<%= path %>">
 
-<input type="text" name="start_date" id="start_date" class="input-small" placeholder="起始日期" value="<%= params[:start_date]%>" />-
-<input type="text" name="end_date" id="end_date" class="input-small" placeholder="结束日期" value="<%= params[:end_date]%>" />
+<input type="text" name="start_time" id="start_time" class="input-medium" placeholder="起始时间" value="<%= params[:start_time]%>" />-
+<input type="text" name="end_time" id="end_time" class="input-medium" placeholder="结束时间" value="<%= params[:end_time]%>" />
 <input type="text" name="server" class="input-small" placeholder="区" value="<%= params[:server]%>" />
 <input type="text" name="account" class="input-small" placeholder="账号" value="<%= params[:account]%>" />
 <input type="text" name="cid" class="input-small" placeholder="机器ID" value="<%= params[:cid]%>" />
@@ -41,8 +41,8 @@
 
 <script type="text/javascript">
 $(function(){
-	$("#start_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
-	$("#end_date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
+	$("#start_time").datetimepicker({dateFormat:"yy-mm-dd",timeFormat:"HH:mm:ss"});
+	$("#end_time").datetimepicker({dateFormat:"yy-mm-dd",timeFormat:"HH:mm:ss"});
 	$("#date").datepicker({dateFormat:"yy-mm-dd",maxDate:new Date()});
 });
 </script>

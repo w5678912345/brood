@@ -1,13 +1,18 @@
 <form class="form-search" action="<%= gold_trade_path %>">
 日期:
-  <input type="text" name="start_date" id="start_date" class="input-medium search-query" placeholder="开始时间" value="<%= params[:start_date]%>" />-
-  <input type="text" name="end_date" id="end_date" class="input-medium search-query" placeholder="截止时间" value="<%= params[:end_date]%>" />  
+   <input type="text" name="start_time" id="start_time" class="input-medium search-query" placeholder="开始时间" value="<%= params[:start_time]%>" />-
+  <input type="text" name="end_time" id="end_time" class="input-medium search-query" placeholder="截止时间" value="<%= params[:end_time]%>" />  
   <button type="submit" class="btn">Search</button>
 </form>
 
 <script type="text/javascript">
 $(function(){
+<<<<<<< HEAD
 	$("#start_date").datetimepicker({dateFormat:"yy-mm-dd",timeFormat:"HH:mm:ss"});
 	$("#end_date").datetimepicker({dateFormat:"yy-mm-dd",timeFormat:"HH:mm:ss"});
+=======
+	$("#start_time").datetimepicker({dateFormat:"yy-mm-dd",timeFormat:"HH:mm:ss"});
+	$("#end_time").datetimepicker({dateFormat:"yy-mm-dd",timeFormat:"HH:mm:ss"});
+>>>>>>> master
 });
 </script>

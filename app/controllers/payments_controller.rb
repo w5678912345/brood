@@ -8,10 +8,14 @@ class PaymentsController < ApplicationController
 		end
 		
 		def index
+			now = Time.now
+			params[:start_time] = now.change(:hour => 0,:min => 0,:sec => 0).strftime("%Y-%m-%d %H:%M:%S") if params[:start_time].blank?
+			params[:end_time] = now.since(1.day).change(:hour => 0,:min => 0,:sec => 0).strftime("%Y-%m-%d %H:%M:%S") if params[:end_time].blank?
+
 			@payments = Payment.includes(:role).order("id DESC")
 			@payments = @payments.where(:role_id => params[:role_id]) unless params[:role_id].blank?
-			@payments = @payments.where("created_at >= '#{params[:min_time]}'") unless params[:min_time].blank?
-			@payments = @payments.where("created_at <= '#{params[:max_time]}'") unless params[:max_time].blank?
+			@payments = @payments.where("created_at >= ?",params[:start_time]) unless params[:start_time].blank?
+			@payments = @payments.where("created_at <= ?",params[:end_time]) unless params[:end_time].blank?
 			@payments = @payments.where("gold >= #{params[:min_gold]}") unless params[:min_gold].blank?
 			@payments = @payments.where("gold <= #{params[:max_gold]}") unless params[:max_gold].blank?
 			@payments = @payments.where("server like ?","%#{params[:server]}%") unless params[:server].blank?
