@@ -6,10 +6,10 @@ class CreateRoleSessions < ActiveRecord::Migration
       t.integer :start_level
       t.integer :start_gold
       t.integer :start_exp
-      t.integer :used_gold
-      t.integer :exchanged_gold
+      t.integer :used_gold,:default => 0
+      t.integer :exchanged_gold,:default => 0
       t.string :task
-      t.integer :connection_times
+      t.integer :connection_times,:default => 0
       t.datetime :live_at
 
       t.timestamps

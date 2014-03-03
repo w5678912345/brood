@@ -9,6 +9,7 @@ FactoryGirl.define do
   	total 2000000
   	online true
   	session_id 0
+
   	association :qq_account,factory: :account
   end
   factory :online_role,:parent => :role do
