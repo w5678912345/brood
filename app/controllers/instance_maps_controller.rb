@@ -2,7 +2,7 @@ class InstanceMapsController < ApplicationController
   # GET /instance_maps
   # GET /instance_maps.json
   def index
-    @instance_maps = InstanceMap.all
+    @instance_maps = InstanceMap.include_role_count.all
 
     respond_to do |format|
       format.html # index.html.erb
