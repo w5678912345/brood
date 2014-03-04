@@ -59,8 +59,11 @@ class Role < ActiveRecord::Base
   # 角色开始
   def api_start opts
     return 0 unless self.online
-    return CODES[:role_is_started] if self.is_started?
-
+    if self.is_started?
+      self.role_session.connection_times+=1
+      self.role_session.save
+      return CODES[:role_is_started] 
+    end
     return CODES[:account_is_stopped] unless self.qq_account.is_started?  # 账户未开始，角色不能开始
     account_session = self.qq_account.session
     computer = account_session.computer
@@ -71,7 +74,7 @@ class Role < ActiveRecord::Base
        :api_name=>"role_start",:server=> self.server || computer.server,:msg=>opts[:msg],:level=>self.level,:session_id =>account_session.id,:version=>computer.version,:target=>opts[:target])
       # 修改账号的当前角色
       self.qq_account.update_attributes(:online_role_id => self.id)
-      self.role_session = RoleSession.create! :start_level => self.level,:start_gold => self.total,:computer_id => computer.id,:live_at => Time.now,:ip => opts[:ip]
+      self.role_session = RoleSession.create! :connection_times=>1,:start_level => self.level,:start_gold => self.total,:computer_id => computer.id,:live_at => Time.now,:ip => opts[:ip]
       # 修改角色 session
        return 1 if self.update_attributes(:session_id => session.id)
     end

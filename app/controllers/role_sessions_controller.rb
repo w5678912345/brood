@@ -2,7 +2,7 @@ class RoleSessionsController < ApplicationController
   # GET /role_sessions
   # GET /role_sessions.json
   def index
-    @role_sessions = RoleSession.all
+    @role_sessions = RoleSession.joins(:role).select("role_sessions.*, roles.total").all#.includes([:role,:computer,:instance_map]).all
 
     respond_to do |format|
       format.html # index.html.erb
