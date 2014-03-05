@@ -2,7 +2,7 @@ class RoleSessionsController < ApplicationController
   # GET /role_sessions
   # GET /role_sessions.json
   def index
-    @role_sessions = RoleSession.all
+    @role_sessions = initialize_grid(RoleSession)
 
     respond_to do |format|
       format.html # index.html.erb

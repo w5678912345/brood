@@ -36,6 +36,19 @@
 <% end %>
 </table>
 
+<%= grid(@role_sessions, show_filters: :always) do |g|
+
+  g.column name:  'Role', attribute: 'id', filter: false
+
+  g.column name:  'Computer', attribute: 'computer_id'
+  g.column name:  '开始等级', attribute: 'start_level'
+  g.column name: '获取金币' do |task|
+    task.total - task.start_gold
+  end
+  g.column   do |task|
+    link_to('Edit', edit_task_path(task))
+  end
+end -%>
 <br />
 
 <%= link_to 'New Role session', new_role_session_path %>
