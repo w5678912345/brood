@@ -24,9 +24,9 @@ end
 gem 'jquery-rails'
 
 gem 'devise' # user auth
-gem 'will_paginate', '~> 3.0' #pages
+#gem 'will_paginate', '~> 3.0' #pages
 gem "wice_grid", '3.4.2' #表单
-gem 'bootstrap-will_paginate' #
+#gem 'bootstrap-will_paginate' #
 gem 'jbuilder', '~> 1.2.0'
 gem 'carrierwave' #
 gem 'roo' #
