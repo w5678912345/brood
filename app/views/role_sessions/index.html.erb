@@ -4,12 +4,12 @@
   <tr>
     <th>Role</th>
     <th>Computer</th>
-    <th>Start level</th>
-    <th>Start gold</th>
+    <th>开始等级</th>
     <th>获取金币(万)</th>
     <th>Exchanged gold</th>
     <th>Task</th>
-    <th>Connection times</th>
+    <th>连接次数</th>
+    <th>在线时间</th>
     <th>Live at</th>
     <th></th>
     <th></th>
@@ -21,13 +21,13 @@
     <td><%= role_session.role.name %></td>
     <td><%= role_session.computer.hostname %></td>
     <td><%= role_session.start_level %></td>
-    <td><%= (role_session.start_gold/10000).to_s + "万" %></td>
     <td><%= ((role_session.total - role_session.start_gold)/10000).to_s+"万" %></td>
     <td><%= role_session.exchanged_gold %></td>
     <td><%= role_session.instance_map ? "副本:"+role_session.instance_map.name : "" %></td>
     <td><%= role_session.connection_times %></td>
-    <td><%= role_session.live_at.strftime('%Y-%m-%d %H:%M:%S') %></td>
-    <td><%= link_to 'Show', role_session %></td>
+    <td><%="%1.1f 小时" % ((role_session.duration)*1.0/(1.hour))%></td>
+    <td><%= role_session.live_at.strftime('%m-%d %H:%M:%S') %></td>
+
     <td><%= link_to 'Edit', edit_role_session_path(role_session) %></td>
     <td><%= link_to 'Destroy', role_session, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
