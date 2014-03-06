@@ -6,7 +6,9 @@ class VersionsController < ApplicationController
   #
 
 	def index
-		@versions = Version.order("id desc").paginate(:page => params[:page], :per_page => 15)
+		#@versions = Version.order("id desc").paginate(:page => params[:page], :per_page => 15)
+		@versions = initialize_grid(Version)
+		render "wice_index"
 	end
 
 	def new
