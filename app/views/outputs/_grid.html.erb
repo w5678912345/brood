@@ -1,0 +1,20 @@
+<%= grid(@roles, show_filters: :always) do |g|
+	g.column name:  'id', attribute: 'id'
+  g.column name:  '时间',attribute: 'created_at' do |note|
+    time_str note.created_at 
+  end
+  g.column name:  '区', attribute: 'server', custom_filter: :auto
+  g.column name:  '角色' do |role|
+  	link_to "#{role.account}##{role.role_index}",role_path(role) 
+  end
+  g.column name:  'level', attribute: 'level', custom_filter: :auto
+  g.column name:  '当前金币', attribute: 'gold' do |role|
+  	gold_str role.gold
+  end
+  g.column name:  '支出金币',attribute: 'total_pay' do |role|
+  	link_to gold_str(role.total_pay),payments_role_path(role) 
+  end
+  g.column name:  '累计产出', attribute: 'total' do |role|
+  	gold_str role.total
+  end
+end %>
