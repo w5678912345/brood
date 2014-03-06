@@ -230,7 +230,6 @@ class Role < ActiveRecord::Base
     roles = Role.where("session_id > 0").where("updated_at < '#{last_at}'")
     roles.each do |role|
       role.api_stop(opts={:ip=>"localhost"})
-      role.role_session.destroy
     end
   end
 
