@@ -12,7 +12,7 @@
     	time_str user.created_at 
   	end
   	g.column   do |task|
-    	link_to(raw("<div class='btn'>Edit</div>"), edit_task_path(task)) + raw("<br>")+
-    	(link_to raw("<div class='btn'>删除</div>"),task_path(task),confirm: 'Are you sure?',:method => :delete )
+    	link_to(raw("<div class='btn'>Edit</div>"), edit_user_path(task)) + raw("<br>")+
+    	(link_to raw("<div class='btn'>删除</div>"),user_path(task),confirm: 'Are you sure?',:method => :delete )
   	end
 end %>

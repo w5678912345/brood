@@ -54,7 +54,7 @@
     	user.release_user.name if user.released
   	end
   	g.column   do |task|
-    	link_to(raw("<div class='btn'>Edit</div>"), edit_task_path(task)) + raw("<br>")+
-    	(link_to raw("<div class='btn'>删除</div>"),task_path(task),confirm: 'Are you sure?',:method => :delete )
+    	link_to(raw("<div class='btn'>Edit</div>"), edit_version_path(task)) + raw("<br>")+
+    	(link_to raw("<div class='btn'>删除</div>"),version_path(task),confirm: 'Are you sure?',:method => :delete )
   	end
 end %>
