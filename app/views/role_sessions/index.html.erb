@@ -2,8 +2,9 @@
 
 <%= grid(@role_sessions, show_filters: :always) do |g|
 
-  g.column name:  'Role', attribute: 'id', filter: false
-
+  g.column name:  'Role', filter: false do |task|
+    task.role_id
+  end
   g.column name:  'Computer' do |task|
     task.computer.hostname
   end
