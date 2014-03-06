@@ -41,7 +41,9 @@ class Role < ActiveRecord::Base
   def is_started?
     return self.session_id > 0
   end
-
+  def stop(result = "")
+    self.role_session.destroy if self.role_session
+  end
   #
   def total_gold
 			self.gold + self.total_pay
@@ -158,7 +160,7 @@ class Role < ActiveRecord::Base
       Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,:version=>computer.version,
        :api_name=>"role_stop",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=> account_session.id)
       # 清空会话
-        self.role_session.destroy
+      self.stop(opts[:msg])
     end
     return 1 if self.update_attributes(:session_id => 0)
     end
