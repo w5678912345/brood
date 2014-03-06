@@ -15,7 +15,7 @@ module ApplicationHelper
 		raw("<span class='#{cls}'>#{time_str(at)}</span>")
 	end
 	def gold_str gold=0
-		"%1.1f金" % (gold*1.0 / 10000)
+		"%1.1f万" % (gold*1.0 / 10000)
 	end
 
 	def hour_str d_time
