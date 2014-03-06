@@ -1,0 +1,25 @@
+<%= grid(@payments, show_filters: :always) do |g|
+  g.column name:  '时间' do |payment|
+  	time_str payment.created_at
+  end
+  g.column name:  '账号' do |payment|
+  	account_tag payment.role.account
+  end
+  g.column name:  '角色' do |payment|
+  	link_to role_tag(payment.role_id)
+  end
+  g.column name:  '区', attribute: 'server', custom_filter: :auto
+  g.column name:  '支出金额', attribute: 'gold' do |payment|
+  	gold_str payment.gold
+  end
+  g.column name:  '当前金币', attribute: 'balance' do |payment|
+  	gold_str payment.balance
+  end
+  g.column name:  '累计产出', attribute: 'total' do |payment|
+  	gold_str payment.total
+  end
+  g.column name:  '支出类型', attribute: 'pay_type', custom_filter: :auto do |payment|
+		link_to payment.pay_type,payments_path(:type=>payment.pay_type)
+	end
+  g.column name:  '备注', attribute: 'remark'
+end %>

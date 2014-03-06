@@ -154,41 +154,42 @@ class Account < ActiveRecord::Base
 
     # 停止帐号
     def api_stop opts
-      self.transaction do 
-      # 判断账号是否在线
+       # 判断账号是否在线
       return CODES[:account_is_stopped] unless self.is_started?
-      # 停止已启动的角色
-      self.roles.started_scope.each do |role|
-        role.api_stop(opts)
-      end
-      computer = Computer.find_by_id(opts[:cid])
-      unless self.session.nil?
-        # 当前 session
-        session = self.session
-        computer = session.computer
+      
+      self.transaction do 
+        # 停止已启动的角色
+        self.roles.started_scope.each do |role|
+          role.api_stop(opts)
+        end
+        computer = Computer.find_by_id(opts[:cid])
+        unless self.session.nil?
+          # 当前 session
+          session = self.session
+          computer = session.computer
         
-        # 创建stop 记录
-         Note.create(:account => self.no, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_stop',:msg=>opts[:msg],
+          # 创建stop 记录
+          Note.create(:account => self.no, :computer_id=>computer.id,:ip=>opts[:ip],:api_name=>'account_stop',:msg=>opts[:msg],
            :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname,:session_id=>session.id)
          
-         # 更新 session    
-         now = Time.now
-         hours = (now - session.created_at)/3600
+          # 更新 session    
+          now = Time.now
+          hours = (now - session.created_at)/3600
         
-         #p "=====================#{self.online_role_ids}====#{session.success_role_ids}"
-         # 参数成功，或者online 的角色 等于 success 的角色 表示本次会话成功
-         at = Time.now
-         if opts[:success].to_i ==1
+          #p "=====================#{self.online_role_ids}====#{session.success_role_ids}"
+          # 参数成功，或者online 的角色 等于 success 的角色 表示本次会话成功
+          at = Time.now
+          if opts[:success].to_i ==1
             self.today_success = session.success = true
             at = session.created_at
             at = at.since(1.day) if (6..23).include?(at.hour)
             self.normal_at = at.change(:hour => 6,:min => 0,:sec => 0)
-         else
-          self.normal_at = Time.now.since(Account::STATUS[self.status].hours) if Account::STATUS.has_key?(status)
-         end
-         # 完成session 
-         session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
-      end
+          else
+            self.normal_at = Time.now.since(Account::STATUS[self.status].hours) if Account::STATUS.has_key?(status)
+          end
+          # 完成session 
+          session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
+        end
        computer.decrement(:online_accounts_count,1).save if computer && computer.online_accounts_count > 0
       # 修改角色 online
        self.roles.update_all(:online => false)

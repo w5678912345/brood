@@ -1,0 +1,31 @@
+
+<%= grid(@tasks, show_filters: :always) do |g|
+  g.column name:  '任务名' do |task|
+    link_to "#{task.id}##{task.name}",task_path(task)
+  end
+  g.column name:  '命令',attribute: "command" ,filter: false
+  g.column name:  '参数',attribute: "args",filter: false
+  g.column name:  '备注',attribute: "remark",filter: false
+  g.column name:  '角色' do |task|
+    link_to（"%s##%s" % [task.role.account.no,role_tag(task.role_id)],role_path(task.role) if task.role
+  end
+  g.column name:  '电脑' do |task|
+    link_to task.computer.hostname,computer_path(task.computer) if task.computer
+  end
+  g.column name:  '创建时间' do |task|
+    time_str task.created_at
+  end
+  g.column name:  '推送',attribute: 'pushed' do |task|
+    task.pushed ? time_str(task.pushed_at) : "未推送"
+  end
+  g.column name:  '回调',attribute: 'callback' do |task|
+    task.callback ?  time_str(task.callback_at) : "未回调"
+  end
+  g.column name:  '成功' do |task|
+    boolean_tag task.success
+  end
+  g.column   do |task|
+    link_to(raw("<div class='btn'>Edit</div>"), edit_task_path(task)) + raw("<br>")+
+    (link_to raw("<div class='btn'>删除</div>"),task_path(task),confirm: 'Are you sure?',:method => :delete )
+  end
+end %>

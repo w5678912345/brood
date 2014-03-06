@@ -3,4 +3,7 @@ class RoleSession < ActiveRecord::Base
   belongs_to :role
   belongs_to :computer  
   belongs_to :instance_map
+  def duration
+  	live_at - created_at
+  end
 end

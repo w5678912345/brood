@@ -44,6 +44,7 @@ module RoleApi
        #ip.update_attributes(:use_count=>ip.use_count-1) if ip.use_count > 0
        online_hours = (Time.now - self.online_at)/3600
        Note.create(:role_id=>self.id,:computer_id=>self.computer_id,:ip=>ip,:api_name=>"offline",:msg=>opts[:msg],:online_hours=>online_hours)
+       self.stop(opts[:msg])
        return 1 if self.update_attributes(:online=>false,:computer_id=>0,:ip=>nil,:online_at=>nil,:online_note_id=>self.online_note_id)
     end
   end

@@ -3,7 +3,9 @@
 class OutputsController < ApplicationController
 		
 	def index
-			@roles = Role.where("total > 0").order("total DESC").paginate(:page => params[:page], :per_page => 15)
+		#@roles = Role.where("total > 0").order("total DESC").paginate(:page => params[:page], :per_page => 15)
+		@roles = initialize_grid(Role.where("total > 0"))
+		render "wice_index"
 	end
 
 	def home

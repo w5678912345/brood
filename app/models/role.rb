@@ -41,7 +41,9 @@ class Role < ActiveRecord::Base
   def is_started?
     return self.session_id > 0
   end
-
+  def stop(result = "")
+    self.role_session.destroy if self.role_session
+  end
   #
   def total_gold
 			self.gold + self.total_pay
@@ -56,6 +58,8 @@ class Role < ActiveRecord::Base
 		return "#{self.account}##{self.role_index}"
 	end
 
+  def make_note
+  end
   # 角色开始
   def api_start opts
     return 0 unless self.online
@@ -102,9 +106,10 @@ class Role < ActiveRecord::Base
       self.qq_account.update_attributes(:updated_at => Time.now)
       # 修改角色在线时间
       self.session.update_hours(opts[:target])
-
-      self.role_session.live_at = Time.now
-      self.role_session.save
+      if(self.role_session)
+        self.role_session.live_at = Time.now
+        self.role_session.save
+      end
 
       # 修改角色最后访问时间
       return 1 if self.update_attributes(:updated_at => Time.now)
@@ -158,7 +163,7 @@ class Role < ActiveRecord::Base
       Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,:version=>computer.version,
        :api_name=>"role_stop",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=> account_session.id)
       # 清空会话
-        self.role_session.destroy
+      self.stop(opts[:msg])
     end
     return 1 if self.update_attributes(:session_id => 0)
     end
@@ -230,7 +235,6 @@ class Role < ActiveRecord::Base
     roles = Role.where("session_id > 0").where("updated_at < '#{last_at}'")
     roles.each do |role|
       role.api_stop(opts={:ip=>"localhost"})
-      role.role_session.destroy
     end
   end
 

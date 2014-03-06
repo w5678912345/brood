@@ -1,0 +1,60 @@
+<div class="alert">
+<strong>提示信息:</strong>
+<span>共<%= @versions.count%>个Version</span> 
+</div>
+<!-- <table class="table table-bordered table-condensed">
+<thead>
+	<th>No</th>
+	<th>ZIP</th>
+	<th>User</th>
+	<th>Created At</th>
+	<th>Release User</th>
+	<th>Releaseed At</th>
+	<th>Operate</th>
+</thead>
+<tbody>
+<% @versions.each do |v|%>
+<tr>
+<td><%= v.no %></td>
+<td>
+	<a href="<%= v.zip%>" ><%= v.zip.file.filename%></a>
+</td>
+<td><%= v.user.name if v.user %></td>
+<td><%= v.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+<% if v.released %>
+	<td><%= v.released_at.strftime("%Y-%m-%d %H:%M")%></td>
+	<td><%= v.release_user.name %></td>
+<%else%>
+	<td colspan="2">Not released</td>
+<%end%>
+<td>
+<%= link_to raw("<i class='icon-trash'></i>删除"),version_path(v),confirm: 'Are you sure?',:method => :delete,:class=>"btn" %>
+<%= link_to "Release",release_version_path(v),:class=>"btn"%>
+</td>
+</tr>
+<%end%>
+</tbody>
+</table> -->
+
+<%= grid(@versions, show_filters: :always) do |g|
+  	g.column name:  'ID',attribute: "no" ,filter: false
+  	g.column name:  '文件' do |version|
+  		link_to v.zip.file.filename,"v.zip"
+  	end
+  	g.column name:  '用户' do |version|
+  		version.user.name if version.user
+  	end
+  	g.column name:  '创建时间' do |user|
+    	time_str user.created_at 
+  	end
+  	g.column name:  '发布时间' do |user|
+    	time_str user.released_at if user.released 
+  	end
+  	g.column name:  '发布者' do |user|
+    	user.release_user.name if user.released
+  	end
+  	g.column   do |task|
+    	link_to(raw("<div class='btn'>Edit</div>"), edit_task_path(task)) + raw("<br>")+
+    	(link_to raw("<div class='btn'>删除</div>"),task_path(task),confirm: 'Are you sure?',:method => :delete )
+  	end
+end %>
