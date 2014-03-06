@@ -10,7 +10,9 @@ class RolesController < ApplicationController
 		level = params[:level]
 		params[:per_page] = params[:per_page].blank? ? 20 : params[:per_page].to_i
 		params[:per_page] = @roles.count unless params[:all].blank?
-		@roles = @roles.paginate(:page => params[:page], :per_page => params[:per_page])
+		#@roles = @roles.paginate(:page => params[:page], :per_page => params[:per_page])
+		@roles = initialize_grid(@roles)
+		render :wice_index
 	end
 
 	#

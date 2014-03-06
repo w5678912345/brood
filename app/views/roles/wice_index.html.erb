@@ -1,0 +1,32 @@
+<% content_for :title do%>角色列表<%end%>
+<%= render "navbar" %>
+<%= render :partial => "new_search_form", :locals=>{:path=>roles_path}%>
+<div class="alert">
+<strong>提示信息:</strong>
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+</div>
+
+<%= grid(@roles, show_filters: :always) do |g|
+
+  g.column name:  'ID', attribute: 'id', filter: false
+  g.column name:  'index', attribute: 'role_index', filter: false
+  
+  g.column name:  'Account' do |task|
+    account_tag task.account
+  end
+  g.column name:  '区', attribute: 'server'#, filter: false
+  g.column name:  '等级', attribute: 'level', filter: false
+  g.column name:  '体力', attribute: 'vit_power', filter: false
+
+  g.column name: '金币' do |task|
+    task.gold
+  end
+  g.column name: '今日结果' do |task|
+    boolean_tag task.today_success 
+  end
+
+  g.column   do |task|
+    link_to('Edit', edit_task_path(task)) + " "+
+    link_to('Destroy', task)
+  end
+end %>
