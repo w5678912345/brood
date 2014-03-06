@@ -9,10 +9,14 @@
   end
   g.column name:  '开始等级', attribute: 'start_level'
   g.column name: '获取金币' do |task|
-    task.total - task.start_gold
+    gold_str task.total - task.start_gold
   end
   g.column name:  '任务', attribute: 'task'
   g.column name:  '连接次数', attribute: 'connection_times'
+  g.column name: '在线时长' do |task|
+    hour_str task.live_at - task.created_at
+  end
+
   g.column name:  '在线时间', attribute: 'live_at'
   g.column   do |task|
     link_to('Edit', edit_task_path(task)) + 
