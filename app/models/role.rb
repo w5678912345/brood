@@ -58,6 +58,8 @@ class Role < ActiveRecord::Base
 		return "#{self.account}##{self.role_index}"
 	end
 
+  def make_note
+  end
   # 角色开始
   def api_start opts
     return 0 unless self.online
@@ -104,9 +106,10 @@ class Role < ActiveRecord::Base
       self.qq_account.update_attributes(:updated_at => Time.now)
       # 修改角色在线时间
       self.session.update_hours(opts[:target])
-
-      self.role_session.live_at = Time.now
-      self.role_session.save
+      if(self.role_session)
+        self.role_session.live_at = Time.now
+        self.role_session.save
+      end
 
       # 修改角色最后访问时间
       return 1 if self.update_attributes(:updated_at => Time.now)
