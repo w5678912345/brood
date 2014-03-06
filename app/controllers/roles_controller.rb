@@ -129,7 +129,7 @@ class RolesController < ApplicationController
 	end
 
 	def checked 
-		@ids = params[:ids]
+		@ids = params[:grid][:selected]
    		@do = params[:do]
 	end
 
