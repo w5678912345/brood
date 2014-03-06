@@ -1,0 +1,20 @@
+<% content_for :title do%>账号列表<%end%>
+<%= render "ul" %>
+<%= render "search_form" %>
+<div class="alert">
+	<strong>提示信息:</strong>
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<span><%= flash[:msg] if flash[:msg]%></span> 
+</div>
+<%= form_tag(checked_accounts_path,:method => :put,:id=>"account_checked_form",:onSubmit=>"return validate(this);",:target=>"_blank") do -%>
+	<div colspan="2" class="text-right">
+		<select id="do" name="do" class="input-medium">
+		<option value="">选择操作</option>
+		<% Account::Btns.each do | key, value |  %>
+			<option value="<%= key %>"><%= value%></option>
+		<%end%>
+		</select>
+		<button type="submit" class="btn btn-primary">执行操作</button>
+	</div>
+<%= render :partial => "grid"%>
+<%end%>

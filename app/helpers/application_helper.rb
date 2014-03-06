@@ -14,7 +14,13 @@ module ApplicationHelper
 		cls = at <= Time.now ? "badge badge-info" : "badge badge-warning" 
 		raw("<span class='#{cls}'>#{time_str(at)}</span>")
 	end
+	def gold_str gold=0
+		"%1.1f金" % (gold*1.0 / 10000)
+	end
 
+	def hour_str d_time
+		"%1.1f小时" % (d_time*1.0 / 1.hour)
+	end
 # 	<%= raw('<i class="icon-lock" title="帐号锁定"></i>') if role.locked %>
 # <%= raw('<i class="icon-warning-sign" title="密码丢失"></i>') if role.lost %>
 # <%= raw('<i class="icon-flag" title="卖家角色"></i>') if role.is_seller %>

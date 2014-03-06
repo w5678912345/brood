@@ -5,6 +5,7 @@
 //= require jquery.ui.widget
 //= require jquery.ui.mouse
 //= require jquery.ui.slider
+//= require wice_grid
 //= require jquery.ui.datepicker
 //= require jquery.ui.datepicker-zh-CN
 //= require jquery.ui.timepicker.addon

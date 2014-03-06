@@ -10,8 +10,10 @@ class TasksController < ApplicationController
 		@tasks = @tasks.where(:sup_id=> params[:sup_id]) unless params[:sup_id].blank?
 		@tasks = @tasks.where("name like ?","%#{params[:name]}%") unless params[:name].blank?
 		@tasks = @tasks.where("command like ?","%#{params[:command]}%") unless params[:command].blank?
-		per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
-		@tasks = @tasks.paginate(:page => params[:page], :per_page => per_page)
+		#per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
+		#@tasks = @tasks.paginate(:page => params[:page], :per_page => per_page)
+		@tasks = initialize_grid(@tasks)
+		render "wice_index"
 	end
 
 	def list

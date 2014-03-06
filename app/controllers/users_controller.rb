@@ -4,7 +4,9 @@ class UsersController < ApplicationController
 	load_and_authorize_resource :class => "User"
 	
 	def index
-		@users = User.paginate(:page => params[:page], :per_page => 10)
+		#@users = User.paginate(:page => params[:page], :per_page => 10)
+		@users = initialize_grid(User)
+		render "wice_index"
 	end
 
 	def new
