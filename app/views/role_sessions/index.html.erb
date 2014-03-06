@@ -1,7 +1,8 @@
 <h1>Listing role_sessions</h1>
 
 <%= grid(@role_sessions, show_filters: :always) do |g|
-  g.column name:  'Role', filter: false do |task|
+
+  g.column name:  'Role ID', filter: false do |task|
     task.role_id
   end
 
@@ -17,7 +18,9 @@
   g.column name: '在线时长' do |task|
     hour_str task.live_at - task.created_at
   end
-  g.column name:  '在线时间', attribute: 'live_at'
+  g.column name:  '在线时间', attribute: 'live_at' do |task|
+    time_str task.live_at
+  end
   g.column   do |task|
     link_to('Edit', edit_role_session_path(task)) + " "+
     link_to('Destroy',role_session_path(task),confirm: 'Are you sure?',:method => :delete)
