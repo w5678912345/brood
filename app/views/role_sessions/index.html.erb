@@ -16,8 +16,8 @@
   end
   g.column name:  '在线时间', attribute: 'live_at'
   g.column   do |task|
-    link_to('Edit', edit_task_path(task)) + 
-    link_to('Destroy', task)
+    link_to('Edit', edit_role_session_path(task)) + " "+
+    link_to('Destroy',role_session_path(task),confirm: 'Are you sure?',:method => :delete)
   end
 end %>
 <br />
