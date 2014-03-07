@@ -17,7 +17,31 @@ class InstanceMap < ActiveRecord::Base
       ).select("instance_maps.*, a.role_count")
   end
 
+  def self.get_valid_one(level)
+    level_maps = InstanceMap.level_scope(level)
+    @map = nil
+    level_maps.each do |m|
+      if m.safe_count?
+        @map = m
+        break;
+      end
+    end
+
+    if @map.nil?
+      level_maps.each do |m|
+        if not m.Full?
+          @map = m
+          break;
+        end
+      end
+    end
+    @map
+  end
+
   def safe_count?
   	role_sessions.count < safety_limit
+  end
+  def Full?
+    not (role_sessions.count < death_limit)
   end
 end

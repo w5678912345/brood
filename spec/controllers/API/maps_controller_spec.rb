@@ -23,14 +23,35 @@ describe Api::MapsController do
         assigns(:code).should eq -1
 	end
 
-
-
-
-    it "can not pull a map when enter_count >= safety_limit" do
+    it "can pull a map when enter_count >= safe_count and enter_count < death_limit" do
         @role1 = FactoryGirl.create(:online_session_role,:level=>10)
         @role2 = FactoryGirl.create(:online_session_role,:level=>11)
         RoleSession.count.should eq 2
-        @map = FactoryGirl.create(:instance_map,:min_level => 10,:max_level => 20,:safety_limit=>1,:enter_count=>0)
+        @map = FactoryGirl.create(:instance_map,:min_level => 10,:max_level => 20,:safety_limit=>1,:death_limit => 2,:enter_count=>0)
+        get :valid, {:role_id => @role1.id}
+        assigns(:map).should eq @map
+        get :valid, {:role_id => @role2.id}
+        assigns(:map).should eq @map
+    end
+
+    it "pull a safe map first" do
+        @role1 = FactoryGirl.create(:online_session_role,:level=>10)
+        @role2 = FactoryGirl.create(:online_session_role,:level=>11)
+
+        @map1 = FactoryGirl.create(:instance_map,:min_level => 10,:max_level => 20,:safety_limit=>1,:death_limit => 1,:enter_count=>0)
+        @map2 = FactoryGirl.create(:instance_map,:min_level => 10,:max_level => 20,:safety_limit=>1,:death_limit => 2,:enter_count=>0)
+
+        get :valid, {:role_id => @role1.id}
+        assigns(:map).should eq @map1
+        get :valid, {:role_id => @role2.id}
+        assigns(:map).should eq @map2
+    end
+
+    it "can not pull a map when enter_count >= death_limit" do
+        @role1 = FactoryGirl.create(:online_session_role,:level=>10)
+        @role2 = FactoryGirl.create(:online_session_role,:level=>11)
+        RoleSession.count.should eq 2
+        @map = FactoryGirl.create(:instance_map,:min_level => 10,:max_level => 20,:safety_limit=>1,:death_limit => 1,:enter_count=>0)
         get :valid, {:role_id => @role1.id}
         assigns(:map).should eq @map
         get :valid, {:role_id => @role2.id}
