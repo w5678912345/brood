@@ -1,0 +1,15 @@
+<%= grid(@orders, show_filters: :no) do |g|
+	g.action_column
+  g.column name:  '时间',attribute: 'account_no'
+  g.column name:  '电话', attribute: 'phone_no'
+  g.column name: '事件',attribute: 'trigger_event' 
+  g.column name:  '短信内容', attribute: 'sms'
+  g.column name:  '完成', attribute: 'finished_at' do |order|
+    order.finished ? time_str(order.finished_at) : "No"
+  end
+  g.column name:  "结果",attribute: 'result' 
+  g.column name:  "MSG",attribute: 'msg' 
+  g.column name:  '完成', attribute: 'created_at' do |order|
+ 	time_str(order.created_at)
+  end
+end %>

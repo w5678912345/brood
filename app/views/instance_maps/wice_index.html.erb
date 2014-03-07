@@ -1,0 +1,26 @@
+<%= grid(@instance_maps, show_filters: :no) do |g|
+  g.row_attributes do |map|
+    if map.Full?
+      {style: 'background-color: rgb(255, 204, 204);'}
+    elsif not map.safe_count?
+      {style: 'background-color: rgb(255, 255, 204);'}
+    end
+  end
+  g.action_column
+  g.column name:  '名字',attribute: 'name'
+  g.column name:  '等级下限', attribute: 'min_level'
+  g.column name: '等级上限',attribute: 'max_level' 
+  g.column name:  '估计产出', attribute: 'gold'
+  g.column name:  '可用', attribute: 'enabled' 
+  g.column name:  "安全在线上限",attribute: 'safety_limit' 
+  g.column name:  "总容量",attribute: 'death_limit' 
+  g.column name:  '当前在线' do |map|
+    map.role_count
+  end
+  g.column name:  '备注', attribute: 'remark'
+  g.column do |map|
+    link_to('Show', map) + " " +
+    link_to('Edit', edit_instance_map_path(map)) + " " +
+    link_to('Destroy', map, method: :delete, data: { confirm: 'Are you sure?' })
+  end
+end %>
