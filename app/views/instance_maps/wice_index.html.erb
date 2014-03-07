@@ -1,9 +1,9 @@
 <%= grid(@instance_maps, show_filters: :no) do |g|
   g.row_attributes do |map|
     if map.Full?
-      {style: 'background-color: rgb(255, 204, 204);'}
+      {class:'mapfull'}
     elsif not map.safe_count?
-      {style: 'background-color: rgb(255, 255, 204);'}
+      {class:'mapnotsafe'}
     end
   end
   g.action_column
@@ -24,3 +24,7 @@
     link_to('Destroy', map, method: :delete, data: { confirm: 'Are you sure?' })
   end
 end %>
+<script>
+    $(".mapnotsafe td").css("background-color","rgb(255, 255, 204)")
+    $(".mapfull td").css("background-color","rgb(255, 204, 204)")
+</script>
