@@ -58,6 +58,7 @@ class Role < ActiveRecord::Base
 
   # 角色开始
   def api_start opts
+    #binding.pry
     return 0 unless self.online
     return CODES[:role_is_started] if self.is_started?
 
