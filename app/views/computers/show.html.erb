@@ -42,7 +42,7 @@
 <td>选择操作:</td>
 <td colspan="5">
 <%= form_tag(checked_computers_path,:method => :put,:id=>"computers_checked_form",:target=>"_blank",:style=>"margin:0px;") do -%>
-<%= hidden_field_tag "ids[]",@computer.id%>
+<%= hidden_field_tag "grid[selected][]",@computer.id%>
 <select id="do" name="do" class="input-medium">
 <% Computer::Btns.each do | key, value |  %>
 	<option value="<%= key %>"><%= value%></option>
