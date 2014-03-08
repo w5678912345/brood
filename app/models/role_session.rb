@@ -7,7 +7,6 @@ class RoleSession < ActiveRecord::Base
   	live_at - created_at
   end
   def self.create_from_role(role,ip)
-  	binding.pry
   	RoleSession.create! :role_id => role.id,:start_level => role.level,:start_gold => role.total,:computer_id => role.qq_account.session.computer.id,:live_at => Time.now,:ip => ip
   end
   def live_now
