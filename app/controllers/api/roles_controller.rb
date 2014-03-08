@@ -5,7 +5,7 @@ class Api::RolesController < Api::BaseController
 	layout :nil
 	
 	#  根据ID查询角色
-	before_filter :require_role_by_id,					:only => [:start,:stop,:sync,:pay]
+	before_filter :require_role_by_id,	:only => [:start,:stop,:sync,:pay]
 	
 
 	def start
@@ -38,18 +38,10 @@ class Api::RolesController < Api::BaseController
 		render :partial => 'api/result'
 	end
 
-
-	
 	private 
 	def require_role_by_id
 		@role = Role.find_by_id params[:id]			
 		@code = CODES[:not_find_role] unless @role
 		return  render :partial => 'api/result' unless @role
 	end
-	
-
-
-
-
-
 end

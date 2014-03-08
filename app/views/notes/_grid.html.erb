@@ -8,6 +8,9 @@
   g.column name: '账号',attribute: 'account' do |note|
     account_tag(note.account) unless note.account.blank?
   end
+  g.column name: '角色' ,attribute: 'id', model: 'Role' do |note|
+    role_tag(note.role_id) unless note.role.blank?
+  end
   g.column name:  '版本', attribute: 'version'
   g.column name:  'IP', attribute: 'ip' do |note|
     link_to note.ip,notes_path(:ip => note.ip)
