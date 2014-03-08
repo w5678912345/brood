@@ -62,6 +62,7 @@ class Role < ActiveRecord::Base
   end
   # 角色开始
   def api_start opts
+    #binding.pry
     return 0 unless self.online
     if self.is_started?
       self.role_session.connection_times+=1
