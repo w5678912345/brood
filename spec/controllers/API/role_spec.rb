@@ -18,6 +18,7 @@ describe Api::RolesController do
     session.should_not eq nil
     session.start_level.should eq role.level
     session.start_gold.should eq role.total
+    session.start_power.should eq role.vit_power
     session.used_gold.should eq 0
     session.exchanged_gold.should eq 0
     session.live_at.to_i.should eq update_time.to_i
@@ -25,8 +26,14 @@ describe Api::RolesController do
   end
   it "can stop" do
     role = fake_role_start
-    get "stop" ,{:format => "json",:id => role.id,:ckey => role.qq_account.online_computer.auth_key}  
+    back_session = role.role_session
+    get "stop" ,{:format => "json",:id => role.id,:msg => "success",:ckey => role.qq_account.online_computer.auth_key}  
     RoleSession.count.should eq 0
+    HistoryRoleSession.count.should eq 1
+    hs = HistoryRoleSession.first
+    hs.begin_level.should eq back_session.start_level
+    hs.end_level.should eq role.level
+    hs.result.should eq "success"
   end
   it "can reconnect" do
     role = fake_role_start
