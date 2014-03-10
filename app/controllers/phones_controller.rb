@@ -81,7 +81,7 @@ class PhonesController < ApplicationController
   end
 
   def checked
-    @no = params[:no] || []
+    @no = params[:grid][:selected] || []
   end
 
   def do_checked
