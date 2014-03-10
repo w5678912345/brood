@@ -297,7 +297,7 @@ class Account < ActiveRecord::Base
       last_at = Time.now.ago(30.minutes).strftime("%Y-%m-%d %H:%M:%S")
       accounts = Account.started_scope.where("updated_at < '#{last_at}'")
       accounts.each do |account|
-        account.api_stop(opts={:cid=>account.online_computer_id,:ip=>"localhost",:msg=>"auto"})
+        account.api_stop(opts={:cid=>account.online_computer_id,:ip=>"localhost",:msg=>"timeout"})
       end
    end
 
