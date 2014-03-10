@@ -7,6 +7,7 @@ FactoryGirl.define do
   	password "12345678"
   	level 23
   	total 2000000
+    vit_power 320
   	online true
   	session_id 0
 

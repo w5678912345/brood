@@ -1,0 +1,29 @@
+<%= semantic_form_for @history_role_session do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :id %>
+    <%= f.input :begin_at %>
+    <%= f.input :end_at %>
+    <%= f.input :gold %>
+    <%= f.input :exchange_gold %>
+    <%= f.input :connection_times %>
+    <%= f.input :ip %>
+    <%= f.input :task %>
+    <%= f.input :result %>
+    <%= f.input :role_id %>
+    <%= f.input :account_id %>
+    <%= f.input :computer_id %>
+    <%= f.input :role_name %>
+    <%= f.input :begin_level %>
+    <%= f.input :end_level %>
+    <%= f.input :begin_power %>
+    <%= f.input :end_power %>
+    <%= f.input :account_key %>
+    <%= f.input :server %>
+    <%= f.input :version %>
+    <%= f.input :game_version %>
+  <% end %>
+
+  <%= f.actions do %>
+    <%= f.action :submit, :as => :input %>
+  <% end %>
+<% end %>
