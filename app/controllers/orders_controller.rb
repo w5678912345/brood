@@ -3,13 +3,14 @@ class OrdersController < ApplicationController
 
 	def index
 		@orders = Order.search(params)
-		per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
-		@orders = @orders.paginate(:page => params[:page], :per_page => per_page)
+		#per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
+		@orders = initialize_grid(@orders)
+        render "wice_index"
 	end
 
 
 	def checked
-		@ids = params[:ids] || []
+		@ids = params[:grid][:selected] || []
   	end
 
   	def do_checked

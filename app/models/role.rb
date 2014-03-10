@@ -106,17 +106,12 @@ class Role < ActiveRecord::Base
      self.transaction do
       self.qq_account.update_attributes(:updated_at => Time.now)
       # 修改角色在线时间
-<<<<<<< HEAD
+
       self.session.update_hours(opts[:target])
       if(self.role_session)
-        self.role_session.live_at = Time.now
-        self.role_session.save
+        self.role_session.live_now
       end
 
-=======
-      self.role_session.live_now
-      self.session.update_hours
->>>>>>> 7d7107a94a90342067f3737343598bccc3226259
       # 修改角色最后访问时间
       return 1 if self.update_attributes(:updated_at => Time.now)
      end
@@ -169,14 +164,9 @@ class Role < ActiveRecord::Base
       Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,:version=>computer.version,
        :api_name=>"role_stop",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=> account_session.id)
       # 清空会话
-<<<<<<< HEAD
       self.stop(opts[:msg])
     end
-    return 1 if self.update_attributes(:session_id => 0)
-=======
-      self.role_session.stop(opts[:msg])
       return 1 if self.update_attributes(:session_id => 0)
->>>>>>> 7d7107a94a90342067f3737343598bccc3226259
     end
   end
 

@@ -5,8 +5,8 @@ class PhonesController < ApplicationController
   def index
     @phones = Phone.search(params)
     per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
-    @phones = @phones.paginate(:page => params[:page], :per_page => per_page)
-    
+    @phones = initialize_grid(@phones)#@phones.paginate(:page => params[:page], :per_page => per_page)
+    render "wice_index"
   end
 
   # GET /phones/1
