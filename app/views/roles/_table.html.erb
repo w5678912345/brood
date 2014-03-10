@@ -38,7 +38,7 @@
 <tr class=<%= "info" if role.online %> >
 <td>
 <label class="checkbox">
-<%= check_box_tag 'ids[]',role.id,false,:id=>role.id %>
+<%= check_box_tag 'grid[selected][]',role.id,false,:id=>role.id %>
 <%= role_tag role.id %>
 </label>
 </td>

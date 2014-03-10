@@ -36,7 +36,7 @@
 <tr>
 <td>
 <label class="checkbox">
-<%= check_box_tag 'no[]',account.no,false,:id=>account.id %> <%= account.id %>
+<%= check_box_tag 'grid[selected][]',account.no,false,:id=>account.id %> <%= account.id %>
 </label>
 </td>
 <td title="<%= account.phone_id %>"><%= account_tag account %> 
