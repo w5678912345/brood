@@ -144,6 +144,8 @@ ActiveRecord::Schema.define(:version => 20140310101321) do
     t.datetime "updated_at",                                    :null => false
   end
 
+  add_index "instance_maps", ["key"], :name => "index_instance_maps_on_key", :unique => true
+
   create_table "ips", :primary_key => "value", :force => true do |t|
     t.integer  "use_count",    :default => 0, :null => false
     t.datetime "created_at",                  :null => false
@@ -253,18 +255,18 @@ ActiveRecord::Schema.define(:version => 20140310101321) do
   add_index "phone_machines", ["name"], :name => "index_phone_machines_on_name", :unique => true
 
   create_table "phones", :primary_key => "no", :force => true do |t|
-    t.boolean  "enabled",          :default => true,   :null => false
+    t.boolean  "enabled",          :default => true, :null => false
     t.datetime "last_active_at"
     t.integer  "phone_machine_id"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
-    t.integer  "accounts_count",   :default => 0,      :null => false
-    t.boolean  "can_bind",         :default => true,   :null => false
-    t.string   "status",           :default => "idle"
-    t.integer  "sms_count",        :default => 0,      :null => false
-    t.integer  "today_sms_count",  :default => 0,      :null => false
-    t.boolean  "can_unlock",       :default => true,   :null => false
-    t.integer  "unlock_count",     :default => 0,      :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.integer  "accounts_count",   :default => 0,    :null => false
+    t.boolean  "can_bind",         :default => true, :null => false
+    t.string   "status"
+    t.integer  "sms_count",        :default => 0,    :null => false
+    t.integer  "today_sms_count",  :default => 0,    :null => false
+    t.boolean  "can_unlock",       :default => true, :null => false
+    t.integer  "unlock_count",     :default => 0,    :null => false
   end
 
   add_index "phones", ["no"], :name => "index_phones_on_no", :unique => true

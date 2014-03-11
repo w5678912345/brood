@@ -85,9 +85,11 @@ class Api::PhonesController < Api::BaseController
 		render :partial => '/api/result'
 	end
 
-	def unlock
-		@phone = Phone.find_by_no(params[:phone_id])
-
+	def set_can_unlock
+		@phone = Phone.find_by_no(params[:no])
+		return render :json => {:code => CODES[:not_find_phone]} unless @phone
+		@code = 1 if @phone.update_attributes(:can_unlock=>params[:unlock].to_i)
+		render :json => {:code=>@code}
 	end
 
 	

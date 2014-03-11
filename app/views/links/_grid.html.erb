@@ -1,0 +1,16 @@
+<%= grid(@links, show_filters: :id) do |g|
+	g.action_column
+  g.column name:  'ID',attribute: 'id'
+  g.column name:  '电话', attribute: 'phone_no'
+  g.column name: '事件',attribute: 'event' 
+  g.column name:  '状态', attribute: 'status'
+  g.column name:  '完成', attribute: 'created_at' do |g|
+ 	time_str(g.created_at)
+  end
+  g.column do |g|
+    link_to 'Destroy', g, method: :delete, data: { confirm: 'Are you sure?' } 
+  end
+   g.column do |g|
+    link_to 'Edit', edit_link_path(g), method: :get
+  end
+end %>

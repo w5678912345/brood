@@ -258,6 +258,7 @@ Brood::Application.routes.draw do
       match :get_unlock, :on => :collection
       match :bind, :on => :collection
       match :set_can_bind, :on => :collection
+      match :set_can_unlock, :on => :collection
       match :pull, :on => :collection
       match :pulls, :on => :collection
       match :sent, :on => :collection

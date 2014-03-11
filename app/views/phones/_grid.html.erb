@@ -1,6 +1,7 @@
 <%= grid(@phones, show_filters: :always) do |g|
   g.action_column
   # g.column name:  'KEY', attribute: 'auth_key',filter: false
+  g.column name: '号码', attribute: 'no'
   g.column name: 'Enable' ,attribute: 'enabled' do |phone|
     boolean_tag phone.enabled
   end
@@ -9,7 +10,9 @@
   end
   g.column name: '状态' ,attribute: 'status'
   g.column name:  '解锁数量', attribute: 'unlock_count'
-  g.column name:  '可用于解锁', attribute: 'can_unlock'
+  g.column name:  '可用于解锁', attribute: 'can_unlock' do |phone|
+    boolean_tag phone.can_unlock
+  end
   g.column name:  '今日短信数', attribute: 'sms_count'
   g.column name:  "最后活跃时间",attribute: 'last_active_at' 
   g.column do |phone|
