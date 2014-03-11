@@ -18,10 +18,10 @@
 
   g.column name: '任务',attribute: 'task'
   g.column name: '产出' ,attribute: 'gold',filter: false do |h|
-    gold_str h
+    gold_str h.gold
   end
   g.column name: '转出' ,attribute: 'exchanged_gold',filter: false do |h|
-    gold_str h
+    gold_str h.exchanged_gold
   end
   g.column name: '结果',attribute: 'result'
 end %>
