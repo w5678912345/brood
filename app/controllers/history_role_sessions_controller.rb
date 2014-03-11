@@ -2,7 +2,7 @@ class HistoryRoleSessionsController < ApplicationController
   # GET /history_role_sessions
   # GET /history_role_sessions.json
   def index
-    @history_role_sessions = HistoryRoleSession.all
+    @history_role_sessions = initialize_grid(HistoryRoleSession)
 
     respond_to do |format|
       format.html # index.html.erb
