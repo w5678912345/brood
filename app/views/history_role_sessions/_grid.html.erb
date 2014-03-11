@@ -1,0 +1,27 @@
+<%= grid(@history_role_sessions, show_filters: :always) do |g|
+  g.column name:  '开始时间', attribute: 'begin_at'
+  g.column name:  '结束时间', attribute: 'end_at'
+  g.column name: '电脑',attribute: 'computer_id' 
+  g.column name: '账号',attribute: 'account_id'
+  g.column name: '角色',attribute: 'role_id'
+  g.column name: '服务器',attribute: 'server'
+  g.column name: '版本',attribute: 'version'
+  g.column name: 'IP',attribute: 'ip'
+  g.column name: '重连次数',attribute: 'connection_times'
+
+
+  g.column name:  '开始等级', attribute: 'begin_level'
+  g.column name:  '结束等级', attribute: 'end_level'
+
+  g.column name:  '开始体力', attribute: 'begin_power'
+  g.column name:  '结束体力', attribute: 'end_power'
+
+  g.column name: '任务',attribute: 'task'
+  g.column name: '产出' ,attribute: 'gold',filter: false do |h|
+    gold_str h
+  end
+  g.column name: '转出' ,attribute: 'exchanged_gold',filter: false do |h|
+    gold_str h
+  end
+  g.column name: '结果',attribute: 'result'
+end %>
