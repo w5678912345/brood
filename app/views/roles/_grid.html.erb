@@ -13,7 +13,7 @@
   g.column name: '金币' do |task|
     task.gold
   end
-  g.column name: '今日结果',attribute: "today_success",custom_filter: {"完成" => true,"未完成" =>false} do |task|
+  g.column name: '今日结果',attribute: "today_success",filter_type: :boolean do |task|
     boolean_tag task.today_success 
   end
 
