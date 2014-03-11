@@ -3,7 +3,7 @@
     time_str h.begin_at
   end
   g.column name:  '耗时' do |h|
-    hour_str(h.end_at,h.begin_at)
+    hour_str(h.end_at-h.begin_at)
   end
   g.column name: '电脑',attribute: 'computer_id'  do |h|
     computer_tag h.computer
