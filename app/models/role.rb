@@ -42,7 +42,7 @@ class Role < ActiveRecord::Base
     return self.session_id > 0
   end
   def stop(result = "")
-    self.role_session.destroy if self.role_session
+    self.role_session.stop(result) if self.role_session
   end
   #
   def total_gold
