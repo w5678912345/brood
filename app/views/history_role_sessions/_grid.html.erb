@@ -1,9 +1,27 @@
 <%= grid(@history_role_sessions, show_filters: :always) do |g|
-  g.column name:  '开始时间', attribute: 'begin_at'
-  g.column name:  '结束时间', attribute: 'end_at'
-  g.column name: '电脑',attribute: 'computer_id' 
-  g.column name: '账号',attribute: 'account_id'
-  g.column name: '角色',attribute: 'role_id'
+  g.column name:  '开始时间', attribute: 'begin_at' do |h|
+    time_str h.begin_at
+  end
+  g.column name:  '结束时间', attribute: 'end_at' do |h|
+    time_str h.end_at
+  end
+  g.column name: '电脑',attribute: 'computer_id'  do |h|
+    computer_tag h.computer
+  end
+  g.column name: '账号',attribute: 'account_id' do |h|
+    account_tag h.account
+  end
+  g.column name: '角色',attribute: 'role_id' do |h|
+    role_tag h.role
+  end
+  #g.column name: '任务',attribute: 'task'
+  g.column name: '产出' ,attribute: 'gold',filter: false do |h|
+    gold_str h.gold
+  end
+  g.column name: '转出' ,attribute: 'exchanged_gold',filter: false do |h|
+    gold_str h.exchanged_gold
+  end
+  g.column name: '结果',attribute: 'result',custom_filter: :auto
   g.column name: '服务器',attribute: 'server'
   g.column name: '版本',attribute: 'version'
   g.column name: 'IP',attribute: 'ip'
@@ -15,13 +33,4 @@
 
   g.column name:  '开始体力', attribute: 'begin_power'
   g.column name:  '结束体力', attribute: 'end_power'
-
-  g.column name: '任务',attribute: 'task'
-  g.column name: '产出' ,attribute: 'gold',filter: false do |h|
-    gold_str h.gold
-  end
-  g.column name: '转出' ,attribute: 'exchanged_gold',filter: false do |h|
-    gold_str h.exchanged_gold
-  end
-  g.column name: '结果',attribute: 'result'
 end %>
