@@ -187,7 +187,7 @@ class Role < ActiveRecord::Base
       end
       # 修改会话
       if opts[:pay_type] == 'trade' and self.role_session
-        self.role_session.exchanged_gold = opts[:gold].to_i
+        self.role_session.exchanged_gold += opts[:gold].to_i
         self.role_session.save
       end
       payment.save
