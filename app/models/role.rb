@@ -151,6 +151,7 @@ class Role < ActiveRecord::Base
       if opts[:success].to_i == 1
         self.today_success = true
         session.success = true
+        opts[:msg] = 'success'
       end #成功
       session.update_attributes(:ending=>true, :stopped_at=>now,:hours=>hours)
       # 记录note
