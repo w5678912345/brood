@@ -1,6 +1,11 @@
 class HistoryRoleSession < ActiveRecord::Base
   attr_accessible :account_id, :account_key, :begin_at, :begin_level, :begin_power, :computer_id, :connection_times, :end_at, :end_level, :end_power, :exchanged_gold, :game_version, :gold, :id, :ip, :result, :role_id, :role_name, :server, :task, :version
 
+  belongs_to :computer
+  belongs_to :account
+  belongs_to :role
+
+
 	def self.create_from_role_session(s,result)
 		h = HistoryRoleSession.new
 		h.id = s.id
