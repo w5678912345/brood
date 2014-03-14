@@ -3,7 +3,7 @@ class SettingsController < ApplicationController
 	
 	def index
 		@setting = Setting.new
-		@settings = Setting.paginate(:page => params[:page], :per_page => 10)
+		@settings = Setting.all
 	end
 
 	def create
