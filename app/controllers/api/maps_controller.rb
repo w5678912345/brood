@@ -7,7 +7,10 @@ class Api::MapsController < Api::BaseController
 	def valid
 		@role = Role.find_by_id(params[:role_id])
 		return render json: {:code => CODES[:not_find_role]} unless @role
-		if @role.role_session and @role.role_session.instance_map
+		if @role.role_session.nil?
+			return render json: {:code => CODES[:role_offline]}
+		end
+		if @role.role_session.instance_map
 			@map = @role.role_session.instance_map
 		else
 			@map =InstanceMap.get_valid_one(@role.level)
