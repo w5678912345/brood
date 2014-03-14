@@ -24,6 +24,15 @@
 	<%= select_tag "status",options_for_select(Phone::STATUS )%>
 </div>
 </div>
+<% elsif params[:do] == "set_enabled"%>
+<div class="control-group">
+<label class="control-label">是否激活:</label>
+<div class="controls docs-input-sizes" >
+<label class="checkbox">
+	<input id="enabled" name="enabled" type="checkbox" value="1">是否激活
+</label>
+</div>
+</div>
 
 <%end%>
 

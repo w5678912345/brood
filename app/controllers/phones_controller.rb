@@ -92,6 +92,9 @@ class PhonesController < ApplicationController
         status = params[:status]
         i = @phones.update_all(:status=>status) if Phone::STATUS.include?(status)
         flash[:msg] = "#{i}个号码状态设置为 #{status}"
+    elsif "set_enabled" == @do
+        i = @phones.update_all(:enabled => params[:enabled].to_i)
+         flash[:msg] = "#{i}个号码发生改变"
     end
   end
 
