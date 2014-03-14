@@ -2,7 +2,7 @@ class LinksController < ApplicationController
   # GET /links
   # GET /links.json
   def index
-    @links = Link.search(params)
+    @links = Link.search(params).order("id desc")
 
     #per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
     #@links = @links.paginate(:page => params[:page], :per_page => per_page)

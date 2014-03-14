@@ -2,7 +2,7 @@
 class OrdersController < ApplicationController
 
 	def index
-		@orders = Order.search(params)
+		@orders = Order.search(params).order("id desc")
 		#per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
 		@orders = initialize_grid(@orders)
         render "wice_index"
