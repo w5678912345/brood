@@ -13,7 +13,7 @@ class Api::PhonesController < Api::BaseController
 
 	def get_unlock
 		normal_at = Time.now.ago(30.days).since(1200.hours)
-		@accounts = Account.joins(:roles).where("accounts.status = ?",'locked').where("accounts.normal_at >= ?",normal_at).reorder("roles.level desc")
+		@accounts = Account.joins(:roles).where("accounts.status = ?",'locked').reorder("roles.level desc")
 		@accounts = @accounts.where("accounts.server = ?",params[:server]) unless params[:server].blank?
 		@account = @accounts.uniq().first
 		return render :json => {:code => CODES[:not_find_account]} unless @account
