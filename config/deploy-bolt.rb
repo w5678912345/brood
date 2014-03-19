@@ -95,7 +95,7 @@ task :deploy => :environment do
 
     to :launch do
       invoke :'thin:start'
-      #invoke :'whenever:write'
+      queue %[whenever -i]
     end
     
     to :clean do
@@ -116,7 +116,7 @@ task :shutdown do
   queue %[echo "-----> Shutting down..."]
   invoke :'rvm:use[ruby-2.0.0-p247]'
   invoke :'thin:stop'
-  invoke :'whenever:clear'
+  queue %[whenever -c]
 end
 
 #
