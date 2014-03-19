@@ -10,9 +10,11 @@ class AccountsController < ApplicationController
 			params[:bind] = tmp_bind_cid.to_s if tmp_bind_cid == 0 || tmp_bind_cid == -1
 		end
 		@accounts = Account.list_search(params)
-		params[:per_page] = params[:per_page].blank? ? 20 : params[:per_page].to_i
-		params[:per_page] = @accounts.count unless params[:all].blank?
-		@accounts = @accounts.paginate(:page => params[:page], :per_page => params[:per_page])
+		#params[:per_page] = params[:per_page].blank? ? 20 : params[:per_page].to_i
+		#params[:per_page] = @accounts.count unless params[:all].blank?
+		#@accounts = @accounts.paginate(:page => params[:page], :per_page => params[:per_page])
+		@accounts = initialize_grid(@accounts)
+		render "wice_index"
 	end
 
 	def show
@@ -56,12 +58,13 @@ class AccountsController < ApplicationController
 	end
 
 	def checked 
-		@no = params[:no] || []
+		@no = params[:grid][:selected] || []
 	end
 
 	def do_checked
 		@do = params[:do]
 		@no = params[:no]
+
 		@accounts = Account.where("no in (?)",@no)
 		# 禁用绑定
 		if "disable_bind" == @do

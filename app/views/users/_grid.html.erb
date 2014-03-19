@@ -1,0 +1,18 @@
+<div class="alert">
+<strong>提示信息:</strong>
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<span><%= @users.count%>个用户</span> 
+</div>
+  <%= grid(@users, show_filters: :always) do |g|
+  	g.column name:  'ID',attribute: "id" ,filter: false
+  	g.column name:  'EMail',attribute: "email",filter: false
+  	g.column name:  '登陆次数',attribute: "sign_in_count",filter: false
+  	g.column name:  '管理员',attribute: "is_admin",filter: false
+  	g.column name:  '创建时间' do |user|
+    	time_str user.created_at 
+  	end
+  	g.column   do |task|
+    	link_to(raw("<div class='btn'>Edit</div>"), edit_user_path(task)) + raw("<br>")+
+    	(link_to raw("<div class='btn'>删除</div>"),user_path(task),confirm: 'Are you sure?',:method => :delete )
+  	end
+end %>

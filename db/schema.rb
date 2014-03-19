@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140302130426) do
+ActiveRecord::Schema.define(:version => 20140310101321) do
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -98,6 +98,36 @@ ActiveRecord::Schema.define(:version => 20140302130426) do
     t.datetime "updated_at",                                  :null => false
   end
 
+  create_table "history_role_sessions", :force => true do |t|
+    t.datetime "begin_at"
+    t.datetime "end_at"
+    t.integer  "gold"
+    t.integer  "exchanged_gold"
+    t.integer  "connection_times"
+    t.string   "ip"
+    t.string   "task"
+    t.string   "result"
+    t.integer  "role_id"
+    t.integer  "account_id"
+    t.integer  "computer_id"
+    t.string   "role_name"
+    t.string   "computer_name"
+    t.integer  "begin_level"
+    t.integer  "end_level"
+    t.integer  "begin_power"
+    t.integer  "end_power"
+    t.string   "account_key"
+    t.string   "server"
+    t.string   "version"
+    t.string   "game_version"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "history_role_sessions", ["account_id"], :name => "index_history_role_sessions_on_account_id"
+  add_index "history_role_sessions", ["computer_id"], :name => "index_history_role_sessions_on_computer_id"
+  add_index "history_role_sessions", ["role_id"], :name => "index_history_role_sessions_on_role_id"
+
   create_table "instance_maps", :force => true do |t|
     t.integer  "key",                                           :null => false
     t.string   "name",         :limit => 64,                    :null => false
@@ -168,6 +198,11 @@ ActiveRecord::Schema.define(:version => 20140302130426) do
     t.string   "target"
     t.string   "result"
     t.string   "opts"
+    t.string   "goods"
+    t.integer  "amount",                       :default => 0,     :null => false
+    t.integer  "cost",                         :default => 0,     :null => false
+    t.string   "role_type"
+    t.string   "role_name"
   end
 
   add_index "notes", ["account"], :name => "index_notes_on_account"
@@ -206,6 +241,7 @@ ActiveRecord::Schema.define(:version => 20140302130426) do
     t.datetime "updated_at",                :null => false
     t.string   "server"
     t.integer  "session_id", :default => 0, :null => false
+    t.string   "target"
   end
 
   create_table "phone_machines", :force => true do |t|
@@ -236,6 +272,7 @@ ActiveRecord::Schema.define(:version => 20140302130426) do
   create_table "role_sessions", :force => true do |t|
     t.integer  "role_id"
     t.integer  "computer_id"
+    t.integer  "instance_map_id",  :default => 0
     t.integer  "start_level"
     t.integer  "start_gold"
     t.integer  "start_exp"
@@ -247,6 +284,7 @@ ActiveRecord::Schema.define(:version => 20140302130426) do
     t.datetime "live_at"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
+    t.integer  "start_power"
   end
 
   add_index "role_sessions", ["role_id"], :name => "index_role_sessions_on_role_id"
@@ -286,21 +324,35 @@ ActiveRecord::Schema.define(:version => 20140302130426) do
     t.integer  "computers_count",               :default => 0,        :null => false
     t.integer  "session_id",                    :default => 0,        :null => false
     t.boolean  "today_success",                 :default => false,    :null => false
+    t.integer  "bag_value",                     :default => 0,        :null => false
+    t.integer  "start_count",                   :default => 0,        :null => false
+    t.integer  "experience",                    :default => 0,        :null => false
+    t.string   "task_name"
+    t.boolean  "reset_talent",                  :default => false,    :null => false
+    t.boolean  "is_agent",                      :default => false,    :null => false
   end
 
   add_index "roles", ["account"], :name => "index_roles_on_account"
 
   create_table "servers", :force => true do |t|
-    t.string   "name",            :limit => 124,                  :null => false
+    t.string   "name",            :limit => 124,                    :null => false
     t.string   "role_str"
-    t.integer  "roles_count",                    :default => 0,   :null => false
-    t.integer  "computers_count",                :default => 0,   :null => false
-    t.datetime "created_at",                                      :null => false
-    t.datetime "updated_at",                                      :null => false
+    t.integer  "roles_count",                    :default => 0,     :null => false
+    t.integer  "computers_count",                :default => 0,     :null => false
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
     t.string   "goods"
-    t.integer  "price",                          :default => 1,   :null => false
-    t.float    "gold_price",                     :default => 0.0, :null => false
-    t.float    "gold_unit",                      :default => 0.0, :null => false
+    t.integer  "price",                          :default => 1,     :null => false
+    t.float    "gold_price",                     :default => 0.0,   :null => false
+    t.float    "gold_unit",                      :default => 0.0,   :null => false
+    t.string   "goods2"
+    t.integer  "price2",                         :default => 1,     :null => false
+    t.integer  "max_price",                      :default => 1,     :null => false
+    t.integer  "max_price2",                     :default => 1,     :null => false
+    t.string   "goods3"
+    t.integer  "price3",                         :default => 1,     :null => false
+    t.integer  "max_price3",                     :default => 1,     :null => false
+    t.boolean  "sell_closed",                    :default => false
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true

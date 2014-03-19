@@ -1,0 +1,30 @@
+<fieldset>
+<legend>IP List</legend>
+<%= render "search_form" %>
+
+<div class="alert">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<strong>提示信息:</strong>
+<span><%= @ips.count%>个IP</span>
+<%= link_to "重置",reset_ips_path , :method=>:put,:class=>"btn"%> 
+</div>
+<%= grid(@ips, show_filters: :always) do |g|
+  g.column name:  'IP' do |ip|
+    link_to ip.value,notes_path(:ip=>ip.value),:target=>"_blank"
+  end
+  g.column name:  '冷却时间' do |ip|
+  	ip.hours_ago.to_s + "小时"
+  end
+  g.column name:  '角色数量' do |ip|
+	link_to ip.use_count,accounts_path(:online_ip => ip.value)  
+  end
+  g.column name:  '使用时间' do |ip|
+    time_str ip.updated_at
+  end
+  g.column name:  '最后一次使用个账号',attribute: "last_account" ,filter: false
+ 
+  g.column   do |task|
+    (link_to raw("<div class='btn'>删除</div>"),task_path(task),confirm: 'Are you sure?',:method => :delete )
+  end
+end %>
+</fieldset>

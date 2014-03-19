@@ -9,7 +9,9 @@ class IpsController < ApplicationController
 		@ips = Ip.where("1=1")
 		@ips = @ips.where("value like ?","%#{params[:ip]}%") unless params[:ip].blank?
 		@ips = @ips.where("last_acccount like ?","%#{params[:no]}%") unless params[:no].blank?
-		@ips = @ips.paginate(:page => params[:page], :per_page => 15)
+		#@ips = @ips.paginate(:page => params[:page], :per_page => 15)
+		@ips = initialize_grid(@ips)
+		render "wice_index"
 	end
 
 	def show

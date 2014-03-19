@@ -58,6 +58,7 @@ class Role < ActiveRecord::Base
 
   # 角色开始
   def api_start opts
+    #binding.pry
     return 0 unless self.online
     return CODES[:role_is_started] if self.is_started?
 
@@ -71,7 +72,7 @@ class Role < ActiveRecord::Base
        :api_name=>"role_start",:server=> self.server || computer.server,:msg=>opts[:msg],:level=>self.level,:session_id =>account_session.id,:version=>computer.version)
       # 修改账号的当前角色
       self.qq_account.update_attributes(:online_role_id => self.id)
-      self.role_session = RoleSession.create! :start_level => self.level,:start_gold => self.total,:computer_id => self.qq_account.online_computer.id,:live_at => Time.now,:ip => opts[:ip]
+      r = RoleSession.create_from_role(self,opts[:ip])      
       # 修改角色 session
        return 1 if self.update_attributes(:session_id => session.id)
     end
@@ -97,8 +98,9 @@ class Role < ActiveRecord::Base
      # 
      self.transaction do
       # 修改角色在线时间
-      self.role_session.live_at = Time.now
-      self.role_session.save
+      if self.role_session
+        self.role_session.live_now
+      end
       self.session.update_hours
       # 修改角色最后访问时间
       return 1 if self.update_attributes(:updated_at => Time.now)
@@ -114,18 +116,22 @@ class Role < ActiveRecord::Base
      computer = self.session.computer
      return 0 unless  (STATUS.include? status) || (EVENT.include? event) #事件和状态都未定义，不进行更新
      self.transaction do
-     if STATUS.include? status
-       api_name = status # 如果定义了有效状态 设置 api_name => status
-       api_code = status # 如果定义了有效状态 设置 api_code => status
-       self.status = status 
-     end
-     api_name = event if EVENT.include? event # 如果定义了有效事件，设置api_name => event
-     # 发生事件或状态改变时，插入记录
-      Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, 
-            :api_name=> api_name,:api_code => api_code,:msg=>opts[:msg],:session_id=>self.qq_account.session_id,
-            :version=>computer.version,:server=>self.server || computer.server) 
-      #
-      return 1 if self.update_attributes(:updated_at => Time.now)
+       if STATUS.include? status
+         api_name = status # 如果定义了有效状态 设置 api_name => status
+         api_code = status # 如果定义了有效状态 设置 api_code => status
+         self.status = status 
+       end
+       api_name = event if EVENT.include? event # 如果定义了有效事件，设置api_name => event
+       # 发生事件或状态改变时，插入记录
+        Note.create(:account =>self.account,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:hostname=> computer.hostname, 
+              :api_name=> api_name,:api_code => api_code,:msg=>opts[:msg],:session_id=>self.qq_account.session_id,
+              :version=>computer.version,:server=>self.server || computer.server) 
+        #
+
+        if self.role_session
+          self.role_session.live_now
+        end
+        return 1 if self.update_attributes(:updated_at => Time.now)
       end
   end
 
@@ -145,13 +151,14 @@ class Role < ActiveRecord::Base
       if opts[:success].to_i == 1
         self.today_success = true
         session.success = true
+        opts[:msg] = 'success'
       end #成功
       session.update_attributes(:ending=>true, :stopped_at=>now,:hours=>hours)
       # 记录note
       Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,:version=>computer.version,
        :api_name=>"role_stop",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=> account_session.id)
       # 清空会话
-      self.role_session.destroy
+      self.role_session.stop(opts[:msg])
       return 1 if self.update_attributes(:session_id => 0)
     end
   end
@@ -179,7 +186,10 @@ class Role < ActiveRecord::Base
           :version=>computer.version, :server=>self.server || computer.server,:session_id=>account_session.id, :msg=>"交易后自动解除锁定")
       end
       # 修改会话
-
+      if opts[:pay_type] == 'trade' and self.role_session
+        self.role_session.exchanged_gold += opts[:gold].to_i
+        self.role_session.save
+      end
       payment.save
       return 1 if  self.update_attributes(:updated_at=>Time.now)
     end
@@ -216,9 +226,7 @@ class Role < ActiveRecord::Base
 
 
   def self.auto_stop
-    last_at = Time.now.ago(10.minutes).strftime("%Y-%m-%d %H:%M:%S")
-    print last_at
-    roles = Role.where("session_id > 0").where("updated_at < '#{last_at}'")
+    roles = Role.where("session_id > 0").where("updated_at < ?",10.minutes.ago)
     roles.each do |role|
       role.api_stop(opts={:ip=>"localhost"})
       role.role_session.destroy
