@@ -16,9 +16,9 @@
 	</tr>
 </thead>
 <tbody>
-<% @records.each do |record|%>
+<% @dates.each do |date|%>
 <tr>
-	<td><%= record.Day %></td>
+	<td><%= date %></td>
 </tr>
 <%end%>
 </tbody>
@@ -29,13 +29,13 @@
 <table class="table" border="1" class=""> 
 <thead>
 	<tr>
-		<th>金币(亿)</th>
+		<th>金币(亿) 总计<%= sprintf('%0.2f',@tradesum/100000000.00) %></th>
 	</tr>
 </thead>
 <tbody>
-<% @records.each do |record|%>
-<tr>
-	<td><%= sprintf('%.2f', record.Gold/100000000.00) if record.Gold>0  %></td>
+<% @dates.each do |date|%>
+<tr title="<%= date%>">
+	<td><%= @trade.has_key?(date.to_s) ?  sprintf('%.2f', @trade[date.to_s]/100000000.00) : 0 %></td>
 </tr>
 <%end%>
 </tbody>
