@@ -45,6 +45,7 @@ class Api::OrdersController < Api::BaseController
 	def end
 		@order = Order.where(:finished=>false).find_by_id(params[:id])
 		return render :json=>{:code=>CODES[:not_fint_order]} unless @order
+		return render :json => {:code => -1} if @order.link.status == 'disable'
 		@order.update_attributes(:finished=>true,:finished_at=>Time.now,:result=>params[:result],:msg=>params[:msg])
 		@order.link.update_attributes(:status=>"idle") if @order.link
 		render :json => {:code=>1}

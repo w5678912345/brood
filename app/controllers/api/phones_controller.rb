@@ -27,6 +27,18 @@ class Api::PhonesController < Api::BaseController
 		render :json => {:code=>1,:no=>phone_id,:id=>@account.no,:password=>@account.password,:status=>@account.status}
 	end
 
+	def qq_register
+		#找到不能用于注册的phones
+		disabled_phones = Link.select("phone_no").where(:status => 'disable',:event => 'qq_register')
+		dp = disabled_phones.inject([-1]){|r,i| r << i.phone_no}
+
+		@phone = Phone.where("enabled = true and no not in (?)",dp).first
+		if @phone.nil?
+			render :json => {:code => -1} 
+		else
+			render :json => @phone
+		end
+	end
 
 	def pull
 
@@ -65,10 +77,13 @@ class Api::PhonesController < Api::BaseController
 		@phone = Phone.find_or_create_by_no(params[:no])
 		return render :json => {:code => CODES[:not_find_phone]} unless @phone
 		@link = @phone.links.find_by_id(params[:link_id])
-
-		@code = 1 if @link.update_attributes(:status=>"sent")  #if @phone.update_attributes(:status=>"sent",:sms_count=>@phone.sms_count+1,:today_sms_count=>@phone.today_sms_count+1)
+		if @link.status == 'disable'
+			render :json => {:code => -1}
+		else
+			@code = 1 if @link.update_attributes(:status=>"sent")  #if @phone.update_attributes(:status=>"sent",:sms_count=>@phone.sms_count+1,:today_sms_count=>@phone.today_sms_count+1)
 		
-		render :json=>{:code=>@code}
+			render :json=>{:code=>@code}
+		end
 	end
 
 
