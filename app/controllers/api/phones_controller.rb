@@ -33,7 +33,11 @@ class Api::PhonesController < Api::BaseController
 		dp = disabled_phones.inject([-1]){|r,i| r << i.phone_no}
 
 		@phone = Phone.where("enabled = true and no not in (?)",dp).first
-		render :json => {:code => -1}
+		if @phone.nil?
+			render :json => {:code => -1} 
+		else
+			render :json => @phone
+		end
 	end
 
 	def pull
