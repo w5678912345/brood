@@ -11,4 +11,11 @@ describe Api::PhonesController do
     get :qq_register
     assigns(:phone).should eq nil
   end
+  it "can disable phone reigister" do
+    p = FactoryGirl.create :phone
+    l = FactoryGirl.create :link ,:phone_no => p.no, :event => "qq_register", :status => "idle"
+
+    get :disable,{:event => 'qq_register',:phone_no => p.no}
+    Link.find(l.id).status.should eq 'disable'
+  end
 end

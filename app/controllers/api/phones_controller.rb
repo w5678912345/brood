@@ -39,7 +39,14 @@ class Api::PhonesController < Api::BaseController
 			render :json => @phone
 		end
 	end
+	def disable
+		l1 = Link.where("event = 'qq_register' and phone_no = ?",params[:phone_no]).first
+		l1 = Link.create(:event => 'qq_register',:phone_no => params[:phone_no]) if l1.nil?
 
+		l1.update_status 'disable'
+		l1.save
+		render :json => {:code => 1}
+	end
 	def pull
 
 		@phone_machine = PhoneMachine.find_by_name(params[:name])
