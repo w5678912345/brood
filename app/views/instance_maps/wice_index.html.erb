@@ -16,6 +16,7 @@
   g.column name:  "总容量",attribute: 'death_limit' 
   g.column name:  '当前在线' do |map|
     map.role_count
+    link_to map.role_count,role_sessions_path(:map_id=>map.id)
   end
   g.column name:  '备注', attribute: 'remark'
   g.column do |map|

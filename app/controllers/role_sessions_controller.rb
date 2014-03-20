@@ -2,8 +2,10 @@ class RoleSessionsController < ApplicationController
   # GET /role_sessions
   # GET /role_sessions.json
   def index
-    @role_sessions = initialize_grid(RoleSession.joins([:role]).includes(:role => :computer).select("role_sessions.*, roles.total"))
-
+    @role_sessions = RoleSession.joins([:role]).includes(:role => :computer)
+    @role_sessions = @role_sessions.where("role_sessions.instance_map_id = ?",params[:map_id].to_i) unless params[:map_id].blank?
+    @role_sessions = @role_sessions.select("role_sessions.*, roles.total")
+    @role_sessions = initialize_grid(@role_sessions)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @role_sessions }
