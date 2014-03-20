@@ -160,6 +160,9 @@ Brood::Application.routes.draw do
     resource :trade, :only => [:show],controller: 'trade' do
       get :search
     end
+    resource :excel, :only => [:show], controller: 'excel' do 
+
+    end
   end
 	
 

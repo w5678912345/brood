@@ -1,0 +1,53 @@
+<fieldset>
+<legend>金币</legend>
+<form class="form-search" action="<%= gold_excel_path %>">
+<input type="text" name="server" placeholder="服务器" class="input-medium" value="<%= params[:server]%>" />
+日期:
+   <input type="text" name="start_time" id="start_time" class="input-medium search-query" placeholder="开始时间" value="<%= params[:start_time]%>" />-
+  <input type="text" name="end_time" id="end_time" class="input-medium search-query" placeholder="截止时间" value="<%= params[:end_time]%>" />  
+  <button type="submit" class="btn">Search</button>
+</form>
+
+<div class="span6">
+<table class="table" border="1" class=""> 
+<thead>
+	<tr>
+		<th>日期</th>
+	</tr>
+</thead>
+<tbody>
+<% @records.each do |record|%>
+<tr>
+	<td><%= record.Day %></td>
+</tr>
+<%end%>
+</tbody>
+</table>
+</div>
+
+<div class="span6">
+<table class="table" border="1" class=""> 
+<thead>
+	<tr>
+		<th>金币(亿)</th>
+	</tr>
+</thead>
+<tbody>
+<% @records.each do |record|%>
+<tr>
+	<td><%= sprintf('%.2f', record.Gold/100000000.00) if record.Gold>0  %></td>
+</tr>
+<%end%>
+</tbody>
+</table>
+</div>
+
+
+
+<script type="text/javascript">
+$(function(){
+	$("#start_time").datetimepicker({dateFormat:"yy-mm-dd",timeFormat:"HH:mm:ss"});
+	$("#end_time").datetimepicker({dateFormat:"yy-mm-dd",timeFormat:"HH:mm:ss"});
+});
+</script>
+</fieldset>
