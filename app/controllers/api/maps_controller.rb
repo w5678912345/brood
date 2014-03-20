@@ -5,6 +5,7 @@ class Api::MapsController < Api::BaseController
 
 
 	def valid
+
 		@role = Role.find_by_id(params[:role_id])
 		return render json: {:code => CODES[:not_find_role]} unless @role
 		if @role.role_session.nil?
@@ -23,6 +24,7 @@ class Api::MapsController < Api::BaseController
 			render :json => {:key=>@map.key,:name=>@map.name}
 		else
 			@code = -1
+			Note.create(@role.role_session.computer.to_note_hash.merge(:account=>@role.account, :role_id => @role.id, :api_name=>"not_find_map",:ip=>request.remote_ip))
 			render :json => {:code=>@code}
 		end
 		

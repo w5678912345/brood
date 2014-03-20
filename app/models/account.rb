@@ -140,9 +140,11 @@ class Account < ActiveRecord::Base
         end
         # 记录账号发生的事件
         api_name = event if EVENT.include? event # 如果定义了有效事件，设置api_name => event
-        if status == 'discardfordays' || status == "discardforyears"
-            count = Note.where("api_name = 'discardfordays' or api_name = 'discardforyears' ").where("date(created_at)=?",Date.today.to_s).count
+        if status == 'discardfordays'
+            count = Note.where("api_name = 'discardfordays' ").where("date(created_at)=?",Date.today.to_s).count
             computer.update_attributes(:status=>0) if count >= Setting.account_discardfordays
+        elsif status == 'discardforyears'
+            computer.update_attributes(:status=>0)
         end
         Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:role_id => self.online_role_id,:ip=>opts[:ip],:api_name => api_name,
           :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id,:api_code=>api_code)
