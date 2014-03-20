@@ -256,6 +256,7 @@ Brood::Application.routes.draw do
     resources :phones,:only => [:show] do 
       match :get,  :on => :collection
       match :get_unlock, :on => :collection
+      match :qq_register, :on => :collection
       match :bind, :on => :collection
       match :set_can_bind, :on => :collection
       match :set_can_unlock, :on => :collection
