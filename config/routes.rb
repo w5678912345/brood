@@ -257,6 +257,7 @@ Brood::Application.routes.draw do
       match :get,  :on => :collection
       match :get_unlock, :on => :collection
       match :qq_register, :on => :collection
+      match :disable, :on => :collection
       match :bind, :on => :collection
       match :set_can_bind, :on => :collection
       match :set_can_unlock, :on => :collection
