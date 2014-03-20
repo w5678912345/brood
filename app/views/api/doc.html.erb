@@ -186,6 +186,15 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 <td>设置手机是否可以绑定, no => 手机, unlock => 1表示yes | 0表示no</td> 
 </tr>
 
+<tr class="error">
+<td>phones/qq_register.json</td>
+<td>获取可用于qq注册的手机号码, 返回phone对象的json</td> 
+</tr>
+
+<tr class="error">
+<td>phones/disable.json</td>
+<td>关闭phone对应event的通道 disable 参数 phone_no => 手机号码, event => 事件</td> 
+</tr>
 
 <tr>
 <td>phones/pull.json</td>
