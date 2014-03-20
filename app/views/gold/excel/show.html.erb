@@ -29,13 +29,13 @@
 <table class="table" border="1" class=""> 
 <thead>
 	<tr>
-		<th>金币</th>
+		<th>金币(亿)</th>
 	</tr>
 </thead>
 <tbody>
 <% @records.each do |record|%>
 <tr>
-	<td><%= record.Gold %></td>
+	<td><%= sprintf('%.2f', record.Gold/100000000.00) if record.Gold>0  %></td>
 </tr>
 <%end%>
 </tbody>
