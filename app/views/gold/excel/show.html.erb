@@ -16,9 +16,9 @@
 	</tr>
 </thead>
 <tbody>
-<% @records.each do |record|%>
+<% @dates.each do |date|%>
 <tr>
-	<td><%= record.Day %></td>
+	<td><%= date %></td>
 </tr>
 <%end%>
 </tbody>
@@ -29,13 +29,13 @@
 <table class="table" border="1" class=""> 
 <thead>
 	<tr>
-		<th>金币</th>
+		<th>金币 总计<%= @tradesum%></th>
 	</tr>
 </thead>
 <tbody>
-<% @records.each do |record|%>
-<tr>
-	<td><%= record.Gold %></td>
+<% @dates.each do |date|%>
+<tr title="<%= date%>">
+	<td><%= @trade.has_key?(date.to_s) ? @trade[date.to_s] : 0 %></td>
 </tr>
 <%end%>
 </tbody>
