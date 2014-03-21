@@ -3,7 +3,7 @@
     time_str note.created_at 
   end
 
-  g.column name:  '区', attribute: 'server', custom_filter: :auto
+  g.column name:  '区', attribute: 'server'
   # g.column name:  'KEY', attribute: 'auth_key',filter: false
   g.column name: '机器' ,attribute: 'hostname', model: 'Computer' do |note|
     computer_tag(note.computer) unless note.computer.blank?
@@ -21,7 +21,7 @@
   g.column name:  '自动绑定' do |note|
     note_tag note 
   end
-  g.column name:  "事件",attribute: 'api_code', custom_filter: :auto  do |note|
+  g.column name:  "事件",attribute: 'api_code' do |note|
     note.api_code if note.api_code != '0'
   end
   g.column name:  "消息",attribute: 'msg' 
