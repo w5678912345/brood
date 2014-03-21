@@ -6,7 +6,7 @@
     r += raw('<i class="icon-flag" title="IP: '+task.ip_range+'"></i>') unless task.ip_range.blank?
     r
   end
-  g.column name:  '区', attribute: 'server', custom_filter: :auto
+  g.column name:  '区', attribute: 'server'
   g.column name:  '角色数', attribute: 'roles_count',filter: false
   g.column name: '绑定机器' ,attribute: 'bind_computer_id',filter: false do |task|
      account_bind_tag task
@@ -22,7 +22,7 @@
       normal_at_tag account.normal_at
     end
   end
-  g.column name:  '状态', attribute: 'status', custom_filter: :auto
+  g.column name:  '状态', attribute: 'status'
   g.column name:  "冷却时间",attribute: 'normal_at'  do |task|
     time_str task.normal_at
   end

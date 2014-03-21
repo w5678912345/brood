@@ -6,17 +6,17 @@
     computer_tag(computer)+" "+computer.group
   end
 
-  g.column name:  '区', attribute: 'server', custom_filter: :auto do |computer|
+  g.column name:  '区', attribute: 'server' do |computer|
     link_to computer.server || "" ,computers_path(:server => computer.server)
   end
   g.column name:  'KEY', attribute: 'auth_key',filter: false
-  g.column name: '状态' ,attribute: 'status', custom_filter: :auto do |computer|
+  g.column name: '状态' ,attribute: 'status' do |computer|
      status_tag computer.status
   end
-  g.column name:  '版本', attribute: 'version', custom_filter: :auto do |computer|
+  g.column name:  '版本', attribute: 'version' do |computer|
     link_to computer.version, computers_path(:version => computer.version) 
   end
-  g.column name:  '账号数', attribute: 'accounts_count', custom_filter: :auto do |computer|
+  g.column name:  '账号数', attribute: 'accounts_count' do |computer|
     computer.online_accounts_count.to_s + "/" + computer.accounts_count.to_s
   end
   g.column name:  '自动绑定', attribute: 'auto_binding' do |computer|
