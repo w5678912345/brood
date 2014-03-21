@@ -65,3 +65,9 @@ group by account having t = 2 and tr = 3 limit 10;
 update roles inner join (
 select count(DISTINCT role_index) t ,count(role_index) tr, min(id) min_id,account from roles group by account having t = 2 and tr = 3 
 ) as t1 on roles.id = t1.min_id set role_index = 0  where role_index = 1 ;  roles.server = '天津1区';
+
+
+
+select msg,count(id) from notes where date(created_at)='2014-3-20' and api_code = 'disconnect' group by msg;
+
+
