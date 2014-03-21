@@ -5,9 +5,9 @@
   end
   g.column name:  '命令',attribute: "command" ,filter: false
   g.column name:  '参数',attribute: "args",filter: false do |task|
-    r = link_to "#{task.id}##{task.name}",task_path(task)
-    r += link_to(raw('<i class="icon-tag" title="顶级任务"></i>'),tasks_path(:sup_id=>task.id)) if task.sup_id == 0 
-    r
+    if task.command == "get_log_file"
+      link_to task.args,alogs_computer_path(:id=>task.computer_id,:f=>task.args),target: "_blank"
+    end
   end
   g.column name:  '备注',attribute: "remark",filter: false
   g.column name:  '角色' do |task|

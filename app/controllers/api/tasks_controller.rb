@@ -20,7 +20,6 @@ class Api::TasksController < Api::BaseController
 		
 		return @code = CODES[:not_find_task] unless @task
 		@code = 1 if @task.update_attributes(:pushed=>true,:pushed_at=>Time.now)
-		
 	end
 
 	def call
