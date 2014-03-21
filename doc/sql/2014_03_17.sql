@@ -5,6 +5,9 @@ select count(computers.id) from computers
 	 inner join roles on roles.account = accounts.no
 
 
+ select CONCAT(role_id,'-', gold, '-',balance) cc,count(id) 
+ 	from payments where date(created_at) > '2014-02-20' group by cc having count(id)>1; 
+
 
 
 select computers.id , count(roles.id) as roles_count from computers 
