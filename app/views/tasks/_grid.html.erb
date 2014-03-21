@@ -4,7 +4,11 @@
     link_to "#{task.id}##{task.name}",task_path(task)
   end
   g.column name:  '命令',attribute: "command" ,filter: false
-  g.column name:  '参数',attribute: "args",filter: false
+  g.column name:  '参数',attribute: "args",filter: false do |task|
+    r = link_to "#{task.id}##{task.name}",task_path(task)
+    r += link_to(raw('<i class="icon-tag" title="顶级任务"></i>'),tasks_path(:sup_id=>task.id)) if task.sup_id == 0 
+    r
+  end
   g.column name:  '备注',attribute: "remark",filter: false
   g.column name:  '角色' do |task|
     link_to（"%s##%s" % [task.role.account.no,role_tag(task.role_id)],role_path(task.role) if task.role
