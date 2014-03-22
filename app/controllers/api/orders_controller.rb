@@ -21,7 +21,7 @@ class Api::OrdersController < Api::BaseController
 
 		@account = Account.find_by_no(params[:id] || params[:account_id])
 		
-		@order =  Order.new(:phone_no=>@phone.no,:trigger_event=>params[:event],:sms=>params[:sms])
+		@order =  Order.new(:phone_no=>@phone.no,:trigger_event=>params[:event],:sms =>params[:sms],:target_no =>params[:target_no])
 		@order.account_no = @account.no if @account
 		if @order.save
 			render :json => {:code=>1,:data=>{:id=>@order.id,:finished=>@order.finished,:trigger_event=>@order.trigger_event,:link_status=>@order.link.status}}

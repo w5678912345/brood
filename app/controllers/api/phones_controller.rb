@@ -55,7 +55,7 @@ class Api::PhonesController < Api::BaseController
 		@orders.each do |order|
 			order.link.update_status("busy")
 		end
-		render :json => @orders.as_json({:only => [:phone_no,:trigger_event,:sms,:link_id]}) 
+		render :json => @orders.as_json({:only => [:phone_no,:trigger_event,:sms,:link_id,:target_no]}) 
 
 		# @phone_machine = PhoneMachine.find_by_name(params[:name])
 		# @phones = Phone.can_pull_scope(@phone_machine.id)
