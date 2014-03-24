@@ -1,9 +1,9 @@
-<%= grid(@notes, show_filters: :always) do |g|
+<%= grid(@notes, show_filters: :no) do |g|
   g.column name:  '时间',attribute: 'created_at' do |note|
     time_str note.created_at 
   end
 
-  g.column name:  '区', attribute: 'server', custom_filter: :auto
+  g.column name:  '区', attribute: 'server'
   # g.column name:  'KEY', attribute: 'auth_key',filter: false
   g.column name: '机器' ,attribute: 'hostname', model: 'Computer' do |note|
     computer_tag(note.computer) unless note.computer.blank?
@@ -18,10 +18,10 @@
   g.column name:  'IP', attribute: 'ip' do |note|
     link_to note.ip,notes_path(:ip => note.ip)
   end
-  g.column name:  '自动绑定' do |note|
+  g.column name:  '事件' do |note|
     note_tag note 
   end
-  g.column name:  "事件",attribute: 'api_code', custom_filter: :auto  do |note|
+  g.column name:  "状态",attribute: 'api_code', custom_filter: :auto  do |note|
     note.api_code if note.api_code != '0'
   end
   g.column name:  "消息",attribute: 'msg' 
