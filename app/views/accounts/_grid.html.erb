@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> 26220c6f656513968693e502f46e8d33c4b4d61f
 <%= form_tag(checked_accounts_path,:method => :put,:id=>"account_checked_form",:onSubmit=>"return validate(this);",:target=>"_blank") do -%>
   <div colspan="2" class="text-right">
     <select id="do" name="do" class="input-medium">
@@ -13,9 +9,8 @@
     </select>
     <button type="submit" class="btn btn-primary">执行操作</button>
   </div>
-<<<<<<< HEAD
-=======
-<%= grid(@accounts, show_filters: :always) do |g|
+
+<%= grid(@accounts, show_filters: :no) do |g|
   g.action_column  object_property: :no
   g.column name:  'ID', attribute: 'id', filter: false
   g.column name:  'Account' do |task|
@@ -32,23 +27,8 @@
     if account.is_started?
       r = raw("#{account.session_id}#{notes_link_tag(:session_id => account.session_id )}") if account.session_id>0
       r += link_to account.session.ip,notes_path(:ip => account.session.ip)
->>>>>>> master
-
-=======
->>>>>>> 26220c6f656513968693e502f46e8d33c4b4d61f
-  <%= grid(@accounts, show_filters: :always) do |g|
-    g.action_column  object_property: :no
-    g.column name:  'ID', attribute: 'id', filter: false
-    g.column name:  'Account' do |task|
-      r = account_tag(task)#
-      r += raw('<i class="icon-flag" title="IP: '+task.ip_range+'"></i>') unless task.ip_range.blank?
-      r
     end
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> 26220c6f656513968693e502f46e8d33c4b4d61f
+  end
     g.column name:  '区', attribute: 'server'
     g.column name:  '角色数', attribute: 'roles_count',filter: false
     g.column name: '绑定机器' ,attribute: 'bind_computer_id',filter: false do |task|
@@ -74,18 +54,4 @@
     end
   end %>
 <%end%>
-<<<<<<< HEAD
-=======
-  end
-  g.column name:  '状态', attribute: 'status'
-  g.column name:  "冷却时间",attribute: 'normal_at'  do |task|
-    time_str task.normal_at
-  end
-  g.column name:  "成功",attribute: 'today_success'  do |task|
-    boolean_tag task.today_success
-  end
-end %>
->>>>>>> master
-=======
 
->>>>>>> 26220c6f656513968693e502f46e8d33c4b4d61f
