@@ -2,13 +2,15 @@
 class NotesController < ApplicationController
 	
 	def index
+		if params[:today]
 		now = Time.now
 		params[:start_time] = now.change(:hour => 0,:min => 0,:sec => 0).strftime("%Y-%m-%d %H:%M:%S") if params[:start_time].blank?
 		params[:end_time] = now.since(1.day).change(:hour => 0,:min => 0,:sec => 0).strftime("%Y-%m-%d %H:%M:%S") if params[:end_time].blank?
+		end
 		@notes = Note.list_search(params)
 		#per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
 		#@notes = @notes.paginate(:page => params[:page], :per_page => per_page)
-		@notes = initialize_grid(@notes)
+		@notes = initialize_grid(@notes.includes([:role,:computer]))
 		render "wice_index"
 	end
 

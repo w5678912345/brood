@@ -17,12 +17,9 @@ class Api::PhonesController < Api::BaseController
 		@accounts = @accounts.where("accounts.server = ?",params[:server]) unless params[:server].blank?
 		@account = @accounts.uniq().first
 		return render :json => {:code => CODES[:not_find_account]} unless @account
-		phone_id = @account.unlock_phone_id
-		if phone_id.blank?
-			@phone = Phone.where(:enabled=>true).where(:can_unlock=>true).first
-			return render :json => {:code => CODES[:not_find_phone]} unless @phone
-			phone_id = @phone.no
-		end
+		@phone = Phone.where(:enabled=>true).where(:can_unlock=>true).first
+		return render :json => {:code => CODES[:not_find_phone]} unless @phone
+		phone_id = @phone.no
 		
 		render :json => {:code=>1,:no=>phone_id,:id=>@account.no,:password=>@account.password,:status=>@account.status}
 	end
