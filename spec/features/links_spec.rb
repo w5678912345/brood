@@ -9,7 +9,7 @@ describe "Links" do
       # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
       visit links_path
       expect(page).to have_content('退出')
-      expect(page).to have_content('Phone no')
+      #expect(page).to have_content('Phone no')
     end
   end
 end

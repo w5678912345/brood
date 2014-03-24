@@ -7,8 +7,8 @@ describe "InstanceMaps" do
   describe "GET /instance_maps" do
     it "works! (now write some real specs)" do
       # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
-      get instance_maps_path
-      response.status.should be(200)
+      visit instance_maps_path
+      expect(page).to have_content('退出')
     end
   end
 end

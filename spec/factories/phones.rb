@@ -3,5 +3,6 @@
 FactoryGirl.define do
   factory :phone do
   	sequence(:id){|n| "12312#{n}"} 
+  	sequence(:no){|n| "12312#{n}"} 
   end
 end
