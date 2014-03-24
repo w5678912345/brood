@@ -4,7 +4,11 @@
     link_to "#{task.id}##{task.name}",task_path(task)
   end
   g.column name:  '命令',attribute: "command" ,filter: false
-  g.column name:  '参数',attribute: "args",filter: false
+  g.column name:  '参数',attribute: "args",filter: false do |task|
+    if task.command == "get_log_file"
+      link_to task.args,alogs_computer_path(:id=>task.computer_id,:f=>task.args),target: "_blank"
+    end
+  end
   g.column name:  '备注',attribute: "remark",filter: false
   g.column name:  '角色' do |task|
     link_to（"%s##%s" % [task.role.account.no,role_tag(task.role_id)],role_path(task.role) if task.role
