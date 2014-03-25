@@ -6,5 +6,8 @@ select computer_id,sum(if(api_name='account_start',hours,0)) / sum(if(api_name='
 
 # bolt 最近2-3天没有调度的号
 
-select count(id), from roles inner join accounts on role.account = accounts.no 
-	where accounts.bind_computer_id > 0 and date(roles.updated_at) < '2014-03-24'
+select count(roles.id),SUBSTRING_INDEX(roles.server,'|',1) as g_server from roles inner join accounts on roles.account = accounts.no 
+	where accounts.bind_computer_id > 0 and date(roles.updated_at) < '2014-03-21' and role_index = 0 and level =45 group by g_server;
+
+select roles.id,roles.updated_at from roles inner join accounts on roles.account = accounts.no 
+	where accounts.bind_computer_id > 0 and date(roles.updated_at) < '2014-03-21' and role_index = 0 and level =45 and roles.server like '网通五区%';
