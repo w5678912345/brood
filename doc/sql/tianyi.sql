@@ -33,3 +33,7 @@ select account from
 
 
  group by account;
+
+
+ update roles set status ='normal' where server = '山西1区' and role_index = 2;
+ 
