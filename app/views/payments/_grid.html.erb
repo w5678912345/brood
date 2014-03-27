@@ -1,4 +1,4 @@
-<%= grid(@payments, show_filters: :always) do |g|
+<%= grid(@payments, show_filters: :no) do |g|
   g.column name:  '时间' do |payment|
   	time_str payment.created_at
   end
@@ -21,5 +21,6 @@
   g.column name:  '支出类型', attribute: 'pay_type' do |payment|
 		link_to payment.pay_type,payments_path(:type=>payment.pay_type)
 	end
+  g.column name:  '目标', attribute: 'target'
   g.column name:  '备注', attribute: 'remark'
 end %>

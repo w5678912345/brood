@@ -1,3 +1,8 @@
 <%= render "navbar" %>
 <%= render "search_form"%>
+<div class="alert">
+<strong>提示信息:</strong>
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<span>查询到<%= @payments.count%>条记录，合计<%= gold_str @sum_gold%>. <%= flash[:msg] if flash[:msg]%></span>
+</div>
 <%= render "grid"%>

@@ -21,7 +21,7 @@ class PaymentsController < ApplicationController
 			@payments = @payments.where("server like ?","%#{params[:server]}%") unless params[:server].blank?
 			@payments = @payments.where(:pay_type => params[:pay_type]) unless params[:pay_type].blank?
 			@payments = @payments.where("remark like ?","%#{params[:remark]}%") unless params[:remark].blank?
-			
+			@sum_gold = @payments.sum(:gold)
 			#@payments = @payments.paginate(:page => params[:page],:per_page => 20)
 			@payments = initialize_grid(@payments)
 			render "wice_index"

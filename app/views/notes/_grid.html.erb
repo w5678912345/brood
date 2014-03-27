@@ -21,11 +21,7 @@
   g.column name:  '事件' do |note|
     note_tag note 
   end
-<<<<<<< HEAD
   g.column name:  "状态",attribute: 'api_code', custom_filter: :auto  do |note|
-=======
-  g.column name:  "事件",attribute: 'api_code' do |note|
->>>>>>> d001c5914957bafd98cadfcec03275aad88bdb58
     note.api_code if note.api_code != '0'
   end
   g.column name:  "消息",attribute: 'msg' 
