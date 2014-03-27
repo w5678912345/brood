@@ -40,6 +40,7 @@ select account from
 
  group by account;
 
+<<<<<<< HEAD
 select count(DISTINCT account) from notes where api_name ='exception';
 
 select count(DISTINCT account) from (
@@ -71,3 +72,8 @@ select count(DISTINCT role_index) t ,count(role_index) tr, min(id) min_id,accoun
 select msg,count(id) from notes where date(created_at)='2014-3-20' and api_code = 'disconnect' group by msg;
 
 
+=======
+
+ update roles set status ='normal' where server = '山西1区' and role_index = 2;
+ 
+>>>>>>> master
