@@ -3,7 +3,7 @@ class Computer < ActiveRecord::Base
   CODES = Api::CODES
   STATUS = []
   EVENT = ['not_find_account','code_error','QQRegister']
-  Btns = { "pass"=>"审核通过", "refuse"=>"拒绝通过","clear_bind_accounts" => "清空账号", "bind_accounts" => "分配账号","task"=>"远程任务","auto_binding_account"=>"自动绑定账号","swap_account"=>"转移账号","set_group"=>"设置分组","set_status"=>"设置状态"}
+  Btns = { "pass"=>"审核通过", "refuse"=>"拒绝通过","clear_bind_accounts" => "解绑账号", "bind_accounts" => "分配账号","task"=>"远程任务","auto_binding_account"=>"自动绑定账号","swap_account"=>"转移账号","set_group"=>"设置分组","set_status"=>"设置状态"}
 
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count,:started
   attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at,:version,:online_roles_count,:online_accounts_count
@@ -139,6 +139,7 @@ class Computer < ActiveRecord::Base
   # 清空绑定账户
   def clear_bind_accounts opts
     accounts = self.accounts.stopped_scope
+    accounts = accounts.limit(opts[:count].to_i) unless opts[:count].blank?
     accounts.each do |account|
         account.do_unbind_computer(opts)
     end
