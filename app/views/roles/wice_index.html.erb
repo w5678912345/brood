@@ -2,9 +2,9 @@
 <%= render "navbar" %>
 <%= render :partial => "new_search_form", :locals=>{:path=>roles_path}%>
 <div class="alert">
-<strong>提示信息:</strong>
+<strong>提示信息: </strong>
+<span>查询到<%= @roles.count%>条记录 <%= flash[:msg] if flash[:msg]%></span>
 <button type="button" class="close" data-dismiss="alert">&times;</button>
 </div>
-
-
 <%= render :partial => "grid"%>
+
