@@ -4,7 +4,7 @@
 <div class="alert">
 	<strong>提示信息:</strong>
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
-	<span><%= flash[:msg] if flash[:msg]%></span> 
+	<span><%= @accounts.count %>条记录  <%= flash[:msg] if flash[:msg]%></span> 
 </div>
 <%= form_tag(checked_accounts_path,:method => :put,:id=>"account_checked_form",:onSubmit=>"return validate(this);",:target=>"_blank") do -%>
 	<div colspan="2" class="text-right">
