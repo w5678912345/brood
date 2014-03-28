@@ -5,13 +5,13 @@ class RolesController < ApplicationController
 
 	# actions
 	def index
-		#@roles = Role.list_search(params)
+		@roles = Role.list_search(params)
 		vit = params[:vit]
 		level = params[:level]
 		params[:per_page] = params[:per_page].blank? ? 20 : params[:per_page].to_i
 		params[:per_page] = @roles.count unless params[:all].blank?
 		#@roles = @roles.paginate(:page => params[:page], :per_page => params[:per_page])
-		@roles = initialize_grid(Role,:include => [:qq_account],:per_page => params[:per_page])
+		@roles = initialize_grid(@roles,:per_page => params[:per_page])
 		#binding.pry
 		render :wice_index
 	end
