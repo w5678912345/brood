@@ -1,4 +1,4 @@
-<%= grid(@accounts, show_filters: :no) do |g|
+<%= grid(accounts, show_filters: :no) do |g|
   g.action_column  object_property: :no
   g.column name:  'ID', attribute: 'id', filter: false
   g.column name:  'Account' do |task|

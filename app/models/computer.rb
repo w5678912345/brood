@@ -79,6 +79,7 @@ class Computer < ActiveRecord::Base
     return 0 if self.is_started?
     return CODES[:computer_unchecked] unless self.checked
     self.version = opts[:version] unless opts[:version].blank?
+    self.client_count = opts[:client_count].to_i unless opts[:client_count].blank?
     # 创建session
     session = Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"computer_start",:msg=>opts[:msg],:version=>self.version,:hostname => self.hostname,:server=>self.server)
     return 1 if self.update_attributes(:session_id => session.id)

@@ -16,6 +16,7 @@
   g.column name:  '版本', attribute: 'version' do |computer|
     link_to computer.version, computers_path(:version => computer.version) 
   end
+  g.column name: '几开', attribute: 'client_count'
   g.column name:  '账号数', attribute: 'accounts_count' do |computer|
     computer.online_accounts_count.to_s + "/" + computer.accounts_count.to_s
   end

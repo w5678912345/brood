@@ -16,5 +16,5 @@
 		</select>
 		<button type="submit" class="btn btn-primary">执行操作</button>
 	</div>
-	<%= render :partial => "grid"%>
+	<%= render :partial => "grid",:locals=>{:accounts=>@accounts}%>
 <%end%>

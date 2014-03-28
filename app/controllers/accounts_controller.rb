@@ -10,10 +10,10 @@ class AccountsController < ApplicationController
 			params[:bind] = tmp_bind_cid.to_s if tmp_bind_cid == 0 || tmp_bind_cid == -1
 		end
 		@accounts = Account.list_search(params)
-		#params[:per_page] = params[:per_page].blank? ? 20 : params[:per_page].to_i
-		#params[:per_page] = @accounts.count unless params[:all].blank?
+		params[:per_page] = params[:per_page].blank? ? 20 : params[:per_page].to_i
+		params[:per_page] = @accounts.count unless params[:all].blank?
 		#@accounts = @accounts.paginate(:page => params[:page], :per_page => params[:per_page])
-		@accounts = initialize_grid(@accounts)
+		@accounts = initialize_grid(@accounts,:per_page=>params[:per_page])
 		render "wice_index"
 	end
 
