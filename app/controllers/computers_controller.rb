@@ -30,6 +30,10 @@ class ComputersController < ApplicationController
       tmp = params[:start_count].split("-")
       @computers = tmp.length == 2 ? @computers.where("online_accounts_count >= ? and online_accounts_count <= ?",tmp[0],tmp[1]) : @computers.where(:online_accounts_count=>tmp[0].to_i)
     end
+    unless params[:client_count].blank?
+      tmp = params[:client_count].split("-")
+      @computers = tmp.length == 2 ? @computers.where("client_count >= ? and client_count <= ?",tmp[0].to_i,tmp[1].to_i) : @computers.where(:client_count=>tmp[0].to_i)      
+    end
 
     @computers = @computers.where(:status => params[:status].to_i) unless params[:status].blank?
     
