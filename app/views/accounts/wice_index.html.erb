@@ -6,6 +6,5 @@
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
 	<span><%= @accounts.count %>条记录  <%= flash[:msg] if flash[:msg]%></span> 
 </div>
-
-<%= render :partial => "grid"%>
+<%= render :partial => "grid",:locals=>{:accounts=>@accounts}%>
 

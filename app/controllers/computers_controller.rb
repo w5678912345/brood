@@ -103,6 +103,12 @@ class ComputersController < ApplicationController
     elsif @do == "set_status"
       i = @computers.update_all(:status => params[:status].to_i)
       flash[:msg] = "#{i}台机器设置了状态"
+    elsif @do == "set_max_accounts"
+      i = @computers.update_all(:max_accounts => params[:max_accounts].to_i)
+      flash[:msg] = "#{i}台机器设置了最大账户数"
+    elsif @do == "set_allowed_new"
+      i = @computers.update_all(:allowed_new => params[:allowed_new].to_i)
+      flash[:msg] = "#{i}台机器设置是否自动绑定新号"
     end
 
   end

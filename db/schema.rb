@@ -11,7 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20140322090346) do
+=======
+ActiveRecord::Schema.define(:version => 20140328061114) do
+>>>>>>> master
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -76,6 +80,10 @@ ActiveRecord::Schema.define(:version => 20140322090346) do
     t.integer  "session_id",            :default => 0,         :null => false
     t.boolean  "auto_binding",          :default => true,      :null => false
     t.string   "group"
+    t.integer  "client_count",          :default => 0,         :null => false
+    t.integer  "max_accounts",          :default => 0,         :null => false
+    t.integer  "max_roles",             :default => 0,         :null => false
+    t.boolean  "allowed_new",           :default => true,      :null => false
   end
 
   create_table "comroles", :force => true do |t|

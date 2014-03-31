@@ -1,3 +1,4 @@
+
 <%= form_tag(checked_accounts_path,:method => :put,:id=>"account_checked_form",:onSubmit=>"return validate(this);",:target=>"_blank") do -%>
   <div colspan="2" class="text-right">
     <select id="do" name="do" class="input-medium">
@@ -9,7 +10,7 @@
     <button type="submit" class="btn btn-primary">执行操作</button>
   </div>
 
-<%= grid(@accounts, show_filters: :no) do |g|
+<%= grid(accounts, show_filters: :no) do |g|
   g.action_column  object_property: :no
   g.column name:  'ID', attribute: 'id', filter: false
   g.column name:  'Account' do |task|

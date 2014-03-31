@@ -3,11 +3,11 @@ class Computer < ActiveRecord::Base
   CODES = Api::CODES
   STATUS = []
   EVENT = ['not_find_account','code_error','QQRegister']
-  Btns = { "pass"=>"审核通过", "refuse"=>"拒绝通过","clear_bind_accounts" => "解绑账号", "bind_accounts" => "分配账号","task"=>"远程任务","auto_binding_account"=>"自动绑定账号","swap_account"=>"转移账号","set_group"=>"设置分组","set_status"=>"设置状态"}
+  Btns = { "pass"=>"审核通过", "refuse"=>"拒绝通过","clear_bind_accounts" => "解绑账号", "bind_accounts" => "分配账号","task"=>"远程任务","auto_binding_account"=>"自动绑定账号","swap_account"=>"转移账号","set_group"=>"设置分组","set_status"=>"设置状态","set_max_accounts"=>"设置最大账户数","set_allowed_new"=>"设置是否自动绑定新号"}
 
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count,:started
   attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at,:version,:online_roles_count,:online_accounts_count
-  attr_accessible :accounts_count,:session_id,:version,:auto_binding,:group
+  attr_accessible :accounts_count,:session_id,:version,:auto_binding,:group,:allowed_new,:max_accounts
   #has_many :comroles,:dependent => :destroy
   #has_many :computer_accounts,:dependent => :destroy
 
@@ -80,6 +80,7 @@ class Computer < ActiveRecord::Base
     return CODES[:computer_unchecked] unless self.checked
     self.version = opts[:version] unless opts[:version].blank?
     self.hostname = opts[:hostname] unless opts[:hostname].blank?
+    self.client_count = opts[:client_count].to_i unless opts[:client_count].blank?
     # 创建session
     session = Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"computer_start",:msg=>opts[:msg],:version=>self.version,:hostname => self.hostname,:server=>self.server)
     return 1 if self.update_attributes(:session_id => session.id)
@@ -119,7 +120,7 @@ class Computer < ActiveRecord::Base
     return if self.server.blank?
     avg = opts[:avg].to_i
     # 机器可以绑定的账户数
-    accounts_count = Setting.computer_accounts_count  
+    accounts_count = self.max_accounts
     # 机器还可以绑定的账户数量
     can_accounts_count = accounts_count - self.accounts_count
     return if can_accounts_count < 1
