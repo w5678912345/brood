@@ -119,7 +119,7 @@ class Computer < ActiveRecord::Base
     return if self.server.blank?
     avg = opts[:avg].to_i
     # 机器可以绑定的账户数
-    accounts_count = Setting.computer_accounts_count  
+    accounts_count = self.max_accounts
     # 机器还可以绑定的账户数量
     can_accounts_count = accounts_count - self.accounts_count
     return if can_accounts_count < 1
