@@ -87,6 +87,27 @@
 	</label>
 	</div>
 </div>
+<% elsif @do == "set_max_accounts" %>
+<div class="control-group">
+<label class="control-label">设置最大账户数:</label>
+	<div class="controls docs-input-sizes" >
+		<input type="text" value="10" name="max_accounts" />
+	</div>
+</div>
+<% elsif @do =="set_allowed_new"%>
+
+
+<div class="control-group">
+<label class="control-label">设置是否允许绑定新号:</label>
+	<div class="controls docs-input-sizes" >
+		<select name="allowed_new">
+	<option value="1">允许绑定新号</option>
+	<option value="0">不允许绑定新号</option>
+</select>
+	</div>
+</div>
+
+
 <%end%>
 
 

@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(:version => 20140328061114) do
     t.integer  "client_count",          :default => 0,         :null => false
     t.integer  "max_accounts",          :default => 0,         :null => false
     t.integer  "max_roles",             :default => 0,         :null => false
+    t.boolean  "allowed_new",           :default => true,      :null => false
   end
 
   create_table "comroles", :force => true do |t|
