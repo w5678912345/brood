@@ -1,3 +1,6 @@
+select count(account),server from notes where api_name ='cancel_bind' and ip = 'localhost' and date(created_at) = '2014-03-31' group by server;
+
+
 +-------------+--------------------+
 | computer_id | tt                 |
 +-------------+--------------------+
