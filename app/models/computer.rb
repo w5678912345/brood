@@ -7,7 +7,7 @@ class Computer < ActiveRecord::Base
 
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count,:started
   attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at,:version,:online_roles_count,:online_accounts_count
-  attr_accessible :accounts_count,:session_id,:version,:auto_binding,:group,:allowed_new,:max_accounts
+  attr_accessible :accounts_count,:session_id,:version,:auto_binding,:group,:allowed_new,:max_accounts,:real_name
   #has_many :comroles,:dependent => :destroy
   #has_many :computer_accounts,:dependent => :destroy
 
@@ -80,6 +80,7 @@ class Computer < ActiveRecord::Base
     return CODES[:computer_unchecked] unless self.checked
     self.version = opts[:version] unless opts[:version].blank?
     self.client_count = opts[:client_count].to_i unless opts[:client_count].blank?
+    self.real_name = opts[:real_name] unless opts[:real_name].blank?
     # 创建session
     session = Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"computer_start",:msg=>opts[:msg],:version=>self.version,:hostname => self.hostname,:server=>self.server)
     return 1 if self.update_attributes(:session_id => session.id)
@@ -89,6 +90,7 @@ class Computer < ActiveRecord::Base
   def api_sync opts
     self.version = opts[:version] unless opts[:version].blank?
     self.server = opts[:server] unless opts[:server].blank?
+    self.real_name = opts[:real_name] unless opts[:real_name].blank?
     return 1 if self.update_attributes(:updated_at => Time.now)
   end
 
