@@ -1,3 +1,5 @@
+select count(id), hostname from notes where computer_id = 171 group by hostname;
+
 SELECT id, reopen_at,created_at,updated_at FROM `roles` WHERE `roles`.`close` = 1 
 ORDER BY online desc, close asc, level desc, vit_power desc, updated_at DESC;
 
