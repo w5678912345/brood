@@ -76,4 +76,9 @@ class Setting < ActiveRecord::Base
 		return val == nil ? 1 : val
 	end
 
+	def self.client_role_count
+		val = find_value_by_key("client_role_count")
+		return val == nil ? 1 : val
+	end
+
 end

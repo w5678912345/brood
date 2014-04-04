@@ -4,7 +4,7 @@
 <tr>
 <th>主机名</th>
 <td><%= computer_tag(@computer)  %>
-
+<%= link_to "查看角色",account_roles_path(:tag=>"role",:bind_cid=>@computer.id,:index=>0,:all=>1),:target=>"_blank"%>
 </td>
 <th>Auth Key</th>
 <td><%= @computer.auth_key %></td>

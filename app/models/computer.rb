@@ -81,6 +81,7 @@ class Computer < ActiveRecord::Base
     self.version = opts[:version] unless opts[:version].blank?
     self.hostname = opts[:hostname] unless opts[:hostname].blank?
     self.client_count = opts[:client_count].to_i unless opts[:client_count].blank?
+    self.max_roles = self.client_count * Setting.client_role_count
     # 创建session
     session = Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"computer_start",:msg=>opts[:msg],:version=>self.version,:hostname => self.hostname,:server=>self.server)
     return 1 if self.update_attributes(:session_id => session.id)
@@ -122,9 +123,13 @@ class Computer < ActiveRecord::Base
     # 机器可以绑定的账户数
     accounts_count = self.max_accounts
     # 机器还可以绑定的账户数量
+    if opts[:when_not_find].blank?
     can_accounts_count = accounts_count - self.accounts_count
     return if can_accounts_count < 1
     limit = avg > can_accounts_count ? can_accounts_count : avg
+    else
+      limit = 1
+    end
     # 查询可以绑定的账户
     accounts = Account.waiting_bind_scope.joins(:roles).where("accounts.server is null or accounts.server = '' or accounts.server = ? or accounts.server like ?",self.server,"#{self.server}|%").where("accounts.normal_at <= ?",Time.now).reorder("roles.level desc").uniq().readonly(false)
     accounts = accounts.where("accounts.status = ?",opts[:status]) unless opts[:status].blank?
@@ -151,6 +156,13 @@ class Computer < ActiveRecord::Base
     @_server = Server.find_by_name(self.server)
     @_server = Server.create(:name=>self.server) unless @_server
     return @_server
+  end
+
+  def bind_account_when_not_find opts
+    current_role_count =  AccountRole.get_list({:tag=>"role",:bind_cid=>self.id,:rss=>"normal"}).count
+    if current_role_count < self.max_roles
+      self.auto_bind_accounts({:ip=>opts[:ip],:msg=>"auto by start",:avg=>1,:when_not_find=>true}) 
+    end
   end
 
   def self.reset_accounts_count
