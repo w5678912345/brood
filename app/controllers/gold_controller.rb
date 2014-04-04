@@ -14,7 +14,6 @@ class GoldController < ApplicationController
 
 	def transfer
 		@payments = Payment.select("server,sum(gold) as zhuanzhang").group("server")
-
 	end
 
 end
