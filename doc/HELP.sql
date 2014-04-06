@@ -1,8 +1,10 @@
-select count(id) as cc,msg from notes where api_name = 'disconnect' and date(created_at) = '2014-04-04' group by msg order by cc;
+select count(id) as cc,msg from notes 
+	where api_name = 'disconnect' and date(created_at) = '2014-04-06' group by msg order by cc;
 
 SELECT id, reopen_at,created_at,updated_at FROM `roles` WHERE `roles`.`close` = 1 
 ORDER BY online desc, close asc, level desc, vit_power desc, updated_at DESC;
 
+select count(id) as cc, msg from notes where api_name = 'dis'
 
 
 
