@@ -10,7 +10,7 @@ class Api::ComputersController < Api::BaseController
 	def reg
 		@computer = Computer.find_by_auth_key(params[:auth_key])
 		unless @computer
-			@computer = Computer.new(:hostname=>params[:hostname],:auth_key => params[:auth_key],:server=>params[:server],:version=>params[:version]||"default",:user_id=>0)
+			@computer = Computer.new(:hostname=>params[:hostname],:auth_key => params[:auth_key],:server=>params[:server],:version=>params[:version]||"default",:user_id=>0,:real_name=>params[:real_name])
 			@code = @computer.api_reg params
 		else
 			@code = 1 if @computer.update_attributes(:hostname => params[:hostname],:server=>params[:server],:version=>params[:version]||"default",:status=>1)
