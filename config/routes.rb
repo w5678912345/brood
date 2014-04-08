@@ -5,6 +5,8 @@ Brood::Application.routes.draw do
   #
   devise_for :users,:path => '/'
 
+  resources :todays, :only => [:index]
+
   resources :accounts do 
     get   :merge,       :on => :collection
     put   :checked,     :on => :collection
