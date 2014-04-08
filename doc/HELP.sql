@@ -1,5 +1,27 @@
-select count(id) as cc,msg from notes 
-	where api_name = 'disconnect' and date(created_at) = '2014-04-06' group by msg order by cc;
+select count(id) as cc, SUBSTRING_INDEX(msg,'/',1)  as ss from notes 
+	where api_name = 'disconnect' and date(created_at) = '2014-04-05' group by ss order by cc;
+
+
+select count(t1.account) as cc,SUBSTRING_INDEX(t2.msg,'/',1) as map from
+
+(select id,account,created_at from notes where api_name ='discardfordays' and date(created_at)='2014-04-07') as t1
+
+left join (select id,account, msg,created_at from notes where api_name ='disconnect' and date(created_at) = '2014-04-07')  as t2
+
+on t1.account = t2.account where TIMESTAMPDIFF(Second,t2.created_at,t1.created_at) < 90
+
+group by map order by cc;
+
+
+
+select t1.account from 
+
+(select id,account from notes where api_name ='discardfordays' and date(created_at)='2014-04-06') as t1
+
+left join (select id,account, msg from notes where api_name ='disconnect' and date(created_at) = '2014-04-06')  as t2
+
+on t1.account = t2.account where SUBSTRING_INDEX(t2.msg,'/',1) = '补给线阻断'
+
 
 SELECT id, reopen_at,created_at,updated_at FROM `roles` WHERE `roles`.`close` = 1 
 ORDER BY online desc, close asc, level desc, vit_power desc, updated_at DESC;
