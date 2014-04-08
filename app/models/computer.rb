@@ -80,9 +80,10 @@ class Computer < ActiveRecord::Base
     return CODES[:computer_unchecked] unless self.checked
     self.version = opts[:version] unless opts[:version].blank?
     self.hostname = opts[:hostname] unless opts[:hostname].blank?
+    self.real_name = opts[:real_name] unless opts[:real_name].blank?
     self.client_count = opts[:client_count].to_i unless opts[:client_count].blank?
     self.max_roles = self.client_count * Setting.client_role_count
-    self.real_name = opts[:real_name] unless opts[:real_name].blank?
+    
     # 创建session
     session = Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"computer_start",:msg=>opts[:msg],:version=>self.version,:hostname => self.hostname,:server=>self.server)
     return 1 if self.update_attributes(:session_id => session.id)
