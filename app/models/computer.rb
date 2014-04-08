@@ -136,9 +136,9 @@ class Computer < ActiveRecord::Base
 
     accounts = Account.waiting_bind_scope.joins(:roles).where("normal_at <= ?",Time.now).reorder("roles.level desc").uniq().readonly(false)
     if self.allowed_new
-      accounts = accounts.where("server is null or server = '' or server = ? or server like ?",self.server,"#{self.server}|%") 
+      accounts = accounts.where("accounts.server is null or accounts.server = '' or accounts.server = ? ",self.server) 
     else
-      accounts = accounts.where("server = ? or server like ?",self.server,"#{self.server}|%")
+      accounts = accounts.where("accounts.server = ?",self.server)
     end
     accounts = accounts.where("status = ?",opts[:status]) unless opts[:status].blank?
     accounts = accounts.limit(limit)
