@@ -10,6 +10,7 @@
     link_to computer.server || "" ,computers_path(:server => computer.server)
   end
   g.column name:  'KEY', attribute: 'auth_key',filter: false
+  g.column name: 'Name', attribute: 'real_name'
   g.column name: '状态' ,attribute: 'status' do |computer|
      status_tag computer.status
   end

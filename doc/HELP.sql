@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 select count(id) as cc, SUBSTRING_INDEX(msg,'/',1)  as ss from notes 
 	where api_name = 'disconnect' and date(created_at) = '2014-04-05' group by ss order by cc;
 
@@ -22,6 +23,9 @@ left join (select id,account, msg from notes where api_name ='disconnect' and da
 
 on t1.account = t2.account where SUBSTRING_INDEX(t2.msg,'/',1) = '补给线阻断'
 
+=======
+select count(id), hostname from notes where computer_id = 171 group by hostname;
+>>>>>>> master
 
 SELECT id, reopen_at,created_at,updated_at FROM `roles` WHERE `roles`.`close` = 1 
 ORDER BY online desc, close asc, level desc, vit_power desc, updated_at DESC;
