@@ -1,6 +1,7 @@
+<%=render 'navbar'%>
 <%= grid(@server_online, show_filters: :always) do |g|
 
-  g.column name:  'server',attribute: 'server',custom_filter: ['电信三','电信2'] do |s|
+  g.column name:  'server' do |s|
     s.server
   end
   g.column name:  'Number' do |s|

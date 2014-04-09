@@ -1,0 +1,10 @@
+<% active = 'class=active'%>
+<ul class="nav nav-tabs">
+	<li <%= active if controller_name == 'todays' && action_name == 'index' %>>
+ 		<%= link_to raw('<i class="icon-home"></i>今日情报'), todays_path %>
+	</li>
+
+	<li <%= active if controller_name == "todays" && action_name == 'server_online' %> >
+ 		<%= link_to raw('<i class="icon-list"></i>在线分布'), server_online_todays_path %>
+	</li>
+</ul>

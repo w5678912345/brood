@@ -38,12 +38,12 @@ class Account < ActiveRecord::Base
     # 
     validates_uniqueness_of :no
 
-    default_scope order("session_id desc").order("normal_at asc").order("updated_at desc")
-    scope :online_scope, where("session_id > 0") #
-    scope :unline_scope, where("session_id = 0").reorder("updated_at desc") # where(:status => 'normal')
+    default_scope order("accounts.session_id desc").order("normal_at asc").order("updated_at desc")
+    scope :online_scope, where("accounts.session_id > 0") #
+    scope :unline_scope, where("accounts.session_id = 0").reorder("updated_at desc") # where(:status => 'normal')
     #
-    scope :started_scope, where("session_id > 0 ") #已开始的账号
-    scope :stopped_scope, where("session_id = 0 ") #已停止的账号
+    scope :started_scope, where("accounts.session_id > 0 ") #已开始的账号
+    scope :stopped_scope, where("accounts.session_id = 0 ") #已停止的账号
     #
     scope :waiting_scope, lambda{|time|joins(:roles).where("accounts.session_id = 0").where("accounts.normal_at <= ? ",time || Time.now)
     .where(" roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0").where("roles.level < ?",Setting.role_max_level).reorder("roles.level desc").uniq().readonly(false)}
