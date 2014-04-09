@@ -10,7 +10,9 @@ Brood::Application.routes.draw do
   #
   devise_for :users,:path => '/'
 
-  resources :todays, :only => [:index]
+  resources :todays, :only => [:index] do
+    get :server_online,       :on => :collection
+  end
 
   resources :accounts do 
     get   :merge,       :on => :collection

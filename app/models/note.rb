@@ -17,6 +17,7 @@ class Note < ActiveRecord::Base
     #
     default_scope :order => 'id DESC'
 
+    scope :at_date,lambda{|day| where(created_at: day.beginning_of_day..day.end_of_day)}
     scope :time_scope,lambda{|start_time,end_time|where(created_at: start_time..end_time)}
 
     scope :online_at_scope,lambda{|start_time,end_time|where(online_at: start_time..end_time)}
