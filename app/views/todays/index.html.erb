@@ -1,5 +1,11 @@
-<h1>今日情况</h1>
-
-<h2 class="text-info">在线角色：<%=@online_role_count%></h2>
+<%=render "navbar"%>
+<h2 class="text-info">在线角色：<%=@online_role_count%></h2> 
+<div data-toggle="tooltip" title="<%=@finished_role_count%>/<%=@can_use_role_count%>" style="width: 40%;" class="progress progress-striped">
+  <div class="bar" style="width: <%=@finished_role_count*100.0/@can_use_role_count%>%;"><%=@finished_role_count%></div>
+  <div class="bar bar-success" style="width: <%=@online_role_count*100.0/@can_use_role_count%>%;"></div>
+  <div class "text-info">进度</div>
+</div>
+</br>
 <h2 class="text-warning">今日产出：<%= gold_str @today_trade_gold%></h2>
 <h2 class="text-error">异常事件：<%=@error_event_count%></h2>
+
