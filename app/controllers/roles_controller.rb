@@ -141,8 +141,11 @@ class RolesController < ApplicationController
     	@roles = Role.where("id in (?)",@ids)
     	if "set_status" == @do
     		status = params[:status]
-    		 i = @roles.update_all(:status=>status) if Role::STATUS.include?(status)
+    		i = @roles.update_all(:status=>status) if Role::STATUS.include?(status)
     		flash[:msg] = "#{i}个角色，状态设置为 #{status}"
+    	elsif "set_today_success" == @do
+    		i = @roles.update_all(:today_success=>params[:success].to_i)
+    		flash[:msg] = "#{i}个角色，修改了成功状态"
     	end
 	end
 
