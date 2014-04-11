@@ -1,0 +1,11 @@
+<%=render 'navbar'%>
+<%= grid(@server_online, show_filters: :always) do |g|
+
+  g.column name:  'server' do |s|
+    s.server
+  end
+  g.column name:  'Number' do |s|
+    s.num
+  end
+
+end %>
