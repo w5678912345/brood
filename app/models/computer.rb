@@ -41,9 +41,9 @@ class Computer < ActiveRecord::Base
       joins(
        %{
          LEFT OUTER JOIN (
-           SELECT b.computer_id, COUNT(*) finished_role_count
+           SELECT b.computer_id, COUNT(distinct(b.role_id)) finished_role_count
            FROM   history_role_sessions b
-           where created_at >= '#{day.beginning_of_day.to_s(:db)}' and  created_at < '#{day.end_of_day.to_s(:db)}'
+           where result <> 'timeout' and created_at >= '#{day.beginning_of_day.to_s(:db)}' and  created_at < '#{day.end_of_day.to_s(:db)}'
            GROUP BY b.computer_id
          ) a ON a.computer_id = computers.id
        }
