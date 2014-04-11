@@ -15,8 +15,9 @@ class Payment < ActiveRecord::Base
 		#
 		#default_scope :order => 'id DESC'
 		scope :order_id_desc , order("id DESC")
+		scope :at_date,lambda{|day| where(created_at: day.beginning_of_day..day.end_of_day)}
 		scope :trade_scope,where(:pay_type => "trade")
-		scope	:pay_type_scope,lambda {|pay_type|where(:pay_type => pay_type )}
+		scope :pay_type_scope,lambda {|pay_type|where(:pay_type => pay_type )}
 		#
 		scope :total_group_role_scope,includes(:role).select("role_id,max(total) as total").group("role_id")
 

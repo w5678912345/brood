@@ -4,6 +4,8 @@ class HistoryRoleSession < ActiveRecord::Base
   belongs_to :computer
   belongs_to :account
   belongs_to :role
+  
+  scope :at_date,lambda{|day| where(created_at: day.beginning_of_day..day.end_of_day)}
 
 
 	def self.create_from_role_session(s,result)
