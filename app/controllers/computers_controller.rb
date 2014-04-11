@@ -56,7 +56,9 @@ class ComputersController < ApplicationController
     redirect_to computers_path
   end
 
-
+  def run_anylize
+    @computers = initialize_grid(Computer.include_day_finished_role_count(1.day.ago))
+  end
 
 
 	def checked

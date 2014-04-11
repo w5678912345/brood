@@ -23,5 +23,7 @@
  <%= link_to raw('<i class="icon-plus"></i>新建计算机'),new_computer_path  %>
 </li>
 
-
+<li <%= active if controller_name == 'computers' && action_name == 'run_anylize' %>>
+ <%= link_to raw('<i class="icon-plus"></i>昨日在线'),run_anylize_computers_path  %>
+</li>
 </ul>

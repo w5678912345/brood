@@ -11,15 +11,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-ActiveRecord::Schema.define(:version => 20140322090346) do
-=======
-ActiveRecord::Schema.define(:version => 20140328061114) do
->>>>>>> master
-=======
+
 ActiveRecord::Schema.define(:version => 20140403090243) do
->>>>>>> master
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -45,10 +38,6 @@ ActiveRecord::Schema.define(:version => 20140403090243) do
     t.string   "last_start_ip",      :limit => 32
     t.string   "remark"
     t.boolean  "is_auto",                          :default => false,    :null => false
-    t.string   "phone_id"
-    t.integer  "phone_event_count",                :default => 0
-    t.string   "unlock_phone_id",    :limit => 16
-    t.datetime "unlocked_at"
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true
@@ -141,6 +130,7 @@ ActiveRecord::Schema.define(:version => 20140403090243) do
   add_index "history_role_sessions", ["computer_id"], :name => "index_history_role_sessions_on_computer_id"
   add_index "history_role_sessions", ["role_id"], :name => "index_history_role_sessions_on_role_id"
 
+
   create_table "instance_maps", :force => true do |t|
     t.integer  "key",                                           :null => false
     t.string   "name",         :limit => 64,                    :null => false
@@ -163,21 +153,6 @@ ActiveRecord::Schema.define(:version => 20140403090243) do
     t.datetime "updated_at",                  :null => false
     t.string   "last_account"
   end
-
-  create_table "links", :force => true do |t|
-    t.string   "phone_no",            :limit => 32,                     :null => false
-    t.string   "event",               :limit => 32,                     :null => false
-    t.string   "status",              :limit => 32, :default => "idle", :null => false
-    t.string   "link_type",           :limit => 32, :default => "send", :null => false
-    t.integer  "sms_count",                         :default => 0,      :null => false
-    t.integer  "today_sms_count",                   :default => 0,      :null => false
-    t.integer  "timeout_count",                     :default => 0,      :null => false
-    t.integer  "today_timeout_count",               :default => 0,      :null => false
-    t.datetime "created_at",                                            :null => false
-    t.datetime "updated_at",                                            :null => false
-  end
-
-  add_index "links", ["phone_no", "event"], :name => "index_links_on_phone_no_and_event", :unique => true
 
   create_table "notes", :force => true do |t|
     t.integer  "user_id",                      :default => 0,     :null => false
@@ -217,6 +192,7 @@ ActiveRecord::Schema.define(:version => 20140403090243) do
   add_index "notes", ["computer_id"], :name => "index_notes_on_computer_id"
   add_index "notes", ["role_id"], :name => "index_notes_on_role_id"
   add_index "notes", ["session_id"], :name => "index_notes_on_session_id"
+
 
   create_table "orders", :force => true do |t|
     t.string   "phone_no"
@@ -280,7 +256,6 @@ ActiveRecord::Schema.define(:version => 20140403090243) do
   create_table "role_sessions", :force => true do |t|
     t.integer  "role_id"
     t.integer  "computer_id"
-    t.integer  "instance_map_id",  :default => 0
     t.integer  "start_level"
     t.integer  "start_gold"
     t.integer  "start_exp"
