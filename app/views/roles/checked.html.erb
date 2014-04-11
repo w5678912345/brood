@@ -22,7 +22,15 @@
 </div>
 </div>
 <%end%>
-
+<% if @do == "set_today_success"%>
+<div class="control-group">
+<label class="control-label">是否成功:</label>
+<div class="controls docs-input-sizes" >
+<label class="radio inline"> <%= radio_button_tag("success",1)%>是</label>
+<label class="radio inline"> <%= radio_button_tag("success",0,true,:class=>"")%>否</label>
+</div>
+</div>
+<%end%>
 
 <div class="form-actions">
   <%= submit_tag "确认执行", :class => "btn btn-primary"%>
