@@ -2,7 +2,9 @@ Brood::Application.routes.draw do
 
 
   resources :role_sessions
-  resources :instance_maps
+  resources :instance_maps do 
+    get :level, :on => :collection
+  end
   resources :links
 
   resources :history_role_sessions
