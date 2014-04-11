@@ -8,7 +8,7 @@ class TodaysController < ApplicationController
 		@can_use_role_count = Role.joins(:qq_account).where("accounts.status = 'normal'").count
 	end
 	def server_online
-		@server_online = initialize_grid(RoleSession.select("roles.server,count(*) as num").joins(:role).group("roles.server"))
+		@server_online = initialize_grid(RoleSession.select("roles.server,count(*) as num").joins(:role).group("roles.server").order("roles.server"))
 	end
 end
 			
