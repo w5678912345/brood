@@ -27,7 +27,7 @@ select * from roles where id > 5630 into outfile '/tmp/data.txt' --fields-termin
 
  select *  into outfile '/tmp/rolw_tab' fields-terminated-by=',' from roles where id > 5630 ;
 
-
+select name,min_level,max_level,safety_limit,death_limit from instance_maps into outfile '/tmp/maps5.txt' FIELDS TERMINATED BY '|';
 
  SELECT account,password,role_index,server,level,vit_power,gold FROM roles where server = '广东1区' or server = '广西1区' INTO OUTFILE '/tmp/gd_gx_roles.txt' FIELDS TERMINATED BY '|';
 
