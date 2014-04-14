@@ -40,6 +40,14 @@ class NotesController < ApplicationController
 		@tmp_notes = @notes.select("count(id) as ncount,api_name").group("api_name").reorder("api_name")
 	end
 
+	def group_by_msg
+		if params[:today]
+			now = Time.now
+			params[:start_time] = now.change(:hour => 0,:min => 0,:sec => 0).strftime("%Y-%m-%d %H:%M:%S") if params[:start_time].blank?
+			params[:end_time] = now.since(1.day).change(:hour => 0,:min => 0,:sec => 0).strftime("%Y-%m-%d %H:%M:%S") if params[:end_time].blank?
+		end
+		@records = Note.list_search(params).where("api_name in (?)",["exception","disconnect"]).select("count(id) as num,SUBSTRING_INDEX(msg,'/',1) as map").group("map").reorder("num")
+	end
 
 
 

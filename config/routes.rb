@@ -76,6 +76,7 @@ Brood::Application.routes.draw do
   resources :notes , :only => [:index,:show] do
     get :analysis,   :on => :collection
     get :group_count, :on => :collection
+    get :group_by_msg, :on => :collection
   end
   resources :sessions, :only => [:index,:show] do 
     get :computer,  :on => :collection

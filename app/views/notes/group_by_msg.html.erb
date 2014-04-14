@@ -1,0 +1,18 @@
+<%= render "navbar" %>
+<%= render :partial => "search_form",:locals=>{:path=>group_by_msg_notes_path} %>
+<table class="table">
+<thead>
+	<tr>
+		<th>副本</th>
+		<th>发生次数</th>
+	</tr>
+</thead>
+<tbody>
+<% @records.each do |record|%>
+	<tr>
+		<td><%= record.map %></td>
+		<td><%= record.num %></td>
+	</tr>
+<%end%>
+</tbody>
+</table>

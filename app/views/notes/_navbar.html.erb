@@ -6,4 +6,7 @@
 <li <%= active if controller_name == 'notes' && action_name == 'index' %>>
  <%= link_to raw('<i class="icon-list"></i>记录列表'), notes_path(params) %>
 </li>
+<li <%= active if controller_name == 'notes' && action_name == 'group_by_msg' %>>
+ <%= link_to raw('<i class="icon-list"></i>记录副本分布'), group_by_msg_notes_path(params) %>
+</li>
 </ul>

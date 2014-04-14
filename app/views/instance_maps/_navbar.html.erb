@@ -1,0 +1,10 @@
+<% active = 'class=active'%>
+<ul class="nav nav-tabs">
+<li <%= active if controller_name == 'instance_maps' && action_name == 'index' %>>
+ <%= link_to raw('<i class="icon-list"></i>副本列表'),instance_maps_path()  %>
+</li>
+<li <%= active if controller_name == 'instance_maps' && action_name == 'level' %>>
+ <%= link_to raw('<i class="icon-list"></i>等级分布'),level_instance_maps_path()  %>
+</li>
+
+</ul>
