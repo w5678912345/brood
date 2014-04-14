@@ -1,3 +1,4 @@
+<%= render "navbar" %>
 <fieldset>
 <legend>副本等级分布</legend>
 <table class="table">
@@ -6,15 +7,25 @@
 		<th>角色等级</th>
 		<th>副本数量</th>
 		<th>副本名称</th>
+		<th>N</th>
 	</tr>
 </thead>
 <tbody>
 <% 82.times.each do |i|%>
 <% maps =  InstanceMap.level_scope(i) %>
+<% safety_limit=0 %>
+<% death_limit=0 %>
 	<tr>
 		<td><%= i%></td>
 		<td><%= maps.count %></td>
-		<td><%= maps.map(&:name)%></td>
+		<td>
+			<% maps.each do |map|%>
+				<% safety_limit = safety_limit + map.safety_limit %>
+				<% death_limit = death_limit + map.death_limit%>
+				<%= "#{map.name}(#{map.safety_limit}-#{map.death_limit}) | "%>
+			<%end%>
+		</td>
+		<td><%= "#{safety_limit}-#{death_limit}"%></td>
 	</tr>
 <%end%>
 </tbody>
