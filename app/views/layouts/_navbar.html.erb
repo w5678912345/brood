@@ -43,6 +43,7 @@
     <ul class="dropdown-menu">
     <li class="nav-header">Note</li>
     <li><%= link_to "记录列表", notes_path(:today=>1)%></li>
+    <li><%= link_to "记录副本分布", group_by_msg_notes_path(:today=>1)%></li>
     <li><%= link_to "角色在线" , role_sessions_path() %></li>
     <li><%= link_to "副本列表" , instance_maps_path() %></li>
     <li><%= link_to "副本等级分布" , level_instance_maps_path() %></li>
