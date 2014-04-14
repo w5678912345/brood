@@ -49,12 +49,7 @@ class Computer < ActiveRecord::Base
            GROUP BY b.computer_id
          ) a ON a.computer_id = computers.id
        }
-      ).select("computers.*, a.finished_role_count").reorder(:finished_role_count)
-  end
-
-  #
-  def is_started?
-      return self.session_id > 0
+      ).select("computers.*, a.finished_role_count").where("a.finished_role_count > 0").reorder([:finished_role_count,:client_count])
   end
 
   #
