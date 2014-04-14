@@ -49,7 +49,7 @@ class Computer < ActiveRecord::Base
            GROUP BY b.computer_id
          ) a ON a.computer_id = computers.id
        }
-      ).select("computers.*, a.finished_role_count").order(:finished_role_count)
+      ).select("computers.*, a.finished_role_count").reorder(:finished_role_count)
   end
 
   #
