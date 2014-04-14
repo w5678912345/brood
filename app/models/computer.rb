@@ -37,6 +37,19 @@ class Computer < ActiveRecord::Base
   validates_presence_of :hostname,:auth_key
   validates_uniqueness_of :auth_key
 
+  def self.include_day_finished_role_count(day)
+      joins(
+       %{
+         LEFT OUTER JOIN (
+           SELECT b.computer_id, COUNT(distinct(b.role_id)) finished_role_count
+           FROM   history_role_sessions b
+           where result <> 'timeout' and created_at >= '#{day.beginning_of_day.to_s(:db)}' and  created_at < '#{day.end_of_day.to_s(:db)}'
+           GROUP BY b.computer_id
+         ) a ON a.computer_id = computers.id
+       }
+      ).select("computers.*, a.finished_role_count")
+  end
+
   #
   def is_started?
       return self.session_id > 0

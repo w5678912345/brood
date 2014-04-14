@@ -62,6 +62,7 @@ Brood::Application.routes.draw do
     put   :checked,     :on => :collection
     put   :do_checked,  :on => :collection
     get   :discardforyears, :on=> :collection
+    get   :run_anylize, :on=> :collection
   end
   resources :ips,:only => [:index,:destroy,:show] do 
     get :clear, 		:on => :collection
