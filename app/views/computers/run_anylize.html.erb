@@ -1,19 +1,13 @@
 <%=render 'navbar'%>
-<%= grid(@computers, show_filters: :no) do |g|
-  g.column name:  'ID', attribute: 'id', filter: false
+<form class="form-search" action="<%= run_anylize_computers_path %>">
+  <input type="text" name="date" id="date" class="input-medium" placeholder="日期" value="<%= params[:date]%>" />
+  <button type="submit" class="btn">确 定</button>
+</form>
+<script type="text/javascript">
+$(function(){
+  $("#date").datepicker({dateFormat:"yy-mm-dd"});
+});
+</script>
 
-  g.column name:  '主机名/分组名' do |computer|
-    computer_tag(computer)
-  end
-
-  g.column name:  '区', attribute: 'server' do |computer|
-    link_to computer.server || "" ,computers_path(:server => computer.server)
-  end
-  g.column name:  '版本', attribute: 'version' do |computer|
-    link_to computer.version, computers_path(:version => computer.version) 
-  end
-  #g.column name: 'N', attribute: 'client_count'
-  g.column name:  "完成角色数"  do |computer|
-    computer.finished_role_count
-  end
-end %>
+<%=render 'anylize_grid'%>
+<%#=grid_filter @computers,:id_filter%>
