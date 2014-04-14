@@ -8,6 +8,8 @@ class Computer < ActiveRecord::Base
   attr_accessible :hostname, :auth_key,:status,:user_id,:roles_count,:started
   attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at,:version,:online_roles_count,:online_accounts_count
   attr_accessible :accounts_count,:session_id,:version,:auto_binding,:group,:allowed_new,:max_accounts,:real_name
+
+  attr_accessible :finished_role_count
   #has_many :comroles,:dependent => :destroy
   #has_many :computer_accounts,:dependent => :destroy
 
@@ -47,7 +49,7 @@ class Computer < ActiveRecord::Base
            GROUP BY b.computer_id
          ) a ON a.computer_id = computers.id
        }
-      ).select("computers.*, a.finished_role_count")
+      ).select("computers.*, a.finished_role_count").order(:finished_role_count)
   end
 
   #
