@@ -1,7 +1,13 @@
 <%=render 'navbar'%>
 <form class="form-search" action="<%= run_anylize_computers_path %>">
   <input type="text" name="date" id="date" class="input-medium" placeholder="日期" value="<%= params[:date]%>" />
+  <button type="submit" class="btn">确 定</button>
 </form>
+<script type="text/javascript">
+$(function(){
+  $("#date").datepicker({dateFormat:"yy-mm-dd"});
+});
+</script>
 
 <%=render 'anylize_grid'%>
 <%#=grid_filter @computers,:id_filter%>

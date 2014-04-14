@@ -57,7 +57,8 @@ class ComputersController < ApplicationController
   end
 
   def run_anylize
-    @computers = initialize_grid(Computer.include_day_finished_role_count(1.day.ago))
+    params[:date] = Date.yesterday.to_s if params[:date].nil?
+    @computers = initialize_grid(Computer.include_day_finished_role_count(Date.parse(params[:date])))
   end
 
 
