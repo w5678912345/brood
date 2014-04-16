@@ -77,3 +77,18 @@ select msg,count(id) from notes where date(created_at)='2014-3-20' and api_code 
  update roles set status ='normal' where server = '山西1区' and role_index = 2;
  
 >>>>>>> master
+
+
+
+
+
+
+
+# 
+discardfordays
+
+
+
+
+
+

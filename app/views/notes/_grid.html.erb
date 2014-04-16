@@ -1,6 +1,6 @@
 <%= grid(@notes, show_filters: :no) do |g|
   g.column name:  '时间',attribute: 'created_at' do |note|
-    time_str note.created_at 
+    raw("<span title='#{note.id}'>" + time_str(note.created_at) +"</span>")
   end
 
   g.column name:  '区', attribute: 'server'
@@ -25,5 +25,7 @@
   g.column name:  "状态",attribute: 'api_code', custom_filter: :auto  do |note|
     note.api_code if note.api_code != '0'
   end
-  g.column name:  "消息",attribute: 'msg' 
+  g.column name:  "消息",attribute: 'msg'  do |note|
+      "#{note.msg}--#{note.opts}"
+  end
 end %>

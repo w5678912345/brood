@@ -10,7 +10,7 @@ class Note < ActiveRecord::Base
     #has_many
 	#
     attr_accessible :user_id, :role_id, :computer_id, :api_name, :api_code, :ip, :msg, :online_at, :online_note_id, :online_hours
-    attr_accessible :level, :version, :account, :server, :hostname, :session_id
+    attr_accessible :level, :version, :account, :server, :hostname, :session_id, :opts
     #
     attr_accessible :sup_id, :effective, :ending, :success, :hours, :gold
     attr_accessible :started_at, :stopped_at, :success_at, :target, :result
@@ -95,6 +95,14 @@ class Note < ActiveRecord::Base
           notes = tmp.length == 2 ? notes.where("level >= ? and level <= ?",tmp[0],tmp[1]) : notes.where("level =? ",opts[:level].to_i)
         end
         return notes
+    end
+
+    def self.set_map str
+        notes = Note.at_date(Date.parse(str)).where(:api_name=>"discardfordays")
+        notes.each do |note|
+            n =  Note.where("id < ?",note.id).where("api_name in (?)",["disconnect","answer_verify_code","exception"]).where("msg is not null and msg not like 'noEnter%'").first
+            note.update_attributes(:opts=>n.msg.split("/")[0]) if n
+        end
     end
 
     before_create do |note|
