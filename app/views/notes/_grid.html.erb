@@ -25,7 +25,5 @@
   g.column name:  "状态",attribute: 'api_code', custom_filter: :auto  do |note|
     note.api_code if note.api_code != '0'
   end
-  g.column name:  "消息",attribute: 'msg'  do |note|
-      "#{note.msg}--#{note.opts}"
-  end
+  g.column name:  "消息",attribute: 'msg'
 end %>

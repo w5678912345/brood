@@ -100,9 +100,10 @@ class Note < ActiveRecord::Base
     def self.set_map str
         notes = Note.at_date(Date.parse(str)).where(:api_name=>"discardfordays")
         notes.each do |note|
-            n =  Note.where("id < ?",note.id).where("api_name in (?)",["disconnect","answer_verify_code","exception"]).where("msg is not null and msg not like 'noEnter%'").first
-            note.update_attributes(:opts=>n.msg.split("/")[0]) if n
+            n =  Note.where("id < ?",note.id).where("account = ?",note.account).where("role_id > 0").where("api_name in (?)",["disconnect","answer_verify_code","exception"]).where("msg is not null and msg != '' and msg not like 'noEnter%'").first
+            note.update_attributes(:msg=>n.msg.split("/")[0]+"/"+note.msg.to_s) if n
         end
+        return notes.count
     end
 
     before_create do |note|
