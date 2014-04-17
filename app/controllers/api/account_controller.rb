@@ -122,6 +122,7 @@ class Api::AccountController < Api::BaseController
 		return render :json => {:code => CODES[:not_find_account]} unless @account
 		result = params[:result]
 		if result == "normal"
+			@account.password = params[:pwd] unless params[:pwd].blank?
 			@code = 1 if @account.update_attributes(:status=>"normal",:normal_at=>Time.now,:unlock_phone_id=>@phone.no,:unlocked_at=>Time.now)
 			@account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto by unlock",:bind=>0})
 		elsif result == "recycle"

@@ -87,7 +87,7 @@ select msg,count(id) from notes where date(created_at)='2014-3-20' and api_code 
 # 
 discardfordays
 
-
+select count(id),
 
 
 
