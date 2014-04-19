@@ -114,21 +114,28 @@ class Api::AccountController < Api::BaseController
 		render :partial => '/api/result'
 	end
 
+	def get_unlock
+		normal_at = Time.now.ago(30.days).since(1200.hours)
+		@accounts = Account.joins(:roles).where("accounts.status = ?",'locked').reorder("roles.level desc")
+		@accounts = @accounts.where("accounts.server = ?",params[:server]) unless params[:server].blank?
+		@account = @accounts.uniq().first
+		return render :json => {:code => CODES[:not_find_account]} unless @account
+		render :json => {:code=>1,:id=>@account.no,:password=>@account.password,:status=>@account.status}
+	end
+
 	def unlock
-		@phone = Phone.where(:can_unlock=>true).find_by_no(params[:phone_id])
-		return render :json => {:code => CODES[:not_find_phone]} unless @phone
+		# @phone = Phone.where(:can_unlock=>true).find_by_no(params[:phone_id])
+		# return render :json => {:code => CODES[:not_find_phone]} unless @phone
 		
 		@account = Account.where(:status=>"locked").find_by_no(params[:id])
 		return render :json => {:code => CODES[:not_find_account]} unless @account
 		result = params[:result]
 		if result == "normal"
 			@account.password = params[:pwd] unless params[:pwd].blank?
-			@code = 1 if @account.update_attributes(:status=>"normal",:normal_at=>Time.now,:unlock_phone_id=>@phone.no,:unlocked_at=>Time.now)
+			@code = 1 if @account.update_attributes(:status=>"normal",:normal_at=>Time.now,:unlock_phone_id=>params[:phone_id],:unlocked_at=>Time.now)
 			@account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto by unlock",:bind=>0})
 		elsif result == "recycle"
 			@code = 1 if @account.update_attributes(:status=>"recycle",:normal_at=>Time.now.since(10.years))
-		elsif result == "phone_can_not_unlock"
-			@code = 1 if @phone.update_attributes(:can_unlock=>0)
 		else
 			@code = 0
 		end

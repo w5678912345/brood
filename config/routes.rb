@@ -258,6 +258,7 @@ Brood::Application.routes.draw do
       match :sub_order,  :on => :collection
       match :unlock,     :on => :collection
       match :role_start_count, :on => :collection
+      match :get_unlock, :on => :collection
     end
     resources :phone_machine do
       match :bind_phones, :on => :collection
