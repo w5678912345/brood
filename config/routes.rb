@@ -276,6 +276,11 @@ Brood::Application.routes.draw do
       match :pulls, :on => :collection
       match :sent, :on => :collection
     end
+
+    resources :phone, controller: 'phone' do
+      match :get,   :on => :collection
+    end
+
     resources :orders, :only => [:show] do
       match :sub,  :on => :collection
       match :get,  :on => :collection
