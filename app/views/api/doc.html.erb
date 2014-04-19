@@ -171,9 +171,22 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 </tr>
 <tr>
 <td>phone/get.json</td>
-<td>获取手机号码,参数 event => 事件<i class="icon-map-marker"></i></td> 
+<td>根据事件 取得可用的手机号,参数 event => 事件<i class="icon-map-marker"></i></td> 
 </tr>
-<tr>
+
+<tr class="error">
+<td>phone/set_enable.json</td>
+<td>启用 或 禁用手机号,参数 no => 手机号码, enable => 1启用，0禁用</td> 
+</tr>
+
+<tr class="error">
+<td>phone/set_link_enable.json</td>
+<td>启用 或 禁用手机号对应事件的通道,参数 no => 手机号码, event=> 事件(通道类型) ,enable => 1启用，0禁用</td> 
+</tr>
+
+
+
+<!-- <tr>
 <td>phones/get.json</td>
 <td>得到可以绑定的手机 与账号 参数 server 服务器</td> 
 </tr>
@@ -193,7 +206,7 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 <tr>
 <td>phones/set_can_unlock.json</td>
 <td>设置手机是否可以绑定, no => 手机, unlock => 1表示yes | 0表示no</td> 
-</tr>
+</tr> 
 
 <tr class="error">
 <td>phones/qq_register.json</td>
@@ -204,13 +217,14 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 <td>phones/disable.json</td>
 <td>关闭phone对应event的通道 disable 参数 phone_no => 手机号码, event => 事件</td> 
 </tr>
+-->
 
 <tr>
 <td>phones/pull.json</td>
 <td>pull phones，参数 name => phone_machine的名称</td> 
 </tr>
 
-<tr class="error">
+<tr>
 <td>phones/sent.json</td>
 <td>修改手机状态为已发送 sent 参数 no => 手机号码, link_id => 通道ID</td> 
 </tr>
