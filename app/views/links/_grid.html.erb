@@ -1,6 +1,9 @@
 <%= grid(@links, show_filters: :id) do |g|
 	g.action_column
   g.column name:  'ID',attribute: 'id'
+  g.column name: 'Enable' ,attribute: 'enabled' do |phone|
+    boolean_tag phone.enabled
+  end
   g.column name:  '电话', attribute: 'phone_no'
   g.column name: '事件',attribute: 'event' 
   g.column name:  '状态', attribute: 'status'

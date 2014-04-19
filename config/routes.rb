@@ -280,6 +280,10 @@ Brood::Application.routes.draw do
 
     resources :phone, controller: 'phone' do
       match :get,   :on => :collection
+      match :set_enable, :on => :collection
+      match :set_link_enable, :on => :collection
+      match :pull,  :on => :collection
+      match :sent,  :on => :collection
     end
 
     resources :orders, :only => [:show] do

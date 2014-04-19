@@ -65,17 +65,6 @@ class Api::PhonesController < Api::BaseController
 		# render :json=>phone_no.to_json
 	end
 
-	def pulls
-		# @phone_machine = PhoneMachine.find_by_name(params[:name])
-		# @orders = Order.joins(:phone).joins(:link).where("links.status=?","idle").where("phones.status = ?","idle").where("phones.phone_machine_id =?",@phone_machine.id).where("orders.finished=0")
-		# @orders = @orders.where("orders.link_id>0").group("trigger_event")
-		# @orders.each do |order|
-		# 	order.link.update_status("busy")
-		# end
-		# render :json => @orders.as_json({:only => [:phone_no,:trigger_event,:sms]}) 
-		return :render => {}
-	end
-
 
 	def sent
 		@phone = Phone.find_or_create_by_no(params[:no])

@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Link < ActiveRecord::Base
-  attr_accessible :event, :phone_no, :status,:updated_at
+  attr_accessible :event, :phone_no, :status,:updated_at,:enabled
 
   belongs_to :phone, :class_name => 'Phone', :foreign_key => 'phone_no',:primary_key => 'no'
 
