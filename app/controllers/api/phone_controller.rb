@@ -21,7 +21,7 @@ class Api::PhoneController < Api::BaseController
     end
 
     #启用 或 禁用 手机号相关的
-    def set_link_enable
+    def set_channel_enable
           @phone = Phone.find_by_no(params[:no])
           return render :json => {:code => CODES[:not_find_phone]} unless @phone
           return render :json => {:code => 0,:msg=>"no event"} if params[:event].blank?
