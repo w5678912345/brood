@@ -143,6 +143,14 @@ class Api::AccountController < Api::BaseController
 		render :json=>{:code=>@code,:msg=>result}
 	end
 
+	def get_bslock
+		@accounts = Account.joins(:roles).where("accounts.status = ?",'bslocked').where("accounts.phone_id is null").reorder("roles.level desc").order("roles.created_at desc")
+		@accounts = @accounts.where("accounts.server = ?",params[:server]) unless params[:server].blank?
+		@account = @accounts.uniq().first
+		return render :json => {:code=>CODES[:not_find_account]}  unless @account
+		render :json => {:code=>1,:id=>@account.no,:password=>@account.password,:status=>@account.status}
+	end
+
 	private
 
 	# 取得请求IP
