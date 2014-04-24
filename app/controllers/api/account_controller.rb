@@ -108,6 +108,7 @@ class Api::AccountController < Api::BaseController
 	end
 	def bind_phone
 		@account = Account.find_by_no(params[:id])
+		return render :json => {:code => CODES[:not_find_account]} unless @account
 		@account.phone_id = params[:phone_no]
 		@account.save!
 		@code = 1
@@ -149,6 +150,19 @@ class Api::AccountController < Api::BaseController
 		@account = @accounts.uniq().first
 		return render :json => {:code=>CODES[:not_find_account]}  unless @account
 		render :json => {:code=>1,:id=>@account.no,:password=>@account.password,:status=>@account.status}
+	end
+
+	def upate_attr
+		@account = Account.find_by_no(params[:id])
+		return render :json => {:code => CODES[:not_find_account]} unless @account
+		@account.server = params[:server] unless params[:server].blank?
+		@account.password = params[:pwd] unless params[:pwd].blank?
+		unless params[:status].blank? && Account::STATUS.has_key?(params[:status])
+			@account.status = params[:status]
+			@account.normal_at = Time.now.since(Account::STATUS[params[:status]].hours)
+		end
+		@account.save
+		render :json => {:code=>1,:id=>@account.no}
 	end
 
 	private

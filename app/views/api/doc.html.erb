@@ -143,6 +143,12 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 <td>参数：id => 账号, phone_id => 电话号码, result=>结果(normal,recycle),msg=>消息,pwd=>密码 </td>
 </tr>
 
+
+<tr class="warning">
+<td>account/upate_attr.json</td>
+<td>修改账号属性,参数：id => 账号, status=>状态, server=> 区,pwd=>密码 </td>
+</tr>
+
 <tr class="error">
 <td>orders/sub.json</td>
 <td>提交短信工单 参数：phone_id => 手机号 , account_id => 账号, event => 触发事件, sms => 发送内容 </td>

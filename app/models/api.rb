@@ -89,5 +89,14 @@ CODES = {
     Role.update_all(:ip_range=>nil,:ip_range2=>nil)
   end
 
+  def self.set_phone_bind_qq
+    phones = Phone.where(:can_bind=>false)
+    phones.each do |phone|
+        link = Link.where(:phone_no=>phone.no).where(:event=>"BindQQ").first 
+        link = Link.create(:phone_no => phone.no,:event=>"BindQQ") unless link
+        link.update_attributes(:enabled=>false)
+    end
+  end
+
 
 end

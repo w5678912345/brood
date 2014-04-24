@@ -260,6 +260,7 @@ Brood::Application.routes.draw do
       match :role_start_count, :on => :collection
       match :get_unlock, :on => :collection
       match :get_bslock, :on => :collection
+      match :upate_attr, :on => :collection
     end
     resources :phone_machine do
       match :bind_phones, :on => :collection
