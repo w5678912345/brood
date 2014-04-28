@@ -1,0 +1,19 @@
+<%= grid(@computers, show_filters: :no) do |g|
+  g.column name:  'ID', attribute: 'id', detach_with_id: :id_filter
+
+  g.column name:  '主机名/分组名' do |computer|
+    computer_tag(computer)
+  end
+
+  g.column name:  '区', attribute: 'server' do |computer|
+    link_to computer.server || "" ,computers_path(:server => computer.server)
+  end
+  g.column name:  '版本', attribute: 'version' do |computer|
+    link_to computer.version, computers_path(:version => computer.version) 
+  end
+  #g.column name: 'N', attribute: 'client_count'
+  g.column name:  "完成角色数" do |computer|
+    computer.finished_role_count
+  end
+  g.column name: "开数", attribute: 'client_count'
+end %>

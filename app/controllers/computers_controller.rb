@@ -56,7 +56,10 @@ class ComputersController < ApplicationController
     redirect_to computers_path
   end
 
-
+  def run_anylize
+    params[:date] = Date.yesterday.to_s if params[:date].nil?
+    @computers = initialize_grid(Computer.include_day_finished_role_count(Date.parse(params[:date])))
+  end
 
 
 	def checked
