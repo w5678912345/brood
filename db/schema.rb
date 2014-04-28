@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140403090243) do
+ActiveRecord::Schema.define(:version => 20140428061819) do
+
+  create_table "account_tasks", :force => true do |t|
+    t.string   "account",                    :null => false
+    t.string   "task",                       :null => false
+    t.string   "status",     :default => "", :null => false
+    t.string   "result",     :default => "", :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+  end
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -169,6 +178,7 @@ ActiveRecord::Schema.define(:version => 20140403090243) do
     t.integer  "today_timeout_count",               :default => 0,      :null => false
     t.datetime "created_at",                                            :null => false
     t.datetime "updated_at",                                            :null => false
+    t.boolean  "enabled",                           :default => true,   :null => false
   end
 
   add_index "links", ["phone_no", "event"], :name => "index_links_on_phone_no_and_event", :unique => true
@@ -234,6 +244,7 @@ ActiveRecord::Schema.define(:version => 20140403090243) do
     t.string   "msg",           :limit => 128
     t.string   "sms"
     t.integer  "link_id",                      :default => 0
+    t.string   "target_no"
   end
 
   create_table "payments", :force => true do |t|
@@ -361,6 +372,7 @@ ActiveRecord::Schema.define(:version => 20140403090243) do
     t.integer  "max_price3",                     :default => 1,     :null => false
     t.boolean  "sell_closed",                    :default => false
     t.boolean  "allowed_new",                    :default => true,  :null => false
+    t.boolean  "agent_closed",                   :default => false, :null => false
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true
