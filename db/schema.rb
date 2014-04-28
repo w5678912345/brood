@@ -11,7 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20140418084357) do
+=======
+ActiveRecord::Schema.define(:version => 20140428061819) do
+
+  create_table "account_tasks", :force => true do |t|
+    t.string   "account",                    :null => false
+    t.string   "task",                       :null => false
+    t.string   "status",     :default => "", :null => false
+    t.string   "result",     :default => "", :null => false
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+  end
+>>>>>>> master
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -158,6 +171,10 @@ ActiveRecord::Schema.define(:version => 20140418084357) do
     t.string   "last_account"
   end
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> master
   create_table "links", :force => true do |t|
     t.string   "phone_no",            :limit => 32,                     :null => false
     t.string   "event",               :limit => 32,                     :null => false
@@ -174,6 +191,11 @@ ActiveRecord::Schema.define(:version => 20140418084357) do
 
   add_index "links", ["phone_no", "event"], :name => "index_links_on_phone_no_and_event", :unique => true
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 4deff04580f1ab3e87015e9afe0b0fdccb44c680
+>>>>>>> master
   create_table "notes", :force => true do |t|
     t.integer  "user_id",                      :default => 0,     :null => false
     t.integer  "role_id",                      :default => 0,     :null => false
@@ -218,6 +240,10 @@ ActiveRecord::Schema.define(:version => 20140418084357) do
   add_index "notes", ["role_id"], :name => "index_notes_on_role_id"
   add_index "notes", ["session_id"], :name => "index_notes_on_session_id"
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> master
   create_table "orders", :force => true do |t|
     t.string   "phone_no"
     t.string   "account_no"
@@ -238,6 +264,11 @@ ActiveRecord::Schema.define(:version => 20140418084357) do
     t.string   "target_no"
   end
 
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 4deff04580f1ab3e87015e9afe0b0fdccb44c680
+>>>>>>> master
   create_table "payments", :force => true do |t|
     t.integer  "role_id",                   :null => false
     t.integer  "note_id",                   :null => false
@@ -351,6 +382,10 @@ ActiveRecord::Schema.define(:version => 20140418084357) do
     t.datetime "created_at",                                        :null => false
     t.datetime "updated_at",                                        :null => false
     t.string   "goods"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> master
     t.integer  "price",                          :default => 1,     :null => false
     t.float    "gold_price",                     :default => 0.0,   :null => false
     t.float    "gold_unit",                      :default => 0.0,   :null => false
@@ -364,6 +399,14 @@ ActiveRecord::Schema.define(:version => 20140418084357) do
     t.boolean  "sell_closed",                    :default => false
     t.boolean  "allowed_new",                    :default => true,  :null => false
     t.boolean  "agent_closed",                   :default => false, :null => false
+<<<<<<< HEAD
+=======
+=======
+    t.integer  "price",                          :default => 1,   :null => false
+    t.float    "gold_price",                     :default => 0.0, :null => false
+    t.float    "gold_unit",                      :default => 0.0, :null => false
+>>>>>>> 4deff04580f1ab3e87015e9afe0b0fdccb44c680
+>>>>>>> master
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true
