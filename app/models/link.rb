@@ -7,7 +7,7 @@ class Link < ActiveRecord::Base
 
   def self.get phone_no,event
   	link = Link.where(:phone_no=>phone_no,:event=>event).first
-	link = Link.create(:phone_no=>self.phone_no,:event=>event) if link.nil?
+	link = Link.create(:phone_no=>phone_no,:event=>event) if link.nil?
   end
 
   def update_status status
