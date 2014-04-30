@@ -237,6 +237,10 @@ Brood::Application.routes.draw do
      
     end
 
+    resources :account_task,controller: 'account_task' do
+      match :end,     :on => :collection
+    end
+
   end
 
 end
