@@ -288,7 +288,7 @@ Brood::Application.routes.draw do
       match :pull,  :on => :collection
       match :sent,  :on => :collection
     end
-
+    
     resources :orders, :only => [:show] do
       match :sub,  :on => :collection
       match :get,  :on => :collection
@@ -300,6 +300,9 @@ Brood::Application.routes.draw do
     end
 
     
+    resources :account_task,controller: 'account_task' do
+      match :end,     :on => :collection
+    end
 
   end
 
