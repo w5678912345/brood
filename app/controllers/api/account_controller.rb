@@ -116,12 +116,14 @@ class Api::AccountController < Api::BaseController
 	end
 
 	def get_unlock
-		ids = AccountTask.where(:task=>"unlock").where(:status=>"doing").map(&:account)
+		ids = AccountTask.where(:event=>"unlock").where(:status=>"doing").map(&:account)
 		#normal_at = Time.now.ago(30.days).since(1200.hours)
-		@accounts = Account.joins(:roles).where("accounts.status = ?",'locked').where("accounts.no not in (?)",ids).reorder("roles.level desc")
+		@accounts = Account.joins(:roles).where("accounts.status = ?",'locked').reorder("roles.level desc")
 		@accounts = @accounts.where("accounts.server = ?",params[:server]) unless params[:server].blank?
+		@accounts = @accounts.where("accounts.no not in (?)",ids) if ids.length > 0
 		@account = @accounts.uniq().first
 		return render :json => {:code => CODES[:not_find_account]} unless @account
+		AccountTask.create(:event=>"unlock",:account=>@account.no)
 		render :json => {:code=>1,:id=>@account.no,:password=>@account.password,:status=>@account.status}
 	end
 
@@ -146,7 +148,7 @@ class Api::AccountController < Api::BaseController
 	end
 
 	def get_bslock
-		ids = AccountTask.where(:task=>"bslock").where(:status=>"doing").map(&:account)
+		ids = AccountTask.where(:event=>"bslock").where(:status=>"doing").map(&:account)
 		@accounts = Account.joins(:roles).where("accounts.status = ?",'bslocked').where("accounts.phone_id is null").reorder("roles.level desc").order("roles.created_at desc")
 		@accounts = @accounts.where("accounts.server = ?",params[:server]) unless params[:server].blank?
 		@accounts = @accounts.where("accounts.no not in (?)",ids) if ids.length > 0
