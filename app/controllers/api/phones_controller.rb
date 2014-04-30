@@ -48,7 +48,7 @@ class Api::PhonesController < Api::BaseController
 	def pull
 
 		@phone_machine = PhoneMachine.find_by_name(params[:name])
-		@orders = Order.joins(:phone).joins(:link).where("links.status=?","waiting").where("phones.enabled = 1").where("phones.phone_machine_id =?",@phone_machine.id).where("orders.finished=0")
+		@orders = Order.joins(:phone).joins(:link).where("links.status='waiting' or links.status='idle'").where("phones.enabled = 1").where("phones.phone_machine_id =?",@phone_machine.id).where("orders.finished=0")
 		@orders = @orders.where("orders.link_id>0").group("trigger_event")
 		@orders.each do |order|
 			order.link.update_status("busy")

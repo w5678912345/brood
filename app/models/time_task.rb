@@ -18,6 +18,7 @@ module TimeTask
 	def self.every_10_minutes
 		Order.auto_finish
 		Link.auto_idle
+		AccountTask.auto_finish
 	end
 
 end
