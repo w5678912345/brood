@@ -14,6 +14,7 @@
   end
   g.column name:  '事件', attribute: 'event', filter: false
   g.column name:  '状态', attribute: 'status', filter: false
+  g.column name:  'Msg', attribute: 'msg', filter: false
   g.column name:  "创建时间",attribute: 'created_at'  do |task|
     time_str task.created_at
   end
