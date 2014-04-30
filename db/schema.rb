@@ -17,12 +17,14 @@ ActiveRecord::Schema.define(:version => 20140418084357) do
 ActiveRecord::Schema.define(:version => 20140428061819) do
 
   create_table "account_tasks", :force => true do |t|
-    t.string   "account",                    :null => false
-    t.string   "task",                       :null => false
-    t.string   "status",     :default => "", :null => false
-    t.string   "result",     :default => "", :null => false
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
+    t.string   "account",                         :null => false
+    t.string   "task",       :default => "",      :null => false
+    t.string   "event",      :default => "",      :null => false
+    t.string   "status",     :default => "doing", :null => false
+    t.string   "result",     :default => "",      :null => false
+    t.string   "msg"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 >>>>>>> master
 
@@ -172,8 +174,11 @@ ActiveRecord::Schema.define(:version => 20140428061819) do
   end
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
   create_table "links", :force => true do |t|
     t.string   "phone_no",            :limit => 32,                     :null => false
@@ -192,9 +197,12 @@ ActiveRecord::Schema.define(:version => 20140428061819) do
   add_index "links", ["phone_no", "event"], :name => "index_links_on_phone_no_and_event", :unique => true
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 4deff04580f1ab3e87015e9afe0b0fdccb44c680
+>>>>>>> master
+=======
 >>>>>>> master
   create_table "notes", :force => true do |t|
     t.integer  "user_id",                      :default => 0,     :null => false
@@ -241,8 +249,11 @@ ActiveRecord::Schema.define(:version => 20140428061819) do
   add_index "notes", ["session_id"], :name => "index_notes_on_session_id"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
   create_table "orders", :force => true do |t|
     t.string   "phone_no"
@@ -265,9 +276,12 @@ ActiveRecord::Schema.define(:version => 20140428061819) do
   end
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 4deff04580f1ab3e87015e9afe0b0fdccb44c680
+>>>>>>> master
+=======
 >>>>>>> master
   create_table "payments", :force => true do |t|
     t.integer  "role_id",                   :null => false
@@ -383,8 +397,11 @@ ActiveRecord::Schema.define(:version => 20140428061819) do
     t.datetime "updated_at",                                        :null => false
     t.string   "goods"
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
     t.integer  "price",                          :default => 1,     :null => false
     t.float    "gold_price",                     :default => 0.0,   :null => false
@@ -400,12 +417,15 @@ ActiveRecord::Schema.define(:version => 20140428061819) do
     t.boolean  "allowed_new",                    :default => true,  :null => false
     t.boolean  "agent_closed",                   :default => false, :null => false
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
     t.integer  "price",                          :default => 1,   :null => false
     t.float    "gold_price",                     :default => 0.0, :null => false
     t.float    "gold_unit",                      :default => 0.0, :null => false
 >>>>>>> 4deff04580f1ab3e87015e9afe0b0fdccb44c680
+>>>>>>> master
+=======
 >>>>>>> master
   end
 
