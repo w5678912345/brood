@@ -8,6 +8,7 @@ Brood::Application.routes.draw do
   resources :links
 
   resources :history_role_sessions
+  resources :account_tasks
 
   #
   devise_for :users,:path => '/'
