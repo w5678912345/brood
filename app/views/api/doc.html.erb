@@ -261,6 +261,11 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 <td>根据角色ID，取的一个可用的副本。 如果取到副本返回{"key":副本ID,"name":"副本名称"} 否则返回{"code":-1}</td> 
 </tr>
 
+<tr>
+	<td>account_task/end.json</td>
+	<td>结束账号相关的 短信任务。 id=>账号，event=>事件</td>
+</tr>
+
 </tbody>
 </table>
 <%end%>
