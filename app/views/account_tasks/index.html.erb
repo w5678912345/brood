@@ -1,0 +1,21 @@
+<form class="form-search" action="<%= account_tasks_path %>">
+<input type="text" name="no" class="input-small" placeholder="帐号" value="<%= params[:no]%>" />
+<input type="text" name="event" class="input-small" placeholder="事件" value="<%= params[:event]%>" />
+<input type="text" name="stauts" class="input-small" placeholder="状态" value="<%= params[:stauts]%>" />
+<button type="submit" class="btn">Search</button>
+</form>
+
+
+<%= grid(@records, show_filters: :no) do |g|
+  g.action_column
+  g.column name:  'ID', attribute: 'id', filter: false
+  g.column name:  'Account' do |task|
+    account_tag task.account
+  end
+  g.column name:  '事件', attribute: 'event', filter: false
+  g.column name:  '状态', attribute: 'status', filter: false
+  g.column name:  "创建时间",attribute: 'created_at'  do |task|
+    time_str task.created_at
+  end
+
+end %>
