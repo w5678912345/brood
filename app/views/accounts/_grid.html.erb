@@ -6,6 +6,9 @@
     r += raw('<i class="icon-flag" title="IP: '+task.ip_range+'"></i>') unless task.ip_range.blank?
     r
   end
+  g.column name:  'rms_file', attribute: 'rms_file' do |account|
+    boolean_tag account.rms_file
+  end
   g.column name:  '区', attribute: 'server'
   g.column name:  '角色数', attribute: 'roles_count',filter: false
   g.column name: '绑定机器' ,attribute: 'bind_computer_id',filter: false do |task|

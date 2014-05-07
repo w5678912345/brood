@@ -233,6 +233,7 @@ Brood::Application.routes.draw do
       match :role_note,  :on => :collection
       match :role_pay,   :on => :collection
       match :role_stop,  :on => :collection
+      match :set_rms_file,      :on => :collection
 
      
     end

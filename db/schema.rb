@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140428061819) do
+ActiveRecord::Schema.define(:version => 20140507014621) do
 
   create_table "account_tasks", :force => true do |t|
     t.string   "account",                         :null => false
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20140428061819) do
     t.integer  "phone_event_count",                :default => 0
     t.string   "unlock_phone_id",    :limit => 16
     t.datetime "unlocked_at"
+    t.boolean  "rms_file",                         :default => true,     :null => false
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true

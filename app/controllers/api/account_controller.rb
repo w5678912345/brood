@@ -2,6 +2,7 @@
 # @suxu "2727260443","password":"xyz987987
 # 
 class Api::AccountController < Api::BaseController
+	include AccountAction
 	layout :nil
 
 	before_filter :require_remote_ip									  # 获取请求IP
@@ -9,7 +10,7 @@ class Api::AccountController < Api::BaseController
 	#before_filter :valid_ip_use_count,					:only => [:auto] # 验证当前IP的24小时使用次数
 	#before_filter :valid_ip_range_online_count,			:only => [:auto] # 验证当前IP 前三段的在线数量
 	before_filter :validate_ip_can_use,					:only => [:auto]
-	before_filter :require_account_by_no,				:only => [:start,:sync,:note,:stop,:look,:role_start,:role_stop,:role_note,:role_pay] # 根据帐号取得一个账户
+	before_filter :require_account_by_no,				:only => [:start,:sync,:note,:stop,:look,:role_start,:role_stop,:role_note,:role_pay,:set_rms_file] # 根据帐号取得一个账户
 	#before_filter :require_account_is_started,			:only => [:sync,:note,:stop] # 确定账号在线
 	before_filter :require_role_by_rid,					:only => [:role_start,:role_stop,:role_note,:role_pay]
 	#
