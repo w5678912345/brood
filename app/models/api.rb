@@ -98,5 +98,9 @@ CODES = {
     end
   end
 
+  def self.merge_no_rms_file
+     i= Account.where(:status=>"no_rms_file").update_all(:rms_file=>false)
+  end
+
 
 end

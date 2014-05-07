@@ -52,9 +52,10 @@ class Computer < ActiveRecord::Base
       ).select("computers.*, a.finished_role_count").where("a.finished_role_count > 0").reorder([:finished_role_count,:client_count])
   end
 
-   def is_started?
-      return self.session_id > 0
-   end
+
+  def is_started?
+    return self.session_id>0
+  end
 
   #
   def self.find_by_key_or_id c

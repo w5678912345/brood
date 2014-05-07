@@ -262,6 +262,7 @@ Brood::Application.routes.draw do
       match :get_unlock, :on => :collection
       match :get_bslock, :on => :collection
       match :upate_attr, :on => :collection
+      match :set_rms_file,      :on => :collection
     end
     resources :phone_machine do
       match :bind_phones, :on => :collection
@@ -280,6 +281,7 @@ Brood::Application.routes.draw do
       match :pulls, :on => :collection
       match :sent, :on => :collection
     end
+
 
     resources :phone, controller: 'phone' do
       match :get,   :on => :collection

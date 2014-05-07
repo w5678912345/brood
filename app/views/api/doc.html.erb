@@ -127,6 +127,10 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 <td>account/role_stop.json</td>
 <td>参数：id => 账号, rid => 角色ID ckey => 计算机key, success => 成功(1表示成功) </td>
 </tr>
+<tr class="">
+<td>account/set_rms_file.json</td>
+<td>参数：id => 账号, val => 表示是否存在 RMS File(1表示存在，0表示不存在)</td>
+</tr>
 
 <tr class="warning">
 <td>account/get_unlock.json</td>
