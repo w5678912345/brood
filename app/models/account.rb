@@ -320,6 +320,20 @@ class Account < ActiveRecord::Base
 
    end
 
+   #
+   def self.auto_cancel_bind
+      accounts = Account.stopped_scope.where("bind_computer_id != -1").where("normal_at >= ?",Time.now.since(1000.hours))
+      accounts.each do |account|
+          account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto",:bind=>-1})
+      end
+      #
+      accounts = Account.stopped_scope.bind_scope.where("normal_at >= ? ",Time.now.since(24.hours))
+      accounts.each do |account|
+           account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto",:bind=>0})
+      end
+
+   end
+
 
    # 绑定机器
    def do_bind_computer computer,opts

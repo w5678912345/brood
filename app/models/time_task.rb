@@ -13,6 +13,7 @@ module TimeTask
 		Account.auto_stop
 		#Role.auto_stop
 		Computer.auto_stop
+		Account.auto_cancel_bind
 	end
 
 	def self.every_10_minutes
