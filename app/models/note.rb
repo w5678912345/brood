@@ -106,6 +106,17 @@ class Note < ActiveRecord::Base
         return notes.count
     end
 
+    def self.set_discardforyears_msg str
+        notes = Note.at_date(Date.parse(str)).where(:api_name=>"discardforyears")
+        notes.each do |note|
+            n = Note.where("account = ?",note.account).where("id < ?",note.id).where(:api_name => "account_stop").first
+            if n
+                days = Date.parse(note.created_at.to_s) - Date.parse(n.created_at.to_s)
+                note.update_attributes(:msg => "#{note.msg}---#{n.created_at}---last_stop_at=#{days}天")
+            end
+        end
+    end
+
     before_create do |note|
         note.level = note.role.level if note.role_id>0 && note.role
     end
