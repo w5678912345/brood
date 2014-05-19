@@ -1,35 +1,40 @@
 class Cpo
 
-	require 'net/http'
-
-	def self.avail_account
-		uri = URI('http://127.0.0.1:4001/hello.json')
-		Net::HTTP.get(uri) # => String
-	end
-
+	USER_EMAIL = 'tianyi@dabi.co'
+	USESR_PASSWORD = '12345678'
+	#require 'net/http'
 
 	def self.sign_in
 		uri = URI('http://127.0.0.1:4001/users/sign_in.json')
 		req = Net::HTTP::Post.new(uri)
-		req.set_form_data('user[email]' => 'tianyi@dabi.co', 'user[password]' => '12345678','user[remember_me]'=>1)
+		req.set_form_data('user[email]' => USER_EMAIL, 'user[password]' => USESR_PASSWORD,'user[remember_me]'=>1)
 
 		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
 		  http.request(req)
 		end
-
-		 p res.to_hash['set-cookie']
-
+		cookie = res['Set-Cookie']
 		case res
 		when Net::HTTPSuccess, Net::HTTPRedirection
-		  # OK
-		  p "ok"
+		 	p "ok"
 		else
 		  res.value
 		end
-
-		
-		
+		return cookie
 	end
 
+
+	def self.get_avail_account
+		cookie = Cpo.sign_in
+		uri = URI('http://127.0.0.1:4001/avail_account.json')
+		req = Net::HTTP::Get.new(uri)
+		req.initialize_http_header({"cookie"=>cookie})
+		res = Net::HTTP.start(uri.hostname,uri.port) do |http|
+			http.request(req)
+		end
+		JSON.parse(res.body) 
+	end
+
+
+	
 
 end
