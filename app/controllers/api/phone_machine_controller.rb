@@ -21,7 +21,7 @@ class Api::PhoneMachineController < Api::BaseController
 			render json: {:code => -1}
 		else
 			ids = params[:phones].split ","
-			old_ids = Phone.select(:no).where("no in (?)",ids).map {|i| i.no}
+			old_ids = Phone.select(:no).where(:no => ids).map(&:no)
 			ids = ids - old_ids
 			Phone.where("no in (?)",old_ids).update_all(:phone_machine_id => @phone_machine)
 			@phone_machine.phones.create(ids.map do |i|
@@ -45,7 +45,12 @@ class Api::PhoneMachineController < Api::BaseController
     		render json: {:code => -1}
     	end
 	end
-
+	def online
+		@machines = PhoneMachine.where(:name => params[:names].split(",")).map(&:id)
+		Phone.where(:phone_machine_id => @machines).update_all(:enabled => true)
+		Phone.where("phone_machine_id not in (?)",@machines).update_all(:enabled => false)
+		render json: {:code => -1}
+	end
 	def shutdown
 		@phone_machine = PhoneMachine.find_by_name(params[:name])
 		return render :json=>{:code=>0,:msg=>"not find machine"} unless @phone_machine

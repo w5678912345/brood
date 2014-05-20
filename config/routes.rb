@@ -268,6 +268,7 @@ Brood::Application.routes.draw do
       match :bind_phones, :on => :collection
       match :can_unlock_accounts, :on => :collection
       match :shutdown, :on => :collection
+      match :online, :on => :collection
     end
     resources :phones,:only => [:show] do 
       match :get,  :on => :collection

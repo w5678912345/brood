@@ -20,14 +20,16 @@ describe Api::PhoneMachineController do
 		it "bind old phone" do
 			@old_machine = FactoryGirl.create(:phone_machine,:name => "PhoneMachine1")
 			@machine = FactoryGirl.create(:phone_machine,:name => "PhoneMachine2")
-			@phone1 = FactoryGirl.create(:phone,:id => "13212341234",:phone_machine => @old_machine)
-			@phone2 = FactoryGirl.create(:phone,:id => "13212341235")
+			@phone1 = FactoryGirl.create(:phone,:no => "13212341234",:phone_machine => @old_machine)
+			@phone2 = FactoryGirl.create(:phone,:no => "13212341235")
 			expect {
           		post :bind_phones, {:format => "json",:name => "PhoneMachine2",:password => "12345678",
           			:phones => "13212341234,13212341235,13212341236,13212341237"}
         	}.to change(Phone, :count).by(2)
         	Phone.find("13212341234").phone_machine.should eq @machine
         	Phone.find("13212341235").phone_machine.should eq @machine
+        	Phone.find("13212341236").phone_machine.should eq @machine
+        	Phone.find("13212341237").phone_machine.should eq @machine
         end
         it "bind to none phone_machine" do
         	expect {
@@ -37,7 +39,25 @@ describe Api::PhoneMachineController do
         	PhoneMachine.count.should eq 1
         end
 	end
-
+	describe "machine online" do
+		it "all online" do
+			@machine1 = FactoryGirl.create(:phone_machine,:name => "PhoneMachine1")
+			@machine2 = FactoryGirl.create(:phone_machine,:name => "PhoneMachine2")
+			@phone1 = FactoryGirl.create(:phone,:no => "13212341234",:enabled => false,:phone_machine => @machine1)
+			@phone2 = FactoryGirl.create(:phone,:no => "13212341235",:enabled => false,:phone_machine => @machine2)
+			post :online, {:format => 'json',:names =>  "#{@machine1.name},#{@machine2.name}"}
+			Phone.where(:enabled => true).count.should eq 2
+		end
+		it "auto disable other phones" do
+			@machine1 = FactoryGirl.create(:phone_machine,:name => "PhoneMachine1")
+			@machine2 = FactoryGirl.create(:phone_machine,:name => "PhoneMachine2")
+			@phone1 = FactoryGirl.create(:phone,:no => "13212341234",:enabled => true,:phone_machine => @machine1)
+			@phone2 = FactoryGirl.create(:phone,:no => "13212341235",:enabled => true,:phone_machine => @machine2)
+			post :online, {:format => 'json',:names =>  "#{@machine1.name}",:computer => "computer1"}
+			Phone.where(:enabled => true).count.should eq 1		
+			Phone.find("13212341235").enabled.should eq false
+		end
+	end
 	describe "GET bslock" do
     	it "获取当前需要解bslock的账号" do
     		phone_machine = FactoryGirl.create(:phone_machine)
