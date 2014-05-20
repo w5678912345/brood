@@ -1,0 +1,29 @@
+<%= form_for(@ip_filter) do |f| %>
+  <% if @ip_filter.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ip_filter.errors.count, "error") %> prohibited this ip_filter from being saved:</h2>
+
+      <ul>
+      <% @ip_filter.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :regex %><br />
+    <%= f.text_field :regex %>
+  </div>
+  <div class="field">
+    <%= f.label :enabled %><br />
+    <%= f.check_box :enabled %>
+  </div>
+  <div class="field">
+    <%= f.label :reverse %><br />
+    <%= f.check_box :reverse %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

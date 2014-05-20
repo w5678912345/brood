@@ -1,4 +1,7 @@
 Brood::Application.routes.draw do
+  resources :ip_filters
+
+
   resources :role_sessions
   resources :history_role_sessions
   resources :account_tasks
