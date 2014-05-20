@@ -1,29 +1,37 @@
-<%= form_for(@ip_filter) do |f| %>
-  <% if @ip_filter.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@ip_filter.errors.count, "error") %> prohibited this ip_filter from being saved:</h2>
+<%= form_for(@ip_filter,:html=>{:class=>"form-horizontal"}) do |f|  %>
+<div class="control-group">
+<div>例子：112\.112\..*</div>
+<label class="control-label">规则:</label>
+<div class="controls docs-input-sizes" >
+  <%= f.text_field :regex,:required=>"required"  %>
+</div>
+</div>
+<div class="control-group">
+<label class="control-label">生效:</label>
+<div class="controls docs-input-sizes" >
+  <%= f.check_box :enabled,:required=>"required",:default => true %>
+</div>
+</div>
 
-      <ul>
-      <% @ip_filter.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<div class="control-group">
+<label class="control-label">拒绝:</label>
+<div class="controls docs-input-sizes" >
+  <%= f.check_box :reverse  %>
+</div>
+</div>
 
-  <div class="field">
-    <%= f.label :regex %><br />
-    <%= f.text_field :regex %>
-  </div>
-  <div class="field">
-    <%= f.label :enabled %><br />
-    <%= f.check_box :enabled %>
-  </div>
-  <div class="field">
-    <%= f.label :reverse %><br />
-    <%= f.check_box :reverse %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+<div class="control-group">
+<div class="controls">
+  <%= f.submit "保存", :class => "btn btn-success"%>
+</div>
+</div>
+<%end%>
+
+
+<script type="text/javascript">
+/**/
+$(function(){
+$("form[id=edit_ip_filter_<%= @ip_filter.id %>]").validate();
+$("form[id=new_ip_filter]").validate();
+});
+</script>

@@ -2,7 +2,7 @@ class IpFiltersController < ApplicationController
   # GET /ip_filters
   # GET /ip_filters.json
   def index
-    @ip_filters = IpFilter.all
+    @ip_filters = initialize_grid(IpFilter,:per_page => 20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,7 +25,8 @@ class IpFiltersController < ApplicationController
   # GET /ip_filters/new.json
   def new
     @ip_filter = IpFilter.new
-
+    @ip_filter.enabled=true
+    @ip_filter.reverse=true
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @ip_filter }

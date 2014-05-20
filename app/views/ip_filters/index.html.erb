@@ -1,27 +1,2 @@
-<h1>Listing ip_filters</h1>
-
-<table>
-  <tr>
-    <th>Regex</th>
-    <th>Enabled</th>
-    <th>Reverse</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @ip_filters.each do |ip_filter| %>
-  <tr>
-    <td><%= ip_filter.regex %></td>
-    <td><%= ip_filter.enabled %></td>
-    <td><%= ip_filter.reverse %></td>
-    <td><%= link_to 'Show', ip_filter %></td>
-    <td><%= link_to 'Edit', edit_ip_filter_path(ip_filter) %></td>
-    <td><%= link_to 'Destroy', ip_filter, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Ip filter', new_ip_filter_path %>
+<h1>IP过滤规则列表</h1>
+<%= render "grid",:locals=>{:ip_filters=>@ip_filters} %>
