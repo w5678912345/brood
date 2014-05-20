@@ -5,7 +5,8 @@ class Cpo
 	#require 'net/http'
 
 	def self.sign_in
-		uri = URI('http://127.0.0.1:4001/users/sign_in.json')
+
+		uri = URI("#{AppSettings.cpo.url}/users/sign_in.json")
 		req = Net::HTTP::Post.new(uri)
 		req.set_form_data('user[email]' => USER_EMAIL, 'user[password]' => USESR_PASSWORD,'user[remember_me]'=>1)
 
@@ -25,7 +26,7 @@ class Cpo
 
 	def self.get_avail_account
 		cookie = Cpo.sign_in
-		uri = URI('http://127.0.0.1:4001/avail_account.json')
+		uri = URI("#{AppSettings.cpo.url}/avail_accounts.json")
 		req = Net::HTTP::Get.new(uri)
 		req.initialize_http_header({"cookie"=>cookie})
 		res = Net::HTTP.start(uri.hostname,uri.port) do |http|
