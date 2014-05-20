@@ -60,6 +60,8 @@ group :development,:test do
 end
 gem "highcharts-rails", "~> 3.0.7"
 
+gem 'settingslogic', '~> 2.0.9'
+
 # group :test do 
 # 	gem "rspec", "~> 2.14.1"
 # end
