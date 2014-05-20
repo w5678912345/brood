@@ -1,0 +1,16 @@
+
+  <%= link_to '新规则', new_ip_filter_path,:class=>'btn'%>
+
+
+<%= grid(@ip_filters, show_filters: :no) do |g|
+  g.column name:  '时间',attribute: 'created_at' do |note|
+    time_str note.created_at 
+  end
+  g.column name: '规则（正则表达式）',attribute: 'regex'
+  g.column name: '拒绝',attribute: 'reverse'
+  g.column name: '规则可用',attribute: 'enabled'
+  g.column   do |task|
+    link_to('Edit', edit_ip_filter_path(task)) + " "+
+    link_to('Destroy',ip_filter_path(task),confirm: 'Are you sure?',:method => :delete)
+  end
+end %>

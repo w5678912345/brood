@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Regex:</b>
+  <%= @ip_filter.regex %>
+</p>
+
+<p>
+  <b>Enabled:</b>
+  <%= @ip_filter.enabled %>
+</p>
+
+<p>
+  <b>Reverse:</b>
+  <%= @ip_filter.reverse %>
+</p>
+
+
+<%= link_to 'Edit', edit_ip_filter_path(@ip_filter) %> |
+<%= link_to 'Back', ip_filters_path %>
