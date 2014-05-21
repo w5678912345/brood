@@ -145,7 +145,7 @@ class Account < ActiveRecord::Base
             count = Note.where("api_name = 'discardfordays' and computer_id = ? ",computer.id).where("date(created_at)=?",Date.today.to_s).count
             computer.update_attributes(:status=>0) if count >= Setting.account_discardfordays
         elsif status == 'discardforyears'
-            computer.update_attributes(:status=>0)
+            #computer.update_attributes(:status=>0)
         end
         Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:role_id => self.online_role_id,:ip=>opts[:ip],:api_name => api_name,
           :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id,:api_code=>api_code)
