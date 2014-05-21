@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe IpFilter do
+	it "can pass any ip with none filter" do
+		IpFilter.try("111,111,222,222").should be true
+	end
 	it "can disable ip that not pass filter test" do
 		FactoryGirl.create :ip_filter,:regex => "112\.121\..*"
 		IpFilter.try("").should be false
@@ -13,7 +16,7 @@ describe IpFilter do
 
 		FactoryGirl.create :ip_filter,:regex => "112\.121\..*",:reverse => true
 		FactoryGirl.create :ip_filter,:regex => "1\.2\.3\..*",:reverse => true
-		IpFilter.try("").should be false
+		IpFilter.try("").should be true
 		IpFilter.try("111.111.111.111").should be true
 		IpFilter.try("112.123.111.111").should be true
 		IpFilter.try("112.121.111.111").should be false
