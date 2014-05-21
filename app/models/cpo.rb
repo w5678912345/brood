@@ -1,6 +1,6 @@
 class Cpo
 
-	USER_EMAIL = 'bolt@dabi.co'
+	USER_EMAIL = 'tianyi@dabi.co'
 	USESR_PASSWORD = '12345678'
 	#require 'net/http'
 

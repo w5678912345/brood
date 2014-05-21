@@ -1,13 +1,10 @@
 Brood::Application.routes.draw do
-<<<<<<< HEAD
-
-=======
+  
   resources :ip_filters
 
   resource :cpo , controller: "cpo" do 
     post :import, :on => :collection
   end
->>>>>>> master
 
   resources :role_sessions
   resources :instance_maps do 
