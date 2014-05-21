@@ -14,6 +14,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20140418084357) do
 =======
 ActiveRecord::Schema.define(:version => 20140428061819) do
@@ -23,6 +24,9 @@ ActiveRecord::Schema.define(:version => 20140507014621) do
 =======
 ActiveRecord::Schema.define(:version => 20140520031940) do
 >>>>>>> master
+=======
+ActiveRecord::Schema.define(:version => 20140507014621) do
+>>>>>>> a48a532ff94776da30b64ccf5febcb0abca53f85
 
   create_table "account_tasks", :force => true do |t|
     t.string   "account",                         :null => false
@@ -34,7 +38,6 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
   end
->>>>>>> master
 
   create_table "accounts", :force => true do |t|
     t.string   "no",                                                     :null => false
@@ -173,11 +176,14 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> master
 =======
 >>>>>>> master
+=======
+>>>>>>> a48a532ff94776da30b64ccf5febcb0abca53f85
   create_table "links", :force => true do |t|
     t.string   "phone_no",            :limit => 32,                     :null => false
     t.string   "event",               :limit => 32,                     :null => false
@@ -196,6 +202,7 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 4deff04580f1ab3e87015e9afe0b0fdccb44c680
@@ -204,6 +211,8 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
 >>>>>>> master
 =======
 >>>>>>> master
+=======
+>>>>>>> a48a532ff94776da30b64ccf5febcb0abca53f85
   create_table "notes", :force => true do |t|
     t.integer  "user_id",                      :default => 0,     :null => false
     t.integer  "role_id",                      :default => 0,     :null => false
@@ -236,11 +245,6 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
     t.string   "target"
     t.string   "result"
     t.string   "opts"
-    t.string   "goods"
-    t.integer  "amount",                       :default => 0,     :null => false
-    t.integer  "cost",                         :default => 0,     :null => false
-    t.string   "role_type"
-    t.string   "role_name"
   end
 
   add_index "notes", ["account"], :name => "index_notes_on_account"
@@ -251,11 +255,14 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> master
 =======
 >>>>>>> master
+=======
+>>>>>>> a48a532ff94776da30b64ccf5febcb0abca53f85
   create_table "orders", :force => true do |t|
     t.string   "phone_no"
     t.string   "account_no"
@@ -278,6 +285,7 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 4deff04580f1ab3e87015e9afe0b0fdccb44c680
@@ -286,6 +294,8 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
 >>>>>>> master
 =======
 >>>>>>> master
+=======
+>>>>>>> a48a532ff94776da30b64ccf5febcb0abca53f85
   create_table "payments", :force => true do |t|
     t.integer  "role_id",                   :null => false
     t.integer  "note_id",                   :null => false
@@ -301,6 +311,34 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
     t.string   "target"
   end
 
+<<<<<<< HEAD
+=======
+  create_table "phone_machines", :force => true do |t|
+    t.string   "name",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "phone_machines", ["name"], :name => "index_phone_machines_on_name", :unique => true
+
+  create_table "phones", :primary_key => "no", :force => true do |t|
+    t.boolean  "enabled",          :default => true,   :null => false
+    t.datetime "last_active_at"
+    t.integer  "phone_machine_id"
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+    t.integer  "accounts_count",   :default => 0,      :null => false
+    t.boolean  "can_bind",         :default => true,   :null => false
+    t.string   "status",           :default => "idle"
+    t.integer  "sms_count",        :default => 0,      :null => false
+    t.integer  "today_sms_count",  :default => 0,      :null => false
+    t.boolean  "can_unlock",       :default => true,   :null => false
+    t.integer  "unlock_count",     :default => 0,      :null => false
+  end
+
+  add_index "phones", ["no"], :name => "index_phones_on_no", :unique => true
+
+>>>>>>> a48a532ff94776da30b64ccf5febcb0abca53f85
   create_table "role_sessions", :force => true do |t|
     t.integer  "role_id"
     t.integer  "computer_id"
@@ -355,24 +393,19 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
     t.integer  "computers_count",               :default => 0,        :null => false
     t.integer  "session_id",                    :default => 0,        :null => false
     t.boolean  "today_success",                 :default => false,    :null => false
-    t.integer  "bag_value",                     :default => 0,        :null => false
-    t.integer  "start_count",                   :default => 0,        :null => false
-    t.integer  "experience",                    :default => 0,        :null => false
-    t.string   "task_name"
-    t.boolean  "reset_talent",                  :default => false,    :null => false
-    t.boolean  "is_agent",                      :default => false,    :null => false
   end
 
   add_index "roles", ["account"], :name => "index_roles_on_account"
 
   create_table "servers", :force => true do |t|
-    t.string   "name",            :limit => 124,                    :null => false
+    t.string   "name",            :limit => 124,                   :null => false
     t.string   "role_str"
-    t.integer  "roles_count",                    :default => 0,     :null => false
-    t.integer  "computers_count",                :default => 0,     :null => false
-    t.datetime "created_at",                                        :null => false
-    t.datetime "updated_at",                                        :null => false
+    t.integer  "roles_count",                    :default => 0,    :null => false
+    t.integer  "computers_count",                :default => 0,    :null => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
     t.string   "goods"
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -403,6 +436,12 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
 >>>>>>> master
 =======
 >>>>>>> master
+=======
+    t.integer  "price",                          :default => 1,    :null => false
+    t.float    "gold_price",                     :default => 0.0,  :null => false
+    t.float    "gold_unit",                      :default => 0.0,  :null => false
+    t.boolean  "allowed_new",                    :default => true, :null => false
+>>>>>>> a48a532ff94776da30b64ccf5febcb0abca53f85
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true
