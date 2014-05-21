@@ -1,8 +1,29 @@
 class Cpo
 
-	USER_EMAIL = 'tianyi@dabi.co'
+	USER_EMAIL = 'bolt@dabi.co'
 	USESR_PASSWORD = '12345678'
 	#require 'net/http'
+
+	COOKIE = ""
+
+
+	def self.update_stored ids
+		cookie = Cpo.sign_in
+		uri = URI("#{AppSettings.cpo.url}/user_accounts/update_stored.json")
+		req = Net::HTTP::Post.new(uri)
+		req.set_form_data("_method"=>"put","ids[]"=>ids,"stored"=>"1")
+
+		req.initialize_http_header({"cookie"=>cookie})
+		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+		  http.request(req)
+		end
+		case res
+		when Net::HTTPSuccess, Net::HTTPRedirection
+		 	p "update ok"
+		else
+		  res.value
+		end
+	end
 
 	def self.sign_in
 
@@ -34,6 +55,19 @@ class Cpo
 		end
 		JSON.parse(res.body) 
 	end
+
+	def self.get_un_stored_accounts
+		cookie = Cpo.sign_in
+		uri = URI("#{AppSettings.cpo.url}/unstored_user_accounts.json")
+		req = Net::HTTP::Get.new(uri)
+		req.initialize_http_header({"cookie"=>cookie})
+		res = Net::HTTP.start(uri.hostname,uri.port) do |http|
+			http.request(req)
+		end
+		JSON.parse(res.body) 
+	end
+
+	
 
 
 	

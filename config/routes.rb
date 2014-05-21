@@ -1,6 +1,9 @@
 Brood::Application.routes.draw do
   resources :ip_filters
 
+  resource :cpo , controller: "cpo" do 
+    post :import, :on => :collection
+  end
 
   resources :role_sessions
   resources :history_role_sessions
