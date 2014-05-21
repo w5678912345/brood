@@ -1,0 +1,29 @@
+# defaults: &defaults
+#   cpo:
+#   	url: http://115.29.223.99:3000/
+
+# development:
+#   <<: *defaults
+#   cpo:
+#   	url: http://127.0.0.1:4001/
+
+# test:
+#   <<: *defaults
+
+# production:
+#   <<: *defaults
+
+defaults: &defaults
+  cpo:
+    url: http://115.29.223.99:3000
+
+development:
+  <<: *defaults
+  cpo:
+    url: http://127.0.0.1:4001
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

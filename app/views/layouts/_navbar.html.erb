@@ -23,6 +23,8 @@
     <li><%= link_to "帐号列表 New", account_roles_path(:tag=>"account")%></li>
     <li><%= link_to "帐号分布", group_count_accounts_path()%></li>
     <li><%= link_to "帐号设置", setting_accounts_path()%></li>
+    <li><%= link_to "CPO", cpo_path()%></li>
+    
     </ul>
 </li>
 
@@ -50,6 +52,7 @@
     <li class="nav-header">Server&IP</li>
     <li><%= link_to "区列表", servers_path()%></li>
     <li><%= link_to "IP列表", ips_path()%></li>
+    <li><%= link_to "IP过滤规则", ip_filters_path()%></li>
    <li class="nav-header">Setting</li>
     <li><%= link_to "设置列表", settings_path()%></li>
     <li class="nav-header">TASK</li>

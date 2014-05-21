@@ -17,6 +17,7 @@ class Ip < ActiveRecord::Base
   end
 
   def can_use?
+    return false unless IpFilter.try(self.value)
     return false if self.use_count >= Setting.ip_max_use_count
     tmps = self.value.split(".")
     ip_range = "#{tmps[0]}.#{tmps[1]}.#{tmps[2]}"

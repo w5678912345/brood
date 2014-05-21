@@ -13,11 +13,15 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20140418084357) do
 =======
 ActiveRecord::Schema.define(:version => 20140428061819) do
 =======
 ActiveRecord::Schema.define(:version => 20140507014621) do
+>>>>>>> master
+=======
+ActiveRecord::Schema.define(:version => 20140520031940) do
 >>>>>>> master
 
   create_table "account_tasks", :force => true do |t|
@@ -56,8 +60,6 @@ ActiveRecord::Schema.define(:version => 20140507014621) do
     t.string   "last_start_ip",      :limit => 32
     t.string   "remark"
     t.boolean  "is_auto",                          :default => false,    :null => false
-    t.string   "phone_id"
-    t.integer  "phone_event_count",                :default => 0
     t.string   "unlock_phone_id",    :limit => 16
     t.datetime "unlocked_at"
     t.boolean  "rms_file",                         :default => true,     :null => false
@@ -153,23 +155,13 @@ ActiveRecord::Schema.define(:version => 20140507014621) do
   add_index "history_role_sessions", ["computer_id"], :name => "index_history_role_sessions_on_computer_id"
   add_index "history_role_sessions", ["role_id"], :name => "index_history_role_sessions_on_role_id"
 
-  create_table "instance_maps", :force => true do |t|
-    t.integer  "key",                                           :null => false
-    t.string   "name",         :limit => 64,                    :null => false
-    t.integer  "min_level",                                     :null => false
-    t.integer  "max_level",                                     :null => false
-    t.integer  "gold",                        :default => 0,    :null => false
-    t.integer  "exp",                         :default => 0,    :null => false
-    t.boolean  "enabled",                     :default => true, :null => false
-    t.integer  "safety_limit",                                  :null => false
-    t.integer  "death_limit",                                   :null => false
-    t.integer  "enter_count",                 :default => 0,    :null => false
-    t.string   "remark",       :limit => 128
-    t.datetime "created_at",                                    :null => false
-    t.datetime "updated_at",                                    :null => false
+  create_table "ip_filters", :force => true do |t|
+    t.string   "regex"
+    t.boolean  "enabled"
+    t.boolean  "reverse"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
-
-  add_index "instance_maps", ["key"], :name => "index_instance_maps_on_key", :unique => true
 
   create_table "ips", :primary_key => "value", :force => true do |t|
     t.integer  "use_count",    :default => 0, :null => false
@@ -178,6 +170,7 @@ ActiveRecord::Schema.define(:version => 20140507014621) do
     t.string   "last_account"
   end
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -206,6 +199,8 @@ ActiveRecord::Schema.define(:version => 20140507014621) do
 =======
 =======
 >>>>>>> 4deff04580f1ab3e87015e9afe0b0fdccb44c680
+>>>>>>> master
+=======
 >>>>>>> master
 =======
 >>>>>>> master
@@ -255,6 +250,7 @@ ActiveRecord::Schema.define(:version => 20140507014621) do
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 >>>>>>> master
@@ -288,6 +284,8 @@ ActiveRecord::Schema.define(:version => 20140507014621) do
 >>>>>>> master
 =======
 >>>>>>> master
+=======
+>>>>>>> master
   create_table "payments", :force => true do |t|
     t.integer  "role_id",                   :null => false
     t.integer  "note_id",                   :null => false
@@ -303,35 +301,9 @@ ActiveRecord::Schema.define(:version => 20140507014621) do
     t.string   "target"
   end
 
-  create_table "phone_machines", :force => true do |t|
-    t.string   "name",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "phone_machines", ["name"], :name => "index_phone_machines_on_name", :unique => true
-
-  create_table "phones", :primary_key => "no", :force => true do |t|
-    t.boolean  "enabled",          :default => true, :null => false
-    t.datetime "last_active_at"
-    t.integer  "phone_machine_id"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
-    t.integer  "accounts_count",   :default => 0,    :null => false
-    t.boolean  "can_bind",         :default => true, :null => false
-    t.string   "status"
-    t.integer  "sms_count",        :default => 0,    :null => false
-    t.integer  "today_sms_count",  :default => 0,    :null => false
-    t.boolean  "can_unlock",       :default => true, :null => false
-    t.integer  "unlock_count",     :default => 0,    :null => false
-  end
-
-  add_index "phones", ["no"], :name => "index_phones_on_no", :unique => true
-
   create_table "role_sessions", :force => true do |t|
     t.integer  "role_id"
     t.integer  "computer_id"
-    t.integer  "instance_map_id",  :default => 0
     t.integer  "start_level"
     t.integer  "start_gold"
     t.integer  "start_exp"
@@ -419,7 +391,6 @@ ActiveRecord::Schema.define(:version => 20140507014621) do
     t.integer  "price3",                         :default => 1,     :null => false
     t.integer  "max_price3",                     :default => 1,     :null => false
     t.boolean  "sell_closed",                    :default => false
-    t.boolean  "allowed_new",                    :default => true,  :null => false
     t.boolean  "agent_closed",                   :default => false, :null => false
 <<<<<<< HEAD
 <<<<<<< HEAD
