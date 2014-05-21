@@ -40,6 +40,7 @@ gem 'by_star', '~> 1.0.1'
 gem 'cells'
 gem 'newrelic_rpm'
 gem "mina", "~> 0.2.0"
+gem 'thin', '1.5.0'
 # gem 'rest-client'
 # gem 'carrierwave-aliyun', '~> 0.2.0' #阿里云存储
 
@@ -50,8 +51,6 @@ group :development,:test do
   gem 'better_errors'
 	#gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
 	gem 'pry', '~> 0.9.12.2' #调试
-  
-  gem 'thin', require: false #
   gem 'rspec', '2.14.1'
   gem 'rspec-rails','2.14.0'
   gem 'factory_girl','4.3.0'
@@ -59,6 +58,8 @@ group :development,:test do
   gem 'capybara','2.2.0'
 end
 gem "highcharts-rails", "~> 3.0.7"
+
+gem 'settingslogic', '~> 2.0.9'
 
 # group :test do 
 # 	gem "rspec", "~> 2.14.1"

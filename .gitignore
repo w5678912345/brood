@@ -27,6 +27,6 @@
 #
 vendor/cache
 dump.rdb
-.ruby-version
+#.ruby-version
 
 #db/migrate/20131029014450_create_sessions.rb

@@ -1,0 +1,23 @@
+<fieldset>
+<legend>CPO <%= "#{AppSettings.cpo.url} #{Cpo::USER_EMAIL} "  %>未存储账号<%= @accounts.length %></legend>
+
+<%= link_to "导入", import_cpo_path,method: :post,:class=>"btn" %>
+<table class="table">
+<thead>
+    <th>ID</th>
+	<th>Account</th>
+	<th>Password</th>
+</thead>
+<tbody>
+<% @accounts.each do |account|%>
+<tr>
+	<td><%= account["id"]%></td>
+	<td><%= account["account_id"]%></td>
+	<td><%= account["password"]%></td>
+</tr>
+<%end%>
+</tbody>
+
+</table>
+
+</fieldset>
