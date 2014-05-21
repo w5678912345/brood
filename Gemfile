@@ -49,17 +49,10 @@ gem 'aliyun-oss', '~> 0.7.0.1349333720' #
 
 group :development,:test do
   gem 'better_errors'
-<<<<<<< HEAD
-  #gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
-  gem 'pry', '~> 0.9.12.2' #调试
-
-  gem 'thin', require: false #
-=======
 	#gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
 	gem 'pry', '~> 0.9.12.2' #调试
   
   gem 'thin', '1.5.0' #require: false #
->>>>>>> master
   gem 'rspec', '2.14.1'
   gem 'rspec-rails','2.14.0'
   gem 'factory_girl','4.3.0'
