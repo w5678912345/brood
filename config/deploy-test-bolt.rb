@@ -57,7 +57,7 @@ task :environment do
   # invoke :'rbenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
-  invoke :'rvm:use[ruby-1.9.3-p429]'
+  invoke :'rvm:use[ruby-2.0.0-p247@brood]'
 end
 
 # Put any custom mkdir's in here for when `mina setup` is ran.
@@ -115,7 +115,7 @@ end
 desc "Shutdown app."
 task :shutdown do
   queue %[echo "-----> Shutting down..."]
-  invoke :'rvm:use[ruby-1.9.3]'
+  invoke :'rvm:use[ruby-2.0.0-p247@brood]'
   invoke :'thin:stop'
   queue %[whenever -c]
 end
