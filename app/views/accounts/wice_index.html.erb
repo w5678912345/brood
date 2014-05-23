@@ -6,10 +6,7 @@
 	<button type="button" class="close" data-dismiss="alert">&times;</button>
 	<span><%= @accounts.count %>条记录  <%= flash[:msg] if flash[:msg]%></span> 
 </div>
-<<<<<<< HEAD
-<%= render :partial => "grid",:locals=>{:accounts=>@accounts}%>
 
-=======
 <%= form_tag(checked_accounts_path,:method => :post,:id=>"account_checked_form",:onSubmit=>"",:target=>"_blank") do -%>
 
 	<div class="text-right">
