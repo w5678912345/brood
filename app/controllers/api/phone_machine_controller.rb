@@ -47,6 +47,7 @@ class Api::PhoneMachineController < Api::BaseController
 	end
 	def online
 		@machines = PhoneMachine.where(:name => params[:names].split(",")).map(&:id)
+		@machines << 'NULL'
 		Phone.where(:phone_machine_id => @machines).update_all(:enabled => true)
 		Phone.where("phone_machine_id not in (?)",@machines).update_all(:enabled => false)
 		render json: {:code => -1}
