@@ -24,13 +24,21 @@ Brood::Application.routes.draw do
 
   resources :accounts do 
     get   :merge,       :on => :collection
-    put   :checked,     :on => :collection
+    post  :checked,     :on => :collection
     put   :do_checked,  :on => :collection
     get   :import,      :on => :collection
     post  :do_import,   :on => :collection
     get   :group_count, :on => :collection
     get   :setting,     :on => :collection
     post  :set,         :on => :collection
+
+  end
+
+  resources :expand_accounts do
+    post :edit_enabled, :on => :collection
+    put  :update_enabled, :on => :collection
+    post :edit_in_cpo, :on => :collection
+    put  :update_in_cpo, :on => :collection
   end
 
   #

@@ -21,6 +21,12 @@
   g.column name:  'rms_file', attribute: 'rms_file' do |account|
     boolean_tag account.rms_file
   end
+  g.column name:  'Enabled', attribute: 'enabled' do |account|
+    boolean_tag account.enabled
+  end
+   g.column name:  'In CPO', attribute: 'in_cpo' do |account|
+    boolean_tag account.in_cpo
+  end
   g.column name:  '区', attribute: 'server'
   g.column name:  '角色数', attribute: 'roles_count',filter: false
   g.column name: '绑定机器' ,attribute: 'bind_computer_id',filter: false do |task|

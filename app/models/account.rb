@@ -247,6 +247,9 @@ class Account < ActiveRecord::Base
       accounts = accounts.where("online_ip like ?","%#{opts[:online_ip]}%") unless opts[:online_ip].blank?
       accounts = accounts.where("online_computer_id = ?",opts[:online_cid].to_i) unless opts[:online_cid].blank?
       accounts = accounts.where("date(created_at) = ?",opts["date(created_at)"]) unless opts["date(created_at)"].blank?
+      accounts = accounts.where("accounts.enabled = ?",opts[:enabled]) unless opts[:enabled].blank?
+      accounts = accounts.where("accounts.in_cpo = ?",opts[:in_cpo]) unless opts[:in_cpo].blank?
+    
       return accounts
     end
 
@@ -403,12 +406,17 @@ class Account < ActiveRecord::Base
       return Server.find_by_name(tmp[0]) if tmp.length == 2
     end
 
+
     def is_bind_phone
       return !self.phone_id.blank?
     end
 
     def was_unlocked
       return !self.unlock_phone_id.blank?
+    end
+
+    def format_string
+      return "#{self.no}----#{self.password}----#{self.phone_id}----#{self.status}"
     end
 
     before_create :init_data

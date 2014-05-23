@@ -16,11 +16,15 @@
 defaults: &defaults
   cpo:
     url: http://115.29.223.99:3000
+    email: tianyi@dabi.co
+    password: 12345678
 
 development:
   <<: *defaults
   cpo:
     url: http://127.0.0.1:4001
+    email: tianyi@dabi.co
+    password: 12345678
 
 test:
   <<: *defaults
