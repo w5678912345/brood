@@ -1,7 +1,8 @@
 class Cpo
 
-	USER_EMAIL = 'tianyi@dabi.co'
-	USESR_PASSWORD = '12345678'
+
+	# USER_EMAIL = 'bolt@dabi.co'
+	# USESR_PASSWORD = '12345678'
 	#require 'net/http'
 
 	COOKIE = ""
@@ -29,7 +30,7 @@ class Cpo
 
 		uri = URI("#{AppSettings.cpo.url}/users/sign_in.json")
 		req = Net::HTTP::Post.new(uri)
-		req.set_form_data('user[email]' => USER_EMAIL, 'user[password]' => USESR_PASSWORD,'user[remember_me]'=>1)
+		req.set_form_data('user[email]' => AppSettings.cpo.email, 'user[password]' => AppSettings.cpo.password,'user[remember_me]'=>1)
 
 		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
 		  http.request(req)
