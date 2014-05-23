@@ -26,6 +26,18 @@
 <option value="1" <%= 'selected="selected"' if params[:ts] == "1" %>>Yes</option>
 <option value="0" <%= 'selected="selected"' if params[:ts] == "0" %> >No</option>
 </select>
+可用:
+<select name="enabled" class="input-small">
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:enabled] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:enabled] == "0" %> >No</option>
+</select>
+InCPO:
+<select name="in_cpo" class="input-small">
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:in_cpo] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:in_cpo] == "0" %> >No</option>
+</select>
 <hr style="margin:5px 0;">
 状态:
 <select name="status" class="input-medium"  >

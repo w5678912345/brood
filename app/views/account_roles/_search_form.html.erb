@@ -52,7 +52,21 @@
 <hr style="margin:5px 0;">
 <input type="text" name="min_nat" id="min_nat" value='<%= params[:min_nat]%>' class="input-small" placeholder="恢复日期"  />
 To<input type="text" name="max_nat" id="max_nat" value='<%= params[:max_nat]%>' class="input-small" placeholder="恢复日期"  />
+可用:
+<select name="enabled" class="input-small">
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:enabled] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:enabled] == "0" %> >No</option>
+</select>
+InCPO:
+<select name="in_cpo" class="input-small">
+<option value="" >-All-</option>
+<option value="1" <%= 'selected="selected"' if params[:in_cpo] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:in_cpo] == "0" %> >No</option>
+</select>
 <hr style="margin:5px 0;">
+
+
 账号状态:
 <% Account::STATUS.keys.each do |status|%>
 <label class="checkbox"> <input type="checkbox" name="ass[]" value="<%= status%>" <%= 'checked="checked"' if params[:ass] && params[:ass].include?(status) %> /><%= status%> </label>
