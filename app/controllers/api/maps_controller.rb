@@ -16,7 +16,7 @@ class Api::MapsController < Api::BaseController
 		else
 			@map = InstanceMap.get_valid_one(@role.level)
 		end
-		@map = InstanceMap.get_valid_one(@role.level) if params[:new].to_i == 0
+		@map = InstanceMap.get_valid_one(@role.level) if params[:new].to_i == 1
 		if @map
 			@role.role_session.instance_map = @map
 			@role.role_session.save
