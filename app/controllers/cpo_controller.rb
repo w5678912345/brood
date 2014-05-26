@@ -12,7 +12,7 @@ class CpoController < ApplicationController
 		ids = []
 		@accounts.each do |opts|
 			ids << opts["id"]
-			account = Account.new(:no=>opts["account_id"],:password=>opts["password"])
+			account = Account.new(:no=>opts["account_id"],:password=>opts["password"],:phone_id=>opts["phone_id"],:in_cpo=>true)
 			i+= 1 if account.valid? && account.save
 		end
 		flash[:msg] = "#{i}个账号从CPO 导入"

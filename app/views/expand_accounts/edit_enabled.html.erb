@@ -1,0 +1,28 @@
+<fieldset>
+<legend><%= @ids.length %>个账号 修改Enabled</legend>
+<%= form_tag(update_enabled_expand_accounts_path,:method => :put,:target=>"") do -%>
+<div style="display:none;">
+<select name="ids[]" multiple="muliple">
+<% @ids.each do |id|%>
+	<option value="<%= id%>" selected="selected"><%= id %></option>
+<%end%>
+</select>	
+</div>
+
+
+
+<div class="field">
+<label>是否可用</label>
+<select name="enabled">
+	<option value="1">Yes</option>
+	<option value="0">No</option>
+</select>
+</div>
+<hr/>
+<div class="field">
+	<button type="submit" class="btn btn-primary">确定修改</button>
+</div>
+
+<%end%>
+
+</fieldset>

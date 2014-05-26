@@ -1,5 +1,5 @@
 <fieldset>
-<legend>CPO <%= "#{AppSettings.cpo.url} #{Cpo::USER_EMAIL} "  %>未存储账号<%= @accounts.length %></legend>
+<legend>CPO <%= "#{AppSettings.cpo.url} #{AppSettings.cpo.email} "  %>未存储账号<%= @accounts.length %></legend>
 
 <%= link_to "导入", import_cpo_path,method: :post,:class=>"btn" %>
 <table class="table">

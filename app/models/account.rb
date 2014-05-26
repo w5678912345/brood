@@ -17,7 +17,7 @@ class Account < ActiveRecord::Base
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
     attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at,:today_success,:last_start_ip
-    attr_accessible :remark,:is_auto,:rms_file,:normal_at
+    attr_accessible :remark,:is_auto,:rms_file,:normal_at,:bind_phone,:phone_id, :in_cpo
     attr_accessor :online_roles 
     #所属服务器
 	  belongs_to :game_server, :class_name => 'Server', :foreign_key => 'server',:primary_key => 'name'
@@ -224,6 +224,9 @@ class Account < ActiveRecord::Base
       accounts = accounts.where("online_ip like ?","%#{opts[:online_ip]}%") unless opts[:online_ip].blank?
       accounts = accounts.where("online_computer_id = ?",opts[:online_cid].to_i) unless opts[:online_cid].blank?
       accounts = accounts.where("date(created_at) = ?",opts["date(created_at)"]) unless opts["date(created_at)"].blank?
+      accounts = accounts.where("accounts.enabled = ?",opts[:enabled]) unless opts[:enabled].blank?
+      accounts = accounts.where("accounts.in_cpo = ?",opts[:in_cpo]) unless opts[:in_cpo].blank?
+    
       return accounts
     end
 
@@ -365,6 +368,10 @@ class Account < ActiveRecord::Base
       return self.game_server if self.game_server
       tmp = self.server.split("|")
       return Server.find_by_name(tmp[0]) if tmp.length == 2
+    end
+
+    def format_string
+      return "#{self.no}----#{self.password}----#{self.phone_id}----#{self.status}"
     end
 
     before_create :init_data

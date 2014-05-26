@@ -45,7 +45,7 @@ set_default :thin_config, 'config/thin.yml'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_config_files, ['config/database.yml','config/thin.test.yml',settings.thin_config]
+set :shared_config_files, ['config/database.yml','config/thin.test.yml',settings.thin_config,'config/app_config.yml']
 
 set :shared_paths, ['log', 'public/uploads'] + settings.shared_config_files
 
@@ -57,7 +57,7 @@ task :environment do
   # invoke :'rbenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
-  invoke :'rvm:use[ruby-1.9.3-p429]'
+  invoke :'rvm:use[ruby-2.0.0-p247@brood]'
 end
 
 # Put any custom mkdir's in here for when `mina setup` is ran.
@@ -115,7 +115,7 @@ end
 desc "Shutdown app."
 task :shutdown do
   queue %[echo "-----> Shutting down..."]
-  invoke :'rvm:use[ruby-1.9.3]'
+  invoke :'rvm:use[ruby-2.0.0-p247@brood]'
   invoke :'thin:stop'
   queue %[whenever -c]
 end
