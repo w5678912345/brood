@@ -45,7 +45,7 @@ set_default :thin_config, 'config/thin.yml'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_config_files, ['config/database.yml',settings.thin_config,'config/app_config.yml]
+set :shared_config_files, ['config/database.yml',settings.thin_config,'config/app_config.yml']
 
 set :shared_paths, ['log', 'public/uploads'] + settings.shared_config_files
 

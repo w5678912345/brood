@@ -174,6 +174,7 @@ class ComputersController < ApplicationController
   def show
   	@computer = Computer.find(params[:id])
     @accounts = @computer.accounts.joins(:roles).reorder("accounts.session_id desc").order("roles.level desc").uniq()
+    @accounts = initialize_grid(@accounts)
   end
 
   def destroy
