@@ -1,32 +1,40 @@
-<fieldset>
+<div class="row">
+
+<fieldset class="span6">
 <legend>将<%= @ids.length %>个账号导入到CPO <%= AppSettings.cpo.url %></legend>
-<%=  %>
-<%= form_tag(AppSettings.cpo.url+"/multiple_accounts",:method => :post,:class=>"form-horizontal", :target=>"_blank") do -%>
 
-<div class="control-group">
-<label class="control-label">CPO帐 号:</label>
-  <div class="controls docs-input-sizes">
-    <input id="email" name="email" readonly="readonly" value="<%= AppSettings.cpo.email %>" title="<%= AppSettings.cpo.password %>" type="text" >
-  </div>
-</div>
+<%= form_tag(AppSettings.cpo.url+"/multiple_accounts",:method => :post,:class=>"form-inline", :target=>"_blank") do -%>
+CPO帐号:<input id="email" name="email" readonly="readonly" value="<%= AppSettings.cpo.email %>" title="<%= AppSettings.cpo.password %>" type="text" >
+备注:<input type="text" name="remark" class="form-control"  placeholder="">
+<button type="submit" class="btn btn-primary">确定导入</button>
 
-<div class="control-group">
-<label class="control-label">备注:</label>
-  <div class="controls docs-input-sizes">
-     <input type="text" name="remark" class="form-control"  placeholder="">
-  </div>
-</div>
-<div class="field">
-	<button type="submit" class="btn btn-primary">确定导入</button>
-</div>
 
 
 <hr/>
 <% @accounts.each do |account| %>
 <div>
-	<input type="text" name="data[]" value='<%= account.format_string %>' class="input-xxlarge" />
+	<input type="text" name="data[]" value='<%= account.format_string %>' class="input-xxlarge" readonly="readonly" />
 </div>
 <%end%>
 <%end%>
-
 </fieldset>
+
+<fieldset>
+<legend class="error">修改InCPO 属性</legend>
+<%= form_tag(update_in_cpo_expand_accounts_path,:method => :put,:target=>"") do -%>
+<div style="display:none;">
+<select name="ids[]" multiple="muliple">
+<% @ids.each do |id|%>
+	<option value="<%= id%>" selected="selected"><%= id %></option>
+<%end%>
+</select>	
+</div>
+
+<label class="label label-warning">导入成后，修改账号属性(enabled=>false,in_cpo=>true)</label>
+<div class="field">
+	<button type="submit" class="btn btn-primary">确定修改</button>
+</div>
+<%end%>
+</fieldset>
+
+</div>

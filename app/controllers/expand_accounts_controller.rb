@@ -20,6 +20,10 @@ class ExpandAccountsController < ApplicationController
 	end
 
 	def update_in_cpo
+		@ids = params[:ids] || []
+		i = @accounts = Account.where("no in (?)",@ids).update_all(:enabled => false,:in_cpo=>true)
+		flash[:msg] = "#{i} 个账号导入到CPO"
+		redirect_to accounts_path
 	end
 
 
