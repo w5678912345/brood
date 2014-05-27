@@ -44,8 +44,9 @@ class ComputersController < ApplicationController
     #params[:per_page] = params[:per_page].blank? ? 20 : params[:per_page].to_i
     #params[:per_page] = @computers.count unless params[:all].blank?
   	#@computers = @computers.order("hostname desc").paginate(:page => params[:page], :per_page => params[:per_page])
-
-    @computers = initialize_grid(@computers)
+    params[:per_page] = params[:per_page].blank? ? 20 : params[:per_page].to_i
+    params[:per_page] = @computers.count unless params[:all].blank?
+    @computers = initialize_grid(@computers,:per_page => params[:per_page])
     render "wice_index"
 
   end
@@ -174,7 +175,7 @@ class ComputersController < ApplicationController
   def show
   	@computer = Computer.find(params[:id])
     @accounts = @computer.accounts.joins(:roles).reorder("accounts.session_id desc").order("roles.level desc").uniq()
-    @accounts = initialize_grid(@accounts)
+    @accounts = initialize_grid(@accounts,:per_page=>50)
   end
 
   def destroy
