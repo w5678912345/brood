@@ -29,15 +29,15 @@ set_default :term_mode, :pretty
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 # ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com
-set :domain, 'ec2-54-249-17-3.ap-northeast-1.compute.amazonaws.com'
-set :deploy_to, '/home/ubuntu/apps/test_tianer.dabi.co'
-set :user, 'ubuntu'
+set :domain, '218.244.130.235'
+set :deploy_to, '/root/apps/tianer.dabi.co'
+set :user, 'root'
 
 set :rails_env, 'production'
 
 set :repository, 'ubuntu@www.dabi.co:repo/brood.git'
 set :branch, 'tianyi'
-set :rvm_path, '/home/ubuntu/.rvm/scripts/rvm' #'/usr/local/rvm/scripts/rvm'
+set :rvm_path, '/usr/local/rvm/scripts/rvm' #'/usr/local/rvm/scripts/rvm'
 
 # thin settings
 set_default :thin_cmd, 'thin'
