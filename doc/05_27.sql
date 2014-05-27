@@ -1,5 +1,5 @@
-
-
+#694700
+ mysql -ubolt_test -p -h rdsbjjvieuuu3ai.mysql.rds.aliyuncs.com
 
 select count(n2.id) as cc, n2.account from notes as n1
   inner join notes as n2 on n1.account = n2.account 
