@@ -45,7 +45,7 @@ class Account < ActiveRecord::Base
     scope :started_scope, where("accounts.session_id > 0 ") #已开始的账号
     scope :stopped_scope, where("accounts.session_id = 0 ") #已停止的账号
     #
-    scope :waiting_scope, lambda{|time|joins(:roles).where("accounts.session_id = 0").where("accounts.normal_at <= ? ",time || Time.now)
+    scope :waiting_scope, lambda{|time|joins(:roles).where("accounts.session_id = 0").where("accounts.normal_at <= ? ",time || Time.now).where("accounts.enabled = 1")
     .where(" roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0").where("roles.level < ?",Setting.role_max_level).reorder("roles.level desc").uniq().readonly(false)}
     #
     scope :bind_scope, where("bind_computer_id > 0") # 已绑定
