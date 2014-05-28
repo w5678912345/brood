@@ -29,15 +29,15 @@ set_default :term_mode, :pretty
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 # ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com
-set :domain, 'ec2-54-249-17-3.ap-northeast-1.compute.amazonaws.com'
-set :deploy_to, '/home/ubuntu/apps/test_tianer.dabi.co'
-set :user, 'ubuntu'
+set :domain, '218.244.130.235'
+set :deploy_to, '/root/apps/tianer.dabi.co'
+set :user, 'root'
 
 set :rails_env, 'production'
 
 set :repository, 'ubuntu@www.dabi.co:repo/brood.git'
 set :branch, 'tianyi'
-set :rvm_path, '/home/ubuntu/.rvm/scripts/rvm' #'/usr/local/rvm/scripts/rvm'
+set :rvm_path, '/usr/local/rvm/scripts/rvm' #'/usr/local/rvm/scripts/rvm'
 
 # thin settings
 set_default :thin_cmd, 'thin'
@@ -45,7 +45,7 @@ set_default :thin_config, 'config/thin.yml'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_config_files, ['config/database.yml','config/thin.test.yml',settings.thin_config,'config/app_config.yml]
+set :shared_config_files, ['config/database.yml','config/thin.test.yml',settings.thin_config,'config/app_config.yml']
 
 set :shared_paths, ['log', 'public/uploads'] + settings.shared_config_files
 
@@ -57,7 +57,7 @@ task :environment do
   # invoke :'rbenv:load'
 
   # For those using RVM, use this to load an RVM version@gemset.
-  invoke :'rvm:use[ruby-1.9.3-p429]'
+  invoke :'rvm:use[ruby-2.0.0-p247@brood]'
 end
 
 # Put any custom mkdir's in here for when `mina setup` is ran.
@@ -115,7 +115,7 @@ end
 desc "Shutdown app."
 task :shutdown do
   queue %[echo "-----> Shutting down..."]
-  invoke :'rvm:use[ruby-1.9.3-p429]'
+  invoke :'rvm:use[ruby-2.0.0-p247@brood]'
   invoke :'thin:stop'
   queue %[whenever -c]
 end

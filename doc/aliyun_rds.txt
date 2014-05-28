@@ -1,0 +1,13 @@
+ mysql -ubolt_test -p -h rdsbjjvieuuu3ai.mysql.rds.aliyuncs.com
+
+
+ mysql -ubolt -p -h rdsbjjvieuuu3ai.mysql.rds.aliyuncs.com
+
+
+
+mysqldump -u root -p bolt_production>/tmp/bolt_05_28.sql
+
+
+
+mysql -ubolt -p bolt_pro -h rdsbjjvieuuu3ai.mysql.rds.aliyuncs.com</tmp/bolt_05_28.sql
+
