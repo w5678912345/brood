@@ -2,8 +2,8 @@
 # 发布应用分支 tianyi 到服务器
 #
 # 使用用法：
-#   部署：mina deploy -f config/deploy-test-tianer.rb -v
-#   停止：mina shutdown -f config/deploy-test-tianer.rb -v
+#   部署：mina deploy -f config/deploy-tianer.rb -v
+#   停止：mina shutdown -f config/deploy-tianer.rb -v
 #   其他命令参见：mina tasks
 #
 # **************
