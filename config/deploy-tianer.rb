@@ -2,8 +2,8 @@
 # 发布应用分支 tianyi 到服务器
 #
 # 使用用法：
-#   部署：mina deploy -f config/deploy-test-tianyi.rb -v
-#   停止：mina shutdown -f config/deploy-test-tianyi.rb -v
+#   部署：mina deploy -f config/deploy-tianer.rb -v
+#   停止：mina shutdown -f config/deploy-tianer.rb -v
 #   其他命令参见：mina tasks
 #
 # **************
@@ -29,15 +29,15 @@ set_default :term_mode, :pretty
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 # ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com
-set :domain, 'test_tianyi.dabi.co'
-set :deploy_to, '/home/ubuntu/apps/test.brood.com'
-set :user, 'ubuntu'
+set :domain, '121.199.35.218'
+set :deploy_to, '/root/apps/tianer.dabi.co'
+set :user, 'root'
 
 set :rails_env, 'production'
 
 set :repository, 'ubuntu@www.dabi.co:repo/brood.git'
 set :branch, 'tianyi'
-set :rvm_path, '/home/ubuntu/.rvm/scripts/rvm' #'/usr/local/rvm/scripts/rvm'
+set :rvm_path, '/usr/local/rvm/scripts/rvm' #'/usr/local/rvm/scripts/rvm'
 
 # thin settings
 set_default :thin_cmd, 'thin'
@@ -88,6 +88,7 @@ task :deploy => :environment do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
+    #invoke :'db:create'
     invoke :'rails:db_migrate'
     #invoke :'db:migrate'
     invoke :'rails:assets_precompile'

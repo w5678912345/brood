@@ -13,7 +13,7 @@ CPO帐号:<input id="email" name="email" readonly="readonly" value="<%= AppSetti
 <hr/>
 <% @accounts.each do |account| %>
 <div>
-	<input type="text" name="data[]" value='<%= account.format_string %>' class="input-xxlarge" readonly="readonly" />
+	<input type="text" name="data[]" value='<%= account.format_string %>' class="input-xxlarge"  />
 </div>
 <%end%>
 <%end%>
