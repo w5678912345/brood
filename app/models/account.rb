@@ -371,7 +371,7 @@ class Account < ActiveRecord::Base
     end
 
     def format_string
-      return "#{self.no}----#{self.password}----#{self.phone_id}----#{self.status}"
+      return "#{self.no}----#{self.password}----#{self.phone_id}----#{self.status}----#{self.server}"
     end
 
     before_create :init_data
