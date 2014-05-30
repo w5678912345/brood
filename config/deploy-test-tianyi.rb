@@ -29,7 +29,7 @@ set_default :term_mode, :pretty
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 # ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com
-set :domain, 'ec2-54-249-17-3.ap-northeast-1.compute.amazonaws.com'
+set :domain, 'test_tianyi.dabi.co'
 set :deploy_to, '/home/ubuntu/apps/test.brood.com'
 set :user, 'ubuntu'
 
