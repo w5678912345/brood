@@ -2,10 +2,8 @@
 <%= render "ul" %>
 <%= render "search_form" %>
 <div class="alert">
-<strong>提示信息:</strong>
-<button type="button" class="close" data-dismiss="alert">&times;</button>
-<span>查询到<%= @accounts.total_entries%>个帐号. <%= flash[:msg] if flash[:msg]%></span> 
+	<strong>提示信息:</strong>
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<span><%= @accounts.count %>条记录  <%= flash[:msg] if flash[:msg]%></span> 
 </div>
-<%= render :partial => "table",:locals=>{:accounts=>@accounts} %>
-
-<%= will_paginate @accounts %>
+<%= render :partial => "form_grid",:locals=>{:accounts=>@accounts}%>

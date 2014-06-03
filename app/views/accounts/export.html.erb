@@ -1,0 +1,14 @@
+<table class="table">
+<thead>
+	<tr>
+		<th>导出<%= @accounts.count%>个账号</th>
+	</tr>
+</thead>
+<tbody>
+<% @accounts.each do |account|%>
+<tr>
+	<td><%= account.no %>----<%= account.password %></td>
+</tr>
+<%end%>
+</tbody>
+</table>

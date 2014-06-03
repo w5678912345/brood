@@ -1,21 +1,4 @@
-<%= form_tag(checked_accounts_path,:method => :post,:id=>"account_checked_form",:onSubmit=>"",:target=>"_blank") do -%>
-
-  <div class="text-right">
-    <select id="url" class="">
-    <option value="">--请选择--</option>
-    <option value="<%= edit_enabled_expand_accounts_path %>">修改Enabled</option>
-    <option value="<%= edit_in_cpo_expand_accounts_path %>">回收到CPO</option>
-    </select>
-    <button type="button" class="btn btn-danger" id="expand-btn">确定操作</button>
-    <select id="do" name="do" class="input-medium">
-    <option value="">选择操作</option>
-    <% Account::Btns.each do | key, value |  %>
-      <option value="<%= key %>"><%= value%></option>
-    <%end%>
-    </select>
-    <button type="submit" class="btn btn-primary">执行操作</button>
-  </div>
-<%= grid(accounts, show_filters: :no) do |g|
+<%= grid(@accounts || accounts, show_filters: :no) do |g|
   g.action_column  object_property: :no
   g.column name:  'ID', attribute: 'id', filter: false
   g.column name:  'Account' do |task|
@@ -23,21 +6,21 @@
     r += raw('<i class="icon-flag" title="IP: '+task.ip_range+'"></i>') unless task.ip_range.blank?
     r
   end
-  g.column name:  'rms_file', attribute: 'rms_file' do |account|
+  g.column name:  'rms_file', attribute: 'rms_file',in_csv: false  do |account|
     boolean_tag account.rms_file
   end
-  g.column name:  'Enabled', attribute: 'enabled' do |account|
+  g.column name:  'Enabled', attribute: 'enabled',in_csv: false  do |account|
     boolean_tag account.enabled
   end
-   g.column name:  'In CPO', attribute: 'in_cpo' do |account|
+   g.column name:  'In CPO', attribute: 'in_cpo',in_csv: false do |account|
     boolean_tag account.in_cpo
   end
   g.column name:  '区', attribute: 'server'
-  g.column name:  '角色数', attribute: 'roles_count',filter: false
-  g.column name: '绑定机器' ,attribute: 'bind_computer_id',filter: false do |task|
+  g.column name:  '角色数', attribute: 'roles_count',filter: false,in_csv: false 
+  g.column name: '绑定机器' ,attribute: 'bind_computer_id',filter: false,in_csv: false  do |task|
      account_bind_tag task
   end
-  g.column name: '在线',filter: false do |account|
+  g.column name: '在线',filter: false,in_csv: false  do |account|
     if account.is_started?
       r = raw("#{account.session_id}#{notes_link_tag(:session_id => account.session_id )}") if account.session_id>0
       r += link_to account.session.ip,notes_path(:ip => account.session.ip)
@@ -49,25 +32,10 @@
     end
   end
   g.column name:  '状态', attribute: 'status'
-  g.column name:  "冷却时间",attribute: 'normal_at'  do |task|
+  g.column name:  "冷却时间",attribute: 'normal_at',in_csv: false   do |task|
     time_str task.normal_at
   end
-  g.column name:  "成功",attribute: 'today_success'  do |task|
+  g.column name:  "成功",attribute: 'today_success',in_csv: false   do |task|
     boolean_tag task.today_success
   end
 end %>
-
-
-<%end%>
-
-<script type="text/javascript">
-
-  $("#expand-btn").click(function(){
-    var url = $("#url").val();
-    if(url.length == 0){
-      return false;
-    }
-    $("#account_checked_form").attr("action",url);
-    $("#account_checked_form").submit();
-  });
-</script>
