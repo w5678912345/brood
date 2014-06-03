@@ -12,5 +12,5 @@
 <% if params[:tag] == "role"%>
 <%= render :partial => "roles/grid",:locals=>{:roles=>@records} %>
 <%else%>
-<%= render :partial => "accounts/grid",:locals=>{:accounts=>@records} %>
+<%= render :partial => "accounts/form_grid",:locals=>{:accounts=>@records} %>
 <%end%>

@@ -13,8 +13,12 @@ class AccountsController < ApplicationController
 		params[:per_page] = params[:per_page].blank? ? 20 : params[:per_page].to_i
 		params[:per_page] = @accounts.count unless params[:all].blank?
 		#@accounts = @accounts.paginate(:page => params[:page], :per_page => params[:per_page])
-		@accounts = initialize_grid(@accounts,:per_page=>params[:per_page])
-		render "wice_index"
+		@accounts = initialize_grid(@accounts,
+			:name => 'grid',
+      		:per_page=>params[:per_page])
+
+		#export_grid_if_requested('grid' => 'grid')
+		#render "wice_index"
 	end
 
 	def show
@@ -116,13 +120,7 @@ class AccountsController < ApplicationController
     		i =  @accounts.stopped_scope.update_all(:server => params[:server])
 			flash[:msg] = "#{i}个账号的区发生改变"
 		elsif "export" == @do
-			query_sql = @accounts.select("no,password,server").reorder(:id).to_sql
-			file_name= "#{Time.now.to_i}.txt"
-			path = "/tmp/export/#{file_name}"
-			sql = "#{query_sql} into outfile '#{path}' FIELDS TERMINATED BY '----'"
-			ActiveRecord::Base.connection.execute(sql)
-			send_file(path ,:filename => file_name,:type => 'application/text',
-            :disposition  =>  'attachment',:streaming    =>  'true',:buffer_size  =>  '4096')
+			render "export"
         elsif "add_sms_order" == @do
     		@accounts= @accounts.bind_phone_scope
     		@accounts.each do |account|
