@@ -104,11 +104,6 @@ class Account < ActiveRecord::Base
       # 修改角色
       role.api_sync(opts) if role
       #当前会话机器
-      computer = self.session.computer
-      #更新当前会话时间
-      self.session.update_hours
-      #更新机器开机时间
-      computer.session.update_hours if computer.session
       return 1 if self.update_attributes(:updated_at => Time.now)
     end
 
