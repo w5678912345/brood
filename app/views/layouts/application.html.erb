@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app>
 <head>
-  <title><%= "Brood[#{yield(:title)}]"  %></title>
+  <title><%= "#{AppSettings.title}[#{yield(:title)}]"  %></title>
   <%= stylesheet_link_tag    'application' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
