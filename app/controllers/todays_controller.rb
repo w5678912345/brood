@@ -7,7 +7,7 @@ class TodaysController < ApplicationController
 		@error_event_count = Note.select("api_name,count(*) as num").group("api_name").at_date(Date.today).event_scope(["discardforyears","exception"])
 		#binding.pry
 		@finished_role_count = HistoryRoleSession.at_date(Date.today).count(:role_id,:distinct => true)
-		@can_use_role_count = Role.joins(:qq_account).where("accounts.status = 'normal'").count
+		@can_use_role_count = Role.joins(:qq_account).where("roles.status='normal' and accounts.status = 'normal'").count
 	end
 	def server_online
 		@server_online = initialize_grid(RoleSession.select("roles.server,count(*) as num").joins(:role).group("roles.server").order("roles.server"))
