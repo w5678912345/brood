@@ -23,7 +23,7 @@ class Api::MapsController < Api::BaseController
 			@role.role_session.save
 			@map.enter_count = @map.enter_count+1
 			@map.save
-			render :json => {:key=>@map.key,:name=>@map.name}
+			render :json => {:key=>@map.key,:name=>@map.name,:ishell=>@map.ishell}
 		else
 			@code = -1
 			Note.create(@role.role_session.computer.to_note_hash.merge(:account=>@role.account, :role_id => @role.id, :api_name=>"not_find_map",:ip=>request.remote_ip))

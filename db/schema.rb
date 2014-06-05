@@ -11,30 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-ActiveRecord::Schema.define(:version => 20140418084357) do
-=======
-ActiveRecord::Schema.define(:version => 20140428061819) do
-=======
-ActiveRecord::Schema.define(:version => 20140507014621) do
->>>>>>> master
-=======
-ActiveRecord::Schema.define(:version => 20140520031940) do
->>>>>>> master
-=======
-ActiveRecord::Schema.define(:version => 20140507014621) do
->>>>>>> a48a532ff94776da30b64ccf5febcb0abca53f85
-=======
-ActiveRecord::Schema.define(:version => 20140523074814) do
->>>>>>> master
-=======
-ActiveRecord::Schema.define(:version => 20140520031940) do
->>>>>>> 6fb2e39f509c1d7b646f9c055a55f3184e2affb2
+ActiveRecord::Schema.define(:version => 20140605054914) do
 
   create_table "account_tasks", :force => true do |t|
     t.string   "account",                         :null => false
@@ -76,13 +53,8 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
     t.string   "unlock_phone_id",    :limit => 16
     t.datetime "unlocked_at"
     t.boolean  "rms_file",                         :default => true,     :null => false
-<<<<<<< HEAD
     t.boolean  "in_cpo",                           :default => false,    :null => false
     t.boolean  "enabled",                          :default => true,     :null => false
-=======
-    t.string   "phone_id"
-    t.integer  "phone_event_count",                :default => 0
->>>>>>> 6fb2e39f509c1d7b646f9c055a55f3184e2affb2
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true
@@ -176,26 +148,24 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
   add_index "history_role_sessions", ["role_id"], :name => "index_history_role_sessions_on_role_id"
 
   create_table "instance_maps", :force => true do |t|
-    t.integer  "key",                                           :null => false
-    t.string   "name",         :limit => 64,                    :null => false
-    t.integer  "min_level",                                     :null => false
-    t.integer  "max_level",                                     :null => false
-    t.integer  "gold",                        :default => 0,    :null => false
-    t.integer  "exp",                         :default => 0,    :null => false
-    t.boolean  "enabled",                     :default => true, :null => false
-    t.integer  "safety_limit",                                  :null => false
-    t.integer  "death_limit",                                   :null => false
-    t.integer  "enter_count",                 :default => 0,    :null => false
+    t.integer  "key",                                            :null => false
+    t.string   "name",         :limit => 64,                     :null => false
+    t.integer  "min_level",                                      :null => false
+    t.integer  "max_level",                                      :null => false
+    t.integer  "gold",                        :default => 0,     :null => false
+    t.integer  "exp",                         :default => 0,     :null => false
+    t.boolean  "enabled",                     :default => true,  :null => false
+    t.integer  "safety_limit",                                   :null => false
+    t.integer  "death_limit",                                    :null => false
+    t.integer  "enter_count",                 :default => 0,     :null => false
     t.string   "remark",       :limit => 128
-    t.datetime "created_at",                                    :null => false
-    t.datetime "updated_at",                                    :null => false
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
+    t.boolean  "ishell",                      :default => false, :null => false
   end
 
-<<<<<<< HEAD
   add_index "instance_maps", ["key"], :name => "index_instance_maps_on_key", :unique => true
 
-=======
->>>>>>> 6fb2e39f509c1d7b646f9c055a55f3184e2affb2
   create_table "ip_filters", :force => true do |t|
     t.string   "regex"
     t.boolean  "enabled"
@@ -211,23 +181,6 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
     t.string   "last_account"
   end
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> master
-=======
->>>>>>> a48a532ff94776da30b64ccf5febcb0abca53f85
-=======
->>>>>>> master
-=======
->>>>>>> 6fb2e39f509c1d7b646f9c055a55f3184e2affb2
   create_table "links", :force => true do |t|
     t.string   "phone_no",            :limit => 32,                     :null => false
     t.string   "event",               :limit => 32,                     :null => false
@@ -244,25 +197,6 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
 
   add_index "links", ["phone_no", "event"], :name => "index_links_on_phone_no_and_event", :unique => true
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 4deff04580f1ab3e87015e9afe0b0fdccb44c680
->>>>>>> master
-=======
->>>>>>> master
-=======
->>>>>>> master
-=======
->>>>>>> a48a532ff94776da30b64ccf5febcb0abca53f85
-=======
->>>>>>> master
-=======
->>>>>>> 6fb2e39f509c1d7b646f9c055a55f3184e2affb2
   create_table "notes", :force => true do |t|
     t.integer  "user_id",                      :default => 0,     :null => false
     t.integer  "role_id",                      :default => 0,     :null => false
@@ -307,23 +241,6 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
   add_index "notes", ["role_id"], :name => "index_notes_on_role_id"
   add_index "notes", ["session_id"], :name => "index_notes_on_session_id"
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> master
-=======
->>>>>>> a48a532ff94776da30b64ccf5febcb0abca53f85
-=======
->>>>>>> master
-=======
->>>>>>> 6fb2e39f509c1d7b646f9c055a55f3184e2affb2
   create_table "orders", :force => true do |t|
     t.string   "phone_no"
     t.string   "account_no"
@@ -344,25 +261,6 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
     t.string   "target_no"
   end
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 4deff04580f1ab3e87015e9afe0b0fdccb44c680
->>>>>>> master
-=======
->>>>>>> master
-=======
->>>>>>> master
-=======
->>>>>>> a48a532ff94776da30b64ccf5febcb0abca53f85
-=======
->>>>>>> master
-=======
->>>>>>> 6fb2e39f509c1d7b646f9c055a55f3184e2affb2
   create_table "payments", :force => true do |t|
     t.integer  "role_id",                   :null => false
     t.integer  "note_id",                   :null => false
@@ -378,14 +276,6 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
     t.string   "target"
   end
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> master
-=======
->>>>>>> 6fb2e39f509c1d7b646f9c055a55f3184e2affb2
   create_table "phone_machines", :force => true do |t|
     t.string   "name",       :null => false
     t.datetime "created_at", :null => false
@@ -395,20 +285,6 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
   add_index "phone_machines", ["name"], :name => "index_phone_machines_on_name", :unique => true
 
   create_table "phones", :primary_key => "no", :force => true do |t|
-<<<<<<< HEAD
-    t.boolean  "enabled",          :default => true,   :null => false
-    t.datetime "last_active_at"
-    t.integer  "phone_machine_id"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
-    t.integer  "accounts_count",   :default => 0,      :null => false
-    t.boolean  "can_bind",         :default => true,   :null => false
-    t.string   "status",           :default => "idle"
-    t.integer  "sms_count",        :default => 0,      :null => false
-    t.integer  "today_sms_count",  :default => 0,      :null => false
-    t.boolean  "can_unlock",       :default => true,   :null => false
-    t.integer  "unlock_count",     :default => 0,      :null => false
-=======
     t.boolean  "enabled",          :default => true, :null => false
     t.datetime "last_active_at"
     t.integer  "phone_machine_id"
@@ -421,18 +297,10 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
     t.integer  "today_sms_count",  :default => 0,    :null => false
     t.boolean  "can_unlock",       :default => true, :null => false
     t.integer  "unlock_count",     :default => 0,    :null => false
->>>>>>> master
   end
 
   add_index "phones", ["no"], :name => "index_phones_on_no", :unique => true
 
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> a48a532ff94776da30b64ccf5febcb0abca53f85
-=======
->>>>>>> master
-=======
->>>>>>> 6fb2e39f509c1d7b646f9c055a55f3184e2affb2
   create_table "role_sessions", :force => true do |t|
     t.integer  "role_id"
     t.integer  "computer_id"
@@ -519,7 +387,6 @@ ActiveRecord::Schema.define(:version => 20140520031940) do
     t.boolean  "sell_closed",                    :default => false
     t.boolean  "allowed_new",                    :default => true,  :null => false
     t.boolean  "agent_closed",                   :default => false, :null => false
-    t.boolean  "allowed_new",                    :default => true,  :null => false
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true

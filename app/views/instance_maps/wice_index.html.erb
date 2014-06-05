@@ -9,6 +9,9 @@
   end
   g.action_column
   g.column name:  '名字',attribute: 'name'
+  g.column name: 'ishell',attribute: 'ishell' do |map|
+    boolean_tag map.ishell
+  end
   g.column name:  '等级下限', attribute: 'min_level'
   g.column name: '等级上限',attribute: 'max_level' 
   g.column name:  '估计产出', attribute: 'gold'
