@@ -19,6 +19,7 @@
     <b class="caret"></b></a>
     <ul class="dropdown-menu">
     <li class="nav-header">Account</li>
+    <li><%= link_to "在线帐号列表", accounts_path(:started=>1)%></li>
     <li><%= link_to "帐号列表", accounts_path()%></li>
     <li><%= link_to "帐号列表 New", account_roles_path(:tag=>"account")%></li>
     <li><%= link_to "帐号分布", group_count_accounts_path()%></li>

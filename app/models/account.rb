@@ -38,7 +38,7 @@ class Account < ActiveRecord::Base
     # 
     validates_uniqueness_of :no
 
-    default_scope order("accounts.session_id desc").order("normal_at asc").order("updated_at desc")
+    #default_scope order("accounts.session_id desc").order("normal_at asc").order("updated_at desc")
     scope :online_scope, where("accounts.session_id > 0") #
     scope :unline_scope, where("accounts.session_id = 0").reorder("updated_at desc") # where(:status => 'normal')
     #
