@@ -84,7 +84,7 @@ class Account < ActiveRecord::Base
         session = Note.create(tmp)
         
         # 可以调度的角色
-        @online_roles = opts[:all] ? self.roles : self.roles.waiting_scope
+        @online_roles = opts[:all] ? self.roles : self.roles.waiting_scope.where("roles.level < ?",Setting.role_max_level)
         @online_roles = @online_roles.reorder("role_index").limit(Setting.account_start_roles_count)
         # 调度角色
         @online_roles.each do |role|

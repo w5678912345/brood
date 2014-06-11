@@ -1,9 +1,12 @@
-<%= grid(@computers, show_filters: :when_filtered) do |g|
+<%= grid(@computers) do |g|
   g.action_column
   g.column name:  'ID', attribute: 'id', filter: false
 
   g.column name:  '主机名',attribute:'hostname' do |computer|
     computer_tag(computer)
+  end
+  g.column name:  "在线",attribute: 'session_id'  do |computer|
+    boolean_tag computer.is_started?
   end
   g.column name: '分组名',attribute: 'group'
   g.column name:  '区', attribute: 'server' do |computer|
@@ -32,7 +35,5 @@
   g.column name:  "通过",attribute: 'checked'  do |computer|
     boolean_tag computer.checked
   end
-  g.column name:  "在线",attribute: 'session_id'  do |computer|
-    boolean_tag computer.is_started?
-  end
+  
 end %>

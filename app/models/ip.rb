@@ -4,7 +4,7 @@ class Ip < ActiveRecord::Base
   #set_primary_key :value
 
   self.primary_key = "value"
-  default_scope :order => 'updated_at DESC'
+  #default_scope :order => 'updated_at DESC'
 
 
 

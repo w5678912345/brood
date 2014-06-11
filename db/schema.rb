@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140523074814) do
+ActiveRecord::Schema.define(:version => 20140606074904) do
 
   create_table "account_tasks", :force => true do |t|
     t.string   "account",                         :null => false
@@ -148,19 +148,20 @@ ActiveRecord::Schema.define(:version => 20140523074814) do
   add_index "history_role_sessions", ["role_id"], :name => "index_history_role_sessions_on_role_id"
 
   create_table "instance_maps", :force => true do |t|
-    t.integer  "key",                                           :null => false
-    t.string   "name",         :limit => 64,                    :null => false
-    t.integer  "min_level",                                     :null => false
-    t.integer  "max_level",                                     :null => false
-    t.integer  "gold",                        :default => 0,    :null => false
-    t.integer  "exp",                         :default => 0,    :null => false
-    t.boolean  "enabled",                     :default => true, :null => false
-    t.integer  "safety_limit",                                  :null => false
-    t.integer  "death_limit",                                   :null => false
-    t.integer  "enter_count",                 :default => 0,    :null => false
+    t.integer  "key",                                            :null => false
+    t.string   "name",         :limit => 64,                     :null => false
+    t.integer  "min_level",                                      :null => false
+    t.integer  "max_level",                                      :null => false
+    t.integer  "gold",                        :default => 0,     :null => false
+    t.integer  "exp",                         :default => 0,     :null => false
+    t.boolean  "enabled",                     :default => true,  :null => false
+    t.integer  "safety_limit",                                   :null => false
+    t.integer  "death_limit",                                    :null => false
+    t.integer  "enter_count",                 :default => 0,     :null => false
     t.string   "remark",       :limit => 128
-    t.datetime "created_at",                                    :null => false
-    t.datetime "updated_at",                                    :null => false
+    t.datetime "created_at",                                     :null => false
+    t.datetime "updated_at",                                     :null => false
+    t.boolean  "ishell",                      :default => false, :null => false
   end
 
   add_index "instance_maps", ["key"], :name => "index_instance_maps_on_key", :unique => true
@@ -178,7 +179,10 @@ ActiveRecord::Schema.define(:version => 20140523074814) do
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false
     t.string   "last_account"
+    t.datetime "cooling_time"
   end
+
+  add_index "ips", ["cooling_time"], :name => "index_ips_on_cooling_time"
 
   create_table "links", :force => true do |t|
     t.string   "phone_no",            :limit => 32,                     :null => false
