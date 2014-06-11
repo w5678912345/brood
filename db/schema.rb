@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140606074904) do
+ActiveRecord::Schema.define(:version => 20140611071025) do
 
   create_table "account_tasks", :force => true do |t|
     t.string   "account",                         :null => false
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(:version => 20140606074904) do
     t.boolean  "rms_file",                         :default => true,     :null => false
     t.boolean  "in_cpo",                           :default => false,    :null => false
     t.boolean  "enabled",                          :default => true,     :null => false
+    t.datetime "last_start_at"
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true
