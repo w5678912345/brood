@@ -7,9 +7,10 @@
 </div>
 </br>
 <h2 class="text-warning">今日产出：<%= gold_str @today_trade_gold%></h2>
-<h2 class="text-error">异常事件:
+<h2 class="text-error">
+<%= link_to '异常事件',group_count_notes_path(:end_time=>Time.now.end_of_day,:start_time=>Time.now.at_beginning_of_day) %>
 	<%@error_event_count.each do |i|%>
-		<%="%s=%d" % [i.api_name,i.num]%>
+		<%=link_to ("%s=%d" % [i.api_name,i.num]), notes_path(:end_time=>Time.now.end_of_day,:start_time=>Time.now.at_beginning_of_day,:api_name=>i.api_name)%>
 	<%end%>
 </h2>
 

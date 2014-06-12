@@ -141,6 +141,7 @@ class Account < ActiveRecord::Base
           n.version  =  computer.version
           n.session_id = session.id
           n.api_code = api_code
+          binding.pry
           if api_name == 'discardforyears'
             opts[:msg] =~ /.*(\d{4})年(\d{1,2})月(\d{1,2})日/
             y = $1 || '2014'
