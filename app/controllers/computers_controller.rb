@@ -64,7 +64,8 @@ class ComputersController < ApplicationController
 
 
 	def checked
-	 @ids = params[:grid][:selected]
+	 @ids = [] 
+   @ids = params[:grid][:selected] || [] if params[:grid]
    @do = params[:do]
    if @do == "bind_accounts"
      @unbind_accnouts_count =  Account.waiting_bind_scope.count 

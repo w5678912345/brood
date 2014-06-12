@@ -26,7 +26,7 @@ class Role < ActiveRecord::Base
   # scope :can_online_scope, where(:online => false).where(:close => false).where(:locked=>false)
   #   .where(:lost=>false).where("vit_power > 0").where(:normal => true).where(:status=>1).where("level < ?",Setting.role_max_level)
 	
-	default_scope order("account desc").order("level desc").order("vit_power desc")
+	#default_scope order("account desc").order("level desc").order("vit_power desc")
 
   scope :well_scope,where("(close_hours != 2400000 and close_hours != 120) or close_hours is null")
 
@@ -34,8 +34,7 @@ class Role < ActiveRecord::Base
   scope :started_scope, where("session_id > 0 ") #已开始的角色
   scope :stopped_scope, where("roles.session_id = 0 ") #已停止的角色
   # 等待上线的角色
-  scope :waiting_scope, stopped_scope.where("roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0")
-    .where("roles.level < ?",Setting.role_max_level).readonly(false)
+  scope :waiting_scope,stopped_scope.where("roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0").readonly(false)
 
   #
   def is_started?

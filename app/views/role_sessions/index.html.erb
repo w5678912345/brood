@@ -1,7 +1,7 @@
 <h1>Listing role_sessions</h1>
 
-<%= grid(@role_sessions, show_filters: :always) do |g|
-
+<%= grid(@role_sessions) do |g|
+  g.column name: 'ID', attribute: 'id'
   g.column name:  'Role ID', filter: false do |task|
     task.role_id
   end
@@ -14,7 +14,7 @@
   end
   g.column name:  '任务', attribute: 'task'
   g.column name:  '连接次数', attribute: 'connection_times'
-  g.column name: '在线时长' do |task|
+  g.column name: '在线时长',attribute: 'live_at' do |task|
     hour_str task.live_at - task.created_at
   end
 

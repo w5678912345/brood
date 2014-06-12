@@ -31,6 +31,6 @@ class HistoryRoleSession < ActiveRecord::Base
 		h.account_key = s.role.account
 		h.role_name = s.role.name
 		h.server = s.role.server
-		h.save
+		#h.save
 	end  
 end

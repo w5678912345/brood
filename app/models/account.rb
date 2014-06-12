@@ -38,7 +38,7 @@ class Account < ActiveRecord::Base
     # 
     validates_uniqueness_of :no
 
-    default_scope order("accounts.session_id desc").order("normal_at asc").order("updated_at desc")
+    #default_scope order("accounts.session_id desc").order("normal_at asc").order("updated_at desc")
     scope :online_scope, where("accounts.session_id > 0") #
     scope :unline_scope, where("accounts.session_id = 0").reorder("updated_at desc") # where(:status => 'normal')
     #
@@ -84,7 +84,7 @@ class Account < ActiveRecord::Base
         session = Note.create(tmp)
         
         # 可以调度的角色
-        @online_roles = opts[:all] ? self.roles : self.roles.waiting_scope
+        @online_roles = opts[:all] ? self.roles : self.roles.waiting_scope.where("roles.level < ?",Setting.role_max_level)
         @online_roles = @online_roles.reorder("role_index").limit(Setting.account_start_roles_count)
         # 调度角色
         @online_roles.each do |role|
