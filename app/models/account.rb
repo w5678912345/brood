@@ -129,9 +129,23 @@ class Account < ActiveRecord::Base
         # 记录账号发生的事件
         api_name = event if EVENT.include? event # 如果定义了有效事件，设置api_name => event
         
-        Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:role_id => self.online_role_id,:ip=>opts[:ip],:api_name => api_name,
-          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id,:api_code=>api_code)
-        return 1 if self.update_attributes(:updated_at => Time.now)
+        Note.create do |n|
+          n.computer_id = computer.id
+          n.hostname = computer.hostname
+          n.role_id  =  self.online_role_id
+          n.ip = opts[:ip]
+          n.api_name  =  api_name
+          n.msg = opts[:msg]
+          n.account  =  self.no
+          n.server  =  self.server
+          n.version  =  computer.version
+          n.session_id = session.id
+          n.api_code = api_code
+          if api_name == 'discardforyears'
+            opts[:msg] =~ /.*(\d{4})年(\d{1,2})月(\d{1,2})日/
+            n.created_at = DateTime.parse("%.4d%.2d%.2d" % [$1,$2,$3]) unless $1.nil? or $2.nil? or $3.nil? 
+          end
+        end
       end
 
     end
