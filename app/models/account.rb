@@ -143,7 +143,8 @@ class Account < ActiveRecord::Base
           n.api_code = api_code
           if api_name == 'discardforyears'
             opts[:msg] =~ /.*(\d{4})年(\d{1,2})月(\d{1,2})日/
-            n.created_at = DateTime.parse("%.4d%.2d%.2d" % [$1,$2,$3]) unless $1.nil? or $2.nil? or $3.nil? 
+            y = $1 || '2014'
+            n.created_at = DateTime.parse("%.4d%.2d%.2d" % [y,$2,$3]) unless $2.nil? or $3.nil? 
           end
         end
       end
