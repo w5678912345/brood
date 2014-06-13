@@ -28,7 +28,7 @@ class Computer < ActiveRecord::Base
   #
   has_many :notes, :order => 'id DESC',:foreign_key => 'computer_id'
   #
-  default_scope order("updated_at DESC") #:order => 'server DESC'
+  #default_scope order("updated_at DESC") #:order => 'server DESC'
   scope :checked_scope,where(:checked => true)
   scope :ubchecked_scope,where(:checked => false)
   scope :no_server_scope,where("server is null or server = '' ") #服务器为空的账号 

@@ -56,7 +56,7 @@ class AccountRole
 	      records = tmp.length == 2 ? records.where("roles.gold >= ? and roles.gold <= ?",tmp[0],tmp[1]) : records.where("roles.gold =? ",opts[:gold].to_i)
 	    end
 
-		records = records.reorder("accounts.id desc")
+		#records = records.reorder("accounts.id desc")
 		return records
 
 

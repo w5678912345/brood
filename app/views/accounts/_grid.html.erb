@@ -20,7 +20,7 @@
   g.column name: '绑定机器' ,attribute: 'bind_computer_id',filter: false,in_csv: false  do |task|
      account_bind_tag task
   end
-  g.column name: '在线',filter: false,in_csv: false  do |account|
+  g.column name: '在线', attribute: 'session_id', filter: false,in_csv: false  do |account|
     if account.is_started?
       r = raw("#{account.session_id}#{notes_link_tag(:session_id => account.session_id )}") if account.session_id>0
       r += link_to account.session.ip,notes_path(:ip => account.session.ip)
@@ -28,7 +28,7 @@
   end
   g.column name:  '状态', attribute: 'status'
   g.column name:  "冷却时间",attribute: 'normal_at',in_csv: false   do |task|
-    time_str task.normal_at
+    normal_at_tag task.normal_at
   end
   g.column name:  "成功",attribute: 'today_success',in_csv: false   do |task|
     boolean_tag task.today_success

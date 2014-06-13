@@ -11,7 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20140605054914) do
+=======
+ActiveRecord::Schema.define(:version => 20140611071025) do
+>>>>>>> master
 
   create_table "account_tasks", :force => true do |t|
     t.string   "account",                         :null => false
@@ -55,6 +59,7 @@ ActiveRecord::Schema.define(:version => 20140605054914) do
     t.boolean  "rms_file",                         :default => true,     :null => false
     t.boolean  "in_cpo",                           :default => false,    :null => false
     t.boolean  "enabled",                          :default => true,     :null => false
+    t.datetime "last_start_at"
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true
@@ -179,7 +184,10 @@ ActiveRecord::Schema.define(:version => 20140605054914) do
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false
     t.string   "last_account"
+    t.datetime "cooling_time"
   end
+
+  add_index "ips", ["cooling_time"], :name => "index_ips_on_cooling_time"
 
   create_table "links", :force => true do |t|
     t.string   "phone_no",            :limit => 32,                     :null => false

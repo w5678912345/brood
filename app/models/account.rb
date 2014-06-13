@@ -19,7 +19,7 @@ class Account < ActiveRecord::Base
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
     attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at,:today_success,:last_start_ip
-    attr_accessible :remark,:is_auto,:phone_id,:normal_at,:unlock_phone_id,:unlocked_at,:rms_file,:phone_id, :in_cpo
+    attr_accessible :remark,:is_auto,:phone_id,:normal_at,:unlock_phone_id,:unlocked_at,:rms_file,:phone_id, :in_cpo,:last_start_at
 
     attr_accessor :online_roles 
     #所属服务器
@@ -43,7 +43,7 @@ class Account < ActiveRecord::Base
     # 
     validates_uniqueness_of :no
 
-    default_scope order("accounts.session_id desc").order("normal_at asc").order("updated_at desc")
+    #default_scope order("accounts.session_id desc").order("normal_at asc").order("updated_at desc")
     scope :online_scope, where("accounts.session_id > 0") #
     scope :unline_scope, where("accounts.session_id = 0").reorder("updated_at desc") # where(:status => 'normal')
     #
@@ -92,7 +92,7 @@ class Account < ActiveRecord::Base
         session = Note.create(tmp)
         
         # 可以调度的角色
-        @online_roles = opts[:all] ? self.roles : self.roles.waiting_scope
+        @online_roles = opts[:all] ? self.roles : self.roles.waiting_scope.where("roles.level < ?",Setting.role_max_level)
         @online_roles = @online_roles.reorder("role_index").limit(Setting.account_start_roles_count)
         # 调度角色
         @online_roles.each do |role|
@@ -136,17 +136,34 @@ class Account < ActiveRecord::Base
         end
         # 记录账号发生的事件
         api_name = event if EVENT.include? event # 如果定义了有效事件，设置api_name => event
+        #
         if status == 'discardfordays'
             count = Note.where("api_name = 'discardfordays' and computer_id = ? ",computer.id).where("date(created_at)=?",Date.today.to_s).count
             computer.update_attributes(:status=>0) if count >= Setting.account_discardfordays
-        elsif status == 'discardforyears'
-            #computer.update_attributes(:status=>0)
+        
         end
-        Note.create(:computer_id=>computer.id,:hostname=>computer.hostname,:role_id => self.online_role_id,:ip=>opts[:ip],:api_name => api_name,
-          :msg=>opts[:msg],:account => self.no,:server => self.server,:version => computer.version,:session_id=>session.id,:api_code=>api_code)
-        return 1 if self.update_attributes(:updated_at => Time.now)
-      end
+        #
+        Note.create do |n|
+          n.computer_id = computer.id
+          n.hostname = computer.hostname
+          n.role_id  =  self.online_role_id
+          n.ip = opts[:ip]
+          n.api_name  =  api_name
+          n.msg = opts[:msg]
+          n.account  =  self.no
+          n.server  =  self.server
+          n.version  =  computer.version
+          n.session_id = session.id
+          n.api_code = api_code
+          #binding.pry
+          if api_name == 'discardforyears'
+            tmp = opts[:msg] =~ /.*(\d{1,2})月(\d{1,2})日/
+            n.created_at = DateTime.parse("%.4d%.2d%.2d" % [Time.now.year,$1,$2]) unless tmp.nil? or $1.nil? or $2.nil? 
+          end
+        end
+         return 1 if self.update_attributes(:updated_at => Time.now)
 
+      end
     end
 
 

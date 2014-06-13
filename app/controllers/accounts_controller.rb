@@ -14,6 +14,7 @@ class AccountsController < ApplicationController
 		params[:per_page] = @accounts.count unless params[:all].blank?
 		#@accounts = @accounts.paginate(:page => params[:page], :per_page => params[:per_page])
 		@accounts = initialize_grid(@accounts,
+			:order => "session_id",
 			:name => 'grid',
       		:per_page=>params[:per_page])
 
@@ -62,7 +63,8 @@ class AccountsController < ApplicationController
 	end
 
 	def checked 
-		@no = params[:grid][:selected] || []
+		@no = []
+		@no = params[:grid][:selected] || [] if params[:grid]
 	end
 
 	def do_checked
