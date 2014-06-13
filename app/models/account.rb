@@ -17,7 +17,7 @@ class Account < ActiveRecord::Base
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
     attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at,:today_success,:last_start_ip
-    attr_accessible :remark,:is_auto,:rms_file,:normal_at,:bind_phone,:phone_id, :in_cpo
+    attr_accessible :remark,:is_auto,:rms_file,:normal_at,:bind_phone,:phone_id, :in_cpo,:last_start_at
     attr_accessor :online_roles 
     #所属服务器
 	  belongs_to :game_server, :class_name => 'Server', :foreign_key => 'server',:primary_key => 'name'
