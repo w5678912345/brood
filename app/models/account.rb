@@ -156,10 +156,10 @@ class Account < ActiveRecord::Base
           n.session_id = session.id
           n.api_code = api_code
           #binding.pry
-          if api_name == 'discardforyears'
-            tmp = opts[:msg] =~ /.*(\d{1,2})月(\d{1,2})日/
-            n.created_at = DateTime.parse("%.4d%.2d%.2d" % [Time.now.year,$1,$2]) unless tmp.nil? or $1.nil? or $2.nil? 
-          end
+          # if api_name == 'discardforyears'
+          #   tmp = opts[:msg] =~ /.*(\d{1,2})月(\d{1,2})日/
+          #   n.created_at = DateTime.parse("%.4d%.2d%.2d" % [Time.now.year,$1,$2]) unless tmp.nil? or $1.nil? or $2.nil? 
+          # end
         end
          return 1 if self.update_attributes(:updated_at => Time.now)
 

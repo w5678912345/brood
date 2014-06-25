@@ -2,7 +2,7 @@ class InstanceMapsController < ApplicationController
   # GET /instance_maps
   # GET /instance_maps.json
   def index
-    @instance_maps = initialize_grid(InstanceMap.include_role_count)
+    @instance_maps = initialize_grid(InstanceMap.include_role_count,:order=>"min_level")
 
     respond_to do |format|
       format.html { render "wice_index"}# index.html.erb
