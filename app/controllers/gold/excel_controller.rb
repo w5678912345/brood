@@ -1,6 +1,6 @@
 # encoding: utf-8
-module Gold
-class ExcelController < AppController
+
+class Gold::ExcelController <Gold::AppController
 
 	def show
 		now = Time.now
@@ -25,5 +25,4 @@ class ExcelController < AppController
 		
 	end
 
-end
 end

@@ -1,7 +1,7 @@
 # encoding: utf-8
 class AccountsController < ApplicationController
 
-	load_and_authorize_resource :class => "Account", :except => [:show,:edit]
+	#load_and_authorize_resource :class => "Account", :except => [:show,:edit]
 
 	def index
 		unless params[:bind_computer_id].blank?
