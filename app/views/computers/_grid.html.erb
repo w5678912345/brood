@@ -22,8 +22,8 @@
   g.column name:  '版本', attribute: 'version' do |computer|
     link_to computer.version, computers_path(:version => computer.version) 
   end
-  g.column name: 'N/R', attribute: 'client_count' do |computer|
-      computer.client_count.to_s + '/' + computer.max_roles.to_s
+  g.column name: '客户端', attribute: 'client_count' do |computer|
+      computer.client_count.to_s
   end
   g.column name:  '账号数', attribute: 'accounts_count' do |computer|
     computer.online_accounts_count.to_s + "/" + computer.accounts_count.to_s + "/" + computer.max_accounts.to_s
@@ -31,9 +31,9 @@
   g.column name:  '自动绑定/新号', attribute: 'auto_binding' do |computer|
     boolean_tag(computer.auto_binding) + " / " + boolean_tag(computer.allowed_new)
   end
-  g.column name:  "注册时间",attribute: 'created_at'  do |computer|
-    time_str computer.created_at
-  end
+  # g.column name:  "注册时间",attribute: 'created_at'  do |computer|
+  #   time_str computer.created_at
+  # end
   g.column name:  "通过",attribute: 'checked'  do |computer|
     boolean_tag computer.checked
   end

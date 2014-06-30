@@ -16,7 +16,9 @@
 
 <tr>
 <th>账户数量:</th>
-<td>在线: <%= @computer.online_accounts_count%>
+<td>
+最大: <%= @computer.max_accounts %>
+在线: <%= @computer.online_accounts_count%>
 绑定: <%= @computer.accounts_count %> 自动:<%= boolean_tag @computer.auto_binding %>
 </td>
 <td>区 / 版本</td>

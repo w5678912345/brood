@@ -97,7 +97,7 @@ class Computer < ActiveRecord::Base
     self.hostname = opts[:hostname] unless opts[:hostname].blank?
     self.real_name = opts[:real_name] unless opts[:real_name].blank?
     self.client_count = opts[:client_count].to_i unless opts[:client_count].blank?
-    self.max_roles = self.client_count * Setting.client_role_count
+    self.max_accounts = self.client_count * Setting.client_role_count
     
     # 创建session
     session = Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"computer_start",:msg=>opts[:msg],:version=>self.version,:hostname => self.hostname,:server=>self.server)
@@ -183,10 +183,10 @@ class Computer < ActiveRecord::Base
   end
 
   def bind_account_when_not_find opts
-    current_role_count =  AccountRole.get_list({:tag=>"role",:bind_cid=>self.id,:rss=>"normal"}).count
-    if current_role_count < self.max_roles
+    #current_role_count =  AccountRole.get_list({:tag=>"role",:bind_cid=>self.id,:rss=>"normal"}).count
+    #if current_role_count < self.max_roles
       self.auto_bind_accounts({:ip=>opts[:ip],:msg=>"auto by start",:avg=>1,:when_not_find=>true}) 
-    end
+    #end
   end
 
   def self.reset_accounts_count
