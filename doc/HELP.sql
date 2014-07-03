@@ -1,3 +1,67 @@
+
+# 
+
+select count(DISTINCT account) from notes where hostname not like 'FK%' and api_name ='account_start'
+and created_at >= '2014-07-01 11:00:00' and created_at <= '2014-07-02 11:00:00';
+
+
+
+
+select count(DISTINCT SUBSTRING_INDEX(notes.ip,'.',3)) from notes 
+where hostname not like 'FK%' and api_name ='account_start'
+and created_at >= '2014-06-29 11:00:00' and created_at <= '2014-06-30 11:00:00';
+
+
+
+
+select ip3,count(tmp.note_id) ccc from(
+select accounts.no , notes.id as note_id, SUBSTRING_INDEX(notes.ip,'.',3) as ip3 from accounts   
+inner join  notes on accounts.no = notes.account
+ where accounts.status = 'discardfordays' and accounts.normal_at > '2014-07-03 00:00:00'  and  notes.api_name = 'account_start' and date(notes.created_at) = '2014-07-01'
+) as tmp group by ip3 order by ccc;
+
+
+
+
+select SUBSTRING_INDEX(ip,'.',3) as ip3, count(DISTINCT account) as ccc
+	from notes where api_name ='account_start' and date(created_at) = '2014-07-01'
+	 group by ip3 order by ccc desc;
+
+
+
+
+select count(no), ip3 from(
+(select no from accounts where status = 'discardfordays' and normal_at > '2014-07-01 00:00:00') as a 
+left join 
+(select account, SUBSTRING_INDEX(ip,'.',3) as ip3 from notes 
+	where api_name ='account_start' and date(created_at) = '2014-07-01') as n ) as t
+group by ip3 
+
+
+
+
+select ip3, count(n.id)  ccc from  
+(select  id ,account , SUBSTRING_INDEX(ip,'.',3) as ip3 from notes where api_name ='account_start' and date(created_at) = '2014-07-01')  as n left join
+(select no from accounts where status = 'discardfordays' and normal_at > '2014-07-01 00:00:00') as a 
+
+on a.no = n.account group by ip3 order by ccc desc into outfile '/tmp/ip1.txt';
+
+
+
+
+
+
+select ip3, count(DISTINCT _notes.account)  ccc from  
+(select no from accounts where status = 'discardfordays' and normal_at > '2014-07-01 00:00:00') as _accounts left join 
+(select account , SUBSTRING_INDEX(ip,'.',3) as ip3 from notes where api_name ='account_start' and date(created_at) = '2014-07-01')  as _notes
+on _accounts.no = _notes.account group by ip3 order by ccc desc;
+
+
+
+#select SUBSTRING_INDEX(ip,'.',3) as ip3, count(DISTINCT account) as cc from notes where date(created_at) = '2014-07-01' and api_name = 'discardfordays' group by ip3 order by cc desc
+
+ into outfile  '/tmp/ip630.txt';
+
 <<<<<<< HEAD
 select count(id) as cc, SUBSTRING_INDEX(msg,'/',1)  as ss from notes 
 	where api_name = 'disconnect' and date(created_at) = '2014-04-05' group by ss order by cc;
