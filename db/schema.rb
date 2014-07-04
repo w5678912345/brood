@@ -11,11 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(:version => 20140605054914) do
-=======
-ActiveRecord::Schema.define(:version => 20140611071025) do
->>>>>>> master
+ActiveRecord::Schema.define(:version => 20140703090650) do
 
   create_table "account_tasks", :force => true do |t|
     t.string   "account",                         :null => false
@@ -450,6 +446,24 @@ ActiveRecord::Schema.define(:version => 20140611071025) do
     t.integer  "import_count", :default => 0,     :null => false
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
+  end
+
+  create_table "support_roles", :force => true do |t|
+    t.string   "name",       :null => false
+    t.string   "server",     :null => false
+    t.string   "line"
+    t.string   "status"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "suppport_roles", :force => true do |t|
+    t.string   "name",       :null => false
+    t.string   "server"
+    t.string   "line"
+    t.string   "status"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "tasks", :force => true do |t|

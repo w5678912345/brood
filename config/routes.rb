@@ -1,5 +1,8 @@
 Brood::Application.routes.draw do
   
+  resources :support_roles
+
+
   resources :ip_filters
 
   resource :cpo , controller: "cpo" do 
@@ -318,6 +321,10 @@ Brood::Application.routes.draw do
     
     resources :account_task,controller: 'account_task' do
       match :end,     :on => :collection
+    end
+
+    resources :support_roles , :only => [:index] do
+       
     end
 
   end

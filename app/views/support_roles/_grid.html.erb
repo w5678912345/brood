@@ -1,0 +1,18 @@
+
+
+<%= grid(@support_roles, show_filters: :no) do |g|
+  g.action_column
+  g.column name:  'ID', attribute: 'id', filter: false
+  g.column name:  'name', attribute: 'name', filter: false
+  
+  g.column name:  'server',attribute: 'server' 
+  g.column name:  'line', attribute: 'line'#, filter: false
+  
+ 
+  g.column   do |support_role|
+    link_to('Edit', edit_support_role_path(support_role)) + " "+
+    link_to('Destroy', support_role_path(support_role),confirm: 'Are you sure?',:method => :delete)
+  end
+  end %>
+
+

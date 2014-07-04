@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @support_role.name %>
+</p>
+
+<p>
+  <b>Server:</b>
+  <%= @support_role.server %>
+</p>
+
+<p>
+  <b>Line:</b>
+  <%= @support_role.line %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @support_role.status %>
+</p>
+
+
+<%= link_to 'Edit', edit_support_role_path(@support_role) %> |
+<%= link_to 'Back', support_roles_path %>

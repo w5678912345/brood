@@ -1,0 +1,41 @@
+<%= form_for @support_role,:html=>{:class=>"form-horizontal"} do |f| %>
+  
+
+<div class="control-group">
+<label class="control-label">角色名:</label>
+  <div class="controls docs-input-sizes" >
+    <%= f.text_field :name,:required=>"required" %>
+  </div>
+</div>
+
+<div class="control-group">
+<label class="control-label">角色名:</label>
+  <div class="controls docs-input-sizes" >
+   	 <%= f.select(:server, @servers.collect {|p| [ p.name, p.name ] },{},:class=>"form-control")%>
+  </div>
+</div>
+
+<div class="control-group">
+<label class="control-label">线:</label>
+  <div class="controls docs-input-sizes" >
+   <%= f.text_field :line %>
+  </div>
+</div>
+
+
+<div class="control-group">
+<label class="control-label">状态:</label>
+  <div class="controls docs-input-sizes" >
+   <%= f.text_field :status %>
+  </div>
+</div>   
+   
+<div class="control-group">
+ 	<div class="controls">
+      	<%= f.submit "保存", :class => "btn btn-success"%>
+	</div>
+</div>
+
+    
+
+<% end %>
