@@ -12,6 +12,7 @@
 <%= grid(roles, show_filters: :no) do |g|
   g.action_column
   g.column name:  'ID', attribute: 'id', filter: false
+  g.column name:  'name', attribute: 'name', filter: false
   g.column name:  'index', attribute: 'role_index', filter: false
   
   g.column name:  'Account',attribute: 'account' do |task|
