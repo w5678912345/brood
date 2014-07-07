@@ -65,6 +65,21 @@
   </div>
 </div>
 
+
+<div class="control-group">
+<label class="control-label">Is Helper:</label>
+  <div class="controls docs-input-sizes" >
+   <%= f.check_box :is_helper %> 
+  </div>
+</div>
+
+<div class="control-group">
+<label class="control-label">Channel Index:</label>
+  <div class="controls docs-input-sizes" >
+    <%= f.text_field :channel_index,:required=>"required" %>
+  </div>
+</div>
+
 <div class="control-group">
  	<div class="controls">
       	<%= f.submit "保存", :class => "btn btn-success"%>
