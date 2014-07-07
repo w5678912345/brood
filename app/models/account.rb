@@ -428,7 +428,7 @@ class Account < ActiveRecord::Base
     end
 
     def helper_role 
-      role = Role.where(:is_helper=>true,:server=>self.server).first
+      role = Role.started_scope.where(:is_helper=>true,:server=>self.server).first
     end
 
     def format_string
