@@ -427,6 +427,10 @@ class Account < ActiveRecord::Base
       return !self.unlock_phone_id.blank?
     end
 
+    def helper_role 
+      role = Role.where(:is_helper=>true,:server=>self.server).first
+    end
+
     def format_string
       return "#{self.no}----#{self.password}----#{self.phone_id}----#{self.status}----#{self.server}"
     end
