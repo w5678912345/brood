@@ -99,7 +99,7 @@ class Role < ActiveRecord::Base
      self.vit_power = opts[:vit_power] unless opts[:vit_power].blank?
      self.gold = opts[:gold] unless opts[:gold].blank?
      self.name = opts[:name]  unless opts[:name].blank?
-     self.name = opts[:channel_index] unless opts[:channel_index].blank?
+     self.channel_index = opts[:channel_index] unless opts[:channel_index].blank?
      # 更新总产出
      self.total = self.total_pay + self.gold if self.gold_changed?
      # 
