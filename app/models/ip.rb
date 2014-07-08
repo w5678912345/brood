@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Ip < ActiveRecord::Base
-  attr_accessible :value,:updated_at,:use_count,:last_account
+  attr_accessible :value,:updated_at,:use_count,:last_account,:cooling_time
   #set_primary_key :value
 
   self.primary_key = "value"
