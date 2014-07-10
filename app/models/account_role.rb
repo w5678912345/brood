@@ -33,12 +33,14 @@ class AccountRole
 		records = records.where("date(accounts.created_at) = ?",opts[:a_created_at]) unless opts[:a_created_at].blank?
 		#
 		records = records.where("roles.id = ?",opts[:rid].to_i) unless opts[:rid].blank?
+		records = records.where("roles.name like ?","%#{opts[:rname]}%") unless opts[:rname].blank?
 		records = records.where("roles.server like ?","%#{opts[:r_server]}%") unless opts[:r_server].blank?
 		records = records.where("roles.role_index = ?",opts[:index].to_i) unless opts[:index].blank?
 		records = records.where("roles.status in (?)",opts[:rss]) unless opts[:rss].blank?
 		records = records.where("date(roles.created_at) = ?",opts[:r_created_at]) unless opts[:r_created_at].blank?
 		records = records.where("roles.online = ?",opts[:online]) unless opts[:online].blank?
 		records = records.where("roles.today_success =?",opts[:rts].to_i) unless opts[:rts].blank?
+		records = records.where("roles.is_helper =?",opts[:is_helper].to_i) unless opts[:is_helper].blank?
 		unless opts[:r_started].blank?
 			records = records.where("roles.session_id = 0") if opts[:r_started].to_i == 0
 			records = records.where("roles.session_id > 0") if opts[:r_started].to_i == 1

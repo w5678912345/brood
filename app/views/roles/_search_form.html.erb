@@ -1,5 +1,6 @@
 <form class="form-search" action="<%= search_roles_path %>">
   <!-- <input type="text" name="account" class="input-small" placeholder="Account" /> -->
+<input type="text" name="name" class="input-small" placeholder="角色名" value="<%= params[:name]%>" />-
 <input type="text" name="min_level" class="input-small" placeholder="最小等级" value="<%= params[:min_level]%>" />-
 <input type="text" name="max_level" class="input-small" placeholder="最大等级" value="<%= params[:max_level]%>" /> |
 <input type="text" name="min_vit" class="input-small" placeholder="最小疲劳" value="<%= params[:min_vit]%>" />-

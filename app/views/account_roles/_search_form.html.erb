@@ -89,7 +89,10 @@ InCPO:
 <input type="text" name="gold" class="input-small" placeholder="金币(n-m)" value="<%= params[:gold]%>" />
 <input type="text" name="r_created_at" id="r_created_at" class="input-small" placeholder="创建日期" value="<%= params[:r_created_at]%>" />
 <hr style="margin:5px 0;">
-角色上线:
+
+ <input type="text" name="rname" class="input-small" placeholder="角色名" value="<%= params[:rname]%>" />
+
+上线:
 <select name="r_started" class="input-small">
 <option value="" >-All-</option>
 <option value="1" <%= 'selected="selected"' if params[:r_started] == "1" %>>Yes</option>
@@ -107,6 +110,13 @@ InCPO:
 <option value="1" <%= 'selected="selected"' if params[:rts] == "1" %>>Yes</option>
 <option value="0" <%= 'selected="selected"' if params[:rts] == "0" %> >No</option>
 </select>
+
+<select name="is_helper" class="input-small">
+<option value="" >Helper</option>
+<option value="1" <%= 'selected="selected"' if params[:is_helper] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:is_helper] == "0" %> >No</option>
+</select>
+
 <hr style="margin:5px 0;">
 角色相关:
 <% Role::STATUS.each do |status|%>
