@@ -18,7 +18,7 @@ class Api::AccountController < Api::BaseController
 		@account  = @computer.accounts.waiting_scope(Time.now).first
 		unless @account
 			@code = CODES[:not_find_account]
-			@computer.bind_account_when_not_find({:ip=>request.remote_ip}) if @computer.auto_binding
+			@computer.auto_bind_accounts({:ip=>request.remote_ip,:msg=>"auto by start",:avg=>1}) 
 			unless Note.where(:computer_id => @computer.id).where(:api_name=>"not_find_account").where("date(created_at) = ?",Date.today.to_s).exists?
 			# 记录事件
 			 Note.create(:computer_id=>@computer.id,:hostname=>@computer.hostname,:ip=>params[:ip],:server => @computer.server,

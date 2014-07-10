@@ -49,7 +49,7 @@
 <td><%= role.vit_power %></td>
 <td><%= role.gold %></td>
 <td>
-<% if role.session_id > 0 %>
+<% if role.session %>
 <%= link_to role.session.computer_id ,computer_path(role.session.computer_id)%>
 <%= notes_link_tag(:cid => role.session.computer_id) %>
 <%end%>
