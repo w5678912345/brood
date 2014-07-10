@@ -222,7 +222,7 @@ class Computer < ActiveRecord::Base
   end
 
   def self.init_max_roles
-    Computer.started_scope.update_all("max_roles = client_count * #{Setting.client_role_count}")
+    Computer.started_scope.update_all("max_accounts = client_count * #{Setting.client_role_count}")
   end
 
   
