@@ -342,7 +342,7 @@ class Account < ActiveRecord::Base
           account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto",:bind=>-1})
       end
       #
-      accounts = Account.stopped_scope.bind_scope.where("normal_at >= ? ",Time.now.since(24.hours))
+      accounts = Account.stopped_scope.bind_scope.where("normal_at < ? ",Time.now.ago(72.hours))
       accounts.each do |account|
            account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto",:bind=>0})
       end
