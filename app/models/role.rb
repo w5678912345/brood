@@ -3,7 +3,7 @@ class Role < ActiveRecord::Base
 	include RoleApi
 
   STATUS = ['normal','disable','discardforverifycode','disableforlevel']
-  EVENT = ['answer_verify_code','restart_game','weak']
+  EVENT = ['answer_verify_code','restart_game','weak','msg_event']
   Btns = {"set_status"=>"修改状态","set_today_success"=>"设置今日成功"}
 
   belongs_to :computer,:class_name => 'Computer'
