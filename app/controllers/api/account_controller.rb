@@ -191,6 +191,14 @@ class Api::AccountController < Api::BaseController
 
 	def validate_ip_can_use
 		ip = Ip.find_or_create(params[:ip])
+
+		@account = @computer.accounts.waiting_scope(Time.now).where(:no=>ip.last_account).first
+		
+		if @account
+			@code = @account.api_start params.merge(:msg=>"ip last account")
+			return render :partial => '/api/accounts/data'
+		end
+
 		unless ip.can_use?
 			@code = CODES[:ip_used]
 			return render :partial => 'api/result' unless  @code == 0
