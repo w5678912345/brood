@@ -18,10 +18,11 @@ class Ip < ActiveRecord::Base
 
   def can_use?
     return false , "IP Filter try false" unless IpFilter.try(self.value)
-    return false , "IP use_count gt ip_max_use_count" if self.use_count >= Setting.ip_max_use_count
     if self.cooling_time
       return false , "IP cooling_time gt now" if self.cooling_time > Time.now
     end
+    return false , "IP use_count gt ip_max_use_count" if self.use_count >= Setting.ip_max_use_count
+    
     tmps = self.value.split(".")
     ip_range = "#{tmps[0]}.#{tmps[1]}.#{tmps[2]}"
     current_online_count = Account.started_scope.where("SUBSTRING_INDEX(online_ip,'.',3) = ?",ip_range).count(:id)

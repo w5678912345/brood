@@ -198,10 +198,10 @@ class Api::AccountController < Api::BaseController
 			@code = @account.api_start params.merge(:msg=>"ip last account")
 			return render :partial => '/api/accounts/data'
 		end
-		can_use ,msg = ip.can_use
+		can_use,msg = ip.can_use?
 		unless can_use
 			@code = CODES[:ip_used]
-			return render :partial => 'api/result' unless  @code == 0
+			return render :json => {:code=>@code,:msg=>"#{ip.value} #{msg}"}
 		end
 	end
 
