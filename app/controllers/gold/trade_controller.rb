@@ -1,6 +1,6 @@
 # encoding: utf-8
-module Gold
-class TradeController < AppController
+
+class Gold::TradeController < Gold::AppController
 
 	def show
 		now = Time.now
@@ -18,5 +18,4 @@ class TradeController < AppController
 	def search
 	end
 
-end
 end

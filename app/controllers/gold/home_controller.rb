@@ -1,6 +1,6 @@
 # encoding: utf-8
-module Gold
-class HomeController < AppController
+
+class Gold::HomeController < Gold::AppController
 
 	def show
 		@role_count = Role.where("total > 0").count
@@ -9,5 +9,4 @@ class HomeController < AppController
 		@sum_payment_trade = Payment.where(:pay_type=>"trade").sum(:gold)
 	end
 
-end
 end

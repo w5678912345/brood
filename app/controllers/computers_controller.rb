@@ -1,7 +1,7 @@
 # encoding: utf-8
 class ComputersController < ApplicationController
 
-  load_and_authorize_resource :class => "Computer"
+  #load_and_authorize_resource :class => "Computer"
 
   before_filter :require_tasks,:only=>[:index,:checked,:unchecked,:show]
   

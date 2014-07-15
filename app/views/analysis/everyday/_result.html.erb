@@ -9,7 +9,7 @@
 </tr>
 <tr>
 <th></th>
-<th title="<%= @tradesum %>">金币(<%= @tradesum/100000000.00 %>亿)</th>
+<th title="<%= @tradesum %>">金币 (<%= @tradesum/100000000.00 if current_user.is_admin %>亿)</th>
 <th title="机器总时间/24">标准机</th> 
 <th title="账号总时间/角色成功数">标准时</th>
 <th title="账号总时间/机器总时间">饱和度</th>
@@ -37,7 +37,9 @@
 <%= link_to raw('<i class="icon-eye-open"></i>'),group_count_notes_path(h),:target=>"_blank"%>
 </td>
 <td tilte="<%= @trade[n.date] %>">
-	<%= sprintf('%.2f', @trade[n.date]/100000000.00) if @trade[n.date] %>亿
+<%if current_user.is_admin %>
+	<%= sprintf('%.2f', @trade[n.date]/100000000.00) if @trade[n.date]  %>亿
+<%end%>
 </td>
 <td><%= sprintf('%.2f', n.computer_sum_hours/24)%> 个</td>
 <td>

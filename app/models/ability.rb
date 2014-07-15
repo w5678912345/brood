@@ -6,13 +6,15 @@ class Ability
 			#can :manage, :all
 			can :manage, :all
 		else
-			#can :read, :all
-            can [:index],   Account
-            can [:index],   Note
+   #          can [:index,:show,:group_count], Account
+   #          can [:index,:show,:group_count], Computer
+   #          can [:index,:show], Note
+   #          can [:index,:show], Role
+
 			can [:index],   User
-			can [:index,:show,:home,:online,:offline,:closed,:not_closed,:notes,:payments,:search,:warting], Role
-			can [:index,:show,:home,:checked,:unchecked,:notes,:roles],	Computer
-			can [:index],	Version	
+			# #can [:index,:show,:home,:online,:offline,:closed,:not_closed,:notes,:payments,:search,:warting], Role
+			# #can [:index,:show,:home,:checked,:unchecked,:notes,:roles],	Computer
+			# can [:index],	Version	
 			#can [:index,:show,:roles,:notes],	Ip
 		end
     # Define abilities for the passed in user here. For example:

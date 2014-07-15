@@ -1,6 +1,8 @@
 # encoding: utf-8
 class Analysis::EverydayController < Analysis::AppController
 
+	#load_and_authorize_resource :class => "Gold"
+
 	def show
 		@start_date = Date.today - 7.day 
 		@end_date = Date.today + 1.day

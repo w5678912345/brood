@@ -1,6 +1,8 @@
 #
 class PaymentsController < ApplicationController
 
+		load_and_authorize_resource :class => "Payment"
+
 		def home
 			#@payments = Payment.total_group_role_scope
 			@payments = Payment.select("pay_type,sum(gold) as zhichu").group("pay_type")
