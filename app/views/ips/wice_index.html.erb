@@ -13,21 +13,21 @@
     link_to ip.value,notes_path(:ip=>ip.value),:target=>"_blank"
   end
   g.column name:  '使用时间' do |ip|
-  	ip.hours_ago.to_s + "小时"
+    ip.hours_ago.to_s + "小时"
   end
   g.column name: 'Cooling Time',:attribute=>'cooling_time' do |ip|
-    time_str ip.cooling_time
+    normal_at_tag ip.cooling_time
   end
-  g.column name:  '角色数量' do |ip|
-	link_to ip.use_count,accounts_path(:online_ip => ip.value)  
+  g.column name:  '使用次数',:attribute=>'use_count' do |ip|
+  link_to ip.use_count,notes_path(:ip => ip.value,:today=>1),:target=>"_blank"  
   end
-  g.column name:  '使用时间',:attribute=>'updated_at' do |ip|
+  g.column name:  '最后修改时间',:attribute=>'updated_at' do |ip|
     time_str ip.updated_at
   end
-  g.column name:  '最后一次使用个账号',attribute: "last_account" ,filter: false
+  g.column name:  '最后一次使用个账号',attribute: "last_account"
  
-  g.column   do |task|
-    (link_to raw("<div class='btn'>删除</div>"),task_path(task),confirm: 'Are you sure?',:method => :delete )
+  g.column   do |ip|
+    (link_to raw("<div class='btn'>删除</div>"),clear_ips_path(:ip=>ip.value),confirm: 'Are you sure?',:method => :delete )
   end
 end %>
 </fieldset>
