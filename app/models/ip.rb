@@ -17,16 +17,16 @@ class Ip < ActiveRecord::Base
   end
 
   def can_use?
-    return false unless IpFilter.try(self.value)
-    return false if self.use_count >= Setting.ip_max_use_count
+    return false , "IP Filter try false" unless IpFilter.try(self.value)
+    return false , "IP use_count gt ip_max_use_count" if self.use_count >= Setting.ip_max_use_count
     if self.cooling_time
-      return false if self.cooling_time > Time.now
+      return false , "IP cooling_time gt now" if self.cooling_time > Time.now
     end
     tmps = self.value.split(".")
     ip_range = "#{tmps[0]}.#{tmps[1]}.#{tmps[2]}"
     current_online_count = Account.started_scope.where("SUBSTRING_INDEX(online_ip,'.',3) = ?",ip_range).count(:id)
-    return false if current_online_count >= Setting.ip_range_max_online_count
-    return true
+    return false , "IP range online_count gt setting" if current_online_count >= Setting.ip_range_max_online_count
+    return true , "IP can use"
   end
 
   def self.find_or_create(value)

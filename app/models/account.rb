@@ -202,6 +202,8 @@ class Account < ActiveRecord::Base
           else
             self.normal_at = Time.now.since(Account::STATUS[self.status].hours) if Account::STATUS.has_key?(status)
           end
+          ip = Ip.find_or_create(opts[:ip])
+          ip.update_attributes(:cooling_time=>Time.now.since(25.hours))
           # 完成session 
           session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
         end
