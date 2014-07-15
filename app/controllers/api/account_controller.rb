@@ -99,9 +99,10 @@ class Api::AccountController < Api::BaseController
 
 	def validate_ip_can_use
 		ip = Ip.find_or_create(params[:ip])
-		unless ip.can_use?
+		can_use,msg = ip.can_use?
+		unless can_use
 			@code = CODES[:ip_used]
-			return render :partial => 'api/result' unless  @code == 0
+			return render :json => {:code=>@code,:msg=>"#{ip.value} #{msg}"}
 		end
 	end
 
