@@ -1,4 +1,7 @@
 
+
+select count(id) as cc, SUBSTRING_INDEX(notes.ip,'.',3) as ip_c from notes 
+	where api_name = 'account_start' and date(created_at)='2014-07-16' group by ip_c  order by cc desc;
 # 
 
 select count(DISTINCT account) from notes where hostname not like 'FK%' and api_name ='account_start'
