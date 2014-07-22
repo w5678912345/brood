@@ -1,7 +1,15 @@
 
+广东1区
+浙江1区
+安徽1区
 
 select count(id) as cc, SUBSTRING_INDEX(notes.ip,'.',3) as ip_c from notes 
-	where api_name = 'account_start' and date(created_at)='2014-07-16' group by ip_c  order by cc desc;
+	where api_name = 'account_start' and date(created_at) between '2014-07-14' and  '2014-07-20' and (server= '安徽1区' or server = '广东1区' or server ='浙江1区') group by ip_c  order by cc desc;
+
+
+select count(id) as cc, SUBSTRING_INDEX(notes.ip,'.',2) as ip_c from notes 
+	where api_name = 'account_start' and date(created_at) between '2014-07-14' and  '2014-07-20'  group by ip_c  order by cc desc;
+
 # 
 
 select count(DISTINCT account) from notes where hostname not like 'FK%' and api_name ='account_start'
@@ -15,6 +23,15 @@ where hostname not like 'FK%' and api_name ='account_start'
 and created_at >= '2014-06-29 11:00:00' and created_at <= '2014-06-30 11:00:00';
 
 
+
+select count(notes.id) as cc, computers.client_count as client_count from notes inner join computers
+	on notes.computer_id = computers.id where notes.api_name =  'discardforyears' and date(notes.created_at) > '2014-07-07'
+	group by client_count order by cc desc;
+
+
+select count(roles.id) cc, roles.level from accounts inner join roles on accounts.no = roles.account
+	where accounts.status = 'discardforyears' and accounts.enabled=1 and accounts.normal_at > '2015-11-18 00:00:00' and roles.role_index = 0
+	group by roles.level order by cc desc;
 
 
 select ip3,count(tmp.note_id) ccc from(
