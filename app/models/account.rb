@@ -430,7 +430,7 @@ class Account < ActiveRecord::Base
     end
 
     def helpers
-      Role.where(:is_helper=>true,:server=>self.server)
+      Role.started_scope.where(:is_helper=>true,:server=>self.server)
     end
 
     def helper_role 
