@@ -4,12 +4,9 @@ class Api::PhoneController < Api::BaseController
 
 	#根据事件 取得可用的手机号
 	def get
-
-		nos = Link.where(:event=>params[:event]).where(:enabled=>false).map(&:phone_no)
-    waiting_nos = Link.where(:event => params[:event]).where(:status=>"waiting").map(&:phone_no)
+    invalid_NO = Link.where(:event => params[:event]).where("enabled=false or (status='waiting' and updated_at > ?)",3.hours.ago).map(&:phone_no)
 		phones = Phone.where(:enabled=>true)
-		phones = phones.where("no not in (?)",nos) if nos.length > 0
-    phones = phones.where("no not in (?)",waiting_nos) if waiting_nos.length > 0
+    phones = phones.where("no not in (?)",invalid_NO) if invalid_NO.length > 0
 		phone = phones.first
 		return render :json => {:code => CODES[:not_find_phone]} unless phone
     link = Link.get(phone.no,params[:event])
