@@ -429,6 +429,10 @@ class Account < ActiveRecord::Base
       return !self.unlock_phone_id.blank?
     end
 
+    def helpers
+      Role.where(:is_helper=>true,:server=>self.server)
+    end
+
     def helper_role 
       role = Role.started_scope.where(:is_helper=>true,:server=>self.server).first
     end

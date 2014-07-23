@@ -30,7 +30,7 @@
     link_to "验证",ip_path(ip.ip_url),:class=>"btn",:target=>"_blank"
   end
   g.column   do |task|
-    (link_to raw("<div class='btn'>删除</div>"),task_path(task),confirm: 'Are you sure?',:method => :delete )
+    (link_to raw("<div class='btn'>删除</div>"),ip_path(task.ip_url),confirm: 'Are you sure?',:method => :delete )
   end
 end %>
 </fieldset>
