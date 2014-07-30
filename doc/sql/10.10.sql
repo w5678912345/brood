@@ -86,7 +86,7 @@ delete from notes where api_name = 'auto_pay';
 select count(a.id),a.server from accounts as a inner join roles  as r on a.no = r.account
   where a.status = 'bslocked' and a.bind_computer_id <1 and r.level > 50 group by a.server;
 
-
+ select count(id) as ccc,server from notes where api_name = 'start_fail' and date(created_at)='2014-07-29' group by server order by ccc desc;
 
 # 迁移测试服 
 update notes set api_name = api_code where api_code in ('normal','bslocked','bslocked_again','bs_unlock_fail','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','disable')

@@ -203,7 +203,7 @@ class Api::AccountController < Api::BaseController
 		unless can_use
 			@code = CODES[:ip_used]
 			#msg = 
-			Note.create(@computer.to_note_hash.merge(:api_name=>"start_fail",:api_code=>"ip_cannot_use",:msg=>msg,:ip=>ip.value))
+			#Note.create(@computer.to_note_hash.merge(:api_name=>"start_fail",:api_code=>"ip_cannot_use",:msg=>msg,:ip=>ip.value))
 			return render :json => {:code=>@code,:msg=>"#{ip.value} #{msg}"}
 		end
 	end
