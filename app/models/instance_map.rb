@@ -44,4 +44,13 @@ class InstanceMap < ActiveRecord::Base
   def Full?
     not (role_sessions.count < death_limit)
   end
+
+
+  def self.reset_enter_count
+    InstanceMap.all.each do |map|
+      map.enter_count = map.role_sessions.count
+    end
+    return nil
+  end
+
 end

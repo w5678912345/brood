@@ -13,6 +13,9 @@
   g.action_column
   g.column name:  'ID', attribute: 'id', filter: false
   g.column name:  'Name', attribute: 'name', filter: false
+  g.column name:  'Ishell', attribute: 'ishell' do |role|
+    boolean_tag role.ishell
+  end
   g.column name:  'Helper', attribute: 'is_helper' do |role|
     boolean_tag role.is_helper
   end

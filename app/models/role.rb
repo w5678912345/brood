@@ -19,7 +19,7 @@ class Role < ActiveRecord::Base
   #
   attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip,:normal
   attr_accessible :close,:close_hours,:closed_at,:reopen_at,:locked,:lost,:is_seller,:ip_range,:online_at,:online_note_id
-  attr_accessible :session_id,:updated_at,:today_success,:is_helper,:channel_index,:name
+  attr_accessible :session_id,:updated_at,:today_success,:is_helper,:channel_index,:name,:ishell
   # validates 
 	validates_presence_of :account, :password
 	# 可以上线的角色
@@ -100,6 +100,7 @@ class Role < ActiveRecord::Base
      self.gold = opts[:gold] unless opts[:gold].blank?
      self.name = opts[:name]  unless opts[:name].blank?
      self.channel_index = opts[:channel_index] unless opts[:channel_index].blank?
+     self.ishell = opts[:ishell].to_i unless opts[:ishell].blank?
      # 更新总产出
      self.total = self.total_pay + self.gold if self.gold_changed?
      # 
