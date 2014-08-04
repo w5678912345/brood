@@ -18,8 +18,19 @@ class RoleSession < ActiveRecord::Base
   	self.destroy
   end
 
+  def instance_map_was
+    return InstanceMap.find_by_id(self.instance_map_id_was)
+  end
+
+  before_save do |role_session|
+    if role_session.instance_map_id_changed?
+      role_session.instance_map_was.decrement(:enter_count,1).save if role_session.instance_map_was && role_session.instance_map_was.enter_count>0
+      role_session.instance_map.increment(:enter_count,1).save if role_session.instance_map 
+    end
+  end
+
   before_destroy do |role_session|
-    role_session.instance_map.decrement(:enter_count,1).save if role_session.instance_map
+    role_session.instance_map.decrement(:enter_count,1).save if role_session.instance_map && role_session.instance_map.enter_count>0
   end
 
 end

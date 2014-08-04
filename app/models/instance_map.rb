@@ -46,12 +46,14 @@ class InstanceMap < ActiveRecord::Base
     not (role_sessions.count < death_limit)
   end
 
+  def self.find_by_role_session role_session
+    role = role_session.role
+    map = role_session.instance_map
+    return map if map && role_session.start_level == role.level
+  end
+
 
   def self.find_by_role role
-
-    map = role.role_session.instance_map if role.role_session
-    
-    return map if map 
 
     level = role.level
     
@@ -67,14 +69,19 @@ class InstanceMap < ActiveRecord::Base
     return map
   end
 
-  #def self.find_by__role
-
+  def set_enter_count
+    self.update_attributes(:enter_count=>self.role_sessions.count)
+  end
 
   def self.reset_enter_count
     InstanceMap.all.each do |map|
-      map.update_attributes(:enter_count=>map.role_sessions.count) 
+      map.set_enter_count
     end
     return nil
+  end
+
+  before_destroy do |map|
+    map.role_sessions.update_all(:instance_map_id=>0)
   end
 
 end
