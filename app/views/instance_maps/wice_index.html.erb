@@ -1,5 +1,6 @@
 <%= render "navbar" %>
-<%= grid(@instance_maps, show_filters: :no) do |g|
+<%= link_to "新建副本", new_instance_map_path %>
+<%= grid(@instance_maps, show_filters: :yes) do |g|
   g.row_attributes do |map|
     if map.Full?
       {class:'mapfull'}
@@ -9,6 +10,7 @@
   end
   g.action_column
   g.column name:  '名字',attribute: 'name'
+  g.column name:  'key',attribute: 'key'
   g.column name: 'ishell',attribute: 'ishell' do |map|
     boolean_tag map.ishell
   end
@@ -18,9 +20,8 @@
   g.column name:  '可用', attribute: 'enabled' 
   g.column name:  "安全在线上限",attribute: 'safety_limit' 
   g.column name:  "总容量",attribute: 'death_limit' 
-  g.column name:  '当前在线' do |map|
-    map.role_count
-    link_to map.role_count,role_sessions_path(:map_id=>map.id)
+  g.column name:  '当前在线',attribute: 'enter_count' do |map|
+    link_to map.enter_count,role_sessions_path(:map_id=>map.id)
   end
   g.column name:  '备注', attribute: 'remark'
   g.column do |map|
