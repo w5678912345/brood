@@ -2,8 +2,8 @@
 # 发布应用分支 bolt 到服务器
 #
 # 使用用法：
-#   部署：mina deploy -f config/deploy-bolt.rb -v
-#   停止：mina shutdown -f config/deploy-bolt.rb -v
+#   部署：mina deploy -f config/deploy-bolt2.rb -v
+#   停止：mina shutdown -f config/deploy-bolt2.rb -v
 #   其他命令参见：mina tasks
 #
 # **************
