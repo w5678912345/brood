@@ -69,6 +69,11 @@ class InstanceMapsController < ApplicationController
     end
   end
 
+  def reset_enter_count
+    InstanceMap.reset_enter_count
+    redirect_to instance_maps_path
+  end
+
   # DELETE /instance_maps/1
   # DELETE /instance_maps/1.json
   def destroy

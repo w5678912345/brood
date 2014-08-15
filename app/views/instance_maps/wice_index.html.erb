@@ -1,5 +1,6 @@
 <%= render "navbar" %>
 <%= link_to "新建副本", new_instance_map_path %>
+<%= link_to "更新进入数量", reset_enter_count_instance_maps_path,:method=>:put,:class=>"btn" %>
 <%= grid(@instance_maps, show_filters: :yes) do |g|
   g.row_attributes do |map|
     if map.Full?

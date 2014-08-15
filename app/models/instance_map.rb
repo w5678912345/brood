@@ -53,12 +53,12 @@ class InstanceMap < ActiveRecord::Base
   end
 
 
-  def self.find_by_role role
+  def self.find_by_role role,opts={}
 
     level = role.level
     
     maps = InstanceMap.level_scope(level)
-    if role.ishell
+    if role.ishell && opts[:ishell].to_i == 1
       map = maps.safety_scope.ishell_scope.first
       map = maps.death_scope.ishell_scope.first unless map
     end

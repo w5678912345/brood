@@ -12,6 +12,7 @@ Brood::Application.routes.draw do
   resources :role_sessions
   resources :instance_maps do 
     get :level, :on => :collection
+    put :reset_enter_count, :on => :collection
   end
   resources :links
 
