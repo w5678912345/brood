@@ -9,7 +9,7 @@ class Gold::ExcelController <Gold::AppController
 			
 		@records = Payment.select("date(created_at) as Day,sum(gold) Gold").trade_scope
 		@records = @records.where("server like ?","#{params[:server]}%") unless params[:server].blank?
-		@records = @records.group("date(created_at)").time_scope(params[:start_time],params[:end_time]).order("date(created_at)")
+		@records = @records.group("Day").time_scope(params[:start_time],params[:end_time]).order("Day")
 
 		@trade = {}
 		@tradesum = 0
