@@ -40,10 +40,10 @@ class InstanceMap < ActiveRecord::Base
   end
 
   def safe_count?
-  	role_sessions.count < safety_limit
+  	self.enter_count < safety_limit
   end
   def Full?
-    not (role_sessions.count < death_limit)
+    not (self.enter_count < death_limit)
   end
 
   def self.find_by_role_session role_session

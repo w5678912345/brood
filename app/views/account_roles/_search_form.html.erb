@@ -104,9 +104,8 @@ InCPO:
 	<option value="1" <%= 'selected="selected"' if params[:online] == "1" %>>Yes</option>
 	<option value="0" <%= 'selected="selected"' if params[:online] == "0" %> >No</option>
 </select>
-成功:
 <select name="rts" class="input-small">
-<option value="" >-All-</option>
+<option value="" >成功</option>
 <option value="1" <%= 'selected="selected"' if params[:rts] == "1" %>>Yes</option>
 <option value="0" <%= 'selected="selected"' if params[:rts] == "0" %> >No</option>
 </select>
@@ -115,6 +114,12 @@ InCPO:
 <option value="" >Helper</option>
 <option value="1" <%= 'selected="selected"' if params[:is_helper] == "1" %>>Yes</option>
 <option value="0" <%= 'selected="selected"' if params[:is_helper] == "0" %> >No</option>
+</select>
+
+<select name="ishell" class="input-small">
+<option value="" >ishell</option>
+<option value="1" <%= 'selected="selected"' if params[:ishell] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:ishell] == "0" %> >No</option>
 </select>
 
 <hr style="margin:5px 0;">
