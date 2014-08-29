@@ -150,7 +150,7 @@ class Api::AccountController < Api::BaseController
 
 	def get_bslock
 		ids = AccountTask.where(:event=>"bslock").where(:status=>"doing").map(&:account)
-		@accounts = Account.joins(:roles).where(:rms_file=>true).where("accounts.status = ?",'bslocked').where("accounts.phone_id is null").reorder("roles.level desc").order("roles.created_at desc")
+		@accounts = Account.joins(:roles).where(:rms_file=>true).where("accounts.status = ?",'bslocked').where("accounts.phone_id is null or accounts.phone_id = ''").reorder("roles.level desc").order("roles.created_at desc")
 		@accounts = @accounts.where("accounts.server = ?",params[:server]) unless params[:server].blank?
 		@accounts = @accounts.where("accounts.no not in (?)",ids) if ids.length > 0
 		@account = @accounts.uniq().first

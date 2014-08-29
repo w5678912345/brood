@@ -24,6 +24,11 @@ select count(id),date(created_at) from roles group by date(created_at);
 select  count(n.id) from notes n INNER JOIN roles   r on n.role_id = r.id  where n.api_name = 'AnswerVerifyCode' and  r.server = '重庆1区' and date(n.created_at) > '2013-09-19'
 
 
+SELECT count(id) cc, computer_id, SUBSTRING_INDEX(ip,'.',3) as ipr FROM notes
+where api_name ='account_start' and 
+created_at between '2014-08-23 06:00:00' and  '2014-08-24 06:00:00'
+and  SUBSTRING_INDEX(ip,'.',3) ='119.39.70'
+group by computer_id, ip order by cc desc
 
 
  select DISTINCT server from roles

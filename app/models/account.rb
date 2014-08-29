@@ -337,6 +337,13 @@ class Account < ActiveRecord::Base
 
    end
 
+   def self.set_bind
+      accounts = Account.stopped_scope.bind_scope.where("last_start_at <= ? ",'2014-08-01 00:00:00')
+      accounts.each do |account|
+           account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"81",:bind=>0})
+      end
+   end
+
    #
    def self.auto_cancel_bind
       accounts = Account.stopped_scope.where("bind_computer_id != -1").where("normal_at >= ?",Time.now.since(1000.hours))
