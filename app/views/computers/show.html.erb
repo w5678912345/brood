@@ -5,6 +5,7 @@
 <th>主机名</th>
 <td><%= computer_tag(@computer)  %>
 <%= link_to "查看角色",account_roles_path(:tag=>"role",:bind_cid=>@computer.id,:index=>0,:all=>1),:target=>"_blank"%>
+
 </td>
 <th>Auth Key</th>
 <td><%= @computer.auth_key %></td>
@@ -15,14 +16,16 @@
 </tr>
 
 <tr>
+<td>区 / 版本</td>
+<td><%= @computer.server %> / <%= @computer.version %></td>
 <th>账户数量:</th>
 <td>
+<%= @computer.client_count %>开
 最大: <%= @computer.max_accounts %>
 在线: <%= @computer.online_accounts_count%>
 绑定: <%= @computer.accounts_count %> 自动:<%= boolean_tag @computer.auto_binding %>
 </td>
-<td>区 / 版本</td>
-<td><%= @computer.server %> / <%= @computer.version %></td>
+
 <th>机器在线</th>
 <td><%= boolean_tag @computer.is_started? %></td>
 </tr>

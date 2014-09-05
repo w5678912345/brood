@@ -118,7 +118,13 @@ class ComputersController < ApplicationController
     elsif @do == "set_allowed_new"
       i = @computers.update_all(:allowed_new => params[:allowed_new].to_i)
       flash[:msg] = "#{i}台机器设置是否自动绑定新号"
+    elsif @do == "set_client_count"
+      client_count = params[:client_count].to_i
+      max_accounts = client_count * Setting.client_role_count
+      i = @computers.update_all(:client_count => client_count,:max_accounts => max_accounts) if client_count > 0
+      flash[:msg] = "#{i}台机器修改了客户端数量"
     end
+
 
   end
 	
