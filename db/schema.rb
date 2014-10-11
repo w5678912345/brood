@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140801014849) do
+ActiveRecord::Schema.define(:version => 20141011032133) do
 
   create_table "account_tasks", :force => true do |t|
     t.string   "account",                         :null => false
@@ -165,8 +165,6 @@ ActiveRecord::Schema.define(:version => 20140801014849) do
     t.boolean  "ishell",                      :default => false, :null => false
   end
 
-  add_index "instance_maps", ["key"], :name => "index_instance_maps_on_key", :unique => true
-
   create_table "ip_filters", :force => true do |t|
     t.string   "regex"
     t.boolean  "enabled"
@@ -174,6 +172,22 @@ ActiveRecord::Schema.define(:version => 20140801014849) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "ip_ranges", :force => true do |t|
+    t.string   "ip",                                         :null => false
+    t.integer  "start_count",              :default => 0,    :null => false
+    t.string   "remark"
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
+    t.integer  "hours",                    :default => 0,    :null => false
+    t.integer  "online_count",             :default => 0,    :null => false
+    t.integer  "ip_use_count_in_24_hours", :default => 0,    :null => false
+    t.integer  "ip_accounts_in_24_hours",  :default => 0,    :null => false
+    t.boolean  "enabled",                  :default => true, :null => false
+    t.integer  "minutes",                  :default => 0,    :null => false
+  end
+
+  add_index "ip_ranges", ["ip"], :name => "index_ip_ranges_on_ip", :unique => true
 
   create_table "ips", :primary_key => "value", :force => true do |t|
     t.integer  "use_count",    :default => 0, :null => false
@@ -369,6 +383,7 @@ ActiveRecord::Schema.define(:version => 20140801014849) do
     t.boolean  "is_helper",                     :default => false,    :null => false
     t.integer  "channel_index",                 :default => -1,       :null => false
     t.boolean  "ishell",                        :default => false,    :null => false
+    t.string   "profession",                    :default => "",       :null => false
   end
 
   add_index "roles", ["account"], :name => "index_roles_on_account"

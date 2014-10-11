@@ -23,6 +23,8 @@
 <tr>
 	<th>ID</th>
 	<th>Index</th>
+	<th>Name</th>
+	<th>职业</th>
 	<th>账户</th>
 	<th>区</th>
 	<th>等级</th>
@@ -43,6 +45,8 @@
 </label>
 </td>
 <td><%= role.role_index %></td>
+<td><%= role.name %></td>
+<td><%= role.profession %></td>
 <td><%= account_tag role.account%> <%= role.qq_account.status if role.qq_account && role.qq_account.status != "normal" %> </td>
 <td><%= role.server%></td>
 <td><%= role.level%></td>

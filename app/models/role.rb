@@ -4,7 +4,9 @@ class Role < ActiveRecord::Base
 
   STATUS = ['normal','disable','discardforverifycode','disableforlevel']
   EVENT = ['answer_verify_code','restart_game','weak','msg_event']
-  Btns = {"set_status"=>"修改状态","set_today_success"=>"设置今日成功"}
+  Btns = {"set_status"=>"修改状态","set_today_success"=>"设置今日成功","set_profession"=>"修改职业"}
+
+  PROFESSIONS = ['gunner','witch','darknight'] #
 
   belongs_to :computer,:class_name => 'Computer'
   belongs_to :online_note, :class_name => 'note', :foreign_key => 'online_note_id'
@@ -19,7 +21,7 @@ class Role < ActiveRecord::Base
   #
   attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip,:normal
   attr_accessible :close,:close_hours,:closed_at,:reopen_at,:locked,:lost,:is_seller,:ip_range,:online_at,:online_note_id
-  attr_accessible :session_id,:updated_at,:today_success,:is_helper,:channel_index,:name,:ishell
+  attr_accessible :session_id,:updated_at,:today_success,:is_helper,:channel_index,:name,:ishell,:profession
   # validates 
 	validates_presence_of :account, :password
 	# 可以上线的角色
@@ -216,6 +218,7 @@ class Role < ActiveRecord::Base
     roles = roles.where("status = ?",opts[:status])  unless opts[:status].blank?
     roles = roles.where("online = ?",opts[:online].to_i) unless opts[:online].blank?
     roles = roles.where("today_success =?",opts[:ts].to_i) unless opts[:ts].blank?
+    roles = roles.where("profession =?",opts[:profession]) unless opts[:profession].blank?
     roles = roles.where(:role_index => opts[:index].to_i) unless opts[:index].blank?
     #
     roles = roles.where("date(created_at) =?",opts["date(created_at)"]) unless opts["date(created_at)"].blank?

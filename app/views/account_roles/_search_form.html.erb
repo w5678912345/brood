@@ -123,10 +123,19 @@ InCPO:
 </select>
 
 <hr style="margin:5px 0;">
-角色相关:
+状态:
 <% Role::STATUS.each do |status|%>
 <label class="checkbox"> <input type="checkbox" name="rss[]" value="<%= status%>" <%= 'checked="checked"' if params[:rss] && params[:rss].include?(status) %> /><%= status%> </label>
 <%end%>
+
+职业:
+<select name="profession" class="input-small">
+<option value="" >-All-</option>
+<% Role::PROFESSIONS.each do |prof|%>
+	<option value="<%= prof %>" <%= 'selected="selected"' if params[:profession] == prof %>><%= prof %></option>
+<%end%>
+</select>
+
 </fieldset>
 
 </div>

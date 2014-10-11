@@ -147,6 +147,9 @@ class RolesController < ApplicationController
     	elsif "set_today_success" == @do
     		i = @roles.update_all(:today_success=>params[:success].to_i)
     		flash[:msg] = "#{i}个角色，修改了成功状态"
+    	elsif "set_profession" == @do
+    		i = @roles.update_all(:profession=>params[:profession])
+    		flash[:msg] = "#{i}个角色，修改了职业"
     	end
 	end
 
