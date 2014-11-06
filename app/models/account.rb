@@ -448,6 +448,10 @@ class Account < ActiveRecord::Base
       return "#{self.no}----#{self.password}----#{self.phone_id}----#{self.status}----#{self.server}"
     end
 
+    def phone_id
+      return ''
+    end
+
     before_create :init_data
 
     def init_data
