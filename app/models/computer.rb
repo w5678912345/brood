@@ -153,7 +153,7 @@ class Computer < ActiveRecord::Base
     end
     # 查询可以绑定的账户
 
-    accounts = Account.waiting_bind_scope.joins(:roles).where("normal_at <= ?",Time.now).reorder("roles.level desc").uniq().readonly(false)
+    accounts = Account.waiting_bind_scope.joins(:roles).where("normal_at <= ?",Time.now).where("roles.status = ?",'normal').reorder("roles.level desc").uniq().readonly(false)
     if self.allowed_new
       accounts = accounts.where("accounts.server is null or accounts.server = '' or accounts.server = ? ",self.server) 
     else
