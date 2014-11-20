@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141011032133) do
+ActiveRecord::Schema.define(:version => 20141120021249) do
 
   create_table "account_tasks", :force => true do |t|
     t.string   "account",                         :null => false
@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(:version => 20141011032133) do
     t.integer  "max_roles",             :default => 0,         :null => false
     t.boolean  "allowed_new",           :default => true,      :null => false
     t.string   "real_name"
+    t.boolean  "auto_unbind",           :default => true,      :null => false
   end
 
   create_table "comroles", :force => true do |t|

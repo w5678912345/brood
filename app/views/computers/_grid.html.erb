@@ -28,8 +28,9 @@
   g.column name:  '账号数', attribute: 'accounts_count' do |computer|
     computer.online_accounts_count.to_s + "/" + computer.accounts_count.to_s + "/" + computer.max_accounts.to_s
   end
-  g.column name:  '自动绑定/新号', attribute: 'auto_binding' do |computer|
-    boolean_tag(computer.auto_binding) + " / " + boolean_tag(computer.allowed_new)
+  g.column name:  '自动绑定/新号/解绑', attribute: 'auto_binding' do |computer|
+    boolean_tag(computer.auto_binding) + " / " + boolean_tag(computer.allowed_new)+" / "+
+    boolean_tag(computer.auto_unbind)
   end
   # g.column name:  "注册时间",attribute: 'created_at'  do |computer|
   #   time_str computer.created_at

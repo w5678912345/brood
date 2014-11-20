@@ -382,9 +382,12 @@ class Account < ActiveRecord::Base
       return if bind != -1 && bind != 0
       computer = self.bind_computer
       self.transaction do 
+
+        return unless computer.auto_unbind
         # 禁用绑定
         self.update_attributes(:bind_computer_id => bind,:updated_at => Time.now)
-        return unless computer
+        #return unless computer
+
         # 修改机器的账号数量
         computer.update_attributes(:accounts_count=>computer.accounts_count-1) if computer.accounts_count > 0
         # 默认IP
