@@ -60,3 +60,8 @@ select SUBSTRING_INDEX(ip,'.',2) as ip_range ,count(DISTINCT role_id) as ip_use_
 
 select role_id  from notes  where  api_name = 'online' and created_at between '2013-10-01' and '2013-10-08' group by role_id   HAVING COUNT(SUBSTRING_INDEX(ip,'.',2) ) =2; 
 
+
+
+
+select count(id),min(id),max(id),date(created_at) as ddd
+from notes group by ddd order by ddd;
