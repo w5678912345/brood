@@ -10,7 +10,7 @@ class HistoryRoleSession < ActiveRecord::Base
 
 	def self.create_from_role_session(s,result)
 		h = HistoryRoleSession.new
-		h.id = s.id
+		#h.id = s.id
 		h.role_id = s.role_id
 		h.account_id = s.role.qq_account.id
 		h.computer_id = s.computer_id
@@ -31,6 +31,6 @@ class HistoryRoleSession < ActiveRecord::Base
 		h.account_key = s.role.account
 		h.role_name = s.role.name
 		h.server = s.role.server
-		#h.save
+		h.save
 	end  
 end
