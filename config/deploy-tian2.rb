@@ -1,9 +1,9 @@
 #
-# 发布应用分支 tianyi 到服务器
+# 发布应用分支 master 到服务器
 #
 # 使用用法：
-#   部署：mina deploy -f config/deploy-tianer.rb -v
-#   停止：mina shutdown -f config/deploy-tianer.rb -v
+#   部署：mina deploy -f config/deploy-tianyi.rb -v
+#   停止：mina shutdown -f config/deploy-tianyi.rb -v
 #   其他命令参见：mina tasks
 #
 # **************
@@ -29,8 +29,8 @@ set_default :term_mode, :pretty
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 # ec2-54-250-148-72.ap-northeast-1.compute.amazonaws.com
-set :domain, '121.199.35.218'
-set :deploy_to, '/root/apps/tianer.dabi.co'
+set :domain, '121.199.18.199'
+set :deploy_to, '/root/apps/tianyi.dabi.co'
 set :user, 'root'
 
 set :rails_env, 'production'
@@ -45,7 +45,7 @@ set_default :thin_config, 'config/thin.yml'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_config_files, ['config/database.yml','config/thin.test.yml',settings.thin_config,'config/app_config.yml']
+set :shared_config_files, ['config/database.yml',settings.thin_config,'config/app_config.yml']
 
 set :shared_paths, ['log', 'public/uploads'] + settings.shared_config_files
 
@@ -88,7 +88,6 @@ task :deploy => :environment do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
-    #invoke :'db:create'
     invoke :'rails:db_migrate'
     #invoke :'db:migrate'
     invoke :'rails:assets_precompile'
