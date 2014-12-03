@@ -178,6 +178,18 @@ class Api::AccountController < Api::BaseController
 	 	
 	end
 
+
+	def check_ip
+		@account = Account.find_by_no(params[:id])
+		return render :json => {:code => CODES[:not_find_account]} unless @account
+		current_ip = request.remote_ip
+		online_ip = @account.online_ip
+		result = (current_ip == online_ip)
+		Note.create(:account=>@account.no,:ip=>current_ip,:msg=>"#{result}-#{online_ip}",:api_name=>"check_ip",:success=>result)
+		return render :json => {:code => 1, :result => result,:current_ip=>current_ip,:online_ip=>online_ip}
+	end
+
+
 	private
 
 	# 取得请求IP
