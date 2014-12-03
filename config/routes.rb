@@ -280,6 +280,7 @@ Brood::Application.routes.draw do
       match :get_bslock, :on => :collection
       match :upate_attr, :on => :collection
       match :set_rms_file,      :on => :collection
+      match :check_ip,          :on => :collection
     end
     resources :phone_machine do
       match :bind_phones, :on => :collection
