@@ -80,8 +80,8 @@ class InstanceMap < ActiveRecord::Base
     return nil
   end
 
-  before_destroy do |map|
-    map.role_sessions.update_all(:instance_map_id=>0)
-  end
+  # before_destroy do |map|
+  #   map.role_sessions.update_all(:instance_map_id=>0)
+  # end
 
 end

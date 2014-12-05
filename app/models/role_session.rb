@@ -3,7 +3,7 @@ class RoleSession < ActiveRecord::Base
   belongs_to :role
   belongs_to :computer  
 
-  belongs_to :instance_map
+  belongs_to :instance_map, :counter_cache=>:enter_count
   def duration
   	live_at - created_at
   end
@@ -22,15 +22,15 @@ class RoleSession < ActiveRecord::Base
     return InstanceMap.find_by_id(self.instance_map_id_was)
   end
 
-  before_save do |role_session|
-    if role_session.instance_map_id_changed?
-      role_session.instance_map_was.decrement(:enter_count,1).save if role_session.instance_map_was && role_session.instance_map_was.enter_count>0
-      role_session.instance_map.increment(:enter_count,1).save if role_session.instance_map 
-    end
-  end
+  # before_save do |role_session|
+  #   if role_session.instance_map_id_changed?
+  #     role_session.instance_map_was.decrement(:enter_count,1).save if role_session.instance_map_was && role_session.instance_map_was.enter_count>0
+  #     role_session.instance_map.increment(:enter_count,1).save if role_session.instance_map 
+  #   end
+  # end
 
-  before_destroy do |role_session|
-    role_session.instance_map.decrement(:enter_count,1).save if role_session.instance_map && role_session.instance_map.enter_count>0
-  end
+  # before_destroy do |role_session|
+  #   role_session.instance_map.decrement(:enter_count,1).save if role_session.instance_map && role_session.instance_map.enter_count>0
+  # end
 
 end

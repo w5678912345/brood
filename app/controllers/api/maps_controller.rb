@@ -16,9 +16,10 @@ class Api::MapsController < Api::BaseController
 		# 	#return render :json => {:key=>@map.key,:name=>@map.name,:ishell=>@map.ishell} if @map
 		# end
 		#@map = InstanceMap.get_valid_one(params[:level].to_i) unless params[:level].blank?
+		@role.role_session.update_attributes(:instance_map_id=>0)
+		
 
-
-		@map = InstanceMap.find_by_role_session(@role.role_session)
+		#@map = InstanceMap.find_by_role_session(@role.role_session)
 		@map = InstanceMap.find_by_role(@role,{:ishell=>params[:ishell]}) unless @map
 
 		if @map
