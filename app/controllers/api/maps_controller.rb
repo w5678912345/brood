@@ -16,14 +16,15 @@ class Api::MapsController < Api::BaseController
 		# 	#return render :json => {:key=>@map.key,:name=>@map.name,:ishell=>@map.ishell} if @map
 		# end
 		#@map = InstanceMap.get_valid_one(params[:level].to_i) unless params[:level].blank?
-		@role.role_session.update_attributes(:instance_map_id=>0)
-		
+		@role.role_session.instance_map = nil #.update_attributes(:instance_map_id=>0)
+		@role.role_session.save
 
 		#@map = InstanceMap.find_by_role_session(@role.role_session)
 		@map = InstanceMap.find_by_role(@role,{:ishell=>params[:ishell]}) unless @map
 
 		if @map
-			@role.role_session.update_attributes(:instance_map_id=>@map.id)
+			@role.role_session.instance_map = @map
+			@role.role_session.save
 			render :json => {:key=>@map.key,:name=>@map.name,:ishell=>@map.ishell}
 		else
 			Note.create(@role.role_session.computer.to_note_hash.merge(:account=>@role.account, :role_id => @role.id, :api_name=>"not_find_map",:ip=>request.remote_ip))

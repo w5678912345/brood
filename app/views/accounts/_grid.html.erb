@@ -23,7 +23,9 @@
   g.column name: '在线', attribute: 'session_id', filter: false,in_csv: false  do |account|
     if account.is_started?
       r = raw("#{account.session_id}#{notes_link_tag(:session_id => account.session_id )}") if account.session_id>0
-      r += link_to account.session.ip,notes_path(:ip => account.session.ip)
+      r += link_to account.session.ip+' ',notes_path(:ip => account.session.ip)
+
+      r += account.online_role_id ==0 ? 'No Role ' : link_to(account.online_role_id,role_path(account.online_role.id))
     end
   end
   g.column name:  '状态', attribute: 'status'

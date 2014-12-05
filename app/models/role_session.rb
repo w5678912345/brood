@@ -3,7 +3,8 @@ class RoleSession < ActiveRecord::Base
   belongs_to :role
   belongs_to :computer  
 
-  belongs_to :instance_map, :counter_cache=>:enter_count
+  belongs_to :instance_map, :counter_cache => :enter_count
+  
   def duration
   	live_at - created_at
   end
