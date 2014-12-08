@@ -326,7 +326,7 @@ class Account < ActiveRecord::Base
       updated_at = Time.now.ago(48.hours).change(:hour => 6)
       accounts = Account.stopped_scope.bind_scope.where("updated_at <= ? ",updated_at)
       accounts.each do |account|
-           account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto",:bind=>0})
+           account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto",:bind=>0}) 
       end
       #
       normal_at = Time.now.since(1000.hours).change(:hour=>6)
@@ -348,12 +348,16 @@ class Account < ActiveRecord::Base
    def self.auto_cancel_bind
       accounts = Account.stopped_scope.where("bind_computer_id != -1").where("normal_at >= ?",Time.now.since(1000.hours))
       accounts.each do |account|
-          account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto",:bind=>-1})
+          if account.bind_computer == nil || account.bind_computer.auto_unbind
+            account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto",:bind=>-1})
+          end
       end
       #
       accounts = Account.stopped_scope.bind_scope.where("normal_at >= ? or updated_at < ? ",Time.now.since(24.hours),Time.now.ago(72.hours))
       accounts.each do |account|
-           account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto",:bind=>0})
+           if account.bind_computer == nil || account.bind_computer.auto_unbind
+            account.do_unbind_computer(opts={:ip=>"localhost",:msg=>"auto",:bind=>0})
+           end
       end
 
    end
@@ -383,10 +387,10 @@ class Account < ActiveRecord::Base
       computer = self.bind_computer
       self.transaction do 
 
-        return unless computer.auto_unbind
+        #return unless computer.auto_unbind
         # 禁用绑定
         self.update_attributes(:bind_computer_id => bind,:updated_at => Time.now)
-        #return unless computer
+        return unless computer
 
         # 修改机器的账号数量
         computer.update_attributes(:accounts_count=>computer.accounts_count-1) if computer.accounts_count > 0
