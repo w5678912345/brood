@@ -1,5 +1,8 @@
 Brood::Application.routes.draw do
   
+  resources :account_statuses
+
+
   resources :support_roles
 
 

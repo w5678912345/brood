@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Status:</b>
+  <%= @account_status.status %>
+</p>
+
+<p>
+  <b>Hours:</b>
+  <%= @account_status.hours %>
+</p>
+
+
+<%= link_to 'Edit', edit_account_status_path(@account_status) %> |
+<%= link_to 'Back', account_statuses_path %>

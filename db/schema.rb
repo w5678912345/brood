@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141120021249) do
+ActiveRecord::Schema.define(:version => 20141209013642) do
+
+  create_table "account_statuses", :force => true do |t|
+    t.string   "status",     :default => "0"
+    t.integer  "hours",      :default => 0
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
+  end
+
+  add_index "account_statuses", ["status"], :name => "index_account_statuses_on_status", :unique => true
 
   create_table "account_tasks", :force => true do |t|
     t.string   "account",                         :null => false

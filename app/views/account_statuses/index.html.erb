@@ -1,0 +1,24 @@
+<h1>Listing account_statuses</h1>
+
+<%= link_to '新建账号状态', new_account_status_path %>
+
+<table class="table">
+  <tr>
+    <th>账号状态</th>
+    <th>冷却时间(小时)</th>
+    <th>修改时间</th>
+    <th>操作</th>
+  </tr>
+
+<% @account_statuses.each do |account_status| %>
+  <tr>
+    <td><%= account_status.status %></td>
+    <td><%= account_status.hours %></td>
+    <td><%= time_str account_status.updated_at %></td>
+    <td>
+    <%= link_to '编辑', edit_account_status_path(account_status) %>
+    <%= link_to '删除', account_status, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
