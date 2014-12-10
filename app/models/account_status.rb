@@ -14,7 +14,7 @@ class AccountStatus < ActiveRecord::Base
   end
 
   after_commit do |as|
-  	p '-------replace Account::STATUS'
+  	p '------- replace AccountStatus'
   	Account::STATUS.replace(AccountStatus.data)
   end
 
