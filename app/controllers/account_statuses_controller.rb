@@ -1,7 +1,5 @@
 class AccountStatusesController < ApplicationController
 
-  after_filter :reload_data
-
   # GET /account_statuses
   # GET /account_statuses.json
   def index
@@ -84,9 +82,5 @@ class AccountStatusesController < ApplicationController
     end
   end
 
-  private
-  def reload_data
-    
-  end
 
 end
