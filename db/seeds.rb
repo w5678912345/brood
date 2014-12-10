@@ -12,6 +12,7 @@
 AccountStatus.create(:status=>'normal',:hours=>0)
 AccountStatus.create(:status=>'bslocked',:hours=>72)
 AccountStatus.create(:status=>'bs_unlock_fail',:hours=>72)
+AccountStatus.create(:status=>'bslocked_again',:hours=>72)
 
 AccountStatus.create(:status=>'disconnect',:hours=>2)
 AccountStatus.create(:status=>'exception',:hours=>3)
