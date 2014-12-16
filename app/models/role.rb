@@ -188,7 +188,7 @@ class Role < ActiveRecord::Base
     computer = Computer.find_by_auth_key(opts[:ckey])
     
     self.transaction do
-      payment = Payment.new(:role_id=>self.id,:gold => opts[:gold],:balance => opts[:balance],:remark => opts[:remark],:note_id => 0,:pay_type=>opts[:pay_type],:server=>self.server||computer.server) 
+      payment = Payment.new(:role_id=>self.id,:gold => opts[:gold],:balance => opts[:balance],:remark => opts[:remark],:note_id => 0,:pay_type=>opts[:pay_type],:server=>self.server||computer.server,:target=>opts[:target]) 
       return CODES[:not_valid_pay] unless payment.valid? # validate not pass
       self.gold = payment.balance      #当前金币 = 支出后的余额
       self.total_pay = self.total_pay + payment.gold # 累计支出
@@ -205,7 +205,6 @@ class Role < ActiveRecord::Base
         self.role_session.exchanged_gold += opts[:gold].to_i if self.role_session
         self.role_session.save if self.role_session
       end
-      payment.target = opts[:target]
       payment.save
       return 1 if  self.update_attributes(:updated_at=>Time.now)
     end

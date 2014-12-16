@@ -3,7 +3,7 @@
 class Gold::ExcelController <Gold::AppController
 
 	def show
-		now = Time.now
+		now = Time.now.since(1.days)
 		params[:start_time] = now.ago(7.day).change(:hour => 0,:min => 0,:sec => 0).strftime("%Y-%m-%d %H:%M:%S") if params[:start_time].blank?
 		params[:end_time] = now.change(:hour => 0,:min => 0,:sec => 0).strftime("%Y-%m-%d %H:%M:%S") if params[:end_time].blank?
 			
