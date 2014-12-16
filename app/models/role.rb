@@ -205,6 +205,7 @@ class Role < ActiveRecord::Base
         self.role_session.exchanged_gold += opts[:gold].to_i if self.role_session
         self.role_session.save if self.role_session
       end
+      payment.target = opts[:target]
       payment.save
       return 1 if  self.update_attributes(:updated_at=>Time.now)
     end
