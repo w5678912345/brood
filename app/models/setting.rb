@@ -46,6 +46,17 @@ class Setting < ActiveRecord::Base
 		return val == nil ? 1 :val
 	end
 
+	def self.in_range_minutes
+        val = find_value_by_key("in_range_minutes")
+        return val == nil ? 60 :val
+    end
+
+    def self.ip_range_start_count
+        val = find_value_by_key("ip_range_start_count")
+        return val == nil ? 1 :val
+    end
+
+
 
 	# 账户可以绑定的计算机数量
 	# def self.account_computers_count

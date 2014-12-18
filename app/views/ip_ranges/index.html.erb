@@ -1,0 +1,22 @@
+<h1>Listing ip_ranges</h1>
+<%= link_to 'New Ip range', new_ip_range_path %>
+<%= grid(@ip_ranges, show_filters: :when_filtered) do |g|
+  g.column name:  'ip', :attribute=>'ip'
+  g.column name:  'enabled', :attribute=>'enabled' do |g|
+    boolean_tag g.enabled
+  end
+  g.column name:  '控制时间(分钟)', :attribute => 'minutes'
+  g.column name:  '控制时间内的IP数', :attribute => 'start_count'
+  g.column name:  '同时在线账号数', :attribute => 'online_count'
+  #g.column name:  'ip_accounts_in_24_hours', :attribute => 'ip_accounts_in_24_hours'
+  g.column name:  'updated_at', :attribute => 'updated_at' do |ip_range|
+    time_str ip_range.updated_at
+  end
+  g.column name:  '备注', :attribute => 'remark'
+  g.column do |ip_range|
+    link_to('Edit', edit_ip_range_path(ip_range) )+" " +
+
+    link_to('Destroy', ip_range, method: :delete, data: { confirm: 'Are you sure?' } )
+  end
+
+end %>

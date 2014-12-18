@@ -1,0 +1,43 @@
+<%= form_for(@ip_range) do |f| %>
+  <% if @ip_range.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ip_range.errors.count, "error") %> prohibited this ip_range from being saved:</h2>
+
+      <ul>
+      <% @ip_range.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+     <label>启用
+    <%= f.check_box :enabled %></label>
+  </div>
+  <div class="field">
+   <label>C 段值</label><br />
+    <%= f.text_field :ip %>
+  </div>
+  <div class="field">
+    <label>控制时间(分钟)</label><br />
+    <%= f.number_field :minutes %>
+  </div>
+  <div class="field">
+    <label>控制时间内 可用IP数</label><br />
+    <%= f.number_field :start_count %>
+  </div>
+   
+  <div class="field">
+    <label>同时在线账号数</label><br />
+    <%= f.number_field :online_count %>
+  </div>
+
+  <div class="field">
+    <%= f.label :remark %><br />
+    <%= f.text_field :remark %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,5 +1,8 @@
 Brood::Application.routes.draw do
   
+  resources :ip_ranges
+
+
   resources :account_statuses
 
 

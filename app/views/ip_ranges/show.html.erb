@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Ip:</b>
+  <%= @ip_range.ip %>
+</p>
+
+<p>
+  <b>Start count:</b>
+  <%= @ip_range.start_count %>
+</p>
+
+<p>
+  <b>Minutes:</b>
+  <%= @ip_range.minutes %>
+</p>
+
+<p>
+  <b>Online count:</b>
+  <%= @ip_range.online_count %>
+</p>
+
+<p>
+  <b>Ip accounts in 24 hours:</b>
+  <%= @ip_range.ip_accounts_in_24_hours %>
+</p>
+
+<p>
+  <b>Enabled:</b>
+  <%= @ip_range.enabled %>
+</p>
+
+<p>
+  <b>Remark:</b>
+  <%= @ip_range.remark %>
+</p>
+
+
+<%= link_to 'Edit', edit_ip_range_path(@ip_range) %> |
+<%= link_to 'Back', ip_ranges_path %>
