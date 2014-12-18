@@ -5,8 +5,9 @@
   g.column name:  'enabled', :attribute=>'enabled' do |g|
     boolean_tag g.enabled
   end
-  g.column name:  '控制时间(分钟)', :attribute => 'minutes'
-  g.column name:  '控制时间内的IP数', :attribute => 'start_count'
+  g.column name:  '控制时间(分钟)/可用IP' do |ip_range|
+    "#{ip_range.minutes} 分钟/ #{ip_range.start_count} 个"
+  end
   g.column name:  '同时在线账号数', :attribute => 'online_count'
   #g.column name:  'ip_accounts_in_24_hours', :attribute => 'ip_accounts_in_24_hours'
   g.column name:  'updated_at', :attribute => 'updated_at' do |ip_range|
