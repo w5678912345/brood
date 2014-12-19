@@ -43,11 +43,11 @@ class Ip < ActiveRecord::Base
     end
 
     #IP C 段当前现在数
-    current_online_count = Account.started_scope.where("SUBSTRING_INDEX(online_ip,'.',3) = ?",ip_range).count(:id)
+    current_online_count = Account.started_scope.where("online_ip like ?","#{ip_range}.%").count(:id)
     return false , "IP range online_count >=  #{ip_range_max_online_count}" if current_online_count >= ip_range_max_online_count
 
     #IP C 段在控制时间内 的 account start 的 IP 个数
-    start_count = Note.where(:api_name=>'account_start').where("SUBSTRING_INDEX(ip,'.',3) = ?",ip_range).where("created_at > ?",Time.now.ago(in_minutes.minutes)).count("DISTINCT ip")
+    start_count = Note.where(:api_name=>'account_start').where("ip like ?","#{ip_range}.%").where("created_at > ?",Time.now.ago(in_minutes.minutes)).count("DISTINCT ip")
     #
     return false,"#{ip_range} start_count gt #{setting_ip_range_start_count} within #{in_minutes} minutes" if start_count >= setting_ip_range_start_count
     
