@@ -195,11 +195,11 @@ class Role < ActiveRecord::Base
       self.total = payment.total = self.total_pay + payment.balance # 产出总和
       # 发生支付是，将bslocked的账号 恢复为normal
       account = self.qq_account
-      if account.status == 'bslocked' && payment.gold > 0 
-         account.update_attributes(:status => 'normal')
-         Note.create(:account => account.no,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:api_name=>"bs_unlock_success",
-          :version=>computer.version, :server=>self.server || computer.server,:session_id=>account_session.id, :msg=>"交易后自动解除锁定")
-      end
+      # if account.status == 'bslocked' && payment.gold > 0 
+      #    account.update_attributes(:status => 'normal')
+      #    Note.create(:account => account.no,:role_id=>self.id,:computer_id=>computer.id,:ip=>opts[:ip],:api_name=>"bs_unlock_success",
+      #     :version=>computer.version, :server=>self.server || computer.server,:session_id=>account_session.id, :msg=>"交易后自动解除锁定")
+      # end
       # 修改会话
       if opts[:pay_type] == 'trade' and self.role_session
         self.role_session.exchanged_gold += opts[:gold].to_i if self.role_session
