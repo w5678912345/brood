@@ -182,7 +182,7 @@ class Role < ActiveRecord::Base
     # unless self.is_started?
     #   self.api_start opts
     # end
-    # account_session = self.qq_account.session
+    account_session = self.qq_account.session
     # session = self.session
     # computer = session.computer
     computer = Computer.find_by_auth_key(opts[:ckey])
