@@ -12,18 +12,21 @@
 <body>
 <div class="container-fluid">
 <h2>账号状态分布</h2>
-<table class="table">
-<head>
-	<th>区</th>
+<table class="table table-bordered table-striped table-hover" style="width:80%;">
+<thead>
+<tr>
+	<th width="20%">区</th>
 	<th>正常</th>
 	<th>交易锁定</th>
 	<th>封停</th>
 	<th>赛利亚</th>
-</head>
+</tr>
+
+</thead>
 <tbody>
 <% @records.each do |record|%>
 <tr>
-	<td><%= record.server %></td>
+	<td><%= record.server || "备用" %></td>
 	<td><%= record.normal_count %></td>
 	<td><%= record.bs_count %></td>
 	<td><%= record.discard_count %></td>
