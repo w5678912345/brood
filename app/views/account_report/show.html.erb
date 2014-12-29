@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>账号状态分布</title>
+  <%= stylesheet_link_tag    'application' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+  <style type="text/css">
+  body { padding-top:5px; }
+  </style>
+</head>
+<body>
+<div class="container-fluid">
+<h2>账号状态分布</h2>
+<table class="table">
+<head>
+	<th>区</th>
+	<th>正常</th>
+	<th>交易锁定</th>
+	<th>封停</th>
+	<th>赛利亚</th>
+</head>
+<tbody>
+<% @records.each do |record|%>
+<tr>
+	<td><%= record.server %></td>
+	<td><%= record.normal_count %></td>
+	<td><%= record.bs_count %></td>
+	<td><%= record.discard_count %></td>
+	<td><%= record.sailia_count %></td>
+</tr>
+</tr>
+<%end%>
+</tbody>
+</table>
+</div>
+</body>
+</html>
