@@ -33,6 +33,7 @@ class Api::AccountController < Api::BaseController
 
 	def start
 		params[:all] = true
+		#return render :text => params
 		@code = @account.api_start params
 		render :partial => '/api/accounts/data'
 	end

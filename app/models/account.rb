@@ -90,10 +90,13 @@ class Account < ActiveRecord::Base
         tmp = computer.to_note_hash.merge(:account=>self.no,:api_name=>"account_start",:ip=>opts[:ip],:msg=>opts[:msg])
         # 记录 session
         session = Note.create(tmp)
+        unless opts[:all]
+          @online_roles = self.roles.waiting_scope.where("roles.level < ?",Setting.role_max_level)
+          @online_roles = @online_roles.reorder("role_index").limit(Setting.account_start_roles_count)
+        else
+          @online_roles = self.roles
+        end
         
-        # 可以调度的角色
-        @online_roles = opts[:all] ? self.roles : self.roles.waiting_scope.where("roles.level < ?",Setting.role_max_level)
-        @online_roles = @online_roles.reorder("role_index").limit(Setting.account_start_roles_count)
         # 调度角色
         @online_roles.each do |role|
             role_note = Note.create(tmp.merge(:role_id => role.id,:session_id=>session.id,:api_name=>"role_online")) # 创建角色 online 记录
