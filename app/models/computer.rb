@@ -173,6 +173,7 @@ class Computer < ActiveRecord::Base
   # 清空绑定账户
   def clear_bind_accounts opts
     accounts = self.accounts.stopped_scope
+    accounts = accounts.where(:status=>opts[:status]) unless opts[:status].blank?
     accounts = accounts.limit(opts[:count].to_i) unless opts[:count].blank?
     accounts.each do |account|
         account.do_unbind_computer(opts)

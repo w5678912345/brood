@@ -101,7 +101,7 @@ class ComputersController < ApplicationController
       flash[:msg] = "#{@computers.length}台机器，执行了远程任务 #{@task.name}"
     elsif @do == "clear_bind_accounts"
       @computers.each do |computer|
-        computer.clear_bind_accounts(opts={:ip=>request.remote_ip,:msg=>"click",:bind=>params[:bind],:count=>params[:count]})
+        computer.clear_bind_accounts(opts={:ip=>request.remote_ip,:msg=>"click",:bind=>params[:bind],:count=>params[:count],:status=>params[:status]})
       end
       flash[:msg] = "#{@computers.length}台机器，解绑了绑定账号"
     elsif @do == "auto_binding_account"
