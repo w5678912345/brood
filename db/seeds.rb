@@ -32,7 +32,7 @@ AccountStatus.create(:status=>'recycle',:hours=>12000)
 
 # puts 'seed users...'
 
-# User.create({:email => "test@brood.com", :name => "天3",:is_admin => true,:password => '12345678', :password_confirmation => '12345678'})
+# User.create({:email => "test@brood.com", :name => "天1",:is_admin => true,:password => '12345678', :password_confirmation => '12345678'})
 
 # if (Rails.env == "development")
 # 10.times do |n|
