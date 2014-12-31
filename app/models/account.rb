@@ -7,7 +7,7 @@ class Account < ActiveRecord::Base
     # 账号可能发生的事件
     EVENT = ['bslock','bs_unlock_fail','bs_unlock_success','code_error','wrong_password','study_sailiya','net_error','msg_event']
     Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线","set_status"=>"修改状态","edit_normal_at"=>"修改冷却时间",
-      "bind_this_computer"=>"绑定指定机器","set_server"=>"修改服务器","export" =>"导出账号","add_sms_order"=>"添加工单"}
+      "bind_this_computer"=>"绑定指定机器","set_server"=>"修改服务器","export" =>"导出账号","add_sms_order"=>"添加工单","standing"=>"站"}
 
     # 需要自动恢复normal的状态
     Auto_Normal = {"disconnect"=>2,"exception"=>3,"lost"=>0,"bslocked"=>72,"bs_unlock_fail"=>72}
@@ -19,7 +19,7 @@ class Account < ActiveRecord::Base
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
     attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at,:today_success,:last_start_ip
-    attr_accessible :remark,:is_auto,:phone_id,:normal_at,:unlock_phone_id,:unlocked_at,:rms_file,:phone_id, :in_cpo,:last_start_at
+    attr_accessible :remark,:is_auto,:phone_id,:normal_at,:unlock_phone_id,:unlocked_at,:rms_file,:phone_id, :in_cpo,:last_start_at,:standing
 
     attr_accessor :online_roles 
     #所属服务器
@@ -243,6 +243,7 @@ class Account < ActiveRecord::Base
       accounts = accounts.where("phone_id like ?","%#{opts[:phone]}%") unless opts[:phone].blank?
       accounts = accounts.where("normal_at >= ?",opts[:min_nat]) unless opts[:min_nat].blank?
       accounts = accounts.where("normal_at <= ?",opts[:max_nat]) unless opts[:max_nat].blank?
+      accounts = accounts.where(:standing => opts[:standing].to_i) unless opts[:standing].blank?
       #
       unless opts[:started].blank?
         accounts = opts[:started].to_i == 1 ? accounts.started_scope : accounts.stopped_scope

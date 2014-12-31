@@ -71,6 +71,11 @@ InCPO:
 <option value="1" <%= 'selected="selected"' if params[:in_cpo] == "1" %>>Yes</option>
 <option value="0" <%= 'selected="selected"' if params[:in_cpo] == "0" %> >No</option>
 </select>
+<select name="standing" class="input-small">
+<option value="" >-站-</option>
+<option value="1" <%= 'selected="selected"' if params[:standing] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:standing] == "0" %> >No</option>
+</select>
 <hr style="margin:5px 0;">
 
 

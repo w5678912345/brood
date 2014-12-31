@@ -82,6 +82,17 @@
 	<input type="text" id="event" name="event" value="" placeholder="触发事件" />
 </div>
 </div>
+<% elsif params[:do] == "standing"%>
+	<div class="control-group">
+		<label class="control-label">站不站</label>
+		<div class="controls docs-input-sizes" >
+		<select name="standing">
+			<option value="0">不站</option>
+			<option value="1">站</option>
+		</select>
+		</div>
+	</div>
+
 <%end%>
 
 <div class="form-actions">

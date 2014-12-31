@@ -20,6 +20,9 @@ class AccountRole
         records = records.where("accounts.normal_at <= ?",opts[:max_nat]) unless opts[:max_nat].blank?
 		records = records.where("accounts.enabled = ?",opts[:enabled]) unless opts[:enabled].blank?
 		records = records.where("accounts.in_cpo = ?",opts[:in_cpo]) unless opts[:in_cpo].blank?
+		records = records.where("accounts.standing = ?",opts[:standing]) unless opts[:standing].blank?
+
+
 		unless opts[:started].blank?
 			records = records.where("accounts.session_id = 0") if opts[:started].to_i == 0
 			records = records.where("accounts.session_id > 0") if opts[:started].to_i == 1

@@ -130,6 +130,9 @@ class AccountsController < ApplicationController
     		end
     		i = @accounts.count
     		flash[:msg] = "#{i}个账号创建了工单"
+    	elsif  "standing" == @do
+    		i = @accounts.stopped_scope.update_all(:standing => params[:standing])
+    		flash[:msg] = "#{i}个账号【站】发生改变"
 		end
 	end
 

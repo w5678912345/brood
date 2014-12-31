@@ -28,7 +28,9 @@
       r += account.online_role_id ==0 ? 'No Role ' : link_to(account.online_role_id,role_path(account.online_role.id))
     end
   end
-  g.column name:  '状态', attribute: 'status'
+  g.column name:  '状态', attribute: 'status' do |account|
+    account.standing ? "[站]#{account.status}" : account.status
+  end
   g.column name:  "冷却时间",attribute: 'normal_at',in_csv: false   do |task|
     normal_at_tag task.normal_at
   end

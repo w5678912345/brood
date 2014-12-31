@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141209013642) do
+ActiveRecord::Schema.define(:version => 20141231082138) do
 
   create_table "account_statuses", :force => true do |t|
     t.string   "status",     :default => "0"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(:version => 20141209013642) do
     t.boolean  "in_cpo",                           :default => false,    :null => false
     t.boolean  "enabled",                          :default => true,     :null => false
     t.datetime "last_start_at"
+    t.boolean  "standing",                         :default => false,    :null => false
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true
@@ -514,6 +515,13 @@ ActiveRecord::Schema.define(:version => 20141209013642) do
     t.datetime "updated_at",                                   :null => false
     t.string   "account_no",  :limit => 32
     t.datetime "log_at"
+  end
+
+  create_table "trade_locks", :force => true do |t|
+    t.string   "seller_name"
+    t.integer  "role_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "users", :force => true do |t|

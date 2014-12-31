@@ -33,6 +33,7 @@
 <option value="0" <%= 'selected="selected"' if params[:bind_phone] == "0" %> >No</option>
 </select>
 <input type="text" name="phone" value="<%= params[:phone]%>" class="input-small" placeholder="手机" title=""  />
+<br>
 可用:
 <select name="enabled" class="input-small">
 <option value="" >-All-</option>
@@ -66,6 +67,14 @@ InCPO:
 <option value="1" <%= 'selected="selected"' if params[:auto] == "1" %>>Yes</option>
 <option value="0" <%= 'selected="selected"' if params[:auto] == "0" %> >No</option>
 </select>
+
+<select name="standing" class="input-small">
+<option value="" >-站-</option>
+<option value="1" <%= 'selected="selected"' if params[:standing] == "1" %>>Yes</option>
+<option value="0" <%= 'selected="selected"' if params[:standing] == "0" %> >No</option>
+</select>
+
+
 <input type="text" name="min_nat" id="min_nat" value='<%= params[:min_nat]%>' class="input-small" placeholder="恢复日期"  />
 To<input type="text" name="max_nat" id="max_nat" value='<%= params[:max_nat]%>' class="input-small" placeholder="恢复日期"  />
 <input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page] || 20 %>" />
