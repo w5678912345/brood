@@ -48,7 +48,7 @@ class Sheet < ActiveRecord::Base
       count = 0
       File.open(filename) do |file|    
         file.each_line do |line|
-          line = line.gsub("\r\n","")
+          line = line.gsub(/\r|\n/,'')
           tmp = line.split("----")
           if tmp && tmp.length >= 2
             account = Account.new(:no=>tmp[0],:password=>tmp[1],:is_auto=>is_auto)
