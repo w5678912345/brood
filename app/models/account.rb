@@ -232,9 +232,9 @@ class Account < ActiveRecord::Base
     def self.list_search opts
     	accounts = Account.includes(:session,:bind_computer)
       accounts = accounts.where("no = ?", opts[:no]) unless opts[:no].blank?
-    	accounts = accounts.where("server like ?","%#{opts[:server]}%") unless opts[:server].blank?
+    	accounts = accounts.where("accounts.server like ?","%#{opts[:server]}%") unless opts[:server].blank?
       accounts = accounts.no_server_scope if opts[:no_server].to_i == 1
-    	accounts = accounts.where("status = ?",opts[:status])	unless opts[:status].blank?
+    	accounts = accounts.where("accounts.status = ?",opts[:status])	unless opts[:status].blank?
       accounts = accounts.where("today_success =?",opts[:ts].to_i) unless opts[:ts].blank?
       accounts = accounts.where("roles_count = ?",opts[:roles_count].to_i) unless opts[:roles_count].blank?
       accounts = accounts.where("bind_computer_id = ?",opts[:bind_cid].to_i) unless opts[:bind_cid].blank?

@@ -1,6 +1,6 @@
 # encoding: utf-8
 class ExportAccountsController < ActionController::Base
 	def index
-		@accounts = Account.includes(:bind_computer).list_search(params).reorder("bind_computer_id desc")
+		@accounts = Account.list_search(params).joins("LEFT JOIN computers ON accounts.bind_computer_id = computers.id").includes(:bind_computer).reorder("computers.hostname desc")
 	end
 end
