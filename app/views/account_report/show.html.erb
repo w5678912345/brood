@@ -28,7 +28,7 @@
 <tr>
 	<td><%= record.server || "备用" %></td>
 	<td><%= record.normal_count %></td>
-	<td><%= record.bs_count %></td>
+	<td><%= link_to record.bs_count,export_accounts_path(:server=>record.server,:status=>"bslocked"),:target=>"_blank" %></td>
 	<td><%= record.discard_count %></td>
 	<td><%= record.sailia_count %></td>
 </tr>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>账号状态分布</title>
+  <%= stylesheet_link_tag    'application' %>
+  <%= javascript_include_tag 'application' %>
+  <%= csrf_meta_tags %>
+  <style type="text/css">
+  body { padding-top:5px; }
+  </style>
+</head>
+<body>
+<div class="container-fluid">
+<h2>账号列表</h2>
+<table class="table table-bordered table-striped table-hover" style="width:40%;">
+<thead>
+<tr>
+	<th width="20%">账号</th>
+	<th>密码</th>
+	<th>机器名</th>
+</tr>
+
+</thead>
+<tbody>
+<% @accounts.each do |account|%>
+<tr>
+	<td><%= account.no %></td>
+	<td><%= account.password %></td>
+	<td><%= account.bind_computer.hostname if account.bind_computer %></td>
+</tr>
+</tr>
+<%end%>
+</tbody>
+</table>
+</div>
+</body>
+</html>
