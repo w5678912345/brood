@@ -1,6 +1,6 @@
 # encoding: utf-8
 class ExportAccountsController < ActionController::Base
 	def index
-		@accounts = Account.includes(:bind_computer).list_search(params)
+		@accounts = Account.includes(:bind_computer).list_search(params).reorder("bind_computer_id desc")
 	end
 end

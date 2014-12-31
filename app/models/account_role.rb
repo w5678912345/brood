@@ -46,6 +46,7 @@ class AccountRole
 		records = records.where("roles.is_helper =?",opts[:is_helper].to_i) unless opts[:is_helper].blank?
 		records = records.where("roles.ishell =?",opts[:ishell].to_i) unless opts[:ishell].blank?
 		records = records.where("roles.profession = ?",opts[:profession]) unless opts[:profession].blank?
+		records = records.where("roles.profession not in (?)",opts[:not_profession]) unless opts[:not_profession].blank?
 		unless opts[:r_started].blank?
 			records = records.where("roles.session_id = 0") if opts[:r_started].to_i == 0
 			records = records.where("roles.session_id > 0") if opts[:r_started].to_i == 1

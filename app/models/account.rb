@@ -39,7 +39,6 @@ class Account < ActiveRecord::Base
     belongs_to :phone
     #包含角色
     has_many   :roles, :class_name => 'Role', :foreign_key => 'account', :primary_key => 'no'
-
     # 
     validates_uniqueness_of :no
 
