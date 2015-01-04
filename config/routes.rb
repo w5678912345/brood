@@ -16,7 +16,9 @@ Brood::Application.routes.draw do
   end
 
   resources :role_sessions
-  resources :export_accounts
+  resources :export_accounts do 
+    get :normal, :on => :member
+  end
   resources :instance_maps do 
     get :level, :on => :collection
     put :reset_enter_count, :on => :collection

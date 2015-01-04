@@ -11,13 +11,13 @@
 </head>
 <body>
 <div class="container-fluid">
-<h2>账号列表</h2>
+<h2>账号列表 <%= @accounts.count %></h2>
 <table class="table table-bordered table-striped table-hover" style="width:40%;">
 <thead>
 <tr>
 	<th width="20%">账号</th>
-	<th>密码</th>
 	<th>机器名</th>
+  <th>操作</th>
 </tr>
 
 </thead>
@@ -25,8 +25,8 @@
 <% @accounts.each do |account|%>
 <tr>
 	<td><%= account.no %></td>
-	<td><%= account.password %></td>
 	<td><%= account.bind_computer.hostname if account.bind_computer %></td>
+  <td><%= link_to "恢复",normal_export_account_path(account.no,:server=>params[:server],:status=>"bslocked")%></td>
 </tr>
 </tr>
 <%end%>
