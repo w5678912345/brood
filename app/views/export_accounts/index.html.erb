@@ -16,6 +16,7 @@
 <thead>
 <tr>
 	<th width="20%">账号</th>
+  <th>密码</th>
 	<th>机器名</th>
   <th>操作</th>
 </tr>
@@ -25,6 +26,7 @@
 <% @accounts.each do |account|%>
 <tr>
 	<td><%= account.no %></td>
+  <td><%= account.password %></td>
 	<td><%= account.bind_computer.hostname if account.bind_computer %></td>
   <td><%= link_to "恢复",normal_export_account_path(account.no,:server=>params[:server],:status=>"bslocked")%></td>
 </tr>
