@@ -20,17 +20,19 @@
 	<th>交易锁定</th>
 	<th>封停</th>
 	<th>赛利亚</th>
+	<th>其他</th>
 </tr>
 
 </thead>
 <tbody>
 <% @records.each do |record|%>
 <tr>
-	<td><%= record.server || "备用" %></td>
-	<td><%= record.normal_count %></td>
+	<td><%= link_to( record.server || "备用", export_accounts_path(:server=>record.server),:target=>"_blank") %></td>
+	<td><%= link_to record.normal_count,export_accounts_path(:server=>record.server,:status=>"normal"),:target=>"_blank"  %></td>
 	<td><%= link_to record.bs_count,export_accounts_path(:server=>record.server,:status=>"bslocked"),:target=>"_blank" %></td>
-	<td><%= record.discard_count %></td>
-	<td><%= record.sailia_count %></td>
+	<td><%= link_to record.discard_count,export_accounts_path(:server=>record.server,:status=>"discardforyears"),:target=>"_blank" %></td>
+	<td><%= link_to record.sailia_count,export_accounts_path(:server=>record.server,:status=>"discardbysailia"),:target=>"_blank"  %></td>
+	<td><%= link_to record.other_count,export_accounts_path(:server=>record.server,:other=>1),:target=>"_blank" %></td>
 </tr>
 </tr>
 <%end%>

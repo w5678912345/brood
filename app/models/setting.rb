@@ -92,4 +92,9 @@ class Setting < ActiveRecord::Base
 		return val == nil ? 1 : val
 	end
 
+	def self.ip_range_control
+		val = find_value_by_key("ip_range_control")
+		return 
+	end
+
 end
