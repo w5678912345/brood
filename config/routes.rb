@@ -18,6 +18,7 @@ Brood::Application.routes.draw do
   resources :role_sessions
   resources :export_accounts do 
     get :normal, :on => :member
+    post :restore, :on => :collection
   end
   resources :instance_maps do 
     get :level, :on => :collection

@@ -12,24 +12,20 @@
 <body>
 <div class="container-fluid">
 <h2>账号列表 <%= @accounts.count %></h2>
-<table class="table table-bordered table-striped table-hover" style="width:40%;">
-<thead>
-<tr>
-  <th>机器名</th>
-	<th width="20%">账号</th>
-  <th>密码</th>
-  <th>状态</th>
-  <th>操作</th>
-</tr>
 
-</thead>
-<tbody>
-<% @accounts.each do |account|%>
-<tr>
-  <td><%= account.bind_computer.hostname if account.bind_computer %></td>
-	<td><%= account.no %></td>
-  <td><%= account.password %></td>
-  <td><%= case account.status
+<%= form_tag(restore_export_accounts_path,:method => :post,:id=>"account_checked_form",:target=>"_blank") do -%>
+<% if params[:status] == "bslocked" || params[:other] == "1"%>
+<button class="btn btn-primary">恢复账号</button>
+<%end%>
+<%= grid(@accounts) do |g|
+  g.action_column  object_property: :no
+  g.column name: '账号', attribute: 'no', filter: false
+  g.column name: '密码', attribute: 'password'
+  g.column name: '机器名'  do |account|
+    account.bind_computer.hostname if account.bind_computer
+  end 
+  g.column name: '状态', attribute: 'status' do |account|
+    case account.status
           when "normal"
             "正常"
           when "bslocked"
@@ -39,16 +35,14 @@
           when "discardbysailia"
             "赛利亚"
           else
-            "其他"
+            raw('<span class="badge badge-warning">其他</span>')
           end
-   %></td>
-	
-  <td><%= link_to "恢复",normal_export_account_path(account.no,:server=>params[:server],:status=>"bslocked")%></td>
-</tr>
-</tr>
+  end
+
+end %>
+
 <%end%>
-</tbody>
-</table>
+
 </div>
 </body>
 </html>

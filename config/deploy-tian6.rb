@@ -95,7 +95,7 @@ task :deploy => :environment do
 
 
     to :launch do
-      invoke :'thin:start'
+      #invoke :'thin:start'
       queue %[whenever -i]
     end
     
