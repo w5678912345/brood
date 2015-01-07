@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141231082138) do
+ActiveRecord::Schema.define(:version => 20150107025033) do
 
   create_table "account_statuses", :force => true do |t|
     t.string   "status",     :default => "0"
@@ -420,6 +420,7 @@ ActiveRecord::Schema.define(:version => 20141231082138) do
     t.boolean  "sell_closed",                    :default => false
     t.boolean  "allowed_new",                    :default => true,  :null => false
     t.boolean  "agent_closed",                   :default => false, :null => false
+    t.integer  "point",                          :default => 0,     :null => false
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true

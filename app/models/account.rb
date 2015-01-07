@@ -426,6 +426,11 @@ class Account < ActiveRecord::Base
       return  self.real_server.goods
     end
 
+    def point
+      return 0 unless self.real_server
+      return self.real_server.point
+    end
+
     def goods_price
       return 1 unless self.real_server
       return  self.real_server.price
