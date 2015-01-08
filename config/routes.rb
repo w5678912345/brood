@@ -1,5 +1,8 @@
 Brood::Application.routes.draw do
   
+  resources :ticket_records,:only => [:index]
+
+
   resources :ip_ranges
 
 
@@ -293,6 +296,7 @@ Brood::Application.routes.draw do
       match :upate_attr, :on => :collection
       match :set_rms_file,      :on => :collection
       match :check_ip,          :on => :collection
+      match :use_ticket,        :on => :collection
     end
     resources :phone_machine do
       match :bind_phones, :on => :collection

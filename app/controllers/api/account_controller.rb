@@ -10,7 +10,7 @@ class Api::AccountController < Api::BaseController
 	#before_filter :valid_ip_use_count,					:only => [:auto] # 验证当前IP的24小时使用次数
 	#before_filter :valid_ip_range_online_count,			:only => [:auto] # 验证当前IP 前三段的在线数量
 	before_filter :validate_ip_can_use,					:only => [:auto]
-	before_filter :require_account_by_no,				:only => [:start,:sync,:note,:stop,:look,:role_start,:role_stop,:role_note,:role_pay,:set_rms_file,:support_roles] # 根据帐号取得一个账户
+	before_filter :require_account_by_no,				:only => [:start,:sync,:note,:stop,:look,:role_start,:role_stop,:role_note,:role_pay,:set_rms_file,:support_roles,:use_ticket] # 根据帐号取得一个账户
 	#before_filter :require_account_is_started,			:only => [:sync,:note,:stop] # 确定账号在线
 	before_filter :require_role_by_rid,					:only => [:role_start,:role_stop,:role_note,:role_pay]
 	#
@@ -188,6 +188,23 @@ class Api::AccountController < Api::BaseController
 		result = (current_ip == online_ip)
 		Note.create(:account=>@account.no,:ip=>current_ip,:msg=>"#{result}-#{online_ip}",:api_name=>"check_ip",:success=>result,:computer_id=>@computer.id)
 		return render :json => {:code => 1, :result => result,:current_ip=>current_ip,:online_ip=>online_ip}
+	end
+
+
+	#id , role_id, points, gold ,msg
+	def use_ticket
+		ticketRecord = TicketRecord.new(:account=>@account.no,:server=>@account.server,:points=>params[:points],:gold=>params[:gold],:msg=>params[:msg])
+		role = Role.find_by_id(params[:role_id])
+		if role
+			ticketRecord.role_id = role.id
+			ticketRecord.role_name = role.name
+		end
+		
+		if ticketRecord.save
+			return render :json => {:code => 1}
+		else
+			return render :json => {:code => 0,:msg=>"error"}
+		end
 	end
 
 

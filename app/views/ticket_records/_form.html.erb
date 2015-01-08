@@ -1,0 +1,14 @@
+<%= semantic_form_for @ticket_record do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :account %>
+    <%= f.input :role_id %>
+    <%= f.input :server %>
+    <%= f.input :points %>
+    <%= f.input :gold %>
+    <%= f.input :msg %>
+  <% end %>
+
+  <%= f.actions do %>
+    <%= f.action :submit, :as => :input %>
+  <% end %>
+<% end %>

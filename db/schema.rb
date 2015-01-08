@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150107025033) do
+ActiveRecord::Schema.define(:version => 20150108022600) do
 
   create_table "account_statuses", :force => true do |t|
     t.string   "status",     :default => "0"
@@ -516,6 +516,18 @@ ActiveRecord::Schema.define(:version => 20150107025033) do
     t.datetime "updated_at",                                   :null => false
     t.string   "account_no",  :limit => 32
     t.datetime "log_at"
+  end
+
+  create_table "ticket_records", :force => true do |t|
+    t.string   "account",                   :null => false
+    t.string   "server"
+    t.integer  "role_id"
+    t.string   "role_name"
+    t.integer  "points",     :default => 0, :null => false
+    t.integer  "gold",       :default => 0, :null => false
+    t.string   "msg"
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
   end
 
   create_table "trade_locks", :force => true do |t|

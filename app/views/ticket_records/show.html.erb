@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Account:</b>
+  <%= @ticket_record.account %>
+</p>
+
+<p>
+  <b>Role:</b>
+  <%= @ticket_record.role_id %>
+</p>
+
+<p>
+  <b>Server:</b>
+  <%= @ticket_record.server %>
+</p>
+
+<p>
+  <b>Points:</b>
+  <%= @ticket_record.points %>
+</p>
+
+<p>
+  <b>Gold:</b>
+  <%= @ticket_record.gold %>
+</p>
+
+<p>
+  <b>Msg:</b>
+  <%= @ticket_record.msg %>
+</p>
+
+
+<%= link_to 'Edit', edit_ticket_record_path(@ticket_record) %> |
+<%= link_to 'Back', ticket_records_path %>

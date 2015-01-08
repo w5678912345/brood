@@ -1,0 +1,18 @@
+<h3>点卷支出记录</h3>
+<%= grid(@ticket_records,show_filters: :yes) do |g|
+  g.action_column
+  g.column name:  'ID', attribute: 'id', filter: false
+  g.column name: '账号', attribute: 'account' do |record|
+    account_tag(record.account)
+  end
+  g.column name: '区',   attribute: 'server'
+  g.column name: '角色', attribute: 'role_name'
+  g.column name: '点卷', attribute: 'points'
+  g.column name: '金币', attribute: 'gold'
+  g.column name: '时间', attribute: 'created_at' do |record|
+    time_str record.created_at
+  end
+  g.column name: '消息', attribute: 'msg'
+
+end%>
+
