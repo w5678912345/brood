@@ -230,5 +230,12 @@ class Computer < ActiveRecord::Base
     Computer.started_scope.update_all("max_accounts = client_count * #{Setting.client_role_count}")
   end
 
+
+  # def gt_level
+  #   computers.each do |computer|
+      
+  #   end
+  # end
+
   
 end
