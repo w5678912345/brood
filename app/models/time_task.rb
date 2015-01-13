@@ -9,6 +9,7 @@ module TimeTask
 		DataNode.mark
 	end
 
+
 	def self.auto_stop
 		Account.auto_stop
 		#Role.auto_stop

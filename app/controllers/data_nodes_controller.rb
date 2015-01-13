@@ -3,7 +3,7 @@ class DataNodesController < ApplicationController
 
 
 	def index
-		@data_nodes = DataNode.order("created_at desc").paginate(:page => params[:page], :per_page => 20)
+		@data_nodes = DataNode.order("created_at desc")
 	end
 
 
@@ -24,7 +24,7 @@ class DataNodesController < ApplicationController
 			all_data[s.to_s] = []
 
 			records.each do |r|
-				tmp = eval(r.accounts)
+				tmp = eval(r.data)
 				all_data[s.to_s] << (tmp[s.to_s] || 0)
 			end
 		end
@@ -39,7 +39,7 @@ class DataNodesController < ApplicationController
 		#开始时间向前推1天用于计算差值
 		@start_date -= 1.day 
 
-		@records = DataNode.select("date(created_at) as day,accounts").date_scope(@start_date,@end_date).order("created_at asc").group("date(created_at)")
+		@records = DataNode.where(:source=>"accounts").select("date(marked_at) as day,accounts").date_scope(@start_date,@end_date).order("marked_at asc").group("date(marked_at)")
 		@days = @records.map(&:day)
 		all_data = chart_data(@records)
 
@@ -88,7 +88,7 @@ class DataNodesController < ApplicationController
 
 
 
-        @records = DataNode.select("date(created_at) as day,accounts").date_scope(@start_date,@end_date).order("created_at asc").group("date(created_at)")
+        @records = DataNode.where(:source=>"accounts").select("date(marked_at) as day,accounts").date_scope(@start_date,@end_date).order("created_at asc").group("date(created_at)")
         @status= Account::STATUS.keys
 
         @d = []

@@ -1,7 +1,7 @@
 Brood::Application.routes.draw do
   
   resources :ticket_records,:only => [:index]
-
+  resources :note_data_nodes,:only => [:index]
 
   resources :ip_ranges
 

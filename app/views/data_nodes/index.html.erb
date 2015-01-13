@@ -8,14 +8,16 @@
 <thead>
 <tr>
 <th>采样时间</th>
+<th>数据源</th>
 <th>账号状态分布</th>		
 </tr>
 </thead>
 <tbody>
 <% @data_nodes.each do |data|%>
 <tr>
-	<td><%= time_str data.created_at %></td>
-	<td><% data.accounts_data.each do |k,v| %>
+	<td><%= time_str data.marked_at %></td>
+	<td><%= data.source %></td>
+	<td><% data.data_hash.each do |k,v| %>
 	<%= "#{k}(#{v})" %>
 	<%end%>
 	</td>
@@ -23,7 +25,5 @@
 <%end%>
 </tbody>
 </table>
-
-<%= will_paginate @data_nodes,inner_window: 1, outer_window: 0  %>
 
 </fieldset>

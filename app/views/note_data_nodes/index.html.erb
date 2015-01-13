@@ -1,0 +1,26 @@
+<fieldset>
+<legend>事件分布</legend>
+
+<%= render :partial => "/common/date_range_form",:locals=>{:path=>note_data_nodes_path }%>
+<table class="table">
+<thead>
+<tr>
+<th>采样时间</th>
+<% @events.each do |event| %>
+<th><%= event %></th>
+<%end%>
+</tr>
+</thead>
+<tbody>
+<% @data_nodes.each do |data|%>
+<tr>
+	<td><%= date_str data.marked_at %></td>
+	<% @events.each do |event|%>
+		<td> <%= link_to data.data_hash[event] || 0 ,notes_path(:api_name=>event,:date=>data.marked_at.strftime("%Y-%m-%d")),:target=>"_blank" %> </td>
+	<%end%>
+</tr>
+<%end%>
+</tbody>
+</table>
+
+</fieldset>

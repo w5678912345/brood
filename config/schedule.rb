@@ -42,8 +42,9 @@ end
 #   runner 'Account.auto_normal',:environment => str_environment
 # end
 
-every :day ,:at => '00:01 am' do
+every :day ,:at => '00:05 am' do
   runner 'Computer.auto_stop_start',:environment => str_environment 
+  runner 'DataNode.mark_notes_yesterday',:environment => str_environment
 end
 
 

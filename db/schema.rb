@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150108022600) do
+ActiveRecord::Schema.define(:version => 20150113061917) do
 
   create_table "account_statuses", :force => true do |t|
     t.string   "status",     :default => "0"
@@ -127,6 +127,9 @@ ActiveRecord::Schema.define(:version => 20150108022600) do
     t.string   "opts",       :limit => 500, :default => "{}", :null => false
     t.datetime "created_at",                                  :null => false
     t.datetime "updated_at",                                  :null => false
+    t.datetime "marked_at",                                   :null => false
+    t.string   "source",                    :default => "",   :null => false
+    t.string   "data",                      :default => "{}", :null => false
   end
 
   create_table "history_role_sessions", :force => true do |t|

@@ -231,6 +231,23 @@ class Computer < ActiveRecord::Base
   end
 
 
+  def self.set_2_accounts
+    computers = Computer.where("accounts_count>2")
+    computers.each do |computer|
+      online_count =  computer.online_accounts_count
+
+      if online_count >= 2
+          computer.accounts.stopped_scope.where("normal_at < '2016-01-13 00:00:00'").update_all(:normal_at=>'2016-01-13 00:00:00')
+      else
+          i = 2-online_count  # 2,1
+          computer.accounts.stopped_scope.where("normal_at < '2016-01-13 00:00:00'").update_all(:normal_at=>'2016-01-13 00:00:00')
+          computer.accounts.stopped_scope.where("normal_at = '2016-01-13 00:00:00'").limit(i).update_all(:normal_at=>'2015-01-13 00:00:00')
+
+      end
+    end
+  end
+
+
   # def gt_level
   #   computers.each do |computer|
       
