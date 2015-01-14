@@ -101,6 +101,9 @@ class Computer < ActiveRecord::Base
     self.hostname = opts[:hostname] unless opts[:hostname].blank?
     self.real_name = opts[:real_name] unless opts[:real_name].blank?
     self.client_count = opts[:client_count].to_i unless opts[:client_count].blank?
+    
+
+
     self.max_accounts = self.client_count * Setting.client_role_count
     
     # 创建session
@@ -227,7 +230,7 @@ class Computer < ActiveRecord::Base
   end
 
   def self.init_max_roles
-    Computer.started_scope.update_all("max_accounts = client_count * #{Setting.client_role_count}")
+    Computer.update_all("max_accounts = client_count * #{Setting.client_role_count}")
   end
 
 

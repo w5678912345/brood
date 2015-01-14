@@ -238,24 +238,7 @@ class Api::AccountController < Api::BaseController
 		end
 	end
 
-	# 验证当前IP的24小时使用次数
-	def valid_ip_use_count
-		ip = Ip.find_or_create(params[:ip])
-		#return render :text => "#{ip.value}===========#{ip.use_count}====#{Setting.ip_max_use_count}"
-		if ip.use_count >= Setting.ip_max_use_count
-			@code = CODES[:ip_used]
-			return render :partial => 'api/result' unless  @code == 0
-		end
-	end
 
-	# 验证当前IP 前三段的在线数量
-	def valid_ip_range_online_count
-	   max_online_count = Setting.ip_range_max_online_count
-	   current_online_count = Account.online_scope.where("SUBSTRING_INDEX(online_ip,'.',3) = ?",params[:ip_range_3]).count(:id)
-	   #return render :text => "#{params[:ip_range_3]}--------#{max_online_count}---------#{current_online_count}"
-	   @code = CODES[:ip_used] if current_online_count > max_online_count
-	   return render :partial => 'api/result' unless  @code == 0
-	end
 
 	# 根据ckey取得对应的计算机
 	def require_computer_by_ckey
