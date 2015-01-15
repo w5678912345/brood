@@ -37,7 +37,7 @@ class DataNode < ActiveRecord::Base
   end
 
   def self.mark_notes_history
-    (Date.new(2014, 12, 20)..Date.new(2015, 01, 12)).each do |date|
+    (Date.new(2015, 01, 01)..Date.new(2015, 01, 14)).each do |date|
       DataNode.mark_notes(date.strftime("%Y-%m-%d"))
     end
   end
