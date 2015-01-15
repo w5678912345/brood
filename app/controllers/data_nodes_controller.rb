@@ -88,7 +88,7 @@ class DataNodesController < ApplicationController
 
 
 
-        @records = DataNode.where(:source=>"accounts").select("date(marked_at) as day,accounts").date_scope(@start_date,@end_date).order("created_at asc").group("date(created_at)")
+        @records = DataNode.where(:source=>"accounts").select("date(marked_at) as day,data").date_scope(@start_date,@end_date).order("marked_at asc").group("date(marked_at)")
         @status= Account::STATUS.keys
 
         @d = []
@@ -97,7 +97,7 @@ class DataNodesController < ApplicationController
         @status.each do |s|
                 _data = []
                 @records.each do |r|
-                        tmp = eval(r.accounts)
+                        tmp = eval(r.data)
                         _data<< (tmp[s.to_s] || 0)
                 end
                 @d << {:name=>s,:data =>_data}
