@@ -43,6 +43,6 @@ class DataNode < ActiveRecord::Base
   end
 
 
-  #DataNode.update_all("data=accounts,source='accounts',marked_at=created_at")
+  #DataNode.where("source != 'notes'").update_all("data=accounts,source='accounts',marked_at=created_at")
 
 end

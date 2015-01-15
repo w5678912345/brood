@@ -39,7 +39,7 @@ class DataNodesController < ApplicationController
 		#开始时间向前推1天用于计算差值
 		@start_date -= 1.day 
 
-		@records = DataNode.where(:source=>"accounts").select("date(marked_at) as day,accounts").date_scope(@start_date,@end_date).order("marked_at asc").group("date(marked_at)")
+		@records = DataNode.where(:source=>"accounts").select("date(marked_at) as day,data").date_scope(@start_date,@end_date).order("marked_at asc").group("date(marked_at)")
 		@days = @records.map(&:day)
 		all_data = chart_data(@records)
 
