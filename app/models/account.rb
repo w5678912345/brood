@@ -202,7 +202,7 @@ class Account < ActiveRecord::Base
             at = at.since(1.day) if (6..23).include?(at.hour)
             self.normal_at = at.change(:hour => 6,:min => 0,:sec => 0)
           else
-            self.normal_at = Time.now.since(Account::STATUS[self.status].hours) if Account::STATUS.has_key?(status)
+            #self.normal_at = Time.now.since(Account::STATUS[self.status].hours) if Account::STATUS.has_key?(status)
           end
           ip = Ip.find_or_create(opts[:ip])
           ip.update_attributes(:cooling_time=>Time.now.since(25.hours))

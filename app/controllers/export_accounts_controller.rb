@@ -12,7 +12,7 @@ class ExportAccountsController < ActionController::Base
 
 	def normal
 		account = Account.find_by_no(params[:id])
-		account.update_attributes(:status=>"normal",:normal_at=>Time.now) if account
+		account.update_attributes(:status=>"normal",:normal_at=>Time.now,:remark=>"out") if account
 
 		redirect_to export_accounts_path(:server=>params[:server],:status=>"bslocked")
 	end
