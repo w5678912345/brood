@@ -9,5 +9,8 @@ class AccountReportController < ActionController::Base
 			COUNT(if(status='discardbysailia',no,null)) as sailia_count,
 			COUNT(if(status <> 'normal' and status <> 'bslocked' and status <> 'discardforyears' and status <> 'discardbysailia',no,null)) as other_count
 			").group("server")
+
+		@ticket_records = TicketRecord.server_data
+		
 	end
 end
