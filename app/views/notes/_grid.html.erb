@@ -5,13 +5,13 @@
 
   g.column name:  '区', attribute: 'server'
   # g.column name:  'KEY', attribute: 'auth_key',filter: false
-  g.column name: '机器' ,attribute: 'hostname', model: 'Computer' do |note|
+  g.column name: '机器' ,attribute: 'hostname' do |note|
     computer_tag(note.computer) unless note.computer.blank?
   end
-  g.column name: '账号' ,attribute: 'no', model: 'Account' do |note|
+  g.column name: '账号' ,attribute: 'account' do |note|
     account_tag(note.account) unless note.account.blank?
   end
-  g.column name: '角色' ,attribute: 'id', model: 'Role' do |note|
+  g.column name: '角色' ,attribute: 'role_id' do |note|
     role_tag(note.role_id) unless note.role.blank?
   end
   g.column name:  '等级', attribute: 'level'

@@ -21,7 +21,7 @@ class ExportAccountsController < ActionController::Base
 	def restore
 		ids = params[:grid][:selected] || [] if params[:grid]
 		@accounts = Account.where("no in (?)",ids)
-		i = @accounts.update_all(:status=>"normal",:normal_at=>Time.now,:remark=>"out")
+		i = @accounts.update_all(:status=>"normal",:normal_at=>Time.now,:remark=>"out-#{TIme.now.to_s}")
 
 		render :text => "<h1>恢复了#{i}个账号</h1>"
 	end
