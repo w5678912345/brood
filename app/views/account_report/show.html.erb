@@ -21,7 +21,7 @@
 	<th>封停</th>
 	<th>赛利亚</th>
 	<th>其他</th>
-	<th>金币/点卷</th>
+	<th>金币(百万)/点卷</th>
 </tr>
 
 </thead>
@@ -34,7 +34,13 @@
 	<td><%= link_to record.discard_count,export_accounts_path(:server=>record.server,:status=>"discardforyears"),:target=>"_blank" %></td>
 	<td><%= link_to record.sailia_count,export_accounts_path(:server=>record.server,:status=>"discardbysailia"),:target=>"_blank"  %></td>
 	<td><%= link_to record.other_count,export_accounts_path(:server=>record.server,:other=>1),:target=>"_blank" %></td>
-	<td><%= "#{@ticket_records[record.server][0]}/#{@ticket_records[record.server][1]}"   if @ticket_records[record.server]%></td>
+	<td>
+	<% if @ticket_records[record.server]%>
+		<%= sprintf('%.2f', @ticket_records[record.server][0]/1000000.00) %> /
+		<%= @ticket_records[record.server][1] %>
+	<%end%>
+	
+	</td>
 </tr>
 </tr>
 <%end%>
