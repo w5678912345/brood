@@ -60,7 +60,7 @@ class Account < ActiveRecord::Base
     scope :bind_phone_scope, where("phone_id is not null and phone_id != '' ") # 绑定手机的账号
     scope :unbind_phone_scope, where("phone_id is null || phone_id = '' ") # 未绑定手机的账号
     scope :unlocked_scope,where("unlock_phone_id is not null and unlock_phone_id != '' ") 
-
+    scope :update_at_date,lambda{|day| where(updated_at: day.beginning_of_day..day.end_of_day)}
     # session_id > 0 表示正在运行
     def is_started?
       return self.session_id > 0

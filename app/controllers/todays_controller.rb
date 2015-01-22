@@ -1,10 +1,11 @@
 # encoding: utf-8
 class TodaysController < ApplicationController
 	def index
+		@online_computer_count = Computer.started_scope.count
 		@online_role_count = RoleSession.count
 		@today_trade_gold = Payment.trade_scope.at_date(Date.today).sum(:gold)
 		#.at_date(Date.today)
-		@error_event_count = Note.select("api_name,count(*) as num").group("api_name").at_date(Date.today).event_scope(["discardforyears","exception","discardbysailia"])
+		@error_event_count = Account.select("status,count(*) as num").group("status").update_at_date(Date.today)
 		#binding.pry
 		@finished_role_count = HistoryRoleSession.at_date(Date.today).count(:role_id,:distinct => true)
 		@can_use_role_count = Role.joins(:qq_account).where("roles.status='normal' and accounts.status = 'normal'").count
