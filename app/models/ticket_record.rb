@@ -1,6 +1,7 @@
 class TicketRecord < ActiveRecord::Base
   attr_accessible :account, :gold, :msg, :points, :role_id,:role_name, :server
 
+  scope :time_scope,lambda{|start_time,end_time|where(created_at: start_time..end_time)}
 
   def self.server_data
   	ticket_records = {}

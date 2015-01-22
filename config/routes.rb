@@ -1,6 +1,9 @@
 Brood::Application.routes.draw do
   
-  resources :ticket_records,:only => [:index]
+  resources :ticket_records,:only => [:index] do 
+    get :report, :on =>  :collection
+  end
+
   resources :note_data_nodes,:only => [:index]
 
   resources :ip_ranges
