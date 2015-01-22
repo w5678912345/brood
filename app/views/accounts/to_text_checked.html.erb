@@ -1,0 +1,13 @@
+<h1>选择账号</h1>
+
+
+<%= form_tag(do_text_checked_accounts_path,:method => :post,:id=>"account_checked_form",:class=>"") do -%>
+
+<input type="text" value="<%= params[:str]%>" class="input-small" name="str"  />分割，第
+<input type="text" value="<%= params[:str_index] %>" class="input-small" name="str_index"  />个为账号<br>
+
+<textarea name="accounts" style="width:600px;" rows="20" ></textarea>
+
+<hr>
+<button type="submit" class="btn btn-primary">提交</button>
+<%end%>
