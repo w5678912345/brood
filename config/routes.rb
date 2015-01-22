@@ -233,11 +233,12 @@ Brood::Application.routes.draw do
     match '/set'  => 'computers#set'
     match '/cinfo' => 'computers#cinfo'
     resources :computers,:only => [] do 
-      get :start,     :on => :collection
-      get :sync,      :on => :collection
-      get :stop,      :on => :collection
-      get :note,      :on => :collection
-      get :set,       :on => :collection
+      get :start,               :on => :collection
+      get :sync,                :on => :collection
+      get :stop,                :on => :collection
+      get :note,                :on => :collection
+      get :set,                 :on => :collection
+      get :bind_accounts,       :on => :collection
     end
     resources :tasks ,:only =>[],:defaults => {:format => 'json'} do
       match :pull,    :on => :collection

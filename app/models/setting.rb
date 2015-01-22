@@ -93,7 +93,7 @@ class Setting < ActiveRecord::Base
 	end
     def self.need_ip_limit?
 		val = find_value_by_key("need_ip_limit")
-		return val == nil ? true : val
+		return val == nil ? true : val == 1
 	end
 	def self.ip_range_control
 		val = find_value_by_key("ip_range_control")

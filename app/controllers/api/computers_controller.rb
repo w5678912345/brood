@@ -5,7 +5,7 @@ class Api::ComputersController < Api::BaseController
 
 	CODES = Api::CODES
 
-	before_filter :require_computer_by_ckey,:only =>[:start,:sync,:stop,:note]
+	before_filter :require_computer_by_ckey,:only =>[:start,:sync,:stop,:note,:bind_accounts]
 
 	def reg
 		@computer = Computer.find_by_auth_key(params[:auth_key])
@@ -52,6 +52,9 @@ class Api::ComputersController < Api::BaseController
 	def stop
 		@code =  @computer.api_stop params
 		render :partial => '/api/result'
+	end
+	def bind_accounts
+		@accounts = @computer.accounts
 	end
 
 	private
