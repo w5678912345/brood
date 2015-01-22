@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150113061917) do
+ActiveRecord::Schema.define(:version => 20150121110429) do
 
   create_table "account_statuses", :force => true do |t|
     t.string   "status",     :default => "0"
@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(:version => 20150113061917) do
     t.datetime "updated_at",                                  :null => false
     t.datetime "marked_at",                                   :null => false
     t.string   "source",                    :default => "",   :null => false
-    t.string   "data",                      :default => "{}", :null => false
+    t.text     "data",                                        :null => false
   end
 
   create_table "history_role_sessions", :force => true do |t|
@@ -189,19 +189,15 @@ ActiveRecord::Schema.define(:version => 20150113061917) do
 
   create_table "ip_ranges", :force => true do |t|
     t.string   "ip",                                         :null => false
-    t.integer  "start_count",              :default => 0,    :null => false
+    t.integer  "start_count"
+    t.integer  "minutes"
+    t.integer  "online_count"
+    t.integer  "ip_accounts_in_24_hours"
+    t.boolean  "enabled",                 :default => false, :null => false
     t.string   "remark"
     t.datetime "created_at",                                 :null => false
     t.datetime "updated_at",                                 :null => false
-    t.integer  "hours",                    :default => 0,    :null => false
-    t.integer  "online_count",             :default => 0,    :null => false
-    t.integer  "ip_use_count_in_24_hours", :default => 0,    :null => false
-    t.integer  "ip_accounts_in_24_hours",  :default => 0,    :null => false
-    t.boolean  "enabled",                  :default => true, :null => false
-    t.integer  "minutes",                  :default => 0,    :null => false
   end
-
-  add_index "ip_ranges", ["ip"], :name => "index_ip_ranges_on_ip", :unique => true
 
   create_table "ips", :primary_key => "value", :force => true do |t|
     t.integer  "use_count",    :default => 0, :null => false
@@ -261,11 +257,6 @@ ActiveRecord::Schema.define(:version => 20150113061917) do
     t.string   "target"
     t.string   "result"
     t.string   "opts"
-    t.string   "goods"
-    t.integer  "amount",                       :default => 0,     :null => false
-    t.integer  "cost",                         :default => 0,     :null => false
-    t.string   "role_type"
-    t.string   "role_name"
   end
 
   add_index "notes", ["account"], :name => "index_notes_on_account"
@@ -317,18 +308,18 @@ ActiveRecord::Schema.define(:version => 20150113061917) do
   add_index "phone_machines", ["name"], :name => "index_phone_machines_on_name", :unique => true
 
   create_table "phones", :primary_key => "no", :force => true do |t|
-    t.boolean  "enabled",          :default => true, :null => false
+    t.boolean  "enabled",          :default => true,   :null => false
     t.datetime "last_active_at"
     t.integer  "phone_machine_id"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
-    t.integer  "accounts_count",   :default => 0,    :null => false
-    t.boolean  "can_bind",         :default => true, :null => false
-    t.string   "status"
-    t.integer  "sms_count",        :default => 0,    :null => false
-    t.integer  "today_sms_count",  :default => 0,    :null => false
-    t.boolean  "can_unlock",       :default => true, :null => false
-    t.integer  "unlock_count",     :default => 0,    :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+    t.integer  "accounts_count",   :default => 0,      :null => false
+    t.boolean  "can_bind",         :default => true,   :null => false
+    t.string   "status",           :default => "idle"
+    t.integer  "sms_count",        :default => 0,      :null => false
+    t.integer  "today_sms_count",  :default => 0,      :null => false
+    t.boolean  "can_unlock",       :default => true,   :null => false
+    t.integer  "unlock_count",     :default => 0,      :null => false
   end
 
   add_index "phones", ["no"], :name => "index_phones_on_no", :unique => true
@@ -342,7 +333,7 @@ ActiveRecord::Schema.define(:version => 20150113061917) do
     t.integer  "start_exp"
     t.string   "ip"
     t.integer  "used_gold",        :default => 0
-    t.integer  "exchanged_gold",   :default => 0, :null => false
+    t.integer  "exchanged_gold",   :default => 0
     t.string   "task"
     t.integer  "connection_times", :default => 0
     t.datetime "live_at"
@@ -388,12 +379,6 @@ ActiveRecord::Schema.define(:version => 20150113061917) do
     t.integer  "computers_count",               :default => 0,        :null => false
     t.integer  "session_id",                    :default => 0,        :null => false
     t.boolean  "today_success",                 :default => false,    :null => false
-    t.integer  "bag_value",                     :default => 0,        :null => false
-    t.integer  "start_count",                   :default => 0,        :null => false
-    t.integer  "experience",                    :default => 0,        :null => false
-    t.string   "task_name"
-    t.boolean  "reset_talent",                  :default => false,    :null => false
-    t.boolean  "is_agent",                      :default => false,    :null => false
     t.boolean  "is_helper",                     :default => false,    :null => false
     t.integer  "channel_index",                 :default => -1,       :null => false
     t.boolean  "ishell",                        :default => false,    :null => false
@@ -403,27 +388,18 @@ ActiveRecord::Schema.define(:version => 20150113061917) do
   add_index "roles", ["account"], :name => "index_roles_on_account"
 
   create_table "servers", :force => true do |t|
-    t.string   "name",            :limit => 124,                    :null => false
+    t.string   "name",            :limit => 124,                   :null => false
     t.string   "role_str"
-    t.integer  "roles_count",                    :default => 0,     :null => false
-    t.integer  "computers_count",                :default => 0,     :null => false
-    t.datetime "created_at",                                        :null => false
-    t.datetime "updated_at",                                        :null => false
+    t.integer  "roles_count",                    :default => 0,    :null => false
+    t.integer  "computers_count",                :default => 0,    :null => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
     t.string   "goods"
-    t.integer  "price",                          :default => 1,     :null => false
-    t.float    "gold_price",                     :default => 0.0,   :null => false
-    t.float    "gold_unit",                      :default => 0.0,   :null => false
-    t.string   "goods2"
-    t.integer  "price2",                         :default => 1,     :null => false
-    t.integer  "max_price",                      :default => 1,     :null => false
-    t.integer  "max_price2",                     :default => 1,     :null => false
-    t.string   "goods3"
-    t.integer  "price3",                         :default => 1,     :null => false
-    t.integer  "max_price3",                     :default => 1,     :null => false
-    t.boolean  "sell_closed",                    :default => false
-    t.boolean  "allowed_new",                    :default => true,  :null => false
-    t.boolean  "agent_closed",                   :default => false, :null => false
-    t.integer  "point",                          :default => 0,     :null => false
+    t.integer  "price",                          :default => 1,    :null => false
+    t.float    "gold_price",                     :default => 0.0,  :null => false
+    t.float    "gold_unit",                      :default => 0.0,  :null => false
+    t.boolean  "allowed_new",                    :default => true, :null => false
+    t.integer  "point",                          :default => 0,    :null => false
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true
@@ -490,14 +466,25 @@ ActiveRecord::Schema.define(:version => 20150113061917) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "suppport_roles", :force => true do |t|
-    t.string   "name",       :null => false
-    t.string   "server"
-    t.string   "line"
-    t.string   "status"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "taggings", :force => true do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
+    t.string   "context",       :limit => 128
+    t.datetime "created_at"
   end
+
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], :name => "taggings_idx", :unique => true
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], :name => "index_taggings_on_taggable_id_and_taggable_type_and_context"
+
+  create_table "tags", :force => true do |t|
+    t.string  "name"
+    t.integer "taggings_count", :default => 0
+  end
+
+  add_index "tags", ["name"], :name => "index_tags_on_name", :unique => true
 
   create_table "tasks", :force => true do |t|
     t.string   "user_id",                                      :null => false
@@ -531,13 +518,6 @@ ActiveRecord::Schema.define(:version => 20150113061917) do
     t.string   "msg"
     t.datetime "created_at",                :null => false
     t.datetime "updated_at",                :null => false
-  end
-
-  create_table "trade_locks", :force => true do |t|
-    t.string   "seller_name"
-    t.integer  "role_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
   end
 
   create_table "users", :force => true do |t|
