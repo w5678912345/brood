@@ -17,6 +17,9 @@ class Ip < ActiveRecord::Base
   end
 
   def can_use?
+    if false == Setting.need_ip_limit?
+      return true, "no ip limited..."
+    end
     return false , "IP Filter try false" unless IpFilter.try(self.value)
     if self.cooling_time
       return false , "IP cooling_time gt now" if self.cooling_time > Time.now

@@ -91,7 +91,10 @@ class Setting < ActiveRecord::Base
 		val = find_value_by_key("client_role_count")
 		return val == nil ? 1 : val
 	end
-
+    def self.need_ip_limit?
+		val = find_value_by_key("need_ip_limit")
+		return val == nil ? true : val
+	end
 	def self.ip_range_control
 		val = find_value_by_key("ip_range_control")
 		return 
