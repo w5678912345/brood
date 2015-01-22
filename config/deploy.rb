@@ -24,7 +24,7 @@ set :rvm_path, '/home/ubuntu/.rvm/bin/rvm' #'/usr/local/rvm/scripts/rvm'
 #   set :port, '30000'     # SSH port number.
 set :user, 'ubuntu'
 
-desc "Deploys the current version to the server."
+desc "deploy to server. use like this: mina r_deploy TARGET=[bolt,tian1,tian2,...]"
 task :r_deploy do
   invoke :'rvm:use[ruby-2.0.0-p247]'
   queue! %[cd #{deploy_path}]
