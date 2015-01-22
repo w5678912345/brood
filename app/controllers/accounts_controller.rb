@@ -155,6 +155,32 @@ class AccountsController < ApplicationController
 		#redirect_to setting_accounts_path
 	end
 
+	def to_text_checked
+		params[:str_index] = 0
+		params[:str] = "--"
+	end
+
+	def do_text_checked
+
+		str_index = params[:str_index].blank? ? 0 : params[:str_index].to_i
+		str = params[:str].blank? ? "--" : params[:str]
+
+		return render :text => "没有数据" unless params[:accounts]
+
+
+		lines = params[:accounts].split(/\r\n/)
+		ids = []
+		lines.each do |line|
+			ids << line.split(str)[str_index]
+		end
+		@accounts = Account.includes(:session).list_search(params).where("accounts.no in (?)",ids)
+		@accounts = initialize_grid(@accounts,
+			:order => "session_id",
+			:name => 'grid')
+
+		#render :template=>
+	end
+
 	#
 	def import
 		
