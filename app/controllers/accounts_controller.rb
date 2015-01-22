@@ -176,6 +176,7 @@ class AccountsController < ApplicationController
 		@accounts = Account.includes(:session).list_search(params).where("accounts.no in (?)",ids)
 		@accounts = initialize_grid(@accounts,
 			:order => "session_id",
+			:per_page=>@accounts.count,
 			:name => 'grid')
 
 		#render :template=>
