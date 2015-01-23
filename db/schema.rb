@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150113061917) do
+ActiveRecord::Schema.define(:version => 20150123054906) do
 
   create_table "account_statuses", :force => true do |t|
     t.string   "status",     :default => "0"
@@ -326,6 +326,15 @@ ActiveRecord::Schema.define(:version => 20150113061917) do
 
   add_index "phones", ["no"], :name => "index_phones_on_no", :unique => true
 
+  create_table "role_profiles", :force => true do |t|
+    t.string   "name"
+    t.text     "data"
+    t.integer  "roles_count", :default => 0
+    t.integer  "version",     :default => 1
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
+  end
+
   create_table "role_sessions", :force => true do |t|
     t.integer  "role_id"
     t.integer  "computer_id"
@@ -385,9 +394,11 @@ ActiveRecord::Schema.define(:version => 20150113061917) do
     t.integer  "channel_index",                 :default => -1,       :null => false
     t.boolean  "ishell",                        :default => false,    :null => false
     t.string   "profession",                    :default => "",       :null => false
+    t.integer  "role_profile_id",               :default => 1
   end
 
   add_index "roles", ["account"], :name => "index_roles_on_account"
+  add_index "roles", ["role_profile_id"], :name => "index_roles_on_role_profile_id"
 
   create_table "servers", :force => true do |t|
     t.string   "name",            :limit => 124,                   :null => false

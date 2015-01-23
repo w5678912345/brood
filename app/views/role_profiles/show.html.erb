@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @role_profile.name %>
+</p>
+
+<p>
+  <b>Data:</b>
+  <%= @role_profile.data %>
+</p>
+
+<p>
+  <b>Roles count:</b>
+  <%= @role_profile.roles_count %>
+</p>
+
+<p>
+  <b>Version:</b>
+  <%= @role_profile.version %>
+</p>
+
+
+<%= link_to 'Edit', edit_role_profile_path(@role_profile) %> |
+<%= link_to 'Back', role_profiles_path %>

@@ -1,0 +1,29 @@
+<h1>Listing role_profiles</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Data</th>
+    <th>Roles count</th>
+    <th>Version</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @role_profiles.each do |role_profile| %>
+  <tr>
+    <td><%= role_profile.name %></td>
+    <td><%= role_profile.data %></td>
+    <td><%= role_profile.roles_count %></td>
+    <td><%= role_profile.version %></td>
+    <td><%= link_to 'Show', role_profile %></td>
+    <td><%= link_to 'Edit', edit_role_profile_path(role_profile) %></td>
+    <td><%= link_to 'Destroy', role_profile, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Role profile', new_role_profile_path %>

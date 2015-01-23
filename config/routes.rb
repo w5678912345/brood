@@ -1,5 +1,8 @@
 Brood::Application.routes.draw do
   
+  resources :role_profiles
+
+
   resources :ticket_records,:only => [:index] do 
     get :report, :on =>  :collection
   end

@@ -11,6 +11,7 @@ class Role < ActiveRecord::Base
   belongs_to :computer,:class_name => 'Computer'
   belongs_to :online_note, :class_name => 'note', :foreign_key => 'online_note_id'
   belongs_to :session, :class_name => 'Note', :foreign_key => 'session_id'
+  belongs_to :role_profile, :counter_cache => true
   has_many   :notes,		:dependent => :destroy, :order => 'id DESC'
   has_many	 :payments, :order => 'id DESC'
   has_many   :comroles, :class_name => 'Comrole'
