@@ -12,9 +12,16 @@ describe Api::AccountController do
 	end
   it "Auto get account" do
     get :auto,{:format => "json",:ckey => @computer.auth_key,:ip => '127.0.0.1'}
-    puts assign(:code)
-    started=@account.is_started?
-    started.should eq true
-    #Account.find_by_no(account.no).phone_id.should eq "12345"
+    
+    assigns(:code).should eq 1
+    Account.find_by_no(@account.no).is_started?.should eq true
+    
+    #ip_used,c段
+    get :auto,{:format => "json",:ckey => @computer.auth_key,:ip => '127.0.0.1'}
+    assigns(:code).should eq -8
+
+    #not_find_account
+    get :auto,{:format => "json",:ckey => @computer.auth_key,:ip => '127.0.1.2'}
+    assigns(:code).should eq -19
   end
 end
