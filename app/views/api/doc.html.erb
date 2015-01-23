@@ -46,7 +46,7 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 
 <tr>
 <td>computers/note.json</td>
-<td>通过ckey 记录计算机异常，参数：event => 事件, msg => 消息, ckey => 计算机key </td> 
+<td>通过ckey 记录计算机异常，参数：event => 机器事件, msg => 消息, ckey => 计算机key </td> 
 </tr>
 <tr>
 <td>computers/start.json</td>
@@ -81,7 +81,7 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 
 <tr class="info">
 <td>account/sync.json</td>
-<td>同步API, 参数: id => 账号, rid => 角色ID(null=>true), role的属性 => {name ,channel_index ,server,level,role_index,vit_power,gold,bag_value,start_count,experience}
+<td>同步API, 参数: id => 账号, rid => 角色ID(null=>true), role的属性 => {name ,channel_index ,server,level,role_index,vit_power,gold,bag_value,start_count,experience,ishell,channel_index}
 </td>
 </tr>
 
@@ -153,18 +153,7 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 <td>修改账号属性,参数：id => 账号, status=>状态, server=> 区,pwd=>密码 </td>
 </tr>
 
-<tr class="error">
-<td>orders/sub.json</td>
-<td>提交短信工单 参数：phone_id => 手机号 , account_id => 账号, event => 触发事件, sms => 发送内容 </td>
-</tr>
-<tr class="error">
-<td>orders/:id.json</td>
-<td>获取工单信息 参数：id => 工单ID </td>
-</tr>
-<tr class="error">
-<td>orders/end.json</td>
-<td>获取工单信息 参数：id => 工单ID, result=> 工单的结果, msg => 消息 </td>
-</tr>
+
 
 <tr>
 <th colspan="2">任务API</th>
@@ -180,9 +169,45 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 <td>通过id 修改任务的执行结果,参数： result => [0=>fail,1=>success] msg => 消息 </td> 
 </tr>
 
+<tr>
+<th colspan="2">其他</th>
+</tr>
 
 <tr>
-<th colspan="2">手机相关</th>
+	<td>support_roles.json</td>
+	<td>获取对应账号的 帮助角色 account_id 账号</td>
+</tr>
+
+<tr>
+	<td>check_ip.json</td>
+	<td>检查当前IP 是否为 账号上线IP ，参数 id => 账号ID,ckey=机器key </td>
+</tr>
+
+<tr>
+	<td>use_ticket.json</td>
+	<td>使用点卷 ，参数 id => 账号ID,ckey=>机器key，role_id=>角色ID ，points=> 消耗点卷 , gold=> 金币,msg=>消息 </td>
+</tr>
+
+<tr>
+<td>maps/valid.json</td>
+<td>根据角色ID，取的一个可用的副本, :level => 指定等级的副本。 如果取到副本返回{"key":副本ID,"name":"副本名称"} 否则返回{"code":-1}</td> 
+</tr>
+
+<tr>
+<th colspan="2">手机相关(以下暂时不用)</th>
+</tr>
+
+<tr class="error">
+<td>orders/sub.json</td>
+<td>提交短信工单 参数：phone_id => 手机号 , account_id => 账号, event => 触发事件, sms => 发送内容 </td>
+</tr>
+<tr class="error">
+<td>orders/:id.json</td>
+<td>获取工单信息 参数：id => 工单ID </td>
+</tr>
+<tr class="error">
+<td>orders/end.json</td>
+<td>获取工单信息 参数：id => 工单ID, result=> 工单的结果, msg => 消息 </td>
 </tr>
 <tr>
 <td>phone/get.json</td>
@@ -260,30 +285,14 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 <td>获取当前机器可以解绑的号码, name => phone_machine的name,count => 要获取的数量</td> 
 </tr>
 
-<tr>
-<td>maps/valid.json</td>
-<td>根据角色ID，取的一个可用的副本, :level => 指定等级的副本。 如果取到副本返回{"key":副本ID,"name":"副本名称"} 否则返回{"code":-1}</td> 
-</tr>
+
 
 <tr>
 	<td>account_task/end.json</td>
 	<td>结束账号相关的 短信任务。 id=>账号，event=>事件</td>
 </tr>
 
-<tr>
-	<td>support_roles.json</td>
-	<td>获取对应账号的 帮助角色 account_id 账号</td>
-</tr>
 
-<tr>
-	<td>check_ip.json</td>
-	<td>检查当前IP 是否为 账号上线IP ，参数 id => 账号ID,ckey=机器key </td>
-</tr>
-
-<tr>
-	<td>use_ticket.json</td>
-	<td>使用点卷 ，参数 id => 账号ID,ckey=>机器key，role_id=>角色ID ，points=> 消耗点卷 , gold=> 金币,msg=>消息 </td>
-</tr>
 
 
 </tbody>
