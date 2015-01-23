@@ -52,6 +52,7 @@ group :development,:test do
   gem 'better_errors'
 	#gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
 	gem 'pry', '~> 0.9.12.2' #调试
+  gem 'pry-debugger'
   gem 'rspec', '2.14.1'
   gem 'rspec-rails','2.14.0'
   gem 'factory_girl','4.3.0'

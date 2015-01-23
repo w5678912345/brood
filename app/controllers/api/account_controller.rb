@@ -18,6 +18,7 @@ class Api::AccountController < Api::BaseController
 		@account  = @computer.accounts.waiting_scope(Time.now).first
 		unless @account
 			@code = CODES[:not_find_account]
+
 			@computer.auto_bind_accounts({:ip=>request.remote_ip,:msg=>"auto by start",:avg=>1})  if @computer.auto_binding
 			unless Note.where(:computer_id => @computer.id).where(:api_name=>"not_find_account").where("date(created_at) = ?",Date.today.to_s).exists?
 			# 记录事件
@@ -221,7 +222,6 @@ class Api::AccountController < Api::BaseController
 
 	def validate_ip_can_use
 		ip = Ip.find_or_create(params[:ip])
-
 		@account = @computer.accounts.waiting_scope(Time.now).where(:no=>ip.last_account).first
 		
 		if @account

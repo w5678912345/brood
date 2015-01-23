@@ -25,7 +25,6 @@ class Ip < ActiveRecord::Base
       return false , "IP cooling_time gt now" if self.cooling_time > Time.now
     end
     return false , "IP use_count gt ip_max_use_count" if self.use_count >= Setting.ip_max_use_count
-    
     tmps = self.value.split(".")
     ip_range = "#{tmps[0]}.#{tmps[1]}.#{tmps[2]}"
 

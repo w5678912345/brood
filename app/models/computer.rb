@@ -149,14 +149,14 @@ class Computer < ActiveRecord::Base
     accounts_count = self.max_accounts
     # 机器还可以绑定的账户数量
     if opts[:when_not_find].blank?
-    can_accounts_count = accounts_count - self.accounts_count
-    return if can_accounts_count < 1
-    limit = avg > can_accounts_count ? can_accounts_count : avg
+      can_accounts_count = accounts_count - self.accounts_count
+      return if can_accounts_count < 1
+      limit = avg > can_accounts_count ? can_accounts_count : avg
     else
       limit = 1
     end
     # 查询可以绑定的账户
-
+    binding.pry
     accounts = Account.waiting_bind_scope.joins(:roles).where("normal_at <= ?",Time.now).where("accounts.enabled = 1").where("roles.status = ?",'normal').where("roles.level < ?",Setting.role_max_level).reorder("roles.level desc").uniq().readonly(false)
     if self.allowed_new
       accounts = accounts.where("accounts.server is null or accounts.server = '' or accounts.server = ? ",self.server) 

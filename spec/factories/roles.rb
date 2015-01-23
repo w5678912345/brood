@@ -8,12 +8,13 @@ FactoryGirl.define do
   	level 23
   	total 2000000
     vit_power 320
-  	online true
+  	online 0
   	session_id 0
 
   	association :qq_account,factory: :account
   end
   factory :online_role,:parent => :role do
+    online 1
   	association :qq_account,factory: :online_account
   end
   factory :online_session_role,:parent => :online_role do
