@@ -1,0 +1,39 @@
+<%=define_grid(@roles, show_filters: :all_ways) do |g|
+  g.action_column
+  g.column name:  'ID', attribute: 'id', :detach_with_id => :id_filter
+  g.column name:  'Account',attribute: 'account', :detach_with_id => :account_filter do |task|
+    account_tag task.account
+  end
+  g.column name:  'Name', attribute: 'name'
+
+  g.column name:  '职业', attribute: 'profession',custom_filter: :auto,:detach_with_id => :profession_filter
+  g.column name:  'profile',attribute: 'name', model: 'RoleProfile',custom_filter: :auto,:detach_with_id => :profile_filter do |role|
+    link_to role.role_profile.name,role_profile_path(role.role_profile)
+  end
+  g.column name:  'Ishell', attribute: 'ishell' do |role|
+    boolean_tag role.ishell
+  end
+  g.column name:  'Helper', attribute: 'is_helper' do |role|
+    boolean_tag role.is_helper
+  end
+  g.column name: 'CIndex', attribute: 'channel_index'
+  g.column name:  'index', attribute: 'role_index'
+  
+  g.column name:  '区', attribute: 'server',:detach_with_id => :server_filter
+  g.column name:  '等级', attribute: 'level',filter_type: :range,:detach_with_id => :level_filter
+  g.column name:  '体力', attribute: 'vit_power'#, filter: false
+
+  g.column name: '金币' do |task|
+    task.gold
+  end
+  g.column name: '今日结果',attribute: "today_success",filter_type: :boolean,:detach_with_id => :today_success_filter do |task|
+    boolean_tag task.today_success 
+  end
+  g.column name:  '账号状态', attribute: 'status',model: 'Account',custom_filter: :auto,:detach_with_id => :account_status_filter
+
+  g.column name:  '角色状态', attribute: 'status',custom_filter: :auto,:detach_with_id => :status_filter
+  g.column   do |task|
+    link_to('Edit', edit_role_path(task)) + " "
+    #link_to('Destroy', task_path(task),confirm: 'Are you sure?',:method => :delete)
+  end
+end%>

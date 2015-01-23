@@ -2,7 +2,7 @@
   <%= f.inputs do %>
     <%= f.input :name %>
     <%= f.input :remark %>
-    <%= f.input :data %>
+    <%= f.input :data ,:input_html => { :size => 100 } %>
   <% end %>
 
   <%= f.actions do %>

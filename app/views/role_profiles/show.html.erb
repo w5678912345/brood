@@ -22,7 +22,7 @@
 
 <p>
   <b>Data:</b>
-  <%= @role_profile.data %>
+  <code><%= @role_profile.data.html_safe %></code>
 </p>
 
 <%= link_to 'Edit', edit_role_profile_path(@role_profile) %> |

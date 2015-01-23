@@ -10,7 +10,7 @@ describe Api::AccountController do
     @computer.save
     @account = @role.qq_account
 	end
-  it "Auto get account" do
+  it "Auto start account" do
     get :auto,{:format => "json",:ckey => @computer.auth_key,:ip => '127.0.0.1'}
     
     assigns(:code).should eq 1
@@ -23,9 +23,10 @@ describe Api::AccountController do
     #not_find_account
     get :auto,{:format => "json",:ckey => @computer.auth_key,:ip => '127.0.1.2'}
     assigns(:code).should eq -19
+    
   end
   it "get role profile" do
     get :role_profile,{:format => "json",:ckey => @computer.auth_key,:id => @account.id,:rid => @role.id,:ip => '127.0.0.1'}
-
+    assigns(:pf).should eq @role.role_profile
   end
 end

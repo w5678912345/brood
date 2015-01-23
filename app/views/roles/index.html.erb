@@ -1,11 +1,54 @@
 <% content_for :title do%>角色列表<%end%>
-<%= render "navbar" %>
-<%= render :partial => "new_search_form", :locals=>{:path=>roles_path}%>
-<div class="alert">
-<strong>提示信息:</strong>
-<button type="button" class="close" data-dismiss="alert">&times;</button>
-<span><%= @roles.total_entries%>个角色</span> 
+
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch Filter
+</button>
+
+<%= render :partial => 'new_grid'%>
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">角色过滤</h4>
+      </div>
+      <div class="modal-body">
+	      <div class="row-fluid">
+	      	<div class="span2">ID:</div><div class="span10"><%=grid_filter @roles, :id_filter%></div>
+	      </div>
+	      <div class="row-fluid">
+	      	<div class="span2">职业:</div><div class="span10"><%=grid_filter @roles, :profession_filter%></div>
+	      </div>
+	      <div class="row-fluid">
+	      	<div class="span2">等级:</div><div class="span10"><%=grid_filter @roles, :level_filter%></div>
+	      </div>
+	      <div class="row-fluid">
+	      	<div class="span2">角色配置:</div><div class="span10"><%=grid_filter @roles, :profile_filter%></div>
+	      </div>
+	      <div class="row-fluid">
+	      	<div class="span2">服:</div><div class="span10"><%=grid_filter @roles, :server_filter%></div>
+	      </div>
+	      <div class="row-fluid">
+	      	<div class="span2">今日完成:</div><div class="span10"><%=grid_filter @roles, :today_success_filter%></div>
+	      </div>
+	      <div class="row-fluid">
+	      	<div class="span2">账号状态:</div><div class="span10"><%=grid_filter @roles, :account_status_filter%></div>
+	      </div>
+	      <div class="row-fluid">
+	      	<div class="span2">角色状态:</div><div class="span10"><%=grid_filter @roles, :status_filter%></div>
+	      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button class="btn btn-warning wg-external-reset-button" data-grid-name="grid">Reset</button>
+        <button class="btn btn-primary wg-external-submit-button" data-grid-name="grid">Submit</button>
+      </div>
+    </div>
+  </div>
 </div>
 
-<%= render :partial => "table",:locals=>{:roles=>@roles} %>
-<%= will_paginate @roles %>
+
+
+<%=render_grid(@roles)%>

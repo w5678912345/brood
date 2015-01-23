@@ -1,7 +1,7 @@
 #source 'https://rubygems.org'
 source 'http://ruby.taobao.org'
 gem 'rails', '3.2.13'
-
+#gem 'haml'
 # Bundle edge Rails instead:   hello
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 #gem 'rack', '~> 1.4.5'
@@ -24,6 +24,7 @@ end
 gem 'jquery-rails'
 
 gem 'formtastic'
+gem 'formtastic-bootstrap'
 gem 'devise' # user auth
 #gem 'will_paginate', '~> 3.0' #pages
 gem "wice_grid", '3.4.2' #表单

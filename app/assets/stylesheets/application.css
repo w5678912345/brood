@@ -23,3 +23,7 @@ select{margin-bottom: 0px;color: #b94a48;font-weight: bold;}
 .ui-timepicker-rtl dl dt{ float: right; clear: right; }
 .ui-timepicker-rtl dl dd { margin: 0 40% 10px 10px; }
 
+.modal {
+	width: 760px;
+	margin-left: -380px;
+}
