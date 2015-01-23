@@ -40,21 +40,21 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 
 
 <tr>
-<td>reg.json*</td>
+<td>reg.json</td>
 <td>注册computer, 参数hostname => 主机名, auth_key => ckey, server => 服务区, version => 版本</td>
 </tr>
 
 <tr>
-<td>computers/note.json*</td>
-<td>通过ckey 记录计算机异常，参数：event => 事件, msg => 消息, ckey => 计算机key </td> 
+<td>computers/note.json</td>
+<td>通过ckey 记录计算机异常，参数：event => 机器事件, msg => 消息, ckey => 计算机key </td> 
 </tr>
 <tr>
-<td>computers/start.json*</td>
+<td>computers/start.json</td>
 <td>通过ckey 启动计算机，参数： msg => 消息, ckey => 计算机key, version => 版本 client_count=>客户端数量,real_name => real name</td> 
 </tr>
 
 <tr>
-<td>computers/stop.json*</td>
+<td>computers/stop.json</td>
 <td>通过ckey 停止计算机 msg => 消息, ckey => 计算机key, version => 版本 </td> 
 </tr>
 
@@ -70,17 +70,17 @@ discard => 永久封停(close120小时和24万小时), NoRmsFile, NoQQToken,bs_u
 <td>注册新账号！ 参数: ckey => 计算机key, id => 账号, pwd=> 密码 ,msg => 消息, remark => 备注</td> 
 </tr>
 <tr class="info">
-<td>account/auto.json*</td>
+<td>account/auto.json</td>
 <td>自动搜索一个合适的account在 ckey 对应的computer 上线。参数: ckey => 计算机key, msg => 消息</td> 
 </tr>
 
 <tr class="info">
-<td>account/start.json*</td>
+<td>account/start.json</td>
 <td>通过 帐号使account在ckey对应的computer上线，参数: id => 账号, ckey => 计算机key  ,msg => 消息 </td>
 </tr>
 
 <tr class="info">
-<td>account/sync.json*</td>
+<td>account/sync.json</td>
 <td>同步API, 参数: id => 账号, rid => 角色ID(null=>true), role的属性 => {name ,channel_index ,server,level,role_index,vit_power,gold,bag_value,start_count,experience,ishell,channel_index}
 </td>
 </tr>
@@ -194,7 +194,7 @@ event  => <%= Role::EVENT.to_s.gsub("\"","") %>
 </tr>
 
 <tr>
-<th colspan="2">手机相关</th>
+<th colspan="2">手机相关(以下暂时不用)</th>
 </tr>
 
 <tr class="error">
