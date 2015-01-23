@@ -24,4 +24,8 @@ describe Api::AccountController do
     get :auto,{:format => "json",:ckey => @computer.auth_key,:ip => '127.0.1.2'}
     assigns(:code).should eq -19
   end
+  it "get role profile" do
+    get :role_profile,{:format => "json",:ckey => @computer.auth_key,:id => @account.id,:rid => @role.id,:ip => '127.0.0.1'}
+
+  end
 end

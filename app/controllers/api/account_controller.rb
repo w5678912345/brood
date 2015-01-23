@@ -12,7 +12,7 @@ class Api::AccountController < Api::BaseController
 	before_filter :validate_ip_can_use,					:only => [:auto]
 	before_filter :require_account_by_no,				:only => [:start,:sync,:note,:stop,:look,:role_start,:role_stop,:role_note,:role_pay,:set_rms_file,:support_roles,:use_ticket,:role_profile] # 根据帐号取得一个账户
 	#before_filter :require_account_is_started,			:only => [:sync,:note,:stop] # 确定账号在线
-	before_filter :require_role_by_rid,					:only => [:role_start,:role_stop,:role_note,:role_pay]
+	before_filter :require_role_by_rid,					:only => [:role_start,:role_stop,:role_note,:role_pay,:role_profile]
 	#
 	def auto
 		@account  = @computer.accounts.waiting_scope(Time.now).first
@@ -77,7 +77,8 @@ class Api::AccountController < Api::BaseController
 		render :partial => 'api/result'
 	end
 	def role_profile
-
+		@pf = @role.role_profile
+		send_data @pf.data
 	end
 	def role_pay
 		@code = @role.api_pay params
