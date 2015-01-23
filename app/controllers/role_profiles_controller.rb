@@ -2,7 +2,7 @@ class RoleProfilesController < ApplicationController
   # GET /role_profiles
   # GET /role_profiles.json
   def index
-    @role_profiles = RoleProfile.all
+    @role_profiles = initialize_grid(RoleProfile)
 
     respond_to do |format|
       format.html # index.html.erb

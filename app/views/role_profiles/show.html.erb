@@ -6,11 +6,6 @@
 </p>
 
 <p>
-  <b>Data:</b>
-  <%= @role_profile.data %>
-</p>
-
-<p>
   <b>Roles count:</b>
   <%= @role_profile.roles_count %>
 </p>
@@ -20,6 +15,15 @@
   <%= @role_profile.version %>
 </p>
 
+<p>
+  <b>remark:</b>
+  <%= @role_profile.remark %>
+</p>
+
+<p>
+  <b>Data:</b>
+  <%= @role_profile.data %>
+</p>
 
 <%= link_to 'Edit', edit_role_profile_path(@role_profile) %> |
 <%= link_to 'Back', role_profiles_path %>

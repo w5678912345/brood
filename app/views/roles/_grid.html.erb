@@ -14,6 +14,9 @@
   g.column name:  'ID', attribute: 'id'
   g.column name:  'Name', attribute: 'name'
   g.column name:  '职业', attribute: 'profession'
+  g.column name:  'profile',attribute: 'id',model: RoleProfile do |role|
+    link_to role.role_profile.name,role_profile_path(role.role_profile)
+  end
   g.column name:  'Ishell', attribute: 'ishell' do |role|
     boolean_tag role.ishell
   end

@@ -331,6 +331,7 @@ ActiveRecord::Schema.define(:version => 20150123054906) do
     t.text     "data"
     t.integer  "roles_count", :default => 0
     t.integer  "version",     :default => 1
+    t.string   "remark"
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
   end

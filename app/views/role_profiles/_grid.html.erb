@@ -1,0 +1,16 @@
+<%= grid(@role_profiles, show_filters: :hide) do |g|
+  g.column name: '修改日期' ,attribute: 'updated_at' do |pf|
+    pf.updated_at.strftime("%Y年%m月%d日")
+  end
+  g.column name: '名字', attribute: 'name' do |pf|
+    link_to pf.name,role_profile_path(pf)
+  end
+  g.column name: '版本' ,attribute: 'version'
+  g.column name: '关联角色数' ,attribute: 'roles_count'
+  g.column name: '备注' ,attribute: 'remark'
+
+
+  g.column do |phone|
+    link_to 'Destroy', phone, method: :delete, data: { confirm: 'Are you sure?' } 
+  end
+end %>
