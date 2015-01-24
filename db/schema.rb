@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150124065348) do
+ActiveRecord::Schema.define(:version => 20150124081926) do
 
   create_table "account_statuses", :force => true do |t|
     t.string   "status",     :default => "0"
@@ -336,6 +336,8 @@ ActiveRecord::Schema.define(:version => 20150124065348) do
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
   end
+
+  add_index "role_profiles", ["name"], :name => "index_role_profiles_on_name", :unique => true
 
   create_table "role_sessions", :force => true do |t|
     t.integer  "role_id"

@@ -1,4 +1,4 @@
-.modal.fade#gridEditor{'tabindex'=>"-1",'role'=>"dialog",'aria-labelledby'=>"myModalLabel",'aria-hidden'=>"true"}
+.modal.hide.fade#gridEditor{'tabindex'=>"-1",'role'=>"dialog",'aria-labelledby'=>"myModalLabel",'aria-hidden'=>"true"}
   .modal-header
     %button.close{'data-dismiss'=>"modal",'aria-label'=>"Close"}
       %span{'aria-hidden'=>"true"} &times;
@@ -23,6 +23,20 @@
             =@profiles.each do |pf|
               %option{'value' => pf.id}
                 =pf.name
+      .control-group
+        %label.control-label 今日结果:
+        .controls.docs-input-sizes 
+          %select.form-control#roles_today_result{'name'=>'roles[today_success]'}
+            %option{'value' => 'nochange'} 不变
+            %option{'value' => '1'} YES
+            %option{'value' => '0'} NO
+      .control-group
+        %label.control-label 职业:
+        .controls.docs-input-sizes 
+          %select.form-control#roles_profession{'name'=>'roles[profession]'}
+            %option{'value' => 'nochange'} 不变
+            =options_for_select(Role::PROFESSIONS )
+
   .modal-footer
     %button.btn.btn-default{'data-dismiss'=>"modal"} Close
     %button.btn.btn-primary{'type' => 'submit'} Submit

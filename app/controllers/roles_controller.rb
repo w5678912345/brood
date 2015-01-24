@@ -104,7 +104,6 @@ class RolesController < ApplicationController
 	end
 
 	def update_all
-		binding.pry
 		params[:roles].delete_if{|k,v| v == 'nochange'}
 		Role.where(:id => params[:grid][:selected]).update_all(params[:roles])
 		redirect_to roles_path(:grid => params[:grid])

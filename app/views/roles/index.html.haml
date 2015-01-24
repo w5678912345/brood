@@ -1,14 +1,14 @@
 =content_for :title do
   角色列表
-
-%button.btn.btn-primary.btn-lg{'data-toggle'=>"modal",'data-target'=>'#myModal'} Launcher Filter
-%button.btn.btn-warning.wg-external-reset-button{'data-grid-name' => 'grid'} Reset
-
-%button.btn.btn-primary.btn-lg{'data-toggle'=>"modal",'data-target'=>'#gridEditor'} Launcher Editor
+.btn-toolbar
+  %button.btn.btn-primary.btn-lg{'data-toggle'=>"modal",'data-target'=>'#myModal'} Launcher Filter
+  %button.btn.btn-warning.wg-external-reset-button{'data-grid-name' => 'grid'} Reset
+  .btn-group.pull-right
+    %button.btn.btn-primary.btn-lg{'data-toggle'=>"modal",'data-target'=>'#gridEditor'} 批量修改
 
 =render :partial => 'new_grid'
 //filter 必须在new_grid的render之后
-=render :partial => 'grid_filter'
+=render 'grid_filter'
 
 =form_tag(update_all_roles_path,:method => :put,:id=>"role_checked_form",:onSubmit=>"return validate(this);",:target=>"_blank") do
   =render_grid @roles

@@ -1,4 +1,4 @@
-<%=define_grid(@roles, show_filters: :all_ways) do |g|
+<%=define_grid(@roles, upper_pagination_panel: true, show_filters: :all_ways) do |g|
   g.action_column
   g.column name:  'ID', attribute: 'id', :detach_with_id => :id_filter
   g.column name:  'Account',attribute: 'account', :detach_with_id => :account_filter do |task|
@@ -6,7 +6,7 @@
   end
   g.column name:  'Name', attribute: 'name'
 
-  g.column name:  '职业', attribute: 'profession',custom_filter: :auto,:detach_with_id => :profession_filter
+  g.column name:  '职业', attribute: 'profession',custom_filter: Role::PROFESSIONS,:detach_with_id => :profession_filter
   g.column name:  'profile',attribute: 'name', model: 'RoleProfile',custom_filter: :auto,:detach_with_id => :profile_filter do |role|
     link_to role.role_profile.name,role_profile_path(role.role_profile) if role.role_profile
   end
@@ -33,7 +33,7 @@
     r.qq_account.status if r.qq_account
   end
 
-  g.column name:  '角色状态', attribute: 'status',custom_filter: :auto,:detach_with_id => :status_filter
+  g.column name:  '角色状态', attribute: 'status',custom_filter: Role::STATUS,:detach_with_id => :status_filter
   g.column   do |task|
     link_to('Edit', edit_role_path(task)) + " "
     #link_to('Destroy', task_path(task),confirm: 'Are you sure?',:method => :delete)
