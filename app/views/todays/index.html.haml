@@ -1,6 +1,6 @@
 =content_for :title do
   今日情报
-  
+
 =render "navbar"
 %h2.text-info
   =link_to "在线角色：#{@online_role_count}",roles_path(:started => 1)
@@ -9,7 +9,7 @@
 .progress.progress-striped{'data-toggle'=>"tooltip",'title'=>"#{@finished_role_count}/#{@can_use_role_count}",'style'=>"width: 40%;"}
   .bar{'style'=>"width: #{@finished_role_count*100.0/@can_use_role_count}%"}
     =@finished_role_count
-  .bar.bar-success{'style'=>"width: #{(@online_role_count+2)*100.0/@can_use_role_count}%"}
+  .bar.bar-success{'style'=>"width: #{(@online_role_count)*100.0/@can_use_role_count}%"}
   .text-info 进度
 
 %br
