@@ -1,0 +1,24 @@
+=content_for :title do
+  今日情报
+  
+=render "navbar"
+%h2.text-info
+  =link_to "在线角色：#{@online_role_count}",roles_path(:started => 1)
+%h2.text-info
+  =link_to "在线机器：#{@online_computer_count}",computers_path(:started => 1)
+.progress.progress-striped{'data-toggle'=>"tooltip",'title'=>"#{@finished_role_count}/#{@can_use_role_count}",'style'=>"width: 40%;"}
+  .bar{'style'=>"width: #{@finished_role_count*100.0/@can_use_role_count}%"}
+    =@finished_role_count
+  .bar.bar-success{'style'=>"width: #{(@online_role_count+2)*100.0/@can_use_role_count}%"}
+  .text-info 进度
+
+%br
+
+%h2.text-warning 
+  今日产出：
+  = gold_str @today_trade_gold
+%h2.text-error
+  = link_to '今日账号状态：',group_count_notes_path(:end_time=>Time.now.end_of_day,:start_time=>Time.now.at_beginning_of_day)
+%h2.text-error
+  - @error_event_count.each do |i|
+    =link_to ("%s=%d" % [i.status,i.num]), notes_path(:end_time=>Time.now.end_of_day,:start_time=>Time.now.at_beginning_of_day,:api_name=>i.status)
