@@ -101,6 +101,8 @@ class RolesController < ApplicationController
 		redirect_to roles_path()
 	end
 
+	def update_all
+	end
 
 	def destroy
 		@role = Role.find(params[:id])

@@ -29,7 +29,7 @@
   g.column name: '今日结果',attribute: "today_success",filter_type: :boolean,:detach_with_id => :today_success_filter do |task|
     boolean_tag task.today_success 
   end
-  g.column name:  '账号状态', attribute: 'status',model: 'Account',custom_filter: :auto,:detach_with_id => :account_status_filter
+  g.column name:  '账号状态', attribute: 'status',model: 'Account',custom_filter: Account.all_status,:detach_with_id => :account_status_filter
 
   g.column name:  '角色状态', attribute: 'status',custom_filter: :auto,:detach_with_id => :status_filter
   g.column   do |task|

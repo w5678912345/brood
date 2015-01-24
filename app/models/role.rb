@@ -39,6 +39,9 @@ class Role < ActiveRecord::Base
   # 等待上线的角色
   scope :waiting_scope,stopped_scope.where("roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0").reorder("is_helper desc").readonly(false)
 
+  def self.all_status
+    STATUS
+  end
   #
   def is_started?
     return self.session_id > 0
