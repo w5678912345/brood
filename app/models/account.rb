@@ -17,7 +17,7 @@ class Account < ActiveRecord::Base
       #{}"discardfordays"=>72,"discardbysailia"=>240,"discardforyears"=>12000,"discardforverifycode"=>1200,"recycle"=>12000}
 
     # 
-    attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status
+    attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status,:money_point
     attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at,:today_success,:last_start_ip
     attr_accessible :remark,:is_auto,:phone_id,:normal_at,:unlock_phone_id,:unlocked_at,:rms_file,:phone_id, :in_cpo,:last_start_at,:standing
 
@@ -117,7 +117,8 @@ class Account < ActiveRecord::Base
       # 修改角色
       role.api_sync(opts) if role
       #当前会话机器
-      return 1 if self.update_attributes(:updated_at => Time.now)
+      self.money_point = opts[:money_point] if opts[:money_point]
+      return 1 if self.update_attributes(:money_point => self.money_point,:updated_at => Time.now)
     end
 
     #

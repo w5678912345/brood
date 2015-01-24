@@ -16,6 +16,13 @@ describe Api::AccountController do
     assigns(:code).should eq 1
     Account.find_by_no(@account.no).is_started?.should eq true
     
+    get :sync,{:format => "json",:ckey => @computer.auth_key,:ip => '127.0.0.1',
+      id: @account.no,
+      :money_point => 10
+    }
+    assigns(:code).should eq 1
+    Account.find_by_no(@account.no).money_point.should eq 10
+
     #ip_used,c段
     get :auto,{:format => "json",:ckey => @computer.auth_key,:ip => '127.0.0.1'}
     assigns(:code).should eq -8

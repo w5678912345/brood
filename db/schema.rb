@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150123054906) do
+ActiveRecord::Schema.define(:version => 20150124065348) do
 
   create_table "account_statuses", :force => true do |t|
     t.string   "status",     :default => "0"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(:version => 20150123054906) do
     t.boolean  "enabled",                          :default => true,     :null => false
     t.datetime "last_start_at"
     t.boolean  "standing",                         :default => false,    :null => false
+    t.integer  "money_point",                      :default => 0
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true
