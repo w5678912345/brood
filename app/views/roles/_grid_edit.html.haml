@@ -1,0 +1,28 @@
+.modal.fade#gridEditor{'tabindex'=>"-1",'role'=>"dialog",'aria-labelledby'=>"myModalLabel",'aria-hidden'=>"true"}
+  .modal-header
+    %button.close{'data-dismiss'=>"modal",'aria-label'=>"Close"}
+      %span{'aria-hidden'=>"true"} &times;
+    %h4.modal-title#myModalLabel 角色过滤
+
+  .modal-body
+    .form-horizontal
+      %input#old_params{'type'=>'hidden','value' => params.to_s}
+      .control-group
+        %label.control-label 角色状态:
+        .controls.docs-input-sizes 
+          %select.form-control#roles_status{'name'=>'roles[status]','type'=>'text'}
+            %option{'value' => 'nochange'} 不变
+            =Role.all_status.each do |pf|
+              %option{'value' => pf}
+                =pf          
+      .control-group
+        %label.control-label 角色配置:
+        .controls.docs-input-sizes 
+          %select.form-control#roles_profile_id{'name'=>'roles[role_profile_id]'}
+            %option{'value' => 'nochange'} 不变
+            =@profiles.each do |pf|
+              %option{'value' => pf.id}
+                =pf.name
+  .modal-footer
+    %button.btn.btn-default{'data-dismiss'=>"modal"} Close
+    %button.btn.btn-primary{'type' => 'submit'} Submit

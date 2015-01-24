@@ -11,6 +11,7 @@ class RolesController < ApplicationController
 				'Role.role_profile_id' => 'RoleProfile.name'
 			}
 			)
+		@profiles = RoleProfile.select("id,name")
 	end
 
 	#
@@ -96,12 +97,17 @@ class RolesController < ApplicationController
 
 	def update
 		#return render :text => params.class
+		binding.pry
 		@role = Role.find(params[:id])
 		@role.update_attributes(params[:role])
 		redirect_to roles_path()
 	end
 
 	def update_all
+		binding.pry
+		params[:roles].delete_if{|k,v| v == 'nochange'}
+		Role.where(:id => params[:grid][:selected]).update_all(params[:roles])
+		redirect_to roles_path(:grid => params[:grid])
 	end
 
 	def destroy

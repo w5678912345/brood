@@ -87,6 +87,7 @@ Brood::Application.routes.draw do
 		get 	:payments, 		:on => :member
     put   :checked,     :on => :collection
     put   :do_checked,  :on => :collection
+    put   :update_all,  :on => :collection
     #get   :computers,   :on => :member
   end
 

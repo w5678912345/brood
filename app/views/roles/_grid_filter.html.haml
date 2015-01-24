@@ -5,38 +5,39 @@
     %h4.modal-title#myModalLabel 角色过滤
 
   .modal-body
-    .row-fluid
-      .span2 ID:
-      .span10
-        =grid_filter @roles, :id_filter
-    .row-fluid
-      .span2 职业:
-      .span10
-        =grid_filter @roles, :profession_filter
-    .row-fluid
-      .span2 等级:
-      .span10
-        =grid_filter @roles, :level_filter
-    .row-fluid
-      .span2 角色配置:
-      .span10
-        =grid_filter @roles, :profile_filter
-    .row-fluid
-      .span2 服:
-      .span10
-        =grid_filter @roles, :server_filter
-    .row-fluid
-      .span2 今日成功:
-      .span10
-        =grid_filter @roles, :today_success_filter
-    .row-fluid
-      .span2 账号状态:
-      .span10
-        =grid_filter @roles, :account_status_filter
-    .row-fluid
-      .span2 角色状态:
-      .span10
-        =grid_filter @roles, :status_filter
+    .form-horizontal
+      .control-group
+        %label.control-label ID:
+        .controls.docs-input-sizes 
+          =grid_filter @roles, :id_filter
+      .control-group
+        %label.control-label 职业:
+        .controls
+          =grid_filter @roles, :profession_filter
+      .control-group
+        %label.control-label 等级:
+        .controls
+          =grid_filter @roles, :level_filter
+      .control-group
+        %label.control-label 角色配置:
+        .controls
+          =grid_filter @roles, :profile_filter
+      .control-group
+        %label.control-label 服:
+        .controls
+          =grid_filter @roles, :server_filter
+      .control-group
+        %label.control-label 今日成功:
+        .controls
+          =grid_filter @roles, :today_success_filter
+      .control-group
+        %label.control-label 账号状态:
+        .controls
+          =grid_filter @roles, :account_status_filter
+      .control-group
+        %label.control-label 角色状态:
+        .controls
+          =grid_filter @roles, :status_filter
 
 
   .modal-footer
