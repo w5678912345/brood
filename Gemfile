@@ -1,7 +1,7 @@
 #source 'https://rubygems.org'
 source 'http://ruby.taobao.org'
 gem 'rails', '3.2.13'
-#gem 'haml'
+gem 'haml'
 # Bundle edge Rails instead:   hello
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 #gem 'rack', '~> 1.4.5'

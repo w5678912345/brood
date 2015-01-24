@@ -19,7 +19,7 @@
   g.column name: 'CIndex', attribute: 'channel_index'
   g.column name:  'index', attribute: 'role_index'
   
-  g.column name:  '区', attribute: 'server',:detach_with_id => :server_filter
+  g.column name:  '区', attribute: 'server',custom_filter: :auto,:detach_with_id => :server_filter
   g.column name:  '等级', attribute: 'level',filter_type: :range,:detach_with_id => :level_filter
   g.column name:  '体力', attribute: 'vit_power'#, filter: false
 

@@ -11,11 +11,6 @@ class RolesController < ApplicationController
 				'Role.role_profile_id' => 'RoleProfile.name'
 			}
 			)
-	    respond_to do |format|
-	      format.html # index.html.erb
-	      format.json { render json: @roles }
-	    end
-		#render :wice_index
 	end
 
 	#

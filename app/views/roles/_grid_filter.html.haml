@@ -1,0 +1,45 @@
+.modal.fade#myModal{'tabindex'=>"-1",'role'=>"dialog",'aria-labelledby'=>"myModalLabel",'aria-hidden'=>"true"}
+  .modal-header
+    %button.close{'data-dismiss'=>"modal",'aria-label'=>"Close"}
+      %span{'aria-hidden'=>"true"} &times;
+    %h4.modal-title#myModalLabel 角色过滤
+
+  .modal-body
+    .row-fluid
+      .span2 ID:
+      .span10
+        =grid_filter @roles, :id_filter
+    .row-fluid
+      .span2 职业:
+      .span10
+        =grid_filter @roles, :profession_filter
+    .row-fluid
+      .span2 等级:
+      .span10
+        =grid_filter @roles, :level_filter
+    .row-fluid
+      .span2 角色配置:
+      .span10
+        =grid_filter @roles, :profile_filter
+    .row-fluid
+      .span2 服:
+      .span10
+        =grid_filter @roles, :server_filter
+    .row-fluid
+      .span2 今日成功:
+      .span10
+        =grid_filter @roles, :today_success_filter
+    .row-fluid
+      .span2 账号状态:
+      .span10
+        =grid_filter @roles, :account_status_filter
+    .row-fluid
+      .span2 角色状态:
+      .span10
+        =grid_filter @roles, :status_filter
+
+
+  .modal-footer
+    %button.btn.btn-default{'data-dismiss'=>"modal"} Close
+    %button.btn.btn-warning.wg-external-reset-button{'data-grid-name' => 'grid'} Reset
+    %button.btn.btn-primary.wg-external-submit-button{'data-grid-name' => 'grid'} Submit

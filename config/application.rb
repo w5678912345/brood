@@ -36,6 +36,7 @@ module Brood
 	I18n.locale = config.i18n.default_locale = 'zh-CN'
 
 	config.generators do |g| 
+        g.template_engine :haml
         g.test_framework :rspec,
             :fixtures => true, 
             :view_specs => false, 

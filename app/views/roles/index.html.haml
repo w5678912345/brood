@@ -1,0 +1,10 @@
+=content_for :title do
+	角色列表
+
+%button.btn.btn-primary.btn-lg{'data-toggle'=>"modal",'data-target'=>'#myModal'} Launcher Filter
+
+=render :partial => 'new_grid'
+
+=render :partial => 'grid_filter'
+
+=render_grid @roles
