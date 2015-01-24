@@ -8,7 +8,7 @@
 
   g.column name:  '职业', attribute: 'profession',custom_filter: :auto,:detach_with_id => :profession_filter
   g.column name:  'profile',attribute: 'name', model: 'RoleProfile',custom_filter: :auto,:detach_with_id => :profile_filter do |role|
-    link_to role.role_profile.name,role_profile_path(role.role_profile)
+    link_to role.role_profile.name,role_profile_path(role.role_profile) if role.role_profile
   end
   g.column name:  'Ishell', attribute: 'ishell' do |role|
     boolean_tag role.ishell
@@ -30,7 +30,7 @@
     boolean_tag task.today_success 
   end
   g.column name:  '账号状态', attribute: 'status',model: 'Account',custom_filter: Account.all_status,:detach_with_id => :account_status_filter do |r|
-    r.qq_account.status
+    r.qq_account.status if r.qq_account
   end
 
   g.column name:  '角色状态', attribute: 'status',custom_filter: :auto,:detach_with_id => :status_filter
