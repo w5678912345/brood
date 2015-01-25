@@ -67,8 +67,12 @@ class Role < ActiveRecord::Base
   end
   # 角色开始
   def api_start opts
-    #binding.pry
+    #此处是判断角色是否在账号启动的时候发送给客户端
+    #也就是此角色是否被调度的标志，但是这里比较奇怪
+    #如果不被调度，此处start应该永远不会被调用，是
+    #防御性代码？
     return 0 unless self.online
+
     if self.is_started?
       self.role_session.connection_times+=1
       self.role_session.save
@@ -93,6 +97,7 @@ class Role < ActiveRecord::Base
   # 角色同步
   def api_sync opts
   return CODES[:account_is_stopped] unless self.qq_account.is_started? 
+   #binding.pry
    unless self.is_started?
       self.api_start opts
    end
