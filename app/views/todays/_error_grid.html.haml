@@ -3,6 +3,8 @@
     %tbody
       =@error_event_count.each do |e|
         %td 
-          =e.status
+          %h3
+            =e.status
         %td 
-          =e.num
+          %h3
+            =link_to (e.num, notes_path(:end_time=>Time.now.end_of_day,:start_time=>Time.now.at_beginning_of_day,:api_name=>e.status)
