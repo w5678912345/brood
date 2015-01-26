@@ -2,5 +2,7 @@
   %table.table.table-striped
     %tbody
       -@error_event_count.each do |e|
-        %td =e.status
-        %td =e.num
+        %td 
+          =e.status
+        %td 
+          =e.num
