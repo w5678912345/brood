@@ -6,7 +6,7 @@ class TodaysController < ApplicationController
 		@today_trade_gold = Payment.trade_scope.at_date(Date.today).sum(:gold)
 		#.at_date(Date.today)
 		@error_event_count = Note.select("api_name as status,count(*) as num").group("status").at_date(Date.today).
-			event_scope('discardforyears','bslock','discardbysailia','exception','discardbysailia','locked')
+			event_scope(['discardforyears','bslock','discardbysailia','exception','discardbysailia','locked'])
 		@error_event_grid = initialize_grid(@error_event_count)
 		#binding.pry
 		@finished_role_count = HistoryRoleSession.at_date(Date.today).count(:role_id,:distinct => true)
