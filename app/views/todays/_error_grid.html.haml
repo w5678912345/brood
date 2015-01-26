@@ -1,10 +1,15 @@
 .container
   %table.table.table-striped
+    %thead
+      %tr
+        %th 事件
+        %th 数量
     %tbody
-      =@error_event_count.each do |e|
-        %td 
-          %h3
-            =e.status
-        %td 
-          %h3
-            =link_to (e.num, notes_path(:end_time=>Time.now.end_of_day,:start_time=>Time.now.at_beginning_of_day,:api_name=>e.status)
+      -@error_event_count.each do |e|
+        %tr
+          %td 
+            %h3
+              =e.status
+          %td 
+            %h3
+              =link_to e.num, notes_path(:end_time=>Time.now.end_of_day,:start_time=>Time.now.at_beginning_of_day,:api_name=>e.status)
