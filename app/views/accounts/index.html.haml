@@ -1,0 +1,6 @@
+= content_for :title do
+  账号列表
+= render "ul"
+= render "search_form"
+
+= render :partial => "form_grid",:locals=>{:accounts=>@accounts}

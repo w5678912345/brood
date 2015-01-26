@@ -1,0 +1,32 @@
+= form_tag(checked_accounts_path,:method => :post,:id=>"account_checked_form",:onSubmit=>"",:target=>"_blank") do
+  .text-right
+    .btn-toolbar
+      %select#url
+        %option --请选择--
+        %option{'value'=>"#{edit_enabled_expand_accounts_path}"} 修改Enabled
+        %option{'value'=>"#{edit_in_cpo_expand_accounts_path}"} 回收到CPO
+        
+      %button.btn.btn-danger#expand-btn{'type'=>"button"} 确定操作
+
+      %select#do.input-medium{'name' => 'do'}
+        %option --请选择--
+        %option{'value'=>"#{edit_enabled_expand_accounts_path}"} 修改Enabled
+        %option{'value'=>"#{edit_in_cpo_expand_accounts_path}"} 回收到CPO
+        =Account::Btns.each do | key, value |
+          %option{'value'=>"#{key}"}
+            =value
+      %button.btn.btn-primary#expand-btn{'type'=>"submit"} 执行操作
+
+  = render :partial => "/accounts/grid",:locals=>{:accounts=>@accounts || accounts}
+
+
+
+:javascript
+  $("#expand-btn").click(function(){
+    var url = $("#url").val();
+    if(url.length == 0){
+      return false;
+    }
+    $("#account_checked_form").attr("action",url);
+    $("#account_checked_form").submit();
+  }); 

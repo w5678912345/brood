@@ -2,16 +2,6 @@
 
 <%= render "search_form" %>
 
-
- <div class="alert">
-  <strong>
-    <a href="#myModal" role="button" class="btn" data-toggle="modal">搜索</a>
-    提示信息:
-  </strong>
-  <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <span>查询到<%= @records.count%>条记录. <%= flash[:msg] if flash[:msg]%></span> 
-</div>
-
 <% if params[:tag] == "role"%>
   <%= render :partial => "roles/grid",:locals=>{:roles=>@records} %>
 <%else%>

@@ -1,4 +1,4 @@
-<%= grid(@accounts || accounts, show_filters: :yes) do |g|
+<%= grid(@accounts || accounts, upper_pagination_panel: true, show_filters: :yes) do |g|
   g.action_column  object_property: :no
   g.column name:  'ID', attribute: 'id', filter: false
   g.column name:  'Account' do |task|
@@ -16,7 +16,9 @@
     boolean_tag account.in_cpo
   end
   g.column name:  '区', attribute: 'server'
-  g.column name:  '角色数', attribute: 'roles_count',filter: false,in_csv: false 
+  g.column name:  '角色数', attribute: 'roles_count',in_csv: false 
+  g.column name:  '点券', attribute: 'money_point',filter_type: :range,in_csv: false 
+
   g.column name: '绑定机器' ,attribute: 'bind_computer_id',filter: false,in_csv: false  do |task|
      account_bind_tag task
   end
@@ -28,7 +30,7 @@
       r += account.online_role_id ==0 ? 'No Role ' : link_to(account.online_role_id,role_path(account.online_role.id))
     end
   end
-  g.column name:  '状态', attribute: 'status' do |account|
+  g.column name:  '状态', attribute: 'status' ,custom_filter: Account.all_status do |account|
     account.standing ? "[站]#{account.status}" : account.status
   end
   g.column name:  "冷却时间",attribute: 'normal_at',in_csv: false   do |task|
