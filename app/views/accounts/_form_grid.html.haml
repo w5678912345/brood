@@ -1,11 +1,12 @@
 = form_tag(checked_accounts_path,:method => :post,:id=>"account_checked_form",:onSubmit=>"",:target=>"_blank") do
-  .text-right
-    .btn-toolbar
+  .btn-toolbar
+    %button.btn.btn-primary.btn-lg{'data-toggle'=>"modal",'data-target'=>'#myModal'} 打开过滤器
+    .pull-right
       %select#url
         %option --请选择--
         %option{'value'=>"#{edit_enabled_expand_accounts_path}"} 修改Enabled
         %option{'value'=>"#{edit_in_cpo_expand_accounts_path}"} 回收到CPO
-        
+
       %button.btn.btn-danger#expand-btn{'type'=>"button"} 确定操作
 
       %select#do.input-medium{'name' => 'do'}
