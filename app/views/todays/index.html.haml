@@ -19,6 +19,4 @@
   = gold_str @today_trade_gold
 %h2.text-error
   = link_to '今日账号状态：',group_count_notes_path(:end_time=>Time.now.end_of_day,:start_time=>Time.now.at_beginning_of_day)
-%h2.text-error
-  - @error_event_count.each do |i|
-    =link_to ("%s=%d" % [i.status,i.num]), notes_path(:end_time=>Time.now.end_of_day,:start_time=>Time.now.at_beginning_of_day,:api_name=>i.status)
+=render 'error_grid'

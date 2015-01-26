@@ -99,9 +99,9 @@ InCPO:
 
 上线:
 <select name="r_started" class="input-small">
-<option value="" >-All-</option>
-<option value="1" <%= 'selected="selected"' if params[:r_started] == "1" %>>Yes</option>
-<option value="0" <%= 'selected="selected"' if params[:r_started] == "0" %> >No</option>
+	<option value="" >-All-</option>
+	<option value="1" <%= 'selected="selected"' if params[:r_started] == "1" %>>Yes</option>
+	<option value="0" <%= 'selected="selected"' if params[:r_started] == "0" %> >No</option>
 </select>
 调度:
 <select name="online" class="input-small">
@@ -110,35 +110,35 @@ InCPO:
 	<option value="0" <%= 'selected="selected"' if params[:online] == "0" %> >No</option>
 </select>
 <select name="rts" class="input-small">
-<option value="" >成功</option>
-<option value="1" <%= 'selected="selected"' if params[:rts] == "1" %>>Yes</option>
-<option value="0" <%= 'selected="selected"' if params[:rts] == "0" %> >No</option>
+	<option value="" >成功</option>
+	<option value="1" <%= 'selected="selected"' if params[:rts] == "1" %>>Yes</option>
+	<option value="0" <%= 'selected="selected"' if params[:rts] == "0" %> >No</option>
 </select>
 
 <select name="is_helper" class="input-small">
-<option value="" >Helper</option>
-<option value="1" <%= 'selected="selected"' if params[:is_helper] == "1" %>>Yes</option>
-<option value="0" <%= 'selected="selected"' if params[:is_helper] == "0" %> >No</option>
+	<option value="" >Helper</option>
+	<option value="1" <%= 'selected="selected"' if params[:is_helper] == "1" %>>Yes</option>
+	<option value="0" <%= 'selected="selected"' if params[:is_helper] == "0" %> >No</option>
 </select>
 
 <select name="ishell" class="input-small">
-<option value="" >ishell</option>
-<option value="1" <%= 'selected="selected"' if params[:ishell] == "1" %>>Yes</option>
-<option value="0" <%= 'selected="selected"' if params[:ishell] == "0" %> >No</option>
+	<option value="" >ishell</option>
+	<option value="1" <%= 'selected="selected"' if params[:ishell] == "1" %>>Yes</option>
+	<option value="0" <%= 'selected="selected"' if params[:ishell] == "0" %> >No</option>
 </select>
 
 <hr style="margin:5px 0;">
 状态:
 <% Role::STATUS.each do |status|%>
-<label class="checkbox"> <input type="checkbox" name="rss[]" value="<%= status%>" <%= 'checked="checked"' if params[:rss] && params[:rss].include?(status) %> /><%= status%> </label>
+	<label class="checkbox"> <input type="checkbox" name="rss[]" value="<%= status%>" <%= 'checked="checked"' if params[:rss] && params[:rss].include?(status) %> /><%= status%> </label>
 <%end%>
 
 职业:
 <select name="profession" class="input-small">
-<option value="" >-All-</option>
-<% Role::PROFESSIONS.each do |prof|%>
-	<option value="<%= prof %>" <%= 'selected="selected"' if params[:profession] == prof %>><%= prof %></option>
-<%end%>
+	<option value="" >-All-</option>
+	<% Role::PROFESSIONS.each do |prof|%>
+		<option value="<%= prof %>" <%= 'selected="selected"' if params[:profession] == prof %>><%= prof %></option>
+	<%end%>
 </select>
 
 </fieldset>
