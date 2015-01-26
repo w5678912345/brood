@@ -19,8 +19,8 @@
   <%end%>
   <%= grid(@accounts) do |g|
     g.action_column  object_property: :no
+    g.column name: '点卷', attribute: 'money_point'    
     g.column name: '账号', attribute: 'no', filter: false
-    g.column name: '点卷', attribute: 'money_point'
     g.column name: '密码', attribute: 'password'
     g.column name: '机器名'  do |account|
       account.bind_computer.hostname if account.bind_computer
