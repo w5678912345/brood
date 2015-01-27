@@ -1,13 +1,3 @@
-<%= form_tag(checked_roles_path,:method => :put,:id=>"role_checked_form",:onSubmit=>"return validate(this);",:target=>"_blank") do -%>
-  <div colspan="2" class="text-right">
-  <select id="do" name="do" class="input-medium">
-    <option value="">选择操作</option>
-    <% Role::Btns.each do | key, value |  %>
-      <option value="<%= key %>"><%= value%></option>
-    <%end%>
-  </select>
-  <button type="submit" class="btn btn-primary">执行操作</button>
-  </div>
 
 <%= grid(roles,show_filters: :yes) do |g|
   g.action_column
@@ -45,6 +35,3 @@
     #link_to('Destroy', task_path(task),confirm: 'Are you sure?',:method => :delete)
   end
   end %>
-
-
-<%end%>
