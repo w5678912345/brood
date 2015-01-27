@@ -32,6 +32,7 @@ class Computer < ActiveRecord::Base
   #
   has_many :notes, :order => 'id DESC',:foreign_key => 'computer_id'
   #
+  has_many :account_sessions,:primary_key => 'hostname',:foreign_key => 'computer_name',:conditions => {:finished => false}
   #default_scope order("updated_at DESC") #:order => 'server DESC'
   scope :checked_scope,where(:checked => true)
   scope :ubchecked_scope,where(:checked => false)
@@ -55,7 +56,18 @@ class Computer < ActiveRecord::Base
        }
       ).select("computers.*, a.finished_role_count").where("a.finished_role_count > 0").reorder([:finished_role_count,:client_count])
   end
-
+  def self.include_account_session_count
+      joins(
+       %{
+         LEFT OUTER JOIN (
+           SELECT b.computer_name, COUNT(b.id) account_count
+           FROM   account_sessions b
+           where b.finished = false
+           GROUP BY b.computer_name
+         ) a ON a.computer_name = computers.hostname
+       }
+      ).select("computers.*, a.account_count")
+  end
 
   def is_started?
     return self.session_id>0

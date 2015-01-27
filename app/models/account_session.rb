@@ -20,9 +20,14 @@ class AccountSession < ActiveRecord::Base
   end
   def stop(is_success,msg)
     #binding.pry
-    self.role_session.stop(msg) if self.role_session
-    self.account.roles.update_all(:online => false)
+    self.transaction do
+      self.role_session.stop(msg) if self.role_session
+      self.account.roles.update_all(:online => false)
 
-    self.update_attributes :finished_at => Time.now,:finished => true
+      ip = Ip.find_or_create(self.ip)
+      ip.update_attributes(:cooling_time=>25.hours.from_now)
+
+      self.update_attributes :finished_at => Time.now,:finished => true,:remark => msg
+    end
   end
 end

@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(:version => 20150127053914) do
     t.string   "account_id"
     t.string   "computer_name"
     t.string   "ip",              :limit => 16
+    t.string   "ip_c",            :limit => 13
     t.string   "started_status"
     t.datetime "finished_at"
     t.boolean  "finished"
@@ -29,8 +30,13 @@ ActiveRecord::Schema.define(:version => 20150127053914) do
   add_index "account_sessions", ["account_id"], :name => "index_account_sessions_on_account_id"
   add_index "account_sessions", ["computer_name"], :name => "index_account_sessions_on_computer_name"
   add_index "account_sessions", ["created_at"], :name => "index_account_sessions_on_created_at"
+  add_index "account_sessions", ["finished", "account_id"], :name => "index_account_sessions_on_finished_and_account_id"
+  add_index "account_sessions", ["finished", "computer_name"], :name => "index_account_sessions_on_finished_and_computer_name"
+  add_index "account_sessions", ["finished"], :name => "index_account_sessions_on_finished"
+  add_index "account_sessions", ["finished_at"], :name => "index_account_sessions_on_finished_at"
   add_index "account_sessions", ["finished_status"], :name => "index_account_sessions_on_finished_status"
   add_index "account_sessions", ["ip"], :name => "index_account_sessions_on_ip"
+  add_index "account_sessions", ["ip_c"], :name => "index_account_sessions_on_ip_c"
   add_index "account_sessions", ["started_status"], :name => "index_account_sessions_on_started_status"
 
   create_table "account_statuses", :force => true do |t|

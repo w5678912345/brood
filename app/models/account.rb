@@ -77,7 +77,7 @@ class Account < ActiveRecord::Base
     end
 
     def can_start?
-      return self.session_id == 0 && self.today_success == false && (self.normal_at <= Time.now)
+      return is_started? == false && self.today_success == false && (self.normal_at <= Time.now)
     end
 
 
@@ -89,7 +89,7 @@ class Account < ActiveRecord::Base
       computer = Computer.find_by_auth_key(opts[:ckey])
       self.transaction do
         computer.increment(:online_accounts_count,1).save  #增加计算机上线账号数
-        ip.update_attributes(:use_count=>ip.use_count+1,:last_account=>self.no,:cooling_time=>Time.now.since(25.hours)) #增加ip使用次数
+        ip.update_attributes(:use_count=>ip.use_count+1,:last_account=>self.no,:cooling_time=>25.hours.from_now) #增加ip使用次数
 
         unless opts[:all]
           @online_roles = self.roles.waiting_scope.where("roles.level < ?",Setting.role_max_level)
@@ -102,7 +102,6 @@ class Account < ActiveRecord::Base
         @online_roles.update_all(:online => true)
 
         self.create_account_session(:computer_name => computer.hostname,:ip => opts[:ip],:started_status => self.status)
-    
         return 1 if self.update_attributes(:last_start_ip=>ip.value)
       end
     end
@@ -213,7 +212,7 @@ class Account < ActiveRecord::Base
             #self.normal_at = Time.now.since(Account::STATUS[self.status].hours) if Account::STATUS.has_key?(status)
           end
           ip = Ip.find_or_create(opts[:ip])
-          ip.update_attributes(:cooling_time=>Time.now.since(25.hours))
+          ip.update_attributes(:cooling_time=>25.hours.from_now)
           # 完成session 
           session.update_attributes(:ending=>true, :stopped_at =>now,:hours=>hours)
         end
@@ -324,10 +323,10 @@ class Account < ActiveRecord::Base
     end
 
    # 账号自动停止
-   def self.auto_stop
-      accounts = Account.started_scope.where("updated_at < ?",30.minutes.ago)
-      accounts.each do |account|
-        account.api_stop(opts={:cid=>account.online_computer_id,:ip=>"localhost",:msg=>"timeout"})
+   def self.auto_stop t = nil
+      t = t or 30.minutes.ago
+      accounts = AccountSession.where("finished=false and updated_at < ?",t).each do |ac|
+        ac.stop(false,'timeout')
       end
    end
 

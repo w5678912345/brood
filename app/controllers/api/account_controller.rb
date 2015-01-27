@@ -13,7 +13,7 @@ class Api::AccountController < Api::BaseController
 	before_filter :require_account_by_no,				:only => [:start,:sync,:note,:stop,:look,:role_start,:role_stop,:role_note,:role_pay,:set_rms_file,:support_roles,:use_ticket,:role_profile] # 根据帐号取得一个账户
 	#before_filter :require_account_is_started,			:only => [:sync,:note,:stop] # 确定账号在线
 	before_filter :require_role_by_rid,					:only => [:role_start,:role_stop,:role_note,:role_pay,:role_profile]
-	#
+	before_filter :get_account_session,		:only =>[:sync,:note,:stop,:role_start,:role_stop,:role_note,:role_profile]	#
 	def auto
 		get_valid_account
 		if not @account
@@ -53,9 +53,10 @@ class Api::AccountController < Api::BaseController
 
 	# 同步帐号属性
 	def sync
+		#build role attribute
 		role_attr_names = Role.columns.map {|c| c.name }
-
 		roles_attr = params.reject{|key,value| role_attr_names.include?(key) == false}
+
 		@code = @account.api_sync params[:rid],roles_attr,{money_point: params[:money_point]}
 		render :partial => '/api/result'
 	end
@@ -72,7 +73,6 @@ class Api::AccountController < Api::BaseController
 
 
 	def role_start
-		binding.pry
 		if @account.account_session.nil?
 			@code = CODES[:account_is_stopped]
 		else
@@ -255,8 +255,6 @@ class Api::AccountController < Api::BaseController
 		end
 	end
 
-
-
 	# 根据ckey取得对应的计算机
 	def require_computer_by_ckey
 		@computer = Computer.find_by_auth_key(params[:ckey]) if params[:ckey]		
@@ -283,6 +281,8 @@ class Api::AccountController < Api::BaseController
 		@code = CODES[:not_find_role] unless @role
 		return  render :partial => 'api/result' unless @role
 	end
-
+	def get_account_session
+		@account_session = AccountSession.where(:finished => false,:account_id => params[:id]).first
+	end
 
 end
