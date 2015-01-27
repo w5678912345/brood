@@ -40,7 +40,7 @@ class Account < ActiveRecord::Base
     belongs_to :phone
     #包含角色
     has_many   :roles, :class_name => 'Role', :foreign_key => 'account', :primary_key => 'no'
-    has_one :account_session,:primary_key => 'no'
+    has_one :account_session,:primary_key => 'no',:conditions => {finished: false}
     # 
     validates_uniqueness_of :no
 
@@ -109,14 +109,19 @@ class Account < ActiveRecord::Base
 
 
     # 同步帐号
-    def api_sync opts
+    def api_sync rid,role_attrs,account_attrs
       return CODES[:account_is_stopped] unless self.is_started?
-      role = self.roles.find_by_id(opts[:rid])
-      self.account_session.start_role(role)
+      role = self.roles.find_by_id(rid)
+      if role
+        if role.is_started?
+          role.role_session = self.account_session.start_role(role)
+        end
+        role.role_session.live_now
+        role.update_attributes role_attrs
+      end
       # 修改角色
-      role.api_sync(opts) if role
-
-      self.update_attributes(:money_point => opts[:money_point])
+      #role.api_sync(opts) if role
+      self.update_attributes(account_attrs)
       return 1
     end
 

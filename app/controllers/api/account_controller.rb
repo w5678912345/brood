@@ -43,13 +43,20 @@ class Api::AccountController < Api::BaseController
 
 	# 
 	def stop
-		@code = @account.api_stop params
+		if @account.is_started? == false
+			@code = CODES[:account_is_stopped]
+		else
+			@code = @account.account_session.stop params[:success],params[:msg]
+		end
 		render :partial => '/api/result'
 	end
 
 	# 同步帐号属性
 	def sync
-		@code = @account.api_sync params
+		role_attr_names = Role.columns.map {|c| c.name }
+
+		roles_attr = params.reject{|key,value| role_attr_names.include?(key) == false}
+		@code = @account.api_sync params[:rid],roles_attr,{money_point: params[:money_point]}
 		render :partial => '/api/result'
 	end
 
