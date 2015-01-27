@@ -1,0 +1,24 @@
+%p#notice= notice
+
+%p
+  %b Started at:
+  = @account_session.started_at
+%p
+  %b Started status:
+  = @account_session.started_status
+%p
+  %b Finished at:
+  = @account_session.finished_at
+%p
+  %b Finished:
+  = @account_session.finished
+%p
+  %b Finished status:
+  = @account_session.finished_status
+%p
+  %b Remark:
+  = @account_session.remark
+
+= link_to 'Edit', edit_account_session_path(@account_session)
+\|
+= link_to 'Back', account_sessions_path

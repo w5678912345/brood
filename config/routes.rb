@@ -1,5 +1,8 @@
 Brood::Application.routes.draw do
   
+  resources :account_sessions
+
+
   resources :role_profiles
 
 

@@ -1,0 +1,29 @@
+%h1 Listing account_sessions
+
+%table
+  %tr
+    %th Started at
+    %th Started status
+    %th Finished at
+    %th Finished
+    %th Finished status
+    %th Remark
+    %th
+    %th
+    %th
+
+  - @account_sessions.each do |account_session|
+    %tr
+      %td= account_session.started_at
+      %td= account_session.started_status
+      %td= account_session.finished_at
+      %td= account_session.finished
+      %td= account_session.finished_status
+      %td= account_session.remark
+      %td= link_to 'Show', account_session
+      %td= link_to 'Edit', edit_account_session_path(account_session)
+      %td= link_to 'Destroy', account_session, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Account session', new_account_session_path
