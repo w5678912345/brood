@@ -2,6 +2,7 @@ class RoleSession < ActiveRecord::Base
   attr_accessible :computer_id, :connection_times, :exchanged_gold, :live_at, :role_id, :start_exp, :start_gold, :start_level,:start_power, :task, :used_gold, :ip,:instance_map_id
   belongs_to :role
   belongs_to :computer  
+  belongs_to :account_session
 
   belongs_to :instance_map, :counter_cache => :enter_count
   

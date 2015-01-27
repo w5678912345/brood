@@ -44,7 +44,7 @@ class Role < ActiveRecord::Base
   end
   #
   def is_started?
-    return self.session_id > 0
+    return self.role_session.nil? != nil
   end
   def stop(result = "")
     self.role_session.stop(result) if self.role_session
@@ -117,8 +117,7 @@ class Role < ActiveRecord::Base
      # 
      self.transaction do
       self.qq_account.update_attributes(:updated_at => Time.now)
-      # 修改角色在线时间
-      self.session.update_hours(opts[:target])
+ 
       if(self.role_session)
         self.role_session.live_now
       end

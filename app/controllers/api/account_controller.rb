@@ -15,23 +15,25 @@ class Api::AccountController < Api::BaseController
 	before_filter :require_role_by_rid,					:only => [:role_start,:role_stop,:role_note,:role_pay,:role_profile]
 	#
 	def auto
-		@account  = @computer.accounts.waiting_scope(Time.now).first
-		unless @account
+		get_valid_account
+		if not @account
 			@code = CODES[:not_find_account]
-
-			@computer.auto_bind_accounts({:ip=>request.remote_ip,:msg=>"auto by start",:avg=>1})  if @computer.auto_binding
-			unless Note.where(:computer_id => @computer.id).where(:api_name=>"not_find_account").where("date(created_at) = ?",Date.today.to_s).exists?
-			# 记录事件
-			 Note.create(:computer_id=>@computer.id,:hostname=>@computer.hostname,:ip=>params[:ip],:server => @computer.server,
-			 	:version => @computer.version,:api_name=>"not_find_account")
-			 
-			end
 			return render :partial => '/api/result'
 		end
 		@code = @account.api_start params
 		render :partial => '/api/accounts/data'
 	end
+	def get_valid_account
+		@account  = @computer.accounts.waiting_scope(Time.now).first
+		return if @account
 
+		@computer.auto_bind_accounts({:ip=>request.remote_ip,:msg=>"auto by start",:avg=>1})  if @computer.auto_binding
+		unless Note.where(:computer_id => @computer.id).where(:api_name=>"not_find_account").at_date(Date.today).exists?
+		# 记录事件
+		 Note.create(:computer_id=>@computer.id,:hostname=>@computer.hostname,:ip=>params[:ip],:server => @computer.server,
+		 	:version => @computer.version,:api_name=>"not_find_account")		 
+		end
+	end
 	def start
 		params[:all] = true
 		#return render :text => params
@@ -63,7 +65,12 @@ class Api::AccountController < Api::BaseController
 
 
 	def role_start
-		@code = @role.api_start params
+		binding.pry
+		if @account.account_session.nil?
+			@code = CODES[:account_is_stopped]
+		else
+			@code = @account.account_session.start_role(@role)
+		end
 		render :partial => 'api/result'
 	end
 

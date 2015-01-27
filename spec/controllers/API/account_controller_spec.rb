@@ -13,6 +13,7 @@ describe Api::AccountController do
     @computer.accounts << @role.qq_account
     @computer.save
     @account = @role.qq_account
+    @account.account_session.should be nil
 	end
   it "Auto start account" do
     base_params = {:format => "json",:ckey => @computer.auth_key,:ip => '127.0.0.1'}
@@ -20,7 +21,8 @@ describe Api::AccountController do
     get :auto,base_params    
     assigns(:code).should eq 1
     Account.find_by_no(@account.no).is_started?.should eq true
- 
+    #binding.pry
+    Account.find_by_no(@account.no).account_session.should_not be nil
     #ip_used,c段
     get :auto,base_params
     assigns(:code).should eq -8

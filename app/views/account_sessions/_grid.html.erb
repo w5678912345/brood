@@ -1,0 +1,15 @@
+<%= grid(@account_sessions, upper_pagination_panel: true, show_filters: :yes) do |g|
+  g.column name:  'ID', attribute: 'id'
+  g.column name:  '电脑', attribute: 'computer_name'
+  g.column name:  '账号', attribute: 'account_id'
+  g.column name:  '当前角色',attribute: 'role_session_id'
+
+  g.column name:  'IP',attribute: 'ip'
+
+
+  g.column name:  '开始时间',attribute: 'created_at'
+  g.column name:  '结束时间',attribute: 'finished_at'
+
+  g.column name:  '开始状态',attribute: 'started_status' 
+  g.column name:  '结束状态',attribute: 'finished_status'
+end %>

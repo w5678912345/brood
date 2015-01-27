@@ -40,6 +40,7 @@ class Account < ActiveRecord::Base
     belongs_to :phone
     #包含角色
     has_many   :roles, :class_name => 'Role', :foreign_key => 'account', :primary_key => 'no'
+    has_one :account_session,:primary_key => 'no'
     # 
     validates_uniqueness_of :no
 
@@ -67,7 +68,7 @@ class Account < ActiveRecord::Base
       STATUS.keys
     end
     def is_started?
-      return self.session_id > 0
+      return self.account_session.nil? == false
     end
 
     # 帐号在线，并且在线角色ID > 0 表示正在工作
@@ -89,10 +90,7 @@ class Account < ActiveRecord::Base
       self.transaction do
         computer.increment(:online_accounts_count,1).save  #增加计算机上线账号数
         ip.update_attributes(:use_count=>ip.use_count+1,:last_account=>self.no,:cooling_time=>Time.now.since(25.hours)) #增加ip使用次数
-        #插入账号开始记录
-        tmp = computer.to_note_hash.merge(:account=>self.no,:api_name=>"account_start",:ip=>opts[:ip],:msg=>opts[:msg])
-        # 记录 session
-        session = Note.create(tmp)
+
         unless opts[:all]
           @online_roles = self.roles.waiting_scope.where("roles.level < ?",Setting.role_max_level)
           @online_roles = @online_roles.reorder("role_index").limit(Setting.account_start_roles_count)
@@ -101,12 +99,11 @@ class Account < ActiveRecord::Base
         end
         
         # 调度角色
-        @online_roles.each do |role|
-            role_note = Note.create(tmp.merge(:role_id => role.id,:session_id=>session.id,:api_name=>"role_online")) # 创建角色 online 记录
-            role.update_attributes(:online=>true,:online_note_id=>role_note.id) # 修改角色 session_id
-        end
+        @online_roles.update_all(:online => true)
+
+        self.create_account_session(:computer_name => computer.hostname,:ip => opts[:ip],:started_status => self.status)
     
-        return 1 if self.update_attributes(:session_id=>session.id,:online_ip=>ip.value,:last_start_ip=>ip.value)
+        return 1 if self.update_attributes(:last_start_ip=>ip.value)
       end
     end
 
@@ -115,11 +112,12 @@ class Account < ActiveRecord::Base
     def api_sync opts
       return CODES[:account_is_stopped] unless self.is_started?
       role = self.roles.find_by_id(opts[:rid])
+      self.account_session.start_role(role)
       # 修改角色
       role.api_sync(opts) if role
-      #当前会话机器
-      self.money_point = opts[:money_point] if opts[:money_point]
-      return 1 if self.update_attributes(:money_point => self.money_point,:updated_at => Time.now)
+
+      self.update_attributes(:money_point => opts[:money_point])
+      return 1
     end
 
     #

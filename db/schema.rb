@@ -11,7 +11,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150124081926) do
+ActiveRecord::Schema.define(:version => 20150127053914) do
+
+  create_table "account_sessions", :force => true do |t|
+    t.string   "account_id"
+    t.string   "computer_name"
+    t.string   "ip",              :limit => 16
+    t.string   "started_status"
+    t.datetime "finished_at"
+    t.boolean  "finished"
+    t.string   "finished_status"
+    t.string   "remark"
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  add_index "account_sessions", ["account_id"], :name => "index_account_sessions_on_account_id"
+  add_index "account_sessions", ["computer_name"], :name => "index_account_sessions_on_computer_name"
+  add_index "account_sessions", ["created_at"], :name => "index_account_sessions_on_created_at"
+  add_index "account_sessions", ["finished_status"], :name => "index_account_sessions_on_finished_status"
+  add_index "account_sessions", ["ip"], :name => "index_account_sessions_on_ip"
+  add_index "account_sessions", ["started_status"], :name => "index_account_sessions_on_started_status"
 
   create_table "account_statuses", :force => true do |t|
     t.string   "status",     :default => "0"
@@ -155,11 +175,13 @@ ActiveRecord::Schema.define(:version => 20150124081926) do
     t.string   "server"
     t.string   "version"
     t.string   "game_version"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.integer  "account_session_id"
   end
 
   add_index "history_role_sessions", ["account_id"], :name => "index_history_role_sessions_on_account_id"
+  add_index "history_role_sessions", ["account_session_id"], :name => "index_history_role_sessions_on_account_session_id"
   add_index "history_role_sessions", ["computer_id"], :name => "index_history_role_sessions_on_computer_id"
   add_index "history_role_sessions", ["role_id"], :name => "index_history_role_sessions_on_role_id"
 
@@ -342,21 +364,23 @@ ActiveRecord::Schema.define(:version => 20150124081926) do
   create_table "role_sessions", :force => true do |t|
     t.integer  "role_id"
     t.integer  "computer_id"
-    t.integer  "instance_map_id",  :default => 0
+    t.integer  "instance_map_id",    :default => 0
     t.integer  "start_level"
     t.integer  "start_gold"
     t.integer  "start_exp"
     t.string   "ip"
-    t.integer  "used_gold",        :default => 0
-    t.integer  "exchanged_gold",   :default => 0
+    t.integer  "used_gold",          :default => 0
+    t.integer  "exchanged_gold",     :default => 0
     t.string   "task"
-    t.integer  "connection_times", :default => 0
+    t.integer  "connection_times",   :default => 0
     t.datetime "live_at"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
     t.integer  "start_power"
+    t.integer  "account_session_id"
   end
 
+  add_index "role_sessions", ["account_session_id"], :name => "index_role_sessions_on_account_session_id"
   add_index "role_sessions", ["role_id"], :name => "index_role_sessions_on_role_id"
 
   create_table "roles", :force => true do |t|

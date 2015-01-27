@@ -51,7 +51,7 @@ class RolesController < ApplicationController
 		@roles = @roles.where(:server => params[:server]) unless params[:server].blank?
 		#@roles = @roles.where(:id => params[:id]) unless params[:id].blank? #where(:id => params[:id].to_i) unless params[:id].blank?
 		per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
-		@roles = @roles.paginate(:page => params[:page], :per_page => per_page)
+		#@roles = @roles.paginate(:page => params[:page], :per_page => per_page)
 	end
 
 
