@@ -3,7 +3,7 @@
 <%= render "search_form" %>
 
 <% if params[:tag] == "role"%>
-  <%= render :partial => "roles/grid",:locals=>{:roles=>@records} %>
+  <%= render :partial => "roles/form_grid",:locals=>{:roles=>@records} %>
 <%else%>
   <%= render :partial => "accounts/form_grid",:locals=>{:accounts=>@records} %>
 <%end%>

@@ -6,7 +6,7 @@ class RolesController < ApplicationController
 	# actions
 	def index
 		@roles = initialize_grid(Role,
-			:include => [:qq_account,:role_profile],
+			:include => [:qq_account,:role_profile,:qq_account => :bind_computer],
 			:custom_order =>{
 				'Role.role_profile_id' => 'RoleProfile.name'
 			}
