@@ -20,7 +20,7 @@ class DataNode < ActiveRecord::Base
 
 
   def self.mark_notes date
-    records = Note.select("count(id) as notes_count,api_name").group("api_name").reorder("api_name").where("date(created_at)=?",date)
+    records = Note.select("count(id) as notes_count,api_name").group("api_name").reorder("api_name").at_date(date)
     h = {}
     records.each do |record|
       h[record.api_name] = record.notes_count
@@ -33,7 +33,7 @@ class DataNode < ActiveRecord::Base
   end
 
   def self.mark_notes_yesterday
-    DataNode.mark_notes(Date.today.ago(1.day).strftime("%Y-%m-%d") )
+    DataNode.mark_notes(1.day.ago)
   end
 
   def self.mark_notes_history
