@@ -27,6 +27,8 @@ describe Api::AccountController do
     Account.find_by_no(@account0.no).is_started?.should eq true
     Account.find_by_no(@account0.no).account_session.should_not be nil
     #ip_used
+    #在同一个it内使用的@controller是同一个对象，如果发起多次
+    #请求，前次请求会影响后一次的，所以从新new一个出来
     @controller = Api::AccountController.new
     get :auto,@base_params
     assigns(:code).should eq -8
@@ -38,6 +40,7 @@ describe Api::AccountController do
 
 
     #not_find_account
+    @controller = Api::AccountController.new
     get :auto,@base_params.merge(:ip => '127.0.1.1',:ckey => @computer1.auth_key)
     assigns(:code).should eq -19
     @base_params[:id]=@account0.no
@@ -50,10 +53,13 @@ describe Api::AccountController do
     Role.find(@role.id).is_started?.should eq true
 
     #换角色
+    @controller = Api::AccountController.new
     @base_params[:rid]=@role1.id
     get :sync,@base_params.merge({:name => 'role1',:level=> 10,:target => Time.now.to_s})
     HistoryRoleSession.all.count.should eq 1
 
+    #停止
+    @controller = Api::AccountController.new
     get :stop,@base_params
     t = Account.find_by_no(@account0.no)
     t.account_session.should be nil
@@ -74,6 +80,7 @@ describe Api::AccountController do
     Account.find_by_no(@account0.no).account_session.should_not be nil
 
     #role start
+    @controller = Api::AccountController.new
     @base_params[:id]=@account0.no
     @base_params[:rid]=@role.id
     get :sync,@base_params.merge({:money_point => 10})
@@ -81,6 +88,7 @@ describe Api::AccountController do
     RoleSession.all.count.should eq 1
 
     #auto Stop
+    @controller = Api::AccountController.new
     Account.auto_stop 1.hour.from_now
 
     Account.find_by_no(@account0.no).account_session.should be nil
@@ -119,10 +127,12 @@ describe Api::AccountController do
     assigns(:code).should eq 1
     account = assigns(:account)
     #account stop
+    @controller = Api::AccountController.new
     get :stop,@base_params.merge(:id => account.no)
     assigns(:code).should eq 1
 
     #account start again use the same ip
+    @controller = Api::AccountController.new
     get :auto,@base_params    
     assigns(:code).should eq 1
     assigns(:account).no.should eq account.no
