@@ -1,6 +1,7 @@
 require 'spec_helper'
 describe Api::AccountController do
   before(:each) do
+    load "#{Rails.root}/db/seeds.rb"
     Setting.create :key => 'account_start_roles_count',:val => '5'
     Setting.create :key => 'ip_range_start_count',:val => '1'
 
@@ -136,5 +137,19 @@ describe Api::AccountController do
     get :auto,@base_params    
     assigns(:code).should eq 1
     assigns(:account).no.should eq account.no
+  end
+  it "note change account status" do
+    #account start
+    get :auto,@base_params    
+    assigns(:code).should eq 1
+    account = assigns(:account)
+
+    #account note 
+    @controller = Api::AccountController.new
+    get :note,@base_params.merge(:id => account.no,:status => 'bslocked')
+    assigns(:code).should eq 1
+
+    Account.find_by_no(account.no).status.should eq 'bslocked'
+    AccountSession.where(:finished => false,:account_id => account.no).first.finished_status.should eq 'bslocked'
   end
 end

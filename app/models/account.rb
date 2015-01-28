@@ -137,19 +137,20 @@ class Account < ActiveRecord::Base
       return CODES[:account_is_stopped] unless self.is_started?
       status = opts[:status]
       event = opts[:event]
-      
-      return 0 unless  (STATUS.has_key? status) || (EVENT.include? event) #事件和状态都未定义，不进行更新
-      session = self.session
-      computer = session.computer
+      #binding.pry
+      obj_status = AccountStatus.find_by_status(status)
+      return 0 unless  (obj_status.nil? == false) || (EVENT.include? event) #事件和状态都未定义，不进行更新
+      computer = self.account_session.computer
       api_name = "0",api_code = "0"
       #
       self.transaction do 
         # 记录账户改变的状态
-        if STATUS.has_key? status
+        if obj_status
           api_name = status # 如果定义了有效状态 设置 api_name => status
           api_code = status # 如果定义了有效状态 设置 api_code => status
           self.status = status
-          self.normal_at = Time.now.since(Account::STATUS[status].hours)
+          self.normal_at = obj_status.hours.to_i.from_now
+          self.account_session.update_attributes finished_status: status
         end
         # 记录账号发生的事件
         api_name = event if EVENT.include? event # 如果定义了有效事件，设置api_name => event
@@ -170,7 +171,7 @@ class Account < ActiveRecord::Base
           n.account  =  self.no
           n.server  =  self.server
           n.version  =  computer.version
-          n.session_id = session.id
+          n.session_id = account_session.id
           n.api_code = api_code
           #binding.pry
           # if api_name == 'discardforyears'
