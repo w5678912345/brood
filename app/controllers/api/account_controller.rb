@@ -16,6 +16,7 @@ class Api::AccountController < Api::BaseController
 	before_filter :get_account_session,		:only =>[:sync,:note,:stop,:role_start,:role_stop,:role_note,:role_profile]	#
 	def auto
 		get_valid_account
+
 		if not @account
 			@code = CODES[:not_find_account]
 			return render :partial => '/api/result'
@@ -257,9 +258,7 @@ class Api::AccountController < Api::BaseController
 	end
 
 	def check_valid_ip
-		#binding.pry
 		return if Setting.need_ip_limit? == false
-
 		@ip = IPAddr.new params[:ip]
 
 		session_records = AccountSession.where('ip = ? and lived_at > ?',@ip.to_s,24.hours.ago).includes(:account)
@@ -268,23 +267,28 @@ class Api::AccountController < Api::BaseController
 			return render :json => {:code=>@code,:msg=>"#{@ip}"}
 		end
 		return if @account
-
 		if AccountSession.where(:ip_c => @ip.mask(24).to_s,:finished => false).count > Setting.ip_range_max_online_count
 			@code=CODES[:ip_used]
 			return render :json => {:code=>@code,:msg=>"ip c online too match:#{@ip.mask(24).to_s}"}
 		end
 
 		session_records = AccountSession.where('ip_c = ? and lived_at > ?',@ip.mask(24).to_s,Setting.in_range_minutes.minutes.ago).includes(:account)
-		if ip_used_in_records session_records
+		#
+		#if ip_used_in_records session_records,Setting.ip_range_start_count
+		if session_records.count >= Setting.ip_range_start_count
 			@code=CODES[:ip_used]
 			return render :json => {:code=>@code,:msg=>"ip c used:#{@ip.mask(24).to_s}"}
 		end
 	end
 
-	def ip_used_in_records(records)
-		@account = (records.select {|e| e.account.can_start?}).first
+	def ip_used_in_records(records,permit_count = 1)
+		@account_session = (records.select {|e| e.account.can_start?}).first
+		#binding.pry
+		if @account_session
+			@account = @account_session.account
+		end
 		#如果没历史，或者历史中得账号还可以用，那么ip可用
-		records.empty? == false and @account.nil?
+		(records.count < permit_count) == false and @account.nil?
 	end
 	# 根据ckey取得对应的计算机
 	def require_computer_by_ckey

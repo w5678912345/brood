@@ -77,7 +77,8 @@ class Account < ActiveRecord::Base
     end
 
     def can_start?
-      return is_started? == false && self.today_success == false && (self.normal_at <= Time.now)
+      return is_started? == false && self.today_success == false &&
+               (self.normal_at <= Time.now) && self.roles.can_used.count > 0
     end
 
 

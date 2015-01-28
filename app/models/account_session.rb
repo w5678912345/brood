@@ -20,7 +20,7 @@ class AccountSession < ActiveRecord::Base
   end
   def stop(is_success,msg)
     #binding.pry
-    self.transaction do
+    return 1 if self.transaction do
       self.role_session.stop(msg) if self.role_session
       self.account.roles.update_all(:online => false)
 
