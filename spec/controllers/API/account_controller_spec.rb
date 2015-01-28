@@ -20,7 +20,7 @@ describe Api::AccountController do
     
     get :auto,base_params    
     assigns(:code).should eq 1
-    binding.pry
+
     Account.find_by_no(@account.no).is_started?.should eq true
     Account.find_by_no(@account.no).account_session.should_not be nil
     #ip_used
@@ -62,21 +62,25 @@ describe Api::AccountController do
   it "auto account stop" do 
     base_params = {:format => "json",:ckey => @computer.auth_key,:ip => '127.0.0.1'}
     
+    #account start
     get :auto,base_params    
     assigns(:code).should eq 1
     Account.find_by_no(@account.no).is_started?.should eq true
     Account.find_by_no(@account.no).account_session.should_not be nil
 
+    #role start
     base_params[:id]=@account.no
     base_params[:rid]=@role.id
     get :sync,base_params.merge({:money_point => 10})
     assigns(:code).should eq 1
     RoleSession.all.count.should eq 1
 
+    #auto Stop
     Account.auto_stop 1.hour.from_now
 
     Account.find_by_no(@account.no).account_session.should be nil
     AccountSession.all.count.should eq 1
     RoleSession.all.count.should eq 0
   end
+  it ""
 end
