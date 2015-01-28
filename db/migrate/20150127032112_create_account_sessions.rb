@@ -4,10 +4,11 @@ class CreateAccountSessions < ActiveRecord::Migration
       t.string :account_id
       t.string :computer_name
       t.string :ip ,:limit => 16  #255.255.255.255
-      t.string :ip_c ,:limit => 13 #255.255.255
+      t.string :ip_c ,:limit => 16 #255.255.255.0
 
       t.string :started_status
       t.datetime :finished_at
+      t.datetime :lived_at
       t.boolean :finished
       t.string :finished_status
       t.string :remark
@@ -19,7 +20,7 @@ class CreateAccountSessions < ActiveRecord::Migration
     add_index :account_sessions,:started_status
     add_index :account_sessions,:finished_status
     add_index :account_sessions,:created_at
-    add_index :account_sessions,:finished_at
+    add_index :account_sessions,:lived_at
     add_index :account_sessions,:ip
     add_index :account_sessions,:ip_c
     add_index :account_sessions,:finished

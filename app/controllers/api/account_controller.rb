@@ -9,7 +9,7 @@ class Api::AccountController < Api::BaseController
 	before_filter :require_computer_by_ckey, :only => [:auto,:start,:sync,:stop,:reg,:check_ip] #需要ckey，验证是否为有效的机器	
 	#before_filter :valid_ip_use_count,					:only => [:auto] # 验证当前IP的24小时使用次数
 	#before_filter :valid_ip_range_online_count,			:only => [:auto] # 验证当前IP 前三段的在线数量
-	before_filter :validate_ip_can_use,					:only => [:auto]
+	before_filter :check_valid_ip,					:only => [:auto]
 	before_filter :require_account_by_no,				:only => [:start,:sync,:note,:stop,:look,:role_start,:role_stop,:role_note,:role_pay,:set_rms_file,:support_roles,:use_ticket,:role_profile] # 根据帐号取得一个账户
 	#before_filter :require_account_is_started,			:only => [:sync,:note,:stop] # 确定账号在线
 	before_filter :require_role_by_rid,					:only => [:role_start,:role_stop,:role_note,:role_pay,:role_profile]
@@ -24,6 +24,7 @@ class Api::AccountController < Api::BaseController
 		render :partial => '/api/accounts/data'
 	end
 	def get_valid_account
+		return if @account
 		@account  = @computer.accounts.waiting_scope(Time.now).first
 		return if @account
 
@@ -255,6 +256,25 @@ class Api::AccountController < Api::BaseController
 		end
 	end
 
+	def check_valid_ip
+		#binding.pry
+		return if Setting.need_ip_limit? == false
+
+		@ip = IPAddr.new params[:ip]
+
+		session_records = AccountSession.where('ip = ? and lived_at > ?',@ip.to_s,24.hours.ago).includes(:account)
+		if ip_used_in_records session_records
+			@code=CODES[:ip_used]
+			return render :json => {:code=>@code,:msg=>"#{@ip}"}
+		end
+
+		#AccountSession.where(:ip_c => ip.mask(24).to_s,:finished => false).count > 
+	end
+	def ip_used_in_records(records)
+		@account = (session_records.select {|e| e.account.can_start?}).first
+		#如果没历史，或者历史中得账号还可以用，那么ip可用
+		records.empty? == false and @account.nil?
+	end
 	# 根据ckey取得对应的计算机
 	def require_computer_by_ckey
 		@computer = Computer.find_by_auth_key(params[:ckey]) if params[:ckey]		

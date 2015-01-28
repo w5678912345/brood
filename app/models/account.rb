@@ -101,7 +101,14 @@ class Account < ActiveRecord::Base
         # 调度角色
         @online_roles.update_all(:online => true)
 
-        self.create_account_session(:computer_name => computer.hostname,:ip => opts[:ip],:started_status => self.status)
+        ip_addr = IPAddr.new opts[:ip]
+        self.create_account_session do |as|
+          as.computer_name = computer.hostname
+          as.ip = ip_addr.to_s
+          as.ip_c = ip_addr.mask(24).to_s
+          as.started_status = self.status
+          as.lived_at = Time.now
+        end
         return 1 if self.update_attributes(:last_start_ip=>ip.value)
       end
     end

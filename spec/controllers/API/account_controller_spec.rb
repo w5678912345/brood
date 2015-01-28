@@ -20,6 +20,7 @@ describe Api::AccountController do
     
     get :auto,base_params    
     assigns(:code).should eq 1
+    binding.pry
     Account.find_by_no(@account.no).is_started?.should eq true
     Account.find_by_no(@account.no).account_session.should_not be nil
     #ip_used
