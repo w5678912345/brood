@@ -14,7 +14,7 @@ module TimeTask
 		Account.auto_stop
 		#Role.auto_stop
 		Computer.auto_stop
-		Account.auto_cancel_bind
+		Account.auto_cancel_bind if Setting.auto_unbind?
 	end
 
 	def self.every_10_minutes

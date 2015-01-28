@@ -29,8 +29,9 @@
     computer.online_accounts_count.to_s + "/" + computer.accounts_count.to_s + "/" + computer.max_accounts.to_s
   end
   g.column name:  '自动绑定/新号/解绑', attribute: 'auto_binding' do |computer|
+    r = (computer.auto_unbind and @global_auto_unbind)
     boolean_tag(computer.auto_binding) + " / " + boolean_tag(computer.allowed_new)+" / "+
-    boolean_tag(computer.auto_unbind)
+      boolean_tag(r)
   end
   # g.column name:  "注册时间",attribute: 'created_at'  do |computer|
   #   time_str computer.created_at

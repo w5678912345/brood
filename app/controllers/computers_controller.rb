@@ -48,6 +48,7 @@ class ComputersController < ApplicationController
     params[:per_page] = params[:per_page].blank? ? 20 : params[:per_page].to_i
     params[:per_page] = @computers.count unless params[:all].blank?
     @computers = initialize_grid(@computers,:per_page => params[:per_page])
+    @global_auto_unbind = Setting.auto_unbind?
     render "wice_index"
 
   end
