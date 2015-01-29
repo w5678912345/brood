@@ -8,11 +8,15 @@
   end
 
   g.column name:  'ID', attribute: 'id'
-  g.column name:  '电脑', attribute: 'computer_name'
-  g.column name:  '账号', attribute: 'account_id'
+  g.column name:  '电脑', attribute: 'computer_name' do |a|
+    link_to a.computer_name,computer_path(a.computer)
+  end
+  g.column name:  '账号', attribute: 'account_id' do |a|
+    link_to a.account_id,account_path(a.account)
+  end
   g.column name:  '完成', attribute: 'finished'
   g.column name:  '当前角色',attribute: 'role_session_id' do |a|
-    a.role_session if a.role_session
+    link_to a.role_session.role.name,role_session_path(a.role_session) if a.role_session
   end
 
   g.column name:  'IP',attribute: 'ip'

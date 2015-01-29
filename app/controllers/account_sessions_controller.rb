@@ -2,7 +2,7 @@ class AccountSessionsController < ApplicationController
   # GET /account_sessions
   # GET /account_sessions.json
   def index
-    @account_sessions = initialize_grid(AccountSession,:include => :role_session)
+    @account_sessions = initialize_grid(AccountSession,:include => [{:role_session => :role},:computer,:account])
 
     respond_to do |format|
       format.html # index.html.erb

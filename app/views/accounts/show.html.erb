@@ -5,7 +5,7 @@
 <tbody>
 <tr>
 	<td>账户</td>
-	<td><%= @account.id%> <%= account_tag @account.no %>
+	<td><%= account_tag @account.no %>
 	<%= link_to raw('<i class="icon-edit"></i>'),edit_account_path(:no=>@account.no)%>
 	</td>
 	<td>创建时间</td>
@@ -46,7 +46,7 @@
 <% if @account.is_started? %>
 <tr class="info">
 	<td>上线时间</td>
-	<td><%= time_str @account.account_session.started_at %> # <%= @account.session.hours %></td>
+	<td><%= time_str @account.account_session.created_at %> # <%= @account.account_session.lived_at %></td>
 	<td>在线机器</td>
 	<td><%= computer_tag @account.account_session.computer %></td>
 	<td>IP</td>

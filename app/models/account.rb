@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Account < ActiveRecord::Base
-    #self.primary_key = :no
+    self.primary_key = :no
     CODES = Api::CODES
     # 账号可能发生的状态
     #STATUS = ['normal','bslocked','bslocked_again','bs_unlock_fail','disconnect','exception','locked','lost','discard','no_rms_file','no_qq_token','discardfordays','discardbysailia','discardforyears']
