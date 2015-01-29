@@ -23,4 +23,7 @@
 
   g.column name:  '开始状态',attribute: 'started_status' 
   g.column name:  '结束状态',attribute: 'finished_status'
+  g.column do |a|
+    link_to raw("<i class='icon-trash'></i>删除"),account_session_path(a),method: 'delete',confirm: 'Are you sure?'
+  end
 end %>

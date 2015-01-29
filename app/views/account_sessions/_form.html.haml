@@ -8,7 +8,7 @@
 
   .field
     = f.label :started_at
-    = f.datetime_select :started_at
+    = f.datetime_select :created_at
   .field
     = f.label :started_status
     = f.text_field :started_status
@@ -21,6 +21,10 @@
   .field
     = f.label :finished_status
     = f.text_field :finished_status
+  .field
+    = f.label :ip
+    = f.text_field :ip
+
   .field
     = f.label :remark
     = f.text_field :remark
