@@ -259,28 +259,31 @@ class Api::AccountController < Api::BaseController
 
 	def check_valid_ip
 		return if Setting.need_ip_limit? == false
-		@ip = IPAddr.new params[:ip]
-
-		session_records = AccountSession.where('ip = ? and lived_at > ?',@ip.to_s,24.hours.ago).includes(:account)
+		#@ip = IPAddr.new params[:ip]
+		ip_c = get_ip_c params[:ip]
+		session_records = AccountSession.where('ip = ? and lived_at > ?',params[:ip],24.hours.ago).includes(:account)
 		if ip_used_in_records session_records
 			@code=CODES[:ip_used]
 			return render :json => {:code=>@code,:msg=>"#{@ip}"}
 		end
 		return if @account
-		if AccountSession.where(:ip_c => @ip.mask(24).to_s,:finished => false).count > Setting.ip_range_max_online_count
+		if AccountSession.where(:ip_c => ip_c,:finished => false).count > Setting.ip_range_max_online_count
 			@code=CODES[:ip_used]
 			return render :json => {:code=>@code,:msg=>"ip c online too match:#{@ip.mask(24).to_s}"}
 		end
 
-		session_records = AccountSession.where('ip_c = ? and lived_at > ?',@ip.mask(24).to_s,Setting.in_range_minutes.minutes.ago).includes(:account)
+		session_records = AccountSession.where('ip_c = ? and lived_at > ?',ip_c,Setting.in_range_minutes.minutes.ago).includes(:account)
 		#
 		#if ip_used_in_records session_records,Setting.ip_range_start_count
 		if session_records.count >= Setting.ip_range_start_count
 			@code=CODES[:ip_used]
-			return render :json => {:code=>@code,:msg=>"ip c used:#{@ip.mask(24).to_s}"}
+			return render :json => {:code=>@code,:msg=>"ip c used:#{ip_c}"}
 		end
 	end
-
+	def get_ip_c ip_str
+		part = ip_str.split '.'
+		part[0]+'.'+part[1]+'.'+part[2]+'.0'
+	end
 	def ip_used_in_records(records,permit_count = 1)
 		@account_session = (records.select {|e| e.account.can_start?}).first
 		#binding.pry
