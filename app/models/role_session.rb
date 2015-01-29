@@ -16,7 +16,10 @@ class RoleSession < ActiveRecord::Base
   def live_now
   	self.update_attributes(:live_at => Time.now)
   end
-  def stop(result)
+  def stop(is_sucess,result)
+    if is_sucess and role
+      role.update_attributes :today_success => true
+    end
     HistoryRoleSession.create_from_role_session(self,result)
   	self.destroy
   end

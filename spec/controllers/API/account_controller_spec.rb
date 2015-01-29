@@ -90,6 +90,12 @@ describe Api::AccountController do
 
     #auto Stop
     @controller = Api::AccountController.new
+    Account.auto_stop
+    Account.find_by_no(@account0.no).is_started?.should eq true
+
+
+    #auto Stop
+    @controller = Api::AccountController.new
     Account.auto_stop 1.hour.from_now
 
     Account.find_by_no(@account0.no).account_session.should be nil

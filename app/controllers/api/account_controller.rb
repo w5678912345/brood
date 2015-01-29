@@ -90,6 +90,7 @@ class Api::AccountController < Api::BaseController
 
 	def role_note
 		@code = @role.api_note params
+		@account.account_session.update_attributes(:lived_at => Time.now)
 		render :partial => 'api/result'
 	end
 	def role_profile

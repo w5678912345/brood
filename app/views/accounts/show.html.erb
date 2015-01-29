@@ -46,19 +46,19 @@
 <% if @account.is_started? %>
 <tr class="info">
 	<td>上线时间</td>
-	<td><%= time_str @account.session.created_at %> # <%= @account.session.hours %></td>
+	<td><%= time_str @account.account_session.started_at %> # <%= @account.session.hours %></td>
 	<td>在线机器</td>
-	<td><%= computer_tag @account.session.computer %></td>
+	<td><%= computer_tag @account.account_session.computer %></td>
 	<td>IP</td>
-	<td><%= @account.session.ip %></td>
+	<td><%= @account.account_session.ip %></td>
 </tr>
 <tr class="info">
 	<td>当前角色</td>
 	<td><%= @account.online_role_id %></td>
 	<td>会话</td>
 	<td><%= @account.session_id%><%= notes_link_tag(:session_id=>@account.session_id)%></td>
-	<td>会话成功</td>
-	<td><%= boolean_tag @account.session.success %></td>
+	<td>会话状态</td>
+	<td><%= boolean_tag @account.account_session.finished_status %></td>
 </tr>
 <%end%>
 

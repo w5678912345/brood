@@ -133,7 +133,7 @@ class Role < ActiveRecord::Base
      status = opts[:status]
      event = opts[:event]
      api_name = "0",api_code = "0"
-     computer = self.session.computer
+     computer = self.role_session.computer
      return 0 unless  (STATUS.include? status) || (EVENT.include? event) #事件和状态都未定义，不进行更新
      self.transaction do
        if STATUS.include? status
@@ -159,30 +159,8 @@ class Role < ActiveRecord::Base
   # 角色停止
   def api_stop opts
     return CODES[:role_is_stopped] unless self.is_started?
-    if self.qq_account.session && self.session
-    account_session = self.qq_account.session
-    session = self.session
-    computer = session.computer
-    self.transaction do 
-       # 修改帐号的上线角色ID
-      self.qq_account.update_attributes(:online_role_id => 0) if self.qq_account.online_role_id == self.id
-      # 修改会话
-      now = Time.now
-      hours = (now - session.created_at)/3600
-      if opts[:success].to_i == 1
-        self.today_success = true
-        session.success = true
-        opts[:msg] = 'success'
-      end #成功
-      session.update_attributes(:ending=>true, :stopped_at=>now,:hours=>hours)
-      # 记录note
-      Note.create(:computer_id => computer.id,:account => self.account,:role_id=>self.id, :ip=>opts[:ip],:hostname=>computer.hostname,:version=>computer.version,
-       :api_name=>"role_stop",:server=>self.server || computer.server,:msg=>opts[:msg],:session_id=> account_session.id)
-      # 清空会话
-      self.stop(opts[:msg])
-    end
-      return 1 if self.update_attributes(:session_id => 0)
-    end
+
+    self.role_session.stop opts[:success] == '1',opts[:msg]
   end
 
   # 角色支付

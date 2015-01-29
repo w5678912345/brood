@@ -1,7 +1,16 @@
 <%= grid(@account_sessions, upper_pagination_panel: true, show_filters: :yes) do |g|
+  g.row_attributes do |version|
+    if version.finished
+      if version.finished_status != 'normal'
+        {style: 'background-color: rgb(245, 155, 155);'}
+      end
+    end
+  end
+
   g.column name:  'ID', attribute: 'id'
   g.column name:  '电脑', attribute: 'computer_name'
   g.column name:  '账号', attribute: 'account_id'
+  g.column name:  '完成', attribute: 'finished'
   g.column name:  '当前角色',attribute: 'role_session_id' do |a|
     a.role_session if a.role_session
   end

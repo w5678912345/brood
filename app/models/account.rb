@@ -132,6 +132,7 @@ class Account < ActiveRecord::Base
       end
       # 修改角色
       #role.api_sync(opts) if role
+      self.account_session.update_attributes lived_at: Time.now
       self.update_attributes(account_attrs)
       return 1
     end
@@ -338,7 +339,7 @@ class Account < ActiveRecord::Base
    # 账号自动停止
    def self.auto_stop t = nil
       t = t or 30.minutes.ago
-      accounts = AccountSession.where("finished=false and updated_at < ?",t).includes(:role_session,:account).each do |ac|
+      accounts = AccountSession.where("finished=false and lived_at < ?",t).includes(:role_session,:account).each do |ac|
         ac.stop(false,'timeout')
       end
    end
