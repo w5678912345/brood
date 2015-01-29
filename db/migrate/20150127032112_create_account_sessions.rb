@@ -3,6 +3,8 @@ class CreateAccountSessions < ActiveRecord::Migration
     create_table :account_sessions do |t|
       t.string :account_id
       t.string :computer_name
+      t.integer :role_session_id
+
       t.string :ip ,:limit => 16  #255.255.255.255
       t.string :ip_c ,:limit => 16 #255.255.255.0
 

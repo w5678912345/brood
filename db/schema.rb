@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(:version => 20150127053914) do
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
     t.string   "computer_name"
+    t.integer  "role_session_id"
     t.string   "ip",              :limit => 16
     t.string   "ip_c",            :limit => 16
     t.string   "started_status"

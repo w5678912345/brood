@@ -152,4 +152,19 @@ describe Api::AccountController do
     Account.find_by_no(account.no).status.should eq 'bslocked'
     AccountSession.where(:finished => false,:account_id => account.no).first.finished_status.should eq 'bslocked'
   end
+  it "can't get started account" do
+    Setting.find_by_key('account_start_roles_count').update_attributes :val => '1'
+    #account start
+    get :auto,@base_params    
+    assigns(:code).should eq 1
+    assigns(:account).no.should eq @account0.no
+
+    #account start
+    @controller = Api::AccountController.new
+    get :auto,@base_params.merge(:ip => '127.0.1.2')    
+    assigns(:code).should eq 1
+    assigns(:account).no.should eq @account1.no
+
+  end
+
 end
