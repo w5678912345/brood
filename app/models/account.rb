@@ -87,6 +87,7 @@ class Account < ActiveRecord::Base
       # 判断账号是否在线
       return CODES[:account_is_started] if self.is_started?
       ip = Ip.find_or_create(opts[:ip])
+      
       computer = Computer.find_by_auth_key(opts[:ckey])
       self.transaction do
         computer.increment(:online_accounts_count,1).save  #增加计算机上线账号数
@@ -102,18 +103,21 @@ class Account < ActiveRecord::Base
         # 调度角色
         @online_roles.update_all(:online => true)
 
-        ip_addr = IPAddr.new opts[:ip]
+        ip_addr = opts[:ip]
         self.create_account_session do |as|
           as.computer_name = computer.hostname
-          as.ip = ip_addr.to_s
-          as.ip_c = ip_addr.mask(24).to_s
+          as.ip = ip_addr
+          as.ip_c = get_ip_c ip_addr
           as.started_status = self.status
           as.lived_at = Time.now
         end
         return 1 if self.update_attributes(:last_start_ip=>ip.value)
       end
     end
-
+    def get_ip_c ip_str
+      part = ip_str.split '.'
+      part[0]+'.'+part[1]+'.'+part[2]+'.0'
+    end
 
     # 同步帐号
     def api_sync rid,role_attrs,account_attrs
