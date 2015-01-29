@@ -26,7 +26,7 @@ class Api::AccountController < Api::BaseController
 	end
 	def get_valid_account
 		return if @account
-		@account  = @computer.accounts.waiting_scope(Time.now).all.select {|e| e.account_session.nil?}.first
+		@account  = @computer.accounts.waiting_scope(Time.now).includes(:account_session).all.select {|e| e.account_session.nil?}.first
 		return if @account
 
 		@computer.auto_bind_accounts({:ip=>request.remote_ip,:msg=>"auto by start",:avg=>1})  if @computer.auto_binding
@@ -322,5 +322,4 @@ class Api::AccountController < Api::BaseController
 	def get_account_session
 		@account_session = AccountSession.where(:finished => false,:account_id => params[:id]).first
 	end
-
 end

@@ -87,7 +87,7 @@ class Account < ActiveRecord::Base
       # 判断账号是否在线
       return CODES[:account_is_started] if self.is_started?
       ip = Ip.find_or_create(opts[:ip])
-      
+
       computer = Computer.find_by_auth_key(opts[:ckey])
       self.transaction do
         computer.increment(:online_accounts_count,1).save  #增加计算机上线账号数

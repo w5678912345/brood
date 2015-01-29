@@ -47,7 +47,7 @@ class ComputersController < ApplicationController
   	#@computers = @computers.order("hostname desc").paginate(:page => params[:page], :per_page => params[:per_page])
     params[:per_page] = params[:per_page].blank? ? 20 : params[:per_page].to_i
     params[:per_page] = @computers.count unless params[:all].blank?
-    @computers = initialize_grid(@computers,:per_page => params[:per_page])
+    @computers = initialize_grid(@computers,:per_page => params[:per_page],:include => :account_sessions)
     @global_auto_unbind = Setting.auto_unbind?
     render "wice_index"
 

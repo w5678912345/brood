@@ -24,6 +24,7 @@ class AccountSession < ActiveRecord::Base
       self.role_session.stop(msg) if self.role_session
       self.account.roles.update_all(:online => false)
 
+      self.finished_status = self.started_status if self.finished_status.nil?
       ip = Ip.find_or_create(self.ip)
       ip.update_attributes(:cooling_time=>25.hours.from_now)
 
