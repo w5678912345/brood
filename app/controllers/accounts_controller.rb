@@ -93,9 +93,9 @@ class AccountsController < ApplicationController
 			flash[:msg] = "#{@accounts.length}个账号,新建了角色!"
 		# 调用下线
 		elsif "call_offline" == @do
-			@accounts = @accounts.started_scope
+			@accounts = @accounts.includes(:account_session)
 			@accounts.each do |account|
-				account.api_stop(opts = {:ip=>request.remote_ip,:cid=> account.online_computer_id,:msg=>"click"})
+				account.account_session.stop false,'Web Manual' if account.is_started?
 			end
 			flash[:msg] = "#{@accounts.length}个账号被下线!"
 		elsif "set_status" == @do
