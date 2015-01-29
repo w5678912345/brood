@@ -99,5 +99,8 @@ class Setting < ActiveRecord::Base
 		val = find_value_by_key("ip_range_control")
 		return 
 	end
-
+	def self.auto_unbind?
+		val = find_value_by_key("auto_unbind")
+		return val == nil ? false : val == 1
+	end
 end

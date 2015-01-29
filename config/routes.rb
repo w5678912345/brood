@@ -119,7 +119,7 @@ Brood::Application.routes.draw do
     get :import, :on => :member
   end
   resources :notes , :only => [:index,:show] do
-    get :analysis,   :on => :collection
+    #get :analysis,   :on => :collection
     get :group_count, :on => :collection
     get :group_by_msg, :on => :collection
   end
