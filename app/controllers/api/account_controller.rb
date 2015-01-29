@@ -263,7 +263,7 @@ class Api::AccountController < Api::BaseController
 		return if Setting.need_ip_limit? == false
 		#@ip = IPAddr.new params[:ip]
 		ip_c = get_ip_c params[:ip]
-		session_records = AccountSession.where('ip = ? and lived_at > ?',params[:ip],24.hours.ago).includes(:account)
+		session_records = AccountSession.where('ip = ? and lived_at > ?',params[:ip],24.hours.ago).includes(:account => :roles)
 		if ip_used_in_records session_records
 			@code=CODES[:ip_used]
 			return render :json => {:code=>@code,:msg=>"#{@ip}"}
@@ -274,7 +274,7 @@ class Api::AccountController < Api::BaseController
 			return render :json => {:code=>@code,:msg=>"ip c online too match:#{@ip.mask(24).to_s}"}
 		end
 
-		session_records = AccountSession.where('ip_c = ? and lived_at > ?',ip_c,Setting.in_range_minutes.minutes.ago).includes(:account)
+		session_records = AccountSession.where('ip_c = ? and lived_at > ?',ip_c,Setting.in_range_minutes.minutes.ago).includes(:account => :roles)
 		#
 		#if ip_used_in_records session_records,Setting.ip_range_start_count
 		if session_records.count >= Setting.ip_range_start_count
@@ -282,10 +282,7 @@ class Api::AccountController < Api::BaseController
 			return render :json => {:code=>@code,:msg=>"ip c used:#{ip_c}"}
 		end
 	end
-	def get_ip_c ip_str
-		part = ip_str.split '.'
-		part[0]+'.'+part[1]+'.'+part[2]+'.0'
-	end
+
 	def ip_used_in_records(records,permit_count = 1)
 		@account_session = (records.select {|e| e.account.can_start?}).first
 		#binding.pry
@@ -295,6 +292,11 @@ class Api::AccountController < Api::BaseController
 		#如果没历史，或者历史中得账号还可以用，那么ip可用
 		(records.count < permit_count) == false and @account.nil?
 	end
+	def get_ip_c ip_str
+		part = ip_str.split '.'
+		part[0]+'.'+part[1]+'.'+part[2]+'.0'
+	end
+	
 	# 根据ckey取得对应的计算机
 	def require_computer_by_ckey
 		@computer = Computer.find_by_auth_key(params[:ckey]) if params[:ckey]		

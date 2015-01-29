@@ -47,6 +47,9 @@ class Role < ActiveRecord::Base
   def is_started?
     return self.role_session.nil? != nil
   end
+  def can_start?
+    self.status == 'normal' and self.today_success == false
+  end
   def stop(result = "")
     self.role_session.stop(result) if self.role_session
   end
