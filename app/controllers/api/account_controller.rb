@@ -22,6 +22,7 @@ class Api::AccountController < Api::BaseController
 			return render :partial => '/api/result'
 		end
 		@code = @account.api_start params
+		@online_roles = @account.online_roles
 		render :partial => '/api/accounts/data'
 	end
 	def get_valid_account

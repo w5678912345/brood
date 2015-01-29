@@ -87,22 +87,21 @@ class Account < ActiveRecord::Base
       # 判断账号是否在线
       return CODES[:account_is_started] if self.is_started?
       ip = Ip.find_or_create(opts[:ip])
-
       computer = Computer.find_by_auth_key(opts[:ckey])
       self.transaction do
         computer.increment(:online_accounts_count,1).save  #增加计算机上线账号数
         ip.update_attributes(:use_count=>ip.use_count+1,:last_account=>self.no,:cooling_time=>25.hours.from_now) #增加ip使用次数
 
         unless opts[:all]
-          @online_roles = self.roles.waiting_scope.where("roles.level < ?",Setting.role_max_level)
-          @online_roles = @online_roles.reorder("role_index").limit(Setting.account_start_roles_count)
+          roles_query = self.roles.waiting_scope.where("roles.level < ?",Setting.role_max_level)
+          roles_query = roles_query.reorder("role_index").limit(Setting.account_start_roles_count)
         else
-          @online_roles = self.roles
+          roles_query = self.roles
         end
-        
         # 调度角色
-        @online_roles.update_all(:online => true)
-
+        @online_roles = roles_query.all
+        roles_query.update_all(:online => true)
+        
         ip_addr = opts[:ip]
         self.create_account_session do |as|
           as.computer_name = computer.hostname

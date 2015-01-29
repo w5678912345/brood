@@ -5,11 +5,13 @@ describe Api::AccountController do
     Setting.create :key => 'account_start_roles_count',:val => '5'
     Setting.create :key => 'ip_range_start_count',:val => '1'
 
+    rp = RoleProfile.create name: 'default'
+
     @computer = FactoryGirl.create(:computer)
     @computer1 = FactoryGirl.create(:computer)
-    @role = FactoryGirl.create(:role)
-    @role1 = FactoryGirl.create(:role,:qq_account => @role.qq_account)
-    @role2 = FactoryGirl.create(:role)
+    @role = FactoryGirl.create(:role,role_profile: rp)
+    @role1 = FactoryGirl.create(:role,:qq_account => @role.qq_account,role_profile: rp)
+    @role2 = FactoryGirl.create(:role,role_profile: rp)
     @computer.accounts << @role.qq_account
     @computer.accounts << @role2.qq_account
 
@@ -44,10 +46,9 @@ describe Api::AccountController do
     @controller = Api::AccountController.new
     get :auto,@base_params.merge(:ip => '127.0.1.1',:ckey => @computer1.auth_key)
     assigns(:code).should eq -19
-    @base_params[:id]=@account0.no
     #当同步信息时带上role_id,将导致此role上线
-    @base_params[:rid]=@role.id
-    get :sync,@base_params.merge({:money_point => 10})
+    @base_params=@base_params.merge(:id => @account0.no,:rid => @role.id)
+    get :sync,@base_params.merge(:money_point => 10)
     assigns(:code).should eq 1
     Account.find_by_no(@account0.no).money_point.should eq 10
     RoleSession.all.count.should eq 1
@@ -170,7 +171,56 @@ describe Api::AccountController do
     get :auto,@base_params.merge(:ip => '127.0.1.2')    
     assigns(:code).should eq 1
     assigns(:account).no.should eq @account1.no
+  end
+  it "get the same account" do
+    #account start
+    get :auto,@base_params    
+    assigns(:code).should eq 1
+    ac = assigns(:account)
+    ac.no.should eq @account0.no
+    #use size because it can adapte to call count or length
+    ac.online_roles.size.should eq 2
+    #停止
+    @controller = Api::AccountController.new
+    get :stop,@base_params.merge(:id => @account0.no)
+    Account.find_by_no(@account0.no).is_started?.should eq false
+
+    #second account restart,can get 2 roles too
+    @controller = Api::AccountController.new
+    get :auto,@base_params    
+    assigns(:code).should eq 1
+    ac = assigns(:account)
+    ac.no.should eq @account0.no
+    #use size because it can adapte to call count or length
+    ac.online_roles.size.should eq 2
+    Role.find(ac.online_roles[0].id).online.should eq true
+    Role.find(ac.online_roles[1].id).online.should eq true
+
+    #role start
+    #当同步信息时带上role_id,将导致此role上线
+    @base_params=@base_params.merge(:id => @account0.no,:rid => @role.id)
+    get :sync,@base_params.merge(:name => 'test_role')
+    assigns(:code).should eq 1   
+
+    get :role_stop,@base_params.merge(:success => '1')
+    assigns(:code).should eq 1   
+    Role.find(@role.id).today_success.should eq true
+
+    #停止
+    @controller = Api::AccountController.new
+    get :stop,@base_params.merge(:id => @account0.no)
+    Account.find_by_no(@account0.no).is_started?.should eq false
+    Role.find(@account0.roles[0].id).online.should eq false
+    Role.find(@account0.roles[1].id).online.should eq false
+
+    #third restart，beacuse of one finished role now only get one role
+    @controller = Api::AccountController.new
+    get :auto,@base_params    
+    assigns(:code).should eq 1
+    ac = assigns(:account)
+    ac.no.should eq @account0.no
+    #use size because it can adapte to call count or length
+    ac.online_roles.size.should eq 1
 
   end
-
 end
