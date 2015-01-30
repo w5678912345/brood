@@ -15,6 +15,8 @@ class HistoryRoleSession < ActiveRecord::Base
 		h.role_id = s.role_id
 		h.account_id = s.role.qq_account.id
 		h.computer_id = s.computer_id
+		h.account_session_id = s.account_session_id
+		
 		h.begin_at = s.created_at
 		h.end_at = Time.now
 		h.begin_level = s.start_level

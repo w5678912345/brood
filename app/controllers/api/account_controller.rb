@@ -47,7 +47,7 @@ class Api::AccountController < Api::BaseController
 	# 
 	def stop
 		@account_session = @account.account_session
-		if @account_session.nil? == false
+		if @account_session.nil?
 			@code = CODES[:account_is_stopped]
 		else
 			@code = @account_session.stop params[:success],params[:msg]

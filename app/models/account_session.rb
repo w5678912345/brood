@@ -6,7 +6,7 @@ class AccountSession < ActiveRecord::Base
   belongs_to :account,:primary_key=>'no'
 
   has_one :role_session
-  has_many :history_sessions
+  has_many :history_role_sessions
 
   def start_role(role)
     if self.role_session.nil? == false and self.role_session.role_id != role.id
