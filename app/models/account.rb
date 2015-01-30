@@ -107,7 +107,7 @@ class Account < ActiveRecord::Base
 
         ip_addr = opts[:ip]
         self.create_account_session do |as|
-          as.computer_name = computer.hostname
+          as.computer = computer
           as.ip = ip_addr
           as.ip_c = get_ip_c ip_addr
           as.started_status = self.status
@@ -126,9 +126,10 @@ class Account < ActiveRecord::Base
       return CODES[:account_is_stopped] unless self.is_started?
       role = self.roles.find_by_id(rid)
       if role
-        if role.is_started?
+        if role.is_started? == false
           role.role_session = self.account_session.start_role(role)
         end
+        
         role.role_session.live_now
         role.update_attributes role_attrs
       end

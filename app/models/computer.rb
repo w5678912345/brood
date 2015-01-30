@@ -32,7 +32,7 @@ class Computer < ActiveRecord::Base
   #
   has_many :notes, :order => 'id DESC',:foreign_key => 'computer_id'
   #
-  has_many :account_sessions,:primary_key => 'hostname',:foreign_key => 'computer_name',:conditions => {:finished => false}
+  has_many :account_sessions,:conditions => {:finished => false}
   #default_scope order("updated_at DESC") #:order => 'server DESC'
   scope :checked_scope,where(:checked => true)
   scope :ubchecked_scope,where(:checked => false)
@@ -60,11 +60,11 @@ class Computer < ActiveRecord::Base
       joins(
        %{
          LEFT OUTER JOIN (
-           SELECT b.computer_name, COUNT(b.id) account_count
+           SELECT b.computer_id, COUNT(b.id) account_count
            FROM   account_sessions b
            where b.finished = false
-           GROUP BY b.computer_name
-         ) a ON a.computer_name = computers.hostname
+           GROUP BY b.computer_id
+         ) a ON a.computer_id = computers.id
        }
       ).select("computers.*, a.account_count")
   end

@@ -1,8 +1,8 @@
 class AccountSession < ActiveRecord::Base
   attr_accessible :finished, :finished_at, :finished_status, :remark, :started_at,:lived_at, :started_status,:ip
-  attr_accessible :computer_name,:account_id,:role_session_id
+  attr_accessible :computer_id,:account_id,:role_session_id
 
-  belongs_to :computer,:class_name => 'Computer',:foreign_key=>'computer_name',:primary_key=>'hostname'
+  belongs_to :computer
   belongs_to :account,:primary_key=>'no'
 
   has_one :role_session

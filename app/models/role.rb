@@ -45,7 +45,7 @@ class Role < ActiveRecord::Base
   end
   #
   def is_started?
-    return self.role_session.nil? != nil
+    return self.role_session != nil
   end
   def can_start?
     self.status == 'normal' and self.today_success == false
@@ -172,7 +172,7 @@ class Role < ActiveRecord::Base
     # unless self.is_started?
     #   self.api_start opts
     # end
-    account_session = self.qq_account.session
+    #account_session = self.qq_account.session
     # session = self.session
     # computer = session.computer
     computer = Computer.find_by_auth_key(opts[:ckey])

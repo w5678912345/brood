@@ -11,11 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150127053914) do
+ActiveRecord::Schema.define(:version => 20150130061513) do
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
-    t.string   "computer_name"
     t.integer  "role_session_id"
     t.string   "ip",              :limit => 16
     t.string   "ip_c",            :limit => 16
@@ -27,14 +26,15 @@ ActiveRecord::Schema.define(:version => 20150127053914) do
     t.string   "remark"
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
+    t.integer  "computer_id"
   end
 
   add_index "account_sessions", ["account_id"], :name => "index_account_sessions_on_account_id"
-  add_index "account_sessions", ["computer_name"], :name => "index_account_sessions_on_computer_name"
+  add_index "account_sessions", ["computer_id"], :name => "index_account_sessions_on_computer_id"
   add_index "account_sessions", ["created_at"], :name => "index_account_sessions_on_created_at"
   add_index "account_sessions", ["finished", "account_id"], :name => "index_account_sessions_on_finished_and_account_id"
-  add_index "account_sessions", ["finished", "computer_name"], :name => "index_account_sessions_on_finished_and_computer_name"
   add_index "account_sessions", ["finished"], :name => "index_account_sessions_on_finished"
+  add_index "account_sessions", ["finished"], :name => "index_account_sessions_on_finished_and_computer_name"
   add_index "account_sessions", ["finished_status"], :name => "index_account_sessions_on_finished_status"
   add_index "account_sessions", ["ip"], :name => "index_account_sessions_on_ip"
   add_index "account_sessions", ["ip_c"], :name => "index_account_sessions_on_ip_c"

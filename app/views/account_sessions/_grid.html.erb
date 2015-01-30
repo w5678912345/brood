@@ -3,8 +3,8 @@
   end
 
   g.column name:  'ID', attribute: 'id'
-  g.column name:  '电脑', attribute: 'computer_name' do |a|
-    link_to a.computer_name,computer_path(a.computer)
+  g.column name:  '电脑', attribute: 'hostname',model: Computer do |a|
+    link_to a.computer.hostname,computer_path(a.computer)
   end
   g.column name:  '账号', attribute: 'account_id' do |a|
     link_to a.account_id,account_path(a.account)
