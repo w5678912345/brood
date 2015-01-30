@@ -8,6 +8,8 @@ class AccountSession < ActiveRecord::Base
   has_one :role_session
   has_many :history_role_sessions
 
+  scope :at_date,lambda{|day| where(created_at: day.beginning_of_day..day.end_of_day)}
+
   def start_role(role)
     if self.role_session.nil? == false and self.role_session.role_id != role.id
       self.role_session.stop(false,'NewRole')

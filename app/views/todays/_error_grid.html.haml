@@ -10,4 +10,4 @@
           %td 
             =e.status
           %td 
-            =link_to e.num, notes_path(:end_time=>Time.now.end_of_day,:start_time=>Time.now.at_beginning_of_day,:api_name=>e.status)
+            =link_to e.num, account_sessions_path(:grid =>{:f =>{"finished_at"=>{"fr"=>Date.today, "to"=>Date.tomorrow},:finished_status => e.status,:started_status => 'normal'}})
