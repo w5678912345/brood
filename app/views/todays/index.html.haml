@@ -6,7 +6,7 @@
 %ul.thumbnails
   %li.span5.thumbnail
     %h2.text-info
-      =link_to "在线角色：#{@online_role_count}",roles_path(:started => 1)
+      =link_to "在线角色：#{@online_role_count}",account_sessions_path(:grid =>{:f => {:finished => ["f"]}})
     %h2.text-info
       =link_to "在线机器：#{@online_computer_count}",computers_path(:started => 1)
     .progress.progress-striped{'data-toggle'=>"tooltip",'title'=>"#{@finished_role_count}/#{@can_use_role_count}",'style'=>"width: 90%;"}

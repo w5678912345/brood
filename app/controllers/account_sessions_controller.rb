@@ -3,6 +3,8 @@ class AccountSessionsController < ApplicationController
   # GET /account_sessions.json
   def index
     @account_sessions = initialize_grid(AccountSession,
+      :order => 'account_sessions.id',
+      :order_direction => 'desc',
       :include => [{:role_session => :role},{:history_role_sessions => :role},:computer,:account])
 
     respond_to do |format|
