@@ -46,10 +46,11 @@ class Api::AccountController < Api::BaseController
 
 	# 
 	def stop
-		if @account.is_started? == false
+		@account_session = @account.account_session
+		if @account_session.nil? == false
 			@code = CODES[:account_is_stopped]
 		else
-			@code = @account.account_session.stop params[:success],params[:msg]
+			@code = @account_session.stop params[:success],params[:msg]
 		end
 		render :partial => '/api/result'
 	end
@@ -296,7 +297,7 @@ class Api::AccountController < Api::BaseController
 		part = ip_str.split '.'
 		part[0]+'.'+part[1]+'.'+part[2]+'.0'
 	end
-	
+
 	# 根据ckey取得对应的计算机
 	def require_computer_by_ckey
 		@computer = Computer.find_by_auth_key(params[:ckey]) if params[:ckey]		

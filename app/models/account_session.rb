@@ -9,7 +9,7 @@ class AccountSession < ActiveRecord::Base
   has_many :history_sessions
 
   def start_role(role)
-    if self.role_session.nil? == false and self.role_session.role != role
+    if self.role_session.nil? == false and self.role_session.role_id != role.id
       self.role_session.stop(false,'NewRole')
     end
 

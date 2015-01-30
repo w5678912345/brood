@@ -1,10 +1,5 @@
 <%= grid(@account_sessions, upper_pagination_panel: true, show_filters: :yes) do |g|
   g.row_attributes do |version|
-    if version.finished
-      if version.finished_status != 'normal'
-        {style: 'background-color: rgb(245, 155, 155);'}
-      end
-    end
   end
 
   g.column name:  'ID', attribute: 'id'
@@ -26,7 +21,13 @@
   g.column name:  '结束时间',attribute: 'finished_at'
 
   g.column name:  '开始状态',attribute: 'started_status' 
-  g.column name:  '结束状态',attribute: 'finished_status'
+  g.column name:  '结束状态',attribute: 'finished_status' do |a|
+    if a.finished
+      [a.finished_status,html_style_for_account_status(a.finished_status)]
+    else
+      a.finished_status
+    end
+  end
   g.column do |a|
     link_to raw("<i class='icon-trash'></i>删除"),account_session_path(a),method: 'delete',confirm: 'Are you sure?'
   end
