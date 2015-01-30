@@ -1,6 +1,9 @@
 <%=define_grid(@roles, upper_pagination_panel: true, show_filters: :all_ways) do |g|
   g.action_column
   g.column name:  'ID', attribute: 'id', :detach_with_id => :id_filter
+  g.column name:  'Name', attribute: 'name' do |r|
+    link_to((r.name or 'noname'),role_path(r))
+  end
   g.column name:  'Account',attribute: 'account', :detach_with_id => :account_filter do |task|
     account_tag task.account
   end
@@ -8,8 +11,6 @@
   g.column name:  '绑定机器',attribute: 'bind_computer_id',model: 'Account',filter_type: :range, :detach_with_id => :bind_computer_filter do |role|
     role.qq_account.bind_computer.hostname if role.qq_account and role.qq_account.bind_computer
   end
-
-  g.column name:  'Name', attribute: 'name'
 
   g.column name:  '职业', attribute: 'profession',custom_filter: Role::PROFESSIONS,:detach_with_id => :profession_filter
   g.column name:  'profile',attribute: 'name', model: 'RoleProfile',custom_filter: :auto,:detach_with_id => :profile_filter do |role|
@@ -26,7 +27,7 @@
   
   g.column name:  '区', attribute: 'server',custom_filter: :auto,:detach_with_id => :server_filter
   g.column name:  '等级', attribute: 'level',filter_type: :range,:detach_with_id => :level_filter
-  g.column name:  '体力', attribute: 'vit_power'#, filter: false
+  g.column name:  '体力', attribute: 'vit_power',filter_type: :range,:detach_with_id => :vit_power_filter
 
   g.column name: '金币' do |task|
     task.gold

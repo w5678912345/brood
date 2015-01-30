@@ -17,6 +17,7 @@ class Role < ActiveRecord::Base
   has_many   :comroles, :class_name => 'Comrole'
   has_many   :computers,:class_name => 'Computer',through: :comroles
   has_one    :role_session
+  has_many   :history_role_sessions
   belongs_to  :qq_account, :class_name => 'Account',:foreign_key=>'account',:primary_key=>'no', :counter_cache => :roles_count
 
   #
@@ -163,7 +164,7 @@ class Role < ActiveRecord::Base
   def api_stop opts
     return CODES[:role_is_stopped] unless self.is_started?
 
-    self.role_session.stop opts[:success] == '1',opts[:msg]
+    self.role_session.stop opts[:success] == '1',self.status
   end
 
   # 角色支付

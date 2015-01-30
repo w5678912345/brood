@@ -1,0 +1,34 @@
+.container
+  %table.table
+    %tbody
+      %tr
+        %td
+          %h3 机器：#{link_to @role.qq_account.bind_computer.hostname,computer_path(@role.qq_account.bind_computer)}
+          %h3 账号：#{link_to @role.account,account_path(@role.account)}
+          %h3 角色名：#{@role.name}
+        %td
+          %h3 职业：#{@role.profession}
+          %h3 状态：#{@role.status}
+          %h3 区服：#{@role.server}
+        %td  
+          %h3 创建日期：#{@role.created_at.strftime("%Y年%m月%d日")}
+          %h3 等级：#{@role.level}
+
+
+      %tr
+        %td 
+          %p
+            当前金币：#{@role.gold}
+          %p
+            累计金币：#{@role.total}
+        %td
+          %p 
+            =link_to('支出合计：'+@role.total_pay.to_s,payments_path(:role_id => @role.id),:target=>"_blank")
+          %p 累计产出：#{@role.total_gold}
+
+        %td
+          体力:#{@role.vit_power}/156
+          .progress.progress-striped{'data-toggle'=>"tooltip",'title'=>"体力:#{@role.vit_power}/156",'style'=>"width: 90%;"}
+            .bar.bar-success{'style'=>"width: #{@role.vit_power*100/156}%"}
+.container
+  =render :partial => "history_role_sessions/role_grid"

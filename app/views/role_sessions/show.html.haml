@@ -1,0 +1,44 @@
+.container
+  %table.table
+    %tbody
+      %tr
+        %td
+          %h3 账号：#{@role_session.role.account}
+          %h3 角色名：#{@role_session.role.name}
+        %td
+          %h3 职业：#{@role_session.role.profession}
+          %h3 服：#{@role_session.role.server}
+        %td  
+          %h3 状态：#{@role_session.role.status}
+
+      %tr
+        %td
+          %p
+            开始等级：
+            =@role_session.start_level
+          %p
+            当前等级：
+            =@role_session.role.level
+
+        %td 
+          %p
+            开始金币：
+            =@role_session.start_gold
+          %p
+            当前金币：
+            =@role_session.role.total
+        %td
+          体力:#{@role_session.role.vit_power}/#{@role_session.start_power}
+          .progress.progress-striped{'data-toggle'=>"tooltip",'title'=>"体力:#{@role_session.role.vit_power}/#{@role_session.start_power}",'style'=>"width: 90%;"}
+            .bar.bar-success{'style'=>"width: #{@role_session.role.vit_power*100/@role_session.start_power}%"}
+
+      %tr
+        %td
+          开始时间：
+          =time_str @role_session.created_at
+        %td
+          心跳时间：
+          =time_str @role_session.live_at
+        %td
+          在线时长：
+          =Time.diff(@role_session.live_at, @role_session.created_at)[:diff]

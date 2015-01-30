@@ -31,6 +31,13 @@
       time_str a.lived_at
     end
   end
+  g.column name:  '在线时长' do |a|
+    if a.finished
+      Time.diff(a.created_at,a.finished_at)[:diff]
+    else
+      Time.diff(a.created_at,a.lived_at)[:diff]
+    end
+  end
 
   g.column name:  '开始状态',attribute: 'started_status' 
   g.column name:  '结束状态',attribute: 'finished_status' do |a|

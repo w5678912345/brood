@@ -3,16 +3,7 @@
     time_str h.begin_at
   end
   g.column name:  '耗时' do |h|
-    hour_str(h.end_at-h.begin_at)
-  end
-  g.column name: '电脑',attribute: 'computer_id'  do |h|
-    computer_tag h.computer
-  end
-  g.column name: '账号',attribute: 'account_id' do |h|
-    account_tag h.account
-  end
-  g.column name: '角色',attribute: 'role_id' do |h|
-    role_tag h.role_id
+    Time.diff(h.end_at,h.begin_at)[:diff]
   end
   #g.column name: '任务',attribute: 'task'
   g.column name: '产出' ,attribute: 'gold',filter: false do |h|
@@ -22,15 +13,16 @@
     gold_str h.exchanged_gold
   end
   g.column name: '结果',attribute: 'result',custom_filter: :auto
-  g.column name: '服务器',attribute: 'server'
   g.column name: '版本',attribute: 'version'
   g.column name: 'IP',attribute: 'ip'
   g.column name: '重连次数',attribute: 'connection_times'
 
 
-  g.column name:  '开始等级', attribute: 'begin_level'
-  g.column name:  '结束等级', attribute: 'end_level'
+  g.column name:  '等级', attribute: 'begin_level' do |h|
+    "#{h.begin_level} -> #{h.end_level}"
+  end
 
-  g.column name:  '开始体力', attribute: 'begin_power'
-  g.column name:  '结束体力', attribute: 'end_power'
+  g.column name:  '体力', attribute: 'begin_power' do |h|
+    "#{h.begin_power} -> #{h.end_power}"
+  end
 end %>

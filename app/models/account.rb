@@ -129,7 +129,7 @@ class Account < ActiveRecord::Base
         if role.is_started? == false
           role.role_session = self.account_session.start_role(role)
         end
-        
+
         role.role_session.live_now
         role.update_attributes role_attrs
       end
@@ -158,7 +158,7 @@ class Account < ActiveRecord::Base
           api_code = status # 如果定义了有效状态 设置 api_code => status
           self.status = status
           self.normal_at = obj_status.hours.to_i.from_now
-          self.account_session.update_attributes finished_status: status
+          self.account_session.update_attributes finished_status: status,remark: opts[:msg]
         end
         # 记录账号发生的事件
         api_name = event if EVENT.include? event # 如果定义了有效事件，设置api_name => event
@@ -166,7 +166,6 @@ class Account < ActiveRecord::Base
         if status == 'discardfordays'
             count = Note.where("api_name = 'discardfordays' and computer_id = ? ",computer.id).where("date(created_at)=?",Date.today.to_s).count
             computer.update_attributes(:status=>0) if count >= Setting.account_discardfordays
-        
         end
         #
         Note.create do |n|

@@ -77,7 +77,10 @@ class RolesController < ApplicationController
 
 	def show
 		@role = Role.find(params[:id])
-		
+		@history_role_sessions = initialize_grid(HistoryRoleSession.where(:role_id => @role.id),
+     :order => 'id',
+     :order_direction => 'desc'
+		)
 	end
 
 	def new

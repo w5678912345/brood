@@ -3,7 +3,7 @@
 <%= grid(@role_sessions) do |g|
   g.column name: 'ID', attribute: 'id'
   g.column name:  'Role ID', filter: false do |task|
-    role_tag task.role_id
+    link_to task.role.name,role_path(task.role)
   end
 
   g.column name:  'Computer' do |task|

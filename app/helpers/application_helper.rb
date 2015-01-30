@@ -125,13 +125,17 @@ module ApplicationHelper
 		
 	end
 	def html_style_for_account_status s
+		{style: style_for_account_status(s)}
+	end
+
+	def style_for_account_status s
 		case s
 		when 'discardforyears'
-			{style: 'background-color: rgb(245, 155, 155);'}
+			'background-color: rgb(245, 155, 155);'
 		when 'normal'
-			{style: 'background-color: rgb(155, 245, 155);'}
+			'background-color: rgb(155, 245, 155);'
 		else
-			{style: 'background-color: rgb(245, 245, 155);'}
+			'background-color: rgb(245, 245, 155);'
 		end
 	end
 end

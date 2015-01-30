@@ -11,6 +11,7 @@ module TimeTask
 
 
 	def self.auto_stop
+		puts "auto stop at: "+Time.now.to_s
 		Account.auto_stop
 		#Role.auto_stop
 		Computer.auto_stop
