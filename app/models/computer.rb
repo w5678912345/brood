@@ -128,6 +128,10 @@ class Computer < ActiveRecord::Base
     self.version = opts[:version] unless opts[:version].blank?
     self.server = opts[:server] unless opts[:server].blank?
     self.real_name = opts[:real_name] unless opts[:real_name].blank?
+    # 创建session
+    if self.session.nil?
+      self.session = Note.create(:computer_id=>self.id,:ip=>opts[:ip],:api_name=>"computer_start",:msg=>opts[:msg],:version=>self.version,:hostname => self.hostname,:server=>self.server)
+    end
     return 1 if self.update_attributes(:updated_at => Time.now)
   end
 

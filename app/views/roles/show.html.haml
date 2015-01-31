@@ -3,7 +3,8 @@
     %tbody
       %tr
         %td
-          %h3 机器：#{link_to @role.qq_account.bind_computer.hostname,computer_path(@role.qq_account.bind_computer)}
+          -if @role.qq_account.bind_computer
+            %h3 机器：#{link_to @role.qq_account.bind_computer.hostname,computer_path(@role.qq_account.bind_computer)}
           %h3 账号：#{link_to @role.account,account_path(@role.account)}
           %h3 角色名：#{@role.name}
         %td
