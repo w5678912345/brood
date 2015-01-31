@@ -15,18 +15,18 @@
         %td
           %p
             开始等级：
-            =@role_session.start_level
+            =gold_str @role_session.start_level
           %p
             当前等级：
-            =@role_session.role.level
+            =gold_str @role_session.role.level
 
         %td 
           %p
             开始金币：
-            =@role_session.start_gold
+            =gold_str @role_session.start_gold
           %p
             当前金币：
-            =@role_session.role.total
+            =gold_str @role_session.role.total
         %td
           体力:#{@role_session.role.vit_power}/#{@role_session.start_power}
           .progress.progress-striped{'data-toggle'=>"tooltip",'title'=>"体力:#{@role_session.role.vit_power}/#{@role_session.start_power}",'style'=>"width: 90%;"}

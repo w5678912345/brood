@@ -29,7 +29,7 @@
 <table class="table" border="1" class=""> 
 <thead>
 	<tr>
-		<th>金币(百万)/点卷 总计<%= sprintf('%0.2f',@gold_sum/1000000.00) %>/<%= @points_sum%></th>
+		<th>总计：金币 <%= gold_str @gold_sum %>/点卷 <%= @points_sum%></th>
 	</tr>
 </thead>
 <tbody>
@@ -37,7 +37,7 @@
 <tr title="<%= date%>">
 	<td>
 	<% if  @trade.has_key?(date.to_s) %>
-		<%=  sprintf('%.2f', @trade[date.to_s][0]/1000000.00) %>/
+		<%=  gold_str @trade[date.to_s][0] %>/
 		<%= @trade[date.to_s][1]%>
 	<%else%>
 		0/0

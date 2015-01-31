@@ -29,13 +29,13 @@
 <table class="table" border="1" class=""> 
 <thead>
 	<tr>
-		<th>金币(亿) 总计<%= sprintf('%0.2f',@tradesum/100000000.00) %></th>
+		<th>金币 总计 <%= gold_str @tradesum %></th>
 	</tr>
 </thead>
 <tbody>
 <% @dates.each do |date|%>
 <tr title="<%= date%>">
-	<td><%= @trade.has_key?(date.to_s) ?  sprintf('%.2f', @trade[date.to_s]/100000000.00) : 0 %></td>
+	<td><%= @trade.has_key?(date.to_s) ?  gold_str(@trade[date.to_s]) : 0 %></td>
 </tr>
 <%end%>
 </tbody>
