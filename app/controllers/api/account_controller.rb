@@ -18,10 +18,12 @@ class Api::AccountController < Api::BaseController
 		get_valid_account
 
 		if not @account
+			@computer.update_attributes :msg => 'not_find_account'
 			@code = CODES[:not_find_account]
 			return render :partial => '/api/result'
 		end
 		@code = @account.api_start params
+		@computer.update_attributes :msg => 'normal'
 		@online_roles = @account.online_roles
 		render :partial => '/api/accounts/data'
 	end
@@ -267,11 +269,13 @@ class Api::AccountController < Api::BaseController
 		session_records = AccountSession.where('ip = ? and lived_at > ?',params[:ip],24.hours.ago).includes(:account => :roles)
 		if ip_used_in_records session_records
 			@code=CODES[:ip_used]
+			@computer.update_attributes :msg => 'ip_used'
 			return render :json => {:code=>@code,:msg=>"#{@ip}"}
 		end
 		return if @account
 		if AccountSession.where(:ip_c => ip_c,:finished => false).count > Setting.ip_range_max_online_count
 			@code=CODES[:ip_used]
+			@computer.update_attributes :msg => 'ip_used'
 			return render :json => {:code=>@code,:msg=>"ip c online too match:#{@ip.mask(24).to_s}"}
 		end
 
@@ -280,6 +284,7 @@ class Api::AccountController < Api::BaseController
 		#if ip_used_in_records session_records,Setting.ip_range_start_count
 		if session_records.count >= Setting.ip_range_start_count
 			@code=CODES[:ip_used]
+			@computer.update_attributes :msg => 'ip_used'
 			return render :json => {:code=>@code,:msg=>"ip c used:#{ip_c}"}
 		end
 	end
@@ -291,7 +296,7 @@ class Api::AccountController < Api::BaseController
 			@account = @account_session.account
 		end
 		#如果没历史，或者历史中得账号还可以用，那么ip可用
-		(records.count < permit_count) == false and @account.nil?
+		(records.size < permit_count) == false and @account.nil?
 	end
 	def get_ip_c ip_str
 		part = ip_str.split '.'

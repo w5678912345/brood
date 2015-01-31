@@ -13,7 +13,7 @@ class Computer < ActiveRecord::Base
   attr_accessible :check_user_id,:checked,:checked_at,:server,:updated_at,:version,:online_roles_count,:online_accounts_count
   attr_accessible :accounts_count,:session_id,:version,:auto_binding,:group,:allowed_new,:max_accounts,:real_name
 
-  attr_accessible :finished_role_count
+  attr_accessible :finished_role_count,:msg
   #has_many :comroles,:dependent => :destroy
   #has_many :computer_accounts,:dependent => :destroy
 
