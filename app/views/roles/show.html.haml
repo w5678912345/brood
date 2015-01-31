@@ -19,13 +19,13 @@
       %tr
         %td 
           %p
-            当前金币：#{@role.gold}
+            当前金币：#{gold_str @role.gold}
           %p
-            累计金币：#{@role.total}
+            累计金币：#{gold_str @role.total}
         %td
           %p 
-            =link_to('支出合计：'+@role.total_pay.to_s,payments_path(:role_id => @role.id),:target=>"_blank")
-          %p 累计产出：#{@role.total_gold}
+            =link_to('支出合计：'+gold_str(@role.total_pay),payments_path(:role_id => @role.id),:target=>"_blank")
+          %p 累计产出：#{gold_str @role.total_gold}
 
         %td
           体力:#{@role.vit_power}/156

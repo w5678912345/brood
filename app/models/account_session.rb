@@ -20,7 +20,7 @@ class AccountSession < ActiveRecord::Base
   def create_role_session_from_role(role)
     self.create_role_session! :role => role,:start_level => role.level,:start_gold => role.total,:start_power => role.vit_power,:computer_id => self.computer.id,:live_at => Time.now,:ip => self.ip
   end
-  def stop(is_success,msg)
+  def stop(is_success,msg="")
     #binding.pry
     return 1 if self.transaction do
       self.role_session.stop(is_success,msg) if self.role_session
@@ -29,8 +29,8 @@ class AccountSession < ActiveRecord::Base
       self.finished_status = self.started_status if self.finished_status.nil?
       ip = Ip.find_or_create(self.ip)
       ip.update_attributes(:cooling_time=>25.hours.from_now)
-
-      self.update_attributes :finished_at => Time.now,:finished => true,:remark => msg
+      self.remark = msg if msg and msg.empty? == false
+      self.update_attributes :finished_at => Time.now,:finished => true
     end
   end
 end
