@@ -8,7 +8,7 @@ gem 'time_diff'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 #gem 'rack', '~> 1.4.5'
 gem 'mysql2','~> 0.3.13'
-
+gem "lograge"
 
 # Gems used only for assets and not required
 # in production environments by default.

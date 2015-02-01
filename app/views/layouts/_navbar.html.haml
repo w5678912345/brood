@@ -1,0 +1,15 @@
+%ul.nav
+  %li 
+    =link_to "Doc","/api/doc"
+  %li
+    %a{:ref => todays_path()} 
+      %strong.text-info 今日情报
+  %li
+    .btn-group
+      %button.btn Action
+      %buton.btn.dropdown-toggle{'data-toggle'=>"dropdown"}
+        %span.caret
+      %ul.dropdown-menu
+        %li test
+    %button.btn test
+-logger.info 'teset'
