@@ -27,8 +27,20 @@ class AccountSession < ActiveRecord::Base
       self.account.roles.update_all(:online => false)
 
       self.finished_status = self.started_status if self.finished_status.nil?
+      nearest_check_time = Time.now.change(:hour => 6)
+      normal_at = self.account.normal_at
+      today_success = self.account.today_success
+      if is_success
+        normal_at = self.created_at < nearest_check_time ? nearest_check_time : 1.day.from_now.change(:hour => 6)
+        today_success = self.finished_status == 'normal'
+      else
+        normal_at = Account::STATUS[self.status].hours.to_i.from_now if Account::STATUS.has_key?(self.finished_status)
+      end
+      self.account.update_attributes :normal_at => normal_at ,:today_success => today_success
+
       ip = Ip.find_or_create(self.ip)
       ip.update_attributes(:cooling_time=>25.hours.from_now)
+
       self.remark = msg if msg and msg.empty? == false
       self.update_attributes :finished_at => Time.now,:finished => true
     end

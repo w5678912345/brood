@@ -222,5 +222,13 @@ describe Api::AccountController do
     #use size because it can adapte to call count or length
     ac.online_roles.size.should eq 1
 
+
+    #stop with sucess,will set normal_at
+    @controller = Api::AccountController.new
+    get :stop,@base_params.merge(:id => @account0.no,:success => 1)
+    ac = Account.find_by_no(@account0.no)
+    ac.is_started?.should eq false
+    ac.today_success.should eq true
+    (ac.normal_at > Time.now).should be true
   end
 end
