@@ -270,13 +270,13 @@ class Api::AccountController < Api::BaseController
 		if ip_used_in_records session_records
 			@code=CODES[:ip_used]
 			@computer.update_attributes :msg => 'ip_used'
-			return render :json => {:code=>@code,:msg=>"#{@ip}"}
+			return render :json => {:code=>@code,:msg=>"#{params[:ip]}"}
 		end
 		return if @account
 		if AccountSession.where(:ip_c => ip_c,:finished => false).count > Setting.ip_range_max_online_count
 			@code=CODES[:ip_used]
 			@computer.update_attributes :msg => 'ip_used'
-			return render :json => {:code=>@code,:msg=>"ip c online too match:#{@ip.mask(24).to_s}"}
+			return render :json => {:code=>@code,:msg=>"ip c online too match:#{params[:ip]}"}
 		end
 
 		session_records = AccountSession.where('ip_c = ? and lived_at > ?',ip_c,Setting.in_range_minutes.minutes.ago).includes(:account => :roles)

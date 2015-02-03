@@ -1,0 +1,63 @@
+<%= render "navbar2" %>
+<table class="table table-bordered table-condensed">
+<tbody>
+<tr>
+<th>主机名</th>
+<td><%= computer_tag(@computer)  %>
+<%= link_to "查看角色",account_roles_path(:tag=>"role",:bind_cid=>@computer.id,:index=>0,:all=>1),:target=>"_blank"%>
+
+</td>
+<th>Auth Key</th>
+<td><%= @computer.auth_key %></td>
+<th>ID</th>
+<td><%= @computer.id %>
+<%= @computer.checked ? raw('<span class="label label-success">通过</span>') : raw('<span class="label label-important">未通过</span>') %>
+</td>
+</tr>
+
+<tr>
+<td>区 / 版本</td>
+<td><%= @computer.server %> / <%= @computer.version %></td>
+<th>账户数量:</th>
+<td>
+<%= @computer.client_count %>开
+最大: <%= @computer.max_accounts %>
+在线: <%= @computer.online_accounts_count%>
+绑定: <%= @computer.accounts_count %> 自动:<%= boolean_tag @computer.auto_binding %>
+</td>
+
+<th>机器在线</th>
+<td><%= boolean_tag @computer.is_started? %></td>
+</tr>
+
+
+<tr>
+<th>创建时间</th>
+<td><%= @computer.created_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+<th>修改时间</th>
+<td><%= @computer.updated_at.strftime("%Y-%m-%d %H:%M:%S") %></td>
+<td>状态</td>
+<td> <%= @computer.status %></td>
+</tr>
+
+
+</tbody>
+<tfoot>
+<tr>
+<td>选择操作:</td>
+<td colspan="5">
+<%= form_tag(checked_computers_path,:method => :put,:id=>"computers_checked_form",:target=>"_blank",:style=>"margin:0px;") do -%>
+<%= hidden_field_tag "grid[selected][]",@computer.id%>
+<select id="do" name="do" class="input-medium">
+<% Computer::Btns.each do | key, value |  %>
+	<option value="<%= key %>"><%= value%></option>
+<%end%>
+</select>
+<button type="submit" class="btn btn-primary">执行操作</button>
+
+<%end%>
+</td>
+</tr>
+</tfoot>
+</table>
+<%= render :partial => "/accounts/form_grid",:locals=>{:accounts=>@accounts }%>
