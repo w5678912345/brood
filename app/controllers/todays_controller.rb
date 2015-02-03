@@ -7,11 +7,11 @@ class TodaysController < ApplicationController
 		#.at_date(Date.today)
 		@error_event_count = AccountSession.select("finished_status as status,count(id) as num").
 			where(started_status: 'normal').group("status").at_date(Date.today).
-			where(finished_status: ['discardforyears','bslocked','discardbysailia','exception','discardbysailia','locked'])
+			where(finished_status: ['discardforyears','discardfordays','bslocked','discardbysailia','exception','discardbysailia','locked'])
 		@error_event_grid = initialize_grid(@error_event_count)
 		#binding.pry
-		@finished_role_count = HistoryRoleSession.at_date(Date.today).count(:role_id,:distinct => true)
-		@can_use_role_count = Role.joins(:qq_account).where("roles.status='normal' and accounts.status = 'normal'").count
+		@finished_role_count = AccountSession.at_date(Date.today).count(:role_id)
+		@can_use_role_count = Account.where("normal_at < ?",Date.tomorrow).count
 	end
 	def server_online
 		@server_online = initialize_grid(RoleSession.select("roles.server,count(*) as num").joins(:role).group("roles.server").order("roles.server"))
