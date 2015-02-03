@@ -157,7 +157,7 @@ class Account < ActiveRecord::Base
           api_name = status # 如果定义了有效状态 设置 api_name => status
           api_code = status # 如果定义了有效状态 设置 api_code => status
           self.status = status
-          self.normal_at = obj_status.hours.to_i.from_now
+          self.normal_at = obj_status.hours.to_i.hours.from_now
           self.account_session.update_attributes finished_status: status,remark: opts[:msg]
         end
         # 记录账号发生的事件
