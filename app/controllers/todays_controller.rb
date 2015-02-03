@@ -12,7 +12,8 @@ class TodaysController < ApplicationController
 		#binding.pry
 		nearest_check_time = Time.now.change(:hour => 6)
 		next_check_time = Time.now > nearest_check_time ? nearest_check_time + 1.day : nearest_check_time
-		@finished_role_count = Account.last_started_at_date(Date.today).where("today_success = 1 or normal_at >= ?",next_check_time).count
+		
+		@finished_role_count = Account.where(:last_start_at =>[next_check_time - 1.day,next_check_time]).where("today_success = 1 or normal_at >= ?",next_check_time).count
 		@can_use_role_count = Account.where("normal_at < ?",next_check_time).count
 	end
 	def server_online
