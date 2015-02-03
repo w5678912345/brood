@@ -52,7 +52,7 @@ class Api::AccountController < Api::BaseController
 		if @account_session.nil?
 			@code = CODES[:account_is_stopped]
 		else
-			@code = @account_session.stop params[:success],params[:msg]
+			@code = @account_session.stop params[:success]=='1',params[:msg]
 		end
 		render :partial => '/api/result'
 	end
