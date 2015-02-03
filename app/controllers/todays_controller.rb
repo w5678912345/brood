@@ -10,8 +10,10 @@ class TodaysController < ApplicationController
 			where(finished_status: ['discardforyears','discardfordays','bslocked','discardbysailia','exception','discardbysailia','locked'])
 		@error_event_grid = initialize_grid(@error_event_count)
 		#binding.pry
-		@finished_role_count = AccountSession.at_date(Date.today).count(:role_id)
-		@can_use_role_count = Account.where("normal_at < ?",Date.tomorrow).count
+		nearest_check_time = Time.now.change(:hour => 6)
+		next_check_time = Time.now > nearest_check_time ? nearest_check_time + 1.day : nearest_check_time
+		@finished_role_count = Account.last_started_at_date(Date.today).where("today_success = 1 or normal_at >= ?",next_check_time).count
+		@can_use_role_count = Account.where("normal_at < ?",next_check_time).count
 	end
 	def server_online
 		@server_online = initialize_grid(RoleSession.select("roles.server,count(*) as num").joins(:role).group("roles.server").order("roles.server"))

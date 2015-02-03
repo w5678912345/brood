@@ -63,6 +63,9 @@ class Account < ActiveRecord::Base
     scope :unbind_phone_scope, where("phone_id is null || phone_id = '' ") # 未绑定手机的账号
     scope :unlocked_scope,where("unlock_phone_id is not null and unlock_phone_id != '' ") 
     scope :update_at_date,lambda{|day| where(updated_at: day.beginning_of_day..day.end_of_day)}
+    scope :last_started_at_date,lambda{|day| where(last_start_at: day.beginning_of_day..day.end_of_day)}
+
+
     # session_id > 0 表示正在运行
     def self.all_status
       STATUS.keys
@@ -89,11 +92,11 @@ class Account < ActiveRecord::Base
     def api_start opts
       # 判断账号是否在线
       return CODES[:account_is_started] if self.is_started?
-      ip = Ip.find_or_create(opts[:ip])
+      #ip = Ip.find_or_create(opts[:ip])
       computer = Computer.find_by_auth_key(opts[:ckey])
       self.transaction do
         computer.increment(:online_accounts_count,1).save  #增加计算机上线账号数
-        ip.update_attributes(:use_count=>ip.use_count+1,:last_account=>self.no,:cooling_time=>25.hours.from_now) #增加ip使用次数
+        #ip.update_attributes(:use_count=>ip.use_count+1,:last_account=>self.no,:cooling_time=>25.hours.from_now) #增加ip使用次数
 
         unless opts[:all]
           roles_query = self.roles.waiting_scope.where("roles.level < ?",Setting.role_max_level)
@@ -113,7 +116,7 @@ class Account < ActiveRecord::Base
           as.started_status = self.status
           as.lived_at = Time.now
         end
-        return 1 if self.update_attributes(:last_start_ip=>ip.value)
+        return 1 if self.update_attributes(:last_start_ip=>ip_addr,:last_start_at => Time.now)
       end
     end
     def get_ip_c ip_str
