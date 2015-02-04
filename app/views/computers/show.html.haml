@@ -3,4 +3,6 @@
     .span4
       =render "computer_info"
     .span8
-      = render :partial => "/accounts/form_grid",:locals=>{:accounts=>@accounts }     
+      = render :partial => "/accounts/form_grid",:locals=>{:accounts=>@accounts ,:mini_show => true}     
+  %h2.text-center 角色记录
+  = render "account_sessions/grid"

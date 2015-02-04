@@ -188,6 +188,10 @@ class ComputersController < ApplicationController
   	@computer = Computer.find(params[:id])
     @accounts = @computer.accounts.joins(:roles).reorder("accounts.session_id desc").order("roles.level desc").uniq()
     @accounts = initialize_grid(@accounts,:per_page=>50)
+
+    @account_sessions = initialize_grid(AccountSession.where(:computer_id => @computer.id),
+      :order => 'account_sessions.id',
+      :order_direction => 'desc')
   end
 
   def destroy

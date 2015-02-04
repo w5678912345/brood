@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app>
 <head>
-  <title><%= "#{AppSettings.title}[#{yield(:title)}]"  %></title>
+  <title><%= "#{AppSettings.title} [#{yield(:title)}]"  %></title>
   <%= stylesheet_link_tag    'application' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
@@ -10,7 +10,7 @@
 <div class="navbar" style="margin-top:-45px;">
 <div class="navbar-inner">
   <div class="container-fluid">
-    <a class="brand" href="#" style="color:#b94a48;"><strong><%= AppSettings.title%></strong></a>
+    <a class="brand" href="#" style="color:#b94a48;"><strong><%= AppSettings.title%></strong> <%=AppSettings.version%></a>
     <% if current_user %>
     <div class="nav-collapse">
 	    <%= render "/layouts/navbar" %>

@@ -1,5 +1,6 @@
 <%= grid(@account_sessions, upper_pagination_panel: true, show_filters: :yes) do |g|
   g.row_attributes do |version|
+    {class: 'success'} if version.finished == false
   end
 
   g.column name:  'ID', attribute: 'id'

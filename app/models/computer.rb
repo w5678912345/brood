@@ -33,6 +33,7 @@ class Computer < ActiveRecord::Base
   has_many :notes, :order => 'id DESC',:foreign_key => 'computer_id'
   #
   has_many :account_sessions,:conditions => {:finished => false}
+  has_many :history_account_sessions,:conditions => {:finished => true},:class_name => 'AccountSession',:foreign_key => 'computer_id'
   #default_scope order("updated_at DESC") #:order => 'server DESC'
   scope :checked_scope,where(:checked => true)
   scope :ubchecked_scope,where(:checked => false)
