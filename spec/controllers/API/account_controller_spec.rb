@@ -229,7 +229,7 @@ describe Api::AccountController do
     ac = Account.find_by_no(@account0.no)
     ac.is_started?.should eq false
     ac.today_success.should eq true
-    (ac.normal_at > Time.now).should be true
+    ac.normal_at.should > Time.now
   end
   it 'bslocked cooltime check' do
     #account start
@@ -243,12 +243,24 @@ describe Api::AccountController do
 
 
     @controller = Api::AccountController.new
-    get :stop,@base_params.merge(:id => ac.no,:success => '0')
+    get :stop,@base_params.merge(:id => ac.no)
  
     ac = Account.find_by_no(@account0.no)
     ac.is_started?.should eq false
     ac.status.should eq 'bslocked'
     #normal_at will be 72 hours from now
-    (ac.normal_at > 71.hours.from_now).should eq true
+    ac.normal_at.should > 71.hours.from_now
+  end
+  it 'pay with tick_time' do
+    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade',:note_id => '123'})
+    Payment.count.should eq 1
+
+    #avoid re send pay data by [role_id,note_id]
+    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade',:note_id => '123'})
+    Payment.count.should eq 1
+
+    #note_id is different,then accept
+    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade',:note_id => '1234'})
+    Payment.count.should eq 2
   end
 end

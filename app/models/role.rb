@@ -179,7 +179,14 @@ class Role < ActiveRecord::Base
     computer = Computer.find_by_auth_key(opts[:ckey])
     
     self.transaction do
-      payment = Payment.new(:role_id=>self.id,:gold => opts[:gold],:balance => opts[:balance],:remark => opts[:remark],:note_id => 0,:pay_type=>opts[:pay_type],:server=>self.server||computer.server,:target=>opts[:target]) 
+      if opts[:note_id]
+        note_id = opts[:note_id].to_i
+      else
+        note_id = rand(99999999999) 
+      end
+      
+      return 1 if Payment.where(:role_id => self.id,:note_id => note_id).first
+      payment = Payment.new(:role_id=>self.id,:gold => opts[:gold],:balance => opts[:balance],:remark => opts[:remark],:note_id => note_id,:pay_type=>opts[:pay_type],:server=>self.server||computer.server,:target=>opts[:target]) 
       return CODES[:not_valid_pay] unless payment.valid? # validate not pass
       self.gold = payment.balance      #当前金币 = 支出后的余额
       self.total_pay = self.total_pay + payment.gold # 累计支出

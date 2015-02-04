@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150131074706) do
+ActiveRecord::Schema.define(:version => 20150204053549) do
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
@@ -332,6 +332,8 @@ ActiveRecord::Schema.define(:version => 20150131074706) do
     t.integer  "session_id", :default => 0, :null => false
     t.string   "target"
   end
+
+  add_index "payments", ["role_id", "note_id"], :name => "index_payments_on_role_id_and_note_id"
 
   create_table "phone_machines", :force => true do |t|
     t.string   "name",       :null => false

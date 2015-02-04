@@ -139,6 +139,7 @@ class Account < ActiveRecord::Base
       # 修改角色
       #role.api_sync(opts) if role
       self.account_session.update_attributes lived_at: Time.now
+      account_attrs[:money_point] = self.money_point if account_attrs[:money_point].nil?
       self.update_attributes(account_attrs)
       return 1
     end
