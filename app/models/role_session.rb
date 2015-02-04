@@ -11,7 +11,15 @@ class RoleSession < ActiveRecord::Base
   	live_at - created_at
   end
   def self.create_from_role(role,ip)
-  	RoleSession.create! :role_id => role.id,:start_level => role.level,:start_gold => role.total,:start_power => role.vit_power,:computer_id => role.qq_account.session.computer.id,:live_at => Time.now,:ip => ip
+  	RoleSession.create! do |rs|
+      rs.role_id = role.id
+      rs.start_level = role.level
+      rs.start_gold = role.total
+      rs.start_power = role.vit_power
+      rs.computer_id = role.qq_account.account_session.computer_id
+      rs.live_at = Time.now
+      rs.ip = ip
+    end
   end
   def live_now
   	self.update_attributes(:live_at => Time.now)
