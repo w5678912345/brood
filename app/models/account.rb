@@ -109,14 +109,14 @@ class Account < ActiveRecord::Base
         roles_query.update_all(:online => true)
 
         ip_addr = opts[:ip]
-        self.create_account_session do |as|
+        as = self.create_account_session do |as|
           as.computer = computer
           as.ip = ip_addr
           as.ip_c = get_ip_c ip_addr
           as.started_status = self.status
           as.lived_at = Time.now
         end
-        return 1 if self.update_attributes(:last_start_ip=>ip_addr,:last_start_at => Time.now)
+        return 1 if self.update_attributes(:last_start_ip=>ip_addr,:last_start_at => Time.now,:session_id => as.id)
       end
     end
     def get_ip_c ip_str

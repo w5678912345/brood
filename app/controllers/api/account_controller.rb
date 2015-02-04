@@ -29,7 +29,11 @@ class Api::AccountController < Api::BaseController
 	end
 	def get_valid_account
 		return if @account
-		@account  = @computer.accounts.waiting_scope(Time.now).includes(:account_session).all.select {|e| e.account_session.nil?}.first
+		#@account  = @computer.accounts.waiting_scope(Time.now).includes(:account_session).all.select {|e| e.account_session.nil?}.first
+		#binding.pry
+		role = Role.select(:account).joins(:qq_account).can_used.
+			where("accounts.session_id = 0 and accounts.bind_computer_id = ? and accounts.normal_at <= ? and accounts.enabled = 1",@computer.id,Time.now).first
+		@account = role.qq_account if role
 		return if @account
 
 		@computer.auto_bind_accounts({:ip=>request.remote_ip,:msg=>"auto by start",:avg=>1})  if @computer.auto_binding
