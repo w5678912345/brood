@@ -178,19 +178,22 @@ describe Api::AccountController do
     assigns(:code).should eq 1
     ac = assigns(:account)
     ac.no.should eq @account0.no
+    puts Account.find_by_no(@account0.no).session_id
     #use size because it can adapte to call count or length
     ac.online_roles.size.should eq 2
     #停止
     @controller = Api::AccountController.new
     get :stop,@base_params.merge(:id => @account0.no)
     Account.find_by_no(@account0.no).is_started?.should eq false
-
+    puts Account.find_by_no(@account0.no).session_id
     #second account restart,can get 2 roles too
+    binding.pry
     @controller = Api::AccountController.new
     get :auto,@base_params    
     assigns(:code).should eq 1
+    Account.find_by_no(@account0.no).is_started?.should eq true
+
     ac = assigns(:account)
-    ac.no.should eq @account0.no
     #use size because it can adapte to call count or length
     ac.online_roles.size.should eq 2
     Role.find(ac.online_roles[0].id).online.should eq true

@@ -1,4 +1,6 @@
 .container
+    %h3 ID:  #{@computer.id}
     %h3 机器名:  #{computer_tag(@computer)}
     %h3 区/版本:  #{@computer.server + '/' + @computer.version}
+    %p KEY: #{@computer.auth_key}
 

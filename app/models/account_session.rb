@@ -37,7 +37,7 @@ class AccountSession < ActiveRecord::Base
         #如果不是成功退出，那么冷却时间应该以note发生的时间开始计时，所以normal_at会在note发生的时候改变
         #normal_at = Account::STATUS[self.status].hours.to_i.from_now if Account::STATUS.has_key?(self.finished_status)
       end
-      self.account.update_attributes :normal_at => normal_at ,:today_success => today_success
+      self.account.update_attributes :normal_at => normal_at ,:today_success => today_success,:session_id => 0
 
       ip = Ip.find_or_create(self.ip)
       ip.update_attributes(:cooling_time=>25.hours.from_now)
