@@ -183,7 +183,7 @@ class Role < ActiveRecord::Base
       if opts[:tick_time]
         note_id = opts[:tick_time].to_i
       else
-        note_id = rand(99999999999) 
+        note_id = rand(999999999) 
       end
       
       return 1 if Payment.where(:role_id => self.id,:note_id => note_id).first
