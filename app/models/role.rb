@@ -180,8 +180,8 @@ class Role < ActiveRecord::Base
     computer = Computer.find_by_auth_key(opts[:ckey])
     
     self.transaction do
-      if opts[:note_id]
-        note_id = opts[:note_id].to_i
+      if opts[:tick_time]
+        note_id = opts[:tick_time].to_i
       else
         note_id = rand(99999999999) 
       end

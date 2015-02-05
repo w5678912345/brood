@@ -254,16 +254,24 @@ describe Api::AccountController do
     #normal_at will be 72 hours from now
     ac.normal_at.should > 71.hours.from_now
   end
-  it 'pay with tick_time' do
-    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade',:note_id => '123'})
+  it 'pay without tick_time' do
+    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade'})
     Payment.count.should eq 1
 
     #avoid re send pay data by [role_id,note_id]
-    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade',:note_id => '123'})
+    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade'})
+    Payment.count.should eq 2
+  end
+  it 'pay with tick_time' do
+    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade',:tick_time => '123'})
+    Payment.count.should eq 1
+
+    #avoid re send pay data by [role_id,note_id]
+    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade',:tick_time => '123'})
     Payment.count.should eq 1
 
     #note_id is different,then accept
-    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade',:note_id => '1234'})
+    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade',:tick_time => '1234'})
     Payment.count.should eq 2
   end
 end
