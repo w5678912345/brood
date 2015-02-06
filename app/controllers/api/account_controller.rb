@@ -37,7 +37,8 @@ class Api::AccountController < Api::BaseController
 		return if @account
 
 		@computer.auto_bind_accounts({:ip=>request.remote_ip,:msg=>"auto by start",:avg=>1})  if @computer.auto_binding
-		unless Note.where(:computer_id => @computer.id).where(:api_name=>"not_find_account").at_date(Date.today).exists?
+		#如果是重复发生的事件将不会记录
+		if @computer.msg != 'not_find_account'
 		# 记录事件
 		 Note.create(:computer_id=>@computer.id,:hostname=>@computer.hostname,:ip=>params[:ip],:server => @computer.server,
 		 	:version => @computer.version,:api_name=>"not_find_account")		 
