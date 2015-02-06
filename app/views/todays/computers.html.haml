@@ -1,11 +1,11 @@
 =render 'navbar'
 =render 'computer_grid'
 %ul.thumbnails
--@computers.each do |c|
-  %a.btn{href: computer_path(c),class: computer_ul_color(c)}
-    %p.text-center
-      =c.server
-    %p.text-center
-      =c.hostname
-    %p.text-center
-      =c.account_sessions.count
+  -@computers.each do |c|
+    %li.btn{href: computer_path(c),class: computer_ul_color(c)}
+      %p.text-center
+        =c.server
+      %p.text-center
+        =c.hostname
+      %p.text-center
+        =c.account_sessions.count
