@@ -186,8 +186,8 @@ class ComputersController < ApplicationController
 
   def show
   	@computer = Computer.find(params[:id])
-    @accounts = @computer.accounts.joins(:roles).reorder("accounts.session_id desc").order("roles.level desc").uniq()
-    @accounts = initialize_grid(@accounts,:per_page=>50)
+
+    @accounts = initialize_grid(Account.where(:bind_computer_id => @computer.id),:per_page=>10)
 
     @account_sessions = initialize_grid(AccountSession.where(:computer_id => @computer.id),
       :order => 'account_sessions.id',

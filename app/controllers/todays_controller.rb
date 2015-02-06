@@ -2,7 +2,7 @@
 class TodaysController < ApplicationController
 	def index
 		@online_computer_count = Computer.started_scope.count
-		@online_role_count = AccountSession.where(:finished => false).count
+		@online_account_count = AccountSession.where(:finished => false).count
 		@today_trade_gold = Payment.trade_scope.at_date(Date.today).sum(:gold)
 		#.at_date(Date.today)
 		@error_event_count = AccountSession.select("finished_status as status,count(id) as num").
@@ -13,8 +13,13 @@ class TodaysController < ApplicationController
 		nearest_check_time = Time.now.change(:hour => 6)
 		next_check_time = Time.now > nearest_check_time ? nearest_check_time + 1.day : nearest_check_time
 		
-		@finished_role_count = Role.where(:today_success => true)
-		@can_use_role_count = Role.can_used.count
+		@finished_role_count = Role.where(:today_success => true).count
+		@online_role_count = AccountSession.where("role_session_id > 0").where(:finished => false).count
+		@can_use_role_count = Role.can_used.joins(:qq_account).
+			where("accounts.session_id = 0 and accounts.normal_at <= ? and accounts.enabled = 1",
+						Time.now).count
+
+		@all_valid_role_count = @finished_role_count + @online_role_count + @can_use_role_count
 	end
 	def server_online
 		@server_online = initialize_grid(RoleSession.select("roles.server,count(*) as num").joins(:role).group("roles.server").order("roles.server"))

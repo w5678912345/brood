@@ -112,7 +112,7 @@ class AccountsController < ApplicationController
     			opts = {:ip=>request.remote_ip,:msg=>"bind by computer",:bind=>0}
     			#computer.clear_bind_accounts(opts) if params[:clear].to_i == 1
     			@accounts.stopped_scope.each do |account|
-    				account.do_bind_computer(computer,opts)
+    				account.do_bind_computer(computer,opts,true)
     			end
     			return redirect_to computer_path(computer)
     		else
