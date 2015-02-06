@@ -399,7 +399,6 @@ class Account < ActiveRecord::Base
       return if force == false and self.bind_computer_id != 0
       self.transaction do 
         # 绑定机器
-        binding.pry
         server = self.server.blank? ? computer.server : self.server 
         self.update_attributes(:bind_computer_id => computer.id,:server => server,:updated_at => Time.now)
         # 修改机器绑定数量

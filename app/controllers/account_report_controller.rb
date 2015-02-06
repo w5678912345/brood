@@ -13,4 +13,7 @@ class AccountReportController < ActionController::Base
 		@ticket_records = TicketRecord.server_data
 		
 	end
+	def accounts
+		@accounts = initialize_grid(Account,:include => [:bind_computer,:account_session])
+	end
 end

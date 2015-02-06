@@ -1,0 +1,20 @@
+<%= grid(@accounts || accounts, upper_pagination_panel: true, show_filters: :yes) do |g|
+    g.row_attributes do |a|
+    {class: 'success'} if a.account_session
+  end
+
+  g.action_column  object_property: :no
+  #g.column name:  'ID', attribute: 'id', filter: false
+  g.column name:  '账号' ,attribute: 'no'
+  g.column name:  '密码' ,attribute: 'password'
+  g.column name:  '区', attribute: 'server'
+  g.column name:  '电话', attribute: 'phone_id'
+  g.column name:  '点券', attribute: 'money_point',filter_type: :range,in_csv: false 
+  g.column name: '绑定机器' ,attribute: 'bind_computer_id',filter: false,in_csv: false  do |task|
+   task.bind_computer.hostname if task.bind_computer
+  end
+
+  g.column name:  '状态', attribute: 'status' ,custom_filter: account_status_select_all do |account|
+    account_status_cn account.status
+  end
+end %>

@@ -63,7 +63,9 @@ Brood::Application.routes.draw do
 
   end
 
-  resource :account_report,controller: 'account_report'
+  resource :account_report,controller: 'account_report' do
+    get :accounts
+  end
 
   resources :expand_accounts do
     post :edit_enabled, :on => :collection
