@@ -13,8 +13,8 @@ class TodaysController < ApplicationController
 		nearest_check_time = Time.now.change(:hour => 6)
 		next_check_time = Time.now > nearest_check_time ? nearest_check_time + 1.day : nearest_check_time
 		
-		@finished_role_count = Account.where(:last_start_at =>[next_check_time - 1.day,next_check_time]).where("today_success = 1 or normal_at >= ?",next_check_time).count
-		@can_use_role_count = Account.where("normal_at < ?",next_check_time).count
+		@finished_role_count = Role.where(:today_success => true)
+		@can_use_role_count = Role.can_used.count
 	end
 	def server_online
 		@server_online = initialize_grid(RoleSession.select("roles.server,count(*) as num").joins(:role).group("roles.server").order("roles.server"))
