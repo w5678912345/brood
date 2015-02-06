@@ -187,7 +187,6 @@ describe Api::AccountController do
     Account.find_by_no(@account0.no).is_started?.should eq false
     puts Account.find_by_no(@account0.no).session_id
     #second account restart,can get 2 roles too
-    binding.pry
     @controller = Api::AccountController.new
     get :auto,@base_params    
     assigns(:code).should eq 1
