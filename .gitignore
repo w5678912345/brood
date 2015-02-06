@@ -20,7 +20,7 @@
 /public/uploads
 /public/assets
 # config
-/config/database.yml
+#/config/database.yml
 /config/deploy.local.rb
 # /config/deploy.remote.rb
 # /config/schedule.development.rb
