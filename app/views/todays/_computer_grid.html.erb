@@ -1,0 +1,4 @@
+<%=define_grid(@computers, upper_pagination_panel: true, show_filters: :yes) do |g|
+  g.action_column
+  g.column name:  '名字', attribute: 'hostname' 
+end%>

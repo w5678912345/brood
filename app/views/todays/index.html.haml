@@ -14,7 +14,7 @@
         =@finished_role_count
       .bar.bar-success{'style'=>"width: #{(@online_role_count)*100.0/@all_valid_role_count}%"}
       .text-info 
-        = @finished_role_count.to_s + '/' + @can_use_role_count.to_s
+        = @finished_role_count.to_s + '/' + @online_role_count.to_s + '/' + @all_valid_role_count.to_s
 
     %br
 

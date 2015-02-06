@@ -146,4 +146,16 @@ module ApplicationHelper
 			'background-color: rgb(245, 245, 155);'
 		end
 	end
+
+	def computer_ul_color c
+		if c.account_sessions.size > 0
+			if c.account_sessions.first.role_session
+				return 'btn-success'
+			else
+				return 'btn-warning'
+			end
+		elsif c.msg == 'not_find_account'
+			'btn-danger'
+		end
+	end
 end

@@ -27,3 +27,13 @@ select{margin-bottom: 0px;color: #b94a48;font-weight: bold;}
 	width: 760px;
 	margin-left: -380px;
 }
+.thumbnail.span1.success {
+  background-color: rgb(204, 255, 204);
+}
+
+.thumbnail.span1.warning {
+  background-color: rgb(255, 255, 204);
+}
+.thumbnail.span1.error {
+  background-color: rgb(255, 204, 204);
+}

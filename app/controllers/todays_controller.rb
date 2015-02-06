@@ -25,5 +25,13 @@ class TodaysController < ApplicationController
 		@server_online = initialize_grid(RoleSession.select("roles.server,count(*) as num").joins(:role).group("roles.server").order("roles.server"))
 		@server_online = initialize_grid(Role.started_scope.select("server,count(id) as num").group("server").order("server")) if params[:by] == 'role'
 	end
+	def computers
+		per_page = params[:per_page] or '50' 
+		@computers = initialize_grid(Computer,per_page: per_page,
+      :order => 'hostname',
+      :order_direction => 'asc',
+      :include => [:account_sessions]
+			)
+	end
 end
 			
