@@ -149,10 +149,10 @@ module ApplicationHelper
 
 	def computer_ul_color c
 		if c.account_sessions.size > 0
-			if c.account_sessions.first.role_session
-				return 'btn-success'
-			else
+			if c.account_sessions.where("role_session_id is null").count > 0
 				return 'btn-warning'
+			else
+				return 'btn-success'
 			end
 		elsif c.msg == 'not_find_account'
 			'btn-danger'

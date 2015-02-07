@@ -29,7 +29,7 @@ class TodaysController < ApplicationController
 		per_page = params[:per_page] || 50
 
 		@danger_count = Computer.where(:msg => 'not_find_account').where("session_id > 0").count
-		@warning_count = Computer.joins(:account_sessions).where("account_sessions.role_session_id = 0").count
+		@warning_count = Computer.joins(:account_sessions).where("account_sessions.role_session_id = 0 or account_sessions.role_session_id is null").count
 
 		if params[:color] == 'danger'
 			@computers = Computer.where(:msg => 'not_find_account').where("session_id > 0")
