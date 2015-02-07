@@ -5,6 +5,7 @@
   g.column name:  '耗时' do |h|
     hour_str(h.end_at-h.begin_at)
   end
+  g.column name: '服务器',attribute: 'server'
   g.column name: '电脑',attribute: 'computer_id'  do |h|
     computer_tag h.computer
   end
@@ -14,6 +15,9 @@
   g.column name: '角色',attribute: 'role_id' do |h|
     role_tag h.role_id
   end
+  g.column name: '结果',attribute: 'result',custom_filter: Account.all_status
+  g.column name: 'IP',attribute: 'ip'
+
   #g.column name: '任务',attribute: 'task'
   g.column name: '产出' ,attribute: 'gold',filter: false do |h|
     gold_str h.gold
@@ -21,10 +25,7 @@
   g.column name: '转出' ,attribute: 'exchanged_gold',filter: false do |h|
     gold_str h.exchanged_gold
   end
-  g.column name: '结果',attribute: 'result',custom_filter: :auto
-  g.column name: '服务器',attribute: 'server'
   g.column name: '版本',attribute: 'version'
-  g.column name: 'IP',attribute: 'ip'
   g.column name: '重连次数',attribute: 'connection_times'
 
 

@@ -165,7 +165,7 @@ class Role < ActiveRecord::Base
   def api_stop opts
     return CODES[:role_is_stopped] unless self.is_started?
 
-    self.role_session.stop opts[:success] == '1',self.status
+    self.role_session.stop opts[:success] == '1'
   end
 
   # 角色支付

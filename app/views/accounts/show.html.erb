@@ -72,3 +72,10 @@
 <%= render :partial => "roles/table",:locals=>{:roles=>@account.reorder_roles} %>
 
 </fieldset>
+
+<fieldset>
+<legend>账号历史</legend>
+
+<%= render 'account_sessions/grid' %>
+
+</fieldset>

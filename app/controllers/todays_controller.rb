@@ -26,8 +26,19 @@ class TodaysController < ApplicationController
 		@server_online = initialize_grid(Role.started_scope.select("server,count(id) as num").group("server").order("server")) if params[:by] == 'role'
 	end
 	def computers
-		per_page = params[:per_page] or '50' 
-		@computers = initialize_grid(Computer,per_page: per_page,
+		per_page = params[:per_page] || 50
+
+		@danger_count = Computer.where(:msg => 'not_find_account').where("session_id > 0").count
+		@warning_count = Computer.joins(:account_sessions).where("account_sessions.role_session_id = 0").count
+
+		if params[:color] == 'danger'
+			@computers = Computer.where(:msg => 'not_find_account').where("session_id > 0")
+		elsif params[:color] == 'warning'
+			@computers = Computer.joins(:account_sessions).where("account_sessions.role_session_id = 0")
+		else
+			@computers = Computer
+		end
+			@computers = initialize_grid(@computers,per_page: per_page,
       :order => 'hostname',
       :order_direction => 'asc',
       :include => [:account_sessions]

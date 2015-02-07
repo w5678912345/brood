@@ -12,7 +12,7 @@ class AccountSession < ActiveRecord::Base
 
   def start_role(role)
     if self.role_session.nil? == false and self.role_session.role_id != role.id
-      self.role_session.stop(false,'NewRole')
+      self.role_session.stop(false)
     end
 
     create_role_session_from_role(role)
@@ -23,10 +23,11 @@ class AccountSession < ActiveRecord::Base
   def stop(is_success,msg="")
     #binding.pry
     return 1 if self.transaction do
-      self.role_session.stop(is_success,msg) if self.role_session
+      self.finished_status = self.started_status if self.finished_status.nil?
+
+      self.role_session.stop(is_success) if self.role_session
       self.account.roles.update_all(:online => false)
 
-      self.finished_status = self.started_status if self.finished_status.nil?
       nearest_check_time = Time.now.change(:hour => 6)
       normal_at = self.account.normal_at
       today_success = self.account.today_success

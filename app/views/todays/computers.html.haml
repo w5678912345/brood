@@ -1,11 +1,18 @@
 =render 'navbar'
+.control-group
+  .btn-group
+    =link_to '所有',computers_todays_path(),{:class => 'btn',:id => 'all'}
+    =link_to "异常(#{@warning_count})",computers_todays_path(:color => 'warning'),{:class => 'btn',:id => 'warning'}
+    =link_to "故障(#{@danger_count})",computers_todays_path(:color => 'danger'),{:class => 'btn',:id => 'danger'}
+
 =render 'computer_grid'
-%ul.thumbnails
-  -@computers.each do |c|
-    %li.btn{href: computer_path(c),class: computer_ul_color(c)}
-      %p.text-center
-        =c.server
-      %p.text-center
-        =c.hostname
-      %p.text-center
-        =c.account_sessions.count
+%fieldset
+  %ul.thumbnails
+    -@computers.each do |c|
+      %li.btn{href: computer_path(c),class: computer_ul_color(c)}
+        %p.text-center
+          =c.server
+        %p.text-center
+          =c.hostname
+        %p.text-center
+          =c.account_sessions.count
