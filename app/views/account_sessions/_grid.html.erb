@@ -3,7 +3,7 @@
     {class: 'success'} if version.finished == false
   end
 
-  g.column name:  'ID', attribute: 'id'
+  #g.column name:  'ID', attribute: 'id'
   g.column name:  '电脑', attribute: 'hostname',model: Computer do |a|
     link_to a.computer.hostname,computer_path(a.computer) if a.computer
   end

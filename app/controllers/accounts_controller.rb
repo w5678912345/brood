@@ -27,7 +27,10 @@ class AccountsController < ApplicationController
 		@account = Account.find_by_no(params[:id]) if params[:id] != "0"
 		@account = Account.find_by_no(params[:no]) unless @account
 
-		@account_sessions = initialize_grid(AccountSession.where(:account_id => @account.no))
+		@account_sessions = initialize_grid(AccountSession.where(:account_id => @account.no),
+      :order => 'account_sessions.id',
+      :order_direction => 'desc'
+			)
 	end
 
 	def merge
