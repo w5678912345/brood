@@ -47,6 +47,7 @@ Brood::Application.routes.draw do
   resources :todays, :only => [:index] do
     get :server_online,       :on => :collection
     get :computers,           :on => :collection
+    get :warning_computers,           :on => :collection
   end
 
   resources :accounts do 

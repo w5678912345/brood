@@ -1,0 +1,8 @@
+=render 'navbar'
+%table
+  %tbody
+    -@warning_computers.each do |c|
+      %tr
+        %td #{c.hostname}
+        %td #{Time.diff(Time.now,Time.now + c.duration)[:diff]}
+      

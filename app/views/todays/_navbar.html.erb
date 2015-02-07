@@ -9,4 +9,7 @@
 	<li <%= active if controller_name == "todays" && action_name == 'server_online' %> >
  		<%= link_to raw('<i class="icon-list"></i>在线分布'), server_online_todays_path %>
 	</li>
+    <li <%= active if controller_name == "todays" && action_name == 'warning_computers' %> >
+    <%= link_to raw('<i class="icon-list"></i>需要人工干预的机器'), warning_computers_todays_path %>
+  </li>
 </ul>

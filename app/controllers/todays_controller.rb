@@ -46,5 +46,10 @@ class TodaysController < ApplicationController
       :include => [:account_sessions]
 			)
 	end
+	def warning_computers
+		@warning_computers = AccountSession.select("account_sessions.id,computers.hostname as hostname,(account_sessions.lived_at - account_sessions.created_at) as duration").
+		  joins(:computer).joins("left JOIN role_sessions ON role_sessions.account_session_id = account_sessions.id").
+		  where("role_sessions.id is null and account_sessions.finished = false").order("duration desc")
+	end
 end
 			
