@@ -30,7 +30,7 @@
   g.column name:  '体力', attribute: 'vit_power',filter_type: :range,:detach_with_id => :vit_power_filter
 
   g.column name: '金币' do |task|
-    task.gold
+    gold_str task.gold
   end
   g.column name: '今日结果',attribute: "today_success",filter_type: :boolean,:detach_with_id => :today_success_filter do |task|
     boolean_tag task.today_success 

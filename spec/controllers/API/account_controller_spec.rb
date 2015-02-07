@@ -10,6 +10,7 @@ describe Api::AccountController do
     @computer = FactoryGirl.create(:computer)
     @computer1 = FactoryGirl.create(:computer)
     @role = FactoryGirl.create(:role,role_profile: rp)
+    @role.update_attributes :total => 0
     @role1 = FactoryGirl.create(:role,:qq_account => @role.qq_account,role_profile: rp)
     @role2 = FactoryGirl.create(:role,role_profile: rp)
     @computer.accounts << @role.qq_account
@@ -54,6 +55,7 @@ describe Api::AccountController do
     RoleSession.all.count.should eq 1
     Role.find(@role.id).is_started?.should eq true
     Role.find(@role.id).gold.should eq 20
+    Role.find(@role.id).total.should eq 20
     #换角色
     @controller = Api::AccountController.new
     @base_params[:rid]=@role1.id

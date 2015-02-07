@@ -24,7 +24,7 @@
   g.column name:  '体力', attribute: 'vit_power'#, filter: false
 
   g.column name: '金币' do |task|
-    task.gold
+    gold_str task.gold
   end
   g.column name: '今日结果',attribute: "today_success",filter_type: :boolean do |task|
     boolean_tag task.today_success 

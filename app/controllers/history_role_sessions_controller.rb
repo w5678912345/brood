@@ -2,7 +2,10 @@ class HistoryRoleSessionsController < ApplicationController
   # GET /history_role_sessions
   # GET /history_role_sessions.json
   def index
-    @history_role_sessions = initialize_grid(HistoryRoleSession)
+    @history_role_sessions = initialize_grid(HistoryRoleSession,
+      :order => 'history_role_sessions.id',
+      :order_direction => 'desc'
+      )
 
     respond_to do |format|
       format.html # index.html.erb

@@ -132,8 +132,8 @@ class Account < ActiveRecord::Base
         if role.is_started? == false
           role.role_session = self.account_session.start_role(role)
         end
-
         role.role_session.live_now
+        role_attrs = role_attrs.merge :total => role_attrs[:gold] if role_attrs[:gold] and role_attrs[:gold] > role.total
         role.update_attributes role_attrs
       end
       # 修改角色

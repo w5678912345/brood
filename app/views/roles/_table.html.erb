@@ -51,7 +51,7 @@
 <td><%= role.server%></td>
 <td><%= role.level%></td>
 <td><%= role.vit_power %></td>
-<td><%= role.gold %></td>
+<td><%= gold_str role.gold %></td>
 <td>
 <% if role.role_session %>
 	<%= link_to role.role_session.computer_id ,computer_path(role.role_session.computer_id)%>
