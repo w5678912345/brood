@@ -28,13 +28,15 @@ class TodaysController < ApplicationController
 	def computers
 		per_page = params[:per_page] || 50
 
+		warning_computers = Computer.joins("INNER JOIN account_sessions ON account_sessions.computer_id = computers.id AND account_sessions.finished = 0 left JOIN role_sessions ON role_sessions.account_session_id = account_sessions.id").where("role_sessions.id is null")
+
 		@danger_count = Computer.where(:msg => 'not_find_account').where("session_id > 0").count
-		@warning_count = Computer.joins(:account_sessions).where("account_sessions.role_session_id = 0 or account_sessions.role_session_id is null").count
+		@warning_count = warning_computers.count
 
 		if params[:color] == 'danger'
 			@computers = Computer.where(:msg => 'not_find_account').where("session_id > 0")
 		elsif params[:color] == 'warning'
-			@computers = Computer.joins(:account_sessions).where("account_sessions.role_session_id = 0")
+			@computers = warning_computers
 		else
 			@computers = Computer
 		end
