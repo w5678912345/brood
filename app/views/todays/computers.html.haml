@@ -3,7 +3,7 @@
   .btn-group
     =link_to '所有',computers_todays_path(),{:class => 'btn',:id => 'all'}
     =link_to "异常(#{@warning_count})",computers_todays_path(:color => 'warning'),{:class => 'btn',:id => 'warning'}
-    =link_to "故障(#{@danger_count})",computers_todays_path(:color => 'danger'),{:class => 'btn',:id => 'danger'}
+    =link_to "空转(#{@danger_count})",computers_todays_path(:color => 'danger'),{:class => 'btn',:id => 'danger'}
 
 =render 'computer_grid'
 %fieldset

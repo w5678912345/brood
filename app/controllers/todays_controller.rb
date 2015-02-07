@@ -40,7 +40,7 @@ class TodaysController < ApplicationController
 		else
 			@computers = Computer
 		end
-			@computers = initialize_grid(@computers,per_page: per_page,
+			@computers = initialize_grid(@computers,:include => {:account_sessions => :role_session} ,per_page: per_page,
       :order => 'hostname',
       :order_direction => 'asc',
       :include => [:account_sessions]
