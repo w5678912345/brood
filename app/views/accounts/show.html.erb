@@ -11,25 +11,24 @@
 	<td>创建时间</td>
 	<td><%= time_str @account.created_at %> <%= boolean_tag @account.is_auto %></td>
 	<td>服务器</td>
-<td><%= @account.server %></td>
+	<td><%= @account.server %></td>
 </tr>
 <tr>
-<td>角色数量</td>
-<td><%= @account.roles.count %></td>
-<td>绑定机器</td>
-<td><%= account_bind_tag @account%></td>
-<td>状态/可用</td>
-<td><%= @account.status%> 
-</td>
+	<td>角色数量</td>
+	<td><%= @account.roles.count %></td>
+	<td>绑定机器</td>
+	<td><%= account_bind_tag @account%></td>
+	<td>状态/可用</td>
+	<td><%= @account.status%></td>
 </tr>
 
 <tr>
-<td>修改时间</td>
-<td><%= time_str @account.updated_at %></td>
-<th>恢复时间</th>
-<td> <%= normal_at_tag @account.normal_at %></td>
-<td>今天成功</td>
-<td><%= boolean_tag @account.today_success %></td>
+	<td>修改时间</td>
+	<td><%= time_str @account.updated_at %></td>
+	<th>恢复时间</th>
+	<td> <%= normal_at_tag @account.normal_at %></td>
+	<td>今天成功</td>
+	<td><%= boolean_tag @account.today_success %></td>
 </tr>
 <tr>
 	<td>绑定手机:</td>
@@ -38,10 +37,13 @@
 	<td><%= @account.unlock_phone_id.blank? ? "无" : @account.unlock_phone_id %></td>
 	<td>解锁时间:</td>
 	<td><%= time_str @account.unlocked_at %></td>
+
 </tr>
 <tr>
 	<td>备注:</td>
-	<td colspan="5"><%= @account.remark %></td>
+	<td colspan="3"><%= @account.remark %></td>
+	<td class='success'>点券：</td>
+	<td><%= @account.money_point %></td>
 </tr>
 <% if @account.is_started? %>
 <tr class="info">
