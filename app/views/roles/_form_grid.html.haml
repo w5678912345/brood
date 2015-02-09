@@ -5,7 +5,7 @@
       %select#do.input-medium{'name' => 'do'}
         %option --请选择--
         -Account::Btns.each do | key, value |
-          %Role{'value'=>"#{key}"}
+          %option{'value'=>"#{key}"}
             =value
       %button.btn.btn-primary#expand-btn{'type'=>"submit"} 执行操作
   =render partial: 'roles/grid',:locals => {:roles => roles}
