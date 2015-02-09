@@ -152,7 +152,14 @@ class Account < ActiveRecord::Base
       #binding.pry
       obj_status = AccountStatus.find_by_status(status)
       return 0 unless  (obj_status.nil? == false) || (EVENT.include? event) #事件和状态都未定义，不进行更新
-      computer = self.account_session.computer
+
+      if opts[:cooling_hours]
+        normal_at = opts[:cooling_hours].to_i.hours.from_now
+      elsif obj_status
+        normal_at = obj_status.resume_time_from_now
+      end
+
+
       api_name = "0",api_code = "0"
       #
       self.transaction do 
@@ -161,11 +168,13 @@ class Account < ActiveRecord::Base
           api_name = status # 如果定义了有效状态 设置 api_name => status
           api_code = status # 如果定义了有效状态 设置 api_code => status
           self.status = status
-          self.normal_at = obj_status.hours.to_i.hours.from_now
+          self.normal_at = normal_at
           self.account_session.update_attributes finished_status: status,remark: opts[:msg]
         end
         # 记录账号发生的事件
         api_name = event if EVENT.include? event # 如果定义了有效事件，设置api_name => event
+        
+        computer = self.account_session.computer
         #
         if status == 'discardfordays'
             count = Note.where("api_name = 'discardfordays' and computer_id = ? ",computer.id).where("date(created_at)=?",Date.today.to_s).count

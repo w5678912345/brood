@@ -28,17 +28,17 @@ class AccountSession < ActiveRecord::Base
       self.role_session.stop(is_success) if self.role_session
       self.account.roles.update_all(:online => false)
 
-      nearest_check_time = Time.now.change(:hour => 6)
       normal_at = self.account.normal_at
       today_success = self.account.today_success
       if is_success
-        normal_at = self.created_at < nearest_check_time ? nearest_check_time : 1.day.from_now.change(:hour => 6)
+        normal_at = AccountStatus.next_check_time
         today_success = self.finished_status == 'normal'
       else
         #如果不是成功退出，那么冷却时间应该以note发生的时间开始计时，所以normal_at会在note发生的时候改变
-        #normal_at = Account::STATUS[self.status].hours.to_i.from_now if Account::STATUS.has_key?(self.finished_status)
+        status = AccountStatus.find_by_status(self.finished_status)
+        normal_at = status.resume_time_from_now if status
       end
-      self.account.update_attributes :normal_at => normal_at ,:today_success => today_success,:session_id => 0
+      self.account.update_attributes :today_success => today_success,:session_id => 0,:normal_at => normal_at 
 
       ip = Ip.find_or_create(self.ip)
       ip.update_attributes(:cooling_time=>25.hours.from_now)
