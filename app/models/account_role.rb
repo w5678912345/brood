@@ -52,18 +52,21 @@ class AccountRole
 			records = records.where("roles.session_id > 0") if opts[:r_started].to_i == 1
 		end
 		unless opts[:level].blank?
-	      tmp = opts[:level].split("-")
-	      records = tmp.length == 2 ? records.where("roles.level >= ? and roles.level <= ?",tmp[0],tmp[1]) : records.where("roles.level =? ",opts[:level].to_i)
-	    end
-	    unless opts[:vit].blank?
-	      tmp = opts[:vit].split("-")
-	      records = tmp.length == 2 ? records.where("roles.vit_power >= ? and roles.vit_power <= ?",tmp[0],tmp[1]) : records.where("roles.vit_power =? ",opts[:vit].to_i)
-	    end
-	     unless opts[:gold].blank?
-	      tmp = opts[:gold].split("-")
-	      records = tmp.length == 2 ? records.where("roles.gold >= ? and roles.gold <= ?",tmp[0],tmp[1]) : records.where("roles.gold =? ",opts[:gold].to_i)
-	    end
-
+      tmp = opts[:level].split("-")
+      records = tmp.length == 2 ? records.where("roles.level >= ? and roles.level <= ?",tmp[0],tmp[1]) : records.where("roles.level =? ",opts[:level].to_i)
+	  end
+    unless opts[:vit].blank?
+      tmp = opts[:vit].split("-")
+      records = tmp.length == 2 ? records.where("roles.vit_power >= ? and roles.vit_power <= ?",tmp[0],tmp[1]) : records.where("roles.vit_power =? ",opts[:vit].to_i)
+    end
+    unless opts[:gold].blank?
+      tmp = opts[:gold].split("-")
+      records = tmp.length == 2 ? records.where("roles.gold >= ? and roles.gold <= ?",tmp[0],tmp[1]) : records.where("roles.gold =? ",opts[:gold].to_i)
+    end
+	  unless opts[:money_point].blank?
+      tmp = opts[:money_point].split("-")
+      records = tmp.length == 2 ? records.where("roles.money_point >= ? and roles.money_point <= ?",tmp[0],tmp[1]) : records.where("roles.money_point =? ",opts[:gold].to_i)
+	  end
 		#records = records.reorder("accounts.id desc")
 		return records
 
