@@ -8,7 +8,9 @@
   g.column name: '区',   attribute: 'server'
   g.column name: '角色', attribute: 'role_name'
   g.column name: '点卷', attribute: 'points'
-  g.column name: '金币', attribute: 'gold'
+  g.column name: '金币', attribute: 'gold' do |r|
+    gold_str r.gold
+  end
   g.column name: '时间', attribute: 'created_at' do |record|
     time_str record.created_at
   end

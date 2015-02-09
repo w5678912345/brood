@@ -186,7 +186,16 @@ class Role < ActiveRecord::Base
         note_id = rand(999999999) 
       end
       
-      return 1 if Payment.where(:role_id => self.id,:note_id => note_id).first
+      if Payment.where(:role_id => self.id,:note_id => note_id).first
+        Note.create do |n|
+          n.role_id = self.id
+          n.computer_id = computer.id
+          n.api_name = 'repay'
+          n.ip = opts[:ip]
+          n.msg = "gold:#{opts[:gold]},balance:#{opts[:balance]},type:#{opts[:pay_type]},target:#{opts[:target]}"
+        end
+        return 1
+      end
       payment = Payment.new(:role_id=>self.id,:gold => opts[:gold],:balance => opts[:balance],:remark => opts[:remark],:note_id => note_id,:pay_type=>opts[:pay_type],:server=>self.server||computer.server,:target=>opts[:target]) 
       return CODES[:not_valid_pay] unless payment.valid? # validate not pass
       self.gold = payment.balance      #当前金币 = 支出后的余额
