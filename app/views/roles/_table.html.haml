@@ -28,7 +28,7 @@
 
     %tbody#roles_data
       -roles.each do |role|
-        %tr{'class'=>"info"}
+        %tr{'class'=>("info" if role.online)}
           %td
             %label.checkbox
               = check_box_tag 'grid[selected][]',role.id,false,:id=>role.id
