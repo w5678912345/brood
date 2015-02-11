@@ -15,11 +15,11 @@ class TodaysController < ApplicationController
 		
 		@finished_role_count = Role.where(:today_success => true).count
 		@online_role_count = RoleSession.count
-		@can_use_role_count = Role.can_used.joins(:qq_account).
-			where("accounts.session_id = 0 and accounts.normal_at <= ? and accounts.enabled = 1 and accounts.bind_computer_id > 0",
+		@can_use_role_count = Role.today_valid.joins(:qq_account).
+			where("accounts.normal_at <= ? and accounts.enabled = 1 and accounts.bind_computer_id > 0",
 						Time.now).count
 
-		@all_valid_role_count = @finished_role_count + @online_role_count + @can_use_role_count
+		@all_valid_role_count = @finished_role_count + @can_use_role_count
 	end
 	def server_online
 		@server_online = initialize_grid(RoleSession.select("roles.server,count(*) as num").joins(:role).group("roles.server").order("roles.server"))

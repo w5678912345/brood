@@ -40,6 +40,10 @@ class Role < ActiveRecord::Base
   # 等待上线的角色
   scope :waiting_scope,stopped_scope.where("roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0").reorder("is_helper desc").readonly(false)
 
+  scope :today_valid,where("roles.status = 'normal' and roles.today_success = 0 and roles.vit_power > 5").
+    where("roles.level < ?",Setting.role_max_level).reorder("roles.updated_at desc")
+
+
   scope :can_used,where("roles.status = 'normal' and roles.online = 0 and roles.today_success = 0 and roles.vit_power > 5").
     where("roles.level < ?",Setting.role_max_level).reorder("roles.updated_at desc")
   def self.all_status
