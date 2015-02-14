@@ -1,0 +1,52 @@
+= form_for @daily_record do |f|
+  - if @daily_record.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@daily_record.errors.count, "error")} prohibited this daily_record from being saved:"
+      %ul
+        - @daily_record.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :date
+    = f.date_select :date
+  .field
+    = f.label :account_start_count
+    = f.number_field :account_start_count
+  .field
+    = f.label :role_start_count
+    = f.text_field :role_start_count
+  .field
+    = f.label :success_role_count
+    = f.number_field :success_role_count
+  .field
+    = f.label :consumed_vit_power_sum
+    = f.number_field :consumed_vit_power_sum
+  .field
+    = f.label :role_online_hours
+    = f.number_field :role_online_hours
+  .field
+    = f.label :gold
+    = f.number_field :gold
+  .field
+    = f.label :trade_gold
+    = f.number_field :trade_gold
+  .field
+    = f.label :bslocked_count
+    = f.number_field :bslocked_count
+  .field
+    = f.label :discardforyears_count
+    = f.number_field :discardforyears_count
+  .field
+    = f.label :discardfordays_count
+    = f.number_field :discardfordays_count
+  .field
+    = f.label :exception_count
+    = f.number_field :exception_count
+  .field
+    = f.label :recycle
+    = f.number_field :recycle
+  .field
+    = f.label :locked
+    = f.number_field :locked
+  .actions
+    = f.submit 'Save'

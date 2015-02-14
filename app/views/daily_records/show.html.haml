@@ -1,0 +1,48 @@
+%p#notice= notice
+
+%p
+  %b Date:
+  = @daily_record.date
+%p
+  %b Account start count:
+  = @daily_record.account_start_count
+%p
+  %b Role start count:
+  = @daily_record.role_start_count
+%p
+  %b Success role count:
+  = @daily_record.success_role_count
+%p
+  %b Consumed vit power sum:
+  = @daily_record.consumed_vit_power_sum
+%p
+  %b Role online hours:
+  = @daily_record.role_online_hours
+%p
+  %b Gold:
+  = @daily_record.gold
+%p
+  %b Trade gold:
+  = @daily_record.trade_gold
+%p
+  %b Bslocked count:
+  = @daily_record.bslocked_count
+%p
+  %b Discardforyears count:
+  = @daily_record.discardforyears_count
+%p
+  %b Discardfordays count:
+  = @daily_record.discardfordays_count
+%p
+  %b Exception count:
+  = @daily_record.exception_count
+%p
+  %b Recycle:
+  = @daily_record.recycle
+%p
+  %b Locked:
+  = @daily_record.locked
+
+= link_to 'Edit', edit_daily_record_path(@daily_record)
+\|
+= link_to 'Back', daily_records_path

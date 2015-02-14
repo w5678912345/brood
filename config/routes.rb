@@ -1,5 +1,8 @@
 Brood::Application.routes.draw do
   
+  resources :daily_records
+
+
   resources :account_sessions
 
 

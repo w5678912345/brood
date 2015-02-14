@@ -1,0 +1,45 @@
+%h1 Listing daily_records
+
+%table
+  %tr
+    %th Date
+    %th Account start count
+    %th Role start count
+    %th Success role count
+    %th Consumed vit power sum
+    %th Role online hours
+    %th Gold
+    %th Trade gold
+    %th Bslocked count
+    %th Discardforyears count
+    %th Discardfordays count
+    %th Exception count
+    %th Recycle
+    %th Locked
+    %th
+    %th
+    %th
+
+  - @daily_records.each do |daily_record|
+    %tr
+      %td= daily_record.date
+      %td= daily_record.account_start_count
+      %td= daily_record.role_start_count
+      %td= daily_record.success_role_count
+      %td= daily_record.consumed_vit_power_sum
+      %td= daily_record.role_online_hours
+      %td= daily_record.gold
+      %td= daily_record.trade_gold
+      %td= daily_record.bslocked_count
+      %td= daily_record.discardforyears_count
+      %td= daily_record.discardfordays_count
+      %td= daily_record.exception_count
+      %td= daily_record.recycle
+      %td= daily_record.locked
+      %td= link_to 'Show', daily_record
+      %td= link_to 'Edit', edit_daily_record_path(daily_record)
+      %td= link_to 'Destroy', daily_record, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Daily record', new_daily_record_path
