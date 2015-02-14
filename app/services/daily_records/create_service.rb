@@ -10,20 +10,21 @@ module DailyRecords
       error_event_count = Hash[error_event_count.map{|r|[r.status,r.num]}]
 
       DailyRecord.create do |r|
-      r.date = date
-      r.account_start_count = AccountSession.where("finished = false and created_at between ? and ?",begin_time,end_time).count
-      r.role_start_count = HistoryRoleSession.where("created_at between ? and ?",begin_time,end_time).count
-      r.success_role_count = Role.where("today_success = true").count
-      r.consumed_vit_power_sum = r.success_role_count*156 - Role.where("today_success = false").select("sum(vit_power)as sum").first.sum
-      r.role_online_hours = HistoryRoleSession.where("created_at between ? and ?",begin_time,end_time).select("sum(begin_at - end_at)")
-      r.gold
-      r.trade_gold
-      r.bslocked_count
-      r.discardforyears_count
-      r.discardfordays_count
-      r.exception_count
-      r.recycle
-      r.locked
+        r.date = date
+        r.account_start_count = AccountSession.where("finished = false and created_at between ? and ?",begin_time,end_time).count
+        r.role_start_count = HistoryRoleSession.where("created_at between ? and ?",begin_time,end_time).count
+        r.success_role_count = Role.where("today_success = true").count
+        r.consumed_vit_power_sum = r.success_role_count*156 - Role.where("today_success = true").sum(:vit_power)
+        r.consumed_vit_power_sum = 0 if r.consumed_vit_power_sum.nil? or r.consumed_vit_power_sum < 0
+        r.role_online_hours = HistoryRoleSession.where("created_at between ? and ?",begin_time,end_time).sum("begin_at - end_at")
+        r.gold = HistoryRoleSession.where("created_at between ? and ?",begin_time,end_time).sum(:gold)
+        r.trade_gold = Payment.trade_scope.where("created_at between ? and ?",begin_time,end_time).sum(:gold)
+        r.bslocked_count = error_event_count[:bslocked] if error_event_count[:bslocked]
+        r.discardforyears_count = error_event_count[:discardforyears] if error_event_count[:discardforyears]
+        r.discardfordays_count = error_event_count[:discardfordays] if error_event_count[:discardfordays]
+        r.exception_count = error_event_count[:exception] if error_event_count[:exception]
+        r.recycle_count = error_event_count[:recycle] if error_event_count[:recycle]
+        r.locked_count = error_event_count[:locked] if error_event_count[:locked]
       end
     end
   end

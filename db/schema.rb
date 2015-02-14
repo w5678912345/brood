@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150204053549) do
+ActiveRecord::Schema.define(:version => 20150214052210) do
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
@@ -148,6 +148,27 @@ ActiveRecord::Schema.define(:version => 20150204053549) do
   end
 
   add_index "comroles", ["role_id", "computer_id"], :name => "index_comroles_on_role_id_and_computer_id", :unique => true
+
+  create_table "daily_records", :id => false, :force => true do |t|
+    t.date     "date"
+    t.integer  "account_start_count",    :default => 0
+    t.string   "role_start_count",       :default => "0"
+    t.integer  "success_role_count",     :default => 0
+    t.integer  "consumed_vit_power_sum", :default => 0
+    t.integer  "role_online_hours",      :default => 0
+    t.integer  "gold",                   :default => 0
+    t.integer  "trade_gold",             :default => 0
+    t.integer  "bslocked_count",         :default => 0
+    t.integer  "discardforyears_count",  :default => 0
+    t.integer  "discardfordays_count",   :default => 0
+    t.integer  "exception_count",        :default => 0
+    t.integer  "recycle_count",          :default => 0
+    t.integer  "locked_count",           :default => 0
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
+  end
+
+  add_index "daily_records", ["date"], :name => "index_daily_records_on_date", :unique => true
 
   create_table "data_nodes", :force => true do |t|
     t.string   "computers",  :limit => 500, :default => "{}", :null => false
@@ -291,6 +312,11 @@ ActiveRecord::Schema.define(:version => 20150204053549) do
     t.string   "target"
     t.string   "result"
     t.string   "opts"
+    t.string   "goods"
+    t.integer  "amount",                       :default => 0,     :null => false
+    t.integer  "cost",                         :default => 0,     :null => false
+    t.string   "role_type"
+    t.string   "role_name"
   end
 
   add_index "notes", ["account"], :name => "index_notes_on_account"
@@ -434,24 +460,39 @@ ActiveRecord::Schema.define(:version => 20150204053549) do
     t.boolean  "ishell",                        :default => false,    :null => false
     t.string   "profession",                    :default => "",       :null => false
     t.integer  "role_profile_id",               :default => 1
+    t.integer  "bag_value",                     :default => 0,        :null => false
+    t.integer  "start_count",                   :default => 0,        :null => false
+    t.integer  "experience",                    :default => 0,        :null => false
+    t.string   "task_name"
+    t.boolean  "reset_talent",                  :default => false,    :null => false
+    t.boolean  "is_agent",                      :default => false,    :null => false
   end
 
   add_index "roles", ["account"], :name => "index_roles_on_account"
   add_index "roles", ["role_profile_id"], :name => "index_roles_on_role_profile_id"
 
   create_table "servers", :force => true do |t|
-    t.string   "name",            :limit => 124,                   :null => false
+    t.string   "name",            :limit => 124,                    :null => false
     t.string   "role_str"
-    t.integer  "roles_count",                    :default => 0,    :null => false
-    t.integer  "computers_count",                :default => 0,    :null => false
-    t.datetime "created_at",                                       :null => false
-    t.datetime "updated_at",                                       :null => false
+    t.integer  "roles_count",                    :default => 0,     :null => false
+    t.integer  "computers_count",                :default => 0,     :null => false
+    t.datetime "created_at",                                        :null => false
+    t.datetime "updated_at",                                        :null => false
     t.string   "goods"
-    t.integer  "price",                          :default => 1,    :null => false
-    t.float    "gold_price",                     :default => 0.0,  :null => false
-    t.float    "gold_unit",                      :default => 0.0,  :null => false
-    t.boolean  "allowed_new",                    :default => true, :null => false
-    t.integer  "point",                          :default => 0,    :null => false
+    t.integer  "price",                          :default => 1,     :null => false
+    t.float    "gold_price",                     :default => 0.0,   :null => false
+    t.float    "gold_unit",                      :default => 0.0,   :null => false
+    t.boolean  "allowed_new",                    :default => true,  :null => false
+    t.integer  "point",                          :default => 0,     :null => false
+    t.string   "goods2"
+    t.integer  "price2",                         :default => 1,     :null => false
+    t.integer  "max_price",                      :default => 1,     :null => false
+    t.integer  "max_price2",                     :default => 1,     :null => false
+    t.string   "goods3"
+    t.integer  "price3",                         :default => 1,     :null => false
+    t.integer  "max_price3",                     :default => 1,     :null => false
+    t.boolean  "sell_closed",                    :default => false
+    t.boolean  "agent_closed",                   :default => false, :null => false
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true

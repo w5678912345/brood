@@ -38,10 +38,10 @@
   = @daily_record.exception_count
 %p
   %b Recycle:
-  = @daily_record.recycle
+  = @daily_record.recycle_count
 %p
   %b Locked:
-  = @daily_record.locked
+  = @daily_record.locked_count
 
 = link_to 'Edit', edit_daily_record_path(@daily_record)
 \|

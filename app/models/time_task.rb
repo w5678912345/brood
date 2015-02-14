@@ -2,6 +2,7 @@
 module TimeTask
 	#早上6点执行的任务
 	def self.at_06_time
+		DailyRecords::CreateService.new.run Date.yesterday
 		Api.reset_role
 		Api.reset_ip_use_count
 		Account.reset_today_success
