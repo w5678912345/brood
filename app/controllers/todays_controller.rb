@@ -14,7 +14,7 @@ class TodaysController < ApplicationController
 		next_check_time = Time.now > nearest_check_time ? nearest_check_time + 1.day : nearest_check_time
 		
 		@finished_role_count = Role.where(:today_success => true).count
-		@finished_role_average_level = role.where(:today_success => true).average(:level)
+		@finished_role_average_level = Role.where(:today_success => true).average(:level)
 		@online_role_count = RoleSession.count
 		@can_use_role_count = Role.today_valid.joins(:qq_account).
 			where("accounts.normal_at <= ? and accounts.enabled = 1 and accounts.bind_computer_id > 0",
