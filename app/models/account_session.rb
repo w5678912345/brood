@@ -38,7 +38,7 @@ class AccountSession < ActiveRecord::Base
         status = AccountStatus.find_by_status(self.finished_status)
         normal_at = status.resume_time_from_now if status
       end
-      self.account.update_attributes :today_success => today_success,:session_id => 0,:normal_at => normal_at 
+      self.account.update_attributes :today_success => today_success,:session_id => 0#,:normal_at => normal_at 
 
       ip = Ip.find_or_create(self.ip)
       ip.update_attributes(:cooling_time=>25.hours.from_now)
