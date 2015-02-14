@@ -14,7 +14,7 @@ module DailyRecords
         r.account_start_count = AccountSession.where("finished = false and created_at between ? and ?",begin_time,end_time).count
         r.role_start_count = HistoryRoleSession.where("created_at between ? and ?",begin_time,end_time).count
         r.success_role_count = Role.where("today_success = true").count
-        r.average_level = Role..where("today_success = true").average(:level)
+        r.average_level = Role.where("today_success = true").average(:level)
         r.consumed_vit_power_sum = r.success_role_count*156 - Role.where("today_success = true").sum(:vit_power)
         r.consumed_vit_power_sum = 0 if r.consumed_vit_power_sum.nil? or r.consumed_vit_power_sum < 0
         r.role_online_hours = HistoryRoleSession.where("created_at between ? and ?",begin_time,end_time).sum("begin_at - end_at")
