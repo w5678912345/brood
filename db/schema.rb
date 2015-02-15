@@ -166,7 +166,7 @@ ActiveRecord::Schema.define(:version => 20150214071730) do
     t.integer  "locked_count",           :default => 0
     t.datetime "created_at",                              :null => false
     t.datetime "updated_at",                              :null => false
-    t.integer  "average_level"
+    t.integer  "average_level",          :default => 0
   end
 
   add_index "daily_records", ["date"], :name => "index_daily_records_on_date", :unique => true

@@ -8,7 +8,7 @@
     %th 角色次数
     %th 完成角色
     %th 平均等级
-    %th 完成体力
+    %th 体力完成度
     %th 角色在线时长
     %th 产出
     %th 转出
@@ -26,8 +26,8 @@
       %td= daily_record.role_start_count
       %td= daily_record.success_role_count
       %td= daily_record.average_level
-      %td= daily_record.consumed_vit_power_sum
-      %td= daily_record.role_online_hours
+      %td= "%.1f\%" % daily_record.consumed_vit_power_sum*100/(156*daily_record.success_role_count)
+      %td= "#{daily_record.role_online_hours}小时"
       %td= gold_str daily_record.gold
       %td= gold_str daily_record.trade_gold
       %td= daily_record.bslocked_count
