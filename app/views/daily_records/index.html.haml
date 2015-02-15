@@ -26,7 +26,10 @@
       %td= daily_record.role_start_count
       %td= daily_record.success_role_count
       %td= daily_record.average_level
-      %td= "%.1f\%" % daily_record.consumed_vit_power_sum*100/(156*daily_record.success_role_count)
+      -if daily_record.success_role_count == 0
+        %td 无
+      -else
+        %td= "%.1f\%" % (daily_record.consumed_vit_power_sum.to_i*100/(156*daily_record.success_role_count.to_i))
       %td= "#{daily_record.role_online_hours}小时"
       %td= gold_str daily_record.gold
       %td= gold_str daily_record.trade_gold
