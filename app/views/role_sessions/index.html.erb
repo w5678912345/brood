@@ -1,6 +1,6 @@
 <h1>Listing role_sessions</h1>
 
-<%= grid(@role_sessions) do |g|
+<%= grid(@role_sessions,show_filters: true) do |g|
   g.column name: 'ID', attribute: 'id'
   g.column name:  'Role ID', filter: false do |task|
     link_to task.role.name,role_path(task.role)
@@ -18,7 +18,7 @@
     role_session.instance_map.key if role_session.instance_map
    end
   g.column name:  '连接次数', attribute: 'connection_times'
-  g.column name: '在线时长',attribute: 'live_at' do |task|
+  g.column name: '在线时长',attribute: 'created_at' do |task|
     hour_str task.live_at - task.created_at
   end
   g.column name:  '在线时间', attribute: 'live_at' do |task|

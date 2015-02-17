@@ -48,7 +48,7 @@ every :day ,:at => '00:05 am' do
 end
 
 
-every :day, :at => '06:00 am' do
+every :day, :at => '06:05 am' do
   runner 'TimeTask.at_06_time',:environment => str_environment 
 end
 
