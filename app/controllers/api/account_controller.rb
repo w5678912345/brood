@@ -29,9 +29,9 @@ class Api::AccountController < Api::BaseController
 	end
 	def valid_game_version
 		@bolt_version = BotVersion.find_by_version(params[:version])
-		game_versions = []
-		game_versions = @bolt_version.game_versions.split(',') if @bolt_version
-		return render :json => {:code => CODES[:success],:game_versions => game_versions}
+		game_version = ''
+		game_version = @bolt_version.game_versions if @bolt_version
+		return render :json => {:code => CODES[:success],:game_versions => game_version}
 	end
 	def get_valid_account
 		return if @account
