@@ -8,7 +8,7 @@
   <button type="submit" class="btn">Search</button>
 </form>
 
-<div class="span6">
+<div class="span3">
 <table class="table" border="1" class=""> 
 <thead>
 	<tr>
@@ -34,15 +34,30 @@
 </thead>
 <tbody>
 <% @dates.each do |date|%>
-<tr title="<%= date%>">
-	<td><%= @trade.has_key?(date.to_s) ?  gold_str(@trade[date.to_s]) : 0 %></td>
-</tr>
+  <tr title="<%= date%>">
+  	<td><%= @trade.has_key?(date.to_s) ?  gold_str(@trade[date.to_s]) : 0 %></td>
+  </tr>
 <%end%>
 </tbody>
 </table>
 </div>
 
-
+<div class="span6">
+<table class="table" border="1" class=""> 
+<thead>
+  <tr>
+    <th>金币(亿) 总计 <%= gold_str @tradesum %></th>
+  </tr>
+</thead>
+<tbody>
+<% @dates.each do |date|%>
+  <tr title="<%= date%>">
+    <td><%="%.01f" % (@trade.has_key?(date.to_s) ?  @trade[date.to_s].to_f/100000000 : 0 )%></td>
+  </tr>
+<%end%>
+</tbody>
+</table>
+</div>
 
 <script type="text/javascript">
 $(function(){
