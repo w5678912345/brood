@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Version:
+  = @bot_version.version
+%p
+  %b Game versions:
+  = @bot_version.game_versions
+
+= link_to 'Edit', edit_bot_version_path(@bot_version)
+\|
+= link_to 'Back', bot_versions_path

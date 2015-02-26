@@ -1,0 +1,2 @@
+module BotVersionsHelper
+end

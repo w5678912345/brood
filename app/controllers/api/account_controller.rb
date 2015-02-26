@@ -27,6 +27,12 @@ class Api::AccountController < Api::BaseController
 		@online_roles = @account.online_roles
 		render :partial => '/api/accounts/data'
 	end
+	def valid_game_version
+		@bolt_version = BotVersion.find_by_version(params[:version])
+		game_versions = []
+		game_versions = @bolt_version.game_versions.split(',') if @bolt_version
+		return render :json => {:code => CODES[:success],:game_versions => game_versions}
+	end
 	def get_valid_account
 		return if @account
 		#@account  = @computer.accounts.waiting_scope(Time.now).includes(:account_session).all.select {|e| e.account_session.nil?}.first

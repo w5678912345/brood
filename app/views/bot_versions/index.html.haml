@@ -1,0 +1,21 @@
+%h1 Listing bot_versions
+
+%table.table
+  %tr
+    %th Version
+    %th Game versions
+    %th
+    %th
+    %th
+
+  - @bot_versions.each do |bot_version|
+    %tr
+      %td= bot_version.version
+      %td= bot_version.game_versions
+      %td= link_to 'Show', bot_version
+      %td= link_to 'Edit', edit_bot_version_path(bot_version)
+      %td= link_to 'Destroy', bot_version, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Bot version', new_bot_version_path

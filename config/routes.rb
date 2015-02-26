@@ -1,5 +1,8 @@
 Brood::Application.routes.draw do
   
+  resources :bot_versions, constraints: { id: /[.0-9]+/ }
+
+
   resources :daily_records
 
 
@@ -295,6 +298,7 @@ Brood::Application.routes.draw do
     #end
 
     resources :account, :only => [:index,:show],controller: 'account',:defaults => {:format => 'json'} do 
+      get :valid_game_version, :on => :collection
       match :bind_phone, :on => :collection
       match :auto,   :on => :collection
       match :start,  :on => :collection
