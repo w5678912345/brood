@@ -52,7 +52,7 @@
 <tbody>
 <% @dates.each do |date|%>
   <tr title="<%= date%>">
-    <td><%="%.01f" % (@trade.has_key?(date.to_s) ?  @trade[date.to_s].to_f/100000000 : 0 )%></td>
+    <td><%="%.02f" % (@trade.has_key?(date.to_s) ?  @trade[date.to_s].to_f/100000000 : 0 )%></td>
   </tr>
 <%end%>
 </tbody>
