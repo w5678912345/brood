@@ -14,7 +14,7 @@ class Api::AccountController < Api::BaseController
 	#before_filter :require_account_is_started,			:only => [:sync,:note,:stop] # 确定账号在线
 	before_filter :require_role_by_rid,					:only => [:role_start,:role_stop,:role_note,:role_pay,:role_profile]
 	before_filter :get_account_session,		:only =>[:sync,:note,:stop,:role_start,:role_stop,:role_note,:role_profile]	#
-	def auto
+	def auto_old
 		get_valid_account
 
 		if not @account
@@ -27,6 +27,25 @@ class Api::AccountController < Api::BaseController
 		@online_roles = @account.online_roles
 		render :partial => '/api/accounts/data'
 	end
+
+	def auto
+		result = Accounts::AllocateService.new(@computer,params[:ip]).run params[:all] == true
+
+		if result
+			@code = 1
+			@account = result[:account]
+			@online_roles = result[:roles]
+
+			@computer.update_attributes :msg => 'normal'
+			render :partial => '/api/accounts/data'
+		else
+			@code = CODES[:not_find_account]
+
+			@computer.update_attributes :msg => 'not_find_account'
+			return render :partial => '/api/result'
+		end
+	end
+
 	def valid_game_version
 		@bolt_version = BotVersion.find_by_version(params[:version])
 		game_version = ''

@@ -45,6 +45,7 @@ describe Api::AccountController do
 
     #not_find_account
     @controller = Api::AccountController.new
+
     get :auto,@base_params.merge(:ip => '127.0.1.1',:ckey => @computer1.auth_key)
     assigns(:code).should eq -19
     #当同步信息时带上role_id,将导致此role上线
@@ -182,7 +183,7 @@ describe Api::AccountController do
     ac = assigns(:account)
     ac.no.should eq @account0.no
     #use size because it can adapte to call count or length
-    ac.online_roles.size.should eq 2
+    assigns(:online_roles).size.should eq 2
     #停止
     @controller = Api::AccountController.new
     get :stop,@base_params.merge(:id => @account0.no)
@@ -195,9 +196,9 @@ describe Api::AccountController do
 
     ac = assigns(:account)
     #use size because it can adapte to call count or length
-    ac.online_roles.size.should eq 2
-    Role.find(ac.online_roles[0].id).online.should eq true
-    Role.find(ac.online_roles[1].id).online.should eq true
+    assigns(:online_roles).size.should eq 2
+    Role.find(assigns(:online_roles)[0].id).online.should eq true
+    Role.find(assigns(:online_roles)[1].id).online.should eq true
 
     #role start
     #当同步信息时带上role_id,将导致此role上线
@@ -223,7 +224,7 @@ describe Api::AccountController do
     ac = assigns(:account)
     ac.no.should eq @account0.no
     #use size because it can adapte to call count or length
-    ac.online_roles.size.should eq 1
+    assigns(:online_roles).size.should eq 1
 
 
     #stop with sucess,will set normal_at

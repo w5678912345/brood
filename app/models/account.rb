@@ -95,7 +95,7 @@ class Account < ActiveRecord::Base
       #ip = Ip.find_or_create(opts[:ip])
       computer = Computer.find_by_auth_key(opts[:ckey])
       self.transaction do
-        computer.increment(:online_accounts_count,1).save  #增加计算机上线账号数
+        #computer.increment(:online_accounts_count,1).save  #增加计算机上线账号数
         #ip.update_attributes(:use_count=>ip.use_count+1,:last_account=>self.no,:cooling_time=>25.hours.from_now) #增加ip使用次数
 
         unless opts[:all]
