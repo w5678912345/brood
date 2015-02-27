@@ -1,7 +1,7 @@
 <%= grid(@account_sessions, upper_pagination_panel: true, show_filters: :yes) do |g|
   g.row_attributes do |version|
     {class: 'success'} if version.finished == false
-    {class: 'error'} if version.account.money_point and version.account.money_point > 0 and version.finished_status == 'discardforyears'
+    {class: 'error'} if version.account and version.account.money_point and version.account.money_point > 0 and version.finished_status == 'discardforyears'
   end
 
   #g.column name:  'ID', attribute: 'id'
@@ -9,7 +9,7 @@
     link_to a.computer.hostname,computer_path(a.computer) if a.computer
   end
   g.column name:  '账号', attribute: 'account_id' do |a|
-    link_to a.account_id,account_path(a.account)
+    link_to a.account_id,account_path(a.account) if a.account
   end
   g.column name:  '完成', attribute: 'finished'
   g.column name:  '当前角色',attribute: 'role_session_id' do |a|

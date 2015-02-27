@@ -73,6 +73,8 @@ class Api::AccountController < Api::BaseController
 		params[:all] = true
 		#return render :text => params
 		@code = @account.api_start params
+		@online_roles = @account.online_roles
+		
 		render :partial => '/api/accounts/data'
 	end
 
