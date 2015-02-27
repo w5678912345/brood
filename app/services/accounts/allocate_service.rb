@@ -42,6 +42,7 @@ module Accounts
         account.update_attributes(:last_start_ip=>@ip,:last_start_at => Time.now,:session_id => as.id)
       end
       
+      #后面的部分其实应该是在登陆游戏后再判断的
       unless all_role
         roles_query = account.roles.waiting_scope.where("roles.level < ?",Setting.role_max_level)
         roles_query = roles_query.reorder("role_index").limit(Setting.account_start_roles_count)
