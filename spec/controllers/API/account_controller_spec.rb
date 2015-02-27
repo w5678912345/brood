@@ -74,6 +74,17 @@ describe Api::AccountController do
     RoleSession.all.count.should eq 0
     HistoryRoleSession.all.count.should eq 2
   end
+  it "start account" do
+    get :start,@base_params.merge(:id => @account0.no)
+    assigns(:code).should eq 1
+
+    Account.find_by_no(@account0.no).is_started?.should eq true
+    Account.find_by_no(@account0.no).account_session.should_not be nil
+
+    @controller = Api::AccountController.new
+    get :start,@base_params.merge(:id => @account0.no)
+    assigns(:code).should eq -20
+  end
   it "get role profile" do
     get :role_profile,@base_params.merge(:id => @account0.id,:rid => @role.id)
     assigns(:pf).should eq @role.role_profile

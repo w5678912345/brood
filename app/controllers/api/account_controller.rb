@@ -22,6 +22,7 @@ class Api::AccountController < Api::BaseController
 			@code = CODES[:not_find_account]
 			return render :partial => '/api/result'
 		end
+
 		@code = @account.api_start params
 		@computer.update_attributes :msg => 'normal'
 		@online_roles = @account.online_roles
@@ -29,14 +30,15 @@ class Api::AccountController < Api::BaseController
 	end
 
 	def auto
-		result = Accounts::AllocateService.new(@computer,params[:ip]).run params[:all] == true
+		@account = Accounts::AllocateService.new(@computer,params[:ip]).run
 
-		if result
+		if @account
 			@code = 1
-			@account = result[:account]
-			@online_roles = result[:roles]
-
-			@computer.update_attributes :msg => 'normal'
+			Accounts::StartService.new(@account).run @computer,params[:ip]
+      
+      #后面的部分其实应该是在登陆游戏后再判断的
+			@online_roles = Accounts::AllocateRoleService.new(@account).run params[:all] == true
+			@computer.update_attributes :msg => 'normal' if @computer.msg != 'normal'
 			render :partial => '/api/accounts/data'
 		else
 			@code = CODES[:not_find_account]
@@ -72,9 +74,14 @@ class Api::AccountController < Api::BaseController
 	def start
 		params[:all] = true
 		#return render :text => params
-		@code = @account.api_start params
-		@online_roles = @account.online_roles
-		
+		if @account.is_started? == false
+			Accounts::StartService.new(@account).run @computer,params[:ip]
+	    #后面的部分其实应该是在登陆游戏后再判断的
+			@online_roles = Accounts::AllocateRoleService.new(@account).run true
+			@code = 1
+		else
+			@code = CODES[:account_is_started]
+		end
 		render :partial => '/api/accounts/data'
 	end
 
@@ -274,24 +281,6 @@ class Api::AccountController < Api::BaseController
 		return @code = CODES[:ip_used] unless tmps.length == 4 # IP地址有效性
 		params[:ip_range] = "#{tmps[0]}.#{tmps[1]}"  # IP地址的前2段
 		params[:ip_range_3] = "#{tmps[0]}.#{tmps[1]}.#{tmps[2]}" # IP地址的前3段
-	end
-
-	def validate_ip_can_use
-		ip = Ip.find_or_create(params[:ip])
-		@account = @computer.accounts.waiting_scope(Time.now).where(:no=>ip.last_account).first
-		
-		if @account
-			@code = @account.api_start params.merge(:msg=>"ip last account")
-			return render :partial => '/api/accounts/data'
-		end
-
-		can_use,msg = ip.can_use?
-		unless can_use
-			@code = CODES[:ip_used]
-			#msg = 
-			Note.create(@computer.to_note_hash.merge(:api_name=>"start_fail",:api_code=>"ip_cannot_use",:msg=>msg,:ip=>ip.value))
-			return render :json => {:code=>@code,:msg=>"#{ip.value} #{msg}"}
-		end
 	end
 
 	def check_valid_ip

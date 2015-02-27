@@ -4,14 +4,11 @@ module Accounts
       @computer = computer
       @ip = ip
     end
-    def run all_role=false
+    def run
       account = get_valid_account
-      if account
-        account_start account,all_role
-      else
-        auto_bind_account
-        nil
-      end
+      return account if account
+      auto_bind_account
+      nil
     end
 
     def get_valid_account
@@ -29,37 +26,5 @@ module Accounts
         :version => @computer.version,:api_name=>"not_find_account")     
       end
     end
-
-    def account_start account,all_role
-      account.transaction do
-        as = account.create_account_session do |as|
-          as.computer = @computer
-          as.ip = @ip
-          as.ip_c = get_ip_c @ip
-          as.started_status = account.status
-          as.lived_at = Time.now
-        end
-        account.update_attributes(:last_start_ip=>@ip,:last_start_at => Time.now,:session_id => as.id)
-      end
-      
-      #后面的部分其实应该是在登陆游戏后再判断的
-      unless all_role
-        roles_query = account.roles.waiting_scope.where("roles.level < ?",Setting.role_max_level)
-        roles_query = roles_query.reorder("role_index").limit(Setting.account_start_roles_count)
-      else
-        roles_query = account.roles
-      end
-      # 调度角色
-      roles = roles_query.all
-      roles_query.update_all(:online => true)
-      
-      return {:account => account,:roles => roles}
-    end
-
-    def get_ip_c ip_str
-      part = ip_str.split '.'
-      part[0]+'.'+part[1]+'.'+part[2]+'.0'
-    end
-
   end
 end
