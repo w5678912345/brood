@@ -15,7 +15,6 @@
 
 defaults: &defaults
   title: Brood
-  version: 1.0.3
   cpo:
     url: http://115.29.223.99:3000
     email: tianyi@dabi.co

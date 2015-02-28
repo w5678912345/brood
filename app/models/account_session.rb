@@ -11,7 +11,8 @@ class AccountSession < ActiveRecord::Base
   scope :at_date,lambda{|day| where(created_at: day.beginning_of_day..day.end_of_day)}
 
   def start_role(role)
-    if self.role_session.nil? == false and self.role_session.role_id != role.id
+    #starting role is not current role
+    if self.role_session and self.role_session.role_id != role.id
       self.role_session.stop(false)
     end
 
@@ -21,6 +22,10 @@ class AccountSession < ActiveRecord::Base
     self.create_role_session! :role => role,:start_level => role.level,:start_gold => role.total,:start_power => role.vit_power,:computer_id => self.computer.id,:live_at => Time.now,:ip => self.ip
   end
   def stop(is_success,msg="")
+    Accounts::StopService.new(self).run is_success,msg
+    return 1
+  end
+  def stop_old(is_success,msg="")
     #binding.pry
     return 1 if self.transaction do
       self.finished_status = self.started_status if self.finished_status.nil?

@@ -14,23 +14,9 @@ class Api::AccountController < Api::BaseController
 	#before_filter :require_account_is_started,			:only => [:sync,:note,:stop] # 确定账号在线
 	before_filter :require_role_by_rid,					:only => [:role_start,:role_stop,:role_note,:role_pay,:role_profile]
 	before_filter :get_account_session,		:only =>[:sync,:note,:stop,:role_start,:role_stop,:role_note,:role_profile]	#
-	def auto_old
-		get_valid_account
-
-		if not @account
-			@computer.update_attributes :msg => 'not_find_account'
-			@code = CODES[:not_find_account]
-			return render :partial => '/api/result'
-		end
-
-		@code = @account.api_start params
-		@computer.update_attributes :msg => 'normal'
-		@online_roles = @account.online_roles
-		render :partial => '/api/accounts/data'
-	end
 
 	def auto
-		@account = Accounts::AllocateService.new(@computer,params[:ip]).run
+		@account = Accounts::AllocateService.new(@computer,params[:ip]).run if @account.nil?
 
 		if @account
 			@code = 1
@@ -43,7 +29,7 @@ class Api::AccountController < Api::BaseController
 		else
 			@code = CODES[:not_find_account]
 
-			@computer.update_attributes :msg => 'not_find_account'
+			@computer.update_attributes :msg => 'not_find_account' if @computer.msg != 'not_find_account'
 			return render :partial => '/api/result'
 		end
 	end
@@ -54,23 +40,7 @@ class Api::AccountController < Api::BaseController
 		game_version = @bolt_version.game_versions if @bolt_version
 		return render :json => {:code => CODES[:success],:game_versions => game_version}
 	end
-	def get_valid_account
-		return if @account
-		#@account  = @computer.accounts.waiting_scope(Time.now).includes(:account_session).all.select {|e| e.account_session.nil?}.first
-		#binding.pry
-		role = Role.select(:account).joins(:qq_account).can_used.
-			where("accounts.session_id = 0 and accounts.bind_computer_id = ? and accounts.normal_at <= ? and accounts.enabled = 1",@computer.id,Time.now).first
-		@account = role.qq_account if role
-		return if @account
 
-		@computer.auto_bind_accounts({:ip=>request.remote_ip,:msg=>"auto by start",:avg=>1})  if @computer.auto_binding
-		#如果是重复发生的事件将不会记录
-		if @computer.msg != 'not_find_account'
-		# 记录事件
-		 Note.create(:computer_id=>@computer.id,:hostname=>@computer.hostname,:ip=>params[:ip],:server => @computer.server,
-		 	:version => @computer.version,:api_name=>"not_find_account")		 
-		end
-	end
 	def start
 		params[:all] = true
 		#return render :text => params
@@ -87,12 +57,13 @@ class Api::AccountController < Api::BaseController
 
 	# 
 	def stop
-		@account_session = @account.account_session
-		if @account_session.nil?
-			@code = CODES[:account_is_stopped]
-		else
-			@code = @account_session.stop params[:success]=='1',params[:msg]
+		@code = CODES[:account_is_stopped]
+
+		if @account.account_session
+			@code = 1
+			@account.account_session.stop params[:success]=='1',params[:msg]
 		end
+		
 		render :partial => '/api/result'
 	end
 

@@ -7,6 +7,7 @@ module Accounts
     def run
       account = get_valid_account
       return account if account
+      
       auto_bind_account
       nil
     end
