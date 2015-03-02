@@ -5,27 +5,6 @@
   end
 
   #g.column name:  'ID', attribute: 'id'
-  g.column name:  '电脑', attribute: 'hostname',model: Computer do |a|
-    link_to a.computer.hostname,computer_path(a.computer) if a.computer
-  end
-  g.column name:  '账号', attribute: 'account_id' do |a|
-    link_to a.account_id,account_path(a.account) if a.account
-  end
-  g.column name:  '完成', attribute: 'finished'
-  g.column name: '转出' do |a|
-    gold_str a.history_role_sessions.sum :exchanged_gold
-  end
-  g.column name:  '当前角色',attribute: 'role_session_id' do |a|
-    if(a.finished == false)
-      link_to a.role_session.role.name,role_session_path(a.role_session) if a.role_session
-    else
-      a.history_role_sessions.map{|r| r.role.name if r.role}.to_s
-    end
-  end
-
-  g.column name:  'IP',attribute: 'ip'
-
-
   g.column name:  '开始时间',attribute: 'created_at' do |a|
     time_str a.created_at
   end
@@ -43,6 +22,25 @@
       Time.diff(a.created_at,a.lived_at)[:diff]
     end
   end
+  g.column name:  '完成', attribute: 'finished'
+  g.column name:  '电脑', attribute: 'hostname',model: Computer do |a|
+    link_to a.computer.hostname,computer_path(a.computer) if a.computer
+  end
+  g.column name:  '账号', attribute: 'account_id' do |a|
+    link_to a.account_id,account_path(a.account) if a.account
+  end
+  g.column name: '转出' do |a|
+    gold_str a.history_role_sessions.sum :exchanged_gold
+  end
+  g.column name:  '当前角色',attribute: 'role_session_id' do |a|
+    if(a.finished == false)
+      link_to a.role_session.role.name,role_session_path(a.role_session) if a.role_session
+    else
+      a.history_role_sessions.map{|r| r.role.name if r.role}.to_s
+    end
+  end
+
+  g.column name:  'IP',attribute: 'ip'
 
   g.column name:  '开始状态',attribute: 'started_status' 
   g.column name:  '结束状态',attribute: 'finished_status' do |a|

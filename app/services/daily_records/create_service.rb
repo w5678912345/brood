@@ -8,7 +8,7 @@ module DailyRecords
       where(started_status: 'normal').group("status").where(created_at: begin_time..end_time).
       where(finished_status: ['discardforyears','discardfordays','bslocked','recycle','exception','locked'])
 
-      error_event_count = Hash[error_event_count.map{|r|[r.status,r.num]}]
+      error_event_count = Hash[error_event_count.map{|r|[r.status.to_sym,r.num]}]
 
       DailyRecord.create do |r|
         r.date = date
