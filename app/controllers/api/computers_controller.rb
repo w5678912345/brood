@@ -5,7 +5,7 @@ class Api::ComputersController < Api::BaseController
 
 	CODES = Api::CODES
 
-	before_filter :require_computer_by_ckey,:only =>[:start,:sync,:stop,:note,:bind_accounts]
+	before_filter :require_computer_by_ckey,:only =>[:start,:sync,:stop,:reset_accounts,:note,:bind_accounts]
 
 	def reg
 		@computer = Computer.find_by_auth_key(params[:auth_key])
@@ -25,8 +25,6 @@ class Api::ComputersController < Api::BaseController
         @computer.clear_bind_accounts(opts={:ip=>request.remote_ip,:msg=>"clear by set server",:bind=>0}) if @code==1
         render :partial => '/api/result'
     end
-
-
 	def cinfo
 		@code = 0
 		@computer = Computer.find_by_auth_key(params[:ckey])
@@ -36,6 +34,15 @@ class Api::ComputersController < Api::BaseController
 
 	def start
 		@code = @computer.api_start params
+		render :partial => '/api/result'
+	end
+
+	def reset_accounts
+		@computer.accounts.each do |a|
+			Accounts::StopService.new(a.account_session).run(false,'reset') if a.is_started?
+		end
+
+		@code = 1
 		render :partial => '/api/result'
 	end
 

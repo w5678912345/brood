@@ -12,6 +12,9 @@
     link_to a.account_id,account_path(a.account) if a.account
   end
   g.column name:  '完成', attribute: 'finished'
+  g.column name: '转出' do |a|
+    gold_str a.history_role_sessions.sum :exchanged_gold
+  end
   g.column name:  '当前角色',attribute: 'role_session_id' do |a|
     if(a.finished == false)
       link_to a.role_session.role.name,role_session_path(a.role_session) if a.role_session

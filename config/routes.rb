@@ -251,6 +251,7 @@ Brood::Application.routes.draw do
     match '/cinfo' => 'computers#cinfo'
     resources :computers,:only => [] do 
       get :start,               :on => :collection
+      get :reset_accounts,      :on => :collection
       get :sync,                :on => :collection
       get :stop,                :on => :collection
       get :note,                :on => :collection
