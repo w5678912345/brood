@@ -61,7 +61,7 @@ class AccountsController < ApplicationController
 	end
 
 	def update
-		@account = Account.find_by_id(params[:id]) if params[:id] != "0"
+		@account = Account.find_by_no(params[:id]) if params[:id] != "0"
 		#@account = Account.find_by_no(params[:no]) unless @account
 		@account.update_attributes(params[:account])
 		redirect_to account_path(:id=>0,:no=>@account.no)
