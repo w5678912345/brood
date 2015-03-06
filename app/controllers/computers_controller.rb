@@ -125,6 +125,14 @@ class ComputersController < ApplicationController
       max_accounts = client_count * Setting.client_role_count
       i = @computers.update_all(:client_count => client_count,:max_accounts => max_accounts) if client_count > 0
       flash[:msg] = "#{i}台机器修改了客户端数量"
+    elsif @do == "get_log_file"
+      at = params[:at] || Date.today.strftime("%y-%m-d%")
+      file = params[:file]
+      @computers.each do |computer|
+          #args = "#{at}.log.txt"
+          Task.create(:name=>"提取日志",:user_id => current_user.id,:args=>file,:command=>"get_log_file",:remark=>params[:remark],:computer_id=>computer.id,:sup_id=>-1)
+      end
+      flash[:msg] = "#{@computers.count}个机器,正在提取日志"
     elsif @do == "set_auto_unbind_account"
       i = @computers.update_all(:auto_unbind=>params[:auto_unbind].to_i)
       flash[:msg] = "#{i}台机器设置了自动解绑"

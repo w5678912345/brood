@@ -1,42 +1,4 @@
 =content_for :title do
-  账号列表
+  日报表
 
-%table.table
-  %tr
-    %th 日期
-    %th 账号次数
-    %th 角色次数
-    %th 完成角色
-    %th 平均等级
-    %th 体力完成度
-    %th 角色在线时长
-    %th 产出
-    %th 转出
-    %th Bslocked
-    %th Discardforyears
-    %th Discardfordays
-    %th Exception
-    %th Recycle
-    %th Locked
-
-  - @daily_records.each do |daily_record|
-    %tr
-      %td= daily_record.date
-      %td= daily_record.account_start_count
-      %td= daily_record.role_start_count
-      %td= daily_record.success_role_count
-      %td= daily_record.average_level
-      -if daily_record.success_role_count == 0
-        %td 无
-      -else
-        %td= "%.1f\%" % (daily_record.consumed_vit_power_sum.to_i*100/(156*daily_record.success_role_count.to_i))
-      %td= "#{daily_record.role_online_hours}小时"
-      %td= gold_str daily_record.gold
-      %td= gold_str daily_record.trade_gold
-      %td= daily_record.bslocked_count
-      %td= daily_record.discardforyears_count
-      %td= daily_record.discardfordays_count
-      %td= daily_record.exception_count
-      %td= daily_record.recycle_count
-      %td= daily_record.locked_count
-%br
+=render 'grid'

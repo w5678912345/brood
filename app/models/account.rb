@@ -428,7 +428,7 @@ class Account < ActiveRecord::Base
 
         #return unless computer.auto_unbind
         # 禁用绑定
-        self.update_attributes(:bind_computer_id => bind,:updated_at => Time.now)
+        self.update_attributes(:bind_computer_id => bind)
         return unless computer
 
         # 修改机器的账号数量

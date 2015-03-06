@@ -2,7 +2,10 @@ class DailyRecordsController < ApplicationController
   # GET /daily_records
   # GET /daily_records.json
   def index
-    @daily_records = DailyRecord.all
+    @daily_records = initialize_grid(DailyRecord,
+      :order => 'daily_records.date',
+      :order_direction => 'desc',
+    )
 
     respond_to do |format|
       format.html # index.html.erb

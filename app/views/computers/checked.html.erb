@@ -125,7 +125,25 @@
 		<input type="text" value="4" name="client_count" />
 	</div>
 </div>
-
+<% elsif params[:do] == "get_log_file"%>
+	<div class="control-group">
+	<label class="control-label">日期:</label>
+	<div class="controls docs-input-sizes" >
+		<input type="text" id="at" name="at" value="<%=  Date.today %>" placeholder="冷却时间" />
+	</div>
+	</div>
+	<div class="control-group">
+	<label class="control-label">日志备注:</label>
+	<div class="controls docs-input-sizes" >
+		<input type="text" id="remark" name="remark" value="" placeholder="备注" />
+	</div>
+	</div>
+	<div class="control-group">
+	<label class="control-label">日志文件:</label>
+	<div class="controls docs-input-sizes" >
+		<input type="text" id="file" name="file" value="<%= Date.today%>.log.txt" placeholder="文件名" />
+	</div>
+	</div>
 <% elsif @do == "set_auto_unbind_account"%>
 <div class="control-group">
 <label class="control-label">设置自动解除绑定:</label>

@@ -1,0 +1,30 @@
+<%= grid(@daily_records, upper_pagination_panel: true, show_filters: :yes) do |g|
+  g.row_attributes do |version|
+   end
+  g.column name:  '日期', attribute: 'date'
+
+
+  #g.column name:  '账号启动次数', attribute: 'account_start_count'
+  #g.column name:  '角色启动次数', attribute: 'role_start_count'
+
+
+  g.column name:  '完成角色数', attribute: 'success_role_count'
+  g.column name:  '平均等级', attribute: 'average_level'
+  g.column name:  '产出', attribute: 'gold' do |d|
+    gold_str d.gold
+  end
+  g.column name:  '转出', attribute: 'trade_gold' do |d|
+    gold_str d.trade_gold
+  end
+
+
+
+
+  g.column name:  '交易锁定', attribute: 'bslocked_count'
+  g.column name:  '永封', attribute: 'discardforyears_count'
+  g.column name:  '封7天', attribute: 'discardfordays_count'
+  g.column name:  '异常', attribute: 'exception_count'
+
+  #g.column name:  'recycle', attribute: 'recycle_count'
+  #g.column name:  'locked', attribute: 'locked_count'
+end %>
