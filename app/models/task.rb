@@ -2,7 +2,7 @@
 class Task < ActiveRecord::Base
    attr_accessible :user_id, :role_id,:computer_id,:sup_id
    attr_accessible :name,:command,:args,:code,:remark
-   attr_accessible :pushed,:pushed_at,:callback,:callback_at,:msg,:success
+   attr_accessible :pushed,:pushed_at,:callback,:callback_at,:msg,:success,:account_no
 
    belongs_to :computer
    belongs_to :role

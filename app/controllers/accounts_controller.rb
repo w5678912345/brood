@@ -128,14 +128,23 @@ class AccountsController < ApplicationController
 			flash[:msg] = "#{i}个账号的区发生改变"
 		elsif "export" == @do
 			render "export"
-        elsif "add_sms_order" == @do
+    elsif "add_sms_order" == @do
     		@accounts= @accounts.bind_phone_scope
     		@accounts.each do |account|
     			Order.create(:phone_no=>account.phone_id,:account_no=>account.no,:trigger_event=>params[:event])
     		end
     		i = @accounts.count
     		flash[:msg] = "#{i}个账号创建了工单"
-    	elsif  "standing" == @do
+		elsif "get_log_file" == @do
+			@accounts = @accounts.bind_scope
+			date = Date.parse(params[:at]) || Date.today
+			at = "#{date.strftime("%y")}-#{date.month}-#{date.day}"
+			@accounts.each do |account|
+				args = "#{account.no}_#{at}.out"
+				Task.create(:name=>"提取日志",:user_id => current_user.id,:command=>"get_log_file",:args=>args,:remark=>params[:remark],:computer_id=>account.bind_computer_id,:account_no=>account.no,:sup_id=>-1)
+			end
+     	flash[:msg] = "#{@accounts.count}个账号,正在提取日志"   	
+   	elsif  "standing" == @do
     		i = @accounts.stopped_scope.update_all(:standing => params[:standing])
     		flash[:msg] = "#{i}个账号【站】发生改变"
 		end

@@ -10,6 +10,11 @@
 
   g.column name:  '完成角色数', attribute: 'success_role_count'
   g.column name:  '平均等级', attribute: 'average_level'
+
+  g.column name:  '单角色产出', attribute: 'gold' do |d|
+    gold_str d.gold/d.success_role_count if d.success_role_count > 0
+  end
+
   g.column name:  '产出', attribute: 'gold' do |d|
     gold_str d.gold
   end
