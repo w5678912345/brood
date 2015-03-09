@@ -72,15 +72,24 @@ class ComputersController < ApplicationController
 
 
 	def checked
-	 @ids = [] 
-   @ids = params[:grid][:selected] || [] if params[:grid]
-   @do = params[:do]
-   if @do == "bind_accounts"
-     @unbind_accnouts_count =  Account.waiting_bind_scope.count 
-   elsif @do == "task"
-     @tasks = Task.sup_scope
-   end
-
+    @ids = [] 
+    @ids = params[:grid][:selected] || [] if params[:grid]
+    @do = params[:do]
+    case @do
+    when "bind_accounts"
+      @unbind_accnouts_count =  Account.waiting_bind_scope.count 
+    when "task"
+      @tasks = Task.sup_scope
+    when "delete_all"
+      Note.where(:computer_id => @ids).delete_all
+      HistoryRoleSession.where(:computer_id => @ids).delete_all
+      AccountSession.where(:computer_id => @ids).delete_all
+      RoleSession.where(:computer_id => @ids).delete_all
+      Account.where(:bind_computer_id => @ids).update_all(:bind_computer_id => 0)
+      Computer.where(:id => @ids).delete_all
+      redirect_to computers_path
+    else
+    end
   end
 
   def do_checked

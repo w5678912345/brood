@@ -67,7 +67,7 @@ class Computer < ActiveRecord::Base
            GROUP BY b.computer_id
          ) a1 ON a1.computer_id = computers.id
        }
-      ).select("computers.*, IFNULL(a1.online_account_count,0) as online_account_count")
+      ).select("computers.*, a1.online_account_count")
   end
 
   def is_started?

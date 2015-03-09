@@ -17,6 +17,8 @@
 		<% Computer::Btns.each do | key, value |  %>
 			<option value="<%= key %>"><%= value%></option>
 		<%end%>
+		<option value="delete_all">删除选择的</option>
+		
 	</select>
 	<button type="submit" class="btn btn-primary">执行操作</button>
 	</div>
