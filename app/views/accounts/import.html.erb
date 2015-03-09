@@ -23,6 +23,10 @@
   <%= hidden_field_tag :auto, 0%>
   <%= check_box_tag :auto %>自动注册
 </label>
+  <select id="import_action" name="import_action">
+    <option value='default'>导入</option>
+    <option value='fix_phone'>同步电话号码</option>
+  </select>
 </div>
 </div>
 

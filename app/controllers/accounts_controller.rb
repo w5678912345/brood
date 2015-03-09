@@ -213,6 +213,13 @@ class AccountsController < ApplicationController
 
 	def do_import
 		_file = params[:file]
+		if params[:import_action] == 'fix_phone'
+			datas = _file.read.split "\r\n"
+			fix_account_phone datas
+			redirect_to accounts_path
+			return
+		end
+
 		@sheet = Sheet.new(:file=>_file)
 		@sheet.uploader = current_user
 		#is_auto = 
@@ -223,6 +230,14 @@ class AccountsController < ApplicationController
 		redirect_to accounts_path()
 	end
 
+	def fix_account_phone datas
+		datas.each do |a|
+			cols = a.split '----'
+			#2046109603----bhj123321----15559523214
+			#cols[0] is account,cols[2] is phone
+			Account.where(:no => cols[0]).update_all(:phone_id => cols[2])
+		end
+	end
 	#
 	def group_count
 		@cols = {"status"=>"状态","server"=>"服务器","roles_count"=>"角色数量","date(created_at)"=>"注册日期","bind_computer_id"=>"绑定机器"} 
