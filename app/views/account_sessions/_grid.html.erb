@@ -1,8 +1,12 @@
 <%= grid(@account_sessions, upper_pagination_panel: true, show_filters: :yes) do |g|
   g.row_attributes do |version|
-    {class: 'success'} if version.finished == false
-    {class: 'error'} if version.account and version.account.money_point and version.account.money_point > 0 and version.finished_status == 'discardforyears'
-    {class: 'warning'} if version.role_session and version.role_session.live_at < 1.hour.ago
+    if version.finished == false
+      {class: 'success'}
+    elsif version.account and version.account.money_point and version.account.money_point > 0 and version.finished_status == 'discardforyears'
+      {class: 'error'} 
+    elsif version.role_session and version.role_session.live_at < 1.hour.ago
+      {class: 'warning'} 
+    end
   end
 
   #g.column name:  'ID', attribute: 'id'
@@ -32,7 +36,7 @@
   g.column name:  '角色',attribute: 'role_session_id' do |a|
     r = a.history_role_sessions.map{|r| r.role.name if r.role}.to_s
     if(a.finished == false)
-      r += link_to a.role_session.role.name,role_session_path(a.role_session) if a.role_session
+      r += link_to a.role_session.role.name,role_path(a.role_session.role) if a.role_session
     end
     raw(r)
   end

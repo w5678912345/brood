@@ -13,7 +13,7 @@ class HistoryRoleSession < ActiveRecord::Base
 		h = HistoryRoleSession.new
 		#h.id = s.id
 		h.role_id = s.role_id
-		h.account_id = s.role.qq_account.id
+		h.account_id = s.role.account
 		h.computer_id = s.computer_id
 		h.account_session_id = s.account_session_id
 		
