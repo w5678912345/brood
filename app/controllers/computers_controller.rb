@@ -7,7 +7,7 @@ class ComputersController < ApplicationController
   
   def index
     
-    @computers = Computer.where("id > 0 ")
+    @computers = Computer.where("id > 0 ").include_online_account_count
     @computers = @computers.where(:status=>params[:status]) unless params[:status].blank?
     #@computers = @computers.where("server = '' or server is NULL") if params[:server] == "null"
     #@computers = @computers.where(:server=>params[:server]) unless params[:server].blank? #|| params[:server] == "null"
@@ -29,7 +29,13 @@ class ComputersController < ApplicationController
     end
     unless params[:start_count].blank?
       tmp = params[:start_count].split("-")
-      @computers = tmp.length == 2 ? @computers.where("online_accounts_count >= ? and online_accounts_count <= ?",tmp[0],tmp[1]) : @computers.where(:online_accounts_count=>tmp[0].to_i)
+      if tmp.length == 2 
+        @computers = @computers.where("online_account_count >= ? and online_account_count <= ?",tmp[0],tmp[1]) 
+      elsif tmp[0].to_i == 0
+        @computers = @computers.where('online_account_count is null')
+      else
+        @computers = @computers.where('online_account_count = ?',tmp[0].to_i)
+      end
     end
     unless params[:client_count].blank?
       tmp = params[:client_count].split("-")
@@ -194,6 +200,8 @@ class ComputersController < ApplicationController
 
   def show
   	@computer = Computer.find(params[:id])
+
+    @task = Task.sup_scope.where(:command => 'restart').first
 
     @accounts = initialize_grid(Account.where(:bind_computer_id => @computer.id),:per_page=>10)
 

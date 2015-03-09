@@ -7,7 +7,7 @@ class AccountReportController < ActionController::Base
 			COUNT(if(status='bslocked',no,null)) as bs_count,
 			COUNT(if(status='discardforyears',no,null)) as discard_count,
 			COUNT(if(status='discardbysailia',no,null)) as sailia_count,
-			COUNT(if(status <> 'normal' and status <> 'bslocked' and status <> 'discardforyears' and status <> 'discardbysailia',no,null)) as other_count
+			COUNT(if(status <> 'delaycreate' and status <> 'normal' and status <> 'bslocked' and status <> 'discardforyears' and status <> 'discardbysailia',no,null)) as other_count
 			").group("server")
 
 		@ticket_records = TicketRecord.server_data

@@ -125,7 +125,7 @@ class Account < ActiveRecord::Base
     end
 
     # 同步帐号
-    def api_sync rid,role_attrs,account_attrs
+    def api_sync rid,role_attrs,account_attrs,account_session_attrs = {}
       return CODES[:account_is_stopped] unless self.is_started?
       role = self.roles.find_by_id(rid)
       if role
@@ -138,7 +138,7 @@ class Account < ActiveRecord::Base
       end
       # 修改角色
       #role.api_sync(opts) if role
-      self.account_session.update_attributes lived_at: Time.now
+      self.account_session.update_attributes account_session_attrs.merge(lived_at: Time.now)
       account_attrs[:money_point] = self.money_point if account_attrs[:money_point].nil?
       self.update_attributes(account_attrs)
       return 1

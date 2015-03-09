@@ -50,7 +50,7 @@ describe Api::AccountController do
     assigns(:code).should eq -19
     #当同步信息时带上role_id,将导致此role上线
     @base_params=@base_params.merge(:id => @account0.no,:rid => @role.id)
-    get :sync,@base_params.merge(:money_point => 10,:gold => 20,:vit_power => 120)
+    get :sync,@base_params.merge(:money_point => 10,:gold => 20,:vit_power => 120,:account_session => {start_count: 10})
     assigns(:code).should eq 1
     Account.find_by_no(@account0.no).money_point.should eq 10
     RoleSession.all.count.should eq 1

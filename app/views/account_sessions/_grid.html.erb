@@ -2,18 +2,12 @@
   g.row_attributes do |version|
     {class: 'success'} if version.finished == false
     {class: 'error'} if version.account and version.account.money_point and version.account.money_point > 0 and version.finished_status == 'discardforyears'
+    {class: 'warning'} if version.role_session and version.role_session.live_at < 1.hour.ago
   end
 
   #g.column name:  'ID', attribute: 'id'
   g.column name:  '开始时间',attribute: 'created_at' do |a|
     time_str a.created_at
-  end
-  g.column name:  '结束时间',attribute: 'finished_at' do |a|
-    if a.finished
-      time_str a.finished_at
-    else
-      time_str a.lived_at
-    end
   end
   g.column name:  '在线时长' do |a|
     if a.finished
@@ -24,20 +18,22 @@
   end
   g.column name:  '完成', attribute: 'finished'
   g.column name:  '电脑', attribute: 'hostname',model: Computer do |a|
-    link_to a.computer.hostname,computer_path(a.computer) if a.computer
+    computer_tag a.computer
   end
   g.column name:  '账号', attribute: 'account_id' do |a|
     link_to a.account_id,account_path(a.account) if a.account
   end
   g.column name: '转出' do |a|
-    gold_str a.history_role_sessions.sum :exchanged_gold
+    s = a.history_role_sessions.sum :exchanged_gold
+    s += a.role_session.exchanged_gold if a.role_session
+    gold_str s
   end
-  g.column name:  '当前角色',attribute: 'role_session_id' do |a|
+  g.column name:  '角色',attribute: 'role_session_id' do |a|
+    r = a.history_role_sessions.map{|r| r.role.name if r.role}.to_s
     if(a.finished == false)
-      link_to a.role_session.role.name,role_session_path(a.role_session) if a.role_session
-    else
-      a.history_role_sessions.map{|r| r.role.name if r.role}.to_s
+      r += link_to a.role_session.role.name,role_session_path(a.role_session) if a.role_session
     end
+    raw(r)
   end
 
   g.column name:  'IP',attribute: 'ip'

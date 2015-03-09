@@ -10,7 +10,7 @@ module AccountReportHelper
       when "discardbysailia"
         "赛利亚"
       else
-        raw('<span class="badge badge-warning">其他</span>')
+        raw('<span class="badge badge-warning">其他</span>')+s
     end
   end
 

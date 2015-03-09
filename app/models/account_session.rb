@@ -1,6 +1,6 @@
 class AccountSession < ActiveRecord::Base
   attr_accessible :finished, :finished_at, :finished_status, :remark, :started_at,:lived_at, :started_status,:ip
-  attr_accessible :computer_id,:account_id,:role_session_id
+  attr_accessible :computer_id,:account_id,:role_session_id,:start_count
 
   belongs_to :computer
   belongs_to :account,:primary_key=>'no'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150226050140) do
+ActiveRecord::Schema.define(:version => 20150309032423) do
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
@@ -24,9 +24,10 @@ ActiveRecord::Schema.define(:version => 20150226050140) do
     t.boolean  "finished"
     t.string   "finished_status"
     t.string   "remark"
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
     t.integer  "computer_id"
+    t.integer  "start_count",                   :default => 0
   end
 
   add_index "account_sessions", ["account_id"], :name => "index_account_sessions_on_account_id"
@@ -39,6 +40,7 @@ ActiveRecord::Schema.define(:version => 20150226050140) do
   add_index "account_sessions", ["ip"], :name => "index_account_sessions_on_ip"
   add_index "account_sessions", ["ip_c"], :name => "index_account_sessions_on_ip_c"
   add_index "account_sessions", ["lived_at"], :name => "index_account_sessions_on_lived_at"
+  add_index "account_sessions", ["start_count"], :name => "index_account_sessions_on_start_count"
   add_index "account_sessions", ["started_status"], :name => "index_account_sessions_on_started_status"
 
   create_table "account_statuses", :force => true do |t|

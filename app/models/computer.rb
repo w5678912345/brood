@@ -57,17 +57,17 @@ class Computer < ActiveRecord::Base
        }
       ).select("computers.*, a.finished_role_count").where("a.finished_role_count > 0").reorder([:finished_role_count,:client_count])
   end
-  def self.include_account_session_count
+  def self.include_online_account_count
       joins(
        %{
          LEFT OUTER JOIN (
-           SELECT b.computer_id, COUNT(b.id) account_count
+           SELECT b.computer_id, COUNT(b.id) online_account_count
            FROM   account_sessions b
            where b.finished = false
            GROUP BY b.computer_id
-         ) a ON a.computer_id = computers.id
+         ) a1 ON a1.computer_id = computers.id
        }
-      ).select("computers.*, a.account_count")
+      ).select("computers.*, IFNULL(a1.online_account_count,0) as online_account_count")
   end
 
   def is_started?

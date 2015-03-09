@@ -45,7 +45,7 @@
 <tfoot>
 <tr>
 <td>选择操作:</td>
-<td colspan="5">
+<td colspan="3">
 <%= form_tag(checked_computers_path,:method => :put,:id=>"computers_checked_form",:target=>"_blank",:style=>"margin:0px;") do -%>
 <%= hidden_field_tag "grid[selected][]",@computer.id%>
 <select id="do" name="do" class="input-medium">
@@ -56,6 +56,20 @@
 <button type="submit" class="btn btn-primary">执行操作</button>
 
 <%end%>
+
+
+</td colspan="2">
+<td>
+  <%if @task%>
+    <%= form_tag(do_checked_computers_path,:method => :put,:id=>"computer_checked_form",:class=>"form-horizontal") do -%>
+      <%= hidden_field_tag :do,'task'%>
+      <%= hidden_field_tag :task_id,@task.id%>
+      <select name="ids[]" multiple="multiple" style="display:none;">
+          <option value="1" selected="selected"><%= @computer.id %></option>
+      </select>
+      <button type="submit" class="btn btn-danger">重启</button>
+    <%end%>
+  <%end%>
 </td>
 </tr>
 </tfoot>
