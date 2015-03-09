@@ -16,7 +16,7 @@
           %h3 等级：#{@role.level}
 
 
-      %tr
+      %tr{:class => ('success' if @role.role_session)}
         %td 
           %p
             当前金币：#{gold_str @role.gold}
@@ -31,5 +31,20 @@
           体力:#{@role.vit_power}/156
           .progress.progress-striped{'data-toggle'=>"tooltip",'title'=>"体力:#{@role.vit_power}/156",'style'=>"width: 90%;"}
             .bar.bar-success{'style'=>"width: #{@role.vit_power*100/156}%"}
+      -if @role.role_session
+        %tr.success
+          %td
+            %p
+              启动时间：#{time_str @role.role_session.created_at}
+            %p
+              活跃时间：#{time_str @role.role_session.live_at}
+          %td
+            %p
+              在线时间：#{Time.diff(@role.role_session.created_at,@role.role_session.live_at)[:diff]}
+            %p
+              失联时间：#{Time.diff(Time.now,@role.role_session.live_at)[:diff]}
+
+          %td
+            
 .container
   =render :partial => "history_role_sessions/role_grid"

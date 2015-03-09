@@ -6,6 +6,8 @@
   end
 
   #g.column name:  'ID', attribute: 'id'
+  g.column name:  '完成', attribute: 'finished'
+
   g.column name:  '开始时间',attribute: 'created_at' do |a|
     time_str a.created_at
   end
@@ -16,17 +18,16 @@
       Time.diff(a.created_at,a.lived_at)[:diff]
     end
   end
-  g.column name:  '完成', attribute: 'finished'
   g.column name:  '电脑', attribute: 'hostname',model: Computer do |a|
     computer_tag a.computer
   end
+  
+  g.column name:  '服', attribute: 'server',model: Account  do |a|
+    a.account.server if a.account
+  end
+  
   g.column name:  '账号', attribute: 'account_id' do |a|
     link_to a.account_id,account_path(a.account) if a.account
-  end
-  g.column name: '转出' do |a|
-    s = a.history_role_sessions.sum :exchanged_gold
-    s += a.role_session.exchanged_gold if a.role_session
-    gold_str s
   end
   g.column name:  '角色',attribute: 'role_session_id' do |a|
     r = a.history_role_sessions.map{|r| r.role.name if r.role}.to_s
@@ -37,6 +38,13 @@
   end
 
   g.column name:  'IP',attribute: 'ip'
+  g.column name:  '启动次数',attribute: 'start_count'
+  g.column name: '转出' do |a|
+    s = a.history_role_sessions.sum :exchanged_gold
+    s += a.role_session.exchanged_gold if a.role_session
+    gold_str s
+  end
+
 
   g.column name:  '开始状态',attribute: 'started_status' 
   g.column name:  '结束状态',attribute: 'finished_status' do |a|

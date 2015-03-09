@@ -1,0 +1,30 @@
+<%= grid(@role_sessions,show_filters: true) do |g|
+  g.column name: 'ID', attribute: 'id'
+  g.column name:  'Role ID', filter: false do |task|
+    link_to task.role.name,role_path(task.role)
+  end
+
+  g.column name:  'Computer' do |task|
+    task.computer.hostname
+  end
+  g.column name:  '开始等级', attribute: 'start_level'
+  g.column name: '获取金币' do |task|
+    gold_str task.total - task.start_gold
+  end
+  g.column name:  '任务', attribute: 'task' 
+   g.column name: '副本',attribute: 'instance_map_id' do |role_session|
+    role_session.instance_map.key if role_session.instance_map
+   end
+  g.column name:  '连接次数', attribute: 'connection_times'
+  g.column name: '在线时长',attribute: 'created_at' do |task|
+    hour_str task.live_at - task.created_at
+  end
+  g.column name:  '在线时间', attribute: 'live_at' do |task|
+    time_str task.live_at
+  end
+  g.column   do |task|
+    link_to('Edit', edit_role_session_path(task)) + " "+
+    link_to('Destroy',role_session_path(task),confirm: 'Are you sure?',:method => :delete)
+  end
+end %>
+<br />

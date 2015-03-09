@@ -27,10 +27,20 @@ class AccountsController < ApplicationController
 		@account = Account.find_by_no(params[:id]) if params[:id] != "0"
 		@account = Account.find_by_no(params[:no]) unless @account
 
-		@account_sessions = initialize_grid(AccountSession.where(:account_id => @account.no),
-      :order => 'account_sessions.id',
-      :order_direction => 'desc'
-			)
+		@history_type = params[:history_type] || 'account'
+		case @history_type
+		when 'account'
+			@account_sessions = initialize_grid(AccountSession.where(:account_id => @account.no),
+	      :order => 'account_sessions.id',
+	      :order_direction => 'desc'
+				)
+		when 	'role'
+			@history_role_sessions = initialize_grid(HistoryRoleSession.where(:account_id => @account.no),
+		      :order => 'history_role_sessions.id',
+		      :order_direction => 'desc'
+					)
+		end
+
 	end
 
 	def merge

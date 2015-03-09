@@ -147,6 +147,16 @@ module ApplicationHelper
 		end
 	end
 
+	def style_for_role_table_line r
+		if r.online
+			'info'
+		elsif r.role_session
+			'success'
+		else
+			''
+		end
+	end
+
 	def computer_ul_color c
 		if c.account_sessions.first
 			if c.account_sessions.first.role_session

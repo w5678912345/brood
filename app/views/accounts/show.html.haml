@@ -1,0 +1,41 @@
+.container
+  %table.table.table-bordered
+    %tbody
+      -color = 'warning' if @account.normal_at > Time.now
+      -color = 'success' if @account.account_session
+      %tr{:class => color}
+        %td
+          -if @account.bind_computer
+            %h3 机器：#{link_to @account.bind_computer.hostname,computer_path(@account.bind_computer)}
+          %h3 
+            账号：#{@account.no}
+            = link_to raw('<i class="icon-edit"></i>'),edit_account_path
+        %td
+          %h3 区服：#{@account.server}
+          %h3 状态：#{@account.status}
+
+        %td  
+          %h3 创建日期：#{@account.created_at.strftime("%Y年%m月%d日")}
+          %h3 恢复日期：#{time_str @account.normal_at}
+      %tr{:class => color}
+        %td{:colspan =>"2"}
+          %p 手机：#{@account.phone_id.blank? ? "无" : @account.phone_id}
+        %td
+          %p 点券：#{@account.money_point}
+      %tr
+        %td{:colspan =>"3"}
+          备注：#{@account.remark}
+.container
+  %legend 包含角色
+  =render :partial => "roles/table",:locals=>{:roles=>@account.reorder_roles}
+
+%ul.nav.nav-tabs
+  %li{:class => ('active' if @history_type == 'account')}
+    =link_to '账号历史',account_path(@account,:history_type => 'account')
+  %li{:class => ('active' if @history_type == 'role')}
+    =link_to '角色历史',account_path(@account,:history_type => 'role')
+-case @history_type
+-when 'account'
+  = render 'account_sessions/grid' 
+-when 'role'
+  = render 'history_role_sessions/grid' 
