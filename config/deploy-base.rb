@@ -36,7 +36,7 @@ set :user, 'ubuntu'
 set :rails_env, 'production'
 
 set :repository, 'ubuntu@54.199.199.189:repo/brood.git'
-set :branch, 'bolt'
+set :branch, 'tianyi'
 set :rvm_path, '/home/ubuntu/.rvm/scripts/rvm' #'/usr/local/rvm/scripts/rvm'
 
 # thin settings
@@ -95,8 +95,8 @@ task :deploy => :environment do
 
 
     to :launch do
-      invoke :'thin:start'
-      queue %[whenever -i]
+      #invoke :'thin:start'
+      #queue %[whenever -i]
     end
     
     to :clean do
