@@ -61,11 +61,11 @@
 </td colspan="2">
 <td>
   <%if @task%>
-    <%= form_tag(do_checked_computers_path,:method => :put,:id=>"computer_checked_form",:class=>"form-horizontal") do -%>
+    <%= form_tag(do_checked_computers_path,:method => :put,:id=>"computer_checked_form",:target=>"_blank",:class=>"form-horizontal") do -%>
       <%= hidden_field_tag :do,'task'%>
       <%= hidden_field_tag :task_id,@task.id%>
       <select name="ids[]" multiple="multiple" style="display:none;">
-          <option value="1" selected="selected"><%= @computer.id %></option>
+          <option value=<%="#{@computer.id}"%> selected="selected"><%= @computer.id %></option>
       </select>
       <button type="submit" class="btn btn-danger">重启</button>
     <%end%>
