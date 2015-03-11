@@ -48,7 +48,7 @@ class Account < ActiveRecord::Base
     scope :online_scope, where("accounts.session_id > 0") #
     scope :unline_scope, where("accounts.session_id = 0").reorder("updated_at desc") # where(:status => 'normal')
     #
-    scope :started_scope, joins(:role_session) #已开始的角色
+    scope :started_scope, where("accounts.session_id > 0 ") #已开始的角色
     scope :stopped_scope, where("accounts.session_id = 0 ") #已停止的账号
     #
     scope :waiting_scope, lambda{|time|joins(:roles).where("accounts.session_id = 0").where("accounts.normal_at <= ? ",time || Time.now).where("accounts.enabled = 1")
@@ -488,12 +488,9 @@ class Account < ActiveRecord::Base
     end
 
     def helpers
-      Role.started_scope.where(:is_helper=>true,:server=>self.server)
+      Role.joins(:role_session).where(:is_helper=>true,:server=>self.server)
     end
 
-    def helper_role 
-      role = Role.started_scope.where(:is_helper=>true,:server=>self.server).first
-    end
 
     def format_string
       return "#{self.no}----#{self.password}----#{self.phone_id}----#{self.status}----#{self.server}"
