@@ -48,7 +48,7 @@ class Account < ActiveRecord::Base
     scope :online_scope, where("accounts.session_id > 0") #
     scope :unline_scope, where("accounts.session_id = 0").reorder("updated_at desc") # where(:status => 'normal')
     #
-    scope :started_scope, where("accounts.session_id > 0 ") #已开始的账号
+    scope :started_scope, joins(:role_session) #已开始的角色
     scope :stopped_scope, where("accounts.session_id = 0 ") #已停止的账号
     #
     scope :waiting_scope, lambda{|time|joins(:roles).where("accounts.session_id = 0").where("accounts.normal_at <= ? ",time || Time.now).where("accounts.enabled = 1")
