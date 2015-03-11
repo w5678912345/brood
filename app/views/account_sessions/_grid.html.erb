@@ -1,11 +1,12 @@
 <%= grid(@account_sessions, upper_pagination_panel: true, show_filters: :yes) do |g|
+  
   g.row_attributes do |version|
-    if version.finished == false
-      {class: 'success'}
+    if version.role_session and version.role_session.live_at < 1.hour.ago
+      {class: 'warning'} 
     elsif version.account and version.account.money_point and version.account.money_point > 0 and version.finished_status == 'discardforyears'
       {class: 'error'} 
-    elsif version.role_session and version.role_session.live_at < 1.hour.ago
-      {class: 'warning'} 
+    elsif version.finished == false
+      {class: 'success'}
     end
   end
 
