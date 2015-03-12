@@ -36,7 +36,7 @@ class Role < ActiveRecord::Base
 
   scope :online_scope, where(:online=>true)
   scope :started_scope, where("session_id > 0 ") #已开始的角色
-  scope :stopped_scope, where("roles.session_id = 0 ") #已停止的角色
+  scope :stopped_scope,joins("left join role_sessions on roles.id = role_sessions.role_id").where("role_sessions.id is null ") #已停止的角色
   # 等待上线的角色
   scope :waiting_scope,stopped_scope.where("roles.status = 'normal' and roles.session_id = 0 and roles.online = 0 and roles.today_success = 0").reorder("is_helper desc").readonly(false)
 
@@ -225,10 +225,10 @@ class Role < ActiveRecord::Base
   #
   def self.list_search opts
     roles = Role.includes(:qq_account,:session)
-    roles = roles.where("id = ?",opts[:id]) unless opts[:id].blank?
+    roles = roles.where("roles.id = ?",opts[:id]) unless opts[:id].blank?
     #roles = roles.where("server =?",opts[:server]) unless opts[:server].blank?
-    roles = roles.where("server like ?","%#{opts[:server]}%") unless opts[:server].blank?
-    roles = roles.where("account =?",opts[:account]) unless opts[:account].blank?
+    roles = roles.where("roles.server like ?","%#{opts[:server]}%") unless opts[:server].blank?
+    roles = roles.where("roles.account =?",opts[:account]) unless opts[:account].blank?
     roles = roles.where("status = ?",opts[:status])  unless opts[:status].blank?
     roles = roles.where("online = ?",opts[:online].to_i) unless opts[:online].blank?
     roles = roles.where("today_success =?",opts[:ts].to_i) unless opts[:ts].blank?

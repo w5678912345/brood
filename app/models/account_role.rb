@@ -17,7 +17,7 @@ class AccountRole
 		records = records.where("accounts.is_auto = ?",opts[:auto].to_i) unless opts[:auto].blank?
 		records = records.where("accounts.phone_id like ?","%#{opts[:phone]}%") unless opts[:phone].blank?
 		records = records.where("accounts.normal_at >= ?",opts[:min_nat]) unless opts[:min_nat].blank?
-        records = records.where("accounts.normal_at <= ?",opts[:max_nat]) unless opts[:max_nat].blank?
+    records = records.where("accounts.normal_at <= ?",opts[:max_nat]) unless opts[:max_nat].blank?
 		records = records.where("accounts.enabled = ?",opts[:enabled]) unless opts[:enabled].blank?
 		records = records.where("accounts.in_cpo = ?",opts[:in_cpo]) unless opts[:in_cpo].blank?
 		records = records.where("accounts.standing = ?",opts[:standing]) unless opts[:standing].blank?
@@ -48,8 +48,8 @@ class AccountRole
 		records = records.where("roles.profession = ?",opts[:profession]) unless opts[:profession].blank?
 		records = records.where("roles.profession not in (?)",opts[:not_profession]) unless opts[:not_profession].blank?
 		unless opts[:r_started].blank?
-			records = records.where("roles.session_id = 0") if opts[:r_started].to_i == 0
-			records = records.where("roles.session_id > 0") if opts[:r_started].to_i == 1
+			records = records.stopped_scope if opts[:r_started].to_i == 0
+			records = records.joins(:session) if opts[:r_started].to_i == 1
 		end
 		unless opts[:level].blank?
       tmp = opts[:level].split("-")
