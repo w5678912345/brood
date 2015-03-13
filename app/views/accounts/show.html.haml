@@ -10,6 +10,7 @@
           %h3 
             账号：#{@account.no}
             = link_to raw('<i class="icon-edit"></i>'),edit_account_path
+            =render 'get_log_button'
         %td
           %h3 区服：#{@account.server}
           %h3 状态：#{@account.status}

@@ -9,6 +9,7 @@
   g.column name:  'Account' do |task|
     r = account_tag(task)#
     r += raw('<i class="icon-flag" title="IP: '+task.ip_range+'"></i>') unless task.ip_range.blank?
+    #r += render 'get_log_butto'
     r
   end
   if not mini_show

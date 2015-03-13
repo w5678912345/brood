@@ -1,0 +1,17 @@
+%div{:style => "display:none;"}
+  = form_tag(checked_accounts_path,:method => :post,:id=>"account_checked_form",:onSubmit=>"",:target=>"_blank") do 
+    = hidden_field_tag :do,'get_log_file'
+
+    %select{:name => "grid[selected][]", :multiple => "multiple", :style => "display:none;"}
+      %option{ :value => @account.no, :selected => "selected"}
+
+
+%a#submit-btn{:href => '#'}
+  %i.icon-upload
+
+:javascript
+  $("#submit-btn").click(function(){
+    var url = $("#url").val();
+    $("#account_checked_form").attr("action",url);
+    $("#account_checked_form").submit();
+  }); 
