@@ -5,7 +5,8 @@ module Accounts
     end
     def run all=false
       unless all
-        roles_query = @account.roles.waiting_scope.where("roles.level < ?",Setting.role_max_level)
+        roles_query = @account.roles.where("roles.status = 'normal' and roles.today_success = 0").
+          reorder("is_helper desc").where("roles.level < ?",Setting.role_max_level)
         roles_query = roles_query.reorder("role_index").limit(Setting.account_start_roles_count)
       else
         roles_query = @account.roles
