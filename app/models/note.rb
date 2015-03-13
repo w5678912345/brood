@@ -71,19 +71,19 @@ class Note < ActiveRecord::Base
 
     #
     def self.list_search opts
-        notes = Note.where("id>0")
+        notes = Note.where("notes.id > 0")
         notes = notes.where(:role_id => opts[:role_id]) unless opts[:role_id].blank?
-        notes = notes.where("session_id =? or id = ? ",opts[:session_id].to_i,opts[:session_id].to_i) unless opts[:session_id].blank?
+        notes = notes.where("notes.session_id =? or notes.id = ? ",opts[:session_id].to_i,opts[:session_id].to_i) unless opts[:session_id].blank?
         notes = notes.where(:account => opts[:account]) unless opts[:account].blank?
-        notes = notes.where("server like ?","%#{opts[:server]}%") unless opts[:server].blank?
+        notes = notes.where("notes.server like ?","%#{opts[:server]}%") unless opts[:server].blank?
         notes = notes.where(:computer_id => opts[:cid]) unless opts[:cid].blank?
         notes = notes.where(:api_name => opts[:api_name]) unless opts[:api_name].blank?
         #notes = notes.where(:api_name => opts[:event]) unless opts[:event].blank?
         notes = notes.where("ip like ?","#{opts[:ip]}%") unless opts[:ip].blank?
-        notes = notes.where("msg like ?","%#{opts[:msg]}%") unless opts[:msg].blank?
-        notes = notes.where("date(created_at) = ?",opts[:date]) unless opts[:date].blank?
-        notes = notes.where("created_at >= ?",opts[:start_time]) unless opts[:start_time].blank?
-        notes = notes.where("created_at <= ?",opts[:end_time]) unless opts[:end_time].blank?
+        notes = notes.where("notes.msg like ?","%#{opts[:msg]}%") unless opts[:msg].blank?
+        #notes = notes.where("date(notes.created_at) = ?",opts[:date]) unless opts[:date].blank?
+        notes = notes.where("notes.created_at >= ?",opts[:start_time]) unless opts[:start_time].blank?
+        notes = notes.where("notes.created_at <= ?",opts[:end_time]) unless opts[:end_time].blank?
         notes = notes.where(:api_code => opts[:code]) unless opts[:code].blank?
         notes = notes.where(:version => opts[:version]) unless opts[:version].blank?
         #
@@ -93,6 +93,9 @@ class Note < ActiveRecord::Base
         unless opts[:level].blank?
           tmp = opts[:level].split("-")
           notes = tmp.length == 2 ? notes.where("level >= ? and level <= ?",tmp[0],tmp[1]) : notes.where("level =? ",opts[:level].to_i)
+        end
+        if opts[:computer_group].present?
+            notes = notes.joins(:computer).where("computers.group = ?",opts[:computer_group])
         end
         return notes
     end

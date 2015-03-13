@@ -10,7 +10,8 @@ class NotesController < ApplicationController
 		@notes = Note.list_search(params)
 		#per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
 		#@notes = @notes.paginate(:page => params[:page], :per_page => per_page)
-		@notes = initialize_grid(@notes.includes([:role,:computer]))
+		@notes = initialize_grid(@notes.preload(:computer),
+			:include => [:role])
 		render "wice_index"
 	end
 

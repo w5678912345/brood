@@ -1,40 +1,36 @@
 <form class="form-search" action="<%= path %>">
+  <input type="text" name="computer_group" class="input-small" placeholder="计算机分组" value="<%= params[:computer_group]%>" style="width:100px;"/>
+  <input type="text" name="start_time" id="start_time" class="input-medium" placeholder="起始时间" value="<%= params[:start_time]%>" />-
+  <input type="text" name="end_time" id="end_time" class="input-medium" placeholder="结束时间" value="<%= params[:end_time]%>" />
+  <input type="text" name="server" class="input-small" placeholder="区" value="<%= params[:server]%>" />
+  <input type="text" name="account" class="input-small" placeholder="账号" value="<%= params[:account]%>" />
+  <input type="text" name="cid" class="input-small" placeholder="机器ID" value="<%= params[:cid]%>" />
+  <input type="text" name="role_id" class="input-small" placeholder="角色ID" value="<%= params[:role_id]%>" />
+  <input type="text" name="level" class="input-small" placeholder="等级(n-m)" value="<%= params[:level]%>" />
+  <input type="text" name="version" class="input-small" placeholder="版本" value="<%= params[:version]%>" />
+  结束:
+  <select name="end" class="input-small">
+    <option value="" >-All-</option>
+    <option value="1" <%= 'selected="selected"' if params[:end] == "1" %>>Yes</option>
+    <option value="0" <%= 'selected="selected"' if params[:end] == "0" %> >No</option>
+  </select>
+  成功:
+  <select name="success" class="input-small">
+    <option value="" >-All-</option>
+    <option value="1" <%= 'selected="selected"' if params[:success] == "1" %>>Yes</option>
+    <option value="0" <%= 'selected="selected"' if params[:success] == "0" %> >No</option>
+  </select>
+  <hr style="margin:5px 0;"/>
+  <input type="text" name="api_name" class="input-small" placeholder="事件" value="<%= params[:api_name]%>" title="" style="width:100px;"/>
+  <input type="text" name="code" class="input-small" placeholder="code" value="<%= params[:code]%>" />
+  <input type="text" name="ip" class="input-small" placeholder="IP" value="<%= params[:ip]%>" title="支持模糊查询" style="width:120px;" />
 
-<input type="text" name="start_time" id="start_time" class="input-medium" placeholder="起始时间" value="<%= params[:start_time]%>" />-
-<input type="text" name="end_time" id="end_time" class="input-medium" placeholder="结束时间" value="<%= params[:end_time]%>" />
-<input type="text" name="server" class="input-small" placeholder="区" value="<%= params[:server]%>" />
-<input type="text" name="account" class="input-small" placeholder="账号" value="<%= params[:account]%>" />
-<input type="text" name="cid" class="input-small" placeholder="机器ID" value="<%= params[:cid]%>" />
-<input type="text" name="role_id" class="input-small" placeholder="角色ID" value="<%= params[:role_id]%>" />
-<input type="text" name="level" class="input-small" placeholder="等级(n-m)" value="<%= params[:level]%>" />
-<input type="text" name="version" class="input-small" placeholder="版本" value="<%= params[:version]%>" />
-<input type="text" name="date" id="date" class="input-small" placeholder="发生日期" value="<%= params[:date]%>" />
-结束:
-<select name="end" class="input-small">
-<option value="" >-All-</option>
-<option value="1" <%= 'selected="selected"' if params[:end] == "1" %>>Yes</option>
-<option value="0" <%= 'selected="selected"' if params[:end] == "0" %> >No</option>
-</select>
-成功:
-<select name="success" class="input-small">
-<option value="" >-All-</option>
-<option value="1" <%= 'selected="selected"' if params[:success] == "1" %>>Yes</option>
-<option value="0" <%= 'selected="selected"' if params[:success] == "0" %> >No</option>
-</select>
-<hr style="margin:5px 0;"/>
-<input type="text" name="api_name" class="input-small" placeholder="事件" value="<%= params[:api_name]%>" title="" />
-
-
-
-<input type="text" name="code" class="input-small" placeholder="code" value="<%= params[:code]%>" />
-
-<input type="text" name="ip" class="input-small" placeholder="IP" value="<%= params[:ip]%>" title="支持模糊查询" style="width:120px;" />
+  <input type="text" name="msg" class="input-small" placeholder="Msg" value="<%= params[:msg]%>" title="支持模糊查询" />
+  <input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page]%>" />
 
 
-<input type="text" name="msg" class="input-small" placeholder="Msg" value="<%= params[:msg]%>" title="支持模糊查询" />
-<input type="text" name="per_page" class="input-small" placeholder="每页展示" value="<%= params[:per_page]%>" />
 
-<button type="submit" class="btn">确 定</button>
+  <button type="submit" class="btn">确 定</button>
 </form>
 
 
