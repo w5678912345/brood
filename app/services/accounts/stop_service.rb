@@ -6,9 +6,10 @@ module Accounts
     def run success,msg
       return 1 if @account_session.transaction do
         @account_session.role_session.stop(success) if @account_session.role_session
-        @account_session.account.roles.update_all(:online => false) if @account_session.account
-        @account_session.account.update_attributes :today_success => success,:session_id => 0
-
+        if @account_session.account
+          @account_session.account.roles.update_all(:online => false) 
+          @account_session.account.update_attributes :today_success => success,:session_id => 0
+        end
         ip = Ip.find_or_create(@account_session.ip)
         ip.update_attributes(:cooling_time=>25.hours.from_now)
 
