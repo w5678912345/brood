@@ -166,7 +166,7 @@ class Computer < ActiveRecord::Base
     accounts_count = self.max_accounts
     # 机器还可以绑定的账户数量
     if opts[:when_not_find].blank?
-      can_accounts_count = accounts_count - self.accounts.size
+      can_accounts_count = accounts_count - self.accounts.count
       return if can_accounts_count < 1
       limit = avg > can_accounts_count ? can_accounts_count : avg
     else
