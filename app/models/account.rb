@@ -411,7 +411,7 @@ class Account < ActiveRecord::Base
         server = self.server.blank? ? computer.server : self.server 
         self.update_attributes(:bind_computer_id => computer.id,:server => server,:updated_at => Time.now)
         # 修改机器绑定数量
-        computer.update_attributes(:accounts_count =>computer.accounts_count+1)
+        computer.update_attributes(:accounts_count =>computer.accounts.count)
         # 插入记录
         note = Note.create(:account => self.no, :computer_id=>computer.id || 0,:ip=>opts[:ip],:api_name=>'bind_computer',:msg=>opts[:msg],
            :server => self.server || computer.server,:version => computer.version,:hostname=>computer.hostname)
