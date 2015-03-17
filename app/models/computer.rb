@@ -69,7 +69,18 @@ class Computer < ActiveRecord::Base
        }
       ).select("computers.*, a1.online_account_count")
   end
-
+  def self.include_bind_account_count
+      joins(
+       %{
+         LEFT OUTER JOIN (
+           SELECT b.bind_computer_id, COUNT(b.id) bind_account_count
+           FROM   accounts b
+           where b.finished = false
+           GROUP BY b.bind_computer_id
+         ) a1 ON a1.bind_computer_id = computers.id
+       }
+      ).select("computers.*, a1.bind_account_count")
+  end
   def is_started?
     return self.session_id>0
   end

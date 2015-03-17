@@ -2,11 +2,19 @@
 class ExportAccountsController < ActionController::Base
 	def index
 		#return render :text => params
-		ss = ['normal','bslocked','discardforyears','discardbysailia']
-		@accounts = Account.list_search(params).where("accounts.bind_computer_id > 0").joins("LEFT JOIN computers ON accounts.bind_computer_id = computers.id")
-		@accounts = @accounts.includes(:bind_computer).reorder("computers.hostname asc")
-		@accounts = @accounts.where("accounts.status not in(?)",ss) unless params[:other].blank?
-		@accounts = initialize_grid(@accounts,:per_page => @accounts.count)
+		ss = ['delaycreate','normal','bslocked','discardforyears','discardbysailia']
+		@accounts = Account.where("accounts.bind_computer_id > 0")
+		@accounts = @accounts.where(:server => params[:server]) if params[:server].present?
+		if params[:status].present?
+			status = params[:status] == 'normal' ? ['normal','delaycreate'] : params[:status]
+			@accounts = @accounts.where(:status => status)
+		end
+		@accounts = @accounts.includes(:bind_computer)
+		@accounts = @accounts.where("accounts.status not in(?)",ss) if params[:other].present?
+		@accounts = initialize_grid(@accounts,
+			:joins => :bind_computer,
+			:order => 'computers.hostname',
+			:per_page => @accounts.count)
 	end
 
 

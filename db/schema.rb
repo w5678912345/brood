@@ -292,7 +292,8 @@ ActiveRecord::Schema.define(:version => 20150309032423) do
 
   add_index "links", ["phone_no", "event"], :name => "index_links_on_phone_no_and_event", :unique => true
 
-  create_table "notes", :force => true do |t|
+  create_table "notes", :id => false, :force => true do |t|
+    t.integer  "id",                                              :null => false
     t.integer  "user_id",                      :default => 0,     :null => false
     t.integer  "role_id",                      :default => 0,     :null => false
     t.integer  "computer_id",                  :default => 0,     :null => false
