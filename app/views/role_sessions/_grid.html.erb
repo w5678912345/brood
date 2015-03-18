@@ -13,7 +13,7 @@
   end
   g.column name:  '任务', attribute: 'task' 
    g.column name: '副本',attribute: 'instance_map_id' do |role_session|
-    role_session.instance_map.key if role_session.instance_map
+    role_session.instance_map.name if role_session.instance_map
    end
   g.column name:  '连接次数', attribute: 'connection_times'
   g.column name: '在线时长',attribute: 'created_at' do |task|

@@ -2,7 +2,7 @@
 <!-- <li><a href="/"><span class="icon-home"></span>Home</a></li> -->
 <li><a href="/api/doc">Doc</a></li>
 <li><a href="/todays"><strong class="text-info">今日情报</strong></a></li>
-
+<li><%= link_to "游戏区", servers_path()%></li>
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">机器
     <b class="caret"></b></a>
@@ -57,11 +57,8 @@
     <li class="nav-header">Note</li>
     <li><%= link_to "记录列表", notes_path(:today=>1)%></li>
     <li><%= link_to "记录副本分布", group_by_msg_notes_path(:today=>1)%></li>
-    <li><%= link_to "角色在线" , role_sessions_path() %></li>
     <li><%= link_to "副本列表" , instance_maps_path() %></li>
-    <li><%= link_to "副本等级分布" , level_instance_maps_path() %></li>
-    <li class="nav-header">Server&IP</li>
-    <li><%= link_to "区列表", servers_path()%></li>
+    <li class="nav-header">IP</li>
     <li><%= link_to "IP列表", ips_path()%></li>
     <li><%= link_to "IP C段列表",ip_ranges_path() %></li>
     <li><%= link_to "IP过滤规则", ip_filters_path()%></li>
@@ -75,9 +72,6 @@
      <li><%= link_to "phone", phones_path()%></li>
      <li><%= link_to "通道列表", links_path()%></li>
      <li><%= link_to "工单列表", orders_path()%></li>
-    <li class="nav-header">Session</li>
-    <li><%= link_to "角色Session", role_sessions_path()%></li>
-    <li><%= link_to "角色HistrorySession", history_role_sessions_path()%></li>
     </ul>
 </li>
 

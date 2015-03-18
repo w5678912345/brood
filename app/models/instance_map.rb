@@ -70,7 +70,7 @@ class InstanceMap < ActiveRecord::Base
   end
 
   def set_enter_count
-    self.update_attributes(:enter_count=>self.role_sessions.count)
+    InstanceMap.update_counters(self.id,:enter_count=> (self.role_sessions.count - self.enter_count))
   end
 
   def self.reset_enter_count
