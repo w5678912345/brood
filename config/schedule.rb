@@ -43,8 +43,8 @@ end
 # end
 
 every :day ,:at => '00:05 am' do
-  runner 'Computer.auto_stop_start',:environment => str_environment 
-  runner 'DataNode.mark_notes_yesterday',:environment => str_environment
+  #runner 'Computer.auto_stop_start',:environment => str_environment 
+  #runner 'DataNode.mark_notes_yesterday',:environment => str_environment
 end
 
 

@@ -25,7 +25,7 @@ class Account < ActiveRecord::Base
     attr_accessor :online_roles 
     #所属服务器
 	  belongs_to :game_server, :class_name => 'Server', :foreign_key => 'server',:primary_key => 'name'
-    belongs_to :session,     :class_name => 'Note', :foreign_key => 'session_id'
+    has_one :session,:class_name => 'AccountSession', :foreign_key => 'account_id',:primary_key => 'no',:conditions => {finished: false}
     #在线角色
     belongs_to :online_role, :class_name => 'Role', :foreign_key => 'online_role_id'
     #

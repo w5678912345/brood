@@ -18,7 +18,7 @@ class Computer < ActiveRecord::Base
   #has_many :computer_accounts,:dependent => :destroy
 
   belongs_to :user
-  belongs_to :session, :class_name => 'Note',:foreign_key => 'session_id'
+  belongs_to :session, :class_name => 'Note',:foreign_key => 'session_id',:primary_key => 'id'
   belongs_to :check_user,:class_name => 'User'
   #has_many :online_roles,:class_name => 'Role',:con
 

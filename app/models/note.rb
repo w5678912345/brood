@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Note < ActiveRecord::Base
-
-	belongs_to :computer
+    self.primary_key = :id
+    belongs_to :computer
     belongs_to  :qq_account, :class_name => 'Account',:foreign_key=>'account',:primary_key=>'no'
 	belongs_to :role
     belongs_to :session, :class_name => 'Note', :foreign_key => 'session_id'

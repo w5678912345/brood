@@ -9,7 +9,7 @@ class AccountsController < ApplicationController
 			params[:bind_cid] = tmp_bind_cid if tmp_bind_cid > 0
 			params[:bind] = tmp_bind_cid.to_s if tmp_bind_cid == 0 || tmp_bind_cid == -1
 		end
-		@accounts = Account.includes(:session).list_search(params)
+		@accounts = Account.includes(:account_session).list_search(params)
 		params[:per_page] = params[:per_page].blank? ? 20 : params[:per_page].to_i
 		params[:per_page] = @accounts.count unless params[:all].blank?
 		#@accounts = @accounts.paginate(:page => params[:page], :per_page => params[:per_page])
