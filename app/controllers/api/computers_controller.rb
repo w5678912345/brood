@@ -38,8 +38,8 @@ class Api::ComputersController < Api::BaseController
 	end
 
 	def reset_accounts
-		@computer.accounts.each do |a|
-			Accounts::StopService.new(a.account_session).run(false,'reset') if a.is_started?
+		@computer.account_sessions.each do |a|
+			Accounts::StopService.new(a).run(false,'reset')
 		end
 
 		@code = 1
