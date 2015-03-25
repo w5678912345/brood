@@ -23,7 +23,7 @@
 <% @records.each do |pm|%>
 <tr>
 	<td><%= link_to pm.server,search_payments_path(:server=>pm.server,:pay_type=>"trade") %></td>
-	<td><%= number_to_currency(pm.zhuanzhang.to_i,:unit => "€") %></td>
+	<td><%= gold_str pm.zhuanzhang.to_i %></td>
 </tr>
 <% end %>
 <% end %>
