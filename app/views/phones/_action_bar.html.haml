@@ -1,0 +1,9 @@
+%form.form-search{:action => phones_path}
+  %input.input-small{ :type=>"text", :name=>"no", :placeholder=>"号码", :value=>params[:no]}
+  %input.input-small{ :type=>"text", :name=>"status", :placeholder=>"状态", :value=>params[:status]}
+  激活:
+  %select.input-small{:name=>"enabled"}
+    %option{:value=>""} -All-
+    %option{:value=>"1", :selected=>("selected" if params[:enabled] == "1")} Yes
+    %option{:value=>"0", :selected=>("selected" if params[:enabled] == "0")} NO
+  %button.btn{:type=>"submit"} Search

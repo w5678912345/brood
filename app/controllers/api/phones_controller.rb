@@ -80,6 +80,11 @@ class Api::PhonesController < Api::BaseController
 		end
 	end
 
+  def sync
+    @phone = Phone.find_by_iccid(params[:iccid])
+    @phone.update_attributes params[:phone].merge(:last_active_at => Time.now)
+    return render :json => {:code => 1}
+  end
 
 	# def bind
 	# 	@phone = Phone.find_or_create_by_no(params[:no])

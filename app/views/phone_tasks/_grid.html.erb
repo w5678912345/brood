@@ -1,0 +1,18 @@
+
+
+<%= grid(@phone_tasks, show_filters: :yes) do |g|
+  g.action_column
+  # g.column name:  'KEY', attribute: 'auth_key',filter: false
+  g.column name: '号码', attribute: 'phone_id'
+  g.column name: '目标号码', attribute: 'target' 
+
+  g.column name:  'ACTION', attribute: 'action'
+  g.column name:  '内容', attribute: 'msg'
+
+  g.column name: '状态' ,attribute: 'status'
+
+  g.column name:  "结果",attribute: 'result' 
+  g.column do |t|
+    link_to 'Destroy', t, method: :delete, data: { confirm: 'Are you sure?' } 
+  end
+end %>

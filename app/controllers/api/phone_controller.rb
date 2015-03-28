@@ -16,23 +16,20 @@ class Api::PhoneController < Api::BaseController
 
 	#启用 或 禁用手机号
 	def set_enable
-          @phone = Phone.find_by_no(params[:no])
-          return render :json => {:code => CODES[:not_find_phone]} unless @phone
-          @phone.update_attributes(:enabled=>params[:enable].to_i)
-          return render :json => {:code => 1}
-    end
+    @phone = Phone.find_by_no(params[:no])
+    return render :json => {:code => CODES[:not_find_phone]} unless @phone
+    @phone.update_attributes(:enabled=>params[:enable].to_i)
+    return render :json => {:code => 1}
+  end
 
-    #启用 或 禁用 手机号相关的
-    def set_channel_enable
-          @phone = Phone.find_by_no(params[:no])
-          return render :json => {:code => CODES[:not_find_phone]} unless @phone
-          return render :json => {:code => 0,:msg=>"no event"} if params[:event].blank?
-          @link = Link.where(:phone_no=>@phone.no).where(:event=>params[:event]).first
-          @link = Link.create(:phone_no => @phone.no,:event=>params[:event]) unless @link
-          @link.update_attributes(:enabled=>params[:enable].to_i)
-          return render :json => {:code => 1}
-    end
-
-   
-
+  #启用 或 禁用 手机号相关的
+  def set_channel_enable
+    @phone = Phone.find_by_no(params[:no])
+    return render :json => {:code => CODES[:not_find_phone]} unless @phone
+    return render :json => {:code => 0,:msg=>"no event"} if params[:event].blank?
+    @link = Link.where(:phone_no=>@phone.no).where(:event=>params[:event]).first
+    @link = Link.create(:phone_no => @phone.no,:event=>params[:event]) unless @link
+    @link.update_attributes(:enabled=>params[:enable].to_i)
+    return render :json => {:code => 1}
+  end
 end

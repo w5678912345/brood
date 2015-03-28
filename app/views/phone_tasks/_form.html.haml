@@ -1,0 +1,14 @@
+= semantic_form_for @phone_task do |f|
+  - if @phone_task.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@phone_task.errors.count, "error")} prohibited this phone_task from being saved:"
+      %ul
+        - @phone_task.errors.full_messages.each do |msg|
+          %li= msg
+
+  = f.input :phone_id,:label => "号码："
+  = f.input :target,:label => "目标号码："
+  = f.input :action,:label => "ACTION",:as => :select,:collection =>['send','recv']
+  = f.input :msg,:label => "内容：",:as => :text
+  .actions
+    = f.submit 'Save'

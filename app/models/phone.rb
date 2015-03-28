@@ -3,9 +3,10 @@ class Phone < ActiveRecord::Base
  CODES = Api::CODES
  STATUS = ['idle','sent','busy']
  Btns = { "set_status"=>"修改状态","set_enabled"=>"设置是否可用"}
-   attr_accessible :id,:phone_machine_id,:no,:enabled,:last_active_at,:accounts_count,:can_bind,:status,:sms_count,:today_sms_count,:can_unlock
+   attr_accessible :id,:iccid,:online,:phone_machine_id,:no,:enabled,:last_active_at,:accounts_count,:can_bind,:status,:sms_count,:today_sms_count,:can_unlock
    self.primary_key=:no
    belongs_to :phone_machine
+   has_many :phone_tasks
    has_many :accounts
    has_many :orders, :class_name=>'Order',:foreign_key => 'phone_no', :primary_key => 'no'
    has_many :links, :class_name => 'Link', :foreign_key => 'phone_no', :primary_key => 'no'

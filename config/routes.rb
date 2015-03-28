@@ -190,6 +190,7 @@ Brood::Application.routes.draw do
   #     get :test,  :on => :collection
        
   # end
+  resources :phone_tasks
   resources :phones do 
     put   :checked,     :on => :collection
     put   :do_checked,  :on => :collection
@@ -307,6 +308,7 @@ Brood::Application.routes.draw do
       match :sync,   :on => :collection
       match :note,   :on => :collection
       match :look,   :on => :collection
+      match :get_phone, :on => :collection
       match :reg,    :on => :collection
       #
       match :role_start, :on => :collection
@@ -331,6 +333,7 @@ Brood::Application.routes.draw do
       match :online, :on => :collection
     end
     resources :phones,:only => [:show] do 
+      match :sync,  :on => :collection
       match :get,  :on => :collection
       match :get_unlock, :on => :collection
       match :qq_register, :on => :collection
@@ -343,7 +346,12 @@ Brood::Application.routes.draw do
       match :sent, :on => :collection
     end
 
-
+    resources :phone_tasks do
+      get :create,:on => :collection
+      get :show
+      get :get_by_iccid,:on => :collection
+      get :finish
+    end
     resources :phone, controller: 'phone' do
       match :get,   :on => :collection
       match :set_enable, :on => :collection

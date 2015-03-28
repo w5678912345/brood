@@ -1,0 +1,6 @@
+
+%ul.nav.nav-tabs
+  %li{:class => ('active' if controller_name == 'phones' && action_name == 'index')}
+    = link_to raw('<i class="icon-list-alt"></i>电话列表'), phones_path
+  %li{:class => ('active' if controller_name == 'phone_tasks' && action_name == 'index')}
+    = link_to raw('<i class="icon-tasks"></i>任务列表'), phone_tasks_path

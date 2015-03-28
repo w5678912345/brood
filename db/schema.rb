@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150309032423) do
+ActiveRecord::Schema.define(:version => 20150327143658) do
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
@@ -382,6 +382,21 @@ ActiveRecord::Schema.define(:version => 20150309032423) do
 
   add_index "phone_machines", ["name"], :name => "index_phone_machines_on_name", :unique => true
 
+  create_table "phone_tasks", :force => true do |t|
+    t.string   "phone_id"
+    t.string   "target"
+    t.string   "action"
+    t.string   "msg"
+    t.string   "status",     :default => "waiting"
+    t.string   "result"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+  end
+
+  add_index "phone_tasks", ["action"], :name => "index_phone_tasks_on_action"
+  add_index "phone_tasks", ["phone_id"], :name => "index_phone_tasks_on_phone_id"
+  add_index "phone_tasks", ["status"], :name => "index_phone_tasks_on_status"
+
   create_table "phones", :primary_key => "no", :force => true do |t|
     t.boolean  "enabled",          :default => true,   :null => false
     t.datetime "last_active_at"
@@ -395,9 +410,13 @@ ActiveRecord::Schema.define(:version => 20150309032423) do
     t.integer  "today_sms_count",  :default => 0,      :null => false
     t.boolean  "can_unlock",       :default => true,   :null => false
     t.integer  "unlock_count",     :default => 0,      :null => false
+    t.string   "iccid"
+    t.boolean  "online",           :default => false
   end
 
+  add_index "phones", ["iccid"], :name => "index_phones_on_iccid"
   add_index "phones", ["no"], :name => "index_phones_on_no", :unique => true
+  add_index "phones", ["online"], :name => "index_phones_on_online"
 
   create_table "role_profiles", :force => true do |t|
     t.string   "name"

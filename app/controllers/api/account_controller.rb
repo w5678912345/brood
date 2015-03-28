@@ -6,11 +6,11 @@ class Api::AccountController < Api::BaseController
 	layout :nil
 
 	before_filter :require_remote_ip									  # 获取请求IP
-	before_filter :require_computer_by_ckey, :only => [:auto,:start,:sync,:stop,:reg,:check_ip,:look] #需要ckey，验证是否为有效的机器	
+	before_filter :require_computer_by_ckey, :only => [:auto,:start,:sync,:stop,:reg,:check_ip,:look,:get_phone] #需要ckey，验证是否为有效的机器	
 	#before_filter :valid_ip_use_count,					:only => [:auto] # 验证当前IP的24小时使用次数
 	#before_filter :valid_ip_range_online_count,			:only => [:auto] # 验证当前IP 前三段的在线数量
 	before_filter :check_valid_ip,					:only => [:auto]
-	before_filter :require_account_by_no,				:only => [:start,:sync,:note,:stop,:look,:role_start,:role_stop,:role_note,:role_pay,:set_rms_file,:support_roles,:use_ticket,:role_profile] # 根据帐号取得一个账户
+	before_filter :require_account_by_no,				:only => [:start,:sync,:note,:stop,:look,:get_phone,:role_start,:role_stop,:role_note,:role_pay,:set_rms_file,:support_roles,:use_ticket,:role_profile] # 根据帐号取得一个账户
 	#before_filter :require_account_is_started,			:only => [:sync,:note,:stop] # 确定账号在线
 	before_filter :require_role_by_rid,					:only => [:role_start,:role_stop,:role_note,:role_pay,:role_profile]
 	before_filter :get_account_session,		:only =>[:sync,:note,:stop,:role_start,:role_stop,:role_note,:role_profile]	#
@@ -87,6 +87,13 @@ class Api::AccountController < Api::BaseController
 		render :partial => '/api/accounts/look'
 	end
 
+	def get_phone
+		if @account.phone and @account.phone.enabled and @account.phone.online
+			render :json => {:code => CODES[:success],:phone_id => @account.phone_id}
+		else
+			render :json => {:code => CODES[:errors]}
+		end
+	end
 
 	def role_start
 		if @account.account_session.nil?
