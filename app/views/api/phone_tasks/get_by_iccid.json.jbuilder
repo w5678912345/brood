@@ -1,1 +1,1 @@
-json.phone_tasks @phone_tasks
+json.array! @phone_tasks
