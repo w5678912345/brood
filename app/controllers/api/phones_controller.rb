@@ -82,7 +82,7 @@ class Api::PhonesController < Api::BaseController
 
   def sync
     @phone = Phone.find_by_iccid(params[:iccid])
-    @phone.update_attributes params[:phone].merge(:last_active_at => Time.now)
+    @phone.update_attributes params[:phone].merge(:last_active_at => Time.now) if @phone and params[:phone]
     return render :json => {:code => 1}
   end
 

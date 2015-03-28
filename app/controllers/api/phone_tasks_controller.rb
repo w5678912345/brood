@@ -21,6 +21,7 @@ class Api::PhoneTasksController < Api::BaseController
     phone = Phone.find_by_iccid params[:iccid]
     @phone_tasks = []
     if phone
+      phone.update_attributes :last_active_at => Time.now
       phone_tasks_query = phone.phone_tasks.where(:status => 'waiting')
       @phone_tasks = phone_tasks_query.all 
       phone_tasks_query.update_all(:status => 'sending')
