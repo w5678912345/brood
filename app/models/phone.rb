@@ -17,7 +17,9 @@ class Phone < ActiveRecord::Base
    scope :can_pull_scope, lambda{|machine_id| joins(:orders).where("phones.status = ?","idle").where("phones.phone_machine_id =?",machine_id).where("orders.finished=0").uniq().readonly(false)}
 
 
-   
+   def self.timeout
+      Phone.where("last_active_at < ?",30.minutes.ago).update_all(:online => false)
+   end
 
    def cooldown?
    		Time.now - self.last_active_at > @@MAX_COOLDOWN

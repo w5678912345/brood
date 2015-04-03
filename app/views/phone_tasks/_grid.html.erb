@@ -3,7 +3,10 @@
 <%= grid(@phone_tasks, show_filters: :yes) do |g|
   g.action_column
   # g.column name:  'KEY', attribute: 'auth_key',filter: false
-  g.column name: '号码', attribute: 'phone_id'
+  g.column name: '时间', attribute: 'created_at' do |t|
+    time_str t.created_at
+  end
+  g.column name: '发送号码', attribute: 'phone_id'
   g.column name: '目标号码', attribute: 'target' 
 
   g.column name:  'ACTION', attribute: 'action'

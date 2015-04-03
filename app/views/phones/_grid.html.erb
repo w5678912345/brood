@@ -15,7 +15,9 @@
     boolean_tag phone.can_unlock
   end
   g.column name:  '今日短信数', attribute: 'sms_count'
-  g.column name:  "最后活跃时间",attribute: 'last_active_at' 
+  g.column name:  "最后活跃时间",attribute: 'last_active_at' do |p|
+    time_str p.last_active_at
+  end
   g.column do |phone|
     link_to 'Destroy', phone, method: :delete, data: { confirm: 'Are you sure?' } 
   end
