@@ -23,7 +23,7 @@ class Role < ActiveRecord::Base
   #
   attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip,:normal
   attr_accessible :close,:close_hours,:closed_at,:reopen_at,:locked,:lost,:is_seller,:ip_range,:online_at,:online_note_id
-  attr_accessible :session_id,:updated_at,:today_success,:is_helper,:channel_index,:name,:ishell,:profession,:total,:gold
+  attr_accessible :session_id,:updated_at,:today_success,:is_helper,:channel_index,:name,:ishell,:profession,:profession_name,:total,:gold
   # validates 
 	validates_presence_of :account, :password
 	# 可以上线的角色

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150327143658) do
+ActiveRecord::Schema.define(:version => 20150407072913) do
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
@@ -498,9 +498,11 @@ ActiveRecord::Schema.define(:version => 20150327143658) do
     t.string   "task_name"
     t.boolean  "reset_talent",                  :default => false,    :null => false
     t.boolean  "is_agent",                      :default => false,    :null => false
+    t.string   "profession_name"
   end
 
   add_index "roles", ["account"], :name => "index_roles_on_account"
+  add_index "roles", ["profession_name"], :name => "index_roles_on_profession_name"
   add_index "roles", ["role_profile_id"], :name => "index_roles_on_role_profile_id"
 
   create_table "servers", :force => true do |t|

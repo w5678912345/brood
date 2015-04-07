@@ -15,6 +15,7 @@
   end
 
   g.column name:  '职业', attribute: 'profession',custom_filter: Role::PROFESSIONS,:detach_with_id => :profession_filter
+  g.column name:  '职业称号', attribute: 'profession_name'
   g.column name:  'profile',attribute: 'name', model: 'RoleProfile',custom_filter: :auto,:detach_with_id => :profile_filter do |role|
     link_to role.role_profile.name,role_profile_path(role.role_profile) if role.role_profile
   end

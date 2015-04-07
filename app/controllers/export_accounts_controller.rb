@@ -19,7 +19,7 @@ class ExportAccountsController < ActionController::Base
 					:order => 'computers.hostname',
 					:per_page => @accounts.count)
       end
-      format.json { render json: @accounts }
+      format.json 
     end
 	end
 
