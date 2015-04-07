@@ -11,10 +11,16 @@ class ExportAccountsController < ActionController::Base
 		end
 		@accounts = @accounts.includes(:bind_computer)
 		@accounts = @accounts.where("accounts.status not in(?)",ss) if params[:other].present?
-		@accounts = initialize_grid(@accounts,
-			:joins => :bind_computer,
-			:order => 'computers.hostname',
-			:per_page => @accounts.count)
+		
+    respond_to do |format|
+      format.html do
+				@accounts = initialize_grid(@accounts,
+					:joins => :bind_computer,
+					:order => 'computers.hostname',
+					:per_page => @accounts.count)
+      end
+      format.json { render json: @accounts }
+    end
 	end
 
 

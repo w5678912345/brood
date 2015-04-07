@@ -9,6 +9,7 @@ class AccountSession < ActiveRecord::Base
   has_many :history_role_sessions
 
   scope :at_date,lambda{|day| where(created_at: day.beginning_of_day..day.end_of_day)}
+  scope :finished_at_date,lambda{|day| where(lived_at: day.beginning_of_day..day.end_of_day)}
 
   def start_role(role)
     #starting role is not current role
