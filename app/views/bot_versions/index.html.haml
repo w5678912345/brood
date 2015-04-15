@@ -2,6 +2,7 @@
 
 %table.table
   %tr
+    %th Date
     %th Version
     %th Game versions
     %th
@@ -10,6 +11,7 @@
 
   - @bot_versions.each do |bot_version|
     %tr
+      %td= bot_version.updated_at.to_date
       %td= bot_version.version
       %td= bot_version.game_versions
       %td= link_to 'Show', bot_version

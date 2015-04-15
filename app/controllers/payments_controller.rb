@@ -14,7 +14,7 @@ class PaymentsController < ApplicationController
 			params[:start_time] = now.change(:hour => 0,:min => 0,:sec => 0).strftime("%Y-%m-%d %H:%M:%S") if params[:start_time].blank?
 			params[:end_time] = now.since(1.day).change(:hour => 0,:min => 0,:sec => 0).strftime("%Y-%m-%d %H:%M:%S") if params[:end_time].blank?
 
-			@payments = Payment.includes(:role).order("id DESC")
+			@payments = Payment.includes(:role)
 			@payments = @payments.where(:role_id => params[:role_id]) unless params[:role_id].blank?
 			@payments = @payments.where("created_at >= ?",params[:start_time]) unless params[:start_time].blank?
 			@payments = @payments.where("created_at <= ?",params[:end_time]) unless params[:end_time].blank?
@@ -26,7 +26,10 @@ class PaymentsController < ApplicationController
 			@payments = @payments.where("remark like ?","%#{params[:remark]}%") unless params[:remark].blank?
 			@sum_gold = @payments.sum(:gold)
 			#@payments = @payments.paginate(:page => params[:page],:per_page => 20)
-			@payments = initialize_grid(@payments)
+			@payments = initialize_grid(@payments,
+      :order => 'payments.id',
+      :order_direction => 'desc'
+				)
 			render "wice_index"
 		end
 		

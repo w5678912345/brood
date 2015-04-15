@@ -4,13 +4,17 @@
   %button.btn.btn-primary.btn-lg{'data-toggle'=>"modal",'data-target'=>'#myModal'} Launcher Filter
   %button.btn.btn-warning.wg-external-reset-button{'data-grid-name' => 'grid'} Reset
   .btn-group.pull-right
-    %button.btn.btn-primary.btn-lg{'data-toggle'=>"modal",'data-target'=>'#gridEditor'} 批量修改
-
+    %button.btn.btn-primary.btn-lg{'data-toggle'=>"modal",'data-target'=>'#gridEditor'} 修改选中
+    %button.btn.btn-warning.btn-lg{'data-toggle'=>"modal",'data-target'=>'#update_all_dlg'} 修改所有
 =render :partial => 'new_grid'
 //filter 必须在new_grid的render之后
 =render 'grid_filter'
 
-=form_tag(update_all_roles_path,:method => :put,:id=>"role_checked_form",:onSubmit=>"return validate(this);",:target=>"_blank") do
+=form_tag(update_selected_roles_path,:method => :put,:id=>"role_checked_form",:onSubmit=>"return validate(this);",:target=>"_blank") do
   =render_grid @roles
-  =render :partial => 'grid_edit'
+  =render :partial => 'grid_edit',:locals => {:dlg_id =>'gridEditor'}
   =dump_filter_parameters_as_hidden_fields(@roles)
+
+=form_tag(update_all_roles_path,:method => :put,:id=>"role_update_all_form",:onSubmit=>"return validate(this);",:target=>"_blank") do
+  =dump_filter_parameters_as_hidden_fields(@roles)
+  =render :partial => 'grid_edit',:locals => {:dlg_id =>'update_all_dlg'}

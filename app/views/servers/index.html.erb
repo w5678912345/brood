@@ -3,6 +3,7 @@
 <table class="table">
 <thead>
 <tr>
+ <th>TAGS</th>
  <th>名称</th>
  <th>收款号</th>
  <th>出售商品/单价</th>
@@ -14,6 +15,7 @@
 <tbody>
 <% @servers.each do |server| %>
 <tr>
+<td><%=server.group_list%></td>
 <td><%=server.name%></td>
 <td>
 <% if server.roles.length == 0 %>

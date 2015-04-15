@@ -24,7 +24,7 @@ group :assets do
 end
 #gem 'jekyll'
 gem 'jquery-rails'
-
+gem 'acts-as-taggable-on', '~> 3.4'
 gem 'formtastic'
 gem 'formtastic-bootstrap'
 gem 'devise' # user auth

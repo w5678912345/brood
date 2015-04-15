@@ -101,6 +101,7 @@ Brood::Application.routes.draw do
     put   :checked,     :on => :collection
     put   :do_checked,  :on => :collection
     put   :update_all,  :on => :collection
+    put   :update_selected,  :on => :collection
     #get   :computers,   :on => :member
   end
 

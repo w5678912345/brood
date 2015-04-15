@@ -27,7 +27,7 @@
       computer.client_count.to_s
   end
   g.column name:  '账号数', attribute: 'accounts_count' do |computer|
-    computer.account_sessions.size.to_s + "/" + computer.accounts_count.to_s + "/" + computer.max_accounts.to_s
+    computer.account_sessions.size.to_s + "/" + computer.bind_account_count.to_s + "/" + computer.max_accounts.to_s
   end
   g.column name:  '自动绑定/新号/解绑', attribute: 'auto_binding' do |computer|
     r = (computer.auto_unbind and @global_auto_unbind)

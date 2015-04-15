@@ -10,7 +10,7 @@
   g.column name: '备注' ,attribute: 'remark'
 
 
-  g.column do |phone|
-    link_to 'Destroy', phone, method: :delete, data: { confirm: 'Are you sure?' } 
+  g.column do |p|
+    link_to('Destroy', p, method: :delete, data: { confirm: 'Are you sure?' } ) if p.id != 1
   end
 end %>

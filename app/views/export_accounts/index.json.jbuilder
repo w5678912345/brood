@@ -4,4 +4,5 @@ json.array! @accounts do |a|
   json.phone_id a.phone_id
   json.server a.server
   json.computer_name a.bind_computer.hostname
+  json.status a.status
 end
