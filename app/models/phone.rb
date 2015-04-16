@@ -48,8 +48,8 @@ class Phone < ActiveRecord::Base
       phones = phones.where("online in (?)",opts[:grid][:f][:online]) if opts[:grid] and opts[:grid][:f] and opts[:grid][:f][:online]
       return phones
    end
-   def get_filter_value f
-      
+   def get_filter_boolean_value f
+
    end
    before_create do |phone|
       phone.status = "idle"
