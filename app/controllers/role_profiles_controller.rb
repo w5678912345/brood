@@ -2,6 +2,9 @@ class RoleProfilesController < ApplicationController
   # GET /role_profiles
   # GET /role_profiles.json
   def index
+    if params[:reset_roles_count]
+      RoleProfile.reset_roles_count
+    end
     @role_profiles = initialize_grid(RoleProfile)
 
     respond_to do |format|

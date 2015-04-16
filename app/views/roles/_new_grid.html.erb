@@ -25,8 +25,8 @@
   g.column name:  'Helper', attribute: 'is_helper' do |role|
     boolean_tag role.is_helper
   end
-  g.column name: 'CIndex', attribute: 'channel_index'
-  g.column name:  'index', attribute: 'role_index'
+  #g.column name: 'CIndex', attribute: 'channel_index'
+  g.column name:  'index', attribute: 'role_index',:detach_with_id => :role_index_filter
   
   g.column name:  '等级', attribute: 'level',filter_type: :range,:detach_with_id => :level_filter
   g.column name:  '体力', attribute: 'vit_power',filter_type: :range,:detach_with_id => :vit_power_filter

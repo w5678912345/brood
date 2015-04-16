@@ -13,3 +13,5 @@
 //= require jquery.validate
 //= require jquery.validate.messages_zh
 //= require highcharts
+//= require syntax-highlighter-rails/shCore
+//= require syntax-highlighter-rails/shBrushCpp

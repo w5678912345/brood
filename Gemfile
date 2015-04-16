@@ -30,6 +30,7 @@ gem 'formtastic-bootstrap'
 gem 'devise' # user auth
 #gem 'will_paginate', '~> 3.0' #pages
 gem "wice_grid", '3.4.2' #表单
+gem 'syntax-highlighter-rails'
 #gem 'bootstrap-will_paginate' #
 gem 'jbuilder', '~> 1.2.0'
 gem 'carrierwave' #

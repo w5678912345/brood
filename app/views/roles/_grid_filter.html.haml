@@ -8,23 +8,26 @@
     .form-horizontal
       .control-group
         %label.control-label ID:
-        .controls.docs-input-sizes 
+        .controls
           =grid_filter @roles, :id_filter
-      .control-group
         %label.control-label 职业:
         .controls
           =grid_filter @roles, :profession_filter
         %label.control-label 服:
         .controls
           =grid_filter @roles, :server_filter
-
         %label.control-label 账号状态:
         .controls
           =grid_filter @roles, :account_status_filter
-
         %label.control-label 角色状态:
         .controls
           =grid_filter @roles, :status_filter
+        %label.control-label 角色序号:
+        .controls
+          =grid_filter @roles, :role_index_filter
+
+
+
       .control-group
         %label.control-label 等级:
         .controls

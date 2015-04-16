@@ -1,0 +1,8 @@
+=content_for :title do
+  角色配置列表
+.btn-toolbar
+  =link_to "新建配置",new_role_profile_path,:method => :get,:class => 'btn btn-default'
+  .btn-group.pull-right
+    =link_to "重置计数",role_profiles_path(:reset_roles_count => 1),:class => 'btn btn-warning'
+
+=render 'grid'
