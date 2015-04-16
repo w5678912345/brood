@@ -28,7 +28,7 @@ class HistoryRoleSession < ActiveRecord::Base
 		h.gold = s.role.total - s.start_gold
 		h.exchanged_gold = s.exchanged_gold
 		h.ip = s.ip
-		h.task = s.instance_map.name
+		h.task = s.instance_map.name if s.instance_map
 		h.result = result
 		#h.game_version = 
 		h.account_key = s.role.account
