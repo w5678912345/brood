@@ -45,7 +45,7 @@ class Phone < ActiveRecord::Base
       phones = phones.where("no =? ",opts[:no]) unless opts[:no].blank?
       phones = phones.where("status =? ",opts[:status]) unless opts[:status].blank?
       phones = phones.where("enabled =? ",opts[:enabled].to_i) unless opts[:enabled].blank?
-      phones = phones.where("online in (?)",opts[:grid][:f][:online]) if opts[:grid] and opts[:grid][:f] and opts[:grid][:f][:online]
+      #phones = phones.where("online in (?)",opts[:grid][:f][:online]) if opts[:grid] and opts[:grid][:f] and opts[:grid][:f][:online]
       return phones
    end
    def get_filter_boolean_value f

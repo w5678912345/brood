@@ -19,7 +19,9 @@ class ExportAccountsController < ActionController::Base
 					:order => 'computers.hostname',
 					:per_page => @accounts.count)
       end
-      format.json 
+      format.json do
+      	@accounts = @accounts.joins(:phone)
+      end
     end
 	end
 
