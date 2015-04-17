@@ -266,6 +266,28 @@ describe Api::AccountController do
     #normal_at will be 72 hours from now
     ac.normal_at.should > 71.hours.from_now
   end
+
+  it 'disconnect cooltime check' do
+    #account start
+    get :auto,@base_params    
+    assigns(:code).should eq 1
+    ac = assigns(:account)
+    ac.no.should eq @account0.no
+
+    @controller = Api::AccountController.new
+    get :note,@base_params.merge(:id => ac.no,:status => 'disconnect',:msg => 'noEnter/StartRoom=-1,-1/CurRoom=-1,-1/BossRoom=-1,-1/verifycode: 出现大于一小时制裁,制裁还剩2166分钟')   
+
+
+    @controller = Api::AccountController.new
+    get :stop,@base_params.merge(:id => ac.no)
+ 
+    ac = Account.find_by_no(@account0.no)
+    ac.is_started?.should eq false
+    ac.status.should eq 'disconnect'
+    #normal_at will be 2166 hours from now
+    ac.normal_at.should > 2165.minutes.from_now
+  end
+
   it 'pay without tick_time' do
     get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade'})
     Payment.count.should eq 1

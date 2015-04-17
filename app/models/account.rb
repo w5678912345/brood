@@ -159,6 +159,12 @@ class Account < ActiveRecord::Base
         normal_at = obj_status.resume_time_from_now
       end
 
+      if status == 'disconnect'
+        m = opts[:msg].match(/出现大于一小时制裁,制裁还剩(\d+)分钟/)
+        if m
+          normal_at = m[1].to_i.minutes.from_now
+        end
+      end
 
       api_name = "0",api_code = "0"
       #
