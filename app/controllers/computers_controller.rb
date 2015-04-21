@@ -7,7 +7,7 @@ class ComputersController < ApplicationController
   
   def index
     
-    @computers = Computer.where("id > 0 ").include_bind_account_count
+    @computers = Computer.where("id > 0 ")
     @computers = @computers.where(:status=>params[:status]) unless params[:status].blank?
     #@computers = @computers.where("server = '' or server is NULL") if params[:server] == "null"
     #@computers = @computers.where(:server=>params[:server]) unless params[:server].blank? #|| params[:server] == "null"

@@ -225,9 +225,9 @@ class Computer < ActiveRecord::Base
   end
 
   def self.reset_accounts_count
-      computers = Computer.all
-      computers.each do |computer|
-        computer.update_attributes(:accounts_count => computer.accounts.count)
+      computers = Computer.include_bind_account_count
+      computers.each do |c|
+        c.update_attributes(:accounts_count => c.bind_account_count)
       end
   end
 
