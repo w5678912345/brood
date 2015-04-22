@@ -4,7 +4,8 @@ class HistoryRoleSessionsController < ApplicationController
   def index
     @history_role_sessions = initialize_grid(HistoryRoleSession,
       :order => 'history_role_sessions.id',
-      :order_direction => 'desc'
+      :order_direction => 'desc',
+      :include => :role
       )
 
     respond_to do |format|

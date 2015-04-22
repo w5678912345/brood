@@ -12,7 +12,11 @@
   g.column name: '转出' ,attribute: 'exchanged_gold',filter: false do |h|
     gold_str h.exchanged_gold
   end
-  g.column name: '结果',attribute: 'result',custom_filter: Account.all_status
+  g.column name: '结果',attribute: 'result',custom_filter: Account.all_status do |h|
+    r = ""
+    r += h.task if h.task.present?
+    r += h.result if h.result.present?
+  end
   g.column name: '版本',attribute: 'version'
   g.column name: 'IP',attribute: 'ip'
   g.column name: '重连次数',attribute: 'connection_times'

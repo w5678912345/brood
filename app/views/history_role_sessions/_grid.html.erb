@@ -13,8 +13,9 @@
     account_tag h.account
   end
   g.column name: '角色',attribute: 'role_id' do |h|
-    role_tag h.role_id
+    link_to h.role.name,role_path(h.role) if h.role
   end
+  g.column name: 'TASK',attribute: 'task'
   g.column name: '结果',attribute: 'result',custom_filter: Account.all_status
   g.column name: 'IP',attribute: 'ip'
 
