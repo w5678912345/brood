@@ -14,7 +14,7 @@
   end
   g.column name: '结果',attribute: 'result',custom_filter: Account.all_status do |h|
     r = ""
-    r += h.task if h.task.present?
+    r += "[%s] " % h.task if h.task.present?
     r += h.result if h.result.present?
   end
   g.column name: '版本',attribute: 'version'
