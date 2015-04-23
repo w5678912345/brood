@@ -65,7 +65,7 @@ class AccountRole
     end
 	  unless opts[:money_point].blank?
       tmp = opts[:money_point].split("-")
-      records = tmp.length == 2 ? records.where("roles.money_point >= ? and roles.money_point <= ?",tmp[0],tmp[1]) : records.where("roles.money_point =? ",opts[:gold].to_i)
+      records = tmp.length == 2 ? records.where("accounts.money_point >= ? and accounts.money_point <= ?",tmp[0],tmp[1]) : records.where("accounts.money_point =? ",opts[:gold].to_i)
 	  end
 		#records = records.reorder("accounts.id desc")
 		return records
