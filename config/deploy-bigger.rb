@@ -13,7 +13,7 @@ require 'mina/rvm'
 set :user , 'root'
 set :domain, '115.29.196.16'
 set :deploy_to, '/root/www/bigger'
-set :repository, 'ubuntu@test_bolt.dabi.co:repo/dabi.git'
+set :repository, 'ubuntu@www.dabi.co:repo/brood.git'
 set :branch, 'master'
 
 set :rvm_path, '/usr/local/rvm/scripts/rvm' 
