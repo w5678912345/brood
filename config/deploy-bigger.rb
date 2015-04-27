@@ -14,7 +14,7 @@ set :user , 'root'
 set :domain, '115.29.196.16'
 set :deploy_to, '/root/www/bigger'
 set :repository, 'ubuntu@www.dabi.co:repo/brood.git'
-set :branch, 'master'
+set :branch, 'tianyi'
 
 set :rvm_path, '/usr/local/rvm/scripts/rvm' 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
