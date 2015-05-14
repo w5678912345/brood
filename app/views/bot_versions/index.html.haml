@@ -5,6 +5,7 @@
     %th Date
     %th Version
     %th Game versions
+    %th 备注
     %th
     %th
     %th
@@ -14,6 +15,7 @@
       %td= bot_version.updated_at.to_date
       %td= bot_version.version
       %td= bot_version.game_versions
+      %td= bot_version.remark
       %td= link_to 'Show', bot_version
       %td= link_to 'Edit', edit_bot_version_path(bot_version)
       %td= link_to 'Destroy', bot_version, :method => :delete, :data => { :confirm => 'Are you sure?' }

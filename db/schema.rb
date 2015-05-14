@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150413064510) do
+ActiveRecord::Schema.define(:version => 20150514091432) do
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(:version => 20150413064510) do
     t.string   "game_versions"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.string   "remark"
   end
 
   add_index "bot_versions", ["version"], :name => "index_bot_versions_on_version"
