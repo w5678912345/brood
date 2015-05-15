@@ -1,5 +1,5 @@
 class InstanceMap < ActiveRecord::Base
-  attr_accessible :enter_count, :death_limit, :enabled, :gold, :max_level, :min_level, :name, :remark, :safety_limit,:key,:ishell
+  attr_accessible :enter_count,:profession, :death_limit, :enabled, :gold, :max_level, :min_level, :name, :remark, :safety_limit,:key,:ishell
   has_many :role_sessions
   scope :level_scope, lambda{|role_level|where("min_level <= ?",role_level).where("max_level >= ? ",role_level).where(:enabled=>true).order("gold desc")}
   scope :ishell_scope, where(:ishell=>true)
@@ -54,10 +54,13 @@ class InstanceMap < ActiveRecord::Base
 
 
   def self.find_by_role role,opts={}
+    find_by_role_imp(role,opts,role.profession) || find_by_role_imp(role,opts)
+  end
+  def self.find_by_role_imp role,opts={},profession = 'all'
 
     level = role.level
     
-    maps = InstanceMap.level_scope(level)
+    maps = InstanceMap.level_scope(level).where(:profession => profession)
     if role.ishell && opts[:ishell].to_i == 1
       map = maps.safety_scope.ishell_scope.first
       map = maps.death_scope.ishell_scope.first unless map
@@ -68,6 +71,8 @@ class InstanceMap < ActiveRecord::Base
 
     return map
   end
+
+
 
   def set_enter_count
     InstanceMap.update_counters(self.id,:enter_count=> (self.role_sessions.count - self.enter_count))

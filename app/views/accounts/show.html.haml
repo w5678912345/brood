@@ -5,8 +5,12 @@
       -color = 'success' if @account.account_session
       %tr{:class => color}
         %td
-          -if @account.bind_computer
+          -if @account.bind_computer_id > 0
             %h3 机器：#{link_to @account.bind_computer.hostname,computer_path(@account.bind_computer)}
+          -elsif @account.bind_computer_id == 0
+            %h3 账号未绑定机器
+          -else
+            %h3 账号禁用绑定
           %h3 
             账号：#{@account.no}
             = link_to raw('<i class="icon-edit"></i>'),edit_account_path

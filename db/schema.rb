@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150514091432) do
+ActiveRecord::Schema.define(:version => 20150515034301) do
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
@@ -243,7 +243,10 @@ ActiveRecord::Schema.define(:version => 20150514091432) do
     t.datetime "created_at",                                     :null => false
     t.datetime "updated_at",                                     :null => false
     t.boolean  "ishell",                      :default => false, :null => false
+    t.string   "profession",                  :default => "all"
   end
+
+  add_index "instance_maps", ["profession"], :name => "index_instance_maps_on_profession"
 
   create_table "ip_filters", :force => true do |t|
     t.string   "regex"

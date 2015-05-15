@@ -14,19 +14,19 @@
     <%= f.text_field :no,:required=>"required" %>
   </div>
 </div>
-<% if action_name == 'new'%>
 <div class="control-group">
 <label class="control-label">密 码:</label>
   <div class="controls docs-input-sizes" >
-    <%= f.password_field :password,:required=>"required" %>
+    <%= f.text_field :password,:required=>"required" %>
   </div>
 </div>
-<div class="control-group">
-<label class="control-label">角色数量:</label>
-  <div class="controls docs-input-sizes" >
-    <%= text_field_tag :n,1,:required=>"required" %>
+<% if action_name == 'new'%>
+  <div class="control-group">
+  <label class="control-label">角色数量:</label>
+    <div class="controls docs-input-sizes" >
+      <%= text_field_tag :n,1,:required=>"required" %>
+    </div>
   </div>
-</div>
 <%end%>
 <div class="control-group">
   <label class="control-label">电话号:</label>
