@@ -6,7 +6,7 @@ class TodaysController < ApplicationController
 		@today_trade_gold = Payment.trade_scope.at_date(Date.today).sum(:gold)
 		#.at_date(Date.today)
 		@error_event_count = AccountSession.select("finished_status as status,count(id) as num").
-			where(finished: true,started_status: 'normal').group("status").finished_at_date(Date.today).
+			where(finished: true,started_status: ['normal','delaycreate']).group("status").finished_at_date(Date.today).
 			where(finished_status: ['discardforyears','discardfordays','bslocked','discardbysailia','exception','discardbysailia','locked'])
 		@error_event_grid = initialize_grid(@error_event_count)
 		#binding.pry
