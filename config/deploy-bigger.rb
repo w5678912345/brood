@@ -19,7 +19,7 @@ set :branch, 'tianyi'
 set :rvm_path, '/usr/local/rvm/scripts/rvm' 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_paths, ['config/database.yml', 'tmp/pids','log','config/thin.yml','config/secrets.yml']
+set :shared_paths, ['config/database.yml','log','config/thin.yml','config/secrets.yml']
 
 
 # thin settings
