@@ -23,7 +23,7 @@ set :shared_paths, ['config/database.yml', 'tmp/pids','log','config/thin.yml','c
 
 
 # thin settings
-set_default :thin_cmd, 'thin'
+set_default :thin_cmd, 'bundle exec thin'
 set_default :thin_config, 'config/thin.yml'
 
 # Optional settings:
