@@ -34,6 +34,7 @@
   g.column name: '金币' do |task|
     gold_str task.gold
   end
+  g.column name: '背包',attribute: 'bag_value'
   g.column name: '今日结果',attribute: "today_success",filter_type: :boolean,:detach_with_id => :today_success_filter do |task|
     boolean_tag task.today_success 
   end

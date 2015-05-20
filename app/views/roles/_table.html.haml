@@ -22,6 +22,7 @@
         %th 区
         %th 疲劳值
         %th 金币
+        %th 背包
         %th 在线
         %th 状态
         %th 成功
@@ -42,6 +43,7 @@
 
           %td #{role.vit_power}
           %td #{gold_str role.gold}
+          %td #{role.bag_value}
           %td
             - if role.role_session
               = link_to "在线",role_session_path(role.role_session)

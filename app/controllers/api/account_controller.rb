@@ -265,7 +265,8 @@ class Api::AccountController < Api::BaseController
 		return if Setting.need_ip_limit? == false
 		#@ip = IPAddr.new params[:ip]
 		ip_c = get_ip_c params[:ip]
-		session_records = AccountSession.where('ip = ? and lived_at > ?',params[:ip],24.hours.ago).includes(:account => :roles)
+		session_records = AccountSession.where('ip = ? and lived_at > ?',params[:ip],24.hours.ago)
+											.includes(:account => :roles)
 		if ip_used_in_records session_records
 			@code=CODES[:ip_used]
 			@computer.update_attributes :msg => 'ip_used'
@@ -278,7 +279,8 @@ class Api::AccountController < Api::BaseController
 			return render :json => {:code=>@code,:msg=>"ip c online too match:#{params[:ip]}"}
 		end
 
-		session_records = AccountSession.where('ip_c = ? and lived_at > ?',ip_c,Setting.in_range_minutes.minutes.ago).includes(:account => :roles)
+		session_records = AccountSession.where('ip_c = ? and lived_at > ?',ip_c,Setting.in_range_minutes.minutes.ago)
+											.includes(:account => :roles)
 		#
 		#if ip_used_in_records session_records,Setting.ip_range_start_count
 		if session_records.count >= Setting.ip_range_start_count
@@ -289,7 +291,7 @@ class Api::AccountController < Api::BaseController
 	end
 
 	def ip_used_in_records(records,permit_count = 1)
-		@account_session = (records.select {|e| e.account.can_start?}).first
+		@account_session = (records.select {|e| e.account.can_start? and e.account.bind_computer_id = @computer.id}).first
 		#binding.pry
 		if @account_session
 			@account = @account_session.account

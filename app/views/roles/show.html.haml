@@ -19,7 +19,7 @@
       %tr{:class => ('success' if @role.role_session)}
         %td 
           %p
-            当前金币：#{gold_str @role.gold}
+            当前金币：#{gold_str @role.gold}   背包: #{@role.bag_value}
           %p
             累计金币：#{gold_str @role.total}
         %td
