@@ -21,7 +21,7 @@ class Role < ActiveRecord::Base
   belongs_to  :qq_account, :class_name => 'Account',:foreign_key=>'account',:primary_key=>'no', :counter_cache => :roles_count
 
   #
-  attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip,:normal
+  attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip,:normal,:bag_value
   attr_accessible :close,:close_hours,:closed_at,:reopen_at,:locked,:lost,:is_seller,:ip_range,:online_at,:online_note_id
   attr_accessible :session_id,:updated_at,:today_success,:is_helper,:channel_index,:name,:ishell,:profession,:profession_name,:total,:gold
   # validates 
