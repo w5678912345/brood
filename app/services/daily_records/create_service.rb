@@ -9,7 +9,7 @@ module DailyRecords
       where(finished_status: ['discardforyears','discardfordays','bslocked','recycle','exception','locked'])
 
       error_event_count = Hash[error_event_count.map{|r|[r.status.to_sym,r.num]}]
-      gold_price = GoldPriceRecord.select("avg(average_price) as price").where(created_at: begin_time..end_time).first
+      gold_price = GoldPriceRecord.select("avg(max_price) as price").where(created_at: begin_time..end_time).first
 
 
       DailyRecord.create do |r|
