@@ -51,7 +51,7 @@ gem 'thin', '1.5.0'
 
 
 gem 'aliyun-oss', '~> 0.7.0.1349333720' #
-
+gem 'httparty'
 group :development,:test do
   gem 'better_errors'
 	#gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'

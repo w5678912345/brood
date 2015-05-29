@@ -66,6 +66,7 @@ Brood::Application.routes.draw do
     get   :setting,     :on => :collection
     post  :set,         :on => :collection
     post   :do_text_checked, :on => :collection
+    get   :do_text_checked, :on => :collection
     get   :to_text_checked, :on => :collection
 
   end

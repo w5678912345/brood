@@ -21,6 +21,7 @@ class TodaysController < ApplicationController
 						Time.now).count
 
 		@all_valid_role_count = @finished_role_count + @can_use_role_count
+		@average_gold_price = Server.select("avg(gold_price) as price").first.price
 	end
 	def server_online
 		@server_online = initialize_grid(RoleSession.select("roles.server,count(*) as num").joins(:role).group("roles.server").order("roles.server"))

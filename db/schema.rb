@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150515034301) do
+ActiveRecord::Schema.define(:version => 20150528103250) do
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
@@ -195,6 +195,16 @@ ActiveRecord::Schema.define(:version => 20150515034301) do
     t.string   "source",                    :default => "",   :null => false
     t.text     "data",                                        :null => false
   end
+
+  create_table "gold_price_records", :force => true do |t|
+    t.integer  "server_id"
+    t.integer  "average_price"
+    t.integer  "max_price"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "gold_price_records", ["server_id"], :name => "index_gold_price_records_on_server_id"
 
   create_table "history_role_sessions", :force => true do |t|
     t.datetime "begin_at"
@@ -510,27 +520,18 @@ ActiveRecord::Schema.define(:version => 20150515034301) do
   add_index "roles", ["role_profile_id"], :name => "index_roles_on_role_profile_id"
 
   create_table "servers", :force => true do |t|
-    t.string   "name",            :limit => 124,                    :null => false
+    t.string   "name",            :limit => 124,                   :null => false
     t.string   "role_str"
-    t.integer  "roles_count",                    :default => 0,     :null => false
-    t.integer  "computers_count",                :default => 0,     :null => false
-    t.datetime "created_at",                                        :null => false
-    t.datetime "updated_at",                                        :null => false
+    t.integer  "roles_count",                    :default => 0,    :null => false
+    t.integer  "computers_count",                :default => 0,    :null => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
     t.string   "goods"
-    t.integer  "price",                          :default => 1,     :null => false
-    t.float    "gold_price",                     :default => 0.0,   :null => false
-    t.float    "gold_unit",                      :default => 0.0,   :null => false
-    t.boolean  "allowed_new",                    :default => true,  :null => false
-    t.integer  "point",                          :default => 0,     :null => false
-    t.string   "goods2"
-    t.integer  "price2",                         :default => 1,     :null => false
-    t.integer  "max_price",                      :default => 1,     :null => false
-    t.integer  "max_price2",                     :default => 1,     :null => false
-    t.string   "goods3"
-    t.integer  "price3",                         :default => 1,     :null => false
-    t.integer  "max_price3",                     :default => 1,     :null => false
-    t.boolean  "sell_closed",                    :default => false
-    t.boolean  "agent_closed",                   :default => false, :null => false
+    t.integer  "price",                          :default => 1,    :null => false
+    t.float    "gold_price",                     :default => 0.0,  :null => false
+    t.float    "gold_unit",                      :default => 0.0,  :null => false
+    t.boolean  "allowed_new",                    :default => true, :null => false
+    t.integer  "point",                          :default => 0,    :null => false
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true

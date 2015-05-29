@@ -52,6 +52,15 @@ every :day, :at => '06:05 am' do
   runner 'TimeTask.at_06_time',:environment => str_environment 
 end
 
+every :day, :at => '08:05 am' do
+  runner 'TimeTask.update_gold_price',:environment => str_environment 
+end
+every :day, :at => '14:05 am' do
+  runner 'TimeTask.update_gold_price',:environment => str_environment 
+end
+every :day, :at => '18:35 am' do
+  runner 'TimeTask.update_gold_price',:environment => str_environment 
+end
 
 # every 3.days do
 #   runner 'Api.reset_bslock_role',:environment => str_environment 

@@ -190,8 +190,6 @@ class AccountsController < ApplicationController
 		str = params[:str].blank? ? "--" : params[:str]
 
 		return render :text => "没有数据" unless params[:accounts]
-
-
 		lines = params[:accounts].split(/\r\n/)
 		ids = []
 		lines.each do |line|
@@ -203,7 +201,7 @@ class AccountsController < ApplicationController
 			:per_page=>@accounts.count,
 			:name => 'grid')
 
-		#render :template=>
+		render 'do_text_checked'
 	end
 
 	#

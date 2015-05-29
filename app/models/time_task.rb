@@ -25,4 +25,8 @@ module TimeTask
 		AccountTask.auto_finish
 	end
 
+	def self.update_gold_price
+		GoldPriceRecord.create_all_from_net
+		Server.update_today_gold_price
+	end
 end
