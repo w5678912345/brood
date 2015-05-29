@@ -9,6 +9,8 @@ module DailyRecords
       where(finished_status: ['discardforyears','discardfordays','bslocked','recycle','exception','locked'])
 
       error_event_count = Hash[error_event_count.map{|r|[r.status.to_sym,r.num]}]
+      gold_price = GoldPriceRecord.select("avg(average_price) as price").where(created_at: begin_time..end_time).first
+
 
       DailyRecord.create do |r|
         r.date = date
@@ -21,6 +23,8 @@ module DailyRecords
         r.role_online_hours = HistoryRoleSession.where(created_at: begin_time..end_time).sum("end_at - begin_at").to_i/3600000
         r.gold = HistoryRoleSession.where(created_at: begin_time..end_time).sum(:gold)
         r.trade_gold = Payment.trade_scope.time_scope(begin_time,end_time).sum(:gold)
+        r.gold_price = gold_price.price if gold_price
+
         r.bslocked_count = error_event_count[:bslocked] if error_event_count[:bslocked]
         r.discardforyears_count = error_event_count[:discardforyears] if error_event_count[:discardforyears]
         r.discardfordays_count = error_event_count[:discardfordays] if error_event_count[:discardfordays]

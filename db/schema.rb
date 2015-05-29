@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150528103250) do
+ActiveRecord::Schema.define(:version => 20150529084701) do
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
@@ -179,6 +179,7 @@ ActiveRecord::Schema.define(:version => 20150528103250) do
     t.datetime "created_at",                              :null => false
     t.datetime "updated_at",                              :null => false
     t.integer  "average_level",          :default => 0
+    t.integer  "gold_price",             :default => 0
   end
 
   add_index "daily_records", ["date"], :name => "index_daily_records_on_date", :unique => true

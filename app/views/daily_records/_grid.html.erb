@@ -21,9 +21,9 @@
   g.column name:  '转出', attribute: 'trade_gold' do |d|
     gold_str d.trade_gold
   end
-
-
-
+  g.column name:  '转出', attribute: 'gold_price' do |d|
+    d.gold_price.to_s + '元/亿金'
+  end
 
   g.column name:  '交易锁定', attribute: 'bslocked_count'
   g.column name:  '永封', attribute: 'discardforyears_count'
