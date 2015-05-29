@@ -11,7 +11,7 @@ class Server < ActiveRecord::Base
 
   def self.update_today_gold_price
     Server.all.each do |s|
-      prices = GoldPriceRecord.select("avg(average_price) as price").
+      prices = GoldPriceRecord.select("avg(max_price) as price").
       where("created_at > ? and server_id = ?",Date.today.beginning_of_day,s.id)
       s.update_attributes :gold_price => prices.first.price if prices.first
     end
