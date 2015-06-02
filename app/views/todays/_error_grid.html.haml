@@ -10,4 +10,4 @@
           %td 
             =e.status
           %td 
-            =link_to e.num, account_sessions_path(:grid =>{:f =>{"finished_at"=>{"fr"=>Date.today, "to"=>Date.tomorrow},:finished_status => e.status,:started_status => 'normal'}})
+            =link_to e.num, account_sessions_path(:grid =>{:f =>{"created_at"=>{"fr"=>Date.today},:finished_status => e.status,:started_status => 'normal'}})
