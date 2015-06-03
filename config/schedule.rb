@@ -52,13 +52,14 @@ every :day, :at => '06:05 am' do
   runner 'TimeTask.at_06_time',:environment => str_environment 
 end
 
-every :day, :at => '08:05 am' do
+#自动采集币价的部分
+every :day, :at => '1:05 pm' do
   runner 'TimeTask.update_gold_price',:environment => str_environment 
 end
-every :day, :at => '2:05 pm' do
+every :day, :at => '3:35 pm' do
   runner 'TimeTask.update_gold_price',:environment => str_environment 
 end
-every :day, :at => '5:35 pm' do
+every :day, :at => '6:00 pm' do
   runner 'TimeTask.update_gold_price',:environment => str_environment 
 end
 

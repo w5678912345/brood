@@ -1,13 +1,14 @@
 .container
-  %table.table.table-striped
-    %thead
-      %tr
-        %th 事件
-        %th 数量
+  %table.table
     %tbody
-      -@error_event_count.each do |e|
-        %tr
-          %td 
-            =e.status
-          %td 
-            =link_to e.num, account_sessions_path(:grid =>{:f =>{"created_at"=>{"fr"=>Date.today},:finished_status => e.status,:started_status => 'normal'}})
+      %tr
+        %td=render :partial => 'error_event_count',:locals => {:short_name => 'BS', :name => "bslocked"} 
+        %td=render :partial => 'error_event_count',:locals => {:short_name => 'EX', :name => "exception"} 
+        %td=render :partial => 'error_event_count',:locals => {:short_name => 'DD', :name => "discardfordays"}
+        %td=render :partial => 'error_event_count',:locals => {:short_name => 'DY', :name => "discardforyears",:lable_type => 'important'}
+      %tr
+        %td=render :partial => 'error_event_count',:locals => {:short_name => 'LK', :name => "locked"} 
+        %td=render :partial => 'error_event_count',:locals => {:short_name => 'RC', :name => "recycle"} 
+        %td=render :partial => 'error_event_count',:locals => {:short_name => 'SL', :name => "discardbysailia"} 
+        %td=render :partial => 'error_event_count',:locals => {:short_name => 'DC', :name => "disconnect"} 
+        

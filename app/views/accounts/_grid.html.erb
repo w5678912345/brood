@@ -6,6 +6,12 @@
 
   g.action_column  object_property: :no
   #g.column name:  'ID', attribute: 'id', filter: false
+  if not mini_show
+    g.column name: '绑定机器' ,attribute: 'bind_computer_id',filter: false,in_csv: false  do |task|
+       account_bind_tag task
+    end
+  end
+  g.column name:  '区', attribute: 'server'
   g.column name:  'Account' do |task|
     r = account_tag(task)#
     r += raw('<i class="icon-flag" title="IP: '+task.ip_range+'"></i>') unless task.ip_range.blank?
@@ -23,14 +29,11 @@
       boolean_tag account.in_cpo
     end
   end
-  g.column name:  '区', attribute: 'server'
-  g.column name:  '角色数', attribute: 'roles_count',in_csv: false 
+
   g.column name:  '点券', attribute: 'money_point',filter_type: :range,in_csv: false 
-  if not mini_show
-    g.column name: '绑定机器' ,attribute: 'bind_computer_id',filter: false,in_csv: false  do |task|
-       account_bind_tag task
-    end
-  end
+  g.column name:  '礼包', attribute: 'gift_bag',in_csv: false 
+
+  g.column name:  '角色数', attribute: 'roles_count',in_csv: false 
   g.column name: '在线', attribute: 'session_id', filter: false,in_csv: false  do |a|
     if a.is_started?
       r = link_to a.account_session.ip,account_session_path(a.account_session)

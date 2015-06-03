@@ -73,7 +73,7 @@ class Api::AccountController < Api::BaseController
 		role_attr_names = Role.columns.map {|c| c.name }
 		roles_attr = params.reject{|key,value| role_attr_names.include?(key) == false}
 
-		@code = @account.api_sync params[:rid],roles_attr,{money_point: params[:money_point]},params[:account_session] || {}
+		@code = @account.api_sync params[:rid],roles_attr,{money_point: params[:money_point],gift_bag: params[:gift_bag]},params[:account_session] || {}
 		render :partial => '/api/result'
 	end
 

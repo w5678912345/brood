@@ -1,0 +1,4 @@
+-lable_type = lable_type || 'warning'
+%span.label{class: 'label-'+ lable_type}=short_name
+%div
+  =link_to @error_event_map[name.to_s].to_s, account_sessions_path(:grid =>{:f =>{"created_at"=>{"fr"=>Date.today},:finished_status => name.to_s,:started_status => 'normal'}})

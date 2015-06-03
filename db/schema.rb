@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150529084701) do
+ActiveRecord::Schema.define(:version => 20150603073336) do
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
@@ -97,6 +97,7 @@ ActiveRecord::Schema.define(:version => 20150529084701) do
     t.datetime "last_start_at"
     t.boolean  "standing",                         :default => false,    :null => false
     t.integer  "money_point",                      :default => 0
+    t.string   "gift_bag"
   end
 
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true
