@@ -1,5 +1,5 @@
 .container
-  %table.table
+  %table.table{:style=>"width: 70%"}
     %tbody
       %tr
         %td=render :partial => 'error_event_count',:locals => {:short_name => 'BS', :name => "bslocked"} 
@@ -11,4 +11,3 @@
         %td=render :partial => 'error_event_count',:locals => {:short_name => 'RC', :name => "recycle"} 
         %td=render :partial => 'error_event_count',:locals => {:short_name => 'SL', :name => "discardbysailia"} 
         %td=render :partial => 'error_event_count',:locals => {:short_name => 'DC', :name => "disconnect"} 
-        
