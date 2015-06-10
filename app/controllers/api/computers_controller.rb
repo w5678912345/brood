@@ -18,13 +18,13 @@ class Api::ComputersController < Api::BaseController
 	end
 
 	def set
-        @code = 0
-        @computer = Computer.find_by_auth_key(params[:ckey])
-        return @code = CODES[:not_find_computer] unless @computer
-        @code = 1 if @computer.update_attributes(:server=>params[:server],:updated_at=>Time.now)
-        @computer.clear_bind_accounts(opts={:ip=>request.remote_ip,:msg=>"clear by set server",:bind=>0}) if @code==1
-        render :partial => '/api/result'
-    end
+    @code = 0
+    @computer = Computer.find_by_auth_key(params[:ckey])
+    return @code = CODES[:not_find_computer] unless @computer
+    @code = 1 if @computer.update_attributes(:server=>params[:server],:updated_at=>Time.now)
+    @computer.clear_bind_accounts(opts={:ip=>request.remote_ip,:msg=>"clear by set server",:bind=>0}) if @code==1
+    render :partial => '/api/result'
+	end
 	def cinfo
 		@code = 0
 		@computer = Computer.find_by_auth_key(params[:ckey])
