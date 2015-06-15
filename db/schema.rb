@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150603073336) do
+ActiveRecord::Schema.define(:version => 20150615032657) do
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
@@ -459,13 +459,15 @@ ActiveRecord::Schema.define(:version => 20150603073336) do
     t.string   "task"
     t.integer  "connection_times",   :default => 0
     t.datetime "live_at"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.integer  "start_power"
     t.integer  "account_session_id"
+    t.boolean  "in_hell",            :default => false
   end
 
   add_index "role_sessions", ["account_session_id"], :name => "index_role_sessions_on_account_session_id"
+  add_index "role_sessions", ["in_hell"], :name => "index_role_sessions_on_in_hell"
   add_index "role_sessions", ["role_id"], :name => "index_role_sessions_on_role_id"
 
   create_table "roles", :force => true do |t|

@@ -7,6 +7,8 @@
   %li.span5.thumbnail
     %h2.text-info
       =link_to "在线账号：#{@online_account_count}",account_sessions_path(:grid =>{:f => {:finished => ["f"]}})
+      %h5.text-info{'style'=>"x: 20%;"}
+        =link_to "深渊角色：#{@in_hell_role_count}",role_sessions_path(:grid =>{:f => {:in_hell => ["t"]}})
     %h2.text-info
       =link_to "在线机器：#{@online_computer_count}",computers_path(:started => 1)
     .progress.progress-striped{'data-toggle'=>"tooltip",'title'=>"#{@finished_role_count}/#{@all_valid_role_count}",'style'=>"width: 90%;"}

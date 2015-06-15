@@ -18,6 +18,7 @@ class TodaysController < ApplicationController
 		@finished_role_count = Role.where(:today_success => true).count
 		@finished_role_average_level = Role.where(:today_success => true).average(:level)
 		@online_role_count = RoleSession.count
+		@in_hell_role_count = RoleSession.where(:in_hell => true).count
 		@can_use_role_count = Role.today_valid.joins(:qq_account).
 			where("accounts.normal_at <= ? and accounts.enabled = 1 and accounts.bind_computer_id > 0",
 						Time.now).count

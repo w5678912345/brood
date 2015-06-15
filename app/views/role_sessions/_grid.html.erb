@@ -1,17 +1,22 @@
-<%= grid(@role_sessions,show_filters: true) do |g|
-  g.column name: 'ID', attribute: 'id'
-  g.column name:  'Role ID', filter: false do |task|
+<%= grid(@role_sessions,show_filters: :hide) do |g|
+
+  g.column name:  '电脑' do |rs|
+    rs.computer.hostname
+  end
+  g.column name:  '账号' do |rs|
+    link_to rs.role.account,account_path(rs.role.qq_account)
+  end
+  g.column name:  '角色', filter: false do |task|
     link_to task.role.name,role_path(task.role)
   end
 
-  g.column name:  'Computer' do |task|
-    task.computer.hostname
-  end
+
   g.column name:  '开始等级', attribute: 'start_level'
   g.column name: '获取金币' do |task|
     gold_str task.total - task.start_gold
   end
   g.column name:  '任务', attribute: 'task' 
+  g.column name:  '深渊', attribute: 'in_hell' 
    g.column name: '副本',attribute: 'instance_map_id' do |role_session|
     role_session.instance_map.name if role_session.instance_map
    end

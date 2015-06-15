@@ -308,6 +308,7 @@ Brood::Application.routes.draw do
       match :start,  :on => :collection
       match :stop,   :on => :collection
       match :sync,   :on => :collection
+      match :set_current_task,   :on => :collection
       match :note,   :on => :collection
       match :look,   :on => :collection
       match :get_phone, :on => :collection
