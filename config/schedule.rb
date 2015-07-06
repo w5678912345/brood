@@ -63,6 +63,18 @@ every :day, :at => '6:00 pm' do
   runner 'TimeTask.update_gold_price',:environment => str_environment 
 end
 
+#测试晚上5：00把10组的配置设为保守，早上9：30再设回来
+every :day, :at => '5:30 am' do
+  runner 'TimeTask.copy_role_profile(16,13)',:environment => str_environment 
+  
+end
+every :day, :at => '9:30 am' do
+  runner 'TimeTask.copy_role_profile(1,13)',:environment => str_environment 
+end
+###############################
+
+
+
 # every 3.days do
 #   runner 'Api.reset_bslock_role',:environment => str_environment 
 # end

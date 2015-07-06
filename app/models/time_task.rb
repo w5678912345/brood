@@ -29,4 +29,12 @@ module TimeTask
 		GoldPriceRecord.create_all_from_net
 		Server.update_today_gold_price
 	end
+
+	def self.copy_role_profile(s_id,t_id)
+		s = RoleProfile.find_by_id s_id
+		t = RoleProfile.find_by_id t_id
+		if s and t
+			t.update_attributes :data => s.data
+		end
+	end
 end
