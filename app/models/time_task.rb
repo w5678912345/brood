@@ -10,6 +10,9 @@ module TimeTask
 		DataNode.mark
 	end
 
+	def self.reset_vit_power_roles
+    Role.where(:today_success=>true).where("vit_power > 50").update_all(:today_success => false)
+	end
 
 	def self.auto_stop
 		puts "auto stop at: "+Time.now.to_s

@@ -37,6 +37,9 @@ every 10.minutes do
   runner 'TimeTask.every_10_minutes',:environment => str_environment
 end
 
+every 125.minutes do
+  runner 'TimeTask.reset_vit_power_roles',:environment => str_environment
+end
 #
 # every 60.minutes do
 #   runner 'Account.auto_normal',:environment => str_environment
