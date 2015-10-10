@@ -7,9 +7,10 @@ gem 'time_diff'
 # Bundle edge Rails instead:   hello
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 #gem 'rack', '~> 1.4.5'
-gem 'mysql2','~> 0.3.13'
+gem 'mysql2','~> 0.3.15'
 gem "lograge"
 
+gem "libv8", '~>3.16.14.11' 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
