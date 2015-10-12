@@ -105,6 +105,10 @@
 		<input type="text" id="remark" name="remark" value="" placeholder="备注" />
 	</div>
 	</div>
+<% elsif params[:do] == "delete_all"%>
+	<div class="control-group">
+		<h1 class="error">将会删除所有和账号相关的数据!!</h1>
+	</div>
 <%end%>
 
 <div class="form-actions">

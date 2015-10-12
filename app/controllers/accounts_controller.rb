@@ -155,8 +155,11 @@ class AccountsController < ApplicationController
 			end
      	flash[:msg] = "#{@accounts.count}个账号,正在提取日志"   	
    	elsif  "standing" == @do
-    		i = @accounts.stopped_scope.update_all(:standing => params[:standing])
-    		flash[:msg] = "#{i}个账号【站】发生改变"
+    	i = @accounts.stopped_scope.update_all(:standing => params[:standing])
+    	flash[:msg] = "#{i}个账号【站】发生改变"
+    elsif "delete_all" == @do
+    	flash[:msg] = "#{@accounts.count}个账号相关数据被删除！"
+    	Account.delete_all_by_no(@no)
 		end
 	end
 
