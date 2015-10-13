@@ -5,6 +5,7 @@
         %td=render :partial => 'error_event_count',:locals => {:short_name => 'BS', :name => "bslocked"} 
         %td=render :partial => 'error_event_count',:locals => {:short_name => 'EX', :name => "exception"} 
         %td=render :partial => 'error_event_count',:locals => {:short_name => 'DD', :name => "discardfordays"}
+        %td=render :partial => 'error_event_count',:locals => {:short_name => 'DW', :name => "discardforweek"}
         %td=render :partial => 'error_event_count',:locals => {:short_name => 'DY', :name => "discardforyears",:lable_type => 'important'}
       %tr
         %td=render :partial => 'error_event_count',:locals => {:short_name => 'LK', :name => "locked"} 
