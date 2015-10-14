@@ -2,7 +2,7 @@
 class ExportAccountsController < ActionController::Base
 	def index
 		#return render :text => params
-		ss = ['delaycreate','normal','bslocked','discardforyears','discardbysailia','discardfordays']
+		ss = ['delaycreate','normal','bslocked','discardforyears','discardbysailia','discardfordays','discardforweek']
 		@accounts = Account.where("accounts.bind_computer_id > 0")
 		@accounts = @accounts.where(:server => params[:server]) if params[:server].present?
 		if params[:status].present?

@@ -18,6 +18,7 @@
 	<th width="20%">区</th>
 	<th>正常</th>
 	<th>交易锁定</th>
+  <th>封5天</th>
   <th>封7天</th>
 	<th>封停</th>
 	<th>赛利亚</th>
@@ -33,6 +34,7 @@
 	<td><%= link_to record.normal_count,export_accounts_path(:server=>record.server,:status=>"normal"),:target=>"_blank"  %></td>
 	<td><%= link_to record.bs_count,export_accounts_path(:server=>record.server,:status=>"bslocked"),:target=>"_blank" %></td>
   <td><%= link_to record.discard_days_count,export_accounts_path(:server=>record.server,:status=>"discardfordays"),:target=>"_blank" %></td>
+  <td><%= link_to record.discard_week_count,export_accounts_path(:server=>record.server,:status=>"discardforweek"),:target=>"_blank" %></td>
 	<td><%= link_to record.discard_count,export_accounts_path(:server=>record.server,:status=>"discardforyears"),:target=>"_blank" %></td>
 	<td><%= link_to record.sailia_count,export_accounts_path(:server=>record.server,:status=>"discardbysailia"),:target=>"_blank"  %></td>
 	<td><%= link_to record.other_count,export_accounts_path(:server=>record.server,:other=>1),:target=>"_blank" %></td>
