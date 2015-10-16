@@ -1,7 +1,4 @@
-<%= render "navbar" %>
-<%= link_to "新建副本", new_instance_map_path %>
-<%= link_to "更新进入数量", reset_enter_count_instance_maps_path,:method=>:put,:class=>"btn" %>
-<%= grid(@instance_maps, show_filters: :yes) do |g|
+<%= define_grid(@instance_maps, show_filters: :yes) do |g|
   g.row_attributes do |map|
     if map.Full?
       {class:'mapfull'}
@@ -12,7 +9,7 @@
   g.action_column
   g.column name:  '名字',attribute: 'name'
   g.column name:  'key',attribute: 'key'
-  g.column name:  '职业',attribute: 'profession',custom_filter:["gunner","witch","darkknight"]
+  g.column name:  '职业',attribute: 'profession',custom_filter:["gunner","witch","darkknight"],auto_reload: true,detach_with_id: :profession_filter
   g.column name: 'ishell',attribute: 'ishell' do |map|
     boolean_tag map.ishell
   end

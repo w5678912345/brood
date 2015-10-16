@@ -1,0 +1,12 @@
+= render "navbar"
+=render 'grid'
+.btn-toolbar
+  = link_to "新建副本", new_instance_map_path ,class: 'button.btn.btn-primary'
+  %button.btn.btn-warning.wg-external-reset-button{'data-grid-name' => 'grid'} Reset
+  .btn-group.pull-right
+    %button.btn.btn-primary.btn-lg 
+      = link_to "更新进入数量", reset_enter_count_instance_maps_path,:method=>:put,:class=>"btn" 
+
+  =grid_filter @instance_maps, :profession_filter
+=render_grid(@instance_maps)
+
