@@ -180,5 +180,7 @@ class RolesController < ApplicationController
 		#@records = @records.group(@col).reorder("accounts_count desc")
 	end
 
-
+	def error_report
+		
+	end
 end

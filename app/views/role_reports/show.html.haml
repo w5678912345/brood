@@ -1,0 +1,27 @@
+%fieldset
+  %legend 角色分布
+  %form.form-search{:action =>"group_count_roles_path"}
+    状态条件:
+    %select{:name=>"status"}
+      %option{:value=>""} ALL
+      -@status.each do |v|
+        %option{:value=>"#{v}",:selected=>("selected" if v == params[:status])}=v
+
+    统计条件:
+    %select{:name=>"col"}
+      -@cols.each do |k,v|
+        %option{:value=>"#{k}",:selected=>("selected" if k == @col)}=v
+
+    %button.btn{:type=>"submit"} 确定
+
+%table.table.table-bordered.table-condensed
+  %thead
+    %tr
+      %th=@cols[@col]
+      %th 数量
+  %tbody
+    -@records.each do |r|
+      %tr
+        %td=r.col.present? ? r.col : "NULL"
+        %td=r.roles_count
+

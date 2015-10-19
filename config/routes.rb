@@ -105,7 +105,7 @@ Brood::Application.routes.draw do
     put   :update_selected,  :on => :collection
     #get   :computers,   :on => :member
   end
-
+  resources :role_reports, :only => [:index,:show]
   resources :account_roles, :only => [:index] do 
     
   end
