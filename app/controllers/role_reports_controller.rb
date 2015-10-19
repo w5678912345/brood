@@ -2,7 +2,7 @@ class RoleReportsController < ApplicationController
   def index
   end
   def show
-    @cols = {"roles.profession" => "职业","roles.level"=>"等级"} 
+    @cols = {"roles.profession" => "职业","floor(roles.level/10)*10"=>"等级","history_role_sessions.task" => "任务(副本)"} 
     @col = params[:col] || "roles.profession"
     @status = ["discardfordays","discardforyear","discardforweek","disconnect"]
     params[:status] = 'disconnect' if not params[:status].present?
