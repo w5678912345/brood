@@ -61,6 +61,7 @@ class InstanceMap < ActiveRecord::Base
     level = role.level
     
     maps = InstanceMap.level_scope(level).where(:profession => profession)
+    maps = maps.where(:name => opts[:expect_map_name]) if opts[:expect_map_name]
     if role.ishell && opts[:ishell].to_i == 1
       map = maps.safety_scope.ishell_scope.first
       map = maps.death_scope.ishell_scope.first unless map

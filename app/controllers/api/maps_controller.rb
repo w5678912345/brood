@@ -20,7 +20,7 @@ class Api::MapsController < Api::BaseController
 		@role.role_session.save
 
 		#@map = InstanceMap.find_by_role_session(@role.role_session)
-		@map = InstanceMap.find_by_role(@role,{:ishell=>params[:ishell]}) unless @map
+		@map = InstanceMap.find_by_role(@role,{:ishell=>params[:ishell],:expect_map_name => params[:expect_map_name]}) unless @map
 
 		if @map
 			@role.role_session.instance_map = @map
