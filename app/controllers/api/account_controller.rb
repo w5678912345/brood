@@ -305,7 +305,7 @@ class Api::AccountController < Api::BaseController
 	end
 
 	def ip_used_in_records(records,permit_count = 1)
-		@account_session = (records.select {|e| e.account.can_start? and e.account.bind_computer_id = @computer.id}).first
+		@account_session = (records.select {|e| e.account.can_start? and e.account.bind_computer_id == @computer.id}).first
 		#binding.pry
 		if @account_session
 			@account = @account_session.account
