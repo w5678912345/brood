@@ -164,23 +164,23 @@ ActiveRecord::Schema.define(:version => 20150615032657) do
 
   create_table "daily_records", :id => false, :force => true do |t|
     t.date     "date"
-    t.integer  "account_start_count",    :default => 0
-    t.string   "role_start_count",       :default => "0"
-    t.integer  "success_role_count",     :default => 0
-    t.integer  "consumed_vit_power_sum", :default => 0
-    t.integer  "role_online_hours",      :default => 0
-    t.integer  "gold",                   :default => 0
-    t.integer  "trade_gold",             :default => 0
-    t.integer  "bslocked_count",         :default => 0
-    t.integer  "discardforyears_count",  :default => 0
-    t.integer  "discardfordays_count",   :default => 0
-    t.integer  "exception_count",        :default => 0
-    t.integer  "recycle_count",          :default => 0
-    t.integer  "locked_count",           :default => 0
-    t.datetime "created_at",                              :null => false
-    t.datetime "updated_at",                              :null => false
-    t.integer  "average_level",          :default => 0
-    t.integer  "gold_price",             :default => 0
+    t.integer  "account_start_count",                 :default => 0
+    t.string   "role_start_count",                    :default => "0"
+    t.integer  "success_role_count",                  :default => 0
+    t.integer  "consumed_vit_power_sum", :limit => 8, :default => 0
+    t.integer  "role_online_hours",      :limit => 8, :default => 0
+    t.integer  "gold",                   :limit => 8, :default => 0
+    t.integer  "trade_gold",             :limit => 8, :default => 0
+    t.integer  "bslocked_count",                      :default => 0
+    t.integer  "discardforyears_count",               :default => 0
+    t.integer  "discardfordays_count",                :default => 0
+    t.integer  "exception_count",                     :default => 0
+    t.integer  "recycle_count",                       :default => 0
+    t.integer  "locked_count",                        :default => 0
+    t.datetime "created_at",                                           :null => false
+    t.datetime "updated_at",                                           :null => false
+    t.integer  "average_level",                       :default => 0
+    t.integer  "gold_price",                          :default => 0
   end
 
   add_index "daily_records", ["date"], :name => "index_daily_records_on_date", :unique => true
@@ -308,8 +308,7 @@ ActiveRecord::Schema.define(:version => 20150615032657) do
 
   add_index "links", ["phone_no", "event"], :name => "index_links_on_phone_no_and_event", :unique => true
 
-  create_table "notes", :id => false, :force => true do |t|
-    t.integer  "id",                                              :null => false
+  create_table "notes", :force => true do |t|
     t.integer  "user_id",                      :default => 0,     :null => false
     t.integer  "role_id",                      :default => 0,     :null => false
     t.integer  "computer_id",                  :default => 0,     :null => false
@@ -341,11 +340,6 @@ ActiveRecord::Schema.define(:version => 20150615032657) do
     t.string   "target"
     t.string   "result"
     t.string   "opts"
-    t.string   "goods"
-    t.integer  "amount",                       :default => 0,     :null => false
-    t.integer  "cost",                         :default => 0,     :null => false
-    t.string   "role_type"
-    t.string   "role_name"
   end
 
   add_index "notes", ["account"], :name => "index_notes_on_account"
@@ -510,13 +504,8 @@ ActiveRecord::Schema.define(:version => 20150615032657) do
     t.boolean  "ishell",                        :default => false,    :null => false
     t.string   "profession",                    :default => "",       :null => false
     t.integer  "role_profile_id",               :default => 1
-    t.integer  "bag_value",                     :default => 0,        :null => false
-    t.integer  "start_count",                   :default => 0,        :null => false
-    t.integer  "experience",                    :default => 0,        :null => false
-    t.string   "task_name"
-    t.boolean  "reset_talent",                  :default => false,    :null => false
-    t.boolean  "is_agent",                      :default => false,    :null => false
     t.string   "profession_name"
+    t.integer  "bag_value"
   end
 
   add_index "roles", ["account"], :name => "index_roles_on_account"
