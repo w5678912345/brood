@@ -334,10 +334,9 @@ class Account < ActiveRecord::Base
 
     #为账号新建一个角色
     def add_new_role n,profession=''
-      i = self.roles_count
-      n.to_i.times.each do 
+      base_index = self.roles_count
+      base_index.upto(n.to_i - 1) do |i|
          self.roles.build(:account=>self.no,:password => self.password,:role_index => i,:vit_power=>156,:server => self.server,:profession=>profession)
-        i = i+1
       end
       self.save
     end
