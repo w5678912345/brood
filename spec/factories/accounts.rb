@@ -7,6 +7,6 @@ FactoryGirl.define do
   end
   factory :online_account,:parent => :account do
 	association :online_computer,factory: :computer
-  	association :session,factory: :note 
+  	association :session,factory: :account_session 
   end
 end

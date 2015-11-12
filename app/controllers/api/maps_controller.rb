@@ -25,10 +25,12 @@ class Api::MapsController < Api::BaseController
 		if @map
 			@role.role_session.instance_map = @map
 			@role.role_session.save
+
 			render :json => {:key=>@map.key,:name=>@map.name,:ishell=>@map.ishell}
 		else
 			Note.create(@role.role_session.computer.to_note_hash.merge(:account=>@role.account, :role_id => @role.id, :api_name=>"not_find_map",:ip=>request.remote_ip))
-			render :json => {:code=>-1,:msg=>"not find map"}
+			@code = -1
+			render :json => {:code=>@code,:msg=>"not find map"}
 		end
 		
 	end

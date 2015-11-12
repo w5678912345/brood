@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :account_session do
-    started_at "2015-01-27 11:21:12"
+    created_at "2015-01-27 11:21:12"
     started_status "MyString"
     finished_at "2015-01-27 11:21:12"
     finished false
