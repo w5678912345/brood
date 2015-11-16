@@ -246,15 +246,15 @@ ActiveRecord::Schema.define(:version => 20151112035914) do
     t.integer  "min_level",                                       :null => false
     t.integer  "max_level",                                       :null => false
     t.integer  "gold",                         :default => 0,     :null => false
-    t.integer  "exp",                          :default => 0,     :null => false
+    t.integer  "exp",                          :default => 0
     t.boolean  "enabled",                      :default => true,  :null => false
-    t.integer  "safety_limit",                                    :null => false
-    t.integer  "death_limit",                                     :null => false
-    t.integer  "enter_count",                  :default => 0,     :null => false
+    t.integer  "safety_limit",                 :default => 1000
+    t.integer  "death_limit",                  :default => 1000
+    t.integer  "enter_count",                  :default => 0
     t.string   "remark",        :limit => 128
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
-    t.boolean  "ishell",                       :default => false, :null => false
+    t.boolean  "ishell",                       :default => false
     t.string   "profession",                   :default => "all"
     t.boolean  "client_manual",                :default => false
   end

@@ -40,4 +40,10 @@ module TimeTask
 			t.update_attributes :data => s.data
 		end
 	end
+	def self.set_role_profile(roles,profile)
+		pf = RoleProfile.where(profile).first
+		if pf
+			Role.joins(:qq_account).where("accounts.bind_computer_id > 0").where(roles).update_all(:role_profile_id => pf.id)
+		end
+	end
 end
