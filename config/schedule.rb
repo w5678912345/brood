@@ -71,28 +71,28 @@ end
 #以下为自动调整配置
 every :day, :at => '0:00 am' do
   runner 'TimeTask.set_role_profile({:profession => "witch"},{:name => "witch-00"})',:environment => str_environment 
-  runner 'TimeTask.set_role_profile({:profession => "witch"},{:name => "darknight-00"})',:environment => str_environment   
+  runner 'TimeTask.set_role_profile({:profession => "darkknight"},{:name => "darknight-00"})',:environment => str_environment   
 end
 every :day, :at => '4:00 am' do
   runner 'TimeTask.set_role_profile({:profession => "witch"},{:name => "witch-04"})',:environment => str_environment 
-  runner 'TimeTask.set_role_profile({:profession => "witch"},{:name => "darknight-04"})',:environment => str_environment   
+  runner 'TimeTask.set_role_profile({:profession => "darkknight"},{:name => "darknight-04"})',:environment => str_environment   
 end
 every :day, :at => '8:00 am' do
   runner 'TimeTask.set_role_profile({:profession => "witch"},{:name => "witch-08"})',:environment => str_environment 
-  runner 'TimeTask.set_role_profile({:profession => "witch"},{:name => "darknight-08"})',:environment => str_environment   
+  runner 'TimeTask.set_role_profile({:profession => "darkknight"},{:name => "darknight-08"})',:environment => str_environment   
 end
 
 every :day, :at => '0:00 pm' do
   runner 'TimeTask.set_role_profile({:profession => "witch"},{:name => "witch-12"})',:environment => str_environment 
-  runner 'TimeTask.set_role_profile({:profession => "witch"},{:name => "darknight-12"})',:environment => str_environment   
+  runner 'TimeTask.set_role_profile({:profession => "darkknight"},{:name => "darknight-12"})',:environment => str_environment   
 end
 every :day, :at => '4:00 pm' do
   runner 'TimeTask.set_role_profile({:profession => "witch"},{:name => "witch-16"})',:environment => str_environment 
-  runner 'TimeTask.set_role_profile({:profession => "witch"},{:name => "darknight-16"})',:environment => str_environment   
+  runner 'TimeTask.set_role_profile({:profession => "darkknight"},{:name => "darknight-16"})',:environment => str_environment   
 end
 every :day, :at => '8:00 pm' do
   runner 'TimeTask.set_role_profile({:profession => "witch"},{:name => "witch-20"})',:environment => str_environment 
-  runner 'TimeTask.set_role_profile({:profession => "witch"},{:name => "darknight-20"})',:environment => str_environment   
+  runner 'TimeTask.set_role_profile({:profession => "darkknight"},{:name => "darknight-20"})',:environment => str_environment   
 end
 
 
