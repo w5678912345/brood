@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151112035914) do
+ActiveRecord::Schema.define(:version => 20151118102828) do
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
@@ -460,11 +460,13 @@ ActiveRecord::Schema.define(:version => 20151112035914) do
     t.integer  "start_power"
     t.integer  "account_session_id"
     t.boolean  "in_hell",            :default => false
+    t.integer  "role_profile_id"
   end
 
   add_index "role_sessions", ["account_session_id"], :name => "index_role_sessions_on_account_session_id"
   add_index "role_sessions", ["in_hell"], :name => "index_role_sessions_on_in_hell"
   add_index "role_sessions", ["role_id"], :name => "index_role_sessions_on_role_id"
+  add_index "role_sessions", ["role_profile_id"], :name => "index_role_sessions_on_role_profile_id"
 
   create_table "roles", :force => true do |t|
     t.string   "account",                                             :null => false

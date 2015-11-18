@@ -5,7 +5,7 @@ describe Api::AccountController do
     Setting.create :key => 'account_start_roles_count',:val => '5'
     Setting.create :key => 'ip_range_start_count',:val => '1'
 
-    rp = RoleProfile.create name: 'default'
+    rp = RoleProfile.where(:name => 'default').first || RoleProfile.create(name: 'default')
 
     @computer = FactoryGirl.create(:computer)
     @computer1 = FactoryGirl.create(:computer)

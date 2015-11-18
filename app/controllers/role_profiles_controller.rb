@@ -13,6 +13,11 @@ class RoleProfilesController < ApplicationController
     end
   end
 
+  def result_index
+    @result_records = HistoryRoleSession.joins(:role => :role_profile).select("role_profiles.name as name,count(*) as cc")
+      .where("history_role_sessions.created_at > ?",Date.today).where("result = ?","disconnect")
+      .group("roles.role_profile_id")
+  end
   # GET /role_profiles/1
   # GET /role_profiles/1.json
   def show

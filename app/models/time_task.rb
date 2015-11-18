@@ -43,7 +43,7 @@ module TimeTask
 	def self.set_role_profile(roles,profile)
 		pf = RoleProfile.where(profile).first
 		if pf
-			Role.joins(:qq_account).where("accounts.bind_computer_id > 0 and role_porfile_id in (1,27,28,29,30,31,32,33,34,35,36,37,38)")
+			Role.joins(:qq_account).where("accounts.bind_computer_id > 0 and role_profile_id in (1,27,28,29,30,31,32,33,34,35,36,37,38)")
 			.where(roles).update_all(:role_profile_id => pf.id)
 		end
 	end
