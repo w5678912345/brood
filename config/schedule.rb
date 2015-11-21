@@ -82,7 +82,7 @@ every :day, :at => '8:00 am' do
   runner 'TimeTask.set_role_profile({:profession => "darkknight"},{:name => "darknight-08"})',:environment => str_environment   
 end
 
-every :day, :at => '12:00 am' do
+every :day, :at => '11:55 am' do
   runner 'TimeTask.set_role_profile({:profession => "witch"},{:name => "witch-12"})',:environment => str_environment 
   runner 'TimeTask.set_role_profile({:profession => "darkknight"},{:name => "darknight-12"})',:environment => str_environment   
 end
