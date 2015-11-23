@@ -252,6 +252,7 @@ Brood::Application.routes.draw do
     match '/reg'  => 'computers#reg'
     match '/set'  => 'computers#set'
     match '/cinfo' => 'computers#cinfo'
+    get 'role_profiles/:name',to: 'role_profiles#show',:defaults => {:format => 'json'}
     resources :computers,:only => [] do 
       get :start,               :on => :collection
       get :reset_accounts,      :on => :collection
