@@ -194,8 +194,8 @@ class Account < ActiveRecord::Base
         computer = self.account_session.computer
         #
         if status == 'discardfordays'
-            count = Note.where("api_name = 'discardfordays' and computer_id = ? ",computer.id).where("date(created_at)=?",Date.today.to_s).count
-            computer.update_attributes(:status=>0) if count >= Setting.account_discardfordays
+            #count = Note.where("api_name = 'discardfordays' and computer_id = ? ",computer.id).where("date(created_at)=?",Date.today.to_s).count
+            #computer.update_attributes(:status=>0) if count >= Setting.account_discardfordays
         end
         #
         Note.create do |n|
