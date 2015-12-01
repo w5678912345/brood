@@ -198,11 +198,10 @@ class AccountsController < ApplicationController
 		lines.each do |line|
 			ids << line.split(str)[str_index]
 		end
-		@accounts = Account.includes(:session).list_search(params).where("accounts.no in (?)",ids)
-		@accounts = initialize_grid(@accounts,
-			:order => "session_id",
-			:per_page=>@accounts.count,
-			:name => 'grid')
+
+		@accounts = initialize_grid(Account.where("accounts.no in (?)",ids),
+			:include =>:session,
+			:order => "session_id")
 
 		render 'do_text_checked'
 	end
