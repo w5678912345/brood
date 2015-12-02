@@ -113,9 +113,24 @@ class RolesController < ApplicationController
 
 	def update_all
 		params[:roles].delete_if{|k,v| v == 'nochange'}
-		@roles = initialize_grid(Role)
-		@roles.resultset.update_all(params[:roles])
-		redirect_to roles_path(:grid => params[:grid])
+
+		@roles = initialize_grid(Role,
+			:include => [:qq_account,:role_profile,:qq_account => :bind_computer])
+		@roles.with_resultset do |datas|
+			binding.pry
+			datas.joins(:qq_account).update_all(table_to_sql(params[:roles]))
+		end
+		#redirect_to roles_path(:grid => params[:grid])
+		@profiles = RoleProfile.select("id,name")
+		render "update_result"
+	end
+	def table_to_sql(t)
+		result = ""
+		t.each do |k,v|
+			result = result + "," if result.empty? == false
+			result = result + "#{k}='#{v}' "
+		end
+		result
 	end
 
 	def destroy

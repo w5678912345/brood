@@ -198,9 +198,11 @@ class AccountsController < ApplicationController
 		lines.each do |line|
 			ids << line.split(str)[str_index]
 		end
-
+		per_page = 30
+		per_page = Account.count if params[:grid][:show_all] == 'true'
 		@accounts = initialize_grid(Account.where("accounts.no in (?)",ids),
 			:include =>:session,
+			:per_page => per_page,
 			:order => "session_id")
 
 		render 'do_text_checked'

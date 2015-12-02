@@ -1,23 +1,37 @@
 %h1 选择账号
 
 
-= form_tag(do_text_checked_accounts_path,:method => :post,:id=>"account_checked_form",:class=>"form-horizontal") do
+= form_tag(do_text_checked_accounts_path,:method => :post,:id=>"account_checked_form",:class=>"form-horizontal",:target=>"_blank") do
+  .row
+    .span4
+      .control-group
+        %label.control-label 分割符:
+        .controls
+          %input.input-small{:type =>"text",:value=>params[:str],:name=>"str"}
+    .span4
+      .control-group
+        %label.control-label 账号位置:
+        .controls
+          %input.input-small{:type =>"text",:value=>params[:str_index],:name=>"str_index"}
+    .span4
+  .row
+    .span4
+      .control-group
+        %label.control-label 状态:
+        .controls
+          %select{:name => "grid[f][status][]"}
+            %option{:value => ""} --
+            -AccountStatus.data.each do |k,v|
+              %option{:value => k}=k
+    .span4
+      .control-group
+        %label.control-label 显示全部:
+        .controls
+          %select{:name => "grid[show_all]"}
+            %option{:value => "true"} 是
+            %option{:value => "false"} 否（分页）
 
-  .control-group
-    %label.control-label 分割符:
-    .controls
-      %input.input-small{:type =>"text",:value=>params[:str],:name=>"str"}
-  .control-group
-    %label.control-label 账号位置:
-    .controls
-      %input.input-small{:type =>"text",:value=>params[:str_index],:name=>"str_index"}
-  .control-group
-    %label.control-label 状态:
-    .controls
-      %select{:name => "grid[f][status][]"}
-        %option{:value => ""} --
-        -AccountStatus.data.each do |k,v|
-          %option{:value => k}=k
+    .span4
   .control-group
     %textarea{:name=> "accounts", :style=>"width:600px;" ,:rows=>"20"}
 

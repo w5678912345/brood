@@ -5,7 +5,7 @@
   %button.btn.btn-warning.wg-external-reset-button{'data-grid-name' => 'grid'} Reset
   .btn-group.pull-right
     %button.btn.btn-primary.btn-lg{'data-toggle'=>"modal",'data-target'=>'#gridEditor'} 修改选中
-    //%button.btn.btn-warning.btn-lg{'data-toggle'=>"modal",'data-target'=>'#update_all_dlg'} 修改所有
+    %button.btn.btn-warning.btn-lg{'data-toggle'=>"modal",'data-target'=>'#update_all_dlg'} 修改所有
 =render :partial => 'new_grid'
 //filter 必须在new_grid的render之后
 =render 'grid_filter'

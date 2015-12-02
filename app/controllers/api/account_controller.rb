@@ -134,6 +134,9 @@ class Api::AccountController < Api::BaseController
 	end
 	def role_profile
 		@pf = @role.role_profile
+		#如果为空取default
+		@pf = RoleProfile.find(1) if @pf.nil? 
+
 		send_data @pf.data
 	end
 	def role_pay

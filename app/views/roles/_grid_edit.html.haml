@@ -10,7 +10,7 @@
       .control-group
         %label.control-label 角色状态:
         .controls.docs-input-sizes 
-          %select.form-control#roles_status{'name'=>'roles[status]','type'=>'text'}
+          %select.form-control#roles_status{'name'=>'roles[roles.status]','type'=>'text'}
             %option{'value' => 'nochange'} 不变
             =Role.all_status.each do |pf|
               %option{'value' => pf}
@@ -18,7 +18,7 @@
       .control-group
         %label.control-label 角色配置:
         .controls.docs-input-sizes 
-          %select.form-control#roles_profile_id{'name'=>'roles[role_profile_id]'}
+          %select.form-control#roles_profile_id{'name'=>'roles[roles.role_profile_id]'}
             %option{'value' => 'nochange'} 不变
             =@profiles.each do |pf|
               %option{'value' => pf.id}
@@ -26,14 +26,14 @@
       .control-group
         %label.control-label 今日结果:
         .controls.docs-input-sizes 
-          %select.form-control#roles_today_result{'name'=>'roles[today_success]'}
+          %select.form-control#roles_today_result{'name'=>'roles[roles.today_success]'}
             %option{'value' => 'nochange'} 不变
             %option{'value' => '1'} YES
             %option{'value' => '0'} NO
       .control-group
         %label.control-label 职业:
         .controls.docs-input-sizes 
-          %select.form-control#roles_profession{'name'=>'roles[profession]'}
+          %select.form-control#roles_profession{'name'=>'roles[roles.profession]'}
             %option{'value' => 'nochange'} 不变
             =options_for_select(Role::PROFESSIONS )
 
