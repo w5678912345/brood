@@ -20,7 +20,7 @@
         %label.control-label 状态:
         .controls
           %select{:name => "grid[f][status][]"}
-            %option{:value => ""} --
+            %option{:value => ""}="--"
             -AccountStatus.data.each do |k,v|
               %option{:value => k}=k
     .span4

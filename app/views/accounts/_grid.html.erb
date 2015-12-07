@@ -7,7 +7,7 @@
   g.action_column  object_property: :no
   #g.column name:  'ID', attribute: 'id', filter: false
   if not mini_show
-    g.column name: '绑定机器' ,attribute: 'bind_computer_id',filter: false,in_csv: false  do |task|
+    g.column name: '绑定机器' ,attribute: 'hostname',:model => Computer,in_csv: false  do |task|
        account_bind_tag task
     end
   end
