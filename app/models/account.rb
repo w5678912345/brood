@@ -57,8 +57,8 @@ class Account < ActiveRecord::Base
     scope :bind_scope, where("bind_computer_id > 0") # 已绑定
     scope :waiting_bind_scope, where("bind_computer_id = 0") # 未绑定 ,等待绑定的账户
     scope :unbind_scope ,where("bind_computer_id = -1") # 不能绑定
-    scope :un_normal_scope,where("status != 'normal' ") # 非正常状态的账号
-    scope :no_server_scope,where("server is null or server = '' ") #服务器为空的账号 
+    scope :un_normal_scope,where("accounts.status != 'normal' ") # 非正常状态的账号
+    scope :no_server_scope,where("accounts.server is null or accounts.server = '' ") #服务器为空的账号 
     scope :bind_phone_scope, where("phone_id is not null and phone_id != '' ") # 绑定手机的账号
     scope :unbind_phone_scope, where("phone_id is null || phone_id = '' ") # 未绑定手机的账号
     scope :unlocked_scope,where("unlock_phone_id is not null and unlock_phone_id != '' ") 
@@ -288,13 +288,13 @@ class Account < ActiveRecord::Base
     	accounts = accounts.where("accounts.server like ?","%#{opts[:server]}%") unless opts[:server].blank?
       accounts = accounts.no_server_scope if opts[:no_server].to_i == 1
     	accounts = accounts.where("accounts.status = ?",opts[:status])	unless opts[:status].blank?
-      accounts = accounts.where("today_success =?",opts[:ts].to_i) unless opts[:ts].blank?
-      accounts = accounts.where("roles_count = ?",opts[:roles_count].to_i) unless opts[:roles_count].blank?
+      accounts = accounts.where("accounts.today_success =?",opts[:ts].to_i) unless opts[:ts].blank?
+      accounts = accounts.where("accounts.roles_count = ?",opts[:roles_count].to_i) unless opts[:roles_count].blank?
       accounts = accounts.where("bind_computer_id = ?",opts[:bind_cid].to_i) unless opts[:bind_cid].blank?
       accounts = accounts.where(:is_auto => opts[:auto].to_i) unless opts[:auto].blank?
-      accounts = accounts.where("phone_id like ?","%#{opts[:phone]}%") unless opts[:phone].blank?
-      accounts = accounts.where("normal_at >= ?",opts[:min_nat]) unless opts[:min_nat].blank?
-      accounts = accounts.where("normal_at <= ?",opts[:max_nat]) unless opts[:max_nat].blank?
+      accounts = accounts.where("accounts.phone_id like ?","%#{opts[:phone]}%") unless opts[:phone].blank?
+      accounts = accounts.where("accounts.normal_at >= ?",opts[:min_nat]) unless opts[:min_nat].blank?
+      accounts = accounts.where("accounts.normal_at <= ?",opts[:max_nat]) unless opts[:max_nat].blank?
       accounts = accounts.where(:standing => opts[:standing].to_i) unless opts[:standing].blank?
       #
       unless opts[:started].blank?
@@ -306,7 +306,7 @@ class Account < ActiveRecord::Base
         accounts = accounts.unbind_scope if opts[:bind] == '-1'
       end
       unless opts[:ss].blank?
-        accounts = accounts.where("status in (?)",opts[:ss])
+        accounts = accounts.where("accounts.status in (?)",opts[:ss])
       end
       unless opts[:bind_phone].blank?
         accounts = opts[:bind_phone].to_i == 0 ? accounts.unbind_phone_scope : accounts.bind_phone_scope
@@ -314,9 +314,9 @@ class Account < ActiveRecord::Base
       accounts = accounts.unlocked_scope unless opts[:unlocked].blank?
       accounts = accounts.where("date(unlocked_at) =? ",opts[:unlocked_at]) unless opts[:unlocked_at].blank?
       # 根据在线IP 查询账户
-      accounts = accounts.where("online_ip like ?","%#{opts[:online_ip]}%") unless opts[:online_ip].blank?
+      accounts = accounts.where("accounts.online_ip like ?","%#{opts[:online_ip]}%") unless opts[:online_ip].blank?
       accounts = accounts.where("online_computer_id = ?",opts[:online_cid].to_i) unless opts[:online_cid].blank?
-      accounts = accounts.where("date(created_at) = ?",opts["date(created_at)"]) unless opts["date(created_at)"].blank?
+      accounts = accounts.where("date(accounts.created_at) = ?",opts["date(created_at)"]) unless opts["date(created_at)"].blank?
       accounts = accounts.where("accounts.enabled = ?",opts[:enabled]) unless opts[:enabled].blank?
       accounts = accounts.where("accounts.in_cpo = ?",opts[:in_cpo]) unless opts[:in_cpo].blank?
     
