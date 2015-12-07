@@ -21,6 +21,7 @@
         .controls
           %select{:name => "grid[f][status][]"}
             %option{:value => ""}="--"
+            
             -AccountStatus.data.each do |k,v|
               %option{:value => k}=k
     .span4
