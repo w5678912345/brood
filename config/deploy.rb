@@ -11,7 +11,7 @@ require 'mina/rvm'
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 set :tian,'test_tianyi.dabi.co'
-set :bolt,'www.dabi.co'
+set :bolt,'54.199.199.189'
 set :domain, bolt
 set :deploy_path, 'apps/test_bolt.dabi.co/current'
 
