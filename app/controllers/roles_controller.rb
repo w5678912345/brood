@@ -117,7 +117,7 @@ class RolesController < ApplicationController
 		@roles = initialize_grid(Role,
 			:include => [:qq_account,:role_profile,:qq_account => :bind_computer])
 		@roles.with_resultset do |datas|
-			datas.joins(:qq_account).update_all(table_to_sql(params[:roles]))
+			datas.joins([:qq_account,:role_profile,:qq_account => :bind_computer]).update_all(table_to_sql(params[:roles]))
 		end
 		#redirect_to roles_path(:grid => params[:grid])
 		@profiles = RoleProfile.select("id,name")

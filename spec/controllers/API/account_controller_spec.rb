@@ -308,4 +308,6 @@ describe Api::AccountController do
     get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade',:tick_time => '1234'})
     Payment.count.should eq 2
   end
+  it 'can get gold_agent' do
+  end
 end

@@ -25,9 +25,11 @@
     g.column name:  'Enabled', attribute: 'enabled',in_csv: false  do |account|
       boolean_tag account.enabled
     end
-     g.column name:  'In CPO', attribute: 'in_cpo',in_csv: false do |account|
+    g.column name:  'In CPO', attribute: 'in_cpo',in_csv: false do |account|
       boolean_tag account.in_cpo
     end
+    g.column name:  '上级收币人', attribute: 'gold_agent_name'
+    g.column name:  '收币级别', attribute: 'gold_agent_level'
   end
 
   g.column name:  '点券', attribute: 'money_point',filter_type: :range,in_csv: false 
