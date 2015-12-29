@@ -24,7 +24,7 @@
   g.column name:  '等级', attribute: 'level',filter_type: :range
   g.column name:  '体力', attribute: 'vit_power'#, filter: false
 
-  g.column name: '金币' do |task|
+  g.column name: '金币', attribute: 'gold' do |task|
     gold_str task.gold
   end
   g.column name: '背包',attribute: 'bag_value'

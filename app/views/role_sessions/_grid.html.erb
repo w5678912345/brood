@@ -10,10 +10,13 @@
     link_to task.role.name,role_path(task.role)
   end
 
+  g.column name: '职业',attribute: 'profession', model: Role do |i|
+    i.role.profession
+  end
 
   g.column name:  '开始等级', attribute: 'start_level'
   g.column name: '获取金币' do |task|
-    gold_str task.total - task.start_gold
+    gold_str task.role.total - task.start_gold
   end
   g.column name:  '任务', attribute: 'task' 
   g.column name:  '深渊', attribute: 'in_hell' 

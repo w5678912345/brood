@@ -5,7 +5,9 @@ class RoleSessionsController < ApplicationController
     @role_sessions = RoleSession.joins([:role]).includes(:instance_map).includes(:role => :computer)
     @role_sessions = @role_sessions.where("role_sessions.instance_map_id = ?",params[:map_id].to_i) unless params[:map_id].blank?
     @role_sessions = @role_sessions.select("role_sessions.*, roles.total")
-    @role_sessions = initialize_grid(@role_sessions)
+    @role_sessions = initialize_grid(@role_sessions,
+        :include => :role
+      )
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @role_sessions }
