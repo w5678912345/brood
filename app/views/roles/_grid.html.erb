@@ -6,7 +6,7 @@
   g.column name:  '职业', attribute: 'profession'
   g.column name:  '职业称号', attribute: 'profession_name'
   g.column name:  'profile',attribute: 'id',model: RoleProfile do |role|
-    link_to role.role_profile.name,role_profile_path(role.role_profile)
+    link_to role.role_profile.name,role_profile_path(role.role_profile) if role.role_profile
   end
   g.column name:  'Ishell', attribute: 'ishell' do |role|
     boolean_tag role.ishell
