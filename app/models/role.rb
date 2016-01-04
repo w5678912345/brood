@@ -6,7 +6,7 @@ class Role < ActiveRecord::Base
   EVENT = ['answer_verify_code','restart_game','weak','msg_event']
   Btns = {"set_status"=>"修改状态","set_today_success"=>"设置今日成功","set_profession"=>"修改职业"}
 
-  PROFESSIONS = ['gunner','witch','darkknight','summoner'] #
+  PROFESSIONS = ['gunner','witch','darkknight','summoner','asura','chaosknight','necromancer'] #
 
   belongs_to :computer,:class_name => 'Computer'
   belongs_to :online_note, :class_name => 'note', :foreign_key => 'online_note_id'
