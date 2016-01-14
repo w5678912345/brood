@@ -31,7 +31,9 @@
     g.column name:  '上级收币人', attribute: 'gold_agent_name'
     g.column name:  '收币级别', attribute: 'gold_agent_level'
   end
-
+  g.column name:  '金库', attribute: 'cashbox' do |a|
+    gold_str a.cashbox if a.cashbox
+  end
   g.column name:  '点券', attribute: 'money_point',filter_type: :range,in_csv: false 
   g.column name:  '礼包', attribute: 'gift_bag',in_csv: false 
 

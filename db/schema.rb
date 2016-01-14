@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20151224093943) do
+ActiveRecord::Schema.define(:version => 20160111040206) do
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(:version => 20151224093943) do
     t.string   "gift_bag"
     t.string   "gold_agent_name",                  :default => ""
     t.integer  "gold_agent_level",                 :default => 0
+    t.integer  "cashbox",                          :default => 0
   end
 
   add_index "accounts", ["gold_agent_level"], :name => "index_accounts_on_gold_agent_level"
