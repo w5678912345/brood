@@ -6,11 +6,12 @@ class TodaysController < ApplicationController
 		@today_trade_gold = Payment.trade_scope.at_date(Date.today).sum(:gold)
 		#.at_date(Date.today)
 		@error_event_count = AccountSession.select("finished_status as status,count(id) as num").
-			where(finished: true,started_status: ['normal','delaycreate']).group("status").finished_at_date(Date.today)
+			where(finished: true).group("status").finished_at_date(Date.today)
 		@error_event_map = @error_event_count.inject({}) do |r,e|
 			r[e.status] = e.num
 			r
 		end
+		@total_cashbox = Account.sum(:cashbox)
 		#binding.pry
 		nearest_check_time = Time.now.change(:hour => 6)
 		next_check_time = Time.now > nearest_check_time ? nearest_check_time + 1.day : nearest_check_time

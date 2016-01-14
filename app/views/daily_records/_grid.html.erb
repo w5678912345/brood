@@ -18,8 +18,8 @@
   g.column name:  '产出', attribute: 'gold' do |d|
     gold_str d.gold
   end
-  g.column name:  '转出', attribute: 'trade_gold' do |d|
-    gold_str d.trade_gold
+  g.column name:  '金库', attribute: 'total_cashbox' do |d|
+    gold_str d.total_cashbox
   end
   g.column name:  '币价', attribute: 'gold_price' do |d|
     d.gold_price.to_s + '元/亿金'

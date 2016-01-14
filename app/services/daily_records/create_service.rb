@@ -14,6 +14,7 @@ module DailyRecords
 
       DailyRecord.create do |r|
         r.date = date
+        r.total_cashbox = Account.sum(:cashbox)
         r.account_start_count = AccountSession.where(created_at: begin_time..end_time).count
         r.role_start_count = HistoryRoleSession.where(created_at: begin_time..end_time).count
         r.success_role_count = Role.where("today_success = true").count
