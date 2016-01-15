@@ -11,7 +11,7 @@ class TodaysController < ApplicationController
 			r[e.status] = e.num
 			r
 		end
-		@total_cashbox = Account.sum(:cashbox)
+		@total_cashbox = Account.sum(:cashbox)+Role.sum(:gold)
 		#binding.pry
 		nearest_check_time = Time.now.change(:hour => 6)
 		next_check_time = Time.now > nearest_check_time ? nearest_check_time + 1.day : nearest_check_time
@@ -20,9 +20,10 @@ class TodaysController < ApplicationController
 		@finished_role_average_level = Role.where(:today_success => true).average(:level)
 		@online_role_count = RoleSession.count
 		@in_hell_role_count = RoleSession.where(:in_hell => true).count
+		#不知道为啥today_valid 里面的online会被优化掉
 		@can_use_role_count = Role.today_valid.joins(:qq_account).
 			where("accounts.normal_at <= ? and accounts.enabled = 1 and accounts.bind_computer_id > 0",
-						Time.now).count
+						Time.now).where("roles.online = 0").count
 
 		@all_valid_role_count = @finished_role_count + @can_use_role_count
 		@average_gold_price = Server.select("avg(gold_price) as price").first.price
