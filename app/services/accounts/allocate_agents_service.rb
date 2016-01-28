@@ -5,14 +5,24 @@ module Accounts
       @depth = depth
     end
     def run
+      if @server_name == 'all'
+        Server.select(:name).map(&:name).each do |s|
+          @server_name = s
+          run_one_server
+        end
+      else
+        run_one_server
+      end
+    end
+    def run_one_server
       clear_agent
       n = get_targets.count
       w = calculate_w(@depth,n)
       puts "n:#{n} w:#{w}"
       set_level(@depth,w)
       set_agent(@depth,w)
-    end
 
+    end
 #    private
       def get_targets
         @targets = Account.where("bind_computer_id > 0").where(:status => ['normal','delaycreate','disconnect'])
