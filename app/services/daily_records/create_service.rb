@@ -6,7 +6,7 @@ module DailyRecords
 
       error_event_count = AccountSession.select("finished_status as status,count(id) as num").
       where(started_status: ['normal','delaycreate']).group("status").where(created_at: begin_time..end_time).
-      where(finished_status: ['discardforyears','discardfordays','bslocked','recycle','exception','locked'])
+      where(finished_status: ['discardforyears','discardfordays','bslocked','recycle','exception','locked','disconnect'])
 
       error_event_count = Hash[error_event_count.map{|r|[r.status.to_sym,r.num]}]
       gold_price = GoldPriceRecord.select("avg(max_price) as price").where(created_at: begin_time..end_time).first
@@ -32,6 +32,7 @@ module DailyRecords
         r.exception_count = error_event_count[:exception] if error_event_count[:exception]
         r.recycle_count = error_event_count[:recycle] if error_event_count[:recycle]
         r.locked_count = error_event_count[:locked] if error_event_count[:locked]
+        r.dc_count =  error_event_count[:disconnect] if error_event_count[:disconnect]
       end
     end
   end

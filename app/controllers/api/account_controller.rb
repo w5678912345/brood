@@ -6,11 +6,11 @@ class Api::AccountController < Api::BaseController
 	layout :nil
 
 	before_filter :require_remote_ip									  # 获取请求IP
-	before_filter :require_computer_by_ckey, :only => [:auto,:start,:sync,:set_current_task,:stop,:reg,:check_ip,:look,:get_phone] #需要ckey，验证是否为有效的机器	
+	before_filter :require_computer_by_ckey, :only => [:auto,:start,:sync,:gold_agent,:set_current_task,:stop,:reg,:check_ip,:look,:get_phone] #需要ckey，验证是否为有效的机器	
 	#before_filter :valid_ip_use_count,					:only => [:auto] # 验证当前IP的24小时使用次数
 	#before_filter :valid_ip_range_online_count,			:only => [:auto] # 验证当前IP 前三段的在线数量
 	before_filter :check_valid_ip,					:only => [:auto]
-	before_filter :require_account_by_no,				:only => [:start,:sync,:note,:stop,:look,:get_phone,:role_start,:role_stop,:role_note,:role_pay,:set_rms_file,:support_roles,:use_ticket,:role_profile] # 根据帐号取得一个账户
+	before_filter :require_account_by_no,				:only => [:start,:sync,:gold_agent,:note,:stop,:look,:get_phone,:role_start,:role_stop,:role_note,:role_pay,:set_rms_file,:support_roles,:use_ticket,:role_profile] # 根据帐号取得一个账户
 	#before_filter :require_account_is_started,			:only => [:sync,:note,:stop] # 确定账号在线
 	before_filter :require_role_by_rid,					:only => [:role_start,:role_stop,:role_note,:role_pay,:role_profile]
 	before_filter :get_account_session,		:only =>[:sync,:note,:stop,:role_start,:role_stop,:role_note,:role_profile]	#
@@ -141,11 +141,33 @@ class Api::AccountController < Api::BaseController
 
 		send_data @pf.data
 	end
+
 	def role_pay
 		@code = @role.api_pay params
 		render :partial => 'api/result'
 	end
 
+	def gold_agent
+		@role = Role.find_by_name @account.gold_agent_name
+		@result = []
+		if @account.real_server and @account.real_server.enable_transfer_gold
+			if @role
+				@result << {:pay_type => "MAIL",:name => @role.name,:price => @account.goods_price,:account_status => @role.qq_account.status,:role_status => @role.status}
+			elsif @account.gold_agent_name == LAST_GOLD_AGENT_NAME
+				@result = generate_server_gold_agents
+			end
+		end
+		render :json => @result
+	end
+	def generate_server_gold_agents
+		result = []
+		good = @account.sell_goods
+		price = @account.goods_price
+		@account.sellers.each do |s|
+			result << {:pay_type => "BUY",:name => s,:goods => good,:price => price,:account_status => "normal",:role_status => 'normal'}
+		end
+		result
+	end
 
 	def role_start_count
 		 @records = Note.where(:api_name => "role_start").where(:ending=>false)

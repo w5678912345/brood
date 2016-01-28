@@ -8,7 +8,8 @@ class Account < ActiveRecord::Base
     # 账号可能发生的事件
     EVENT = ['bslock','bs_unlock_fail','bs_unlock_success','code_error','wrong_password','study_sailiya','net_error','msg_event']
     Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线","set_status"=>"修改状态","edit_normal_at"=>"修改冷却时间",
-      "bind_this_computer"=>"绑定指定机器","set_server"=>"修改服务器","export" =>"导出账号","add_sms_order"=>"添加工单","standing"=>"站","get_log_file"=>"提取日志文件","delete_all" => "删除所有"}
+      "bind_this_computer"=>"绑定指定机器","set_server"=>"修改服务器","export" =>"导出账号","add_sms_order"=>"添加工单","standing"=>"站","get_log_file"=>"提取日志文件",
+      "delete_all" => "删除所有","update_gold_agent_name" => '修改收币代理'}
 
     # 需要自动恢复normal的状态
     Auto_Normal = {"disconnect"=>2,"exception"=>3,"lost"=>0,"bslocked"=>72,"bs_unlock_fail"=>72}
@@ -84,7 +85,9 @@ class Account < ActiveRecord::Base
     def is_started?
       return self.account_session.nil? == false
     end
-
+    def can_receive_gold?
+      return false
+    end
     # 帐号在线，并且在线角色ID > 0 表示正在工作
     def is_working?
       return self.is_started? && self.online_role_id > 0 

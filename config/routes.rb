@@ -314,6 +314,7 @@ Brood::Application.routes.draw do
       match :look,   :on => :collection
       match :get_phone, :on => :collection
       match :reg,    :on => :collection
+      match :gold_agent, :on => :collection
       #
       match :role_start, :on => :collection
       match :role_note,  :on => :collection

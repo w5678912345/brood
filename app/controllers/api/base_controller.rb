@@ -4,9 +4,12 @@
 class Api::BaseController < ActionController::Base
 	layout :nil
 	CODES = Api::CODES
-
+  LAST_GOLD_AGENT_NAME = "终极代理商711"
 	before_filter :print_log,:except=>[:readme]
 
+  def self.LAST_GOLD_AGENT_NAME
+    "终极代理商711"
+  end
 	def readme
     	render :layout => 'application',:template => 'api/readme'
   end

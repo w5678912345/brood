@@ -4,6 +4,8 @@ describe Api::AccountController do
     load "#{Rails.root}/db/seeds.rb"
     Setting.create :key => 'account_start_roles_count',:val => '5'
     Setting.create :key => 'ip_range_start_count',:val => '1'
+    Server.create :name => '测试1区',:role_str => "胡汉三",:goods => "竹笋炒肉",:price => 1000000
+
 
     rp = RoleProfile.where(:name => 'default').first || RoleProfile.create(name: 'default')
 
@@ -309,5 +311,40 @@ describe Api::AccountController do
     Payment.count.should eq 2
   end
   it 'can get gold_agent' do
+    @account0.update_attributes :gold_agent_name => @role2.name ,:server => '测试1区'
+    get :gold_agent,@base_params.merge({:id => @account0.no})
+
+    assigns(:result)[0][:name].should eq @role2.name
+    assigns(:result)[0][:price].should eq 1000000
+    assigns(:result)[0][:account_status].should eq @role2.qq_account.status
+    assigns(:result)[0][:role_status].should eq @role2.status
+  end
+  it 'can get server gold_agent' do
+    @account0.update_attributes :gold_agent_name => Api::BaseController.LAST_GOLD_AGENT_NAME,:server => '测试1区'
+    get :gold_agent,@base_params.merge({:id => @account0.no})
+
+    assigns(:result)[0][:name].should eq "胡汉三"
+    assigns(:result)[0][:goods].should eq "竹笋炒肉"
+    assigns(:result)[0][:price].should eq 1000000
+    assigns(:result)[0][:account_status].should eq "normal"
+    assigns(:result)[0][:role_status].should eq "normal"
+  end
+
+  it 'can not get gold_agent when server.enable_transfer_gold is false' do
+    Server.find_by_name("测试1区").update_attributes :enable_transfer_gold => false
+    @account0.update_attributes :gold_agent_name => @role2.name,:server => '测试1区'
+    get :gold_agent,@base_params.merge({:id => @account0.no})
+    assigns(:result)[0].should eq nil
+  end
+  it 'can not get gold_agent when there is no server agent set' do
+    @account0.update_attributes :gold_agent_name => Api::BaseController.LAST_GOLD_AGENT_NAME,:server => '测试2区'
+    get :gold_agent,@base_params.merge({:id => @account0.no})
+    assigns(:result)[0].should eq nil
+  end
+  it 'can not get gold_agent when server.enable_transfer_gold is false' do
+    Server.find_by_name("测试1区").update_attributes :enable_transfer_gold => false
+    @account0.update_attributes :gold_agent_name => Api::BaseController.LAST_GOLD_AGENT_NAME,:server => '测试1区'
+    get :gold_agent,@base_params.merge({:id => @account0.no})
+    assigns(:result)[0].should eq nil
   end
 end

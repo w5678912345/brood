@@ -109,6 +109,14 @@
 	<div class="control-group">
 		<h1 class="error">将会删除所有和账号相关的数据!!</h1>
 	</div>
+<% elsif params[:do] == "update_gold_agent_name" %>
+	<div class="control-group">
+		<label class="control-label">代理角色名(系统内):</label>
+		<div class="controls docs-input-sizes" >
+			<input type="text" name="gold_agent_name" value="" placeholder="" />
+		</div>
+	</div>
+
 <%end%>
 
 <div class="form-actions">

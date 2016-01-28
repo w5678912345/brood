@@ -9,6 +9,7 @@
  <th>出售商品/单价</th>
  <th>百万金币/点卷</th>
  <th>金币价格</th>
+ <th>开启转账</th>
  <th>操作</th>
 </tr>
 </thead>
@@ -32,6 +33,7 @@
 <td><%= server.goods %> <%= server.price %></td>
 <td><%= server.point %></td>
 <td><%= server.gold_price %>元/亿金币  </td>
+<td><%= server.enable_transfer_gold%>  </td>
 <td>
 	<%= link_to raw('<i class="icon-edit"></i>修改'),edit_server_path(server),:class=>"btn" %>
 </td>

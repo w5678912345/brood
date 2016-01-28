@@ -4,8 +4,8 @@ class Server < ActiveRecord::Base
   acts_as_taggable # Alias for acts_as_taggable_on :tags
   acts_as_taggable_on :group
 
-  attr_accessible :name, :role_str,:roles_count,:computers_count,:goods,:price
-  attr_accessible :gold_price, :gold_unit, :allowed_new,:point
+  attr_accessible :name, :role_str,:roles_count,:computers_count,:goods,:price,:group_list
+  attr_accessible :gold_price, :gold_unit, :allowed_new,:point,:enable_transfer_gold
 
   validates :name, presence: true
 

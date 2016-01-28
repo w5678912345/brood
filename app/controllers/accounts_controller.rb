@@ -160,6 +160,9 @@ class AccountsController < ApplicationController
     elsif "delete_all" == @do
     	flash[:msg] = "#{@accounts.count}个账号相关数据被删除！"
     	Account.delete_all_by_no(@no)
+    elsif "update_gold_agent_name" == @do
+    	flash[:msg] = "#{@accounts.count}个账号相关agent被修改！"
+    	@accounts.update_all(:gold_agent_name => params[:gold_agent_name])
 		end
 	end
 
