@@ -15,7 +15,7 @@ module Accounts
 
 #    private
       def get_targets
-        @targets = Account.where(:status => ['normal','delaycreate','disconnect'])
+        @targets = Account.where("bind_computer_id > 0").where(:status => ['normal','delaycreate','disconnect'])
 
         if @server_name == 'all'
           @targets
@@ -34,7 +34,10 @@ module Accounts
       def set_agent(d,w)
         1.upto(d-1) do |i|
           get_targets.where(:gold_agent_level => i).each do |parent|
-            get_targets.where(:gold_agent_level => i+1,:gold_agent_name => '').limit(w).update_all(:gold_agent_name => parent.roles.where(:status => 'normal').first.name)
+            if parent.roles.where(:status => 'normal').first
+              name = parent.roles.where(:status => 'normal').first.name
+              get_targets.where(:gold_agent_level => i+1,:gold_agent_name => '',:server => parent.server).limit(w).update_all(:gold_agent_name => name)
+            end
           end
         end
         get_targets.where(:gold_agent_level => 1).update_all :gold_agent_name => Api::BaseController.LAST_GOLD_AGENT_NAME
