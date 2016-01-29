@@ -23,7 +23,7 @@ module DailyRecords
         r.consumed_vit_power_sum = 0 if r.consumed_vit_power_sum.nil? or r.consumed_vit_power_sum < 0
         r.role_online_hours = HistoryRoleSession.where(created_at: begin_time..end_time).sum("end_at - begin_at").to_i/3600000
         r.gold = HistoryRoleSession.where(created_at: begin_time..end_time).sum(:gold)
-        r.trade_gold = Payment.trade_scope.time_scope(begin_time,end_time).sum(:gold)
+        r.trade_gold = Payment.real_pay.time_scope(begin_time,end_time).sum(:gold)
         r.gold_price = gold_price.price if gold_price
 
         r.bslocked_count = error_event_count[:bslocked] if error_event_count[:bslocked]

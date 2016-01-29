@@ -3,7 +3,7 @@ class TodaysController < ApplicationController
 	def index
 		@online_computer_count = Computer.started_scope.count
 		@online_account_count = AccountSession.where(:finished => false).count
-		@today_trade_gold = Payment.trade_scope.at_date(Date.today).sum(:gold)
+		@today_trade_gold = Payment.real_pay.at_date(Date.today).sum(:gold)
 		#.at_date(Date.today)
 		@error_event_count = AccountSession.select("finished_status as status,count(id) as num").
 			where(finished: true).group("status").finished_at_date(Date.today)

@@ -21,7 +21,7 @@ class Payment < ActiveRecord::Base
 		#
 		scope :total_group_role_scope,includes(:role).select("role_id,max(total) as total").group("role_id")
 
-		 scope :time_scope,lambda{|start_time,end_time|where(created_at: start_time..end_time)}
+		scope :time_scope,lambda{|start_time,end_time|where(created_at: start_time..end_time)}
 		
 
 		# select role_id, sum(gold) from payments group by pay_type;
@@ -34,5 +34,8 @@ class Payment < ActiveRecord::Base
 		end
 
 		
-
+		def self.real_pay
+			all_roles = Server.select("role_str").all.inject([]) {|s,e| s = s+ e.roles}
+			self.where(target: all_roles)
+		end
 end
