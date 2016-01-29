@@ -36,7 +36,7 @@ module Accounts
         @targets
       end
       def clear_agent
-        Account.update_all(:gold_agent_name => '',:gold_agent_level => 0)
+        Account.where(server: @server_name).update_all(:gold_agent_name => '',:gold_agent_level => 0)
       end
       def set_level(d,w)
         1.upto(d) do |i|
