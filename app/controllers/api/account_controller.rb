@@ -77,6 +77,7 @@ class Api::AccountController < Api::BaseController
 		account_attr = account_attr.merge(gift_bag: params[:gift_bag]) if params[:gift_bag]
 		account_attr = account_attr.merge(money_point: params[:money_point]) if params[:money_point]
 		account_attr = account_attr.merge(cashbox: params[:cashbox]) if params[:cashbox]
+		account_attr = account_attr.merge(today_pay_count: params[:today_pay_count]) if params[:today_pay_count]
 
 		@code = @account.api_sync params[:rid],roles_attr,account_attr,params[:account_session] || {}
 		render :partial => '/api/result'

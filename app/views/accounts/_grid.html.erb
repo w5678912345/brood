@@ -30,6 +30,7 @@
     end
     g.column name:  '上级收币人', attribute: 'gold_agent_name'
     g.column name:  '收币级别', attribute: 'gold_agent_level'
+    g.column name: '今日转币数',attribute: 'today_pay_count'
   end
   g.column name:  '金库', attribute: 'cashbox' do |a|
     gold_str a.cashbox if a.cashbox

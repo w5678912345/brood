@@ -17,6 +17,7 @@ module Accounts
     def run_one_server
       clear_agent
       n = get_targets.count
+      return if n == 0
       w = calculate_w(@depth,n)
       puts "n:#{n} w:#{w}"
       set_level(@depth,w)
@@ -32,9 +33,10 @@ module Accounts
         else
           @targets = @targets.where(server: @server_name)
         end
+        @targets
       end
       def clear_agent
-        get_targets.update_all(:gold_agent_name => '',:gold_agent_level => 0)
+        Account.update_all(:gold_agent_name => '',:gold_agent_level => 0)
       end
       def set_level(d,w)
         1.upto(d) do |i|
