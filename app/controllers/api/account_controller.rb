@@ -149,8 +149,9 @@ class Api::AccountController < Api::BaseController
 	end
 
 	def gold_agent
-		@role = Role.find_by_name @account.gold_agent_name
+		@role = Role.joins(:qq_account).where("accounts.server = ?",@account.real_server).find_by_name @account.gold_agent_name
 		@result = []
+
 		if @account.real_server and @account.real_server.enable_transfer_gold
 			if @role
 				@result << {:pay_type => "MAIL",:name => @role.name,:price => @account.goods_price,:account_status => @role.qq_account.status,:role_status => @role.status}
