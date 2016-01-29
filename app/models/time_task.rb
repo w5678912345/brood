@@ -8,6 +8,7 @@ module TimeTask
 		Account.reset_today_success
 		#Account.auto_unbind
 		DataNode.mark
+		Account.update_all(:today_pay_count => 0)
 	end
 
 	def self.reset_vit_power_roles
