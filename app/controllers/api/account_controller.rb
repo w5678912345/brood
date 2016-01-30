@@ -166,7 +166,7 @@ class Api::AccountController < Api::BaseController
 		good = @account.sell_goods
 		price = @account.goods_price
 		@account.sellers.each do |s|
-			result << {:pay_type => "MAIL",:today_pay_count => @account.today_pay_count,:name => s,:goods => good,:price => price,:account_status => "normal",:role_status => 'normal'}
+			result << {:pay_type => "auction",:today_pay_count => @account.today_pay_count,:name => s,:goods => good,:price => price,:account_status => "normal",:role_status => 'normal'}
 		end
 		result
 	end
