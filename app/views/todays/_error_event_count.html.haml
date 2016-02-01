@@ -3,4 +3,4 @@
 %span.label{class: 'label-'+ lable_type}=short_name
 -if @error_event_map[name]
   %div
-    =link_to @error_event_map[name].to_s, account_sessions_path(:grid =>{:f =>{"created_at"=>{"fr"=>Date.today},:finished_status => name,:started_status => 'normal'}})
+    =link_to @error_event_map[name].to_s, account_sessions_path(:grid =>{:f =>{"lived_at"=>{"fr"=>Date.today},:finished_status => name,:started_status => 'normal'}})

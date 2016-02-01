@@ -16,13 +16,15 @@
   g.column name:  '开始时间',attribute: 'created_at' do |a|
     time_str a.created_at
   end
-  g.column name:  '在线时长' do |a|
+  g.column name:  '活跃时间',attribute: 'lived_at' do |a|
     if a.finished
-      Time.diff(a.created_at,a.finished_at)[:diff]
+      dt = Time.diff(a.created_at,a.finished_at)[:diff]
     else
-      Time.diff(a.created_at,a.lived_at)[:diff]
+      dt = Time.diff(a.created_at,a.lived_at)[:diff]
     end
+    time_str(a.lived_at) + "(#{dt})"
   end
+
   g.column name:  '电脑', attribute: 'hostname',model: Computer do |a|
     computer_tag a.computer
   end
