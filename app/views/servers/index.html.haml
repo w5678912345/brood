@@ -1,0 +1,40 @@
+= render "navbar"
+
+%table.table
+  %thead
+    %tr
+      %th TAGS
+      %th 名称
+      %th 收款号
+      %th 出售商品/单价
+      %th 百万金币/点卷
+      %th 金币价格
+      %th 转账类型
+      %th 开启转账
+      %th 操作
+
+
+  %tbody
+    -@servers.each do |server|
+      %tr
+      %td=server.group_list
+      %td=server.name
+
+      %td
+        -if server.roles.length == 0
+          %span.badge.badge-warning 未指定
+        -else
+          %select
+            =server.roles.each do |role|
+              %option=role
+
+
+
+
+      %td= server.goods + gold_str(server.price)
+      %td= server.point
+      %td= server.gold_price.to_s + "元/亿金币"
+      %td= server.pay_type
+      %td= server.enable_transfer_gold 
+
+      %td=link_to raw('<i class="icon-edit"></i>修改'),edit_server_path(server),:class=>"btn"

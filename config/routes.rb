@@ -7,7 +7,7 @@ Brood::Application.routes.draw do
 
 
   resources :account_sessions
-
+  resources :top_sells
 
   resources :role_profiles
 

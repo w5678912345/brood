@@ -1,0 +1,7 @@
+%ul.nav.nav-tabs
+  %li{class: ('active' if controller_name == 'servers' && action_name == 'index')}
+    =link_to raw('<i class="icon-list"></i>服务区列表'),servers_path
+  %li{class: ('active' if controller_name == 'servers' && action_name == 'new')}
+    =link_to raw('<i class="icon-plus"></i>新建服务区'),new_server_path
+  %li{class: ('active' if controller_name == 'top_sells' && action_name == 'index')}
+    =link_to raw('<i class="icon-home"></i>收币账号'),top_sells_path

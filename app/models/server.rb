@@ -5,10 +5,14 @@ class Server < ActiveRecord::Base
   acts_as_taggable_on :group
 
   attr_accessible :name, :role_str,:roles_count,:computers_count,:goods,:price,:group_list
-  attr_accessible :gold_price, :gold_unit, :allowed_new,:point,:enable_transfer_gold
+  attr_accessible :gold_price, :gold_unit, :allowed_new,:point,:enable_transfer_gold,:pay_type
 
   validates :name, presence: true
 
+  has_many :top_sells, :foreign_key => 'server_name',:primary_key => 'name'
+  accepts_nested_attributes_for :top_sells, :allow_destroy => :true,  
+    :reject_if => proc { |attrs| attrs.all? { |k, v| v.blank? } }  
+  attr_accessible :top_sells_attributes
   def self.update_today_gold_price
     Server.all.each do |s|
       prices = GoldPriceRecord.select("avg(max_price) as price").

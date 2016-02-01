@@ -27,13 +27,13 @@ class ServersController < ApplicationController
 
 	def edit
 		@server = Server.find_by_id(params[:id])
-
 	end
 
 	def update
 		@server = Server.find_by_id(params[:id])
 		@server.role_str = ""
 		@server.role_str = params[:roles].to_s.gsub("[","").gsub("]","").delete("\"").delete(" ") if params[:roles]
+
 		if @server.update_attributes(params[:server])
 			redirect_to servers_path
 		else

@@ -217,6 +217,11 @@ class Role < ActiveRecord::Base
         self.role_session.exchanged_gold += opts[:gold].to_i if self.role_session
         self.role_session.save if self.role_session
       end
+      top_sell = TopSell.where(:server_name => account.server,:role_name => opts[:target]).first
+      if top_sell
+        top_sell.update_attributes :today_sells_count =>top_sell.today_sells_count + 1,
+                                    :today_sells_sum => top_sell.today_sells_sum + payment.gold
+      end
       payment.save
       return 1 if  self.update_attributes(:updated_at=>Time.now)
     end

@@ -1,0 +1,90 @@
+- if @server.errors.any?
+  .alert.alert-error
+    %strong 提示信息:
+    %button.close{"data-dismiss" => "alert", :type => "button"} ×
+    %span= @server.errors.full_messages
+-@server.top_sells.build
+= form_for(@server,:html=>{:class=>"form-horizontal"}) do |f|
+  .control-group
+    %label.control-label 名称:
+    .controls
+      = f.text_field :name,:required=>"required"
+  .control-group
+    %label.control-label TAGS:
+    .controls
+      = f.text_field :group_list
+  .control-group
+    %label.control-label 100万金币/点卷:
+    .controls
+      = f.text_field :point,:required=>"required"
+  .control-group
+    %label.control-label 出售商品:
+    .controls
+      = f.text_field :goods,:required=>"required"
+  .control-group
+    %label.control-label 商品单价:
+    .controls
+      = f.text_field :price,:required=>"required"
+  .control-group
+    %label.control-label 金币单价:
+    .controls
+      .input-append
+        = f.text_field :gold_price,:required=>"required",:class=>"input-small"
+        %span.add-on 元/万金币
+  .control-group
+    %label.control-label 开启转账:
+    .controls
+      = f.select :enable_transfer_gold,[true,false]
+
+
+  .container
+    = f.fields_for :top_sells do |s|
+      .control-group
+        %label.control-label 角色名字:
+        .controls
+          = s.text_field :role_name,:required=>"required"
+      .control-group
+        %label.control-label 金额:
+        .controls
+          = s.text_field :price,:required=>"required"
+
+  /
+    <div class="control-group">
+    <label class="control-label">收款角色:</label>
+    <div class="controls docs-input-sizes" >
+    
+    </div>
+    </div>
+  .control-group
+    %label.control-label 收款角色:
+    #options.controls.docs-input-sizes
+      %span.text-warning (可以指定多个)
+      %input.btn{:onclick => "addOption();", :type => "button", :value => "添加+"}
+        %ol#roles-list{:style => ""}
+          - if @server.roles.any?
+            - @server.roles.each do |role|
+              %li.div_option
+                %input.input-xlarge{:name => "roles[]", :type => "text", :value => role}
+                  %a{:href => "#", :onclick => "delOption(this);"} 删除
+  .control-group
+    .controls
+      = f.submit "保存", :class => "btn btn-success"
+%textarea#txt{:style => "display:none;"}
+  %li.div_option
+    %input.input-xlarge{:name => "roles[]", :type => "text"}/
+    %a{:href => "#", :onclick => "delOption(this);"} 删除
+:javascript
+  /**/
+  $(function(){
+  $("form[id = edit_computer_ @server.id ]").validate();
+  $("form[id = new_server]").validate();
+  });
+  
+  function addOption(){
+    var html = $("#txt").text();
+    $("#roles-list").append(html);
+  }
+  /*删除选项*/
+  function delOption(a){
+    $(a).parent().remove();
+  }

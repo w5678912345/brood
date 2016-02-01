@@ -1,0 +1,23 @@
+=render "servers/navbar"
+%table.table
+  %thead
+    %tr
+      %th 服务器
+      %th 角色名
+      %th 出售商品/单价
+      %th 今日收货数
+      %th 今日金币总数
+      %th 操作
+
+
+  %tbody
+    -@top_sells.each do |s|
+      %tr
+      %td=s.server_name
+      %td=s.role_name
+
+      %td= (s.goods|| "") + gold_str(s.price)
+
+      %td= s.today_sells_count
+      %td= s.today_sells_sum
+      %td=link_to raw('<i class="icon-edit"></i>修改'),edit_top_sell_path(s),:class=>"btn"
