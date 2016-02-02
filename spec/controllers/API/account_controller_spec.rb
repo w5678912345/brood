@@ -291,25 +291,25 @@ describe Api::AccountController do
   end
 
   it 'pay without tick_time' do
-    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade'})
+    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'auction'})
     Account.find_by_no(@account0.no).today_pay_count.should eq 1
     Payment.count.should eq 1
 
     #avoid re send pay data by [role_id,note_id]
-    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade'})
+    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'mail'})
     Account.find_by_no(@account0.no).today_pay_count.should eq 2
     Payment.count.should eq 2
   end
   it 'pay with tick_time' do
-    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade',:tick_time => '123'})
+    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'auction',:tick_time => '123'})
     Payment.count.should eq 1
 
     #avoid re send pay data by [role_id,note_id]
-    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade',:tick_time => '123'})
+    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'auction',:tick_time => '123'})
     Payment.count.should eq 1
 
     #note_id is different,then accept
-    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade',:tick_time => '1234'})
+    get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'auction',:tick_time => '1234'})
     Payment.count.should eq 2
   end
   it 'can get gold_agent' do
