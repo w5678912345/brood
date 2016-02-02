@@ -1,0 +1,31 @@
+!!!
+%html{"ng-app" => ""}
+  %head
+    %title= "#{AppSettings.title} [#{yield(:title)}]"
+    = stylesheet_link_tag    'application'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+  %body
+    .navbar{:style => "margin-top:-45px;"}
+      .navbar-inner
+        .container-fluid
+          %a.brand{:href => "#", :style => "color:#b94a48;"}
+            %strong= AppSettings.title
+            = ServiceVersion.version
+          - if current_user
+            .nav-collapse
+              = render "/layouts/navbar"
+            / /.nav-collapse  administrator
+            .btn-group.pull-right
+              %a.btn{:href => users_path}
+                %i.icon-user
+                = current_user.name
+              = link_to '<i class="icon-off"></i>退出'.html_safe,destroy_user_session_path,:class=>"btn",:method=>"delete"
+          - else
+            .btn-group.pull-right
+              %a.btn{:href => "/sign_in"}
+                %i.icon-user>
+                登录
+    .container-fluid
+      = render "layouts/alert"
+      = yield

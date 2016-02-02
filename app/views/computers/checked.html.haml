@@ -1,0 +1,112 @@
+- content_for :title do
+  机器 #{Computer::Btns[@do]}
+%fieldset
+  %legend
+    机器： #{Computer::Btns[@do]}
+  .alert
+    %strong 提示信息:
+    %span
+      您选中了#{@ids.length} 个机器，执行[#{Computer::Btns[@do]}]操作!
+  = form_tag(do_checked_computers_path,:method => :put,:id=>"computer_checked_form",:class=>"form-horizontal") do
+    = hidden_field_tag :do,params[:do]
+    %select{:multiple => "multiple", :name => "ids[]", :style => "display:none;"}
+      - @ids.each do |id|
+        %option{:selected => "selected", :value => id}= id
+    / define form
+    - if @do == "bind_accounts"
+      .control-group
+        %label.control-label 账号状态:
+        .controls.docs-input-sizes
+          %select.input-medium{:name => "status"}
+            %option{:value => ""} ---不限---
+            - Account::STATUS.keys.each do |status|
+              %option{:value => status}= status
+      .control-group
+        %label.control-label 平均分配:
+        .controls.docs-input-sizes
+          %input{:name => "avg", :type => "text", :value => "1"}>/
+          个
+    - elsif @do == "task"
+      .control-group
+        %label.control-label 任务名称:
+        .controls.docs-input-sizes
+          %select{:name => "task_id"}
+            - @tasks.each do |task|
+              %option{:value => task.id}= task.name
+    - elsif @do == "clear_bind_accounts"
+      .control-group
+        %label.control-label 状态
+        .controls.docs-input-sizes
+          %select{:name => "bind"}
+            %option{:value => "-1"} 禁用绑定
+            %option{:value => "0"} 未绑定
+      .control-group
+        %label.control-label 解绑个数:
+        .controls.docs-input-sizes
+          %input{:name => "count", :type => "text", :value => ""}>/
+          个
+      .control-group
+        %label.control-label 账号状态:
+        .controls.docs-input-sizes
+          %select.input-medium{:name => "status"}
+            %option{:value => ""} ---所有---
+            - Account::STATUS.keys.each do |status|
+              %option{:value => status}= status
+    - elsif @do == "auto_binding_account"
+      .control-group
+        %label.control-label 请选择:
+        .controls.docs-input-sizes
+          %label.checkbox
+            %input#auto_binding{:name => "auto_binding", :type => "checkbox", :value => "1"}
+              自动绑定账号
+    - elsif @do == "set_group"
+      .control-group
+        %label.control-label 设置分组:
+        .controls.docs-input-sizes
+          %input{:name => "group", :type => "text", :value => "tmp"}/
+    - elsif @do == "set_status"
+      .control-group
+        %label.control-label 设置状态:
+        .controls.docs-input-sizes
+          %label.checkbox
+            %input{:checked => "checked", :name => "status", :type => "checkbox", :value => "1"}>/
+            机器可用
+    - elsif @do == "set_max_accounts"
+      .control-group
+        %label.control-label 设置最大账户数:
+        .controls.docs-input-sizes
+          %input{:name => "max_accounts", :type => "text", :value => "10"}/
+    - elsif @do =="set_allowed_new"
+      .control-group
+        %label.control-label 设置是否允许绑定新号:
+        .controls.docs-input-sizes
+          %select{:name => "allowed_new"}
+            %option{:value => "1"} 允许绑定新号
+            %option{:value => "0"} 不允许绑定新号
+    - elsif @do == "set_client_count"
+      .control-group
+        %label.control-label 设置客户端数:
+        .controls.docs-input-sizes
+          %input{:name => "client_count", :type => "text", :value => "4"}/
+    - elsif params[:do] == "get_log_file"
+      .control-group
+        %label.control-label 日期:
+        .controls.docs-input-sizes
+          %input#at{:name => "at", :placeholder => "冷却时间", :type => "text", :value => Date.today}/
+      .control-group
+        %label.control-label 日志备注:
+        .controls.docs-input-sizes
+          %input#remark{:name => "remark", :placeholder => "备注", :type => "text", :value => ""}/
+      .control-group
+        %label.control-label 日志文件:
+        .controls.docs-input-sizes
+          %input#file{:name => "file", :placeholder => "文件名", :type => "text", :value => "#{Date.today}.log.txt"}/
+    - elsif @do == "set_auto_unbind_account"
+      .control-group
+        %label.control-label 设置自动解除绑定:
+        .controls.docs-input-sizes
+          %select{:name => "auto_unbind"}
+            %option{:value => "1"} 允许自动解绑
+            %option{:value => "0"} 不允许自动解绑
+    .form-actions
+      = submit_tag "确认执行", :class => "btn btn-primary"

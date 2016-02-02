@@ -1,0 +1,13 @@
+- content_for :title do
+  机器列表
+= render "navbar"
+= render "search_form"
+.alert
+  %strong 提示信息:
+  %button.close{"data-dismiss" => "alert", :type => "button"} &times;
+  %span
+    查询了#{@computers.total_entries}台机器.共绑定了#{@sum_accounts_count}账号
+  = flash[:msg] if flash[:msg]
+  = link_to "更新绑定计数",update_accounts_count_computers_path(),:class=>"btn",:method => :put
+= render :partial => "table",:locals=>{:computers=>@computers}
+= will_paginate @computers

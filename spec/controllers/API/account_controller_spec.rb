@@ -292,10 +292,12 @@ describe Api::AccountController do
 
   it 'pay without tick_time' do
     get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade'})
+    Account.find_by_no(@account0.no).today_pay_count.should eq 1
     Payment.count.should eq 1
 
     #avoid re send pay data by [role_id,note_id]
     get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'trade'})
+    Account.find_by_no(@account0.no).today_pay_count.should eq 2
     Payment.count.should eq 2
   end
   it 'pay with tick_time' do

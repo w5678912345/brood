@@ -213,9 +213,12 @@ class Role < ActiveRecord::Base
       #     :version=>computer.version, :server=>self.server || computer.server,:session_id=>account_session.id, :msg=>"交易后自动解除锁定")
       # end
       # 修改会话
-      if (opts[:pay_type] == 'trade' or opts[:pay_type] == 'mail') and self.role_session
-        self.role_session.exchanged_gold += opts[:gold].to_i if self.role_session
-        self.role_session.save if self.role_session
+      if (opts[:pay_type] == 'trade' or opts[:pay_type] == 'mail') 
+        account.update_attributes :today_pay_count => account.today_pay_count + 1
+        if self.role_session
+          self.role_session.exchanged_gold += opts[:gold].to_i if self.role_session
+          self.role_session.save if self.role_session
+        end
       end
       top_sell = TopSell.where(:server_name => account.server,:role_name => opts[:target]).first
       if top_sell

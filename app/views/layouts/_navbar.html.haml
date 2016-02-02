@@ -1,15 +1,97 @@
 %ul.nav
-  %li 
-    =link_to "Doc","/api/doc"
   %li
-    %a{:ref => todays_path()} 
+    %a{:href => "/api/doc"} Doc
+  %li
+    %a{:href => "/todays"}
       %strong.text-info 今日情报
-  %li
-    .btn-group
-      %button.btn Action
-      %buton.btn.dropdown-toggle{'data-toggle'=>"dropdown"}
-        %span.caret
-      %ul.dropdown-menu
-        %li test
-    %button.btn test
--logger.info 'teset'
+  %li= link_to "游戏区", servers_path()
+  %li.dropdown
+    %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+      机器
+      %b.caret
+    %ul.dropdown-menu
+      %li.nav-header Computer
+      %li= link_to "计算机列表", computers_path()
+      %li= link_to "计算机分布统计",group_count_computers_path()
+      %li= link_to "新建计算机", new_computer_path()
+      %li.nav-header
+      %li= link_to "BOT版本", bot_versions_path()
+  %li.dropdown
+    %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+      帐号
+      %b.caret
+    %ul.dropdown-menu
+      %li.nav-header Account
+      %li= link_to "在线帐号列表", accounts_path(:started=>1)
+      %li= link_to "帐号列表", accounts_path()
+      %li= link_to "帐号列表 New", account_roles_path(:tag=>"account")
+      %li= link_to "帐号分布", group_count_accounts_path()
+      %li= link_to "帐号状态", account_statuses_path()
+      %li= link_to "账号选择", to_text_checked_accounts_path
+      %li= link_to "账号状态分布", account_report_path(),:target=>"_blank"
+      %li= link_to "账号Session", account_sessions_path(),:target=>"_blank"
+      %li= link_to "CPO", cpo_path()
+  %li.dropdown
+    %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+      角色
+      %b.caret
+    %ul.dropdown-menu{"aria-labelledby" => "dropdownMenu", :role => "menu"}
+      %li.nav-header Role
+      %li= link_to "角色列表", roles_path()
+      %li
+      %li= link_to "角色分布统计",group_count_roles_path()
+      %li= link_to "角色异常结束分布",role_report_path("exception")
+      %li= link_to "支持角色列表", support_roles_path()
+      %li.nav-header Session
+      %li= link_to "角色Session", role_sessions_path()
+      %li= link_to "角色HistrorySession", history_role_sessions_path()
+      %li.nav-header Role_profile
+      %li= link_to "角色配置", role_profiles_path()
+  %li.dropdown
+    %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+      运行
+      %b.caret
+    %ul.dropdown-menu
+      %li.nav-header Note
+      %li= link_to "记录列表", notes_path(:today=>1)
+      %li= link_to "记录副本分布", group_by_msg_notes_path(:today=>1)
+      %li= link_to "副本列表" , instance_maps_path()
+      %li.nav-header IP
+      %li= link_to "IP列表", ips_path()
+      %li= link_to "IP C段列表",ip_ranges_path()
+      %li= link_to "IP过滤规则", ip_filters_path()
+      %li.nav-header Setting
+      %li= link_to "设置列表", settings_path()
+      %li.nav-header TASK
+      %li= link_to "任务列表", tasks_path()
+      %li= link_to "账号任务", account_tasks_path()
+      %li.nav-header PHONE
+      %li= link_to "phone_machines", phone_machines_path()
+      %li= link_to "phone", phones_path()
+      %li= link_to "通道列表", links_path()
+      %li= link_to "工单列表", orders_path()
+  %li.dropdown
+    %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+      金币
+      %b.caret
+    %ul.dropdown-menu
+      %li= link_to raw('金币主页'), gold_path()
+      %li= link_to raw('转出统计'), gold_trade_path()
+      %li= link_to raw('每日转出'), gold_excel_path()
+      %li.nav-header 金币支出
+      %li= link_to "支出主页", home_payments_path()
+      %li= link_to "所有支出", payments_path()
+      %li.nav-header 点卷支出
+      %li= link_to "点卷支出", ticket_records_path()
+      %li= link_to "点卷报表", report_ticket_records_path()
+  %li= link_to "电话", phones_path()
+  %li.dropdown
+    %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+      分析
+      %b.caret
+    %ul.dropdown-menu
+      %li.nav-header ANALYSIS
+      %li= link_to "日报", daily_records_path
+      %li
+      %li= link_to "数据采样", chart_data_nodes_path()
+      %li= link_to "数据采样Old", old_chart_data_nodes_path()
