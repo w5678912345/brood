@@ -35,18 +35,31 @@
     %label.control-label 开启转账:
     .controls
       = f.select :enable_transfer_gold,[true,false]
+  .control-group
+    %label.control-label 转账方式:
+    .controls
+      = f.select :pay_type,['mail','auction']
 
-
-  .container
-    = f.fields_for :top_sells do |s|
-      .control-group
-        %label.control-label 角色名字:
-        .controls
-          = s.text_field :role_name,:required=>"required"
-      .control-group
-        %label.control-label 金额:
-        .controls
-          = s.text_field :price,:required=>"required"
+  /
+    .control-group
+      %label.control-label 收款角色:
+    
+    .row
+      = f.fields_for :top_sells do |s|
+        .span1
+        .row
+          .control-group.span4
+            %label.control-label 角色名字:
+            .controls
+              = s.text_field :role_name,:required=>"required"
+          .control-group.span4
+            %label.control-label 商品:
+            .controls
+              = s.text_field :goods,:required=>"required"
+          .control-group.span4
+            %label.control-label 金额:
+            .controls
+              = s.text_field :price,:required=>"required"
 
   /
     <div class="control-group">

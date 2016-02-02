@@ -4,6 +4,10 @@
     .controls
       = s.text_field :role_name,:required=>"required"
   .control-group
+    %label.control-label 商品名:
+    .controls
+      = s.text_field :goods,:required=>"required"
+  .control-group
     %label.control-label 金额:
     .controls
       = s.text_field :price,:required=>"required"

@@ -39,13 +39,16 @@ module Accounts
         Account.where(server: @server_name).update_all(:gold_agent_name => '',:gold_agent_level => 0)
       end
       def set_level(d,w)
+        #等级大的才能成为一级代理,一个角色能转出的钱为 等级^2 * 10000
+        #这里在设置的时候是从根往叶子的方向,所以先设置
         1.upto(d) do |i|
-          get_targets.where(:gold_agent_level => 0).limit(w**i).update_all(:gold_agent_level => i)
+          c = get_targets.joins(:roles).order("level desc").where(:gold_agent_level => 0).limit(w**i).update_all(:gold_agent_level => i)
         end
+        get_targets.where(:gold_agent_level => 0).limit(w**d).update_all(:gold_agent_level => d)
       end
       def set_agent(d,w)
         1.upto(d-1) do |i|
-          get_targets.where(:gold_agent_level => i).each do |parent|
+          get_targets.joins(:roles).order("level desc").where(:gold_agent_level => i).each do |parent|
             if parent.roles.where(:status => 'normal').first
               name = parent.roles.where(:status => 'normal').first.name
               get_targets.where(:gold_agent_level => i+1,:gold_agent_name => '',:server => parent.server).limit(w).update_all(:gold_agent_name => name)

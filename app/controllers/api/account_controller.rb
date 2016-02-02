@@ -154,7 +154,7 @@ class Api::AccountController < Api::BaseController
 
 		if @account.real_server and @account.real_server.enable_transfer_gold
 			if @role
-				@result << {:pay_type => "MAIL",:today_pay_count => @account.today_pay_count,:name => @role.name,:price => @account.goods_price,:account_status => @role.qq_account.status,:role_status => @role.status}
+				@result << {:pay_type => @account.real_server.pay_type,:today_pay_count => @account.today_pay_count,:name => @role.name,:price => @account.goods_price,:account_status => @role.qq_account.status,:role_status => @role.status}
 			elsif @account.gold_agent_name == LAST_GOLD_AGENT_NAME
 				@result = generate_server_gold_agents
 			end
@@ -166,7 +166,7 @@ class Api::AccountController < Api::BaseController
 		good = @account.sell_goods
 		price = @account.goods_price
 		@account.sellers.each do |s|
-			result << {:pay_type => "auction",:today_pay_count => @account.today_pay_count,:name => s,:goods => good,:price => price,:account_status => "normal",:role_status => 'normal'}
+			result << {:pay_type => @account.real_server.pay_type,:today_pay_count => @account.today_pay_count,:name => s,:goods => good,:price => price,:account_status => "normal",:role_status => 'normal'}
 		end
 		result
 	end
