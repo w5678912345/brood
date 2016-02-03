@@ -25,7 +25,17 @@ class Server < ActiveRecord::Base
     return [] if self.role_str.blank?
     return self.role_str.split(",")
   end
-
-   
-
+  def self.convert_from_old_data
+    Server.all.each do |s|
+      s.roles.each do |r|
+        TopSell.create server_name: s.name,role_name: r,goods: s.goods,price: s.price
+      end
+    end
+  end
+  def self.set_role_seller
+    Server.all.each do |s|
+      names = Account.where(:gold_agent_level => 2,server: s.name).select("distinct(gold_agent_name) as gold_agent_name").map &:gold_agent_name
+      Role.joins(:qq_account).where("accounts.server = ? and name in(?)",s.name,names).update_all(is_seller: true)
+    end
+  end
 end

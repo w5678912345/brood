@@ -37,6 +37,7 @@ module Accounts
       end
       def clear_agent
         Account.where(server: @server_name).update_all(:gold_agent_name => '',:gold_agent_level => 0)
+        Role.joins(:qq_account).where("accounts.server = ?",@server_name).update_all(:is_seller => false)
       end
       def set_level(d,w)
         #等级大的才能成为一级代理,一个角色能转出的钱为 等级^2 * 10000
@@ -49,9 +50,10 @@ module Accounts
       def set_agent(d,w)
         1.upto(d-1) do |i|
           get_targets.joins(:roles).order("level desc").where(:gold_agent_level => i).each do |parent|
-            if parent.roles.where(:status => 'normal').first
-              name = parent.roles.where(:status => 'normal').first.name
-              get_targets.where(:gold_agent_level => i+1,:gold_agent_name => '',:server => parent.server).limit(w).update_all(:gold_agent_name => name)
+            seller = parent.roles.where(:status => 'normal').first
+            if seller
+              seller.update_attributes(:is_seller => true)
+              get_targets.where(:gold_agent_level => i+1,:gold_agent_name => '',:server => parent.server).limit(w).update_all(:gold_agent_name => seller.name)
             end
           end
         end
