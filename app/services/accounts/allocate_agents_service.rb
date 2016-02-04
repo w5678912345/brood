@@ -26,14 +26,14 @@ module Accounts
     end
 #    private
       def get_targets
-        @targets = Account.where("bind_computer_id > 0").where(:status => ['normal','delaycreate','disconnect'])
-
-        if @server_name == 'all'
-          @targets
-        else
-          @targets = @targets.where(server: @server_name)
-        end
-        @targets
+        Account.where("bind_computer_id > 0").where(:status => ['normal','delaycreate','disconnect'])
+          .where(server: @server_name)
+      end
+      def ordered_targets_info
+        Role.select("id,account,max(level) as level").joins(:qq_account)
+          .where('bind_computer_id > 0 and accounts.server = ?',@server_name)
+          .where("accounts.status in (?)",['normal','delaycreate','disconnect']).where("roles.status = 'normal'")
+          .order('level desc').group(:account)
       end
       def clear_agent
         Account.where(server: @server_name).update_all(:gold_agent_name => '',:gold_agent_level => 0)
@@ -43,17 +43,17 @@ module Accounts
         #等级大的才能成为一级代理,一个角色能转出的钱为 等级^2 * 10000
         #这里在设置的时候是从根往叶子的方向,所以先设置
         1.upto(d) do |i|
-          c = get_targets.joins(:roles).order("level desc").where(:gold_agent_level => 0).limit(w**i).update_all(:gold_agent_level => i)
+          current_accounts = ordered_targets_info.where(:gold_agent_level => 0).first(w**i).map &:account
+          Account.where(:no => current_accounts).update_all(:gold_agent_level => i)
         end
-        get_targets.where(:gold_agent_level => 0).limit(w**d).update_all(:gold_agent_level => d)
       end
       def set_agent(d,w)
         1.upto(d-1) do |i|
-          get_targets.joins(:roles).order("level desc").where(:gold_agent_level => i).each do |parent|
-            seller = parent.roles.where(:status => 'normal').first
+          ordered_targets_info.where(:gold_agent_level => i).each do |t|
+            seller = Role.find_by_id(t.id)
             if seller
               seller.update_attributes(:is_seller => true)
-              get_targets.where(:gold_agent_level => i+1,:gold_agent_name => '',:server => parent.server).limit(w).update_all(:gold_agent_name => seller.name)
+              get_targets.where(:gold_agent_level => i+1,:gold_agent_name => '',:server => @server_name).limit(w).update_all(:gold_agent_name => seller.name)
             end
           end
         end
