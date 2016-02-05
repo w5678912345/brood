@@ -3,19 +3,20 @@ module Accounts
     def initialize server_name = 'all',depth=2
       @server_name = server_name
       @depth = depth
+      @level_targets = {}
     end
     def run
       if @server_name == 'all'
         Server.select(:name).map(&:name).each do |s|
           @server_name = s
-          run_one_server
+          reset_agent_tree
         end
       else
-        run_one_server
+        reset_agent_tree
       end
     end
-    def run_one_server
-      clear_agent
+    def reset_agent_tree
+      reset_agent
       n = get_targets.count
       return if n == 0
       w = calculate_w(@depth,n)
@@ -23,6 +24,8 @@ module Accounts
       set_level(@depth,w)
       set_agent(@depth,w)
 
+    end
+    def append_agents
     end
 #    private
       def get_targets
@@ -35,7 +38,7 @@ module Accounts
           .where("accounts.status in (?)",['normal','delaycreate','disconnect']).where("roles.status = 'normal'")
           .order('level desc').group(:account)
       end
-      def clear_agent
+      def reset_agent
         Account.where(server: @server_name).update_all(:gold_agent_name => '',:gold_agent_level => 0)
         Role.joins(:qq_account).where("accounts.server = ?",@server_name).update_all(:is_seller => false)
       end
@@ -43,7 +46,10 @@ module Accounts
         #等级大的才能成为一级代理,一个角色能转出的钱为 等级^2 * 10000
         #这里在设置的时候是从根往叶子的方向,所以先设置
         1.upto(d) do |i|
-          current_accounts = ordered_targets_info.where("gold_agent_level = 0").first(w**i).map &:account
+          old_agent_count = get_targets.where("gold_agent_level = ?",i).count
+          current_capacity = w**i - old_agent_count
+          @level_targets[i] = ordered_targets_info.where("gold_agent_level = 0").first(current_capacity)
+          current_accounts = @level_targets[i].map &:account
           Account.where(:no => current_accounts).update_all(:gold_agent_level => i)
         end
       end
