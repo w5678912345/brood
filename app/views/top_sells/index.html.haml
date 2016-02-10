@@ -8,7 +8,7 @@
       %th 今日收货数
       %th 今日金币总数
       %th 操作
-
+      %th
 
   %tbody
     -@top_sells.each do |s|
@@ -21,3 +21,4 @@
       %td= s.today_sells_count
       %td= gold_str s.today_sells_sum
       %td=link_to raw('<i class="icon-edit"></i>修改'),edit_top_sell_path(s),:class=>"btn"
+      %td=link_to raw('<i class="icon-remove"></i>删除'),s,:method => :delete, :class=>"btn"

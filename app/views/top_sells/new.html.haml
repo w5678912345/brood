@@ -1,5 +1,10 @@
 =form_for(@top_sell) do |s|
   .control-group
+    %label.control-label 服:
+    .controls
+      = s.select :server_name,@servers
+
+  .control-group
     %label.control-label 角色名字:
     .controls
       = s.text_field :role_name,:required=>"required"

@@ -5,6 +5,7 @@ class TopSellsController < ApplicationController
   end
   def new
     @top_sell = TopSell.new
+    @servers = Server.all.map &:name
   end
   def create
   end
