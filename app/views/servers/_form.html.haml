@@ -69,35 +69,5 @@
     </div>
     </div>
   .control-group
-    %label.control-label 收款角色:
-    #options.controls.docs-input-sizes
-      %span.text-warning (可以指定多个)
-      %input.btn{:onclick => "addOption();", :type => "button", :value => "添加+"}
-        %ol#roles-list{:style => ""}
-          - if @server.roles.any?
-            - @server.roles.each do |role|
-              %li.div_option
-                %input.input-xlarge{:name => "roles[]", :type => "text", :value => role}
-                  %a{:href => "#", :onclick => "delOption(this);"} 删除
-  .control-group
     .controls
       = f.submit "保存", :class => "btn btn-success"
-%textarea#txt{:style => "display:none;"}
-  %li.div_option
-    %input.input-xlarge{:name => "roles[]", :type => "text"}/
-    %a{:href => "#", :onclick => "delOption(this);"} 删除
-:javascript
-  /**/
-  $(function(){
-  $("form[id = edit_computer_ @server.id ]").validate();
-  $("form[id = new_server]").validate();
-  });
-  
-  function addOption(){
-    var html = $("#txt").text();
-    $("#roles-list").append(html);
-  }
-  /*删除选项*/
-  function delOption(a){
-    $(a).parent().remove();
-  }
