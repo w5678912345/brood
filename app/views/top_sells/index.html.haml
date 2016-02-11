@@ -16,7 +16,7 @@
       %td=s.server_name
       %td=s.role_name
 
-      %td= (s.goods|| "") + gold_str(s.price)
+      %td= (s.goods|| "") +"/"+ gold_str(s.price)
 
       %td= s.today_sells_count
       %td= gold_str s.today_sells_sum

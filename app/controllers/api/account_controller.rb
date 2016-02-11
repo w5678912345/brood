@@ -163,10 +163,13 @@ class Api::AccountController < Api::BaseController
 	end
 	def generate_server_gold_agents
 		result = []
-		good = @account.sell_goods
-		price = @account.goods_price
-		@account.sellers.each do |s|
-			result << {:pay_type => @account.real_server.pay_type,:today_pay_count => @account.today_pay_count,:name => s,:goods => good,:price => price,:account_status => "normal",:role_status => 'normal'}
+		return result if not @account.real_server
+		s = @account.real_server.top_sells.order("today_sells_count desc").first
+		#@account.sellers.each do |s|
+		if s
+			result << {:pay_type => @account.real_server.pay_type,:today_pay_count => @account.today_pay_count,
+								:name => s.role_name,:goods => s.goods,:price => s.price,
+								:account_status => "normal",:role_status => 'normal'}
 		end
 		result
 	end

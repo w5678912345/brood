@@ -22,8 +22,8 @@ class Server < ActiveRecord::Base
   end
 
   def roles
-    return [] if self.role_str.blank?
-    return self.role_str.split(",")
+    return [] if self.top_sells.blank?
+    return self.top_sells.map &:role_name
   end
   def self.convert_from_old_data
     Server.all.each do |s|

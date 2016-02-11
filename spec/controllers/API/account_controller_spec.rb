@@ -6,7 +6,8 @@ describe Api::AccountController do
     Setting.create :key => 'ip_range_start_count',:val => '1'
     Server.create :name => '测试1区',:role_str => "胡汉三",:goods => "竹笋炒肉",:price => 1000000
     Server.create :name => '测试2区',:role_str => "",:goods => "竹笋炒肉",:price => 1000000
-
+    TopSell.create server_name: '测试1区',role_name:"胡汉三",:goods => "竹笋炒肉",:price => 1000000
+    #TopSell.create server_name: '测试1区',:goods => "竹笋炒肉",:price => 1000000
     rp = RoleProfile.where(:name => 'default').first || RoleProfile.create(name: 'default')
 
     @computer = FactoryGirl.create(:computer)
