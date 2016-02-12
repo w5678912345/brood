@@ -9,6 +9,7 @@ module TimeTask
 		#Account.auto_unbind
 		DataNode.mark
 		Account.update_all(:today_pay_count => 0)
+		TopSell.reset_daily_statistic
 	end
 
 	def self.reset_vit_power_roles
