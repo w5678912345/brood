@@ -19,6 +19,8 @@ module Accounts
       reset_agent
       n = get_targets.count
       return if n == 0
+      top_sell_count = TopSell.where(:server_name => @server_name).count
+      n = n / top_sell_count if top_sell_count > 0
       w = calculate_w(@depth,n)
       w = 20 if w < 20
       puts "n:#{n} w:#{w}"
