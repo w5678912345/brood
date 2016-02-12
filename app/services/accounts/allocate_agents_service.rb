@@ -20,6 +20,7 @@ module Accounts
       n = get_targets.count
       return if n == 0
       w = calculate_w(@depth,n)
+      w = 20 if w < 20
       puts "n:#{n} w:#{w}"
       set_level(@depth,w)
       set_agent(@depth,w)
@@ -45,9 +46,10 @@ module Accounts
       def set_level(d,w)
         #等级大的才能成为一级代理,一个角色能转出的钱为 等级^2 * 10000
         #这里在设置的时候是从根往叶子的方向,所以先设置
+        top_sell_capacity = TopSell.where(:server_name => @server_name).count
         1.upto(d) do |i|
           old_agent_count = get_targets.where("gold_agent_level = ?",i).count
-          current_capacity = w**i - old_agent_count
+          current_capacity = top_sell_capacity*(w**i) - old_agent_count
           @level_targets[i] = ordered_targets_info.where("gold_agent_level = 0").first(current_capacity)
           current_accounts = @level_targets[i].map &:account
           Account.where(:no => current_accounts).update_all(:gold_agent_level => i)

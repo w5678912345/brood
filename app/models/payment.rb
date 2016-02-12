@@ -35,7 +35,7 @@ class Payment < ActiveRecord::Base
 
 		
 		def self.real_pay
-			all_roles = Server.select("role_str").all.inject([]) {|s,e| s = s+ e.roles}
+			all_roles = TopSell.all.map &:role_name
 			self.where(target: all_roles)
 		end
 end
