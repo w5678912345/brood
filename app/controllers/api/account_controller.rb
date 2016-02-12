@@ -164,7 +164,7 @@ class Api::AccountController < Api::BaseController
 	def generate_server_gold_agents
 		result = []
 		return result if not @account.real_server
-		s = @account.real_server.top_sells.order("today_sells_count desc").first
+		s = @account.real_server.top_sells.order("today_sells_count").first
 		#@account.sellers.each do |s|
 		if s
 			result << {:pay_type => @account.real_server.pay_type,:today_pay_count => @account.today_pay_count,
