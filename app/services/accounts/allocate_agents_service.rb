@@ -61,11 +61,11 @@ module Accounts
       def set_agent(d,w)
         1.upto(d-1) do |i|
           #最后一层,可能不满,平均分布
-          if(i == d-1 and i > 1)
+          if(i == d-1)
             total_c = get_targets.where(:gold_agent_level => i+1,:gold_agent_name => '',:server => @server_name).count
-            parent_c = ordered_targets_info.where("gold_agent_level = ?",i).count
+            parent_c = get_targets.where("gold_agent_level = ?",i).count
             puts("this is a mark:",total_c,parent_c)
-            w = total_c / parent_c 
+            w = total_c / parent_c + 1
           end
           ordered_targets_info.where("gold_agent_level = ?",i).count
           ordered_targets_info.where("gold_agent_level = ?",i).each do |t|
