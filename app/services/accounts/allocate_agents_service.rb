@@ -1,6 +1,7 @@
 module Accounts
   class AllocateAgentsService
     def initialize server_name = 'all',depth=2
+      @MAX_W = 20
       @server_name = server_name
       @depth = depth
       @level_targets = {}
@@ -59,6 +60,11 @@ module Accounts
       end
       def set_agent(d,w)
         1.upto(d-1) do |i|
+          #最后一层,可能不满,平均分布
+          if(i == d-1)
+            w = get_targets.where(:gold_agent_level => i+1,:gold_agent_name => '',:server => @server_name)/ordered_targets_info.where("gold_agent_level = ?",i).count
+          end
+          ordered_targets_info.where("gold_agent_level = ?",i).count
           ordered_targets_info.where("gold_agent_level = ?",i).each do |t|
             seller = Role.find_by_id(t.id)
             if seller
