@@ -1,22 +1,30 @@
-%h1 交易锁定的在线账号
+%html
+  %head
+    = stylesheet_link_tag    'application'
+    = javascript_include_tag 'application' 
+    = csrf_meta_tags 
+    %style{'type'=>"text/css"}
+      body { padding-top:5px; }
+  %body
+    %h1 交易锁定的在线账号
 
-%table.table
-  %tr
-    %th 手机
-    %th 机器
-    %th 服
-    %th 账号
-    %th 密码
-    %th 在线时长
-    
+    %table.table
+      %tr
+        %th 手机
+        %th 机器
+        %th 服
+        %th 账号
+        %th 密码
+        %th 在线时长
+        
 
-  - @guest_accounts.each do |a|
-    %tr
-      %td=a.account.phone_id
-      %td=a.computer.hostname
-      %td=a.account.server
-      %td=a.account_id
-      %td=a.account.password
-      %td=Time.diff(a.lived_at,a.created_at)[:diff]
-%br
+      - @guest_accounts.each do |a|
+        %tr
+          %td=a.account.phone_id
+          %td=a.computer.hostname
+          %td=a.account.server
+          %td=a.account_id
+          %td=a.account.password
+          %td=Time.diff(a.lived_at,a.created_at)[:diff]
+    %br
 

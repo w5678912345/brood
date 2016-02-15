@@ -1,4 +1,4 @@
-class Guest::AccountsController < ApplicationController
+class Guest::AccountsController < ActionController::Base
   # GET /guest/accounts
   # GET /guest/accounts.json
   def index
