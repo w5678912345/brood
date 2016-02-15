@@ -10,11 +10,21 @@ module TimeTask
 		DataNode.mark
 		Account.update_all(:today_pay_count => 0)
 		TopSell.reset_daily_statistic
+		reset_delay_days_roles
+	end
+
+	def self.reset_delay_days_roles
+		Role.where(:status => 'delay_days').update_all(:status => 'normal')
 	end
 
 	def self.reset_vit_power_roles
     Role.where(:today_success=>true).where("vit_power > 50").update_all(:today_success => false)
 	end
+	def self.reset_delay_hours_roles
+		Role.where(:status => 'delay_hours').update_all(:status => 'normal')
+	end
+
+
 
 	def self.auto_stop
 		puts "auto stop at: "+Time.now.to_s

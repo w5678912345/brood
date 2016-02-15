@@ -179,7 +179,9 @@ Brood::Application.routes.draw do
   #resource :gold,controller: 'gold'
 
   resources :tests
-
+  namespace :guest do
+    resources :accounts
+  end
   # get "analysis/by/:date" => "analysis#by"
   # get "analysis/roles/:mark" => "analysis#roles",:as => "roles_analysis"
   # get "analysis/notes/:mark" => "analysis#notes",:as => "notes_analysis"

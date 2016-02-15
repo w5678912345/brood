@@ -16,11 +16,11 @@
       %tr
         %th ID
         %th Index
-        %th Name
+        %th 名字
         %th 等级
         %th 职业
-        %th 区
         %th 疲劳值
+        %th 中间商
         %th 金币
         %th 背包
         %th 在线
@@ -39,9 +39,9 @@
           %td #{role.name}
           %td #{role.level}
           %td #{role.profession}
-          %td #{role.server}
 
           %td #{role.vit_power}
+          %td=boolean_tag role.is_seller
           %td #{gold_str role.gold}
           %td #{role.bag_value}
           %td

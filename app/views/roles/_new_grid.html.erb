@@ -21,7 +21,10 @@
   g.column name:  'profile',attribute: 'name', model: 'RoleProfile',custom_filter: :auto,:detach_with_id => :profile_filter do |role|
     link_to role.role_profile.name,role_profile_path(role.role_profile) if role.role_profile
   end
-  g.column name:  'Ishell', attribute: 'ishell' do |role|
+  g.column name:  '中间商', attribute: 'is_seller' do |role|
+    boolean_tag role.is_seller
+  end
+  g.column name:  '深渊', attribute: 'ishell' do |role|
     boolean_tag role.ishell
   end
   g.column name:  'Helper', attribute: 'is_helper' do |role|
