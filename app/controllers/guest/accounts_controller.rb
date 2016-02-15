@@ -2,7 +2,7 @@ class Guest::AccountsController < ActionController::Base
   # GET /guest/accounts
   # GET /guest/accounts.json
   def index
-    @guest_accounts = AccountSession.joins(:account).where(:finished => false).where("accounts.status = 'bslock'")
+    @guest_accounts = AccountSession.joins(:account).where(:finished => false).where("accounts.status = 'bslocked'")
 
     respond_to do |format|
       format.html # index.html.erb
