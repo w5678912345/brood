@@ -149,16 +149,22 @@ class Api::AccountController < Api::BaseController
 	end
 
 	def gold_agent
-		@role = Role.joins(:qq_account).where("accounts.server = ?",@account.real_server.name).find_by_name @account.gold_agent_name
 		@result = []
-
-		if @account.real_server and @account.real_server.enable_transfer_gold
-			if @role
-				@result << {:pay_type => @account.real_server.pay_type,:today_pay_count => @account.today_pay_count,:name => @role.name,:price => @account.goods_price,:account_status => @role.qq_account.status,:role_status => @role.status}
-			elsif @account.gold_agent_name == LAST_GOLD_AGENT_NAME
-				@result = generate_server_gold_agents
-			end
+		unless @account.real_server and @account.real_server.enable_transfer_gold
+			render :json => @result
+			return			
 		end
+
+		@role = Role.joins(:qq_account).where("accounts.server = ?",@account.real_server.name).find_by_name @account.gold_agent_name
+
+		if @role
+			@result << {:pay_type => @account.real_server.pay_type,:today_pay_count => @account.today_pay_count,:name => @role.name,:price => @account.goods_price,:account_status => @role.qq_account.status,:role_status => @role.status}
+		elsif @account.gold_agent_name == LAST_GOLD_AGENT_NAME
+			@result = generate_server_gold_agents
+		elsif @account.gold_agent_name == "收币直通车"
+			@result = generate_direct_gold_agents
+		end
+
 		render :json => @result
 	end
 	def generate_server_gold_agents
@@ -173,6 +179,48 @@ class Api::AccountController < Api::BaseController
 		end
 		result
 	end
+
+	def generate_direct_gold_agents
+		result = []
+		return result if not @account.real_server
+		role_name = get_direct_gold_agents @account.real_server.name
+		if role_name
+			result << {:pay_type => 'auction',:today_pay_count => @account.today_pay_count,
+								:name => role_name,:goods => @account.real_server.goods,:price => @account.real_server.price,
+								:account_status => "normal",:role_status => 'normal'}
+		end
+		result
+	end
+
+	def get_direct_gold_agents server_name
+		name_table = {"广州1/2区"=>"据说筒瓦",
+									"重庆2区"=>"雪白小",
+									"四川3区"=>"明天会更",
+									"湖南3区"=>"绝缘体冷",
+									"四川6区"=>"徒步者张永博",
+									"华北4区"=>"我爱足",
+									"河北4区"=>"侯广安一水间",
+									"北京2/4区"=>"乐饱饱坐",
+									"北京1区"=>"豚豚蓝海海",
+									"河南2区"=>"非小虫不",
+									"河南3区"=>"小圆圈小霞",
+									"河南4区"=>"瑶瑶雪兰花",
+									"河北1区"=>"桃子红",
+									"华北3区"=>"绿豆角坏一点",
+									"河南6区"=>"另一种醉笨",
+									"华北1区"=>"相当凑合阿玲",
+									"浙江1区"=>"来学习的想念",
+									"广东1区"=>"断点化龙雷",
+									"广西2/4区"=>"阿德里问问吧",
+									"广东4区"=>"叶凌薰窦豆",
+									"湖北2区"=>"艾远芳芝",
+									"广东8区"=>"白鹭精",
+									"安徽3区"=>"捕风者馨香晚",
+									"广东3区"=>"计算机宓子"}
+
+		return name_table[server_name]
+	end
+
 
 	def role_start_count
 		 @records = Note.where(:api_name => "role_start").where(:ending=>false)

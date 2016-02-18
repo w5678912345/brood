@@ -43,4 +43,14 @@ class TopSellsController < ApplicationController
   def edit
     @top_sell = TopSell.find_by_id(params[:id])
   end
+
+  def destroy
+    @top_sell = TopSell.find(params[:id])
+    @top_sell.destroy
+
+    respond_to do |format|
+      format.html { redirect_to top_sells_url }
+      format.json { head :no_content }
+    end
+  end
 end
