@@ -43,7 +43,8 @@ module Accounts
           .order('level desc').group(:account)
       end
       def reset_agent
-        Account.where(server: @server_name).update_all(:gold_agent_name => '',:gold_agent_level => 0)
+        Account.where("gold_agent_name <> '收币直通车'").where(server: @server_name)
+              .update_all(:gold_agent_name => '',:gold_agent_level => 0)
         Role.joins(:qq_account).where("accounts.server = ?",@server_name).update_all(:is_seller => false)
       end
       def set_level(d,w)
@@ -64,6 +65,7 @@ module Accounts
           if(i == d-1)
             total_c = get_targets.where(:gold_agent_level => i+1,:gold_agent_name => '',:server => @server_name).count
             parent_c = get_targets.where("gold_agent_level = ?",i).count
+            parent_c = 1 if parent_c == 0
             puts("this is a mark:",total_c,parent_c)
             w = total_c / parent_c + 1
           end
