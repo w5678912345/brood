@@ -193,7 +193,7 @@ class Api::AccountController < Api::BaseController
 	end
 
 	def get_direct_gold_agents server_name
-		name_table = {"广州1/2区"=>"据说筒瓦",
+		name_table_tian6 = {"广州1/2区"=>"据说筒瓦",
 									"重庆2区"=>"雪白小",
 									"四川3区"=>"明天会更",
 									"湖南3区"=>"绝缘体冷",
@@ -217,8 +217,9 @@ class Api::AccountController < Api::BaseController
 									"广东8区"=>"白鹭精",
 									"安徽3区"=>"捕风者馨香晚",
 									"广东3区"=>"计算机宓子"}
-
-		return name_table[server_name]
+		namme_table_tian2 = {"江西1区" => "网络爱","四川1区" => "邓书英小维尼"}
+		return name_table_tian2[server_name] if AppSettings.title == 'tian2'
+		return name_table_tian6[server_name]
 	end
 
 

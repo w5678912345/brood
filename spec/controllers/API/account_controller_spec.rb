@@ -351,6 +351,7 @@ describe Api::AccountController do
     assigns(:result)[0].should eq nil
   end
   it 'can get direct_gold_agent when server.enable_transfer_gold is true' do
+    AppSettings.title.should_not eq 'tian2'
     Server.create(:name => '重庆2区',:enable_transfer_gold => true,:goods => 'test1',:price => 11111)
     TopSell.create(:role_name => "noname",:server_name => '重庆2区',:goods => 'test',:price => 10000)
     @account0.update_attributes :gold_agent_name => "收币直通车",:server => '重庆2区'
