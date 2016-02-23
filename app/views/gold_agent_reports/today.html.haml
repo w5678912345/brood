@@ -1,0 +1,31 @@
+%table.table.table-striped
+  %thead
+    %tr
+      %th 服
+      %th 已交币账号数
+      %th 未交币账号数
+      %th 总账号数
+
+  %tbody
+    -@servers.each do |server|
+      %tr
+        %td=server
+        %td
+          -if @today_pay_count[server]
+            =link_to @today_pay_count[server].to_s, accounts_path(:grid =>{:f =>{"server"=> server,:gold_agent_level => 1,:today_pay_count => {"eq"=> 1}}})
+          -else
+            =0
+        %td
+          -if @total_count[server]
+            -if @today_pay_count[server]
+              -no_pay_count = @total_count[server] - @today_pay_count[server]
+            -else
+              -no_pay_count = @total_count[server]
+            =link_to no_pay_count.to_s, accounts_path(:grid =>{:f =>{"server"=> server,:gold_agent_level => {"eq" => 1},:today_pay_count => {"eq"=> 0}}})
+          -else
+            =0
+        %td
+          -if @total_count[server]
+            =link_to @total_count[server].to_s, accounts_path(:grid =>{:f =>{"server"=> server,:gold_agent_level => {"eq" => 1}}})
+          -else
+            =0

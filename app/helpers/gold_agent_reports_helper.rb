@@ -1,0 +1,2 @@
+module GoldAgentReportsHelper
+end
