@@ -83,7 +83,7 @@ module ApplicationHelper
 
 	def computer_tag computer
 		return unless computer
-		return link_to("#{computer.hostname}",computer_path(computer.id)) + notes_link_tag(:cid => computer.id) if computer.started
+		return link_to("#{computer.hostname}",computer_path(computer.id)) + notes_link_tag(:cid => computer.id) if computer.is_started?
 		return link_to(raw("<span class=\"label label-important\">#{computer.hostname}</span>"),computer_path(computer.id)) + notes_link_tag(:cid => computer.id) 
 		
 	end
