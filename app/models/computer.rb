@@ -190,7 +190,7 @@ class Computer < ActiveRecord::Base
     else
       accounts = accounts.where("accounts.server = ?",self.server)
     end
-    accounts = accounts.where("status = ?",opts[:status]) unless opts[:status].blank?
+    accounts = accounts.where("accounts.status = ?",opts[:status]) unless opts[:status].blank?
     accounts = accounts.limit(limit)
     return if accounts.blank?
     accounts.each do |account|
