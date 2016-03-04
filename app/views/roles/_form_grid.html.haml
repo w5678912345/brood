@@ -8,4 +8,15 @@
           %option{'value'=>"#{key}"}
             =value
       %button.btn.btn-primary#expand-btn{'type'=>"submit"} 执行操作
-  =render partial: 'roles/grid',:locals => {:roles => roles}
+  =render :partial => 'roles/new_grid'
+  //filter 必须在new_grid的render之后
+  =render 'roles/grid_filter'
+
+  =form_tag(update_selected_roles_path,:method => :put,:id=>"role_checked_form",:onSubmit=>"return validate(this);",:target=>"_blank") do
+    =render_grid @roles
+    =render :partial => 'roles/grid_edit',:locals => {:dlg_id =>'gridEditor'}
+    =dump_filter_parameters_as_hidden_fields(@roles)
+
+  =form_tag(update_all_roles_path,:method => :put,:id=>"role_update_all_form",:onSubmit=>"return validate(this);",:target=>"_blank") do
+    =dump_filter_parameters_as_hidden_fields(@roles)
+    =render :partial => 'roles/grid_edit',:locals => {:dlg_id =>'update_all_dlg'}

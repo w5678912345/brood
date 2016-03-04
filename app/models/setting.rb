@@ -9,6 +9,10 @@ class Setting < ActiveRecord::Base
 		return setting.val  if setting
 	end
 	
+	def self.auto_bind_no_server_diff
+		val = find_value_by_key("auto_bind_no_server_diff")
+		return val == nil ? true : val == 1
+	end
 	def self.ip_max_use_count
 		val = find_value_by_key("ip_max_use_count")
 		return val == nil ? 5 : val

@@ -15,7 +15,7 @@ module Accounts
 
         @account_session.finished_status = @account_session.started_status if @account_session.finished_status.nil?
         @account_session.remark = msg if msg.present?
-        @account_session.update_attributes :finished_at => Time.now,:finished => true
+        @account_session.update_attributes :finished_at => @account_session.lived_at,:finished => true
       end
     end
   end

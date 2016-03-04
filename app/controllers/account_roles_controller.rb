@@ -9,6 +9,9 @@ class AccountRolesController < ApplicationController
 			@records = initialize_grid(@records,
 				:include => [:qq_account => :bind_computer],
 				:per_page=>params[:per_page])#@records.paginate(:page => params[:page], :per_page => params[:per_page])
+			@roles = @records
+			@profiles = RoleProfile.select("id,name")
+
 		else
 			@records = initialize_grid(@records,
 				:include => [:bind_computer],
