@@ -26,6 +26,12 @@
         .controls.docs-input-sizes
           %input{:name => "avg", :type => "text", :value => "1"}>/
           个
+
+      .control-group
+        .controls.docs-input-sizes
+          %label.checkbox
+            %input#allowed_server_diff{:name => "allowed_server_diff", :type => "checkbox"}
+              不匹配账号和机器的游戏服
     - elsif @do == "task"
       .control-group
         %label.control-label 任务名称:

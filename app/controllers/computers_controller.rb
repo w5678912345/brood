@@ -105,7 +105,7 @@ class ComputersController < ApplicationController
       flash[:msg] = "拒绝了#{@computers.length}台机器"
     elsif @do == "bind_accounts"
       @computers.each do |computer|
-          computer.auto_bind_accounts({:status=>params[:status],:ip=>request.remote_ip,:msg=>"click",:avg=>params[:avg].to_i})
+          computer.auto_bind_accounts({:status=>params[:status],:ip=>request.remote_ip,:msg=>"click",:avg=>params[:avg].to_i,:allowed_server_diff => params[:allowed_server_diff] == 'on'})
       end
       flash[:msg] = "为#{@computers.length}台机器，分配了账号"
     elsif @do == "task"
