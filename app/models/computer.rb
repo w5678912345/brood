@@ -183,7 +183,7 @@ class Computer < ActiveRecord::Base
       limit = 1
     end
     # 查询可以绑定的账户
-    binding.pry
+    #binding.pry
     accounts = Account.waiting_bind_scope.joins(:roles).where("normal_at <= ?",Time.now).where("accounts.enabled = 1").where("roles.status = ?",'normal').where("roles.level < ?",Setting.role_max_level).reorder("roles.level desc").uniq().readonly(false)
     if opts[:allowed_server_diff].present?
       server_diff =  !opts[:allowed_server_diff]
