@@ -3,4 +3,6 @@
     =link_to raw('<i class="icon-list"></i>服务区列表'),servers_path
   %li{class: ('active' if controller_name == 'top_sells')}
     =link_to raw('<i class="icon-home"></i>收币账号'),top_sells_path
+  %li{class: ('active' if controller_name == 'direct_gold_agents')}
+    =link_to raw('<i class="icon-home"></i>收币账号'),direct_gold_agents_path
 =render 'servers/actions'

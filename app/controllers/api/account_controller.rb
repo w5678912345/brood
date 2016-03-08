@@ -193,33 +193,11 @@ class Api::AccountController < Api::BaseController
 	end
 
 	def get_direct_gold_agents server_name
-		name_table_tian6 = {"广州1/2区"=>"据说筒瓦",
-									"重庆2区"=>"雪白小",
-									"四川3区"=>"明天会更",
-									"湖南3区"=>"绝缘体冷",
-									"四川6区"=>"徒步者张永博",
-									"华北4区"=>"我爱足",
-									"河北4区"=>"侯广安一水间",
-									"北京2/4区"=>"乐饱饱坐",
-									"北京1区"=>"豚豚蓝海海",
-									"河南2区"=>"非小虫不",
-									"河南3区"=>"小圆圈小霞",
-									"河南4区"=>"瑶瑶雪兰花",
-									"河北1区"=>"桃子红",
-									"华北3区"=>"绿豆角坏一点",
-									"河南6区"=>"另一种醉笨",
-									"华北1区"=>"相当凑合阿玲",
-									"浙江1区"=>"来学习的想念",
-									"广东1区"=>"断点化龙雷",
-									"广西2/4区"=>"阿德里问问吧",
-									"广东4区"=>"叶凌薰窦豆",
-									"湖北2区"=>"艾远芳芝",
-									"广东8区"=>"白鹭精",
-									"安徽3区"=>"捕风者馨香晚",
-									"广东3区"=>"计算机宓子"}
 		namme_table_tian2 = {"江西1区" => "网络爱","四川1区" => "邓书英小维尼"}
+		t = DirectGoldAgent.where(:server_id => server_name).first
+		return t.role_name if t
+		return nil
 		return name_table_tian2[server_name] if AppSettings.title == 'tian2'
-		return name_table_tian6[server_name]
 	end
 
 

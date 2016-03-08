@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Server:
+  = @direct_gold_agent.server_id
+%p
+  %b Role name:
+  = @direct_gold_agent.role_name
+%p
+  %b Enable:
+  = @direct_gold_agent.enable
+
+= link_to 'Edit', edit_direct_gold_agent_path(@direct_gold_agent)
+\|
+= link_to 'Back', direct_gold_agents_path

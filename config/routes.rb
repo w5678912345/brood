@@ -1,5 +1,8 @@
 Brood::Application.routes.draw do
   
+  resources :direct_gold_agents
+
+
   get "gold_agent_reports/today"
 
   resources :bot_versions, constraints: { id: /[.0-9]+/ }

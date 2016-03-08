@@ -1,0 +1,17 @@
+=render "servers/navbar"
+%br
+%table.table
+  %tr
+    %th 服
+    %th 角色名
+    %th 激活
+    %th
+    %th
+
+  - @direct_gold_agents.each do |direct_gold_agent|
+    %tr
+      %td= direct_gold_agent.server_id
+      %td= direct_gold_agent.role_name
+      %td= direct_gold_agent.enable
+      %td=link_to raw('<i class="icon-edit"></i>修改'),edit_direct_gold_agent_path(direct_gold_agent),:class=>"btn"
+      %td=link_to raw('<i class="icon-remove"></i>删除'),direct_gold_agent,:method => :delete, :class=>"btn",:data => { :confirm => 'Are you sure?' }

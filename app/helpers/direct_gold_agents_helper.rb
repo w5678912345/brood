@@ -1,0 +1,2 @@
+module DirectGoldAgentsHelper
+end

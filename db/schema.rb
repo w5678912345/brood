@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160201090146) do
+ActiveRecord::Schema.define(:version => 20160308070442) do
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
@@ -203,6 +203,14 @@ ActiveRecord::Schema.define(:version => 20160201090146) do
     t.datetime "marked_at",                                   :null => false
     t.string   "source",                    :default => "",   :null => false
     t.text     "data",                                        :null => false
+  end
+
+  create_table "direct_gold_agents", :force => true do |t|
+    t.string   "server_id"
+    t.string   "role_name"
+    t.boolean  "enable"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "gold_price_records", :force => true do |t|

@@ -1,0 +1,20 @@
+= form_for @direct_gold_agent do |f|
+  - if @direct_gold_agent.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@direct_gold_agent.errors.count, "error")} prohibited this direct_gold_agent from being saved:"
+      %ul
+        - @direct_gold_agent.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    %label.control-label 服:
+    .controls
+      = f.select :server_id,@servers
+  .field
+    = f.label "角色名"
+    = f.text_field :role_name
+  .field
+    = f.label :enable
+    = f.check_box :enable
+  .actions
+    = f.submit 'Save'
