@@ -1,0 +1,2 @@
+module GoldAgentAllocationsHelper
+end

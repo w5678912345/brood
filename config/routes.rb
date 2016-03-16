@@ -16,7 +16,7 @@ Brood::Application.routes.draw do
   resources :top_sells
 
   resources :role_profiles
-
+  resources :gold_agent_allocations,:only => [:new,:create]
 
   resources :ticket_records,:only => [:index] do 
     get :report, :on =>  :collection

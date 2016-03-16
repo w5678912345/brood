@@ -1,0 +1,9 @@
+%h1 New gold_agent_allocation
+=form_tag(gold_agent_allocations_path) do |s|
+  .control-group
+    %label.control-label 服:
+    .controls
+      = text_field_tag :server,params[:server]
+  .control-group
+    .controls
+      = submit_tag "执行", :class => "btn btn-success"
