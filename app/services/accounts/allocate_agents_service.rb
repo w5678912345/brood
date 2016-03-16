@@ -67,7 +67,11 @@ module Accounts
             parent_c = get_targets.where("gold_agent_level = ?",i).count
             parent_c = 1 if parent_c == 0
             puts("this is a mark:",total_c,parent_c)
-            w = total_c / parent_c + 1
+            if parent_c > 0
+              w = total_c / parent_c + 1
+            else
+              w = total_c
+            end
           end
           ordered_targets_info.where("gold_agent_level = ?",i).count
           ordered_targets_info.where("gold_agent_level = ?",i).each do |t|
