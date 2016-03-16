@@ -5,7 +5,7 @@ class TodaysController < ApplicationController
 		@online_account_count = AccountSession.where(:finished => false).count
 		@today_trade_gold = Payment.real_pay.at_date(Date.today).sum(:gold)
 		#.at_date(Date.today)
-		@error_event_count = AccountSession.select("finished_status as status,count(account_id) as num").
+		@error_event_count = AccountSession.select("finished_status as status,count(distinct(account_id)) as num").
 			where(finished: true).group("status").finished_at_date(Date.today)
 		@error_event_map = @error_event_count.inject({}) do |r,e|
 			r[e.status] = e.num
