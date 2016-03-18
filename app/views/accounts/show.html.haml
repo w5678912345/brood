@@ -27,6 +27,13 @@
           %p 手机：#{@account.phone_id.blank? ? "无" : @account.phone_id}
         %td
           %p 点券：#{@account.money_point}
+      %tr{:class => color}
+        %td
+          收币代理: #{@account.gold_agent_name}
+        %td 
+          金库: #{gold_str @account.cashbox}
+        %td
+          礼包: #{@account.gift_bag}
       %tr
         %td{:colspan =>"3"}
           备注：#{@account.remark}

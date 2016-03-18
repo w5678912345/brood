@@ -40,7 +40,7 @@ module Accounts
         Role.select("roles.id,account,max(level) as maxlevel").joins(:qq_account)
           .where('bind_computer_id > 0 and accounts.server = ?',@server_name)
           .where("accounts.status in (?)",['normal','delaycreate','disconnect']).where("roles.status = 'normal'")
-          .order('maxlevel desc').group(:account)
+          .order('level desc').group(:account)
       end
       def reset_agent
         Account.where("gold_agent_name <> '收币直通车'").where(server: @server_name)

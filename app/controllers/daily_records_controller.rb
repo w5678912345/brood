@@ -7,6 +7,10 @@ class DailyRecordsController < ApplicationController
       :order_direction => 'desc',
     )
 
+    @daily_records.with_paginated_resultset do |datas|
+      @total_gold = datas.sum &:gold
+    end
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @daily_records }

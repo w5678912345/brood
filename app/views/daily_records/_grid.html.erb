@@ -1,6 +1,26 @@
+<%
+  total_gold = 0
+  total_money = 0
+  total_discardfordays=0
+%>
 <%= grid(@daily_records, upper_pagination_panel: true, show_filters: :yes) do |g|
-  g.row_attributes do |version|
+  g.before_row do |r,number_of_columns|
+    total_gold = r.gold + total_gold
+    total_discardfordays = total_discardfordays + r.discardfordays_count
+    r.gold_price = 0 if(r.gold_price.nil?)
+    total_money = r.gold*r.gold_price/(10000*10000*10000)
    end
+  g.last_row do |number_of_columns|
+    content_tag(:tr,
+      content_tag(:td,
+        "产出合计: "+gold_str(total_gold) + "("+total_money.to_s+"万)",
+      colspan: 8)+
+      content_tag(:td,
+        "累计5天: "+total_discardfordays.to_s,
+      colspan: 5),
+
+    class: 'last_row')
+  end
   g.column name:  '日期', attribute: 'date'
 
 
