@@ -8,7 +8,7 @@
     total_gold = r.gold + total_gold
     total_discardfordays = total_discardfordays + r.discardfordays_count
     r.gold_price = 0 if(r.gold_price.nil?)
-    total_money = ((r.gold/(10000*10000))*r.gold_price)/10000
+    total_money = (total_money + (r.gold/(10000*10000))*r.gold_price)/10000
    end
   g.last_row do |number_of_columns|
     content_tag(:tr,
