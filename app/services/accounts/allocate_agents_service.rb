@@ -37,7 +37,7 @@ module Accounts
           .where(server: @server_name)
       end
       def ordered_targets_info
-        Role.select("roles.id,account,max(level) as maxlevel").joins(:qq_account)
+        Role.select("roles.id,account,max(level) as level").joins(:qq_account)
           .where('bind_computer_id > 0 and accounts.server = ?',@server_name)
           .where("accounts.status in (?)",['normal','delaycreate','disconnect']).where("roles.status = 'normal'")
           .order('level desc').group(:account)
