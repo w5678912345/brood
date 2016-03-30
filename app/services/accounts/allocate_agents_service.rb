@@ -54,7 +54,11 @@ module Accounts
         1.upto(d) do |i|
           old_agent_count = get_targets.where("gold_agent_level = ?",i).count
           current_capacity = top_sell_capacity*(w**i) - old_agent_count
-          @level_targets[i] = ordered_targets_info.where("gold_agent_level = 0").first(current_capacity)
+          if i < d 
+            @level_targets[i] = ordered_targets_info.where("phone_id > 0").where("gold_agent_level = 0").first(current_capacity)
+          else
+            @level_targets[i] = ordered_targets_info.where("gold_agent_level = 0").first(current_capacity)
+          end
           current_accounts = @level_targets[i].map &:account
           Account.where(:no => current_accounts).update_all(:gold_agent_level => i)
         end
