@@ -4,6 +4,7 @@ class GoldAgentAllocationsController < ApplicationController
   # GET /gold_agent_allocations/new.json
   def new
     @servers = Server.all.map &:name
+    @servers = ["all"] + @servers 
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @gold_agent_allocation }
@@ -12,8 +13,8 @@ class GoldAgentAllocationsController < ApplicationController
   # POST /gold_agent_allocations
   # POST /gold_agent_allocations.json
   def create
-    server = params[:server] || 'all'
-    @allocate = Accounts::AllocateAgentsService.new(server)
+    @server = params[:server] || 'all'
+    @allocate = Accounts::AllocateAgentsService.new(@server)
     @allocate.run
   end
 end

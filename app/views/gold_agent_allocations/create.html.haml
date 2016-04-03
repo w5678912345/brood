@@ -1,2 +1,11 @@
-%h1 Finished!
-%h2 不一定成功哦!!
+
+%h2="目标服: "+@server+" 处理结果: "
+%table.table
+  %tr
+    %th 服
+    %th 处理账号数
+
+  - @allocate.result.each do |r|
+    %tr
+      %td= r[0]
+      %td= r[1]

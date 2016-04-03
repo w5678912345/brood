@@ -3,7 +3,7 @@
   .control-group
     %label.control-label 服:
     .controls
-      = text_field_tag :server,params[:server]
+      = select_tag :server,options_for_select(@servers,"all")
   .control-group
     .controls
       = submit_tag "执行", :class => "btn btn-success"

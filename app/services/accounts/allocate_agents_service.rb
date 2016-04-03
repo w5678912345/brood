@@ -5,15 +5,21 @@ module Accounts
       @server_name = server_name
       @depth = depth
       @level_targets = {}
+      @result = {}
+    end
+    def result
+      return @result
     end
     def run
       if @server_name == 'all'
         Server.select(:name).map(&:name).each do |s|
           @server_name = s
           reset_agent_tree
+          @result[@server_name] = get_targets.count
         end
       else
         reset_agent_tree
+        @result[@server_name] = get_targets.count
       end
     end
     def reset_agent_tree
