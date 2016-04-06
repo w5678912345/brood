@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(:version => 20160406035353) do
     t.string   "gold_agent_name",                  :default => ""
     t.integer  "gold_agent_level",                 :default => 0
     t.integer  "cashbox",                          :default => 0
-    t.integer  "today_pay_count"
+    t.integer  "today_pay_count",                  :default => 0
   end
 
   add_index "accounts", ["gold_agent_level"], :name => "index_accounts_on_gold_agent_level"
@@ -261,15 +261,15 @@ ActiveRecord::Schema.define(:version => 20160406035353) do
     t.integer  "min_level",                                       :null => false
     t.integer  "max_level",                                       :null => false
     t.integer  "gold",                         :default => 0,     :null => false
-    t.integer  "exp",                          :default => 0
+    t.integer  "exp",                          :default => 0,     :null => false
     t.boolean  "enabled",                      :default => true,  :null => false
-    t.integer  "safety_limit",                 :default => 1000
-    t.integer  "death_limit",                  :default => 1000
-    t.integer  "enter_count",                  :default => 0
+    t.integer  "safety_limit",                                    :null => false
+    t.integer  "death_limit",                                     :null => false
+    t.integer  "enter_count",                  :default => 0,     :null => false
     t.string   "remark",        :limit => 128
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
-    t.boolean  "ishell",                       :default => false
+    t.boolean  "ishell",                       :default => false, :null => false
     t.string   "profession",                   :default => "all"
     t.boolean  "client_manual",                :default => false
   end

@@ -333,6 +333,15 @@ describe Api::AccountController do
     assigns(:result)[0][:role_status].should eq "normal"
   end
 
+  it 'can not get server gold_agent' do
+    TopSell.update_all(:enable => false)
+    @account0.update_attributes :gold_agent_name => Api::BaseController.LAST_GOLD_AGENT_NAME,:server => '测试1区'
+    get :gold_agent,@base_params.merge({:id => @account0.no})
+
+    assigns(:result)[0].should eq nil
+  end
+
+
   it 'can not get gold_agent when server.enable_transfer_gold is false' do
     Server.find_by_name("测试1区").update_attributes :enable_transfer_gold => false
     @account0.update_attributes :gold_agent_name => @role2.name,:server => '测试1区'
