@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160308070442) do
+ActiveRecord::Schema.define(:version => 20160406035353) do
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(:version => 20160308070442) do
     t.string   "gold_agent_name",                  :default => ""
     t.integer  "gold_agent_level",                 :default => 0
     t.integer  "cashbox",                          :default => 0
-    t.integer  "today_pay_count",                  :default => 0
+    t.integer  "today_pay_count"
   end
 
   add_index "accounts", ["gold_agent_level"], :name => "index_accounts_on_gold_agent_level"
@@ -261,15 +261,15 @@ ActiveRecord::Schema.define(:version => 20160308070442) do
     t.integer  "min_level",                                       :null => false
     t.integer  "max_level",                                       :null => false
     t.integer  "gold",                         :default => 0,     :null => false
-    t.integer  "exp",                          :default => 0,     :null => false
+    t.integer  "exp",                          :default => 0
     t.boolean  "enabled",                      :default => true,  :null => false
-    t.integer  "safety_limit",                                    :null => false
-    t.integer  "death_limit",                                     :null => false
-    t.integer  "enter_count",                  :default => 0,     :null => false
+    t.integer  "safety_limit",                 :default => 1000
+    t.integer  "death_limit",                  :default => 1000
+    t.integer  "enter_count",                  :default => 0
     t.string   "remark",        :limit => 128
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
-    t.boolean  "ishell",                       :default => false, :null => false
+    t.boolean  "ishell",                       :default => false
     t.string   "profession",                   :default => "all"
     t.boolean  "client_manual",                :default => false
   end
@@ -667,14 +667,15 @@ ActiveRecord::Schema.define(:version => 20160308070442) do
   end
 
   create_table "top_sells", :force => true do |t|
-    t.string   "server_name",                                   :null => false
-    t.string   "role_name",                                     :null => false
+    t.string   "server_name",                                      :null => false
+    t.string   "role_name",                                        :null => false
     t.string   "goods"
-    t.integer  "price",                                         :null => false
+    t.integer  "price",                                            :null => false
     t.integer  "today_sells_count",              :default => 0
     t.integer  "today_sells_sum",   :limit => 8, :default => 0
-    t.datetime "created_at",                                    :null => false
-    t.datetime "updated_at",                                    :null => false
+    t.datetime "created_at",                                       :null => false
+    t.datetime "updated_at",                                       :null => false
+    t.boolean  "enable",                         :default => true
   end
 
   add_index "top_sells", ["server_name", "role_name"], :name => "index_top_sells_on_server_name_and_role_name"

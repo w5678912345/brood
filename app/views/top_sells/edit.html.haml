@@ -13,5 +13,9 @@
     .controls
       = s.text_field :price,:required=>"required"
   .control-group
+    %label.control-label 激活:
+    .controls
+      = s.select :enable,[true,false]
+  .control-group
     .controls
       = s.submit "保存", :class => "btn btn-success"

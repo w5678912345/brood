@@ -27,7 +27,7 @@ class TopSellsController < ApplicationController
 
     respond_to do |format|
       if @top_sell.update_attributes(params[:top_sell])
-        format.html { redirect_to @top_sell, notice: 'top_sell was successfully updated.' }
+        format.html { redirect_to top_sells_path, notice: 'top_sell was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

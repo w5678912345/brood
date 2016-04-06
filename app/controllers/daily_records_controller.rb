@@ -5,6 +5,7 @@ class DailyRecordsController < ApplicationController
     @daily_records = initialize_grid(DailyRecord,
       :order => 'daily_records.date',
       :order_direction => 'desc',
+      :per_page=>30
     )
 
     @daily_records.with_paginated_resultset do |datas|
