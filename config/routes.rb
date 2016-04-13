@@ -1,5 +1,8 @@
 Brood::Application.routes.draw do
   
+  resources :account_profiles
+
+
   resources :direct_gold_agents
 
 
@@ -261,6 +264,7 @@ Brood::Application.routes.draw do
     match '/set'  => 'computers#set'
     match '/cinfo' => 'computers#cinfo'
     get 'role_profiles/:name',to: 'role_profiles#show',:defaults => {:format => 'json'}
+    get 'account_profiles/:name',to: 'account_profiles#show',:defaults => {:format => 'json'}
     resources :computers,:only => [] do 
       get :start,               :on => :collection
       get :reset_accounts,      :on => :collection

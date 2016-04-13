@@ -1,0 +1,19 @@
+= form_for @account_profile do |f|
+  - if @account_profile.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@account_profile.errors.count, "error")} prohibited this account_profile from being saved:"
+      %ul
+        - @account_profile.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :enable
+    = f.check_box :enable
+  .field
+    = f.label :name
+    = f.text_field :name
+  .field
+    = f.label :anti_check_cfg
+    = f.text_area :anti_check_cfg
+  .actions
+    = f.submit 'Save'

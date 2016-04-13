@@ -18,6 +18,10 @@
     #r += render 'get_log_butto'
     r
   end
+  g.column name:  '配置',attribute: 'name', model: 'AccountProfile',custom_filter: :auto do |a|
+    link_to a.account_profile.name,account_profile_path(a.account_profile) if a.account_profile
+  end
+
   if not mini_show
     g.column name:  'rms_file', attribute: 'rms_file',in_csv: false  do |account|
       boolean_tag account.rms_file

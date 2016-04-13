@@ -9,7 +9,7 @@ class Account < ActiveRecord::Base
     EVENT = ['bslock','bs_unlock_fail','bs_unlock_success','code_error','wrong_password','study_sailiya','net_error','msg_event']
     Btns = { "disable_bind"=>"禁用绑定","clear_bind"=>"启用绑定","add_role" => "添加角色","call_offline"=>"调用下线","set_status"=>"修改状态","edit_normal_at"=>"修改冷却时间",
       "bind_this_computer"=>"绑定指定机器","set_server"=>"修改服务器","export" =>"导出账号","add_sms_order"=>"添加工单","standing"=>"站","get_log_file"=>"提取日志文件",
-      "delete_all" => "删除所有","update_gold_agent_name" => '修改收币代理'}
+      "delete_all" => "删除所有","update_gold_agent_name" => '修改收币代理',"set_profile" => "修改配置"}
 
     # 需要自动恢复normal的状态
     Auto_Normal = {"disconnect"=>2,"exception"=>3,"lost"=>0,"bslocked"=>72,"bs_unlock_fail"=>72}
@@ -19,7 +19,7 @@ class Account < ActiveRecord::Base
       #{}"discardfordays"=>72,"discardbysailia"=>240,"discardforyears"=>12000,"discardforverifycode"=>1200,"recycle"=>12000}
 
     # 
-    attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status,:money_point,:gift_bag
+    attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status,:money_point,:gift_bag,:account_profile_id
     attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at,:today_success,:last_start_ip,:gold_agent_name,:today_pay_count
     attr_accessible :remark,:is_auto,:phone_id,:cashbox,:normal_at,:unlock_phone_id,:unlocked_at,:rms_file,:phone_id, :in_cpo,:last_start_at,:standing
 
@@ -39,6 +39,8 @@ class Account < ActiveRecord::Base
     belongs_to :bind_computer,  :class_name => 'Computer', :foreign_key => 'bind_computer_id'
     #绑定的电话
     belongs_to :phone
+    #账号对应的配置文件
+    belongs_to :account_profile
     #包含角色
     has_many   :roles, :class_name => 'Role', :foreign_key => 'account', :primary_key => 'no'
     has_one :account_session,:primary_key => 'no',:conditions => {finished: false}

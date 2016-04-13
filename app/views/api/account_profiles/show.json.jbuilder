@@ -1,0 +1,1 @@
+json.extract! @account_profile,:name,:anti_check_cfg

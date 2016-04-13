@@ -1,0 +1,23 @@
+%h1 Listing account_profiles
+
+%table.table
+  %tr
+    %th Name
+    %th Enable
+    %th Anti check cfg
+    %th
+    %th
+    %th
+
+  - @account_profiles.each do |account_profile|
+    %tr
+      %td= account_profile.name
+      %td= account_profile.enable
+      %td= account_profile.anti_check_cfg
+      %td= link_to 'Show', account_profile
+      %td= link_to 'Edit', edit_account_profile_path(account_profile)
+      %td= link_to 'Destroy', account_profile, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Account profile', new_account_profile_path

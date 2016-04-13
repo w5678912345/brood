@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160406035353) do
+ActiveRecord::Schema.define(:version => 20160413132901) do
+
+  create_table "account_profiles", :force => true do |t|
+    t.boolean  "enable",         :default => false
+    t.string   "name",           :default => ""
+    t.text     "anti_check_cfg"
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
+  end
 
   create_table "account_sessions", :force => true do |t|
     t.string   "account_id"
@@ -101,9 +109,11 @@ ActiveRecord::Schema.define(:version => 20160406035353) do
     t.string   "gold_agent_name",                  :default => ""
     t.integer  "gold_agent_level",                 :default => 0
     t.integer  "cashbox",                          :default => 0
-    t.integer  "today_pay_count",                  :default => 0
+    t.integer  "today_pay_count"
+    t.integer  "account_profile_id",               :default => 0
   end
 
+  add_index "accounts", ["account_profile_id"], :name => "index_accounts_on_account_profile_id"
   add_index "accounts", ["gold_agent_level"], :name => "index_accounts_on_gold_agent_level"
   add_index "accounts", ["no"], :name => "index_accounts_on_no", :unique => true
   add_index "accounts", ["server"], :name => "index_accounts_on_server"
@@ -261,15 +271,15 @@ ActiveRecord::Schema.define(:version => 20160406035353) do
     t.integer  "min_level",                                       :null => false
     t.integer  "max_level",                                       :null => false
     t.integer  "gold",                         :default => 0,     :null => false
-    t.integer  "exp",                          :default => 0,     :null => false
+    t.integer  "exp",                          :default => 0
     t.boolean  "enabled",                      :default => true,  :null => false
-    t.integer  "safety_limit",                                    :null => false
-    t.integer  "death_limit",                                     :null => false
-    t.integer  "enter_count",                  :default => 0,     :null => false
+    t.integer  "safety_limit",                 :default => 1000
+    t.integer  "death_limit",                  :default => 1000
+    t.integer  "enter_count",                  :default => 0
     t.string   "remark",        :limit => 128
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
-    t.boolean  "ishell",                       :default => false, :null => false
+    t.boolean  "ishell",                       :default => false
     t.string   "profession",                   :default => "all"
     t.boolean  "client_manual",                :default => false
   end

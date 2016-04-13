@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Enable:
+  = @account_profile.enable
+%p
+  %b Name:
+  = @account_profile.name
+%p
+  %b Anti check cfg:
+  = @account_profile.anti_check_cfg
+
+= link_to 'Edit', edit_account_profile_path(@account_profile)
+\|
+= link_to 'Back', account_profiles_path
