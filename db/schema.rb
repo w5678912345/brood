@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(:version => 20160413132901) do
     t.boolean  "enable",         :default => false
     t.string   "name",           :default => ""
     t.text     "anti_check_cfg"
+    t.string   "comment"
     t.datetime "created_at",                        :null => false
     t.datetime "updated_at",                        :null => false
   end

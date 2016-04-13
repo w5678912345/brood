@@ -4,7 +4,7 @@ class CreateAccountProfiles < ActiveRecord::Migration
       t.boolean :enable,:default => false
       t.string :name,:default => ""
       t.text :anti_check_cfg
-
+      t.string :comment
       t.timestamps
     end
     add_column :accounts, :account_profile_id, :integer,:default => 0

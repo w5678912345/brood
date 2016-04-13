@@ -5,6 +5,7 @@
     %th Name
     %th Enable
     %th Anti check cfg
+    %th 备注
     %th
     %th
     %th
@@ -13,7 +14,8 @@
     %tr
       %td= account_profile.name
       %td= account_profile.enable
-      %td= account_profile.anti_check_cfg
+      %td= account_profile.anti_check_cfg[0..25]+" ..."
+      %td= account_profile.comment
       %td= link_to 'Show', account_profile
       %td= link_to 'Edit', edit_account_profile_path(account_profile)
       %td= link_to 'Destroy', account_profile, :method => :delete, :data => { :confirm => 'Are you sure?' }
