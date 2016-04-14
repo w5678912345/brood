@@ -335,6 +335,7 @@ Brood::Application.routes.draw do
       match :sub_order,  :on => :collection
       match :unlock,     :on => :collection
       match :role_profile,  :on => :collection
+      match :account_profile,  :on => :collection
       match :role_start_count, :on => :collection
       match :get_unlock, :on => :collection
       match :get_bslock, :on => :collection

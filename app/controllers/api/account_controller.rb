@@ -10,7 +10,7 @@ class Api::AccountController < Api::BaseController
 	#before_filter :valid_ip_use_count,					:only => [:auto] # 验证当前IP的24小时使用次数
 	#before_filter :valid_ip_range_online_count,			:only => [:auto] # 验证当前IP 前三段的在线数量
 	before_filter :check_valid_ip,					:only => [:auto]
-	before_filter :require_account_by_no,				:only => [:start,:sync,:gold_agent,:note,:stop,:look,:get_phone,:role_start,:role_stop,:role_note,:role_pay,:set_rms_file,:support_roles,:use_ticket,:role_profile] # 根据帐号取得一个账户
+	before_filter :require_account_by_no,				:only => [:start,:sync,:gold_agent,:note,:stop,:look,:get_phone,:role_start,:role_stop,:role_note,:role_pay,:set_rms_file,:support_roles,:use_ticket,:role_profile,:account_profile] # 根据帐号取得一个账户
 	#before_filter :require_account_is_started,			:only => [:sync,:note,:stop] # 确定账号在线
 	before_filter :require_role_by_rid,					:only => [:role_start,:role_stop,:role_note,:role_pay,:role_profile]
 	before_filter :get_account_session,		:only =>[:sync,:note,:stop,:role_start,:role_stop,:role_note,:role_profile]	#
@@ -141,6 +141,16 @@ class Api::AccountController < Api::BaseController
 		@pf = RoleProfile.find(1) if @pf.nil? 
 
 		send_data @pf.data
+	end
+
+	def account_profile
+		@pf = @account.account_profile
+		#如果为空发送空配置,客户端加载默认配置
+		if @pf.nil? 
+			send_data ""
+		else
+			send_data @pf.anti_check_cfg
+		end
 	end
 
 	def role_pay
