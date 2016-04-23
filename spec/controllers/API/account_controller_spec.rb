@@ -295,6 +295,7 @@ describe Api::AccountController do
     get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'auction'})
     Account.find_by_no(@account0.no).today_pay_count.should eq 1
     Payment.count.should eq 1
+    Payment.first.server.should eq @account0.server
 
     #avoid re send pay data by [role_id,note_id]
     get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'mail'})

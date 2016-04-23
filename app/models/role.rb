@@ -200,7 +200,9 @@ class Role < ActiveRecord::Base
         end
         return 1
       end
-      payment = Payment.new(:role_id=>self.id,:gold => opts[:gold],:balance => opts[:balance],:remark => opts[:remark],:note_id => note_id,:pay_type=>opts[:pay_type],:server=>self.server||computer.server,:target=>opts[:target]) 
+      payment = Payment.new(:role_id=>self.id,:gold => opts[:gold],:balance => opts[:balance],:remark => opts[:remark],
+                :note_id => note_id,:pay_type=>opts[:pay_type],:server=>self.qq_account.server,
+                :target=>opts[:target]) 
       return CODES[:not_valid_pay] unless payment.valid? # validate not pass
       self.gold = payment.balance      #当前金币 = 支出后的余额
       self.total_pay = self.total_pay + payment.gold # 累计支出
