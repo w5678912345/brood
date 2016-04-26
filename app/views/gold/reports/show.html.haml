@@ -1,0 +1,44 @@
+%fieldset
+  %legend 金币
+  %form.form-search{:action => gold_excel_path}
+    %input.input-medium{:name => "server", :placeholder => "服务器", :type => "text", :value => params[:server]}/
+    日期:
+    = succeed "-" do
+      %input#start_time.input-medium.search-query{:name => "start_time", :placeholder => "开始时间", :type => "text", :value => params[:start_time]}/
+    %input#end_time.input-medium.search-query{:name => "end_time", :placeholder => "截止时间", :type => "text", :value => params[:end_time]}/
+    %button.btn{:type => "submit"} Search
+  .span3
+    %table.table{:border => "1"}
+      %thead
+        %tr
+          %th 日期
+      %tbody
+        - @dates.each do |date|
+          %tr
+            %td= date
+  .span6
+    %table.table{:border => "1"}
+      %thead
+        %tr
+          %th{'row-span'=1}
+            日期
+          -@servers.each do |s|
+            %th{"col-span"=1} = s
+
+          %th{'row-span'=1} 日汇总
+
+
+      %tbody
+        - @dates.each do |date|
+          %tr{:title => date}
+            %td= date
+            -@servers.each do |s|
+              -if @trade[date]
+                %td=gold_str @trade[date][s]
+              -else
+                %td 0
+  :javascript
+    $(function(){
+      $("#start_time").datetimepicker({dateFormat:"yy-mm-dd",timeFormat:"HH:mm:ss"});
+      $("#end_time").datetimepicker({dateFormat:"yy-mm-dd",timeFormat:"HH:mm:ss"});
+    });

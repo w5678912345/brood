@@ -240,6 +240,7 @@ Brood::Application.routes.draw do
     resource :excel, :only => [:show], controller: 'excel' do 
 
     end
+    resource :reports
   end
 	
 
@@ -255,7 +256,7 @@ Brood::Application.routes.draw do
   # match 'api/roles' => 'api#roles'
   # match 'api/readme' => 'api#readme'
 
-  namespace :api  do
+  namespace :api do
     match '/' => 'base#ping'
     match '/doc' => 'base#doc'
     match '/hi' => 'base#hi'
@@ -384,8 +385,9 @@ Brood::Application.routes.draw do
       match :end,  :on => :collection
     end
 
-    resources :maps, :only => [:show] do 
+    resources :maps, :only => [:index,:show] do 
       get :valid,   :on => :collection
+      get :enter,   :on => :collection
     end
 
     

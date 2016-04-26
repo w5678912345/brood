@@ -35,7 +35,31 @@ class Api::MapsController < Api::BaseController
 		
 	end
 
+	def index
+		@role = Role.find_by_id(params[:role_id])
+		return render json: {:code => CODES[:not_find_role]} unless @role
+		if @role.role_session.nil?
+			return render json: {:code => CODES[:role_offline]}
+		end
+		prof_maps = InstanceMap.level_scope(@role.level).where(:profession => @role.profession)		
+		share_maps = InstanceMap.level_scope(@role.level).where(:profession => "all")		
+		@maps = (prof_maps + share_maps).uniq
+	end
+	def enter
+		@role = Role.find_by_id(params[:role_id])
+		return render json: {:code => CODES[:not_find_role]} unless @role
+		if @role.role_session.nil?
+			return render json: {:code => CODES[:role_offline]}
+		end
 
+		@map = InstanceMap.find_by_id(params[:map_id])
+		if @map.nil?
+			return render json: {:code => CODES[:errors],:msg => 'can\'t find map by map_id'}
+		end
+		@role.role_session.instance_map = @map
+		@role.role_session.save
+		return render json: {:code => CODES[:success]}
+	end
 	# level = params[:level].blank? ? @role.level : params[:level].to_i
 
 	# 	@map = InstanceMap.level_scope(level).safety_scope(level).first
