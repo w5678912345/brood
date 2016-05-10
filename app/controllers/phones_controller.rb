@@ -3,7 +3,8 @@ class PhonesController < ApplicationController
   # GET /phones
   # GET /phones.json
   def index
-    Phone.timeout
+    #为了让所有phone都在线去掉自动下线
+    #Phone.timeout
     @phones = Phone.search(params)
     per_page = params[:per_page].blank? ? 20 : params[:per_page].to_i
     @phones = initialize_grid(@phones)#@phones.paginate(:page => params[:page], :per_page => per_page)
