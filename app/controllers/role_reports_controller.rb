@@ -4,7 +4,7 @@ class RoleReportsController < ApplicationController
   def show
     @cols = {"roles.profession" => "职业","floor(roles.level/10)*10"=>"等级","history_role_sessions.task" => "任务(副本)","roles.role_profile_id" => "配置文件ID"} 
     @col = params[:col] || "roles.profession"
-    @status = ["discardfordays","discardforyear","discardforweek","disconnect"]
+    @status = ["discardfordays","discardforyear","discardforweek","disconnect","exception"]
     params[:status] = 'disconnect' if not params[:status].present?
     @records = HistoryRoleSession.joins(:role).select("count(*) as roles_count, #{@col} as col").group(@col)
     .reorder("roles_count desc").where("history_role_sessions.created_at > ?",Time.now.beginning_of_day)
