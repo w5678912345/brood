@@ -28,7 +28,9 @@
   g.column name:  '电脑', attribute: 'hostname',model: Computer do |a|
     computer_tag a.computer
   end
-  
+  g.column name:  '分组', attribute: 'group',model: Computer do |a|
+    a.computer.group
+  end
   g.column name:  '服', attribute: 'server',model: Account  do |a|
     a.account.server if a.account
   end
