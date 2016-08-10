@@ -17,7 +17,10 @@
             =render 'get_log_button'
         %td
           %h3 区服：#{@account.server}
-          %h3 状态：#{@account.status}
+          %h3 
+            状态：#{@account.status}
+            -if @account.anton_normal_at > DateTime.now 
+              %h5 安图恩回复: #{@account.anton_normal_at.strftime("%Y年%m月%d日")}
 
         %td  
           %h3 创建日期：#{@account.created_at.strftime("%Y年%m月%d日")}

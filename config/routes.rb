@@ -328,6 +328,7 @@ Brood::Application.routes.draw do
       match :get_phone, :on => :collection
       match :reg,    :on => :collection
       match :gold_agent, :on => :collection
+      match :ban_map, :on => :collection
       #
       match :role_start, :on => :collection
       match :role_note,  :on => :collection

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160413132901) do
+ActiveRecord::Schema.define(:version => 20160810073318) do
 
   create_table "account_profiles", :force => true do |t|
     t.boolean  "enable",         :default => false
@@ -73,45 +73,46 @@ ActiveRecord::Schema.define(:version => 20160413132901) do
   end
 
   create_table "accounts", :force => true do |t|
-    t.string   "no",                                                     :null => false
-    t.string   "password",                                               :null => false
+    t.string   "no",                                                                  :null => false
+    t.string   "password",                                                            :null => false
     t.string   "server"
-    t.integer  "roles_count",                      :default => 0,        :null => false
-    t.integer  "computers_count",                  :default => 0,        :null => false
-    t.boolean  "normal",                           :default => true,     :null => false
-    t.string   "status",                           :default => "normal", :null => false
+    t.integer  "roles_count",                      :default => 0,                     :null => false
+    t.integer  "computers_count",                  :default => 0,                     :null => false
+    t.boolean  "normal",                           :default => true,                  :null => false
+    t.string   "status",                           :default => "normal",              :null => false
     t.string   "ip_range"
     t.string   "online_ip"
-    t.integer  "online_note_id",                   :default => 0,        :null => false
-    t.integer  "online_role_id",                   :default => 0,        :null => false
-    t.integer  "online_computer_id",               :default => 0,        :null => false
-    t.datetime "created_at",                                             :null => false
-    t.datetime "updated_at",                                             :null => false
-    t.integer  "bind_computer_id",                 :default => -1,       :null => false
+    t.integer  "online_note_id",                   :default => 0,                     :null => false
+    t.integer  "online_role_id",                   :default => 0,                     :null => false
+    t.integer  "online_computer_id",               :default => 0,                     :null => false
+    t.datetime "created_at",                                                          :null => false
+    t.datetime "updated_at",                                                          :null => false
+    t.integer  "bind_computer_id",                 :default => -1,                    :null => false
     t.datetime "bind_computer_at"
     t.datetime "normal_at"
-    t.integer  "session_id",                       :default => 0,        :null => false
-    t.boolean  "today_success",                    :default => false,    :null => false
-    t.integer  "current_role_id",                  :default => 0,        :null => false
+    t.integer  "session_id",                       :default => 0,                     :null => false
+    t.boolean  "today_success",                    :default => false,                 :null => false
+    t.integer  "current_role_id",                  :default => 0,                     :null => false
     t.string   "last_start_ip",      :limit => 32
     t.string   "remark"
-    t.boolean  "is_auto",                          :default => false,    :null => false
+    t.boolean  "is_auto",                          :default => false,                 :null => false
     t.string   "phone_id"
     t.integer  "phone_event_count",                :default => 0
     t.string   "unlock_phone_id",    :limit => 16
     t.datetime "unlocked_at"
-    t.boolean  "rms_file",                         :default => true,     :null => false
-    t.boolean  "in_cpo",                           :default => false,    :null => false
-    t.boolean  "enabled",                          :default => true,     :null => false
+    t.boolean  "rms_file",                         :default => true,                  :null => false
+    t.boolean  "in_cpo",                           :default => false,                 :null => false
+    t.boolean  "enabled",                          :default => true,                  :null => false
     t.datetime "last_start_at"
-    t.boolean  "standing",                         :default => false,    :null => false
+    t.boolean  "standing",                         :default => false,                 :null => false
     t.integer  "money_point",                      :default => 0
     t.string   "gift_bag"
     t.string   "gold_agent_name",                  :default => ""
     t.integer  "gold_agent_level",                 :default => 0
     t.integer  "cashbox",                          :default => 0
-    t.integer  "today_pay_count"
+    t.integer  "today_pay_count",                  :default => 0
     t.integer  "account_profile_id",               :default => 0
+    t.datetime "anton_normal_at",                  :default => '2016-08-10 15:47:54'
   end
 
   add_index "accounts", ["account_profile_id"], :name => "index_accounts_on_account_profile_id"
@@ -272,17 +273,18 @@ ActiveRecord::Schema.define(:version => 20160413132901) do
     t.integer  "min_level",                                       :null => false
     t.integer  "max_level",                                       :null => false
     t.integer  "gold",                         :default => 0,     :null => false
-    t.integer  "exp",                          :default => 0
+    t.integer  "exp",                          :default => 0,     :null => false
     t.boolean  "enabled",                      :default => true,  :null => false
-    t.integer  "safety_limit",                 :default => 1000
-    t.integer  "death_limit",                  :default => 1000
-    t.integer  "enter_count",                  :default => 0
+    t.integer  "safety_limit",                                    :null => false
+    t.integer  "death_limit",                                     :null => false
+    t.integer  "enter_count",                  :default => 0,     :null => false
     t.string   "remark",        :limit => 128
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
-    t.boolean  "ishell",                       :default => false
+    t.boolean  "ishell",                       :default => false, :null => false
     t.string   "profession",                   :default => "all"
     t.boolean  "client_manual",                :default => false
+    t.string   "group"
   end
 
   add_index "instance_maps", ["client_manual"], :name => "index_instance_maps_on_client_manual"

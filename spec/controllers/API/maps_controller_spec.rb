@@ -36,6 +36,14 @@ describe Api::MapsController do
             assigns(:code).should eq -1
     	end
 
+        it "can not pull valid a map if in exgroup" do
+            @role = FactoryGirl.create(:online_session_role,:level=>15)
+            @map = FactoryGirl.create(:instance_map, :group => 'anton',:min_level => 10,:max_level=>20)
+            get :valid, {:role_id => @role.id,:exgroup => 'anton'}
+            assigns(:map).should eq nil
+            assigns(:code).should eq -1
+        end
+
         it "can pull a map when enter_count >= safe_count and enter_count < death_limit" do
             @role1 = FactoryGirl.create(:online_session_role,:level=>10)
             @role2 = FactoryGirl.create(:online_session_role,:level=>11)

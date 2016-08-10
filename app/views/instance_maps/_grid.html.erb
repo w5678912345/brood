@@ -7,6 +7,7 @@
     end
   end
   g.action_column
+  g.column name:  '组',attribute: 'group'
   g.column name:  '名字',attribute: 'name'
   g.column name:  'key',attribute: 'key'
   g.column name:  '职业',attribute: 'profession',custom_filter:["gunner","witch","darkknight"],auto_reload: true,detach_with_id: :profession_filter

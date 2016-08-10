@@ -1,5 +1,5 @@
 class InstanceMap < ActiveRecord::Base
-  attr_accessible :enter_count,:profession, :death_limit, :enabled, :gold, :max_level, :min_level, :name, :remark, :safety_limit,:key,:ishell,:client_manual
+  attr_accessible :enter_count,:profession, :death_limit, :enabled, :gold, :max_level, :min_level, :name, :remark, :safety_limit,:key,:ishell,:client_manual,:group
   has_many :role_sessions
   scope :level_scope, lambda{|role_level|where("min_level <= ?",role_level).where("max_level >= ? ",role_level).where(:enabled=>true).order("gold desc")}
   scope :ishell_scope, where(:ishell=>true)
@@ -62,6 +62,7 @@ class InstanceMap < ActiveRecord::Base
     
     maps = InstanceMap.level_scope(level).where(:profession => profession)
     maps = maps.where(:name => opts[:expect_map_name]) if opts[:expect_map_name].present?
+    maps = maps.where("instance_maps.group not in (?)",opts[:exgroup]) if opts[:exgroup].present?
     maps = maps.client_manual_scope if opts[:expect_map_name].blank?
     if role.ishell && opts[:ishell].to_i == 1
       map = maps.safety_scope.ishell_scope.first

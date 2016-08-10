@@ -21,7 +21,7 @@ class Account < ActiveRecord::Base
     # 
     attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status,:money_point,:gift_bag,:account_profile_id
     attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at,:today_success,:last_start_ip,:gold_agent_name,:today_pay_count
-    attr_accessible :remark,:is_auto,:phone_id,:cashbox,:normal_at,:unlock_phone_id,:unlocked_at,:rms_file,:phone_id, :in_cpo,:last_start_at,:standing
+    attr_accessible :remark,:is_auto,:phone_id,:cashbox,:normal_at,:unlock_phone_id,:unlocked_at,:rms_file,:phone_id, :in_cpo,:last_start_at,:standing,:anton_normal_at
 
     attr_accessor :online_roles 
     #所属服务器
