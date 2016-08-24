@@ -79,6 +79,19 @@ class Api::AccountController < Api::BaseController
 		account_attr = account_attr.merge(cashbox: params[:cashbox]) if params[:cashbox]
 		account_attr = account_attr.merge(today_pay_count: params[:today_pay_count]) if params[:today_pay_count]
 
+		if params[:money_point] and @account.money_point < params[:money_point]
+			Note.create do |n|
+        n.computer_id = @account.bind_computer_id
+        n.hostname = @account.bind_computer.hostname
+        n.role_id  =  params[:rid]
+        n.ip = request.remote_ip
+        n.api_name  =  "充值"
+        n.msg = "充值: %d点" % (params[:money_point] - @account.money_point)
+        n.account  =  @account.no
+        n.server  =  @account.server
+        n.version  =  @computer.version
+      end
+    end
 		@code = @account.api_sync params[:rid],roles_attr,account_attr,params[:account_session] || {}
 		render :partial => '/api/result'
 	end

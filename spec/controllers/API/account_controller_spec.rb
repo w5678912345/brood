@@ -61,6 +61,8 @@ describe Api::AccountController do
     Role.find(@role.id).gold.should eq 20
     Role.find(@role.id).total.should eq 20
     Role.find(@role.id).vit_power.should eq 120
+
+    Note.where(:api_name => '充值').count.should eq 1
     #换角色
     @controller = Api::AccountController.new
     @base_params[:rid]=@role1.id

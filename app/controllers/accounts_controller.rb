@@ -134,7 +134,7 @@ class AccountsController < ApplicationController
     			flash[:msg] = "没有对应的机器"
     		end
     	elsif "set_server" == @do
-    		i =  @accounts.stopped_scope.update_all(:server => params[:server])
+    		i =  @accounts.stopped_scope.update_all(:server => params[:server].lstrip.rstrip)
 			flash[:msg] = "#{i}个账号的区发生改变"
 		elsif "export" == @do
 			render "export"
