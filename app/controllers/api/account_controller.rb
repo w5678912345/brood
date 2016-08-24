@@ -86,7 +86,7 @@ class Api::AccountController < Api::BaseController
         n.role_id  =  params[:rid]
         n.ip = request.remote_ip
         n.api_name  =  "充值"
-        n.msg = "充值: %d点" % (params[:money_point] - @account.money_point)
+        n.msg = "充值: %d点" % (params[:money_point].to_i - @account.money_point)
         n.account  =  @account.no
         n.server  =  @account.server
         n.version  =  @computer.version
