@@ -79,7 +79,7 @@ class Api::AccountController < Api::BaseController
 		account_attr = account_attr.merge(cashbox: params[:cashbox]) if params[:cashbox]
 		account_attr = account_attr.merge(today_pay_count: params[:today_pay_count]) if params[:today_pay_count]
 
-		if params[:money_point] and @account.money_point < params[:money_point]
+		if params[:money_point] and @account.money_point < params[:money_point].to_i
 			Note.create do |n|
         n.computer_id = @account.bind_computer_id
         n.hostname = @account.bind_computer.hostname
