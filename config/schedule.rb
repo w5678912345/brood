@@ -38,6 +38,7 @@ every 10.minutes do
 end
 
 every 125.minutes do
+  runner 'TimeTask.reset_vit_power_roles',:environment => str_environment
   runner 'TimeTask.reset_delay_hours_roles',:environment => str_environment
 end
 #
