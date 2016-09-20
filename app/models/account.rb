@@ -19,9 +19,10 @@ class Account < ActiveRecord::Base
       #{}"discardfordays"=>72,"discardbysailia"=>240,"discardforyears"=>12000,"discardforverifycode"=>1200,"recycle"=>12000}
 
     # 
-    attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status,:money_point,:gift_bag,:account_profile_id
+    attr_accessible :no, :password,:server,:online_role_id,:online_computer_id,:online_note_id,:online_ip,:status,:money_point,:gift_bag,:account_profile_id,:role_index
     attr_accessible :bind_computer_id, :bind_computer_at,:roles_count,:session_id,:updated_at,:today_success,:last_start_ip,:gold_agent_name,:today_pay_count
     attr_accessible :remark,:is_auto,:phone_id,:cashbox,:normal_at,:unlock_phone_id,:unlocked_at,:rms_file,:phone_id, :in_cpo,:last_start_at,:standing,:anton_normal_at
+
 
     attr_accessor :online_roles 
     #所属服务器
@@ -178,7 +179,7 @@ class Account < ActiveRecord::Base
       if status == 'disconnect'
         m = opts[:msg].match(/出现大于一小时制裁,制裁还剩(\d+)分钟/)
         if m
-          normal_at = m[1].to_i.minutes.from_now
+          normal_at =(m[1].to_i + 120).minutes.from_now
         end
       end
 
@@ -527,7 +528,21 @@ class Account < ActiveRecord::Base
       self.normal_at = Time.now
     end
     
-
+    def ArrangeRoles
+      t = self
+      0.upto(t.roles.count - 1) do |i|
+        tr = t.roles.where(role_index: i).all
+        if tr.count > 1
+          tr.each do |r|
+            if(r.level ==0 and r.status != 'normal')
+              r.delete
+            end
+          end
+        end
+      end
+      t.roles.where("role_index >= ?",t.roles.count).delete_all
+      Account.update_counters(t.id,roles_count: (t.roles.count - t.roles_count)) if t.roles.count != t.roles_count
+    end
 end
 
 

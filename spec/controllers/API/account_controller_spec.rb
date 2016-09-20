@@ -179,6 +179,21 @@ describe Api::AccountController do
     Account.find_by_no(account.no).status.should eq 'bslocked'
     AccountSession.where(:finished => false,:account_id => account.no).first.finished_status.should eq 'bslocked'
   end
+
+  it "note change account status and time" do
+    #account start
+    get :auto,@base_params    
+    assigns(:code).should eq 1
+    account = assigns(:account)
+
+    #account note 
+    @controller = Api::AccountController.new
+    get :note,@base_params.merge(:id => account.no,:status => 'disconnect',:msg => '出现大于一小时制裁,制裁还剩120分钟')
+    assigns(:code).should eq 1
+
+    (Account.find_by_no(account.no).normal_at - (120 + 120).minutes.from_now < 1.minutes).should be true
+  end
+
   it "can't get started account" do
     Setting.find_by_key('account_start_roles_count').update_attributes :val => '1'
     #account start
