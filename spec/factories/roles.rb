@@ -7,7 +7,7 @@ FactoryGirl.define do
     password "12345678"
     level 23
     total 2000000
-    vit_power 320
+    vit_power 156
     online 0
     session_id 0
   	association :qq_account,factory: :account

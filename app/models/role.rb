@@ -23,7 +23,7 @@ class Role < ActiveRecord::Base
   #
   attr_accessible :role_index, :server,:level,:status,:vit_power,:account,:password,:online,:computer_id,:ip,:normal,:bag_value
   attr_accessible :close,:close_hours,:closed_at,:reopen_at,:locked,:lost,:is_seller,:ip_range,:online_at,:online_note_id
-  attr_accessible :session_id,:updated_at,:today_success,:is_helper,:channel_index,:name,:ishell,:profession,:profession_name,:total,:gold
+  attr_accessible :session_id,:updated_at,:today_success,:is_helper,:channel_index,:name,:ishell,:profession,:profession_name,:total,:gold,:accumulative_power
   # validates 
 	validates_presence_of :account, :password
 	# 可以上线的角色
@@ -169,6 +169,7 @@ class Role < ActiveRecord::Base
   def api_stop opts
     return CODES[:role_is_stopped] unless self.is_started?
 
+    self.update_attributes :accumulative_power => (self.role_session.start_power - self.vit_power)
     self.role_session.stop opts[:success] == '1'
   end
 

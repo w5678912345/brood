@@ -237,10 +237,13 @@ describe Api::AccountController do
     get :sync,@base_params.merge(:name => 'test_role')
     assigns(:code).should eq 1   
 
+    get :sync,@base_params.merge(:vit_power => 100)
+    assigns(:code).should eq 1 
+
     get :role_stop,@base_params.merge(:success => '1')
     assigns(:code).should eq 1   
-    Role.find(@role.id).today_success.should eq true
-
+    Role.find(@role.id).today_success.should be true
+    Role.find(@role.id).accumulative_power.should eq (156 - 100)
     #停止
     @controller = Api::AccountController.new
     get :stop,@base_params.merge(:id => @account0.no)

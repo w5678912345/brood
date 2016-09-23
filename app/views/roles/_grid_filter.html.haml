@@ -35,6 +35,9 @@
         %label.control-label 体力:
         .controls
           =grid_filter @roles, :vit_power_filter
+        %label.control-label 累计体力:
+        .controls
+          =grid_filter @roles, :accumulative_power_filter
       .control-group
         %label.control-label 角色配置:
         .controls

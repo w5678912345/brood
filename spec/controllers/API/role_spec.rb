@@ -2,7 +2,7 @@ require 'spec_helper'
 describe Api::RolesController do
   def fake_role_start(role = nil)
     role = FactoryGirl.create(:online_role) if role.nil?
-
+    print role.id
     get "start",{:format => "json",:id => role.id,:ckey => role.qq_account.online_computer.auth_key,:ip => '127.0.0.1'}
     role
   end
@@ -27,7 +27,7 @@ describe Api::RolesController do
   it "can stop" do
     role = fake_role_start
     back_session = role.role_session
-    get "stop" ,{:format => "json",:id => role.id,:msg => "success",:ckey => role.qq_account.online_computer.auth_key}  
+    get "stop" ,{:format => "json",:id => role.id,:msg => "success",:ckey => role.qq_account.online_computer.auth_key}
     RoleSession.count.should eq 0
     HistoryRoleSession.count.should eq 1
     hs = HistoryRoleSession.first

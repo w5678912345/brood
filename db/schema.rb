@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160810073318) do
+ActiveRecord::Schema.define(:version => 20160923083737) do
 
   create_table "account_profiles", :force => true do |t|
     t.boolean  "enable",         :default => false
@@ -497,47 +497,48 @@ ActiveRecord::Schema.define(:version => 20160810073318) do
   add_index "role_sessions", ["role_profile_id"], :name => "index_role_sessions_on_role_profile_id"
 
   create_table "roles", :force => true do |t|
-    t.string   "account",                                             :null => false
-    t.string   "password",                                            :null => false
+    t.string   "account",                                                :null => false
+    t.string   "password",                                               :null => false
     t.integer  "role_index"
     t.string   "server"
-    t.integer  "level",                         :default => 0,        :null => false
-    t.integer  "vit_power",                     :default => 0,        :null => false
-    t.string   "status",                        :default => "normal", :null => false
-    t.integer  "computer_id",                   :default => 0,        :null => false
-    t.integer  "count",                         :default => 0,        :null => false
-    t.boolean  "online",                        :default => false,    :null => false
-    t.string   "ip",              :limit => 15
-    t.integer  "gold",                          :default => 0
-    t.datetime "created_at",                                          :null => false
-    t.datetime "updated_at",                                          :null => false
-    t.boolean  "close",                         :default => false
+    t.integer  "level",                            :default => 0,        :null => false
+    t.integer  "vit_power",                        :default => 0,        :null => false
+    t.string   "status",                           :default => "normal", :null => false
+    t.integer  "computer_id",                      :default => 0,        :null => false
+    t.integer  "count",                            :default => 0,        :null => false
+    t.boolean  "online",                           :default => false,    :null => false
+    t.string   "ip",                 :limit => 15
+    t.integer  "gold",                             :default => 0
+    t.datetime "created_at",                                             :null => false
+    t.datetime "updated_at",                                             :null => false
+    t.boolean  "close",                            :default => false
     t.integer  "close_hours"
     t.datetime "closed_at"
     t.datetime "reopen_at"
-    t.integer  "total",                         :default => 0,        :null => false
-    t.integer  "total_pay",                     :default => 0,        :null => false
-    t.boolean  "locked",                        :default => false,    :null => false
-    t.boolean  "lost",                          :default => false,    :null => false
-    t.boolean  "is_seller",                     :default => false,    :null => false
+    t.integer  "total",                            :default => 0,        :null => false
+    t.integer  "total_pay",                        :default => 0,        :null => false
+    t.boolean  "locked",                           :default => false,    :null => false
+    t.boolean  "lost",                             :default => false,    :null => false
+    t.boolean  "is_seller",                        :default => false,    :null => false
     t.string   "ip_range"
-    t.integer  "online_note_id",                :default => 0,        :null => false
+    t.integer  "online_note_id",                   :default => 0,        :null => false
     t.datetime "online_at"
-    t.boolean  "normal",                        :default => true,     :null => false
-    t.boolean  "bslocked",                      :default => false,    :null => false
+    t.boolean  "normal",                           :default => true,     :null => false
+    t.boolean  "bslocked",                         :default => false,    :null => false
     t.boolean  "unbslock_result"
     t.string   "name"
     t.string   "ip_range2"
-    t.integer  "computers_count",               :default => 0,        :null => false
-    t.integer  "session_id",                    :default => 0,        :null => false
-    t.boolean  "today_success",                 :default => false,    :null => false
-    t.boolean  "is_helper",                     :default => false,    :null => false
-    t.integer  "channel_index",                 :default => -1,       :null => false
-    t.boolean  "ishell",                        :default => false,    :null => false
-    t.string   "profession",                    :default => "",       :null => false
-    t.integer  "role_profile_id",               :default => 1
+    t.integer  "computers_count",                  :default => 0,        :null => false
+    t.integer  "session_id",                       :default => 0,        :null => false
+    t.boolean  "today_success",                    :default => false,    :null => false
+    t.boolean  "is_helper",                        :default => false,    :null => false
+    t.integer  "channel_index",                    :default => -1,       :null => false
+    t.boolean  "ishell",                           :default => false,    :null => false
+    t.string   "profession",                       :default => "",       :null => false
+    t.integer  "role_profile_id",                  :default => 1
     t.string   "profession_name"
     t.integer  "bag_value"
+    t.integer  "accumulative_power",               :default => 0
   end
 
   add_index "roles", ["account"], :name => "index_roles_on_account"
