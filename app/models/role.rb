@@ -169,7 +169,7 @@ class Role < ActiveRecord::Base
   def api_stop opts
     return CODES[:role_is_stopped] unless self.is_started?
 
-    self.update_attributes :accumulative_power => (self.role_session.start_power - self.vit_power)
+    self.update_attributes :accumulative_power => (self.accumulative_power + self.role_session.start_power - self.vit_power)
     self.role_session.stop opts[:success] == '1'
   end
 
