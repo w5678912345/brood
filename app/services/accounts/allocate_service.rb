@@ -14,7 +14,8 @@ module Accounts
 
     def get_valid_account
       role = Role.select(:account).joins(:qq_account).can_used.
-        where("accounts.session_id = 0 and accounts.bind_computer_id = ? and accounts.normal_at <= ? and accounts.enabled = 1",@computer.id,Time.now).first
+        where("accounts.session_id = 0 and accounts.bind_computer_id = ? and accounts.normal_at <= ? and accounts.enabled = 1",@computer.id,Time.now)
+        .reorder("level desc").first
       role.qq_account if role
     end
 

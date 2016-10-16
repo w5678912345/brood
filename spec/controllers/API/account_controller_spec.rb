@@ -12,10 +12,10 @@ describe Api::AccountController do
 
     @computer = FactoryGirl.create(:computer)
     @computer1 = FactoryGirl.create(:computer)
-    @role = FactoryGirl.create(:role,role_profile: rp)
+    @role = FactoryGirl.create(:role,role_profile: rp,level: 29)
     @role.update_attributes :total => 0
-    @role1 = FactoryGirl.create(:role,:qq_account => @role.qq_account,role_profile: rp)
-    @role2 = FactoryGirl.create(:role,role_profile: rp)
+    @role1 = FactoryGirl.create(:role,:qq_account => @role.qq_account,role_profile: rp,level: 29)
+    @role2 = FactoryGirl.create(:role,role_profile: rp,level: 25)
     @computer.accounts << @role.qq_account
     @computer.accounts << @role2.qq_account
 
@@ -27,9 +27,11 @@ describe Api::AccountController do
     @base_params = {:format => "json",:ckey => @computer.auth_key,:ip => '127.0.0.1'}
 
   end
-  it "Auto start account" do    
+  it "Auto start account" do 
+    #binding.pry   
     get :auto,@base_params    
     assigns(:code).should eq 1
+    
 
     Account.find_by_no(@account0.no).is_started?.should eq true
     Account.find_by_no(@account0.no).account_session.should_not be nil
