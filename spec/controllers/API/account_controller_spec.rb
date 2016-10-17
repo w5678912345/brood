@@ -313,6 +313,29 @@ describe Api::AccountController do
     ac.normal_at.should > 2165.minutes.from_now
   end
 
+  it 'discardfordays cooltime check' do
+    #account start
+    get :auto,@base_params    
+    assigns(:code).should eq 1
+    ac = assigns(:account)
+    ac.no.should eq @account0.no
+
+    @controller = Api::AccountController.new
+    get :note,@base_params.merge(:id => ac.no,:status => 'discardfordays',:msg => '游戏数据异常10月14日17时11分')   
+
+
+    @controller = Api::AccountController.new
+    get :stop,@base_params.merge(:id => ac.no)
+ 
+    ac = Account.find_by_no(@account0.no)
+    ac.is_started?.should eq false
+    ac.status.should eq 'discardfordays'
+    #normal_at will be 2166 hours from now
+    ac.normal_at.should > '2016-10-19 17:10'.to_time
+    ac.normal_at.should < '2016-10-19 17:20'.to_time
+  end
+
+
   it 'pay without tick_time' do
     get :role_pay,@base_params.merge({:id => @account0.no,:rid => @role.id,:target => 'trader',:gold => '1000',:balance => '123',:pay_type => 'auction'})
     Account.find_by_no(@account0.no).today_pay_count.should eq 1

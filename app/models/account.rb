@@ -183,6 +183,13 @@ class Account < ActiveRecord::Base
         end
       end
 
+      if status == 'discardfordays'
+        m = opts[:msg].match(/游戏数据异常(.+)/)
+        if m
+          normal_at = m[1].gsub(/年|月|日|时|分/,"").to_time + obj_status.hours.to_i.hours
+        end
+      end
+
       api_name = "0",api_code = "0"
       #
       self.transaction do 
