@@ -327,13 +327,15 @@ describe Api::AccountController do
     @controller = Api::AccountController.new
     get :stop,@base_params.merge(:id => ac.no)
  
+    print("Zone: ",Time.now.zone,"\n")
+
     ac = Account.find_by_no(@account0.no)
     ac.is_started?.should eq false
     ac.status.should eq 'discardfordays'
     #normal_at will be 2166 hours from now
-    ban_hours = AccountStatus.find_by_status("discardfordays").hours.hours
-    ac.normal_at.should > '2016-10-14 1:21 CST'.to_time + ban_hours
-    ac.normal_at.should < '2016-10-14 1:30 CST'.to_time + ban_hours
+    ban_hours = AccountStatus.find_by_status("discardfordays").hours
+    ban_hours.should eq 72
+    ac.normal_at.strftime("%Y-%m-%d %H:%M").should eq ('2016-10-18 00:00')
   end
 
 
