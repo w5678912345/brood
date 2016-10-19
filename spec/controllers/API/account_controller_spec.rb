@@ -321,7 +321,7 @@ describe Api::AccountController do
     ac.no.should eq @account0.no
 
     @controller = Api::AccountController.new
-    get :note,@base_params.merge(:id => ac.no,:status => 'discardfordays',:msg => '游戏数据异常10月14日17时11分')   
+    get :note,@base_params.merge(:id => ac.no,:status => 'discardfordays',:msg => '游戏数据异常10月14日1时21分')   
 
 
     @controller = Api::AccountController.new
@@ -331,8 +331,9 @@ describe Api::AccountController do
     ac.is_started?.should eq false
     ac.status.should eq 'discardfordays'
     #normal_at will be 2166 hours from now
-    ac.normal_at.should > '2016-10-19 17:10'.to_time
-    ac.normal_at.should < '2016-10-19 17:20'.to_time
+    ban_hours = AccountStatus.find_by_status("discardfordays").hours.hours
+    ac.normal_at.should > '2016-10-14 1:21 CST'.to_time + ban_hours
+    ac.normal_at.should < '2016-10-14 1:30 CST'.to_time + ban_hours
   end
 
 

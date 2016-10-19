@@ -186,7 +186,12 @@ class Account < ActiveRecord::Base
       if status == 'discardfordays'
         m = opts[:msg].match(/游戏数据异常(.+)/)
         if m
-          normal_at = m[1].gsub(/年|月|日|时|分/,"").to_time + obj_status.hours.to_i.hours
+          temp = Time.now.year.to_s+ "-" + m[1].gsub(/年|月|日|时|分/,"年" => "-","月" => "-","日" => " ","时" => ":","分" => "")#+" "+Time.now.zone
+          print(temp+"\n")
+          print(obj_status.hours ,"\n")
+          print(temp.to_time + obj_status.hours.to_i.hours,"\n")
+          normal_at =  (temp).to_time + obj_status.hours.to_i.hours
+          print("normal: ",normal_at,"\n")
         end
       end
 
