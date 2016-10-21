@@ -207,7 +207,7 @@ class Api::AccountController < Api::BaseController
 		#@account.sellers.each do |s|
 		if s
 			result << {:pay_type => @account.real_server.pay_type,:today_pay_count => @account.today_pay_count,
-								:name => s.role_name,:goods => s.goods,:price => s.price,
+								:name => s.role_name,:goods => s.goods,:price => s.price,:channel => s.channel,
 								:account_status => "normal",:role_status => 'normal'}
 		end
 		result

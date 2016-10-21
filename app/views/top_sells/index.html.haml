@@ -3,6 +3,7 @@
   %thead
     %tr
       %th 服务器
+      %th 交易线
       %th 角色名
       %th 出售商品/单价
       %th 今日收货数
@@ -15,6 +16,7 @@
     -@top_sells.each do |s|
       %tr
       %td=s.server_name
+      %td=s.channel
       %td=s.role_name
 
       %td= (s.goods|| "") +"/"+ gold_str(s.price)

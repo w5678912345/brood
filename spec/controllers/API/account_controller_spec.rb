@@ -370,6 +370,7 @@ describe Api::AccountController do
     assigns(:result)[0][:price].should eq 1000000
     assigns(:result)[0][:account_status].should eq @role2.qq_account.status
     assigns(:result)[0][:role_status].should eq @role2.status
+    assigns(:result)[0][:channel].should be nil
   end
   it 'can get server gold_agent' do
     @account0.update_attributes :gold_agent_name => Api::BaseController.LAST_GOLD_AGENT_NAME,:server => '测试1区'
@@ -380,6 +381,7 @@ describe Api::AccountController do
     assigns(:result)[0][:price].should eq 1000000
     assigns(:result)[0][:account_status].should eq "normal"
     assigns(:result)[0][:role_status].should eq "normal"
+    assigns(:result)[0][:channel].should eq 10
   end
 
   it 'can not get server gold_agent' do

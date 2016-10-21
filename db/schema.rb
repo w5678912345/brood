@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160923083737) do
+ActiveRecord::Schema.define(:version => 20161021023446) do
 
   create_table "account_profiles", :force => true do |t|
     t.boolean  "enable",         :default => false
@@ -690,6 +690,7 @@ ActiveRecord::Schema.define(:version => 20160923083737) do
     t.datetime "created_at",                                       :null => false
     t.datetime "updated_at",                                       :null => false
     t.boolean  "enable",                         :default => true
+    t.integer  "channel",                        :default => 10
   end
 
   add_index "top_sells", ["server_name", "role_name"], :name => "index_top_sells_on_server_name_and_role_name"

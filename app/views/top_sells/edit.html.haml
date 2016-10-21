@@ -1,6 +1,14 @@
 %h1.text-center 编辑收币角色
 =form_for(@top_sell) do |s|
   .control-group
+    %label.control-label 服:
+    .controls
+      = s.text_field :server_name,:required=>"required"
+  .control-group
+    %label.control-label 交易线:
+    .controls
+      = s.text_field :channel,:required=>"required"
+  .control-group
     %label.control-label 角色名字:
     .controls
       = s.text_field :role_name,:required=>"required"
