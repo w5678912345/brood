@@ -197,7 +197,8 @@ class Account < ActiveRecord::Base
         if obj_status
           api_name = status # 如果定义了有效状态 设置 api_name => status
           api_code = status # 如果定义了有效状态 设置 api_code => status
-          self.status = status
+          
+          self.status = status if not (status == 'discardfordays' and self.status == 'charged')
           self.normal_at = normal_at
           self.account_session.update_attributes finished_status: status,remark: opts[:msg]
         end

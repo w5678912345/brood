@@ -327,7 +327,7 @@ describe Api::AccountController do
     @controller = Api::AccountController.new
     get :stop,@base_params.merge(:id => ac.no)
  
-    print("Zone: ",Time.now.zone,"\n")
+    #print("Zone: ",Time.now.zone,"\n")
 
     ac = Account.find_by_no(@account0.no)
     ac.is_started?.should eq false
