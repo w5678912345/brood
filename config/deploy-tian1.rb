@@ -35,7 +35,7 @@ set :user, 'root'
 
 set :rails_env, 'production'
 
-set :repository, 'ubuntu@www.dabi.co:repo/brood.git'
+set :repository, 'ubuntu@control.dabi.co:repo/brood.git'
 set :branch, 'tianyi'
 set :rvm_path, '/usr/local/rvm/scripts/rvm' #'/usr/local/rvm/scripts/rvm'
 

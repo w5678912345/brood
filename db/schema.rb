@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20161021023446) do
+ActiveRecord::Schema.define(:version => 20161206075635) do
 
   create_table "account_profiles", :force => true do |t|
     t.boolean  "enable",         :default => false
@@ -110,9 +110,9 @@ ActiveRecord::Schema.define(:version => 20161021023446) do
     t.string   "gold_agent_name",                  :default => ""
     t.integer  "gold_agent_level",                 :default => 0
     t.integer  "cashbox",                          :default => 0
-    t.integer  "today_pay_count",                  :default => 0
+    t.integer  "today_pay_count"
     t.integer  "account_profile_id",               :default => 0
-    t.datetime "anton_normal_at",                  :default => '2016-08-10 15:47:54'
+    t.datetime "anton_normal_at",                  :default => '2016-08-10 14:57:28'
   end
 
   add_index "accounts", ["account_profile_id"], :name => "index_accounts_on_account_profile_id"
@@ -231,6 +231,7 @@ ActiveRecord::Schema.define(:version => 20161021023446) do
     t.integer  "max_price"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.integer  "max_count"
   end
 
   add_index "gold_price_records", ["server_id"], :name => "index_gold_price_records_on_server_id"
@@ -273,15 +274,15 @@ ActiveRecord::Schema.define(:version => 20161021023446) do
     t.integer  "min_level",                                       :null => false
     t.integer  "max_level",                                       :null => false
     t.integer  "gold",                         :default => 0,     :null => false
-    t.integer  "exp",                          :default => 0,     :null => false
+    t.integer  "exp",                          :default => 0
     t.boolean  "enabled",                      :default => true,  :null => false
-    t.integer  "safety_limit",                                    :null => false
-    t.integer  "death_limit",                                     :null => false
-    t.integer  "enter_count",                  :default => 0,     :null => false
+    t.integer  "safety_limit",                 :default => 1000
+    t.integer  "death_limit",                  :default => 1000
+    t.integer  "enter_count",                  :default => 0
     t.string   "remark",        :limit => 128
     t.datetime "created_at",                                      :null => false
     t.datetime "updated_at",                                      :null => false
-    t.boolean  "ishell",                       :default => false, :null => false
+    t.boolean  "ishell",                       :default => false
     t.string   "profession",                   :default => "all"
     t.boolean  "client_manual",                :default => false
     t.string   "group"
@@ -560,6 +561,7 @@ ActiveRecord::Schema.define(:version => 20161021023446) do
     t.integer  "point",                               :default => 0,      :null => false
     t.boolean  "enable_transfer_gold",                :default => true
     t.string   "pay_type",                            :default => "MAIL"
+    t.integer  "gold_recv_count"
   end
 
   add_index "servers", ["name"], :name => "index_servers_on_name", :unique => true
